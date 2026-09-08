@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.2.5 Estimation 與 time tracking 對 Scrum board 的影響｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+.s225-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:.9rem}
+@media (max-width:760px){.s225-grid{grid-template-columns:1fr 1fr}}
+.s225-out{border:1px solid var(--line);border-radius:.8rem;padding:.75rem .9rem;background:var(--card);min-height:6.5rem;transform-origin:center}
+.s225-out .h{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:var(--ink-3);margin-bottom:.35rem}
+.s225-out .v{font-weight:700;line-height:1.35}
+.s225-out .d{font-size:.8rem;color:var(--ink-2);margin-top:.25rem}
+.s225-row{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin:.4rem 0}
+.s225-row .l{width:9.5rem;font-weight:700;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#model">核心模型：兩個旋鈕</a>
+    <a href="#howto">在哪裡改</a>
+    <a href="#effects">對報表的影響</a>
+    <a href="#subtask">Sub-task 規則</a>
+    <a href="#change">中途改設定</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.2 Board Configuration（29%）/ 620.2.5</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.2.5 · Determine the effects of estimation and time tracking on Scrum boards</div>
+<h1>Estimation 與 time tracking 對 Scrum board 的影響</h1>
+<p class="lead">Scrum board 的 Estimation 頁只有兩個旋鈕：<strong>用什麼估</strong>（estimation statistic）和<strong>用什麼追蹤進度</strong>（time tracking）。這兩個旋鈕決定 burndown 的縱軸、velocity 的單位、sub-task 算不算——考題就是問「轉了哪個旋鈕，報表會變成什麼樣」。</p>
+<div class="term">術語：考試用 project／issue／sub-task；現行產品為 space／work item／subtask。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>兩條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Know how to modify the estimation selection on scrum boards</td><td>在哪個畫面改、誰能改、CMP 與 TMP 的入口不同、有哪些選項</td></tr>
+<tr><td>Understand the relationship between estimation metric and board reports</td><td>選了 story points／時間／issue count，burndown 縱軸與 velocity 各顯示什麼；開了「Remaining estimate and time spent」後 sub-task 與 scope change 的表現如何改變；為什麼 burndown 沒有 guideline</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 核心模型 ============ -->
+<section id="model">
+<div class="section-label">核心模型</div>
+<h2>兩個旋鈕，四個結果</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 250" role="img" aria-label="estimation statistic 與 time tracking 兩個旋鈕決定報表">
+  <defs><marker id="s225-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 左：兩個旋鈕框 x=40 w=300（y=30、y=130）；右：結果框 x=560 w=300 h=190 y=30；匯合線在 x=450 -->
+  <rect x="40" y="30" width="300" height="80" rx="12" class="box brand"/>
+  <text x="190" y="58" text-anchor="middle" class="lbl b">旋鈕 1：Estimation statistic</text>
+  <text x="190" y="78" text-anchor="middle" class="s">Story points ／ Original time estimate</text>
+  <text x="190" y="96" text-anchor="middle" class="s">／ Issue count ／ 自訂數字欄位</text>
+  <rect x="40" y="140" width="300" height="80" rx="12" class="box teal"/>
+  <text x="190" y="168" text-anchor="middle" class="lbl b">旋鈕 2：Time tracking</text>
+  <text x="190" y="188" text-anchor="middle" class="s">None（用旋鈕 1 追蹤進度）</text>
+  <text x="190" y="206" text-anchor="middle" class="s">／ Remaining estimate and time spent</text>
+  <path d="M340,70 H450 V125" class="ln"/>
+  <path d="M340,180 H450 V125" class="ln"/>
+  <path d="M450,125 H560" class="ln" marker-end="url(#s225-arr)"/>
+  <rect x="560" y="30" width="300" height="190" rx="12" class="box green"/>
+  <text x="710" y="60" text-anchor="middle" class="lbl b">決定的東西</text>
+  <text x="710" y="90" text-anchor="middle" class="lbl">Burndown 縱軸與「剩餘」怎麼算</text>
+  <text x="710" y="116" text-anchor="middle" class="lbl">Velocity 與 Sprint report 的單位</text>
+  <text x="710" y="142" text-anchor="middle" class="lbl">Sub-task 的估點／工時算不算</text>
+  <text x="710" y="168" text-anchor="middle" class="lbl">Scope change 在圖上看不看得到</text>
+  <text x="710" y="200" text-anchor="middle" class="s">Board settings → Estimation（CMP Scrum 專用）</text>
+</svg>
+<div class="cap">圖 1　「估」和「追蹤」是兩件事。官方原句：It's common for teams to estimate work then track progress using two different methods.</div>
+</div>
+
+<p>自己轉旋鈕，看四個結果怎麼變：</p>
+<div id="s225-lab" class="card">
+  <div class="s225-row"><span class="l">Estimation statistic</span>
+    <div class="seg" id="s225-stat"><button data-v="sp" class="on">Story points</button><button data-v="time">Original time estimate</button><button data-v="count">Issue count</button><button data-v="custom">自訂數字欄位</button></div></div>
+  <div class="s225-row"><span class="l">Time tracking</span>
+    <div class="seg" id="s225-track"><button data-v="none" class="on">None</button><button data-v="rem">Remaining estimate and time spent</button></div></div>
+  <div class="s225-grid">
+    <div class="s225-out" id="s225-o1"><div class="h">Burndown 縱軸</div><div class="v"></div><div class="d"></div></div>
+    <div class="s225-out" id="s225-o2"><div class="h">進度怎麼算（剩餘）</div><div class="v"></div><div class="d"></div></div>
+    <div class="s225-out" id="s225-o3"><div class="h">Velocity／Sprint report 單位</div><div class="v"></div><div class="d"></div></div>
+    <div class="s225-out" id="s225-o4"><div class="h">Sub-task 與 scope change</div><div class="v"></div><div class="d"></div></div>
+  </div>
+  <p id="s225-msg" class="kicker" style="margin:.75rem 0 0"></p>
+</div>
+</section>
+
+<!-- ============ How to ============ -->
+<section id="howto">
+<div class="section-label">Bullet 1</div>
+<h2>在哪裡改、誰能改</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">Company-managed Scrum board</div>
+<ol style="font-size:.9rem;margin-top:.5rem"><li>Board 名稱旁 ••• → <strong>Board settings</strong></li><li>左側選 <strong>Estimation</strong></li><li><strong>Estimation method</strong> 下拉：Story points／Original time estimate／Issue count／自訂數字欄位</li><li><strong>Time tracking</strong>：None，或 Remaining estimate and time spent</li></ol>
+<p class="kicker">誰能改：board admin，或 board 所在 project 的 project admin。官方註明「This setting can only be changed for company-managed scrum teams」——Kanban board 沒有這一頁。</p></div>
+<div class="card"><div class="eyebrow" style="color:var(--teal)">Team-managed project</div>
+<ol style="font-size:.9rem;margin-top:.5rem"><li>Project settings → <strong>Features</strong></li><li>打開 <strong>Estimation</strong>（預設關閉）</li><li>選 <strong>Story points</strong> 或 <strong>Time</strong></li></ol>
+<p class="kicker">開啟 estimation 會改變 TMP 的欄位與報表（官方提醒「causes several changes」）；TMP 沒有 issue count 與自訂欄位的選項，也沒有獨立的 time tracking 旋鈕。</p></div>
+</div>
+<div class="callout"><div class="t">沒選 statistic 會怎樣</div>官方：「If you don't select an estimation statistic, work will be measured by the work item count」——也就是退回 issue count；仍可記工時，但 velocity 沒有意義。</div>
+<div class="callout warn"><div class="t">兩個容易被當成同一件事的欄位</div>
+<ul style="margin:.25rem 0 0">
+<li><strong>statistic 是「每一張 board」的設定</strong>，不是 project 的。同一個 project 掛兩張 board，可以一張用 Story points、一張用 Issue count，兩張的 velocity 尺度就不同。</li>
+<li>TMP 的欄位叫 <strong>Story point estimate</strong>，CMP 的叫 <strong>Story Points</strong>，<strong>不是同一個欄位</strong>。issue 從 TMP 搬到 CMP（或跨板做報表）之前要先確認值有沒有帶過去，別假設自動對應。</li>
+</ul></div>
+</section>
+
+<!-- ============ Effects ============ -->
+<section id="effects">
+<div class="section-label">Bullet 2</div>
+<h2>旋鈕對每張報表的影響</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%">報表</th><th>受 estimation statistic 影響</th><th>受 time tracking 影響</th></tr>
+<tr><td><strong>Burndown</strong></td><td>縱軸單位＝statistic；guideline 從 sprint 開始時的總量畫到 0</td><td>開 Remaining estimate → 縱軸改成「剩餘時間」，每次 log work 就往下掉；sub-task 的工時計入</td></tr>
+<tr><td><strong>Velocity</strong></td><td>commitment（灰）與 completed（綠）都用 statistic 加總；完成量取近幾個 sprint 平均</td><td>不受影響（velocity 永遠看 statistic）</td></tr>
+<tr><td><strong>Sprint report</strong></td><td>每張 issue 旁的數字＝statistic；「3 → 5」表示 sprint 中改估</td><td>顯示的仍是 statistic</td></tr>
+<tr><td><strong>Burnup</strong></td><td>scope 線與完成線用 statistic</td><td>—</td></tr>
+<tr><td>Epic／Version report</td><td>用 statistic 預測</td><td>—</td></tr>
+</table></div>
+
+<h3>Burndown 沒有 guideline？（官方 KB）</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">原因</th><th>修法</th></tr>
+<tr><td>Sprint 開始時 board 上沒有任何 issue，或 issue 都沒填估點</td><td>先把有估點的 issue 放進 sprint 再 Start</td></tr>
+<tr><td>Sprint 開始時間被設成過去、時區不一致</td><td>Edit sprint 修正日期；檢查個人時區</td></tr>
+<tr><td>Issue 在 sprint 開始後才加入（顯示為 scope change，不在 guideline 內）</td><td>正常行為，不是錯</td></tr>
+<tr><td>完成的 issue 沒對到<strong>最右欄</strong></td><td>Columns 把 Done／Cancelled 對到最右欄</td></tr>
+<tr><td>用了自訂「Remaining Story Points」之類欄位</td><td>Burndown 只認 Story Points、Original Estimate 與 log work 的 Remaining Estimate</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Sub-task ============ -->
+<section id="subtask">
+<div class="section-label">最常考</div>
+<h2>Sub-task 規則：估點永遠不算，工時看旋鈕 2</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 230" role="img" aria-label="sub-task 的估點與工時在報表中的處理">
+  <defs><marker id="s225-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- Story x=40 w=220 y=70 h=90；兩個 sub-task x=340 w=200（y=30、y=130）；右結果 x=620 w=240 -->
+  <rect x="40" y="70" width="220" height="90" rx="12" class="box brand"/>
+  <text x="150" y="98" text-anchor="middle" class="lbl b">Story MOB-120</text>
+  <text x="150" y="118" text-anchor="middle" class="s">5 story points</text>
+  <text x="150" y="138" text-anchor="middle" class="s">Original estimate 6h</text>
+  <path d="M260,115 H300 V60 H340" class="ln" marker-end="url(#s225-arr2)"/>
+  <path d="M300,115 V160 H340" class="ln" marker-end="url(#s225-arr2)"/>
+  <rect x="340" y="30" width="200" height="60" rx="10" class="box teal"/>
+  <text x="440" y="54" text-anchor="middle" class="lbl b">Sub-task A</text><text x="440" y="74" text-anchor="middle" class="s">3 SP · 4h</text>
+  <rect x="340" y="130" width="200" height="60" rx="10" class="box teal"/>
+  <text x="440" y="154" text-anchor="middle" class="lbl b">Sub-task B</text><text x="440" y="174" text-anchor="middle" class="s">2 SP · 2h</text>
+  <rect x="600" y="30" width="260" height="60" rx="10" class="box rose"/>
+  <text x="730" y="54" text-anchor="middle" class="lbl b">Burndown／Velocity 的 SP</text><text x="730" y="74" text-anchor="middle" class="s">只算 Story 的 5，sub-task 的 5 不算</text>
+  <rect x="600" y="130" width="260" height="60" rx="10" class="box green"/>
+  <text x="730" y="154" text-anchor="middle" class="lbl b">開了 Remaining estimate 時</text><text x="730" y="174" text-anchor="middle" class="s">Story 顯示 4h＋2h 加總，計入 burndown</text>
+  <text x="450" y="218" text-anchor="middle" class="s">估點（statistic）永遠只看 parent；工時（time tracking）開了才會把 sub-task 捲上來</text>
+</svg>
+<div class="cap">圖 2　官方原句：Story Points on subtasks are not included in the Burndown Chart；Estimates from sub-tasks are not included in the Velocity Chart's calculation.</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:30%">情境</th><th>Time tracking = None</th><th>Time tracking = Remaining estimate and time spent</th></tr>
+<tr><td>Sub-task 的 story points</td><td class="no">不計入 burndown／velocity</td><td class="no">仍不計入（statistic 永遠只看 parent）</td></tr>
+<tr><td>Sub-task 的 remaining estimate</td><td>與 parent 各自獨立</td><td class="yes">捲上 parent，parent 顯示所有 sub-task 剩餘時間總和</td></tr>
+<tr><td>Sprint 進行中新增 sub-task</td><td>算 scope change，但<strong>圖上看不到</strong></td><td>算 scope change，<strong>圖上看得到</strong>（紅線往上跳）</td></tr>
+<tr><td>Sprint 承諾量怎麼估</td><td colspan="2">官方建議用 velocity（statistic）決定，不要用 sub-task 捲上來的工時——velocity 已經把干擾與雜務算進去了</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">「有欄位」「可填值」「報表計入」是三件事</div>
+CMP 可以把 Story Points 的 <strong>field context</strong> 擴充到 sub-task，讓 sub-task 也填得了估點——但<strong>填得了不等於算得到</strong>：Burndown 與 Velocity 仍然只加總 parent。看到「sub-task 上有 story points」不能推論它進了報表；反過來，看不到某欄位時要查的是 context／screen／field configuration，不是 board 設定。</div>
+</section>
+
+<!-- ============ Change ============ -->
+<section id="change">
+<div class="section-label">陷阱</div>
+<h2>中途改設定會怎樣</h2>
+<ul>
+<li><strong>改 estimation statistic</strong>：報表立刻改用新欄位；舊 sprint 若沒填新欄位，velocity 歷史會出現斷層。官方建議 statistic 選定後不要換。</li>
+<li><strong>Sprint 中改 issue 的估點</strong>：Sprint report 顯示 <code>3 → 5</code>，velocity 用新值；官方建議「保留原估點」——估得一致比估得準重要，改估會污染 velocity。</li>
+<li><strong>Estimation 欄位不在 screen 上</strong>：使用者填不了 story points → burndown 全是 0、沒有 guideline。這是 Jira admin 要處理的 screen 問題，不是 board 設定。</li>
+<li><strong>TMP 開啟 Estimation</strong>：會新增欄位並改變報表行為，官方要你先讀「changes that happen when enabling estimation」再開。</li>
+<li><strong>未估算不會擋住 sprint 啟動</strong>：Jira 頂多提醒，不會禁止你 Start sprint。「規劃前要估完」是團隊紀律，不是產品的硬性門檻——考題把「警告」寫成「無法啟動」就是錯的。</li>
+<li><strong>Burndown 上的 estimation statistic 下拉是「檢視選擇」</strong>：在報表裡換一個單位看，只影響你眼前這張圖，<strong>不等於改了 Board settings → Estimation</strong> 的共用設定。</li>
+</ul>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>Board admin 想把 Kanban board 的估算單位改成小時，卻找不到 Estimation 頁。</summary><div class="a"><div class="tag">解答</div>Estimation 只有 CMP Scrum board 有。Kanban 沒有 sprint，也沒有這一頁。</div></details>
+<details class="q"><summary>團隊用 story points，但工程師抱怨 log 了工時 burndown 都不動。</summary><div class="a"><div class="tag">解答</div>Time tracking 是 None 時，burndown 用 statistic（story points）追蹤，issue 進最右欄才往下掉；要看工時燒掉要把 time tracking 改成 Remaining estimate and time spent。</div></details>
+<details class="q"><summary>Story 5 點、底下三個 sub-task 各 2 點，sprint 開始時 burndown 起點是多少？</summary><div class="a"><div class="tag">解答</div>5。Sub-task 的 story points 不計入 burndown 與 velocity。</div></details>
+<details class="q"><summary>PM 在 sprint 中間把一張 Story 從 3 點改成 8 點，sprint report 會怎麼顯示？velocity 用哪個值？</summary><div class="a"><div class="tag">解答</div>顯示 <code>3 → 8</code>；完成量用 8。官方建議別改，保持估點一致比較重要。</div></details>
+<details class="q"><summary>Sprint 開始後才加的 sub-task，什麼情況下會在 burndown 上看到 scope change？</summary><div class="a"><div class="tag">解答</div>只有 time tracking 開啟（Remaining estimate and time spent）時才會畫出來；None 時仍算 scope change 但圖上看不到。</div></details>
+<details class="q"><summary>Burndown 完全沒有灰色 guideline。</summary><div class="a"><div class="tag">解答</div>最常見：sprint 開始時沒有 issue 或 issue 都沒估點；其次是 sprint 日期被設成過去、時區問題。關掉 sprint 重開並先放入有估點的 issue。</div></details>
+<details class="q"><summary>團隊想用 issue 數量而不是點數來看 velocity，該改哪裡？</summary><div class="a"><div class="tag">解答</div>Board settings → Estimation → Estimation method 選 Issue count；velocity 與 burndown 都會改用張數。</div></details>
+<details class="q"><summary>TMP 團隊說他們的 board 沒有 story points 欄位。</summary><div class="a"><div class="tag">解答</div>TMP 的 Estimation 預設關閉；Project settings → Features → Estimation 開啟並選 Story points。</div></details>
+<details class="q"><summary>Jira admin 換了 board 的 statistic 成一個新的自訂數字欄位，velocity 圖前幾個 sprint 變成 0。</summary><div class="a"><div class="tag">解答</div>舊 sprint 的 issue 沒填新欄位。這是換 statistic 的代價；要嘛回填，要嘛接受歷史斷層，之後不要再換。</div></details>
+<details class="q"><summary>Burndown 到 sprint 結束還有一段沒燒完，但 issue 明明都關了。</summary><div class="a"><div class="tag">解答</div>關掉的 status 沒對到最右欄（例如 Cancelled 在中間欄）。Burndown 只把最右欄視為完成。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「開了 time tracking，velocity 就用小時算」</td><td>velocity 永遠用 estimation statistic；time tracking 只影響 burndown 的進度追蹤</td></tr>
+<tr><td>「sub-task 的 story points 會加總到 parent」</td><td>不會；只有工時（remaining estimate）在 time tracking 開啟時才捲上去</td></tr>
+<tr><td>「Kanban board 也能設 estimation」</td><td>Estimation 頁只有 CMP Scrum 有</td></tr>
+<tr><td>「burndown 沒 guideline 是 bug」</td><td>多半是 sprint 開始時沒 issue／沒估點、日期或時區問題</td></tr>
+<tr><td>「換 statistic 不影響歷史」</td><td>舊 sprint 沒填新欄位就會斷層</td></tr>
+<tr><td>「沒選 statistic 就不能用 burndown」</td><td>會退回 issue count 計算</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>親手轉兩個旋鈕</h2>
+<ol>
+<li>CMP Scrum board：建 3 張 Story（5、3、2 點），其中一張加 2 個 sub-task 各填 3 點。開 sprint，看 burndown 起點是 10 不是 16。</li>
+<li>Board settings → Estimation 把 statistic 改成 Issue count，回 burndown 看縱軸變成 3。改回 Story points。</li>
+<li>Time tracking 改成 Remaining estimate and time spent；給 Story 填 Original estimate 6h、sub-task 各 2h；看 Story 的 time tracking 面板顯示加總，burndown 縱軸變小時。</li>
+<li>Sprint 中新增一個 sub-task 填 1h，看 burndown 出現 scope change；把 time tracking 改回 None，同樣操作圖上不顯示。</li>
+<li>把一張 Story 從 3 改 8，開 Sprint report 看 <code>3 → 8</code>。</li>
+<li>新開一個 sprint 但不放任何 issue 就 Start，看 burndown 沒 guideline；關掉重來。</li>
+<li><strong>planning 與 execution 並存</strong>：對同一張 Story，story points 維持 5、Original estimate 10h、記 4h 工時、Remaining 填 8h。開 issue 確認三個數字同時存在（5 點沒有被換算成小時），並說明「最新預測 12h ＞ 原估 10h」是合理的——不要為了讓曲線好看把 Remaining 硬填成 6h。做完把 board 設定還原。</li>
+</ol>
+<div class="callout"><div class="t">來源（實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/">Configure how your board estimates and tracks work</a>（考綱連結）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/estimate-an-issue/">Estimate a work item</a>（statistic 選項、sub-task 規則、velocity 原則）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/">View and understand the burndown chart</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/">View and understand the velocity chart</a>（board-specific；Estimates from sub-tasks are not included）</li>
+<li><a href="https://support.atlassian.com/jira/kb/jira-burndown-chart-is-missing-the-guideline-or-estimation-data/">KB: Burndown chart is missing the guideline or estimation data</a></li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 12 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.2.5"></div>
+</section>
+
+<div class="footer-nav"><a href="620.2.4.html">← 620.2.4 Filters</a><a href="620.2.6.html">下一節：620.2.6 Swimlanes、cards、working days →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const STAT={sp:'Story points',time:'Original time estimate（小時）',count:'Issue count（張數）',custom:'自訂數字欄位的值'};
+  let stat='sp',track='none';
+  function set(el,v,d){const vv=$('.v',el),dd=$('.d',el); if(vv.textContent!==v){vv.textContent=v; if(window.springPop&&!reduced()) window.springPop(el);} dd.textContent=d;}
+  function render(){
+    const rem=track==='rem';
+    set($('#s225-o1'), rem?'剩餘時間（小時）':STAT[stat], rem?'開了 Remaining estimate，縱軸改成剩餘工時，每次 log work 往下掉':'縱軸單位＝estimation statistic，issue 進最右欄才往下掉');
+    set($('#s225-o2'), rem?'Original estimate − Time spent':'用 statistic 追蹤', rem?'官方：tracks progress by subtracting Time spent from the original estimate':'官方：None uses what you’ve defined as the Estimation method to track progress');
+    set($('#s225-o3'), STAT[stat], 'Velocity 永遠用 statistic；time tracking 不影響'+(stat==='count'?'；每張 issue 都算 1':''));
+    set($('#s225-o4'), rem?'工時捲上 parent；scope change 看得到':'估點只看 parent；scope change 看不到', rem?'sub-task 的 remaining estimate 加總到 parent；sprint 中新增 sub-task 會在圖上出現':'sub-task 的 story points 不計；新增 sub-task 算 scope change 但圖上不顯示');
+    $('#s225-msg').textContent = stat==='count'&&rem ? '組合：用張數估、用工時追蹤——velocity 看張數，burndown 看小時。' : (stat==='sp'&&!rem ? '最常見的預設組合：估點與追蹤都用 story points。' : (stat==='time'&&rem ? '純時間制：估與追蹤都用小時，sub-task 工時會捲上 parent。' : (rem ? '用 statistic 估、用工時追蹤：burndown 看剩餘小時，velocity 仍看 statistic。' : '用 statistic 估也用 statistic 追蹤：issue 進最右欄才往下掉。')));
+  }
+  $$('#s225-stat button').forEach(b=>b.addEventListener('click',()=>{$$('#s225-stat button').forEach(x=>x.classList.remove('on'));b.classList.add('on');stat=b.dataset.v;render();}));
+  $$('#s225-track button').forEach(b=>b.addEventListener('click',()=>{$$('#s225-track button').forEach(x=>x.classList.remove('on'));b.classList.add('on');track=b.dataset.v;render();}));
+  render();
+})();
+</script>
+</body>
+</html>

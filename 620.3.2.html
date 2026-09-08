@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.3.2 把團隊成員指派到 project role｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#model">核心模型：佔位符</a>
+    <a href="#lab-role">互動：同一份 scheme、三個 project</a>
+    <a href="#howto">怎麼把人放進 role</a>
+    <a href="#defaults">內建 role 與預設成員</a>
+    <a href="#uses">Role 的五個用途</a>
+    <a href="#choose">Role、group、欄位對象怎麼選</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.3 Managing Projects（25%）/ 620.3.2</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.3.2 · Assign team members to project roles</div>
+<h1>把團隊成員指派到 project role</h1>
+<p class="lead">上一節講「需要哪把鑰匙」，這一節講「鑰匙怎麼發」。Project role 是 Jira admin 寫在 scheme 裡的<strong>佔位符</strong>，由 project admin 在各自的 project 填上真人。理解這個分工，你就知道為什麼同一份 scheme 掛給 20 個 project，每個 project 能管 sprint 的人都不一樣。</p>
+<div class="term">術語：考試用 project／issue；現行官方文件為 space／work item。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>三條 bullet</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Know how to add users to a project role</td><td>「在哪裡、需要什麼身分、能加 group 嗎、外部人員怎麼辦」——操作題</td></tr>
+<tr><td>Understand the relationship between project permissions and project roles</td><td>「scheme 寫 role，人是誰填？」「role 還能用在哪？」「role vs group vs Reporter 何時選哪個？」</td></tr>
+<tr><td>Understand the use of the Administer Projects permission</td><td>「project admin 能不能建新 role？能不能把自己加進 Administrators？」</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 模型 ============ -->
+<section id="model">
+<div class="section-label">核心模型</div>
+<h2>Role 是佔位符：Jira admin 寫名字，project admin 填人</h2>
+<p class="quote">Instead of explicitly-defining users, Jira admins can assign qualities in a scheme to roles within a space. These roles can later be defined by the Space admin at their discretion, allowing Jira admins to use the same scheme for multiple spaces without sacrificing granularity or constantly updating schemes.<span class="src">— Atlassian, How to use space roles</span></p>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 270" role="img" aria-label="一份 permission scheme 把 Manage Sprints 給 role Lead Developer，三個 project 各自填入不同的人">
+  <defs><marker id="s232-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：scheme 框 x=250 y=20 w=400 h=70；bus y=125；三個 project 框 y=160 h=90 w=220，x=40/340/640（中心 150/450/750）；連線 (450,90)V125，H150..750，各 V160 -->
+  <rect x="250" y="20" width="400" height="70" rx="12" class="box brand"/>
+  <text x="450" y="44" text-anchor="middle" class="lbl b">Permission scheme「開發部標準方案」（Jira admin）</text>
+  <text x="450" y="66" text-anchor="middle" class="lbl">Manage Sprints → role <tspan class="lbl b">Lead Developer</tspan></text>
+  <text x="450" y="82" text-anchor="middle" class="s">寫的是角色名，不是人名</text>
+  <path d="M450,90 V125" class="ln"/>
+  <path d="M150,125 H750" class="ln"/>
+  <path d="M150,125 V160" class="ln" marker-end="url(#s232-arr)"/>
+  <path d="M450,125 V160" class="ln" marker-end="url(#s232-arr)"/>
+  <path d="M750,125 V160" class="ln" marker-end="url(#s232-arr)"/>
+  <rect x="40" y="160" width="220" height="90" rx="10" class="box teal"/>
+  <text x="150" y="185" text-anchor="middle" class="lbl b">Project A</text>
+  <text x="150" y="207" text-anchor="middle" class="s">Lead Developer ＝ 阿宏</text>
+  <text x="150" y="229" text-anchor="middle" class="s">由 A 的 project admin 填</text>
+  <rect x="340" y="160" width="220" height="90" rx="10" class="box teal"/>
+  <text x="450" y="185" text-anchor="middle" class="lbl b">Project B</text>
+  <text x="450" y="207" text-anchor="middle" class="s">Lead Developer ＝ 小傑、阿芳</text>
+  <text x="450" y="229" text-anchor="middle" class="s">由 B 的 project admin 填</text>
+  <rect x="640" y="160" width="220" height="90" rx="10" class="box teal"/>
+  <text x="750" y="185" text-anchor="middle" class="lbl b">Project C</text>
+  <text x="750" y="207" text-anchor="middle" class="s">Lead Developer ＝（還沒填）</text>
+  <text x="750" y="229" text-anchor="middle" class="s">→ C 裡沒有人能管 sprint</text>
+</svg>
+<div class="cap">圖 1　官方例子：不用 role 的話，要嘛所有共用 scheme 的 project 都給同一個人，要嘛每個 project 各用一份 scheme——兩種都得 Jira admin 出手。</div>
+</div>
+<div class="callout"><div class="t">兩種「不用 role」的代價（官方原文整理）</div>
+<ul style="margin:0">
+<li>在 scheme 直接指定某個人 → 這個人在<strong>所有</strong>用該 scheme 的 project 都能管 sprint。</li>
+<li>想限制範圍 → 每個 project 用不同 scheme。</li>
+<li>兩種情況下，換人都要 Jira admin。Role 讓 project admin 自己換人，只影響自己的 project。</li>
+</ul></div>
+</section>
+
+<!-- ============ 互動 ============ -->
+<section id="lab-role">
+<div class="section-label">互動</div>
+<h2>同一份 scheme，三個 project 各自填人</h2>
+<p>Scheme 固定寫「Manage Sprints → Lead Developer」。你扮演三個 project 的 admin，在各自的 People 頁填人，右邊即時顯示「在這個 project 裡誰能管 sprint」。</p>
+<div id="s232-lab" class="card">
+  <div class="grid-3">
+    <div class="issue" data-p="A"><div class="key">Project A · People</div><div class="sum">Lead Developer</div>
+      <label class="check" style="height:auto;padding:.3rem .6rem"><input type="checkbox" value="阿宏" checked>阿宏</label>
+      <label class="check" style="height:auto;padding:.3rem .6rem;margin-top:.35rem"><input type="checkbox" value="小傑">小傑</label>
+      <label class="check" style="height:auto;padding:.3rem .6rem;margin-top:.35rem"><input type="checkbox" value="group: dev-leads">group：dev-leads</label>
+      <p class="kicker" style="margin:.6rem 0 0">能管 sprint：<strong class="s232-out"></strong></p></div>
+    <div class="issue" data-p="B"><div class="key">Project B · People</div><div class="sum">Lead Developer</div>
+      <label class="check" style="height:auto;padding:.3rem .6rem"><input type="checkbox" value="小傑" checked>小傑</label>
+      <label class="check" style="height:auto;padding:.3rem .6rem;margin-top:.35rem"><input type="checkbox" value="阿芳" checked>阿芳</label>
+      <label class="check" style="height:auto;padding:.3rem .6rem;margin-top:.35rem"><input type="checkbox" value="group: dev-leads">group：dev-leads</label>
+      <p class="kicker" style="margin:.6rem 0 0">能管 sprint：<strong class="s232-out"></strong></p></div>
+    <div class="issue" data-p="C"><div class="key">Project C · People</div><div class="sum">Lead Developer</div>
+      <label class="check" style="height:auto;padding:.3rem .6rem"><input type="checkbox" value="Kevin">Kevin（guest）</label>
+      <label class="check" style="height:auto;padding:.3rem .6rem;margin-top:.35rem"><input type="checkbox" value="阿宏">阿宏</label>
+      <label class="check" style="height:auto;padding:.3rem .6rem;margin-top:.35rem"><input type="checkbox" value="group: dev-leads">group：dev-leads</label>
+      <p class="kicker" style="margin:.6rem 0 0">能管 sprint：<strong class="s232-out"></strong></p></div>
+  </div>
+  <div class="callout" style="margin:1rem 0 0"><div class="t">觀察</div><span id="s232-msg"></span></div>
+</div>
+</section>
+
+<!-- ============ How to ============ -->
+<section id="howto">
+<div class="section-label">Bullet 1</div>
+<h2>怎麼把人放進 role</h2>
+<div class="steps">
+  <div class="step"><div class="n">1</div><div class="h">進 Project settings</div><div class="d">project 名稱旁 ••• → Project settings</div></div>
+  <div class="step"><div class="n">2</div><div class="h">People</div><div class="d">選 People → Add people</div></div>
+  <div class="step"><div class="n">3</div><div class="h">選人或群組、選 role</div><div class="d">一個人可以同時有多個 role</div></div>
+  <div class="step"><div class="n">4</div><div class="h">Add</div><div class="d">立即生效，不用 Jira admin</div></div>
+</div>
+<div class="tbl-wrap" style="margin-top:1.4rem"><table class="tbl">
+<tr><th style="width:26%">規則</th><th>內容</th></tr>
+<tr><td>需要的身分</td><td><strong>Project admin</strong>（有 Administer Projects）；Jira admin 也可以</td></tr>
+<tr><td>能加誰</td><td>已在 Atlassian 站台的 user 或 group；搜不到 → 請 admin 先邀請進站台</td></tr>
+<tr><td>外部協作者</td><td>請 admin 邀請為 <strong>guest</strong>，再放進 role</td></tr>
+<tr><td>加進 Administrators</td><td>同一個流程；project admin 可以把別人加成 admin（官方原句：same process for the Administrators role）</td></tr>
+<tr><td>想給「只能看自己被指派的 issue」這種限縮權限</td><td>官方明講：<strong>請 Jira admin 建一個新的 role</strong>——project admin 建不了 role</td></tr>
+<tr><td>Free 方案</td><td>沒有 permission scheme、project role、issue security；這一節整個不適用</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 內建 role ============ -->
+<section id="defaults">
+<div class="section-label">背景知識</div>
+<h2>內建 role、預設成員、與 app 用的 role</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">CMP 內建 role</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li><strong>Administrators</strong>：預設拿到 Administer Projects；建 project 的人自動進去</li>
+<li><strong>atlassian-addons-project-access</strong>：給 Marketplace app 與整合（例如 Slack）用；官方：要讓 app 能在 Jira 動作，把這個 role 加進 permission scheme。<strong>不要刪、不要拿掉它的權限</strong></li>
+<li>其他常見自建：Developers、Members、Viewers、Lead Developer（官方範例）</li>
+</ul></div>
+<div class="card"><div class="eyebrow">Jira admin 才能做的 role 管理</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li>建 role：⚙ → System → Security → Project roles → Add</li>
+<li><strong>Manage Default Members</strong>：設定「之後新建的 project」自動把某 user／group 放進該 role；<strong>不影響既有 project</strong></li>
+<li>View project role usage：看某個 role 被哪些 project 用</li>
+<li>Role 是全站物件：名稱在所有 project 共用，成員各 project 獨立</li>
+</ul></div>
+</div>
+<div class="callout exam" style="margin-top:1rem"><div class="t">考題長相</div>「Jira admin 把 group dev-leads 設成 Lead Developer 的 default member，為什麼舊 project 沒有變化？」→ default members 只套用到<strong>之後新建</strong>的 project。</div>
+<div class="callout"><div class="t">兩種管理邊界，別當成故障</div>
+<p style="margin:.3rem 0 0">A 的 project admin <strong>可以</strong>把阿宏加進既有的 Developers，卻<strong>不能</strong>修改全站 Developers 的 default members——這不是權限壞了，是「本地 membership」與「全站初始設定」的分工。</p>
+<p style="margin:.3rem 0 0">如果把某個 group 設成 default member，還要再分清兩件事：<strong>新 project 會取得該 group</strong>；而<strong>該 group 之後換人</strong>，仍可能透過既有的群組授權影響舊 project。離職或轉組時，把「全站帳號狀態」「群組成員」「各 project 的直接角色成員」<strong>分開盤點</strong>。</p></div>
+</section>
+
+<!-- ============ 用途 ============ -->
+<section id="uses">
+<div class="section-label">Bullet 2</div>
+<h2>Role 不只用在 permission scheme：五個用途</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 250" role="img" aria-label="Project role 被五種設定引用">
+  <defs><marker id="s232-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：中心框 x=350 y=20 w=200 h=60；bus y=115；五個框 w=150 h=70 y=160，x=40/205/370/535/700（中心 115/280/445/610/775）；(450,80)V115，H115..775，各 V160 -->
+  <rect x="350" y="20" width="200" height="60" rx="12" class="box brand"/>
+  <text x="450" y="45" text-anchor="middle" class="lbl b">Project role</text>
+  <text x="450" y="66" text-anchor="middle" class="s">例：Lead Developer</text>
+  <path d="M450,80 V115" class="ln"/>
+  <path d="M115,115 H775" class="ln"/>
+  <path d="M115,115 V160" class="ln" marker-end="url(#s232-arr2)"/>
+  <path d="M280,115 V160" class="ln" marker-end="url(#s232-arr2)"/>
+  <path d="M445,115 V160" class="ln" marker-end="url(#s232-arr2)"/>
+  <path d="M610,115 V160" class="ln" marker-end="url(#s232-arr2)"/>
+  <path d="M775,115 V160" class="ln" marker-end="url(#s232-arr2)"/>
+  <rect x="40" y="160" width="150" height="70" rx="10" class="box"/><text x="115" y="188" text-anchor="middle" class="lbl b">Permission scheme</text><text x="115" y="208" text-anchor="middle" class="s">給權限</text>
+  <rect x="205" y="160" width="150" height="70" rx="10" class="box"/><text x="280" y="188" text-anchor="middle" class="lbl b">Notification scheme</text><text x="280" y="208" text-anchor="middle" class="s">誰收通知</text>
+  <rect x="370" y="160" width="150" height="70" rx="10" class="box"/><text x="445" y="188" text-anchor="middle" class="lbl b">Issue security level</text><text x="445" y="208" text-anchor="middle" class="s">誰看得到</text>
+  <rect x="535" y="160" width="150" height="70" rx="10" class="box"/><text x="610" y="188" text-anchor="middle" class="lbl b">Workflow condition</text><text x="610" y="208" text-anchor="middle" class="s">誰能按轉換</text>
+  <rect x="700" y="160" width="150" height="70" rx="10" class="box"/><text x="775" y="188" text-anchor="middle" class="lbl b">Filter／Dashboard</text><text x="775" y="208" text-anchor="middle" class="s">分享對象</text>
+</svg>
+<div class="cap">圖 2　官方列出的五個用途。把人放進 role 的那一刻，這五處全部同時生效——這是 role 比 group 更「project 本位」的原因。</div>
+</div>
+<div class="callout warn" style="margin-top:1rem"><div class="t">刪 role 前先查 usage（官方功能）</div>
+<p style="margin:.3rem 0 0">因為同一個 role 可能被上面五種設定引用，官方提供了查詢入口：<code>⚙ Settings → System →（Security）Project roles → View Usage</code>，會列出<strong>使用這個 role 的 permission schemes、email notification schemes、work item security levels 與 workflow conditions</strong>。</p>
+<p style="margin:.3rem 0 0">所以「把某人從 role 移除」的影響可能是<strong>收不到通知、過不了 transition condition、或看不到受限的 issue</strong>，不只是編輯按鈕消失。刪除整個 role 之前務必先 View Usage，別刪掉其他 project 還在用的角色。</p>
+<p class="kicker" style="margin:.3rem 0 0">來源：<a href="https://support.atlassian.com/jira-cloud-administration/docs/view-space-role-usage/">View space role usage</a>（2026-09-08 查核）</p></div>
+</section>
+
+<!-- ============ 怎麼選 ============ -->
+<section id="choose">
+<div class="section-label">判斷</div>
+<h2>Role、group、還是欄位對象？</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">需求</th><th style="width:22%">選</th><th>理由</th></tr>
+<tr><td>各 project 的人不同，PM 要能自己換人</td><td class="yes">Project role</td><td>下放給 project admin；不必改 scheme</td></tr>
+<tr><td>全站同一批人（所有 project 的 QA 都是同一組）</td><td>Group</td><td>由 org／site admin 集中維護；可放進 role 兼得兩者</td></tr>
+<tr><td>每張 issue 各自的人</td><td>Reporter／Current assignee／User picker 欄位</td><td>官方：Assignee、Reporter、任何 User select 或 Group 欄位裡的人都可直接授權</td></tr>
+<tr><td>只有一個人、永遠不變</td><td>Single user（不建議）</td><td>scheme 共用時會在所有 project 生效，換人要 Jira admin</td></tr>
+<tr><td>整合工具要能建 issue</td><td>atlassian-addons-project-access</td><td>官方指定的 app 用 role</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">Role 與 access level 的差別（TMP）</div>這一節是 CMP 的 role。TMP 的 role 是 project admin 自己建、自己勾權限，且加人時還會疊加 access level 給的 Member／Viewer；見 <a href="620.1.2.html#access">620.1.2</a>。考題若混著問，先看題目是哪種 project。</div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>新來的 Scrum master 要能開始 sprint。Scheme 把 Manage Sprints 給了 role「Lead Developer」。誰、在哪裡處理？</summary><div class="a"><div class="tag">解答</div>Project admin 在 Project settings → People 把他加進 Lead Developer；不需要 Jira admin。</div></details>
+<details class="q"><summary>PM 想讓實習生「只能看自己被指派的 issue」，現有 role 都太寬。PM 能自己建一個新 role 嗎？</summary><div class="a"><div class="tag">解答</div>不能。官方明說要請 Jira admin 建新 role（並在 scheme 用 Current assignee 或新 role 授權）。</div></details>
+<details class="q"><summary>Jira admin 在 scheme 直接把 Manage Sprints 給了「小美」這個人。三個月後小美離職，後果？</summary><div class="a"><div class="tag">解答</div>所有共用該 scheme 的 project 同時失去能管 sprint 的人，而且換人要 Jira admin 改 scheme。應改成給 role，各 project 自己填。</div></details>
+<details class="q"><summary>Jira admin 把 group「qa-team」設為 role「QA」的 default member，舊的 10 個 project 卻沒有變化。</summary><div class="a"><div class="tag">解答</div>Default members 只套用到之後新建的 project；舊的要各 project admin 手動加。</div></details>
+<details class="q"><summary>Slack 整合建不了 issue，權限錯誤。Project admin 該查什麼？</summary><div class="a"><div class="tag">解答</div>scheme 的 Create Issues 是否包含 atlassian-addons-project-access；若被拿掉要請 Jira admin 補回。</div></details>
+<details class="q"><summary>外包 Kevin 沒有 Atlassian 帳號，PM 在 People 頁搜不到他。</summary><div class="a"><div class="tag">解答</div>先請 admin 邀請 Kevin（建議為 guest），再放進 role。</div></details>
+<details class="q"><summary>把小傑加進 role「Developers」後，他同時收到了這個 project 的通知，也能在 issue security level「內部」看到 issue。為什麼一次生效？</summary><div class="a"><div class="tag">解答</div>Role 同時被 permission scheme、notification scheme、issue security level 引用；加人時五種用途一起生效。</div></details>
+<details class="q"><summary>Project admin 想把自己加進 Administrators 以外的 role「Release Manager」，可以嗎？</summary><div class="a"><div class="tag">解答</div>可以；People 頁對任何 role 都是同一流程，一個人可以有多個 role。</div></details>
+<details class="q"><summary>公司要求「所有 project 的 Browse Projects 都給同一個群組 all-staff」，用 role 還是 group？</summary><div class="a"><div class="tag">解答</div>Group（全站一致）；也可以把 group 放進一個 role 以便日後例外處理。</div></details>
+<details class="q"><summary>Free 方案的 project admin 想調整 role 成員，找不到 People 頁的 role 選項。</summary><div class="a"><div class="tag">解答</div>Free 沒有 permission scheme 與 project role，這一節的功能在 Free 不存在。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「Project admin 可以建 role」</td><td>只能填成員；建 role 是 Jira admin（⚙ → System → Security 區的 Project roles，現行稱 Space roles）</td></tr>
+<tr><td>「Role 的成員全站一致」</td><td>role 名稱全站共用，成員各 project 獨立</td></tr>
+<tr><td>「Default members 會套到既有 project」</td><td>只套到之後新建的</td></tr>
+<tr><td>「atlassian-addons-project-access 沒用可以刪」</td><td>app 與整合靠它動作</td></tr>
+<tr><td>「Role 只用在權限」</td><td>還有 notification、issue security、workflow condition、filter／dashboard 分享</td></tr>
+<tr><td>「加人要 Jira admin」</td><td>Administer Projects 就夠</td></tr>
+<tr><td>「role 沒人用了就可以直接刪」</td><td>先 View Usage：permission scheme、notification scheme、issue security level、workflow condition 都可能引用它</td></tr></table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>把佔位符填上真人</h2>
+<ol>
+<li>Jira admin：⚙ → System → Security → Project roles（Space roles），建「Lead Developer」；在 scheme 把 Manage Sprints 改成只給它。</li>
+<li>Project admin：People → Add people，把測試帳號加進 Lead Developer → 該帳號能開始 sprint。</li>
+<li>再建一個 project 用同一份 scheme，People 頁不填人 → 沒有人能管 sprint；填另一個帳號 → 只在該 project 生效。</li>
+<li>Jira admin：對 Lead Developer 設 Manage Default Members = group dev-leads；建第三個 project 確認自動帶入，舊 project 不變。</li>
+<li>把 role「Lead Developer」加進 notification scheme 的某事件與一個 issue security level；觀察加人時通知與可見性同步改變。</li>
+<li>在 scheme 把 Create Issues 從 atlassian-addons-project-access 拿掉，觸發一次 Slack／automation 建 issue → 失敗；補回。</li>
+<li>在 A 把 Lab Leads 的成員從小美<strong>換成</strong>阿宏、scheme 完全不動 → 預期只有 A 的結果改變，B 不受這個 membership 操作影響。</li>
+<li>收尾前先到 <code>⚙ → System →（Security）Project roles → View Usage</code> 查這個測試 role 被哪些 scheme／notification／security level／workflow condition 使用，確認沒有正式 project 在用，再刪除。</li></ol>
+<div class="callout"><div class="t">來源（精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/add-users-to-space-roles-in-your-space/">Add users to space roles in your space</a>（考綱「View and edit project role permissions」已 404，此頁為 hub「Understand space permissions and roles」唯一子頁）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/how-to-use-space-roles/">How to use space roles</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/create-a-new-space-role/">Create a new space role</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/view-space-role-usage/">View space role usage</a>（考綱「Manage project roles」轉址到的 hub 子頁）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/what-are-permission-schemes-in-jira/">What are permission schemes in Jira?</a></li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 10 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.3.2"></div>
+</section>
+
+<div class="footer-nav"><a href="620.3.1.html">← 620.3.1 決定適當的權限</a><a href="620.3.3.html">下一節：620.3.3 Versions、releases 與 roadmap →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.3.2 三個 project 各自填 role */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const lab=$('#s232-lab'); if(!lab) return;
+  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function render(){
+    const names={};
+    $$('.issue',lab).forEach(card=>{
+      const picked=$$('input',card).filter(c=>c.checked).map(c=>c.value);
+      $$('label.check',card).forEach(l=>l.classList.toggle('on',l.querySelector('input').checked));
+      const out=$('.s232-out',card); const txt=picked.length?picked.join('、'):'（沒有人）';
+      if(out.textContent!==txt){out.textContent=txt; if(window.springPop&&!reduced()) window.springPop(out);}
+      names[card.dataset.p]=picked;
+    });
+    const all=Object.values(names); const empty=Object.keys(names).filter(k=>!names[k].length);
+    let msg='同一份 scheme、同一條規則「Manage Sprints → Lead Developer」，三個 project 能管 sprint 的人各自不同。';
+    if(empty.length) msg+=` Project ${empty.join('、')} 沒填人 → 該 project 目前<strong>沒有任何人能管 sprint</strong>，這是 role 佔位符最常見的坑。`;
+    if(all.some(p=>p.some(x=>x.startsWith('group')))) msg+=' 放 group 進 role 可以同時享有「全站集中維護」與「project 本位授權」。';
+    $('#s232-msg').innerHTML=msg;
+  }
+  lab.addEventListener('change',render); render();
+})();
+</script>
+</body>
+</html>

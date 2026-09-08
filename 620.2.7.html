@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.2.7 排查 board 與 filter 設定｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+.s227-wiz{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:1.1rem;align-items:start}
+@media (max-width:760px){.s227-wiz{grid-template-columns:1fr}}
+.s227-sym{display:flex;flex-direction:column;gap:.4rem}
+.s227-sym button{text-align:left;height:auto;padding:.55rem .8rem;white-space:normal;line-height:1.35;justify-content:flex-start}
+.s227-steps{list-style:none;padding:0;margin:0;counter-reset:st}
+.s227-steps li{position:relative;padding:.6rem .8rem .6rem 2.6rem;border:1px solid var(--line);border-radius:.6rem;background:var(--card);margin-bottom:.45rem;font-size:.9rem;transform-origin:left center}
+.s227-steps li::before{counter-increment:st;content:counter(st);position:absolute;left:.7rem;top:.55rem;width:1.4rem;height:1.4rem;border-radius:50%;background:var(--brand-soft);color:var(--brand-2);font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.s227-steps li b{display:block}
+.s227-steps li span{color:var(--ink-2);font-size:.84rem}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#tree">決策樹：issue 不在 board</a>
+    <a href="#wizard">症狀 → 檢查順序（互動）</a>
+    <a href="#columns">Filter 與 columns 的關係</a>
+    <a href="#hide">Hide completed work</a>
+    <a href="#rank">RANK</a>
+    <a href="#perm">Filter 權限與 board 存取</a>
+    <a href="#stack">Stacked quick filters</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.2 Board Configuration（29%）/ 620.2.7</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.2.7 · Troubleshoot board and filter configurations</div>
+<h1>排查 board 與 filter 設定</h1>
+<p class="lead">這一節沒有新知識，全是前六節的組合題：使用者說「issue 不見了」「拖不動」「同事看不到 board」「勾了 quick filter 變更少」，你要能<strong>按固定順序</strong>找到原因。考題會給症狀，選「最可能的原因」或「第一步該檢查什麼」。</p>
+<div class="term">術語：考試用 project／issue；現行產品為 space／work item。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>四條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understand the relationship between the board filter and board columns</td><td>filter 決定「哪些 issue」，columns 決定「這些 issue 的 status 顯示在哪」；filter 有、column 沒對到 → 不見</td></tr>
+<tr><td>Understand the use of RANK in board filters</td><td>沒有 <code>ORDER BY Rank</code> 會失去哪些功能；Add Rank 在哪</td></tr>
+<tr><td>Understand the impact of filter permissions on board access</td><td>board 沒有自己的分享設定；看不到 board ＝ filter 沒分享或沒 Browse Projects；board admin ≠ filter editor</td></tr>
+<tr><td>Understand the behavior of stacked quick filters</td><td>多選＝AND；只能縮小</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Tree ============ -->
+<section id="tree">
+<div class="section-label">核心模型</div>
+<h2>「這張 issue 為什麼不在 board 上」的檢查順序</h2>
+<div class="figure">
+<svg class="dia" viewBox="160 0 740 590" role="img" aria-label="issue 不在 board 上的排查決策樹">
+  <defs><marker id="s227-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 問題框 x=200 w=320（中心 360）；結果框 x=600 w=260（中心 730）；內容 200–860 → 中心 530；viewBox 由 160 起 -->
+  <rect x="200" y="20" width="320" height="60" rx="10" class="box q"/>
+  <text x="360" y="45" text-anchor="middle" class="lbl b">① 用 JQL 搜尋得到這張 issue？</text><text x="360" y="65" text-anchor="middle" class="s">先確認 issue 存在、你有 Browse 權限</text>
+  <path d="M520,50 H600" class="ln" marker-end="url(#s227-arr)"/><text x="560" y="42" text-anchor="middle" class="tag no">否</text>
+  <rect x="600" y="26" width="260" height="48" rx="10" class="box rose"/><text x="730" y="55" text-anchor="middle" class="lbl">權限或 issue security 問題</text>
+  <path d="M360,80 V120" class="ln" marker-end="url(#s227-arr)"/><text x="376" y="106" class="tag yes">是</text>
+
+  <rect x="200" y="120" width="320" height="60" rx="10" class="box q"/>
+  <text x="360" y="145" text-anchor="middle" class="lbl b">② 它符合 board filter 的 JQL？</text><text x="360" y="165" text-anchor="middle" class="s">Board settings → General → filter query</text>
+  <path d="M520,150 H600" class="ln" marker-end="url(#s227-arr)"/><text x="560" y="142" text-anchor="middle" class="tag no">否</text>
+  <rect x="600" y="126" width="260" height="48" rx="10" class="box amber"/><text x="730" y="155" text-anchor="middle" class="lbl">改 filter（需 filter 編輯權）</text>
+  <path d="M360,180 V220" class="ln" marker-end="url(#s227-arr)"/><text x="376" y="206" class="tag yes">是</text>
+
+  <rect x="200" y="220" width="320" height="60" rx="10" class="box q"/>
+  <text x="360" y="245" text-anchor="middle" class="lbl b">③ 它的 status 對到某個 column？</text><text x="360" y="265" text-anchor="middle" class="s">Board settings → Columns 的 Unmapped statuses</text>
+  <path d="M520,250 H600" class="ln" marker-end="url(#s227-arr)"/><text x="560" y="242" text-anchor="middle" class="tag no">否</text>
+  <rect x="600" y="226" width="260" height="48" rx="10" class="box amber"/><text x="730" y="255" text-anchor="middle" class="lbl">把 status 拖進對應 column</text>
+  <path d="M360,280 V320" class="ln" marker-end="url(#s227-arr)"/><text x="376" y="306" class="tag yes">是</text>
+
+  <rect x="200" y="320" width="320" height="60" rx="10" class="box q"/>
+  <text x="360" y="345" text-anchor="middle" class="lbl b">④ Kanban：被 sub-filter 藏起來？</text><text x="360" y="365" text-anchor="middle" class="s">已 Release 的 fixVersion／Fix Version 欄位被隱藏</text>
+  <path d="M520,350 H600" class="ln" marker-end="url(#s227-arr)"/><text x="560" y="342" text-anchor="middle" class="tag no">是</text>
+  <rect x="600" y="326" width="260" height="48" rx="10" class="box amber"/><text x="730" y="355" text-anchor="middle" class="lbl">改 sub-filter 或欄位可見性</text>
+  <path d="M360,380 V420" class="ln" marker-end="url(#s227-arr)"/><text x="376" y="406" class="tag yes">否</text>
+
+  <rect x="200" y="420" width="320" height="60" rx="10" class="box q"/>
+  <text x="360" y="445" text-anchor="middle" class="lbl b">⑤ Scrum：在 active sprint 裡？</text><text x="360" y="465" text-anchor="middle" class="s">或 Kanban：在 Kanban backlog 的 status？</text>
+  <path d="M520,450 H600" class="ln" marker-end="url(#s227-arr)"/><text x="560" y="442" text-anchor="middle" class="tag no">否</text>
+  <rect x="600" y="426" width="260" height="48" rx="10" class="box amber"/><text x="730" y="455" text-anchor="middle" class="lbl">它在 backlog，不在 board 是正常的</text>
+  <path d="M360,480 V520" class="ln" marker-end="url(#s227-arr)"/><text x="376" y="506" class="tag yes">是</text>
+
+  <rect x="200" y="520" width="320" height="56" rx="10" class="box green"/>
+  <text x="360" y="543" text-anchor="middle" class="lbl b">⑥ 剩下：quick filter 勾著、</text>
+  <text x="360" y="563" text-anchor="middle" class="lbl b">epic 不在 filter 內（epic swimlane）</text>
+</svg>
+<div class="cap">圖 1　順序是「存在 → filter → columns → sub-filter → sprint／backlog → 檢視狀態」。考題問「第一步」幾乎都是 ②，問「最常見」多半是 ③。</div>
+</div>
+</section>
+
+<!-- ============ Wizard ============ -->
+<section id="wizard">
+<div class="section-label">互動</div>
+<h2>選一個症狀，看檢查順序</h2>
+<div id="s227-lab" class="card">
+  <div class="s227-wiz">
+    <div class="s227-sym" id="s227-sym"></div>
+    <div><div class="kicker" style="margin-bottom:.4rem" id="s227-title">點左邊的症狀</div><ol class="s227-steps" id="s227-steps"></ol><p id="s227-note" class="kicker" style="margin:.5rem 0 0"></p></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Columns ============ -->
+<section id="columns">
+<div class="section-label">Bullet 1</div>
+<h2>Filter 與 columns：一個管「誰」，一個管「在哪」</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 260" role="img" aria-label="filter 決定 issue 集合，columns 決定 status 顯示位置">
+  <defs><marker id="s227-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 左框 x=40 w=240 y=40 h=180；中框 x=340 w=220 y=40 h=180；右框 x=620 w=240 y=40 h=180 -->
+  <rect x="40" y="40" width="240" height="180" rx="12" class="box brand"/>
+  <text x="160" y="68" text-anchor="middle" class="lbl b">Board filter（JQL）</text>
+  <text x="160" y="92" text-anchor="middle" class="s">決定「哪些 issue」屬於這張 board</text>
+  <text x="160" y="124" text-anchor="middle" class="lbl">MOB-1 To Do</text>
+  <text x="160" y="146" text-anchor="middle" class="lbl">MOB-2 In Review</text>
+  <text x="160" y="168" text-anchor="middle" class="lbl">MOB-3 Cancelled</text>
+  <text x="160" y="196" text-anchor="middle" class="s">三張都在 filter 內</text>
+  <path d="M280,130 H340" class="ln" marker-end="url(#s227-arr2)"/>
+  <rect x="340" y="40" width="220" height="180" rx="12" class="box teal"/>
+  <text x="450" y="68" text-anchor="middle" class="lbl b">Columns（status 對應）</text>
+  <text x="450" y="92" text-anchor="middle" class="s">決定每個 status 顯示在哪一欄</text>
+  <text x="450" y="124" text-anchor="middle" class="lbl">To Do → 第一欄</text>
+  <text x="450" y="146" text-anchor="middle" class="lbl">In Review → 第二欄</text>
+  <text x="450" y="168" text-anchor="middle" class="lbl no">Cancelled → 未對應</text>
+  <text x="450" y="196" text-anchor="middle" class="s">拖進 column 或留在 Unmapped</text>
+  <path d="M560,130 H620" class="ln" marker-end="url(#s227-arr2)"/>
+  <rect x="620" y="40" width="240" height="180" rx="12" class="box green"/>
+  <text x="740" y="68" text-anchor="middle" class="lbl b">Board 上看到</text>
+  <text x="740" y="92" text-anchor="middle" class="s">兩者的交集</text>
+  <text x="740" y="124" text-anchor="middle" class="lbl">MOB-1 ✓</text>
+  <text x="740" y="146" text-anchor="middle" class="lbl">MOB-2 ✓</text>
+  <text x="740" y="168" text-anchor="middle" class="lbl no">MOB-3 不見了</text>
+  <text x="740" y="196" text-anchor="middle" class="s">搜尋得到，board 沒有</text>
+</svg>
+<div class="cap">圖 2　「搜尋得到、board 沒有」的第一嫌犯是 unmapped status。把 Cancelled 對到最右欄它才會回來（並被視為完成）。</div>
+</div>
+<ul>
+<li><strong>最右欄＝完成</strong>：sprint 完成、burndown、velocity 都以最右欄判定。Done／Cancelled／Won't Do 都要對到最右欄，否則 sprint 完不成、報表算不完。</li>
+<li>Filter 加了新 project，新 project 的 status 名稱不同時會全部落在 Unmapped，整個 project 的 issue 都不出現。</li>
+<li>Simplified workflow 下，在 board 加 column 會同時建 status；非 simplified 時只能對應既有 status（改 workflow 要 Jira admin）。</li>
+<li>Kanban backlog：拖進 Kanban backlog 面板的 status，其 issue 只在 backlog 頁出現，不在 board——這不是 bug。</li>
+<li>Epics panel 開著時，epic 會在 backlog 的面板裡而不是 board 卡片（KB）。</li>
+</ul>
+</section>
+
+<!-- ============ Rank ============ -->
+<section id="rank">
+<div class="section-label">Bullet 2</div>
+<h2>RANK：一個子句，四個功能</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:36%">filter 有 <code>ORDER BY Rank ASC</code></th><th>沒有（或 ORDER BY 別的欄位）</th></tr>
+<tr><td class="yes">拖曳排序 backlog 與 board</td><td class="no">卡片拖不動</td></tr>
+<tr><td class="yes">Scrum 可建 sprint、把 issue 拉進 sprint</td><td class="no">無法規劃 sprint</td></tr>
+<tr><td class="yes">Sub-task 自動排在 parent 下</td><td class="no">sub-task 散開</td></tr>
+<tr><td class="yes">Kanban 從 backlog 拉進 board</td><td class="no">失效</td></tr>
+</table></div>
+<ul style="margin-top:.75rem">
+<li>修法：Board settings → General → <strong>Add Rank</strong>，Jira 自動改 filter。</li>
+<li><code>Rank</code> 大小寫敏感；站台只該有一個 global context 的 Rank 欄位。</li>
+<li>從 saved filter 建的 board 最容易漏；CMP 自動建的 filter 預設就有。</li>
+<li>有時是刻意的：展示用 board 想固定照 assignee 或 due date 排，就不要 Rank。</li>
+<li><strong>Add Rank 改的是 saved filter 本身</strong>：其他共用同一張 filter 的 board 也會跟著變。而且 Rank 是<strong>全站共用的排序資料</strong>，在這塊 board 重排，另一塊以 Rank 排序的 board 也會看到新順序——不是每塊板各留一份優先順序。動正式共用 filter 前先另存測試 filter 驗證。</li>
+</ul>
+</section>
+
+<!-- ============ Hide completed work ============ -->
+<section id="hide">
+<div class="section-label">Kanban 專屬</div>
+<h2>Hide completed work：卡片自己消失、又自己回來</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">項目</th><th>官方說法</th></tr>
+<tr><td>可選的區間</td><td><strong>1 week、2 weeks、4 weeks，或完全關閉（顯示全部）</strong>。<span class="kicker">沒有 5 週、沒有自訂天數——選項就這四個。</span></td></tr>
+<tr><td>怎麼算「完成」</td><td>Kanban board 用 <strong>status category</strong> 判斷：issue 進到 <strong>Done 類別</strong>的 status 就算完成。<span class="kicker">這一點和 Scrum「最右欄才算完成」不同。</span></td></tr>
+<tr><td>計時從何時起算</td><td><strong>任何編輯都會把「完成」計時重設</strong>。官方原句：<em>Any edits to a work item reset the 'complete' timer</em>——改 Description、改 Fix version 都算。</td></tr>
+<tr><td>後果</td><td>已經完成很久的 issue，今天被編輯一下就<strong>重新出現在 board 上</strong>，直到區間再次跑完。這不是 issue 被重開，也不要為了讓它消失去改它的 status 或 version。</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">「最近一週」不等於「本曆週」</div>
+Hide completed work 設 1 week，是<strong>滾動的 7 天</strong>，而且受上面那條「編輯重設計時」影響。週三回看時，畫面上仍可能有上週完成的工作。如果需求真的是「這個曆週解決的工作」，要用 JQL 條件 <code>resolved &gt;= startOfWeek()</code>，並確認時區、每週起始日與 workflow 有正確設定 Resolution。<span class="kicker">別拿一個只查已解決工作的 filter 去取代整張工作板——那會把未完成的工作也一起藏掉。</span></div>
+</section>
+
+<!-- ============ Permissions ============ -->
+<section id="perm">
+<div class="section-label">Bullet 3</div>
+<h2>Filter 權限決定 board 存取</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 200" role="img" aria-label="看得到 board 的三個條件">
+  <defs><marker id="s227-arr3" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 三個條件框 w=230 h=70 y=30，x=40/335/630；匯合 bus y=130；結果框 x=300 w=300 y=150 h=40 -->
+  <rect x="40" y="30" width="230" height="70" rx="10" class="box brand"/>
+  <text x="155" y="52" text-anchor="middle" class="lbl b">① filter 分享給我</text><text x="155" y="72" text-anchor="middle" class="s">viewer 即可</text><text x="155" y="90" text-anchor="middle" class="s">private 只有 owner 與 Jira admin</text>
+  <rect x="335" y="30" width="230" height="70" rx="10" class="box brand"/>
+  <text x="450" y="52" text-anchor="middle" class="lbl b">② 各 project 的 Browse Projects</text><text x="450" y="72" text-anchor="middle" class="s">跨 project board</text><text x="450" y="90" text-anchor="middle" class="s">每個 project 都要有</text>
+  <rect x="630" y="30" width="230" height="70" rx="10" class="box brand"/>
+  <text x="745" y="52" text-anchor="middle" class="lbl b">③ board 的 location 有效</text><text x="745" y="72" text-anchor="middle" class="s">掛在停用的 project／user</text><text x="745" y="90" text-anchor="middle" class="s">上會消失</text>
+  <path d="M155,100 V130" class="ln"/><path d="M450,100 V130" class="ln"/><path d="M745,100 V130" class="ln"/>
+  <path d="M155,130 H745" class="ln"/>
+  <path d="M450,130 V150" class="ln" marker-end="url(#s227-arr3)"/>
+  <rect x="300" y="150" width="300" height="40" rx="10" class="box green"/>
+  <text x="450" y="175" text-anchor="middle" class="lbl b">三個都成立才看得到 board</text>
+</svg>
+<div class="cap">圖 3　board 本身沒有分享設定；「分享 board」實際上是分享它的 filter。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:40%">症狀</th><th>原因與修法</th></tr>
+<tr><td>同事找不到 board</td><td>filter 沒分享 → Filters 頁把 filter 分享給 project／group／role（viewer）</td></tr>
+<tr><td>同事看得到 board 但少了某個 project 的卡片</td><td>他沒有那個 project 的 Browse Projects</td></tr>
+<tr><td>我是 board admin 卻改不了 filter</td><td>board admin ≠ filter editor；請 owner 加 editor，或 Jira admin 改 owner</td></tr>
+<tr><td>filter owner 離職，board 沒人能改</td><td>Jira admin 在 Filters 管理頁改 owner</td></tr>
+<tr><td>Board 突然消失</td><td>location 掛的 project 或 user 被停用；board／project admin 重新指定 location</td></tr>
+<tr><td>使用者 A 看到的 board 內容跟 B 不同</td><td>filter 用了 <code>currentUser()</code>；或兩人 Browse Projects 不同；或各自勾了不同 quick filter</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Stacked ============ -->
+<section id="stack">
+<div class="section-label">Bullet 4</div>
+<h2>Stacked quick filters：AND，而且只能縮小</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">症狀</th><th>解釋</th></tr>
+<tr><td>勾兩個 quick filter 結果比勾一個少</td><td>多選是 AND，正常</td></tr>
+<tr><td>想看「我的 OR Bug」</td><td>另外寫一個 quick filter 把 OR 寫在 JQL 裡</td></tr>
+<tr><td>勾了 quick filter 後 board 空白</td><td>條件與 board filter 沒交集（例如 quick filter 寫了不在 filter 內的 project）</td></tr>
+<tr><td>同事說他的 board 少很多卡片</td><td>他自己勾了 quick filter；quick filter 狀態是個人的</td></tr>
+<tr><td>quick filter 的 ORDER BY 沒作用</td><td>排序永遠由 board filter 決定</td></tr>
+</table></div>
+<h3>先把「管理 sprint」和「改 sprint 裡的工作」拆開</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:30%">想做的事</th><th style="width:34%">要的權限／設定</th><th>常見誤認</th></tr>
+<tr><td>建立、開始、結束 sprint，改期間或 goal</td><td><strong>Manage sprints</strong>；跨 project 的 sprint 要<strong>每個相關 project 都有</strong></td><td>以為 Schedule ＋ Edit 就夠——不夠</td></tr>
+<tr><td>把工作加進／移出 sprint、重排順序</td><td><strong>Schedule work items</strong> ＋ <strong>Edit work items</strong> ＋ filter 有 Rank；Browse 是前提</td><td>以為有 Manage sprints 就能改每一張 issue</td></tr>
+<tr><td>設定 board columns、quick filters</td><td>board admin 或 board location 的 project admin；改 filter 另需 filter 編輯權</td><td>以為 board admin 等於所有來源 project 的動作權</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">兩個常被混淆的細節</div>
+<ul style="margin:.25rem 0 0">
+<li><strong>「建得出空 sprint」和「能把工作放進去」是兩件事</strong>，同時成立才叫可用；只有前者不矛盾。</li>
+<li><strong>Company-managed Scrum backlog 不把 sub-task 當成可獨立規劃的工作</strong>。官方明列 backlog 顯示條件之一是「<em>the work item isn't a subtask</em>」，所以 sub-task 不會出現在 backlog 讓你單獨排序。這不能推廣成「所有看板的子工作永遠不能排序」，也別和 parent 詳細頁裡的 sub-task 順序混為一談。</li>
+</ul></div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>使用者回報「MOB-88 搜尋得到，但 board 上沒有」。第一步檢查什麼？</summary><div class="a"><div class="tag">解答</div>它是否符合 board filter 的 JQL（Board settings → General）。符合的話下一步看 status 是否 unmapped。</div></details>
+<details class="q"><summary>Jira admin 把 filter 從 <code>project = A</code> 改成 <code>project in (A, B)</code>，B 的所有 issue 都沒出現。最可能原因？</summary><div class="a"><div class="tag">解答</div>B 的 workflow status 名稱不同，全部落在 Unmapped statuses；到 Columns 對應。</div></details>
+<details class="q"><summary>Sprint 結束時 Jira 說還有 3 張未完成，但團隊確認都 Cancelled 了。</summary><div class="a"><div class="tag">解答</div>Cancelled 沒對到最右欄；只有最右欄視為完成。</div></details>
+<details class="q"><summary>從 saved filter 建的 Scrum board 沒辦法建 sprint。</summary><div class="a"><div class="tag">解答</div>filter 沒有 <code>ORDER BY Rank ASC</code>；Board settings → General → Add Rank。</div></details>
+<details class="q"><summary>PM 想讓展示用 board 固定照 due date 排，且不希望別人拖動。</summary><div class="a"><div class="tag">解答</div>filter 用 <code>ORDER BY duedate</code>、不加 Rank——沒有 Rank 就拖不動，正好。</div></details>
+<details class="q"><summary>新同事有 project 的 Browse 權限，Boards 清單卻沒有團隊的 board。</summary><div class="a"><div class="tag">解答</div>底層 filter 沒分享給他。把 filter 分享給 project 或 group。</div></details>
+<details class="q"><summary>你是 board admin，想加一個 project 到 board，General 頁的 filter 是灰的。</summary><div class="a"><div class="tag">解答</div>你不是 filter 的 owner／editor。請 owner 加你為 editor 或請 Jira admin 處理。</div></details>
+<details class="q"><summary>Kanban board 上 Task 全部消失，Bug 正常，搜尋都找得到。</summary><div class="a"><div class="tag">解答</div>Task 的 Fix Version 欄位被 field configuration 隱藏，被 sub-filter 濾掉；設回可見並 re-index，或清空 sub-filter。</div></details>
+<details class="q"><summary>使用者勾了 Only My Issues 與 Recently Updated，說「我今天改的 issue 明明有，卻不見」。</summary><div class="a"><div class="tag">解答</div>AND：那張 issue 不是指派給他。取消 Only My Issues 就會出現。</div></details>
+<details class="q"><summary>Swimlanes by Epics 時某 epic 的 child 都在，epic lane 卻沒有。</summary><div class="a"><div class="tag">解答</div>epic 本身不在 board filter 內（在別的 project）。把 epic 的 project 加進 filter。</div></details>
+<details class="q"><summary>Kanban board 上看不到 epic 卡片。</summary><div class="a"><div class="tag">解答</div>Board settings → Columns 的 Epics panel 開著，epic 在 backlog 的面板裡而不是卡片。關掉即可。</div></details>
+<details class="q"><summary>兩位使用者看同一張 board，卡片數不同，filter 沒用 currentUser()。</summary><div class="a"><div class="tag">解答</div>其中一人勾了 quick filter（個人狀態），或兩人的 Browse Projects 不同（跨 project board）。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「issue 不在 board 就是 filter 寫錯」</td><td>更常見是 unmapped status、Kanban sub-filter、不在 active sprint</td></tr>
+<tr><td>「board 可以單獨分享」</td><td>沒有；分享的是 filter</td></tr>
+<tr><td>「board admin 可以改 filter」</td><td>要 filter editor</td></tr>
+<tr><td>「沒有 Rank 只是排序不同」</td><td>拖曳、sprint、sub-task 歸組全失效</td></tr>
+<tr><td>「Cancelled 放中間欄沒關係」</td><td>sprint 完不成、報表算未完成</td></tr>
+<tr><td>「quick filter 多選是 OR」</td><td>AND</td></tr>
+<tr><td>「Release 會刪掉 issue」</td><td>只是被 sub-filter 藏起來</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>故意弄壞，再照順序修</h2>
+<ol>
+<li>在 workflow 加一個 status「Cancelled」但不對應 column；把一張 issue 轉過去 → board 不見、搜尋有。對到最右欄修好。</li>
+<li>filter 改成 <code>ORDER BY created</code> → 拖曳與建 sprint 失效；Add Rank 修好。</li>
+<li>filter 設 private → 第二帳號找不到 board；分享給 project 修好。</li>
+<li>Kanban：Release 一個版本 → Done 卡消失；清空 sub-filter → 回來；再把 sub-filter 填回預設。</li>
+<li>把 Fix Version 對 Task 設 hidden → Task 消失；還原。</li>
+<li>同時勾兩個 quick filter，記下張數，證明是 AND。</li>
+<li>把 board location 改到個人 profile，再改回 project，觀察 Boards 清單的位置變化。</li>
+<li><strong>Hide completed work 實驗</strong>：Kanban board 設 1 week，找一張很久前完成的 issue，只改它的 Description → 它<strong>重新出現</strong>在 Done 欄（計時被重設）。確認你沒有改到它的 status 或版本。</li>
+<li><strong>驗收</strong>：你能在<strong>不更動任何 issue 業務資料</strong>的前提下，說明並修好兩種「卡片消失」（unmapped status 與 sub-filter／hide completed），而且知道「拖不動」是 Rank 問題、「移不到下一欄」是 workflow transition 問題——兩者不同。</li>
+</ol>
+<div class="callout"><div class="t">來源（實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-filters/">Configure filters</a>（考綱連結）＋ <a href="https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/">Enable ranking</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/">Configure quick filters</a>（考綱連結）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-columns/">Configure columns</a>（status 對應、最右欄＝完成、Kanban backlog）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/manage-filters/">Manage filters</a>（分享、editor／viewer、改 owner）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/change-the-location-of-a-board/">Change the location of a board</a></li>
+<li><a href="https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/">KB: Kanban board shows or hides completed work unexpectedly</a>（1/2/4 週、Done category、編輯重設計時）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/use-your-scrum-backlog/">Use your Scrum backlog</a>（backlog 顯示條件：sub-task 不列入）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/">Space access and configuration permissions</a>（Manage sprints）</li>
+<li><a href="https://support.atlassian.com/jira/kb/jira-software-data-center-kanban-board-does-not-show-all-issues/">KB: Kanban board does not show all issues</a>（sub-filter、隱藏 Fix Version、epic swimlane、Epics panel、unmapped status）</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 13 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.2.7"></div>
+</section>
+
+<div class="footer-nav"><a href="620.2.6.html">← 620.2.6 Swimlanes、cards、working days</a><a href="620.3.1.html">下一節：620.3.1 專案權限 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SYM=[
+    {t:'搜尋得到，board 上沒有',steps:[['符合 board filter？','Board settings → General 看 JQL；不符合就改 filter（需 editor）'],['status 有對到 column？','Columns 的 Unmapped statuses；拖進對應欄'],['Kanban：被 sub-filter 藏？','已 Release 的版本、Fix Version 欄位被隱藏'],['Scrum：在 active sprint？Kanban：在 backlog 狀態？','在 backlog 是正常的'],['勾著 quick filter？epic 不在 filter 內？','取消 quick filter；epic swimlane 時把 epic 的 project 加進 filter']],note:'順序固定：filter → columns → sub-filter → sprint/backlog → 檢視狀態。'},
+    {t:'卡片拖不動、Scrum 建不了 sprint',steps:[['filter 結尾是 ORDER BY Rank ASC？','Board settings → General → Add Rank'],['站台只有一個 global Rank 欄位？','多個會亂序，請 Jira admin 清'],['你有 Schedule Issues 權限？','拖曳排序也算 schedule；沒有權限一樣拖不動']],note:'九成是 Rank；剩下是權限。'},
+    {t:'同事找不到／看不到 board',steps:[['filter 分享給他了？','Filters 頁分享給 project／group／role（viewer）'],['他有每個 project 的 Browse Projects？','跨 project board 每個都要'],['board 的 location 還有效？','掛在停用的 project／user 上會消失，重設 location']],note:'board 沒有自己的分享設定；分享的是 filter。'},
+    {t:'勾 quick filter 後卡片變少或變空',steps:[['勾了幾個？','多選是 AND'],['quick filter 的條件和 board filter 有交集？','quick filter 只能縮小，寫了 filter 外的 project 就是空'],['想要 OR？','另寫一個 quick filter 把 OR 放進 JQL']],note:'這是個人狀態，別人不受影響。'},
+    {t:'Sprint 完不成／burndown 算不完',steps:[['Done、Cancelled、Won\'t Do 都對到最右欄？','只有最右欄視為完成'],['sub-task 還有沒完成的？','sub-task 跟 parent 同進同出'],['估點欄位在 screen 上？','填不了估點 burndown 就是 0']],note:'最右欄規則是所有報表的共同前提。'},
+    {t:'Kanban 的 Done 一直不清、或清了想找回',steps:[['有沒有 Release 版本？','Kanban 靠 Release 讓 fixVersion 變 released'],['sub-filter 還是預設？','被清空就不會自動清 Done'],['想找回已清的？','搜尋仍找得到；或暫時清空 sub-filter']],note:'Release 只是「藏」，issue 還在。'}
+  ];
+  const box=$('#s227-sym'), steps=$('#s227-steps');
+  box.innerHTML=SYM.map((s,i)=>`<button class="btn ghost" data-i="${i}">${s.t}</button>`).join('');
+  function show(i){
+    $$('button',box).forEach((b,j)=>b.classList.toggle('ghost',j!==i));
+    $('#s227-title').textContent='症狀：'+SYM[i].t;
+    steps.innerHTML=SYM[i].steps.map(([b,d])=>`<li><b>${b}</b><span>${d}</span></li>`).join('');
+    if(window.springPop&&!reduced()) $$('li',steps).forEach((li,k)=>setTimeout(()=>window.springPop(li),k*70));
+    $('#s227-note').textContent=SYM[i].note;
+  }
+  $$('button',box).forEach(b=>b.addEventListener('click',()=>show(+b.dataset.i)));
+  show(0);
+})();
+</script>
+</body>
+</html>

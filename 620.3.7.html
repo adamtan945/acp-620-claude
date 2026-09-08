@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.3.7 讓 issue 更豐富：附件、連結、時間追蹤、開發資訊｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#model">三道關卡模型</a>
+    <a href="#time">Time tracking</a>
+    <a href="#links">Issue links</a>
+    <a href="#weblinks">Web／Confluence links</a>
+    <a href="#social">@mention 與 watch</a>
+    <a href="#attach">Attachments</a>
+    <a href="#dev">Bitbucket 開發資訊</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#practice">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.3 Managing Projects（25%）/ 620.3.7</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.3.7 · Evaluate ways to enrich issues (attachments, links, time tracking, developer information)</div>
+<h1>讓 issue 更豐富：附件、連結、時間追蹤、開發資訊</h1>
+<p class="lead">六個功能看起來各自獨立，考法其實只有一種：<strong>「使用者做不了 X」是全域開關、project 權限，還是欄位沒放上畫面？</strong>把每個功能拆成這三道關卡，排查與考題都能一次對上。</p>
+<div class="term">術語：考試用 project／issue／sub-task；現行產品為 space／work item／subtask。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>六條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:46%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Know how to add time tracking fields to issue layout</td><td>「Log work 選項不見了」「Original estimate 欄位填不到」——時間追蹤要開在哪、權限是哪一個、欄位要放哪</td></tr>
+<tr><td>Understand how issue links are used to relate issues</td><td>「blocks／is blocked by 的方向」「跨 project 連結看不到」「Link 按鈕消失」</td></tr>
+<tr><td>Understand how links are used to reference web and Confluence pages</td><td>「把設計稿 Confluence 頁掛到 epic」「web link 與 issue link 差在哪」</td></tr>
+<tr><td>Know how to at-mention and watch issues</td><td>「@ 找不到某位同事」「幫別人加 watcher 要什麼權限」「自動 watch 在哪設」</td></tr>
+<tr><td>Understand how attachments can be added to Jira issues</td><td>「附件上傳失敗」「誰能刪別人的附件」「大小上限誰改」</td></tr>
+<tr><td>Understand how Jira can be integrated with Bitbucket to allow developers to reference Jira issues</td><td>「commit 訊息怎麼寫才會連到 issue」「開發面板看不到」「smart commit 能做什麼」</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 三道關卡 ============ -->
+<section id="model">
+<div class="section-label">核心模型</div>
+<h2>每個功能都是「全域開關 × Project 權限 × 畫面欄位」三道關卡的 AND</h2>
+<p>選一個功能，再把三道關卡逐一關掉，看結果怎麼變。這也是排查順序：<strong>先問 Jira admin 開了沒，再看 permission scheme，最後看 screen／layout</strong>。</p>
+<div id="s237-lab" class="card">
+  <div class="toolbar" style="margin-top:0">
+    <span style="font-weight:700;font-size:.88rem;width:5rem">功能</span>
+    <div class="seg" id="s237-feat">
+      <button data-f="time" class="on">記錄工時</button>
+      <button data-f="link">連結 issue</button>
+      <button data-f="attach">附件</button>
+      <button data-f="dev">開發面板</button>
+      <button data-f="mention">@提及</button>
+    </div>
+  </div>
+  <div class="toolbar" style="margin-top:.2rem">
+    <span style="font-weight:700;font-size:.88rem;width:5rem">關卡</span>
+    <label class="check"><input type="checkbox" id="s237-g1" checked>① 全域開關</label>
+    <label class="check"><input type="checkbox" id="s237-g2" checked>② Project 權限</label>
+    <label class="check"><input type="checkbox" id="s237-g3" checked>③ 畫面欄位／入口</label>
+  </div>
+  <svg id="s237-dia" class="dia" viewBox="0 0 900 260" role="img" aria-label="三道關卡 AND 起來決定使用者能不能做某件事" style="margin-top:.6rem">
+    <defs><marker id="s237-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+    <!-- G1 x=40 y=60 w=230 h=90；G2 x=335 y=60；G3 x=630 y=60；bus y=175；R x=335 y=190 w=230 h=54 -->
+    <g id="s237-b1"><rect x="40" y="60" width="230" height="90" rx="12" class="box green"/>
+      <text x="155" y="86" text-anchor="middle" class="lbl b">① 全域開關</text>
+      <text x="155" y="106" text-anchor="middle" class="s">Jira admin</text>
+      <text id="s237-t1" x="155" y="130" text-anchor="middle" class="lbl"></text></g>
+    <path d="M270,105 H335" class="ln" marker-end="url(#s237-arr)"/>
+    <g id="s237-b2"><rect x="335" y="60" width="230" height="90" rx="12" class="box green"/>
+      <text x="450" y="86" text-anchor="middle" class="lbl b">② Project 權限</text>
+      <text x="450" y="106" text-anchor="middle" class="s">permission scheme</text>
+      <text id="s237-t2" x="450" y="130" text-anchor="middle" class="lbl"></text></g>
+    <path d="M565,105 H630" class="ln" marker-end="url(#s237-arr)"/>
+    <g id="s237-b3"><rect x="630" y="60" width="230" height="90" rx="12" class="box green"/>
+      <text x="745" y="86" text-anchor="middle" class="lbl b">③ 畫面欄位／入口</text>
+      <text x="745" y="106" text-anchor="middle" class="s">screen／layout／UI</text>
+      <text id="s237-t3" x="745" y="130" text-anchor="middle" class="lbl"></text></g>
+    <path d="M155,150 V175" class="ln"/><path d="M450,150 V175" class="ln"/><path d="M745,150 V175" class="ln"/>
+    <path d="M155,175 H745" class="ln"/>
+    <path d="M450,175 V190" class="ln" marker-end="url(#s237-arr)"/>
+    <g id="s237-res"><rect x="335" y="190" width="230" height="54" rx="12" class="box green"/>
+      <text id="s237-rt" x="450" y="222" text-anchor="middle" class="lbl b"></text></g>
+  </svg>
+  <p id="s237-msg" class="kicker" style="margin:.6rem 0 0"></p>
+</div>
+<div class="callout exam" style="margin-top:1rem"><div class="t">考題長相</div>「有 Link Issues 權限卻沒有 Link 按鈕」→ 關卡①：全域 Issue linking 被停用。「Log work 出現在 ••• 但填了沒存」→ 關卡②：Work On Issues。「Original estimate 填不到」→ 關卡③：Time tracking 欄位不在 screen 上。</div>
+</section>
+
+<!-- ============ Time tracking ============ -->
+<section id="time">
+<div class="section-label">Time tracking</div>
+<h2>時間追蹤：全站設定 ＋ Work On Issues ＋ 欄位放上 screen</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">關卡</th><th>內容</th></tr>
+<tr><td>① 全域</td><td>⚙ → Issues → <strong>Time tracking</strong>。現行官方文件：<strong>Jira Cloud 的 time tracking 永遠啟用</strong>，沒有 Activate／Deactivate 按鈕；要「關掉」是用 field configuration 隱藏 Time tracking 欄位（CMP）或從 issue type 移除該欄位（TMP）。可安裝 Marketplace 的第三方 time tracking provider 取代內建（資料存在 app 廠商）。<br><span class="kicker">考綱是 2023 版，舊版 UI 有 Activate／Deactivate；考題若出現「啟用 time tracking」，理解為「讓欄位出現在畫面上」即可。</span></td></tr>
+<tr><td>① 全域設定值</td><td>每日工時（預設 8，可小數）、每週工作天（預設 5）、時間格式（Pretty／Days／Hours）、預設單位（minute／hour／day／week）、「Copy comment to work description」（勾了以後 transition 畫面的留言會複製進 work log，且只對選定 role／group 可見）</td></tr>
+<tr><td>② 權限</td><td><strong>Work On Issues</strong>（記工時）；Edit Own／All Worklogs、Delete Own／All Worklogs 各自獨立。在 permission scheme 的 Time tracking 群組</td></tr>
+<tr><td>③ 欄位</td><td>CMP：Jira admin 把 <strong>Time Tracking</strong> 欄位放到 create／edit screen，使用者才能在建立時填 Original estimate；project admin 再在 layout 排位置。TMP：在 issue type 的欄位設定加 Time tracking</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">有 Work On Issues 卻還是不能記工時：第四個原因</div>檢查<strong>目前 status 的 workflow property</strong>。官方列出 <code>jira.permission.work.denied</code>（<strong>值留空</strong>）可停用該狀態的 work log，常加在 Epic 的狀態上。這是 permission scheme <em>以外</em>的限制，只有 Jira admin 能在 workflow 的 status 上設定。<br>同系列還有 <code>jira.permission.edit.denied</code>、<code>jira.permission.comment.denied</code>、<code>jira.permission.attach.denied</code>，都是「值留空 ＝ 全面禁止該動作」。<span class="kicker">來源：<a href="https://support.atlassian.com/jira-cloud-administration/docs/use-workflow-properties/">Use workflow properties</a>（2026-09-08 核對）</span></div>
+<div class="callout"><div class="t">Edit／Delete All Worklogs 不是「新增工時」的替代</div><strong>Add：Work On Issues</strong>；<strong>改別人的既有紀錄：Edit All Worklogs</strong>；<strong>刪別人的：Delete All Worklogs</strong>。有「All」不代表同時具備新增或刪除；排錯時先問「是誰的紀錄、要新增／改／刪哪一種」，再去對權限。也不要把 Edit Issues 當成一切操作的總開關。</div>
+<p style="margin-top:.6rem">記錄工時的入口：issue 的 ••• → Log work，或 Time tracking 欄位。Sub-task 的工時可以彙總到 parent（parent 的 time tracking 面板勾 include sub-tasks）；Scrum board 的 estimation 若選「Remaining estimate and time spent」，burndown 用的就是這組欄位。</p>
+</section>
+
+<!-- ============ Issue links ============ -->
+<section id="links">
+<div class="section-label">Issue links</div>
+<h2>Issue link：全域開關、link type 的兩個方向、跨 project 兩邊都要權限</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 200" role="img" aria-label="Link type 有 outward 與 inward 兩個描述，同一條連結在兩張 issue 上各自顯示一個方向">
+  <defs><marker id="s237-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- A x=60 y=60 w=220 h=80；B x=620 y=60 w=220 h=80；中間標籤 -->
+  <rect x="60" y="60" width="220" height="80" rx="12" class="box brand"/>
+  <text x="170" y="90" text-anchor="middle" class="lbl b">MOB-10 登入頁改版</text>
+  <text x="170" y="114" text-anchor="middle" class="s">顯示：<tspan class="accent" font-weight="700">blocks</tspan> MOB-22</text>
+  <path d="M280,100 H620" class="ln" marker-end="url(#s237-arr2)"/>
+  <rect x="330" y="80" width="240" height="40" rx="20" class="chipbox"/>
+  <text x="450" y="97" text-anchor="middle" class="tag">Link type「Blocks」</text>
+  <text x="450" y="112" text-anchor="middle" class="s">outward＝blocks · inward＝is blocked by</text>
+  <rect x="620" y="60" width="220" height="80" rx="12" class="box teal"/>
+  <text x="730" y="90" text-anchor="middle" class="lbl b">MOB-22 結帳流程</text>
+  <text x="730" y="114" text-anchor="middle" class="s">顯示：<tspan class="accent-teal" font-weight="700">is blocked by</tspan> MOB-10</text>
+  <text x="450" y="176" text-anchor="middle" class="s">同一條連結，兩端各看到自己的那個方向；建立時選的是 outward 那一句。</text>
+</svg>
+<div class="cap">圖 2　Link type 由 Jira admin 定義：Name ＋ Outward description ＋ Inward description。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">關卡</th><th>內容</th></tr>
+<tr><td>① 全域</td><td>⚙ → Issues → <strong>Issue linking</strong> → Activate／Deactivate。停用後所有 project 的 Link 入口都消失（權限給了也沒用）</td></tr>
+<tr><td>① Link types</td><td>管理頁列的四個核心內建 type：Blocks（blocks／is blocked by）、Cloners（clones／is cloned by，不建議改）、Duplicate（duplicates／is duplicated by）、Relates（relates to）。現行新站台另預設 is implemented by／implements、merged into／merged from、is reviewed by／reviews、is caused by／causes、added to idea／is idea for（Link work items 頁列出 14 種）。自訂：Name ＋ outward ＋ inward，例如 Problem/Incident：causes／is caused by。刪除 link type 時可把既有連結改到另一個 type 或一併移除</td></tr>
+<tr><td>② 權限</td><td><strong>Link Issues</strong>。跨 project 連結：<strong>兩邊 project 都要有</strong>才看得到完整連結</td></tr>
+<tr><td>③ 入口</td><td>issue 的 Add → Linked work item；board 卡片右鍵 → Link；⌘K 命令列。已關閉的 issue 不會出現在搜尋下拉，要輸入完整 key</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">JQL 小陷阱（官方特別提醒）</div><code>issueLinkType</code>（現行 <code>workitemLinkType</code>）會同時比對 name、outward、inward 三個字串。內建「Blocks」的 name 與 outward 都叫 blocks，查詢時分不出方向；官方建議把 type 改名（例如 Blocking）以區分。</div>
+<p class="kicker">Board 卡片可在 View settings 打開「Linked work items」顯示連結（每位使用者各自的設定）。Sub-task 與 linked issue 完成後是否顯示刪除線，由 board 設定決定。</p>
+</section>
+
+<!-- ============ Web / Confluence ============ -->
+<section id="weblinks">
+<div class="section-label">Web／Confluence links</div>
+<h2>連到 issue 以外的東西：web link、Confluence page、smart link</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">連結種類</th><th>怎麼加</th><th>特性</th></tr>
+<tr><td>Web link</td><td>Add → Web link，貼 URL 並給標題</td><td>純外部連結；也算在 issue link 權限（Link Issues）之下</td></tr>
+<tr><td>Confluence page</td><td>Add → Page → Link page（parent 層 issue 如 epic 才有「Related work」入口；一般 issue 直接貼 Confluence 網址）</td><td>前提：Jira 站台已與 Confluence 連結（同一站台或 application link）。CMP 才有 epic 的 Link page；一張 issue 最多 <strong>2,000</strong> 個連結（web、Confluence、外部 issue 合計）</td></tr>
+<tr><td>Smart link</td><td>在 Description／留言貼上 Google Drive、Dropbox、Figma、Confluence 等網址</td><td>自動展開成卡片並<strong>永遠指向最新版</strong>；也可貼在 Attachments 區當「連結的檔案」</td></tr>
+<tr><td>Issue link（對照）</td><td>Add → Linked work item</td><td>有方向（outward／inward）、可用 JQL 查、進 Related work 統計</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考題型態</div>「PM 要把設計規格文件掛到 epic 上，讓 Release page 也看得到」→ Confluence page link（Related work）。「要表達『A 做完 B 才能開始』」→ issue link 的 Blocks，不是 web link。</div>
+</section>
+
+<!-- ============ mention / watch ============ -->
+<section id="social">
+<div class="section-label">@mention 與 watch</div>
+<h2>誰會被通知：@提及、watch、留言</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">@mention</div>
+<ul style="margin-top:.5rem;font-size:.92rem"><li>留言或 Description 輸入 <strong>@</strong> ＋ 名字 → 被提及者收到通知，並直接連到那則留言。</li><li>看得到誰：有 <strong>Browse users and groups</strong>（全域）→ 全站使用者；沒有 → 只看得到同 project 有 Browse Projects 的人。</li><li>留言本身需要 <strong>Add Comments</strong>。快捷鍵 <code>M</code> 跳到留言框。</li></ul></div>
+<div class="card"><div class="eyebrow" style="color:var(--teal)">Watch</div>
+<ul style="margin-top:.5rem;font-size:.92rem"><li>Watch 圖示或快捷鍵 <code>W</code>；watcher 在留言、編輯、轉換狀態時收通知。</li><li>幫別人加／移除 watcher：<strong>Manage Watchers</strong>；看 watcher 清單：<strong>View Voters and Watchers</strong>。</li><li>「我留言／編輯後自動 watch」在 <strong>Personal settings</strong>，是個人偏好不是 project 設定。</li><li>Vote 圖示：表達重要性，watcher 看得到票數。</li></ul></div>
+</div>
+<div class="callout warn"><div class="t">通知不是權限，寄件者與收件者分開設定</div>被 @提及的人若打不開 issue，先查 <strong>Browse Projects</strong>、issue security 與帳號的產品存取——<strong>把他設成 assignee 不是解法</strong>（除非該 scheme 明確用 Current assignee 授權）。<br><strong>TMP 也能設通知</strong>：Project settings → Notifications 可設定事件（建立、指派、更新、留言、移動、記工時…）與收件角色（watchers、current assignee、current user、reporter、space lead、space role），並可設定<strong>通知的寄件地址</strong>；不是只有 CMP 才調得動通知。設定通知不會替收件人增加任何存取權。<span class="kicker">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/customize-notifications-in-team-managed-projects/">Customize notifications in team-managed spaces</a>（2026-09-08 核對）</span></div>
+<p class="kicker" style="margin-top:.6rem">留言的限制可見範圍（鎖頭 → role／group）與編輯／刪除他人留言的權限，在 620.1.1 的權限深入段落已講；分享 issue 最常用的方式是複製 issue key 旁的連結。</p>
+</section>
+
+<!-- ============ Attachments ============ -->
+<section id="attach">
+<div class="section-label">Attachments</div>
+<h2>附件：四種加法、兩層限制、三個權限</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">關卡</th><th>內容</th></tr>
+<tr><td>① 全域</td><td>⚙ → System → <strong>Attachments</strong>：啟用／停用、單檔大小上限、ZIP 支援（預覽壓縮檔內容、一鍵下載全部附件）。只有 Administer Jira 能改。<br><span class="kicker">單檔上限：<strong>預設 1 GB、最大 2 GB</strong>（管理頁 Configure file attachments 為權威來源）。使用者頁仍寫「預設 10 MB」，是舊敘述；考試若問數字以管理頁為準，問「誰能改」答 Jira admin。</span></td></tr>
+<tr><td>① 方案容量</td><td>Free 每個 app 2 GB、Standard 250 GB、Premium 無上限</td></tr>
+<tr><td>② 權限</td><td><strong>Create Attachments</strong>（上傳）、<strong>Delete Own Attachments</strong>、<strong>Delete All Attachments</strong>。Default Permission Scheme 已含前兩者；自訂 scheme 要自己加</td></tr>
+<tr><td>③ 入口</td><td>拖曳、Add → Attachment、留言區貼上、貼雲端網址成 smart link。<span class="kicker">（實務經驗，官方未明列：Attachment 欄位若在 field configuration 被隱藏，建立畫面會沒有附檔入口。）</span></td></tr>
+</table></div>
+<div class="callout"><div class="t">上傳得了 ≠ 刪得掉</div><strong>Create Attachments</strong>（上傳）、<strong>Delete Own Attachments</strong>（刪自己的）、<strong>Delete All Attachments</strong>（刪任何人的）是三個獨立權限。上傳失敗時先查 Create Attachments、檔名、單檔大小與方案總容量，<strong>不能因為 Edit Issues 正常就認定附件權限正常</strong>。</div>
+<h3>四種加法與檔名限制</h3>
+<ul>
+<li>拖曳到 issue 上；Add → Attachment；在留言或長文字欄位貼上／拖入；貼雲端檔案網址變成 smart link（永遠指向最新版）。</li>
+<li>檔名不能含 <code>\ / " % : $ ? *</code>。</li>
+<li>Attachments 區把檔案、Confluence 頁、Loom 影片放在一起，可依 All／Images／Videos／Documents 篩選、切換清單或格狀。</li>
+</ul>
+</section>
+
+<!-- ============ Bitbucket ============ -->
+<section id="dev">
+<div class="section-label">Bitbucket 開發資訊</div>
+<h2>Issue key 是唯一的膠水</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 250" role="img" aria-label="在 branch、commit、PR 放 issue key，開發資訊就出現在 issue 的 development panel">
+  <defs><marker id="s237-arr3" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 左三個來源 x=40 w=250 h=44 at y=30/90/150；匯流 x=330；右 panel x=380 y=50 w=260 h=140；權限 x=690 y=50 w=170 h=140 -->
+  <rect x="40" y="30" width="250" height="44" rx="10" class="box teal"/><text x="165" y="57" text-anchor="middle" class="lbl">branch：<tspan class="accent-teal" font-weight="700">MOB-10</tspan>-login-redesign</text>
+  <rect x="40" y="90" width="250" height="44" rx="10" class="box teal"/><text x="165" y="117" text-anchor="middle" class="lbl">commit：<tspan class="accent-teal" font-weight="700">MOB-10</tspan> fix redirect</text>
+  <rect x="40" y="150" width="250" height="44" rx="10" class="box teal"/><text x="165" y="177" text-anchor="middle" class="lbl">PR 標題：<tspan class="accent-teal" font-weight="700">MOB-10</tspan> login page</text>
+  <path d="M290,52 H330 V172" class="ln"/><path d="M290,112 H330" class="ln"/><path d="M290,172 H330" class="ln"/>
+  <path d="M330,120 H380" class="ln" marker-end="url(#s237-arr3)"/>
+  <rect x="380" y="50" width="260" height="140" rx="12" class="box brand"/>
+  <text x="510" y="78" text-anchor="middle" class="lbl b">MOB-10 的 Development panel</text>
+  <text x="510" y="102" text-anchor="middle" class="s">1 branch · 3 commits · 1 pull request</text>
+  <text x="510" y="122" text-anchor="middle" class="s">builds、deployments、feature flags</text>
+  <text x="510" y="146" text-anchor="middle" class="s">連上後無法移除；commit 只顯示前 100 筆</text>
+  <text x="510" y="168" text-anchor="middle" class="s">可從 issue 直接 Create branch／PR</text>
+  <path d="M640,120 H690" class="ln" marker-end="url(#s237-arr3)"/>
+  <rect x="690" y="50" width="170" height="140" rx="12" class="box amber"/>
+  <text x="775" y="86" text-anchor="middle" class="lbl b">看得到的前提</text>
+  <text x="775" y="112" text-anchor="middle" class="s">站台已連接 Bitbucket</text>
+  <text x="775" y="132" text-anchor="middle" class="s">＋ 權限</text>
+  <text x="775" y="152" text-anchor="middle" class="s">View Development Tools</text>
+  <text x="450" y="230" text-anchor="middle" class="s">Key 一定要大寫（MOB-10）；小寫或漏掉就連不上。</text>
+</svg>
+<div class="cap">圖 3　三個放 key 的位置匯流到同一個面板；面板另一端由連線與權限把關。</div>
+</div>
+<h3>Smart commits：在 commit 訊息裡操作 issue</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">指令</th><th>語法</th><th style="width:30%">範例</th></tr>
+<tr><td>留言</td><td><code>&lt;KEY&gt; #comment &lt;文字&gt;</code></td><td><code>MOB-10 #comment 修好轉址</code></td></tr>
+<tr><td>記工時</td><td><code>&lt;KEY&gt; #time 1w 2d 4h 30m &lt;文字&gt;</code></td><td><code>MOB-10 #time 2h 重構登入</code></td></tr>
+<tr><td>轉換狀態</td><td><code>&lt;KEY&gt; #&lt;transition 名稱&gt;</code></td><td><code>MOB-10 #resolve #comment done</code></td></tr>
+<tr><td>多指令／多 issue</td><td>同一行可串多個指令；多個 key 共用一組指令</td><td><code>MOB-10 MOB-11 #resolve</code></td></tr>
+</table></div>
+<div class="callout warn"><div class="t">Smart commit 不生效的三個原因（官方列的）</div>① commit 的 email 沒有對應到<strong>剛好一個</strong> Jira 使用者；② 該使用者沒有 project 權限（Add Comments、Work On Issues、Transition Issues）；③ transition 有必填欄位沒填。另外：key 要兩個以上大寫字母＋連字號＋數字（<code>MOB-10</code>）；指令不能跨行；transition 名稱有空白時用連字號（<code>#start-review</code>）。</div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>使用者有 Work On Issues，在 Story 上記得了工時，但同一個人在 Epic 上找不到 Log work。權限沒問題，還可能是什麼？</summary><div class="a"><div class="tag">解答</div>該 Epic 目前 status 上設了 workflow property <code>jira.permission.work.denied</code>（值留空），停用該狀態的 work log——官方文件明說常加在 Epic 的狀態上。這在 permission scheme 之外，只有 Jira admin 改得動。</div></details>
+<details class="q"><summary>PM 有 Edit All Worklogs，卻按不到 Log work。缺什麼？</summary><div class="a"><div class="tag">解答</div>缺 <strong>Work On Issues</strong>。Edit All Worklogs 只讓他修改別人<strong>已存在</strong>的工時紀錄，不是新增工時的替代權限。</div></details>
+<details class="q"><summary>TMP 團隊想讓「有人留言」時通知 reporter，並把通知信的寄件地址換成團隊信箱。做得到嗎？</summary><div class="a"><div class="tag">解答</div>做得到。Project settings → Notifications 可設定事件與收件角色（含 reporter），並可設定通知的寄件地址。注意設定通知<strong>不會</strong>讓收件人取得該 issue 的存取權。</div></details>
+<details class="q"><summary>工程師有 Link Issues 權限，但所有 issue 的 Add 選單裡都沒有「Linked work item」。</summary><div class="a"><div class="tag">解答</div>全域 Issue linking 被停用（關卡①）。請 Jira admin 到 ⚙ → Issues → Issue linking → Activate。</div></details>
+<details class="q"><summary>MOB-10 顯示「blocks MOB-22」，MOB-22 上會顯示什麼？</summary><div class="a"><div class="tag">解答</div>「is blocked by MOB-10」——同一條連結的 inward 描述。</div></details>
+<details class="q"><summary>使用者在 A project 連結了 B project 的 issue，但同事只在 A 看到一半的資訊。</summary><div class="a"><div class="tag">解答</div>同事在 B project 沒有 Link Issues（或 Browse）權限；跨 project 連結兩邊都要有權限。</div></details>
+<details class="q"><summary>建立 issue 時填不到 Original estimate，但既有 issue 可以 Log work。</summary><div class="a"><div class="tag">解答</div>關卡③：Time Tracking 欄位沒放在 create screen。Log work 能用代表全域與 Work On Issues 都沒問題。</div></details>
+<details class="q"><summary>PM 想把 Confluence 的規格頁掛到 epic，讓 Release page 的 Related work 看得到。</summary><div class="a"><div class="tag">解答</div>Epic → Add → Page → Link page（需 Jira 已連接 Confluence；CMP）。</div></details>
+<details class="q"><summary>@ 某位同事時找不到他，但他確實有 Jira 帳號。</summary><div class="a"><div class="tag">解答</div>自己沒有 Browse users and groups 全域權限，只看得到同 project 有 Browse 的人；或該同事沒有這個 project 的 Browse Projects。</div></details>
+<details class="q"><summary>Scrum master 想把整個團隊加為某張 issue 的 watcher。需要什麼？</summary><div class="a"><div class="tag">解答</div>Manage Watchers 權限；看清單需 View Voters and Watchers。</div></details>
+<details class="q"><summary>附件上傳被拒，訊息說檔案太大。誰能改？</summary><div class="a"><div class="tag">解答</div>Jira admin（Administer Jira）在 ⚙ → System → Attachments 調整單檔上限；方案容量（Free 2 GB／Standard 250 GB／Premium 無限）是另一層限制。</div></details>
+<details class="q"><summary>設計師想刪掉工程師誤傳的附件。</summary><div class="a"><div class="tag">解答</div>需要 Delete All Attachments；Delete Own 只能刪自己的。</div></details>
+<details class="q"><summary>commit 訊息寫了「mob-10 fix」，issue 上卻沒有開發資訊。</summary><div class="a"><div class="tag">解答</div>Key 必須大寫 MOB-10。其他可能：站台未連接 Bitbucket、使用者沒有 View Development Tools（面板整個不顯示）。</div></details>
+<details class="q"><summary>Smart commit 寫了 <code>MOB-10 #time 2h</code> 但沒記到工時。</summary><div class="a"><div class="tag">解答</div>依序查：commit email 沒對到剛好一個 Jira 帳號；該帳號沒有 Work On Issues；Time tracking 欄位被 field configuration 隱藏；key 不是大寫或指令跨行。</div></details>
+<details class="q"><summary>「web link」和「issue link」該怎麼選？</summary><div class="a"><div class="tag">解答</div>要表達 issue 間的關係（阻擋、重複、因果）用 issue link，有方向且可 JQL；指向外部文件或網頁用 web link／smart link。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">誤解</th><th>事實</th></tr>
+<tr><td>「Link Issues 權限給了就能連結」</td><td>全域 Issue linking 要先啟用；跨 project 兩邊都要權限</td></tr>
+<tr><td>「Log work 是 Edit Issues 的一部分」</td><td>是獨立的 Work On Issues，在 Time tracking 群組</td></tr>
+<tr><td>「Original estimate 填不到是權限問題」</td><td>多半是 Time Tracking 欄位沒放在 screen（關卡③）</td></tr>
+<tr><td>「Project admin 可以改附件大小上限」</td><td>只有 Jira admin（⚙ → System → Attachments）</td></tr>
+<tr><td>「@ 提及看不到人是 project 權限」</td><td>是全域 Browse users and groups；沒有它只看得到同 project 的人</td></tr>
+<tr><td>「commit 訊息寫小寫 key 也能連」</td><td>只認大寫 key</td></tr>
+<tr><td>「開發面板看不到＝沒連 Bitbucket」</td><td>也可能是缺 View Development Tools</td></tr>
+<tr><td>「有 Work On Issues 就一定能記工時」</td><td>該 status 若有 <code>jira.permission.work.denied</code> property（值留空）就記不了</td></tr>
+<tr><td>「Edit All Worklogs 也能新增工時」</td><td>新增是 Work On Issues；All 只管維護他人既有紀錄</td></tr>
+<tr><td>「只有 CMP 能設通知」</td><td>TMP 在 Project settings → Notifications 可設事件、收件角色與寄件地址</td></tr>
+<tr><td>「能上傳附件就能刪別人的附件」</td><td>Delete Own／Delete All Attachments 是分開的權限</td></tr>
+<tr><td>「Web link 也能用 JQL 查關係」</td><td>只有 issue link 有方向與 link type 可查</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="practice">
+<div class="section-label">實作（40 分鐘）</div>
+<h2>把每個功能的三道關卡各關一次</h2>
+<ol>
+<li><strong>Time tracking</strong>：⚙ → Issues → Time tracking 看設定值；把 Time Tracking 欄位從 create screen 拿掉，建 issue 觀察 Original estimate 消失；拿掉第二帳號的 Work On Issues，Log work 消失。</li>
+<li><strong>Issue linking</strong>：新增 link type「Causes」（causes／is caused by），在兩張 issue 間建立，兩端各看一次方向；Deactivate 全域後看 Add 選單；JQL 試 <code>issueLinkType = "is caused by"</code>。</li>
+<li><strong>Confluence／web link</strong>：在 epic 上 Link page 一個 Confluence 頁，到 Release page 看 Related work；在一般 issue 貼一個 Google Drive 網址看 smart link。</li>
+<li><strong>@mention／watch</strong>：拿掉第二帳號的 Browse users and groups，@ 時觀察清單縮小；給它 Manage Watchers 幫別人加 watcher。</li>
+<li><strong>Attachments</strong>：⚙ → System → Attachments 看上限；拿掉 Create Attachments 試上傳。</li>
+<li><strong>Workflow property</strong>（需 Jira admin）：在測試 workflow 的某個 status 加 <code>jira.permission.work.denied</code>（值留空），把 issue 轉到該狀態，用有 Work On Issues 的帳號確認 Log work 消失；移除 property 後恢復。</li>
+<li><strong>Worklog 三種權限</strong>：用第二帳號記一筆工時 → 拿掉它的 Work On Issues（仍保留 Edit Own Worklogs），確認「改得了舊紀錄、加不了新紀錄」。</li>
+<li><strong>TMP 通知</strong>：在一個 TMP 的 Project settings → Notifications 加一條「有人留言 → 通知 reporter」，並看寄件地址設定的位置。</li>
+<li><strong>完整交接演練</strong>：建 A「付款失敗」與 B「完成驗收」，A 的 Description 寫現象／重現步驟／預期結果；附一張不含敏感資訊的截圖；貼一個 Confluence 或文件網址；建立 <code>A blocks B</code> 後從 B 確認反向描述；為 A 填 Original estimate=2h 並 Log work 30m，觀察 Time spent 與 Remaining。最後用一般帳號逐項確認「誰看得到、哪一項需要哪個權限」。</li>
+<li><strong>Bitbucket</strong>（有連接時）：建 branch <code>MOB-10-test</code>、commit 訊息 <code>MOB-10 #comment hello</code>，回 issue 看 development panel 與留言；拿掉 View Development Tools 看面板消失。</li>
+</ol>
+<div class="callout"><div class="t">來源（實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/">Configure field layout in the work item view</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/update-an-issues-details/">Update a work item's details</a></li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/configure-time-tracking/">Configure time tracking</a></li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/configure-issue-linking/">Configure work item linking</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/link-issues/">Link work items</a>（考綱連結 link-an-issue 為 hub，實際內容在此子頁）、<a href="https://support.atlassian.com/jira-software-cloud/docs/link-a-confluence-page-to-an-epic/">Link a Confluence page to a parent-level work item</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/watch-share-and-comment-on-an-issue/">Watch, share, and comment on a work item</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/add-files-images-and-other-content-to-describe-an-issue/">Add files, images, and other content</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/configure-file-attachments/">Configure file attachments</a>（管理面）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/use-workflow-properties/">Use workflow properties</a>（<code>jira.permission.work.denied</code> 等 <code>.denied</code> 系列）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/customize-notifications-in-team-managed-projects/">Customize notifications in team-managed spaces</a>（事件、收件角色、寄件地址）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/time-tracking-permissions/">Time tracking permissions</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/voters-watchers-comment-and-attachment-permissions/">Voters, watchers, comment, and attachment permissions</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/use-jira-cloud-with-bitbucket/">Use Jira Cloud with Bitbucket</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/process-issues-with-smart-commits/">Process work items with smart commits</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/view-development-information-for-an-issue/">View development information for a work item</a></li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 12 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.3.7"></div>
+</section>
+
+<div class="footer-nav"><a href="620.3.6.html">← 620.3.6 Issue field layout</a><a href="620.4.1.html">下一節：620.4.1 自動化的方式 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.3.7 三道關卡實驗（id 前綴 s237-） */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const lab=$('#s237-lab'); if(!lab) return;
+  const F={
+    time:{name:'記錄工時',g:['Time tracking 設定（永遠啟用）','Work On Issues','Time tracking 欄位在 screen'],ok:'可以 Log work、填 Original estimate'},
+    link:{name:'連結 issue',g:['⚙ Issues → Issue linking 啟用','Link Issues（兩邊 project 都要）','Add → Linked work item'],ok:'可以建立與看到連結'},
+    attach:{name:'附件',g:['⚙ System → Attachments 啟用','Create Attachments','Attachment 欄位未被隱藏'],ok:'可以上傳附件'},
+    dev:{name:'開發面板',g:['站台已連接 Bitbucket／GitHub','View Development Tools','issue key 在 branch/commit/PR'],ok:'看得到 branches、commits、PR'},
+    mention:{name:'@提及',g:['（無全域開關）','Browse users and groups（全域）','留言框輸入 @'],ok:'@ 得到全站使用者',nog1:true}
+  };
+  const btns=$$('#s237-feat button'); const g=[ $('#s237-g1'), $('#s237-g2'), $('#s237-g3') ];
+  function render(){
+    const f=F[btns.find(b=>b.classList.contains('on')).dataset.f];
+    g[0].disabled=!!f.nog1; if(f.nog1) g[0].checked=true;
+    $$('label.check',lab).forEach(l=>{const i=l.querySelector('input'); l.classList.toggle('on',i.checked); l.style.opacity=i.disabled?.5:1;});
+    const on=g.map(x=>x.checked);
+    for(let i=0;i<3;i++){ $('#s237-t'+(i+1)).textContent=f.g[i]; const box=$('#s237-b'+(i+1)+' rect'); box.setAttribute('class','box '+(on[i]?'green':'rose')); }
+    const ok=on.every(Boolean); const res=$('#s237-res rect'); res.setAttribute('class','box '+(ok?'green':'rose'));
+    $('#s237-rt').textContent = ok ? '✓ '+f.ok : '✗ 做不到';
+    const firstOff=on.findIndex(x=>!x);
+    $('#s237-msg').textContent = ok ? `${f.name}：三道關卡都通過。三者是 AND，少一道就不行。`
+      : `${f.name}：卡在關卡 ${['①全域開關','②Project 權限','③畫面欄位／入口'][firstOff]}——${f.g[firstOff]}。排查順序就是 ① → ② → ③。`;
+    if(window.springPop) window.springPop($('#s237-res'));
+  }
+  btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');render();}));
+  g.forEach(x=>x.addEventListener('change',render));
+  render();
+})();
+</script>
+</body>
+</html>

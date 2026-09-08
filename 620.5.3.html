@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.5.3 讀懂 Agile 報表｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#map">哪個 board 有哪些報表</a>
+    <a href="#picker">問題 → 報表 選擇器</a>
+    <a href="#sprint">Sprint 三兄弟</a>
+    <a href="#burnup">Burnup：scope creep</a>
+    <a href="#epic">Epic、Version 報表</a>
+    <a href="#control">Control chart</a>
+    <a href="#cfd">Cumulative flow diagram</a>
+    <a href="#analysis">Issue analysis 報表</a>
+    <a href="#scale">Agile at scale</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.5 Reporting（19%）/ 620.5.3</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.5.3 · Analyze information from agile reports and issue analysis reports</div>
+<h1>讀懂 Agile 報表</h1>
+<p class="lead">這一節不考「怎麼開報表」，考「這張圖在說什麼」：紅線往上是什麼意思、藍帶變寬代表什麼、預測還要幾個 sprint 是怎麼算的。九份官方報表頁全部讀完，每張報表整理成「看什麼 → 怎麼讀 → 常見誤讀」。</p>
+<div class="term">術語：考試用 issue／project；官方報表頁現已改稱 work item／space。本頁沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>兩條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understand the use cases for each Agile report in both scrum and Kanban boards</td><td>「Kanban 團隊想看 cycle time，用哪張？」「哪些報表 Kanban 沒有？」「想預測 epic 還要幾個 sprint，用哪張？」</td></tr>
+<tr><td>Understand how to interpret data provided on the Agile reports</td><td>「Burnup 紅線中途往上跳代表？」「Sprint report 裡的星號？」「Control chart 的藍帶變寬？」「CFD 某一色帶越來越寬？」</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Map ============ -->
+<section id="map">
+<div class="section-label">總覽</div>
+<h2>哪個 board 有哪些報表（官方 Generate a report）</h2>
+<p>入口：project 側欄 <strong>Reports</strong>（先看到 project insights）→ <strong>More reports</strong> 進傳統報表目錄。CMP 有多個 board 時，報表以<strong>目前顯示的 board</strong> 為準；insights 則是整個 project 的資料。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">報表</th><th class="c" style="width:10%">Scrum</th><th class="c" style="width:10%">Kanban</th><th>範圍</th><th>一句話</th></tr>
+<tr><td>Burndown Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>剩餘工作 vs 時間，達成 sprint goal 的可能性</td></tr>
+<tr><td>Burnup Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>scope 與完成量，抓 scope creep</td></tr>
+<tr><td>Sprint Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>完成／未完成／移除清單，回顧用</td></tr>
+<tr><td>Velocity Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>每個 sprint 承諾 vs 完成，估產能</td></tr>
+<tr><td>Epic Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>epic</td><td>某 epic 的完成／未完成／未估點</td></tr>
+<tr><td>Epic Burndown</td><td class="c yes">✓</td><td class="c dash">—</td><td>epic</td><td>依 sprint 看 epic 進度並預測還要幾個 sprint</td></tr>
+<tr><td>Release Burndown</td><td class="c yes">✓</td><td class="c dash">—</td><td>version</td><td>依 sprint 看版本進度</td></tr>
+<tr><td>Version Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>version</td><td>預測版本 release 日</td></tr>
+<tr><td>Control Chart</td><td class="c yes">✓</td><td class="c yes">✓</td><td>project／version／sprint</td><td>cycle time 與可預測性</td></tr>
+<tr><td>Cumulative Flow Diagram</td><td class="c yes">✓</td><td class="c yes">✓</td><td>任意期間</td><td>各狀態數量隨時間累積，抓瓶頸</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">記法</div>Kanban 只有 <strong>Control Chart 與 CFD</strong>（沒有 sprint 就沒有 sprint 類報表）。TMP 的報表另成一套（burnup、velocity、cumulative flow 等），Sprint report、Epic report、Epic burndown 是 CMP 專屬。</div>
+</section>
+
+<!-- ============ Picker ============ -->
+<section id="picker">
+<div class="section-label">互動</div>
+<h2>問題 → 報表選擇器</h2>
+<p>點一個主管會問的問題，看該開哪張報表、看哪條線。</p>
+<div id="s253-picker" class="card">
+  <div class="chips" id="s253-qs"></div>
+  <div id="s253-ans" style="margin-top:.9rem;padding:.9rem 1rem;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-s)"></div>
+</div>
+</section>
+
+<!-- ============ Sprint ============ -->
+<section id="sprint">
+<div class="section-label">Scrum</div>
+<h2>Sprint 三兄弟：Burndown、Sprint Report、Velocity</h2>
+<div class="grid-3">
+<div class="card"><div class="eyebrow">Burndown Chart</div>
+<ul style="font-size:.9rem;margin-top:.5rem">
+<li>X＝時間、Y＝board 設定的 <strong>estimation statistic</strong>（story points／issue count／時間）</li>
+<li><strong>灰線 guideline</strong>：從 sprint 開始的總量直線降到 0；<strong>sprint 開始時沒有 issue 就不會有 guideline</strong></li>
+<li>紅線＝實際剩餘；往上跳＝scope 增加或估點調高</li>
+<li><strong>sub-task 的 story points 不計</strong>，只算 parent；若 board 用 remaining estimate and time spent，sub-task 的時間會 roll-up 到 parent，且中途加 sub-task 會顯示為 scope change</li>
+<li>只含 board filter 內的 issue；最右欄＝Done</li>
+</ul></div>
+<div class="card"><div class="eyebrow">Sprint Report</div>
+<ul style="font-size:.9rem;margin-top:.5rem">
+<li>四個清單：<strong>Completed</strong>、<strong>Not completed</strong>、<strong>Removed</strong>、<strong>Completed outside of this sprint</strong></li>
+<li><strong>星號 *</strong>＝sprint 開始後才加入的 issue</li>
+<li><strong>3 → 3.5</strong>＝sprint 中估點被改過</li>
+<li>圖：灰 guideline、紅實際、綠＝有記錄工時時的 time spent</li>
+<li>只有 CMP 有；retro 用</li>
+</ul></div>
+<div class="card"><div class="eyebrow">Velocity Chart</div>
+<ul style="font-size:.9rem;margin-top:.5rem">
+<li>每個 sprint 兩根柱：<strong>Commitment</strong>（開始時的量）vs <strong>Completed</strong></li>
+<li>拿近幾個 sprint 的 completed 平均當產能，用來規劃下一個 sprint 與做 epic／version 預測</li>
+<li>Commitment＝sprint 開始時的總估算；<strong>sprint 開始後加入的 issue 或改過的估點都不算進 commitment</strong>，但會算進 Completed</li>
+<li>Y 軸用 board 的 estimation statistic；<strong>sub-task 的估算不計</strong>；平均線＝顯示的 sprint 的 completed 平均</li>
+</ul></div>
+</div>
+</section>
+
+<!-- ============ Burnup ============ -->
+<section id="burnup">
+<div class="section-label">Scrum</div>
+<h2>Burnup：紅線往上就是 scope creep</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 340" role="img" aria-label="Burnup chart 示意：work scope 紅線中途上升，completed 綠線逐步上升，guideline 灰線">
+  <defs><marker id="s253-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標註解：繪圖區 x 80..820，y 40..280（原點左下 80,280）；X 軸 10 天每格 74；Y 軸 0..40 點，每點 6px（40 點＝y40） -->
+  <line x1="80" y1="280" x2="820" y2="280" class="ln"/><line x1="80" y1="280" x2="80" y2="40" class="ln"/>
+  <text x="490" y="312" text-anchor="middle" class="s">Sprint 天數（Day 1 → Day 10）</text>
+  <text x="30" y="160" text-anchor="middle" class="s" transform="rotate(-90 30 160)">Story points</text>
+  <text x="70" y="284" text-anchor="end" class="s">0</text><text x="70" y="164" text-anchor="end" class="s">20</text><text x="70" y="44" text-anchor="end" class="s">40</text>
+  <!-- guideline：0 → 30 點（scope 30）直線 (80,280)→(820,100) -->
+  <path d="M80,280 L820,100" class="ln" stroke-dasharray="6 5"/>
+  <!-- scope 紅線：30 點到 Day 5，跳到 38 點 -->
+  <path d="M80,100 H376 V52 H820" stroke="var(--rose)" stroke-width="3" fill="none"/>
+  <!-- completed 綠線：階梯上升到 26 點 -->
+  <path d="M80,280 H154 V262 H228 V232 H302 V214 H376 V184 H450 V166 H524 V148 H598 V136 H672 V124 H746 V124 H820" stroke="var(--green)" stroke-width="3" fill="none"/>
+  <!-- 標註 -->
+  <rect x="392" y="60" width="200" height="30" rx="6" class="box rose"/><text x="492" y="80" text-anchor="middle" class="lbl b no">Day 5 加了 8 點 → scope creep</text>
+  <path d="M392,75 H380" class="ln" marker-end="url(#s253-arr)"/>
+  <text x="838" y="56" class="lbl b no">Scope 38</text>
+  <text x="838" y="128" class="lbl b yes">Done 26</text>
+  <text x="838" y="104" class="s">Guideline</text>
+  <text x="490" y="330" text-anchor="middle" class="s">紅綠兩線的距離＝剩餘工作；兩線交會＝sprint 完成；紅線中途往上＝有人在 sprint 中加工作</text>
+</svg>
+<div class="cap">圖 1　Burnup 比 burndown 多的一件事：把「scope 變了」和「做完了多少」分開畫，所以能一眼看出 scope creep。sub-task 的點數同樣不計。</div>
+</div>
+</section>
+
+<!-- ============ Epic / Version ============ -->
+<section id="epic">
+<div class="section-label">Scrum</div>
+<h2>Epic 與 Version 的兩對報表</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%">報表</th><th>看什麼</th><th>怎麼讀</th></tr>
+<tr><td>Epic Report</td><td>某 epic 在某時點的 <strong>完成／未完成／未估點</strong> 清單與進度線</td><td>依 board 欄位判定 Done；story points 或 issue count 兩種視角；CMP Scrum 專屬</td></tr>
+<tr><td>Epic Burndown</td><td>依 sprint 排的柱狀：淺綠＝該 sprint 完成、淺藍＝原估剩餘、<strong>深藍＝sprint 中加入的 scope</strong>、灰＝預測的未來 sprint</td><td><strong>預測＝剩餘 ÷ 近三個 sprint 的 velocity</strong>（例：剩 12 點、每 sprint 2 點 → 還要 6 個）；目前 sprint 只有在完成量已超過預測時才計入；<strong>未估點超過 30% 會警告</strong>，預測不可信</td></tr>
+<tr><td>Release Burndown</td><td>同上，但以 version 為範圍（Jira 沒有 release 實體，version 就是 release）</td><td>同樣用<strong>近三個 sprint 的 velocity</strong>預測（velocity 不含 scope change，但總剩餘量含）；未估點超過 30% 標紅；<strong>未對應到 column 的 status 完全不計</strong>；只在 CMP Scrum board</td></tr>
+<tr><td>Version Report</td><td>版本的完成趨勢線與<strong>預測 release 日</strong></td><td>三條預測：藍線＝依平均日進度；樂觀（左灰帶）＝平均速度 <strong>+10%</strong>；悲觀（右灰帶）＝<strong>−10%</strong>。<strong>版本估算工作要先完成 10%</strong> 才會出現預測；不含 sub-task；只在 CMP Scrum board；受 board 的 working days 設定影響（620.2.6）</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">「原估」與「scope」的分界</div>在 epic 開工前就估好的算 original estimate；開工後才加進來、或加進來後又改估點的，算 scope。考題喜歡問深藍段是什麼。</div>
+<div class="callout"><div class="t">Version report 與 Release burndown 的四個官方細節</div>
+<ul style="margin:.3rem 0 0">
+<li><strong>Version report 排除 sub-task 類型</strong>，而且<strong>顯示 Released 版本、不顯示 Archived 版本</strong>；它是 board-specific（只含 board saved filter 的工作），To Do／Done 依 board 的<strong>最左／最右欄</strong>判定。</li>
+<li>Version report <strong>要先完成該版本估算工作的 10%</strong> 才算得出預測；藍線是預測日，樂觀＝平均日速度 +10%、悲觀＝ −10%。</li>
+<li><strong>Release burndown：status 沒有對應到任何 column 的工作「完全不列入」</strong>——不進 sprint bar、不算進 % unestimated、也不算 remaining story points。「報表少了一批卡」先查 unmapped status。</li>
+<li>Release burndown 的預測用<strong>近三個 sprint 的完成量</strong>；<strong>scope change 不列入這個 velocity 計算，但列入總剩餘量</strong>；未估點超過 <strong>30%</strong> 時標紅，預測不可靠。（此 velocity 與 Velocity Chart 的定義不同。）</li>
+</ul>
+<div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-version-report/">Version report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-release-burndown-report/">Release burndown report</a>（2026-09-08 查核）</div></div>
+</section>
+
+<!-- ============ Control chart ============ -->
+<section id="control">
+<div class="section-label">Scrum ＋ Kanban</div>
+<h2>Control chart：cycle time 與可預測性</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 340" role="img" aria-label="Control chart 示意：每個點是一張 issue 的 cycle time，藍線 rolling average，藍帶標準差，右側一個離群點">
+  <defs><marker id="s253-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標註解：繪圖區 x 80..820，y 40..280；Y＝天數 0..20（每天 12px）；標準差帶用多邊形，平均線在帶中央 -->
+  <line x1="80" y1="280" x2="820" y2="280" class="ln"/><line x1="80" y1="280" x2="80" y2="40" class="ln"/>
+  <text x="490" y="312" text-anchor="middle" class="s">Issue 離開所選狀態的日期（時間 →）</text>
+  <text x="30" y="160" text-anchor="middle" class="s" transform="rotate(-90 30 160)">Cycle time（天）</text>
+  <text x="70" y="284" text-anchor="end" class="s">0</text><text x="70" y="164" text-anchor="end" class="s">10</text><text x="70" y="44" text-anchor="end" class="s">20</text>
+  <!-- 標準差帶（上緣／下緣） -->
+  <path d="M100,196 L250,190 L400,186 L550,192 L700,186 L800,180 L800,240 L700,238 L550,236 L400,236 L250,238 L100,244 Z" fill="var(--brand-soft)" opacity=".8"/>
+  <!-- rolling average -->
+  <path d="M100,220 L250,214 L400,211 L550,214 L700,212 L800,210" stroke="var(--brand)" stroke-width="3" fill="none"/>
+  <!-- 資料點 -->
+  <g fill="var(--ink-3)">
+    <circle cx="110" cy="232" r="5"/><circle cx="140" cy="205" r="5"/><circle cx="175" cy="226" r="5"/><circle cx="210" cy="198" r="5"/><circle cx="245" cy="220" r="5"/>
+    <circle cx="280" cy="208" r="5"/><circle cx="315" cy="230" r="5"/><circle cx="350" cy="200" r="5"/><circle cx="385" cy="214" r="5"/><circle cx="420" cy="196" r="5"/>
+    <circle cx="455" cy="224" r="5"/><circle cx="490" cy="206" r="5"/><circle cx="525" cy="218" r="5"/><circle cx="560" cy="200" r="5"/><circle cx="595" cy="228" r="5"/>
+    <circle cx="630" cy="210" r="5"/><circle cx="665" cy="222" r="5"/><circle cx="735" cy="204" r="5"/><circle cx="770" cy="216" r="5"/>
+  </g>
+  <circle cx="700" cy="76" r="6" fill="var(--rose)"/>
+  <rect x="520" y="61" width="150" height="30" rx="6" class="box rose"/><text x="595" y="81" text-anchor="middle" class="lbl b no">離群點：17 天</text>
+  <path d="M670,76 H694" class="ln" marker-end="url(#s253-arr2)"/>
+  <text x="838" y="214" class="lbl b accent">Rolling average</text>
+  <text x="838" y="184" class="s">標準差帶</text>
+  <text x="490" y="330" text-anchor="middle" class="s">帶越窄＝越可預測；平均線往下＝流程變快；離群點要點開看原因（可用 label 排除）</text>
+</svg>
+<div class="cap">圖 2　Cycle time＝在所選狀態（columns）裡待了多久；Lead time＝從建立到完成。兩者都在這張圖上，用 columns 篩選切換。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">元素</th><th>官方定義</th></tr>
+<tr><td>點</td><td>一張 issue；Y＝經過時間、X＝離開所選狀態的時間</td></tr>
+<tr><td>藍線 rolling average</td><td><strong>依 issue 數計算，不是依時間</strong>：每個 issue 取自己加前後各 X 個 issue 的平均，X＝顯示總數的 20%，最少 5、永遠取奇數。這樣離群點不會把整條線拉歪</td></tr>
+<tr><td>藍帶</td><td>標準差：實際值相對 rolling average 的變異量</td></tr>
+<tr><td>可調</td><td>Columns（要算哪些狀態）、Filters／Quick filters、Swimlanes、Timeframe、<strong>Non-working days</strong>（排除週末假日）</td></tr>
+<tr><td>用途</td><td>retro 看流程改善有沒有效、給利害關係人看、<strong>Kanban 團隊設定目標</strong>、找出無效離群點</td></tr>
+</table></div>
+</section>
+
+<!-- ============ CFD ============ -->
+<section id="cfd">
+<div class="section-label">Scrum ＋ Kanban</div>
+<h2>Cumulative flow diagram：色帶變寬的地方就是瓶頸</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 340" role="img" aria-label="CFD 示意：To do、In review、In progress、Done 四層堆疊面積，In review 帶越來越寬">
+  <!-- 座標註解：繪圖區 x 80..820，y 40..280；四層由下而上 Done、In progress、In review、To do；每層上緣為折線 -->
+  <line x1="80" y1="280" x2="820" y2="280" class="ln"/><line x1="80" y1="280" x2="80" y2="40" class="ln"/>
+  <text x="490" y="312" text-anchor="middle" class="s">時間 →</text>
+  <text x="30" y="160" text-anchor="middle" class="s" transform="rotate(-90 30 160)">累積 issue 數</text>
+  <!-- To do 上緣（總量）：持續上升 -->
+  <path d="M80,250 L200,220 L320,190 L440,160 L560,130 L680,100 L820,70 L820,280 L80,280 Z" fill="var(--chip)"/>
+  <!-- In review 上緣 -->
+  <path d="M80,262 L200,240 L320,222 L440,206 L560,190 L680,176 L820,160 L820,280 L80,280 Z" fill="var(--amber-soft)"/>
+  <!-- In progress 上緣 -->
+  <path d="M80,268 L200,252 L320,240 L440,232 L560,224 L680,220 L820,214 L820,280 L80,280 Z" fill="var(--brand-soft)"/>
+  <!-- Done 上緣 -->
+  <path d="M80,274 L200,264 L320,256 L440,250 L560,244 L680,240 L820,236 L820,280 L80,280 Z" fill="var(--green-soft)"/>
+  <!-- 圖例 -->
+  <rect x="838" y="60" width="14" height="14" fill="var(--chip)"/><text x="858" y="72" class="s">To do</text>
+  <rect x="838" y="84" width="14" height="14" fill="var(--amber-soft)"/><text x="858" y="96" class="s">In review</text>
+  <rect x="838" y="108" width="14" height="14" fill="var(--brand-soft)"/><text x="858" y="120" class="s">In progress</text>
+  <rect x="838" y="132" width="14" height="14" fill="var(--green-soft)"/><text x="858" y="144" class="s">Done</text>
+  <!-- 瓶頸標註：In review 帶在右側變寬（y 160..214） -->
+  <line x1="760" y1="166" x2="760" y2="208" stroke="var(--amber)" stroke-width="3"/>
+  <rect x="560" y="52" width="180" height="30" rx="6" class="box amber"/><text x="650" y="72" text-anchor="middle" class="lbl b">In review 帶越來越寬</text>
+  <path d="M650,82 V182" class="ln" stroke-dasharray="4 4"/>
+  <text x="490" y="330" text-anchor="middle" class="s">帶的垂直厚度＝當時在該狀態的數量；某一帶隨時間變厚＝進得多出得少＝瓶頸</text>
+</svg>
+<div class="cap">圖 3　CFD 是<strong>累積</strong>圖：進過 To do 的數字不會因為往前走而減少，只有新進來才會增加。Done 帶的上升斜率＝throughput。</div>
+</div>
+<ul>
+<li>只含 board filter 內的 issue；顏色對應 board 的 columns。</li>
+<li>Refine report 可加 filter；期間用下拉或拖曳下方 Overview。</li>
+<li>官方提醒：CFD 看的是累積 throughput，不等於傳統「同時進行中」的 WIP 數字——判讀時分清「帶在變厚」和「整體在上升」。</li>
+<li>CFD 依<strong>日曆日</strong>，不受 working days 設定影響（Burndown、Sprint／Epic／Version report、Control chart 才受影響，見 620.2.6）。</li>
+</ul>
+<div class="callout exam"><div class="t">讀值練習：累積上界 ≠ 該欄當下的卡數</div>
+CFD 是<strong>堆疊面積圖</strong>，每條線是「累積上界」，某個狀態的實際件數要看<strong>色帶厚度</strong>（相鄰兩條線的差）。
+<p style="margin:.5rem 0 .2rem">由下往上堆 Done → In Progress → To Do，目前 Done 0 件、In Progress 2 件、To Do 6 件（合計 8）：</p>
+<div class="tbl-wrap"><table class="tbl" style="font-size:.9rem">
+<tr><th>讀哪一個</th><th>Done</th><th>In Progress</th><th>To Do</th></tr>
+<tr><td>累積線高度（上界）</td><td>0</td><td>2</td><td><strong>8</strong></td></tr>
+<tr><td>色帶厚度＝該狀態件數</td><td>0</td><td>2 − 0 ＝ <strong>2</strong></td><td>8 − 2 ＝ <strong>6</strong></td></tr>
+</table></div>
+<p style="margin:.4rem 0 0">題目問「線的高度」讀上界，問「現在有幾件在這個狀態」讀厚度。<strong>某色帶持續變厚＝該階段累積</strong>，要查流入流出、等待原因與 WIP，不能直接說某人偷懶，也不能調高 WIP limit 把警示藏起來。用 quick filter 只看某團隊時，要知道被篩掉的是哪些工作，別把局部色帶當成整個 board 的總量。</p>
+<div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/">Cumulative flow diagram</a></div></div>
+</section>
+
+<!-- ============ Analysis ============ -->
+<section id="analysis">
+<div class="section-label">Issue analysis</div>
+<h2>非 board 的報表（Reports → More reports）</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:28%">報表</th><th>看什麼</th></tr>
+<tr><td>Average Age Report</td><td>未解決 issue 的平均年齡</td></tr>
+<tr><td>Created vs Resolved Issues</td><td>建立 vs 解決，backlog 漲跌</td></tr>
+<tr><td>Pie Chart Report</td><td>依欄位分組的比例</td></tr>
+<tr><td>Recently Created Issues</td><td>建立與解決速率</td></tr>
+<tr><td>Resolution Time Report</td><td>解決耗時</td></tr>
+<tr><td>Single Level Group By Report</td><td>filter 結果依一個欄位分組列出；<strong>上限 1,000 筆</strong></td></tr>
+<tr><td>Time Since Issues</td><td>依某日期欄位看活動</td></tr>
+<tr><td>Time Tracking Report</td><td>依版本看估計 vs 實際；<strong>需 Jira admin 啟用 time tracking</strong></td></tr>
+<tr><td>User Workload Report</td><td>每人手上的未完成工時</td></tr>
+<tr><td>Version Workload Report</td><td>某版本各人／各 issue 的剩餘工作</td></tr>
+<tr><td>Workload Pie Chart Report</td><td>依 assignee 的工作量比例</td></tr>
+</table></div>
+<p class="kicker" style="margin-top:.5rem">另有給 Confluence 用的 Change Log 與 Status Report；更多報表在 Marketplace。</p>
+</section>
+
+<!-- ============ Scale ============ -->
+<section id="scale">
+<div class="section-label">Domain 導言的最後一句</div>
+<h2>Agile at scale：project admin 要能給建議的工具</h2>
+<p>620.5 導言：project admin「may also be called upon to provide input on Atlassian tools to enable scaled agile including <strong>Advanced Roadmaps</strong> and <strong>Jira Align</strong>」。考的是知道<strong>哪個問題該用哪個工具</strong>，不考操作。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">需求</th><th style="width:30%">工具</th><th>備註</th></tr>
+<tr><td>單一 project 的 epic 時程與依賴</td><td>Timeline（Roadmap）</td><td>620.3.3；免費方案就有</td></tr>
+<tr><td>跨多個 project／團隊的計畫、容量、情境模擬</td><td>Plans（前身 Advanced Roadmaps）</td><td>Jira Premium／Enterprise；可跨 board、跨 project 建 plan，加 Initiative 等更高層級</td></tr>
+<tr><td>企業級 portfolio、OKR 對齊、多個 Jira 站台</td><td>Jira Align</td><td>另一個產品，給大型組織的 SAFe／LeSS 等框架用</td></tr>
+<tr><td>跨 project 的 board 與 dashboard</td><td>saved filter 跨 project 建 board（620.2.2）、dashboard 用跨 project filter</td><td>不需付費方案</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>Kanban 團隊想知道「一張卡從開始做到完成平均要幾天」。</summary><div class="a"><div class="tag">解答</div>Control Chart，columns 選 In progress 到 Done 之間的狀態，看 rolling average。</div></details>
+<details class="q"><summary>Burnup 的紅線在 Day 5 突然往上，Day 8 又往上。</summary><div class="a"><div class="tag">解答</div>Sprint 中兩次加入工作（scope creep）。紅線是 work scope，綠線才是完成量。</div></details>
+<details class="q"><summary>Sprint report 裡某張 issue 前面有星號、估點寫 3 → 5。</summary><div class="a"><div class="tag">解答</div>星號＝sprint 開始後才加入；3 → 5＝sprint 中估點被改過。</div></details>
+<details class="q"><summary>Burndown 沒有灰色 guideline。</summary><div class="a"><div class="tag">解答</div>Sprint 開始時 board 上沒有任何 issue（先開 sprint 才拉 issue 進去）。</div></details>
+<details class="q"><summary>PM 給 sub-task 估了 story points，但 burndown 總量沒變。</summary><div class="a"><div class="tag">解答</div>正常：sub-task 的 story points 不計入 burndown／burnup／sprint report，只算 parent。</div></details>
+<details class="q"><summary>Epic burndown 預測還要 6 個 sprint，是怎麼算的？可信嗎？</summary><div class="a"><div class="tag">解答</div>剩餘 ÷ 近三個 sprint 的平均 velocity。若未估點的 issue 超過 30%，報表會警告預測不可信。</div></details>
+<details class="q"><summary>Epic burndown 某個 sprint 的柱子有一段深藍。</summary><div class="a"><div class="tag">解答</div>該 sprint 中加入的 scope（開工後才加進 epic 或被改估點的工作）。</div></details>
+<details class="q"><summary>CFD 上 In review 的色帶三週來越來越厚。</summary><div class="a"><div class="tag">解答</div>In review 是瓶頸：進來的比出去的多，卡在等 review。</div></details>
+<details class="q"><summary>Control chart 的藍帶最近變得很寬。</summary><div class="a"><div class="tag">解答</div>cycle time 變異變大、可預測性下降；找離群點看原因，必要時用 label 或 JQL 排除無效資料。</div></details>
+<details class="q"><summary>Control chart 的 rolling average 是「過去 7 天平均」嗎？</summary><div class="a"><div class="tag">解答</div>不是。它依 issue 數計算：每點取前後各 X 個 issue，X 是總數的 20%（最少 5，取奇數）。</div></details>
+<details class="q"><summary>想看某版本預計哪天能 release。</summary><div class="a"><div class="tag">解答</div>Version Report（或 Release Burndown 看還要幾個 sprint）；預測受 working days 影響。</div></details>
+<details class="q"><summary>CMP 有三個 board，開 Sprint report 卻看到別的 sprint。</summary><div class="a"><div class="tag">解答</div>報表以目前顯示的 board 為準，先切到正確的 board 再開報表。</div></details>
+<details class="q"><summary>跨五個 project 做容量規劃與情境模擬，該建議哪個工具？</summary><div class="a"><div class="tag">解答</div>Plans（Advanced Roadmaps，Premium）；企業級多站台 portfolio 才是 Jira Align；單一 project 用 Timeline 就夠。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「Kanban 也有 burndown」</td><td>Kanban 只有 Control chart 與 CFD。</td></tr>
+<tr><td>「Burnup 紅線是完成量」</td><td>紅線是 scope，綠線才是完成。</td></tr>
+<tr><td>「Sub-task 估點會算進 sprint 報表」</td><td>不算（只有 time tracking 模式下的時間會 roll-up）。</td></tr>
+<tr><td>「Rolling average 是依時間窗算」</td><td>依 issue 數：20%、最少 5、奇數。</td></tr>
+<tr><td>「CFD 的帶厚度就是 WIP」</td><td>是當時在該狀態的累積數；官方提醒與傳統 WIP 概念不同，看「變厚」不是看絕對值。</td></tr>
+<tr><td>「Epic burndown 用全部歷史 velocity 預測」</td><td>用近三個 sprint。</td></tr>
+<tr><td>「Working days 影響所有報表」</td><td>影響 Burndown、Sprint／Epic／Version report、Control chart；CFD 按日曆日。</td></tr>
+<tr><td>「Advanced Roadmaps 是免費的 Timeline」</td><td>Timeline 免費但單一 project；Plans（Advanced Roadmaps）是 Premium 的跨 project 規劃。</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（45 分鐘）</div>
+<h2>製造一個「有故事」的 sprint，再讀報表</h2>
+<ol>
+<li>開一個兩週 sprint，放 6 張有估點的 story。Day 3 加兩張、Day 6 把一張估點 3 改 5、Day 8 移除一張。</li>
+<li>看 Burnup：紅線兩次往上；看 Sprint report：星號與 3 → 5；看 Burndown：guideline 與跳動。</li>
+<li>給 sub-task 估點，確認三張報表都不變。</li>
+<li>Kanban board 上讓一張卡在 In review 停 5 天：看 Control chart 的離群點與藍帶；看 CFD 的 In review 帶變厚。</li>
+<li>Board settings → Working days 拿掉週末，比較 Version report 與 CFD 哪個變、哪個不變。</li>
+<li>Epic 掛 10 張 story，只估 5 張，開 Epic burndown 看 30% 警告。</li>
+<li><strong>用一個最小 sprint 對出 Velocity 的兩個欄位</strong>：建 5 點與 3 點兩張 Story，sprint 開始前加入（<strong>Commitment ＝ 8</strong>）→ 把 5 點移到最右欄 Done → 開始後再加一張 2 點（scope 升到 10、Sprint report 標星號）→ 把 2 點也完成、3 點留著 → 結束 sprint。
+預期 <strong>Commitment 8、Completed 7</strong>（5＋2），未完成的 3 點回 backlog 或下一期。<strong>Completed 可以大於 Commitment</strong>（期間加入又完成），不是算錯。</li>
+<li>對照 Sprint report 的逐筆清單解釋 8 與 7 的差，再看 Control chart 並記下所選欄位、期間與樣本數——短測試只能驗證「納入哪些欄位」，不足以證明 cycle time 趨勢。</li>
+</ol>
+<div class="callout"><div class="t">來源（本頁實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/">Generate a report</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/">Burndown chart</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burnup-chart/">Burnup chart</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-sprint-report/">Sprint report</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-epic-report/">Epic report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-epic-burndown-report/">Epic burndown report</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/">Velocity chart</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-release-burndown-report/">Release burndown report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-version-report/">Version report</a>（QA 補讀）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-control-chart/">Control chart</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/">Cumulative flow diagram</a></li>
+<li>Free Course: Jira Reporting Basics（university.atlassian.com）——<strong>已轉址到 community.atlassian.com/learning，未讀</strong></li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 20 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.5.3"></div>
+</section>
+
+<div class="footer-nav"><a href="620.5.2.html">← 620.5.2 Dashboards 與 gadgets</a><a href="index.html">回首頁 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.5.3 問題→報表選擇器（id 一律 s253- 前綴） */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const Q=[
+    ['這個 sprint 做得完嗎？','Burndown Chart','紅線是否貼著灰 guideline；紅線往上跳＝scope 或估點變了','Scrum'],
+    ['sprint 中有沒有人偷加工作？','Burnup Chart','紅線（scope）中途往上就是；綠線是完成量','Scrum'],
+    ['retro 要看哪些沒做完、哪些是中途加的？','Sprint Report','四個清單；星號＝後加，3 → 5＝改估點','Scrum'],
+    ['下個 sprint 能承諾多少？','Velocity Chart','近幾個 sprint 的 Completed 平均','Scrum'],
+    ['這個 epic 還要幾個 sprint？','Epic Burndown','剩餘 ÷ 近三個 sprint velocity；未估點 >30% 會警告；深藍＝scope added','Scrum（CMP）'],
+    ['版本哪天能 release？','Version Report／Release Burndown','趨勢線預測；受 working days 影響','Scrum'],
+    ['一張卡平均要幾天？流程穩不穩？','Control Chart','rolling average 與藍帶；帶窄＝可預測；離群點點開看','Scrum ＋ Kanban'],
+    ['哪個狀態是瓶頸？','Cumulative Flow Diagram','哪一色帶隨時間變厚；Done 帶斜率＝throughput','Scrum ＋ Kanban'],
+    ['backlog 是在累積還是消化？','Created vs Resolved（issue analysis）','兩條線是否交叉；也可放到 dashboard','任何 project'],
+    ['某個 epic 現在完成多少、多少沒估點？','Epic Report','完成／未完成／未估點三段','Scrum（CMP）']
+  ];
+  const qs=$('#s253-qs'), ans=$('#s253-ans');
+  Q.forEach((q,i)=>{const b=document.createElement('button');b.className='btn ghost sm';b.textContent=q[0];b.addEventListener('click',()=>show(i,b));qs.appendChild(b);});
+  function show(i,btn){
+    $$('button',qs).forEach(x=>x.classList.add('ghost')); btn.classList.remove('ghost');
+    const q=Q[i];
+    ans.innerHTML=`<div class="kicker">問題</div><div style="font-weight:700;margin-bottom:.4rem">${q[0]}</div><div class="chips"><span class="chip brand">報表：${q[1]}</span><span class="chip teal">${q[3]}</span></div><p style="margin:.6rem 0 0;font-size:.92rem">怎麼讀：${q[2]}</p>`;
+    window.springPop&&window.springPop(ans);
+  }
+  show(0,$('button',qs));
+})();
+</script>
+</body>
+</html>

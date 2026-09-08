@@ -1,0 +1,1245 @@
+[
+ {
+  "id": "620.4.1-001",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "團隊希望每週一收到一封「未完成工作清單」的 email，但不需要修改任何資料。最省事的做法？",
+  "options": [
+   "為 saved filter 設定 filter subscription",
+   "用 Bulk Move 把 issue 搬到報表 project",
+   "用 automation 的 Delete issue action",
+   "每週手動匯出 CSV"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "Filter subscription 依排程寄出查詢結果，正好是「定期通知、不改資料」。",
+   "B": "Bulk Move 會搬動資料，不符合需求。",
+   "C": "刪除資料與需求相反。",
+   "D": "可行但不是自動化。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/save-your-search-as-a-filter/"
+  ],
+  "tags": [
+   "filter-subscription",
+   "自動化手段"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.1-002",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "使用者已獲得 Make bulk changes 全域權限，就能批次編輯站台上任何 issue 嗎？",
+  "options": [
+   "可以，全域權限涵蓋所有 project",
+   "不行，每張 issue 仍需該 project 對應的權限（例如 Edit Issues）",
+   "可以，只要知道 issue key",
+   "不行，還需要 Administer Jira"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "全域權限只開啟「批次操作」這個入口。",
+   "B": "官方：bulk change 需要 Make bulk changes 全域權限，並且對每張 issue 具備該操作的 project 權限。",
+   "C": "Key 不是權限。",
+   "D": "Administer Jira 不是 bulk change 的條件。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/"
+  ],
+  "tags": [
+   "bulk-change",
+   "權限"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.1-003",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "在 Bulk Edit 畫面找不到 Resolution 欄位，想批次設定 Resolution 應該怎麼做？",
+  "options": [
+   "把 Summary 改成 Fixed",
+   "請 Jira admin 加大 bulk 上限",
+   "改用 Bulk Transition，透過合適的 workflow transition 設定 Resolution",
+   "把 Resolution 欄位從 field configuration 刪除再加回"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "官方：Resolution 不能 bulk edit，需透過 transition（transition screen 或 post function）設定。",
+   "D": "破壞設定且無效。",
+   "A": "Summary 不是 Resolution。",
+   "B": "上限與欄位可編輯性無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/"
+  ],
+  "tags": [
+   "bulk-edit",
+   "resolution"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.1-004",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "轉換狀態前必須檢查使用者輸入的欄位是否有效（例如必填），該用哪個 workflow 元件？",
+  "options": [
+   "Post function",
+   "Condition",
+   "Filter subscription",
+   "Validator"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "Validator 在使用者按下 transition 後檢查輸入，失敗則擋住轉換並顯示錯誤。",
+   "A": "Post function 在轉換完成後執行，不能擋。",
+   "B": "Condition 決定按鈕是否顯示，不檢查輸入。",
+   "C": "與 workflow 無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/"
+  ],
+  "tags": [
+   "validator",
+   "workflow"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.1-005",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "用 bulk change 補上 label 後，隔天新建的第四張 issue 沒有這個 label。原因？",
+  "options": [
+   "Bulk change 是對「當下選定集合」的一次性操作，不影響之後建立的 issue",
+   "一定是權限被撤銷了",
+   "必須新增一個 dashboard gadget 才會生效",
+   "Label 欄位被隱藏了"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "這是預期行為；要「每次新建都加」得用 automation（Issue created → Edit issue）或 post function。",
+   "B": "沒有依據。",
+   "C": "Gadget 不會修改資料。",
+   "D": "隱藏欄位會讓 bulk edit 失敗，不會影響新 issue。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/",
+   "https://support.atlassian.com/cloud-automation/docs/create-and-edit-jira-automation-rules/"
+  ],
+  "tags": [
+   "bulk-change",
+   "automation選型"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.1-006",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "想為整個群組（而不是只有自己）建立一個 filter subscription，定期把查詢結果寄給組員。需要什麼條件？",
+  "options": [
+   "Make bulk changes 全域權限",
+   "Manage group filter subscriptions 全域權限；且組員只會收到自己有權看到的 issue",
+   "只要是 filter 的擁有者就可以，收件者會看到完整結果",
+   "Administer Jira 全域權限，否則無法建立任何訂閱"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "官方 What are global permissions：「Manage group filter subscriptions — Users with this permission can create and delete group filter subscriptions.」而 Share dashboards and filters 一項也載明分享對象仍須「have permission to view it」，因此訂閱不會繞過資料權限。",
+   "C": "擁有者可以建立給自己的訂閱，但群組訂閱另需 Manage group filter subscriptions；且收件者看得到多少仍受 Browse Projects 與 issue security 限制。",
+   "D": "Administer Jira 不是建立訂閱的條件，群組訂閱有自己的全域權限。",
+   "A": "Make bulk changes 管的是批次編輯／搬移／刪除，與訂閱無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-global-permissions-and-what-do-they-do/",
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
+  ],
+  "tags": [
+   "filter-subscription",
+   "global-permission"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.1-007",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "Company-managed project 共用的 workflow，Done transition 要自動設定 Resolution。合理做法？",
+  "options": [
+   "只把 board 的 Done column 改名",
+   "請每個人手動填 Resolution",
+   "與 Jira admin 在測試用 workflow 驗證 Update Issue Field post function，確認影響範圍後再發布",
+   "自行移除所有必要的 post function 後重新排列"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "共用 workflow 改一次影響所有引用的 project；post function 由 Jira admin 設定，且應先驗證。",
+   "D": "五個必要 post function 不可刪除。",
+   "A": "改 column 名稱不會設定 Resolution。",
+   "B": "不是自動化。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/"
+  ],
+  "tags": [
+   "post-function",
+   "resolution",
+   "共用workflow"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.1-008",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "下列哪一個欄位「不能」用 Bulk Edit 修改？",
+  "options": [
+   "Fix Version",
+   "Priority",
+   "Labels",
+   "Description"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "Priority 可以 bulk edit。",
+   "C": "Labels 可以 bulk edit（可加入或取代）。",
+   "D": "官方 Edit multiple work items 的 Unavailable operations：Attachments、Summary、Description、Environment、Project、Resolution 與 Time Tracking 欄位不能 bulk edit。",
+   "A": "Fix Version 可以 bulk edit（限同一 project）。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
+  ],
+  "tags": [
+   "bulk-edit",
+   "欄位限制"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.1-009",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "Bulk change 一次最多可以處理多少張 issue？",
+  "options": [
+   "1,000",
+   "沒有上限",
+   "100",
+   "500"
+  ],
+  "answer": "A",
+  "explain": {
+   "C": "100 太少。官方 Edit multiple work items：「You can only edit 1000 work items at once.」",
+   "D": "500 太少，官方明列的一次上限是 1,000 張。",
+   "A": "官方：一次 bulk operation 最多 1,000 張；超過要分批。",
+   "B": "有上限；官方明列一次最多 1,000 張，超過要分批。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
+  ],
+  "tags": [
+   "bulk-change",
+   "上限"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.1-010",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "每個 workflow transition 預設有幾個「必要」post function？它們可以刪除或重新排序嗎？",
+  "options": [
+   "3 個，可以刪除",
+   "5 個，不可刪除也不可重排，只能在其間插入其他 post function",
+   "5 個，可以刪除但不可重排",
+   "沒有必要的 post function"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "數量與可刪性都錯。",
+   "B": "官方 advanced workflows：Set issue status、Add comment、Update change history、Re-index、Fire event 五個必要 post function，不可刪除或移動。",
+   "C": "不可刪除。",
+   "D": "有五個。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/"
+  ],
+  "tags": [
+   "post-function",
+   "必要項"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.1-011",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "團隊想在 issue 每次轉到 In Review 時自動指派給 reviewer，並希望「同步、可靠、不受 automation 配額影響」。最適合？",
+  "options": [
+   "Bulk change",
+   "Filter subscription",
+   "Workflow post function（Assign to…／Update Issue Field）",
+   "Scheduled automation 每分鐘掃描"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "Post function 在 transition 當下同步執行，不占 automation 用量；適合每次轉換都要做的事。",
+   "D": "排程掃描有延遲又浪費配額。",
+   "A": "一次性操作。",
+   "B": "只會寄信。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/",
+   "https://support.atlassian.com/cloud-automation/docs/create-and-edit-jira-automation-rules/"
+  ],
+  "tags": [
+   "自動化選型",
+   "post-function"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.1-012",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "Bulk change 時勾選取消「Send mail for this update」的目的？",
+  "options": [
+   "加快執行速度",
+   "繞過 project 權限",
+   "讓變更不寫入 history",
+   "避免批次修改對 watcher 與 assignee 造成大量通知"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方提供此選項以避免通知轟炸。",
+   "A": "與速度無關。",
+   "B": "不能繞過權限。",
+   "C": "History 照常記錄。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
+  ],
+  "tags": [
+   "bulk-change",
+   "通知"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.1-013",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "把一批 issue 用 Bulk Move 搬到 team-managed project，下列何者正確？",
+  "options": [
+   "目的地沒有 components／versions，這些值會遺失；status 需對應到目的地 workflow",
+   "不需要目的地的 Create 權限",
+   "Move 不需要 Make bulk changes",
+   "Components 與 versions 會原樣帶過去"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "TMP 沒有 components，versions 也不是同一物件。",
+   "A": "官方 Edit multiple work items：「Work item component and version Information isn’t retained when you move work items from company-managed to team-managed projects. Once you move the work items, this information is permanently removed.」搬到不同 workflow 時還要對應 status。",
+   "B": "搬移需要目的地 Create Issues。",
+   "C": "批次搬移仍需 Make bulk changes ＋ Move Issues。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
+  ],
+  "tags": [
+   "bulk-move",
+   "tmp"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.1-014",
+  "section": "620.4.1",
+  "domain": "620.4",
+  "stem": "下列四種手段中，哪一個最適合「當 issue 被建立時，依 component 自動指派並發 Slack 通知」？",
+  "options": [
+   "Workflow post function",
+   "Automation rule（Issue created trigger）",
+   "Filter subscription",
+   "Bulk change"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "一次性操作。",
+   "A": "Post function 綁在 transition，建立事件雖有 Create transition，但 Slack 通知等外部動作是 automation 的強項。",
+   "B": "Issue created → condition → Assign issue ＋ Send Slack message，事件驅動且能跨系統。",
+   "C": "只能寄查詢結果。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/create-and-edit-jira-automation-rules/",
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/"
+  ],
+  "tags": [
+   "自動化選型",
+   "trigger"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.2-001",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "規則需要在「新建 Bug」時才執行，該選哪個 trigger？",
+  "options": [
+   "Issue created（搭配 issue type = Bug 的 condition）",
+   "Scheduled 每分鐘掃全站",
+   "Issue deleted",
+   "Issue transitioned"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "事件驅動最精確；用 Issue fields condition 限定 Bug。",
+   "B": "排程掃描浪費配額且語意不同。",
+   "C": "是刪除事件。",
+   "D": "建立不是轉換。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/",
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-conditions/"
+  ],
+  "tags": [
+   "trigger",
+   "issue-created"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.2-002",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "Related issues condition 通過後，接著的 Edit issue action 會自動修改所有 sub-task 嗎？",
+  "options": [
+   "會",
+   "不會，condition 只做檢查；要改 sub-task 需要 branch 切換對象",
+   "只有改 Priority 時會",
+   "只有 Jira admin 建的 rule 會"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "Condition 不改變執行對象。",
+   "B": "官方：branch（For sub-tasks）才會把後續 action 的 {{issue}} 切換成每個 sub-task。",
+   "C": "欄位種類不影響上下文。",
+   "D": "與建立者無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-conditions/",
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/"
+  ],
+  "tags": [
+   "branch",
+   "related-issues-condition"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.2-003",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "在 For sub-tasks 的 branch 內，{{issue.key}} 代表什麼？",
+  "options": [
+   "所有 sub-task 的數量",
+   "parent 的 key",
+   "目前迭代到的那張 sub-task",
+   "永遠是原本觸發的 issue"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "Branch 內 {{issue}} 是當前處理的相關 issue。",
+   "D": "要取觸發的那張用 {{triggerIssue}}。",
+   "A": "數量要用 list 的 size。",
+   "B": "Parent 要用 {{issue.parent}}。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/",
+   "https://support.atlassian.com/cloud-automation/docs/jira-smart-values-issues/"
+  ],
+  "tags": [
+   "smart-value",
+   "triggerIssue"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.2-004",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "想在 Labels 欄位加一個值，同時保留既有 label。Edit issue action 該怎麼設？",
+  "options": [
+   "直接替換整個 Labels 欄位",
+   "先清空所有 Labels 再寫入",
+   "用 Comment action 加註",
+   "使用 Add／remove values 的「新增」"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方 Edit issue fields：多值欄位可選擇 add／remove，保留原集合。",
+   "A": "替換會丟掉原 label。",
+   "B": "清空後再寫入等同替換。",
+   "C": "Comment 不改欄位。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/edit-issue-fields-with-jira-automation/"
+  ],
+  "tags": [
+   "edit-issue",
+   "labels"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.2-005",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "規則在 Create issue action 之後直接接 Comment on issue（沒有 branch）。留言會加在哪張 issue？",
+  "options": [
+   "觸發 rule 的 issue",
+   "隨機一張",
+   "兩張都會",
+   "剛建立的 issue"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "要對新建 issue 操作，需進 For most recently created issue branch 或用 {{createdIssue}}。",
+   "A": "主路徑的上下文仍是 trigger issue。",
+   "B": "不是隨機。",
+   "C": "只作用在當前上下文。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/",
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/",
+   "https://support.atlassian.com/cloud-automation/docs/jira-smart-values-issues/"
+  ],
+  "tags": [
+   "createdIssue",
+   "上下文"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.2-006",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "最適合用來先驗證 smart value 輸出內容的 action？",
+  "options": [
+   "Transition issue",
+   "Log action",
+   "Send email 給全公司",
+   "Delete issue"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "Log action 會把內容寫進 audit log，可安全觀察 smart value 結果。",
+   "C": "造成不必要通知。",
+   "D": "破壞資料。",
+   "A": "無法觀察字串輸出。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/debug-an-automation-rule/",
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/"
+  ],
+  "tags": [
+   "debug",
+   "log-action"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.2-007",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "多筆 related issues 的 branch 執行順序如何？",
+  "options": [
+   "依建立時間排序",
+   "保證依 issue key 排序逐筆完成",
+   "平行執行且不保證完成順序",
+   "一定在主路徑下一步前全部結束"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "官方未提供依 key 排序的保證；branch 對多筆 issue 是平行執行。",
+   "C": "官方 branches：多個 issue 的 branch 平行執行，順序不保證；不要在分支間依賴彼此結果。",
+   "D": "branch 與主路徑的完成順序不保證，不能假設分支一定先跑完。",
+   "A": "官方未提供依建立時間排序的保證；順序不可依賴。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/"
+  ],
+  "tags": [
+   "branch",
+   "平行"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.2-008",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "Rule 的 Owner 與 Actor 有什麼差別？",
+  "options": [
+   "兩者永遠是同一人",
+   "Owner 自動取得所有 project 權限",
+   "Actor 只負責接收通知",
+   "Owner 維護規則並接收錯誤通知；Actor 是執行變更時使用的身分與權限"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方 rule actor：rule 以 actor 的權限執行；owner 是負責人與通知對象。",
+   "A": "可以不同。",
+   "B": "擁有規則不等於資料授權。",
+   "C": "相反。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/what-is-a-rule-actor/",
+   "https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/"
+  ],
+  "tags": [
+   "actor",
+   "owner"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.2-009",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "Issue updated trigger 會被下列哪個事件觸發？",
+  "options": [
+   "Summary 被編輯",
+   "Issue 被指派給別人",
+   "Issue 被連結到另一張 issue",
+   "有人記錄工時"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "編輯欄位屬於 issue updated。",
+   "B": "官方 triggers：Issue updated 不含 assign、link、log work；這些各有專屬 trigger（Issue assigned、Issue linked、Work logged）。",
+   "C": "有專屬 Issue linked trigger。",
+   "D": "有專屬 Work logged trigger。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/"
+  ],
+  "tags": [
+   "trigger",
+   "issue-updated"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.2-010",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "規則裡需要「若 priority 是 Highest 就指派給 lead，否則指派給 round robin」。用哪個 condition 結構？",
+  "options": [
+   "Advanced compare condition 不能分支",
+   "If／else block",
+   "JQL condition 兩條分開的 rule",
+   "User condition"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "If／else block 可在同一條 rule 內做分支，最多兩層巢狀。",
+   "C": "可行但重複維護兩條 rule。",
+   "D": "User condition 判斷使用者，不是 priority。",
+   "A": "Advanced compare 只能判斷，不能分支。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-conditions/"
+  ],
+  "tags": [
+   "if-else",
+   "condition"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.2-011",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "下列哪個 smart value 可取得「觸發本 rule 的 issue」的 key，即使目前在 branch 內？",
+  "options": [
+   "{{parent.key}}",
+   "{{issue.key}}",
+   "{{triggerIssue.key}}",
+   "{{createdIssue.key}}"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "Branch 內 {{issue}} 會變成相關 issue。",
+   "C": "{{triggerIssue}} 永遠指向觸發 rule 的那張。",
+   "D": "是最近建立的 issue。",
+   "A": "不是有效的頂層 smart value；parent 要寫 {{issue.parent}}。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-smart-values-issues/"
+  ],
+  "tags": [
+   "smart-value",
+   "triggerIssue"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.2-012",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "Project admin 想建一條規則同時作用於三個 project。下列何者正確？",
+  "options": [
+   "任何人都能建 global rule",
+   "Multi-project rule 只能由 Atlassian 支援建立",
+   "Project admin 可在 Project settings → Automation 建 multi-project rule",
+   "Multi-project 與 global rule 需要 Jira admin 在 Global automation 建立"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "Project settings 只能建單一 project 的 rule。",
+   "D": "官方 permissions：跨 project／global scope 的 rule 需要 Administer Jira。",
+   "A": "需要 Jira admin。",
+   "B": "不需要 Atlassian。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/",
+   "https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/"
+  ],
+  "tags": [
+   "scope",
+   "權限"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.2-013",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "Scheduled trigger 搭配 JQL，每天把逾期未完成的 issue 加上 label「overdue」。下列何者正確？",
+  "options": [
+   "Scheduled trigger 可帶 JQL，並對每張符合的 issue 執行後續 action",
+   "Scheduled trigger 只能執行一次",
+   "必須再加 Lookup issues 才能取得 issue",
+   "Scheduled trigger 不能修改 issue"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方 triggers：Scheduled 可設定 cron 與 JQL，對結果逐筆執行。",
+   "B": "可重複排程。",
+   "C": "Scheduled 的 JQL 本身就提供 issue 上下文；Lookup 用於彙總。",
+   "D": "可以修改。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/"
+  ],
+  "tags": [
+   "scheduled",
+   "jql"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.2-014",
+  "section": "620.4.2",
+  "domain": "620.4",
+  "stem": "rule 想在 issue 完成後，把 parent epic 的 Due date 更新。該用什麼？",
+  "options": [
+   "JQL condition",
+   "For parent branch，接 Edit issue",
+   "For sub-tasks branch",
+   "直接 Edit issue，欄位寫 {{issue.parent.duedate}}"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "官方 branches：For parent／epic 分支會把上下文切到 parent，之後的 Edit 才會改到 parent。",
+   "C": "方向相反。",
+   "D": "主路徑的 Edit 只會改觸發 issue 本身。",
+   "A": "Condition 不改對象。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/",
+   "https://support.atlassian.com/cloud-automation/docs/edit-issue-fields-with-jira-automation/"
+  ],
+  "tags": [
+   "branch",
+   "parent"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.3-001",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "你自己 Validate JQL 有結果，但 rule 執行時卻沒有任何 issue 符合。最可能的原因？",
+  "options": [
+   "Validate 用你的權限，執行時用 Actor 的權限，Actor 看不到那些 issue",
+   "JQL 不能用在 automation",
+   "Dashboard 沒有分享",
+   "Rule 沒有 Owner"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方 rule actor：rule 以 actor 身分執行，包含 JQL 查詢；actor 缺 Browse Projects 就查不到。",
+   "B": "可以用。",
+   "C": "無關。",
+   "D": "Owner 只影響通知。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/what-is-a-rule-actor/",
+   "https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/"
+  ],
+  "tags": [
+   "actor",
+   "jql"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.3-002",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "期待 rule 有執行，但 audit log 完全沒有紀錄。先查什麼？",
+  "options": [
+   "把 Actor 換成自己",
+   "Rule 是否 Enabled、trigger 事件是否符合、scope 是否涵蓋該 project",
+   "先把所有欄位改一遍",
+   "刪掉 rule 重建"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "audit log 沒紀錄代表根本沒觸發；官方 debug 頁建議先確認啟用、trigger 與 scope。",
+   "C": "無關。",
+   "D": "失去設定又沒診斷。",
+   "A": "有紀錄但失敗才需看 actor。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/debug-an-automation-rule/",
+   "https://support.atlassian.com/cloud-automation/docs/what-is-the-automation-audit-log/"
+  ],
+  "tags": [
+   "audit-log",
+   "排查"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.3-003",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "Audit log 顯示「NO ACTIONS PERFORMED」，代表什麼？",
+  "options": [
+   "應立即移除所有 condition",
+   "Actor 沒有權限",
+   "Rule 被觸發但 condition 不符，所以沒有執行 action；可能是正確的排除",
+   "系統故障"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "NO_ACTIONS_PERFORMED 是官方列出的執行狀態之一（How is your automation usage calculated：「NO_ACTIONS_PERFORMED：The step ran but didn’t result in a change.」），代表被觸發但沒有造成變更，通常是 condition 擋下來；要對照需求判斷是否為預期的排除。",
+   "D": "不是故障。",
+   "A": "移除 condition 可能讓不該改的 issue 被改。",
+   "B": "權限問題會顯示錯誤，不是此狀態。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/what-is-the-automation-audit-log/",
+   "https://support.atlassian.com/cloud-automation/docs/how-is-my-usage-calculated/"
+  ],
+  "tags": [
+   "audit-log",
+   "狀態"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.3-004",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "FOOD project 的單一 project rule 要修改被 link 的 OPS issue。只在 JQL 加上 OPS 條件就夠嗎？",
+  "options": [
+   "不夠，只要 link type 正確就好",
+   "夠，只要用 Related issues branch",
+   "夠",
+   "不夠，rule 的 scope 要涵蓋 OPS（multi-project／global），且 Actor 要有 OPS 的權限"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "JQL 不是 scope 授權。",
+   "D": "官方 permissions／branches：跨 project 操作需 scope 涵蓋目標 project，且 actor 需該 project 權限。",
+   "A": "Link 不會授權。",
+   "B": "Branch 也受 scope 限制。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/",
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/"
+  ],
+  "tags": [
+   "scope",
+   "跨project"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.3-005",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "Edit issue 之後，同一條 rule 內的 smart value 仍顯示舊值。適合的處理？",
+  "options": [
+   "在依賴新值之前加 Re-fetch issue data action",
+   "連續加十個 Delay",
+   "把 Owner 換人",
+   "改用 Bulk change"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方 actions：Re-fetch issue data 會重新載入 issue 快照，讓後續 smart value 拿到最新值。",
+   "B": "沒有處理快照來源。",
+   "C": "Owner 與資料無關。",
+   "D": "與 rule 無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/"
+  ],
+  "tags": [
+   "re-fetch",
+   "smart-value"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.3-006",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "Assign issue action 失敗時，要區分哪兩種能力？",
+  "options": [
+   "Trigger user 的 Browse 權限",
+   "Actor 的 Assign Issues 權限，與目標使用者的 Assignable User 權限",
+   "Owner 的名字與 project 顏色",
+   "Creator 是否為 admin"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "指派需要「操作者能指派」與「被指派者可被指派」兩件事，缺一不可。",
+   "C": "無關。",
+   "D": "建立者不是執行身分。",
+   "A": "Trigger user 不是 actor（除非設定 run as）。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/",
+   "https://support.atlassian.com/cloud-automation/docs/what-is-a-rule-actor/"
+  ],
+  "tags": [
+   "assign",
+   "assignable-user"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.3-007",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "手動改欄位會觸發 rule B，但由 rule A 修改同一欄位卻不觸發 B。先查什麼？",
+  "options": [
+   "把 A 排程成每秒",
+   "刪除 rule A",
+   "Rule B 的「Allow rule trigger」是否開啟（預設關閉）",
+   "把所有使用者改成 admin"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "官方 rule details：預設 rule 不會被其他 rule 觸發，需在 B 開啟 Allow rule trigger；同時注意迴圈風險。",
+   "D": "過度授權。",
+   "A": "增加負載且無效。",
+   "B": "不解決問題。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/"
+  ],
+  "tags": [
+   "allow-rule-trigger",
+   "迴圈"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.3-008",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "Lookup issues 回傳 100 筆，可以直接當作全站 Bug 總數嗎？",
+  "options": [
+   "只要 audit log 是 SUCCESS 就完整",
+   "可以，只要 rule 是 global",
+   "可以",
+   "不能，Lookup issues 最多回傳 100 筆，要確認查詢範圍與上限"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "忽略了上限。",
+   "D": "官方 service limits：Lookup issues 最多 100 筆。",
+   "A": "SUCCESS 只表示 action 執行，不證明資料完整。",
+   "B": "Scope 不改變上限。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/"
+  ],
+  "tags": [
+   "lookup-issues",
+   "100"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.4.3-009",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "Rule 執行結果顯示「THROTTLED」，原因是？",
+  "options": [
+   "超過 service limit（例如每 12 小時 60 分鐘的處理時間）而被暫停",
+   "Actor 沒有權限",
+   "JQL 語法錯誤",
+   "Rule 被停用"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方 Automation service limits 表列「Daily processing time：60 min per 12 hrs」，超過即被 throttle；How is your automation usage calculated 也載明「THROTTLED runs where no step actually executes」不計入用量。",
+   "B": "權限錯誤有不同訊息。",
+   "C": "語法錯誤在儲存時就會擋。",
+   "D": "停用的 rule 不會有執行紀錄。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/",
+   "https://support.atlassian.com/cloud-automation/docs/how-is-my-usage-calculated/"
+  ],
+  "tags": [
+   "throttled",
+   "service-limit"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.3-010",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "Scheduled rule 連續失敗多少次後會被自動停用？",
+  "options": [
+   "5 次",
+   "10 次",
+   "不會自動停用",
+   "3 次"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "3 次不是官方數字；官方 triggers 頁明列連續失敗 10 次。",
+   "A": "5 次不是官方數字；官方明列 10 次。",
+   "B": "官方 service limits：Scheduled trigger 連續失敗 10 次會自動停用 rule，owner 收到通知。",
+   "C": "會自動停用。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/"
+  ],
+  "tags": [
+   "scheduled",
+   "自動停用"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.3-011",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "Audit log 的紀錄保留多久？",
+  "options": [
+   "7 天",
+   "30 天",
+   "90 天",
+   "永久"
+  ],
+  "answer": "C",
+  "explain": {
+   "A": "7 天太短；官方 audit log 頁明列保留 90 天。",
+   "B": "30 天太短；官方明列保留 90 天，逾期自動刪除且無法復原。",
+   "C": "官方 audit log：保留 90 天。",
+   "D": "不是永久。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/what-is-the-automation-audit-log/"
+  ],
+  "tags": [
+   "audit-log",
+   "90天"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.3-012",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "兩條 rule 互相觸發（A 改 label 觸發 B，B 又改回來觸發 A）形成迴圈，Jira 如何處理？",
+  "options": [
+   "無限執行直到手動停止",
+   "不會發生，因為 rule 不能觸發 rule",
+   "Actor 會被鎖定",
+   "Jira 偵測到迴圈後（連續觸發達上限）會自動停止並在 audit log 標示 LOOP"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方 service limits：rule 之間連續觸發超過上限（10 次）會被判定迴圈並停止，audit log 顯示 LOOP。",
+   "A": "有保護機制。",
+   "B": "開啟 Allow rule trigger 後可以互相觸發。",
+   "C": "不會鎖定帳號。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/",
+   "https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/"
+  ],
+  "tags": [
+   "loop",
+   "迴圈"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.3-013",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "Standard 方案的團隊發現 automation「用量」達到 100% 後 multi-project rule 停跑，但單一 project rule 照常。原因？",
+  "options": [
+   "考試版模型：單一 project rule 不計入月配額，只有 multi-project／global rule 計入；現行模型改為以步驟計入 org 共用池",
+   "單一 project rule 有無限配額",
+   "Multi-project rule 需要 Premium",
+   "Actor 權限被撤"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "2023 考綱時代：single-project rule 不限量、multi-project／global 計入每月執行次數；官方現行 how is my usage calculated 已改為依步驟計算、org 共用。作答時以題目情境判斷版本。",
+   "B": "單一 project rule 在現行模型也計入步驟。",
+   "C": "Standard 就能建 multi-project rule（需 Jira admin）。",
+   "D": "權限問題會顯示錯誤而非配額。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/how-is-my-usage-calculated/",
+   "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/"
+  ],
+  "tags": [
+   "usage",
+   "配額"
+  ],
+  "difficulty": 3,
+  "version_note": "作答用考試版：single-project rule 不計入月配額，multi-project／global 才計；現行：依步驟計、org 共用池。",
+  "origin": "new"
+ },
+ {
+  "id": "620.4.3-014",
+  "section": "620.4.3",
+  "domain": "620.4",
+  "stem": "一條 rule 最多可有幾個元件（trigger 不計）？",
+  "options": [
+   "64",
+   "65",
+   "沒有上限",
+   "50"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "太少。",
+   "A": "舊文件與部分題庫寫 64。",
+   "B": "官方 Automation service limits 的 Summary 表列「Steps per flow：65」（進階 flow 為 500）；conditions、branches、actions 都計入，If／else 內的元件也算。",
+   "C": "有上限。"
+  },
+  "sources": [
+   "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/",
+   "https://support.atlassian.com/jira/kb/automation-rule-message-youve-reached-the-maximum-number-of-65-components-allowed-per-rule/"
+  ],
+  "tags": [
+   "元件上限",
+   "65"
+  ],
+  "difficulty": 2,
+  "version_note": "作答提醒：舊題庫可能寫 64，現行官方 KB 為 65。",
+  "origin": "new"
+ }
+]

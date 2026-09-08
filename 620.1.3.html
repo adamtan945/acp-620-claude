@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.1.3 為 company-managed project 推薦 issue type 設計｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp" open><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#hier">三層階層與能力</a>
+    <a href="#label">標籤 ＋ 四張 scheme</a>
+    <a href="#decide">何時建新 type</a>
+    <a href="#subtask">Sub-task 設定</a>
+    <a href="#blocking">Blocking condition</a>
+    <a href="#epic">Epic 的功能</a>
+    <a href="#quiz">推薦題練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.1 Project Creation（13%）/ 620.1.3</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.1.3 · Recommend an issue type configuration for a company-managed project</div>
+<h1>為 company-managed project 推薦 issue type 設計</h1>
+<p class="lead">這一節資料量不大，但它是整份考試「推薦題」的第一站，重點在<strong>判斷</strong>而不是操作：需要哪些 issue type？該用 epic／standard／sub-task 哪一層？要不要新建 type？</p>
+<div class="term">術語：考試用 project／issue／sub-task；現行產品為 space／work item／subtask。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>標題的三個關鍵字</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">關鍵字</th><th>意思</th></tr>
+<tr><td>business requirements</td><td>題目給你一段情境（團隊怎麼工作、要追蹤什麼）</td></tr>
+<tr><td>recommend</td><td>你要選：需要哪些 issue type？哪一層？要不要新建？</td></tr>
+<tr><td>company-managed</td><td>CMP 的 issue type 是「標籤 ＋ scheme」，建新 type 要 Jira admin；你是 project admin，要懂<strong>什麼時候該去請 Jira admin 建、什麼時候不必</strong></td></tr>
+</table></div>
+<p style="margin-top:12px">唯一的 bullet：「Understand the features associated with epics, base (standard) and sub-task issue types」——三層各自<strong>能做什麼、不能做什麼</strong>。</p>
+</section>
+
+<!-- ============ Hierarchy ============ -->
+<section id="hier">
+<div class="section-label">三層階層</div>
+<h2>先把「能力表」背起來</h2>
+<p class="kicker">滑鼠移到圖中的層級，下方對應的能力卡會亮起。</p>
+<div class="figure">
+<svg id="dia-hier" class="dia" viewBox="0 0 960 360" role="img" aria-label="Epic → Standard → Sub-task 三層階層">
+  <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <g data-lvl="epic" style="cursor:pointer">
+    <rect x="370" y="20" width="220" height="60" rx="10" class="box violet"/>
+    <text x="480" y="45" text-anchor="middle" class="lbl b">Epic</text><text x="480" y="66" text-anchor="middle" class="s">Level 1 · parent 層</text>
+  </g>
+  <path d="M480,80 V115" class="ln"/>
+  <path d="M320,115 H640" class="ln"/>
+  <path d="M320,115 V150" class="ln" marker-end="url(#arr)"/>
+  <path d="M480,115 V150" class="ln" marker-end="url(#arr)"/>
+  <path d="M640,115 V150" class="ln" marker-end="url(#arr)"/>
+  <g data-lvl="std" style="cursor:pointer">
+    <rect x="250" y="150" width="140" height="60" rx="10" class="box brand"/><text x="320" y="180" text-anchor="middle" class="lbl b">Story</text><text x="320" y="198" text-anchor="middle" class="s">Level 0</text>
+    <rect x="410" y="150" width="140" height="60" rx="10" class="box brand"/><text x="480" y="180" text-anchor="middle" class="lbl b">Task</text><text x="480" y="198" text-anchor="middle" class="s">Level 0</text>
+    <rect x="570" y="150" width="140" height="60" rx="10" class="box brand"/><text x="640" y="180" text-anchor="middle" class="lbl b">Bug</text><text x="640" y="198" text-anchor="middle" class="s">Level 0</text>
+  </g>
+  <path d="M320,210 V245" class="ln"/>
+  <path d="M480,210 V245" class="ln"/>
+  <path d="M640,210 V245" class="ln"/>
+  <path d="M320,245 H640" class="ln"/>
+  <path d="M480,245 V280" class="ln" marker-end="url(#arr)"/>
+  <g data-lvl="sub" style="cursor:pointer">
+    <rect x="370" y="280" width="220" height="60" rx="10" class="box teal"/>
+    <text x="480" y="305" text-anchor="middle" class="lbl b">Sub-task</text><text x="480" y="326" text-anchor="middle" class="s">Level −1 · child 層</text>
+  </g>
+  <!-- 左側註解：Epic、Sub-task -->
+  <text x="40" y="38" class="lbl b" font-size="13">Epic：跨多個 sprint 的主題</text>
+  <text x="40" y="58" class="s">預設不能有 parent</text>
+  <text x="40" y="76" class="s">（Premium 加層級後可掛 Initiative）</text>
+  <text x="40" y="298" class="lbl b" font-size="13">Sub-task：把一個 standard 拆給不同人</text>
+  <text x="40" y="318" class="s">必須有 parent（standard）</text>
+  <text x="40" y="336" class="s">永遠是最底層，不能再有 child</text>
+  <!-- 右側註解：Standard -->
+  <text x="740" y="160" class="lbl b" font-size="13">Standard：日常工作的單位</text>
+  <text x="740" y="180" class="s">進 sprint、上 board 的基本單位</text>
+  <text x="740" y="198" class="s">可有 parent（epic）</text>
+  <text x="740" y="216" class="s">可有 child（sub-task）</text>
+</svg>
+<div class="cap">圖 1　Epic 的 child 只能是 standard；sub-task 不能直接掛在 epic 下。</div>
+</div>
+
+<div class="hier-cards">
+  <div class="card" data-lvl="epic"><div class="h"><span class="dot" style="width:12px;height:12px;border-radius:50%;background:var(--violet)"></span>Epic</div>
+    <ul><li class="no">獨立進 sprint：不會（它是容器）</li><li>Board 上：不以卡片出現；在 backlog 的 Epic panel、Timeline 是長條</li><li class="no">Story points 計入 burndown：不算（用 child 加總）</li><li>Time tracking：child 可 roll-up</li><li>專屬報表：Epic report、Epic burndown、Timeline</li><li>Child 顯示上限 <strong>500</strong></li></ul></div>
+  <div class="card" data-lvl="std"><div class="h"><span class="dot" style="width:12px;height:12px;border-radius:50%;background:var(--brand)"></span>Standard（Story／Task／Bug）</div>
+    <ul><li class="yes">獨立進 sprint：可，sprint 的基本單位</li><li>Board 上：卡片</li><li class="yes">Story points 計入 burndown／velocity：算</li><li>Time tracking：可；sub-task 工時可 roll-up 到它</li><li>專屬報表：Sprint report、burndown 等</li><li>Child（sub-task）顯示上限 500</li></ul></div>
+  <div class="card" data-lvl="sub"><div class="h"><span class="dot" style="width:12px;height:12px;border-radius:50%;background:var(--teal)"></span>Sub-task</div>
+    <ul><li class="no">獨立進 sprint：不行，跟著 parent</li><li>Board 上：卡片，通常在 parent 的泳道下</li><li class="no">Story points 計入 burndown／velocity：<strong>不算</strong></li><li>Time tracking：可，roll-up 到 parent</li><li>專屬報表：無（併入 parent）</li><li>Issue security：繼承 parent</li></ul></div>
+</div>
+
+<div class="callout warn" style="margin-top:18px"><div class="t">500 上限的後果（考點）</div>超過 500 個 child，parent 上看不到 child 清單（得用搜尋），而且 <strong>sub-task 不再納入 parent 的 time tracking 彙總</strong>。官方建議拆成多個 parent。</div>
+
+<h3>官方定義句</h3>
+<ul>
+<li><strong>Epic</strong>：high-level initiatives，把相關工作<strong>分組</strong>的大型工作項目。</li>
+<li><strong>Standard</strong>：regular business tasks，<strong>日常工作實際發生的層級</strong>。</li>
+<li><strong>Sub-task</strong>：把 standard 拆成更小的塊，<strong>只能當 child</strong>。</li>
+</ul>
+
+<h3>三層在 Scrum vs Kanban 的角色</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:14%">層</th><th>Scrum</th><th>Kanban</th></tr>
+<tr><td>Epic</td><td>跨 sprint 的主題；看 Epic burndown 預測還要幾個 sprint</td><td>同樣是主題容器，在 Timeline 上排長條；沒有 sprint 就沒有 Epic burndown</td></tr>
+<tr><td>Standard</td><td>sprint 承諾的單位，估點</td><td>流過 board 的卡片，看 cycle time</td></tr>
+<tr><td>Sub-task</td><td>sprint 內分工，不影響 velocity</td><td>同一卡片的分工；Stories 泳道下顯示</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Label + schemes ============ -->
+<section id="label">
+<div class="section-label">核心模型</div>
+<h2>CMP 的 issue type 是「標籤 ＋ 四張對照表」</h2>
+<p>在 CMP，一個 issue type 本身沒有任何行為，行為全靠 scheme 對應出來。點上方的 type，看它各自對到哪一份 workflow、screen、field configuration。</p>
+
+<div class="figure">
+<svg id="dia-map" class="dia" viewBox="0 0 960 380" role="img" aria-label="Issue type 透過三張 scheme 對應到 workflow、screen、field configuration">
+  <defs><marker id="arrb" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="accent"/></marker></defs>
+  <text x="480" y="24" text-anchor="middle" class="s">Issue type scheme：「這個 project 有哪些 type？」——點選一個</text>
+  <g class="pill-hit" data-t="bug" style="cursor:pointer"><rect x="170" y="36" width="140" height="40" rx="20" class="pill" data-t="bug"/><text x="240" y="61" text-anchor="middle" class="pill-t" data-t="bug">Bug</text></g>
+  <g class="pill-hit" data-t="task" style="cursor:pointer"><rect x="410" y="36" width="140" height="40" rx="20" class="pill" data-t="task"/><text x="480" y="61" text-anchor="middle" class="pill-t" data-t="task">Task</text></g>
+  <g class="pill-hit" data-t="story" style="cursor:pointer"><rect x="650" y="36" width="140" height="40" rx="20" class="pill" data-t="story"/><text x="720" y="61" text-anchor="middle" class="pill-t" data-t="story">Story</text></g>
+
+  <!-- 底稿灰線：三條 pill → bus → 三欄 -->
+  <path d="M240,76 V110" class="ln"/><path d="M480,76 V110" class="ln"/><path d="M720,76 V110" class="ln"/>
+  <path d="M210,110 H750" class="ln"/>
+  <path d="M210,110 V150" class="ln" marker-end="url(#arr)"/><path d="M480,110 V150" class="ln" marker-end="url(#arr)"/><path d="M750,110 V150" class="ln" marker-end="url(#arr)"/>
+
+  <!-- 高亮路徑（每個 type 三條） -->
+  <path d="M240,76 V110 H210 V150" class="ln route" data-t="bug"/><path d="M240,76 V110 H480 V150" class="ln route" data-t="bug"/><path d="M240,76 V110 H750 V150" class="ln route" data-t="bug"/>
+  <path d="M480,76 V110 H210 V150" class="ln route" data-t="task"/><path d="M480,76 V150" class="ln route" data-t="task"/><path d="M480,76 V110 H750 V150" class="ln route" data-t="task"/>
+  <path d="M720,76 V110 H210 V150" class="ln route" data-t="story"/><path d="M720,76 V110 H480 V150" class="ln route" data-t="story"/><path d="M720,76 V110 H750 V150" class="ln route" data-t="story"/>
+
+  <!-- 三張 scheme -->
+  <rect x="80" y="150" width="260" height="190" rx="12" class="box"/>
+  <text x="210" y="178" text-anchor="middle" class="lbl b">Workflow scheme</text><text x="210" y="196" text-anchor="middle" class="s">type → workflow</text>
+  <rect id="hl-wf-qa" x="96" y="214" width="228" height="40" rx="8" class="rowhl"/><text x="210" y="232" text-anchor="middle" class="lbl">QA workflow</text><text x="210" y="247" text-anchor="middle" class="s">To do → In progress → Verified → Done</text>
+  <rect id="hl-wf-simple" x="96" y="266" width="228" height="40" rx="8" class="rowhl"/><text x="210" y="284" text-anchor="middle" class="lbl">Simple workflow</text><text x="210" y="299" text-anchor="middle" class="s">To do → In progress → Done</text>
+
+  <rect x="350" y="150" width="260" height="190" rx="12" class="box"/>
+  <text x="480" y="178" text-anchor="middle" class="lbl b">Issue type screen scheme</text><text x="480" y="196" text-anchor="middle" class="s">type → screens</text>
+  <rect id="hl-sc-bug" x="366" y="214" width="228" height="40" rx="8" class="rowhl"/><text x="480" y="232" text-anchor="middle" class="lbl">Bug screen</text><text x="480" y="247" text-anchor="middle" class="s">含 Steps to reproduce、Severity</text>
+  <rect id="hl-sc-default" x="366" y="266" width="228" height="40" rx="8" class="rowhl"/><text x="480" y="284" text-anchor="middle" class="lbl">Default screen</text><text x="480" y="299" text-anchor="middle" class="s">Summary、Description、Assignee…</text>
+
+  <rect x="620" y="150" width="260" height="190" rx="12" class="box"/>
+  <text x="750" y="178" text-anchor="middle" class="lbl b">Field configuration scheme</text><text x="750" y="196" text-anchor="middle" class="s">type → 哪些欄位必填／隱藏</text>
+  <rect id="hl-fc-bug" x="636" y="214" width="228" height="40" rx="8" class="rowhl"/><text x="750" y="232" text-anchor="middle" class="lbl">Bug field config</text><text x="750" y="247" text-anchor="middle" class="s">Severity 必填</text>
+  <rect id="hl-fc-default" x="636" y="266" width="228" height="40" rx="8" class="rowhl"/><text x="750" y="284" text-anchor="middle" class="lbl">Default field config</text><text x="750" y="299" text-anchor="middle" class="s">無必填欄位</text>
+  <text x="480" y="366" text-anchor="middle" class="s">四張表都由 Jira admin 維護</text>
+</svg>
+<div id="map-msg" class="callout" style="margin-top:12px"></div>
+<div class="cap">圖 2　「建一個新 issue type」的真正成本不是建 type，而是要不要跟著建新的 workflow、screen、field configuration，並改四份 scheme。</div>
+</div>
+
+<h3>預設有哪些 type</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th>Project 類型</th><th>Parent</th><th>Standard</th><th>Child</th></tr>
+<tr><td>Software</td><td>Epic</td><td>Story、Task、Bug</td><td>Sub-task</td></tr>
+<tr><td>Business</td><td class="dash">—</td><td>Task</td><td>Subtask</td></tr>
+<tr><td>Service management</td><td class="dash">—</td><td>Service request、Incident、Problem、Change、IT help…</td><td class="dash">—</td></tr>
+</table></div>
+<p class="kicker" style="margin-top:8px">考題可能問「Software project 預設沒有哪個 type」→ 沒有 Initiative（Premium 才有更上層）。</p>
+</section>
+
+<!-- ============ Decide ============ -->
+<section id="decide">
+<div class="section-label">推薦題的判斷標準</div>
+<h2>什麼時候值得建新 type</h2>
+<div class="figure">
+<svg class="dia" viewBox="205 0 700 420" role="img" aria-label="是否建新 issue type 的決策流程">
+  <defs><marker id="arr3" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <rect x="290" y="20" width="320" height="64" rx="10" class="box q"/>
+  <text x="450" y="46" text-anchor="middle" class="lbl b">這類工作要走不同的 workflow？</text><text x="450" y="68" text-anchor="middle" class="lbl">（多一個審核狀態、不同轉換規則）</text>
+  <path d="M610,52 H680" class="ln" marker-end="url(#arr3)"/><text x="650" y="44" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,84 V130" class="ln" marker-end="url(#arr3)"/><text x="466" y="112" class="tag no">否</text>
+  <rect x="680" y="28" width="200" height="48" rx="10" class="box brand"/><text x="780" y="57" text-anchor="middle" class="lbl b">建新 issue type</text>
+
+  <rect x="290" y="130" width="320" height="64" rx="10" class="box q"/>
+  <text x="450" y="156" text-anchor="middle" class="lbl b">要不同的必填欄位／建立畫面？</text><text x="450" y="178" text-anchor="middle" class="lbl">（Steps to reproduce、Severity…）</text>
+  <path d="M610,162 H680" class="ln" marker-end="url(#arr3)"/><text x="650" y="154" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,194 V240" class="ln" marker-end="url(#arr3)"/><text x="466" y="222" class="tag no">否</text>
+  <rect x="680" y="138" width="200" height="48" rx="10" class="box brand"/><text x="780" y="167" text-anchor="middle" class="lbl b">建新 issue type</text>
+
+  <rect x="290" y="240" width="320" height="64" rx="10" class="box q"/>
+  <text x="450" y="266" text-anchor="middle" class="lbl b">只是想標記模組、來源、分類？</text><text x="450" y="288" text-anchor="middle" class="lbl">（前端／後端、客戶 A／B、嚴重度）</text>
+  <path d="M610,272 H680" class="ln" marker-end="url(#arr3)"/><text x="650" y="264" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,304 V350" class="ln" marker-end="url(#arr3)"/><text x="466" y="332" class="tag no">否</text>
+  <rect x="680" y="244" width="200" height="56" rx="10" class="box amber"/><text x="780" y="267" text-anchor="middle" class="lbl b">不建新 type</text><text x="780" y="287" text-anchor="middle" class="s">Component／Label／custom field</text>
+
+  <rect x="230" y="350" width="440" height="52" rx="10" class="box teal"/>
+  <text x="450" y="371" text-anchor="middle" class="lbl b">想拆工或歸主題？用既有的階層</text><text x="450" y="391" text-anchor="middle" class="s">同 sprint 多人分工 → sub-task；跨多個 sprint 的主題 → epic</text>
+</svg>
+<div class="cap">圖 3　口訣：<strong>流程不同 → 新 type；欄位不同 → 新 type；只是分類 → 不要新 type</strong>。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">需求</th><th style="width:18%">建新 issue type？</th><th>替代方案</th></tr>
+<tr><td>這類工作要走<strong>不同的 workflow</strong></td><td class="yes">是</td><td class="dash">—</td></tr>
+<tr><td>這類工作要<strong>不同的必填欄位／建立畫面</strong></td><td class="yes">是</td><td class="dash">—</td></tr>
+<tr><td>這類工作要<strong>獨立報表</strong>（例如 Bug 數趨勢）</td><td class="yes">是（Pie chart by issue type）</td><td>也可用 label 但不可靠</td></tr>
+<tr><td>只是想<strong>標記來源或模組</strong></td><td class="no">否</td><td>Component、Label、custom field</td></tr>
+<tr><td>只是想<strong>分類優先度或嚴重度</strong></td><td class="no">否</td><td>Priority、custom select field</td></tr>
+<tr><td>想把一件事<strong>拆給多人在同一 sprint 做</strong></td><td class="no">否</td><td><strong>sub-task</strong></td></tr>
+<tr><td>想把<strong>多個 sprint 的工作歸成一個主題</strong></td><td class="no">否</td><td><strong>epic</strong></td></tr>
+</table></div>
+</section>
+
+<!-- ============ Sub-task ============ -->
+<section id="subtask">
+<div class="section-label">Sub-task 的設定細節</div>
+<h2>全站開關、多種 type、刪除前置作業</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">全站開關</div>
+<p style="font-size:15px;margin-top:8px"><code>⚙ → Issues → Sub-tasks → Enable／Disable</code></p>
+<ul style="font-size:14px"><li>預設<strong>啟用</strong>。</li><li><strong>要停用前，必須先把所有既有 sub-task 轉成 standard type</strong>（Move → convert to issue）。</li><li>這是<strong>全站</strong>設定——一關全部 project 都沒 sub-task。</li></ul></div>
+<div class="card"><div class="eyebrow">多種 sub-task type 與刪除</div>
+<ul style="font-size:14px;margin-top:8px"><li>可建多個 sub-task type（「Sub-task」「QA sub-task」「Design sub-task」），各自可對不同 workflow／screen；建立時可選加進哪個 issue type scheme。</li><li>刪 sub-task type 前要<strong>先搜尋並 bulk move</strong> 該 type 的所有 issue 到別的 type，否則資料會卡住。</li></ul></div>
+</div>
+
+<h3>Sub-task 與 parent 的互動規則</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">行為</th><th>規則</th></tr>
+<tr><td>Sprint</td><td>跟 parent 同進同出，不能單獨拉</td></tr>
+<tr><td>Board 清除（TMP Kanban）</td><td>parent 被清，sub-task 不論狀態一起清</td></tr>
+<tr><td>Issue security</td><td><strong>繼承 parent 的 level</strong>，不能單獨設</td></tr>
+<tr><td>Story points</td><td>不計入 burndown／velocity</td></tr>
+<tr><td>時間追蹤</td><td>工時可彙總到 parent（parent 的 time tracking 面板勾 include sub-tasks）</td></tr>
+<tr><td>Move 到別的 project</td><td>要跟 parent 一起，或先轉成 standard</td></tr>
+<tr><td>轉換</td><td>Sub-task ↔ standard 都可透過 Move 功能轉換；轉成 sub-task 時要指定 parent</td></tr>
+<tr><td>建立時繼承</td><td>新 sub-task 自動繼承 parent 的 <strong>project</strong>、<strong>issue security level</strong>，以及 <strong>sprint</strong>（software project）。官方原句：sub-task 會 <em>inherit the space, work security level, and sprint value (software spaces) from their parent</em></td></tr>
+<tr><td>不繼承的東西</td><td><strong>Fix versions、components、assignee、priority、估點</strong>都不繼承，要自己填。「parent 有 fix version，sub-task 就會出現在 release report」是錯的</td></tr>
+<tr><td>CMP 的前置條件</td><td>要能建 sub-task，Jira admin 必須<strong>啟用 sub-tasks</strong> <em>而且</em>把 sub-task type <strong>加進該 project 的 issue type scheme</strong>——兩個條件缺一不可</td></tr>
+</table></div>
+
+<div class="callout warn"><div class="t">證據界線：epic 底下能不能直接掛 sub-task</div>
+<p style="margin:0 0 6px">階層模型的標準答案是 <strong>epic → standard → sub-task</strong>，考試照這個作答。但官方 Create a work item and a subtask 補了一個例外：在 <strong>company-managed software space</strong>，可以用工作項目上的 <strong>Add parent</strong> 連結，把 subtask 直接指到 project 用來裝大塊工作的那個 type（預設就是 epic）。</p>
+<p style="margin:0">遇到「epic 的 child 是什麼類型」選階層答案；遇到「Add parent 能不能指到 epic」再想這個例外。</p>
+<p class="note" style="margin:8px 0 0">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-work-item-and-a-subtask/">Create a work item and a subtask</a></p></div>
+</section>
+
+<!-- ============ Blocking ============ -->
+<section id="blocking">
+<div class="section-label">Workflow condition</div>
+<h2>Subtask Blocking Condition</h2>
+<p><code>Workflow → 編輯 → 選 transition（例如 Resolve）→ Add condition → Subtask Blocking Condition → 勾選 sub-task 必須達到的狀態</code></p>
+<p>效果：parent 的 sub-task 沒全部到指定狀態前，parent 的那個 transition <strong>按鈕直接不出現</strong>。把下面三個 sub-task 逐一切到 Done 試試。</p>
+<div id="sub-lab" class="card">
+<div class="subtask-lab">
+  <div>
+    <div class="kicker" style="margin-bottom:6px">Parent</div>
+    <div class="issue" style="border-color:var(--brand)">
+      <div class="key">MOB-120 · Story</div><div class="sum">登入頁改版</div>
+      <span id="parent-st" class="st">In Progress</span>
+      <div style="margin-top:12px"><button id="btn-parent-done" class="btn" disabled>Done</button></div>
+      <p id="sub-msg" class="kicker" style="margin:10px 0 0"></p>
+    </div>
+  </div>
+  <div>
+    <div class="kicker" style="margin-bottom:6px">Sub-tasks（勾選 ＝ 切到 Done）</div>
+    <div class="issue" style="margin-bottom:8px"><label class="check" style="height:auto;padding:6px 10px;border:0"><input type="checkbox"><span><span class="key">MOB-121</span> 前端切版 <span class="st">In Progress</span></span></label></div>
+    <div class="issue" style="margin-bottom:8px"><label class="check" style="height:auto;padding:6px 10px;border:0"><input type="checkbox"><span><span class="key">MOB-122</span> 後端 API <span class="st">In Progress</span></span></label></div>
+    <div class="issue"><label class="check" style="height:auto;padding:6px 10px;border:0"><input type="checkbox"><span><span class="key">MOB-123</span> QA 驗收 <span class="st">In Progress</span></span></label></div>
+  </div>
+</div>
+</div>
+<div class="callout exam" style="margin-top:14px"><div class="t">Condition vs validator</div>這是「condition」不是「validator」——<strong>condition 隱藏轉換按鈕，validator 在按下後才擋</strong>。</div>
+
+<h3 style="margin-top:22px">「擋住 parent」與「自動完成 parent」是兩種不同的東西</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">需求</th><th style="width:30%">做法</th><th>特性</th></tr>
+<tr><td>sub-task 沒完成就<strong>不准</strong> parent 轉到 Done</td><td>Workflow → transition → <strong>Subtask Blocking Condition</strong></td><td>需 Jira admin（或該 project 專用 workflow 的 project admin）；<strong>按鈕直接消失</strong>；只有 <strong>CMP</strong> 有</td></tr>
+<tr><td>sub-task 全部完成就<strong>自動</strong>把 parent 轉到 Done</td><td><strong>Automation rule</strong>：trigger 用 work item transitioned，條件檢查「所有 sub-task 都是 Done」，action 轉換 parent</td><td>TMP／CMP 都可用；是<strong>事後自動做</strong>，不是<strong>事前擋住</strong></td></tr>
+<tr><td>把 sub-task 的日期彙總回 parent</td><td>Automation 對 sub-task 分支，取<strong>最早 start date</strong> 與<strong>最晚 due date</strong> 寫回 parent</td><td>兩個方向要用不同取法（min 與 max）；直接把「最後一筆」寫回去是最常見的錯誤</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">關鍵字 → 答案</div>看到「prevent／can’t be completed until」→ <strong>Subtask Blocking Condition</strong>；看到「automatically close the parent when all subtasks…」→ <strong>automation rule</strong>。前者是 workflow condition，後者跟 workflow 無關。</div>
+</section>
+
+<!-- ============ Epic ============ -->
+<section id="epic">
+<div class="section-label">Epic 的功能</div>
+<h2>bullet 明列要懂的另一半</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">功能</th><th>說明</th></tr>
+<tr><td>Parent 欄位</td><td>現行 Jira 用 <strong>Parent</strong> 欄位取代舊的 Epic Link；在 standard issue 上填 parent = 某 epic</td></tr>
+<tr><td>Backlog 的 Epic panel</td><td>依 epic 篩選 backlog、拖曳 issue 進 epic</td></tr>
+<tr><td>Timeline／Roadmap</td><td>epic 是長條，child 在下面；可畫依賴線；<strong>沒有 parent 的 issue 不會出現在 Timeline</strong></td></tr>
+<tr><td>Epic report</td><td>某時點的完成／未完成／未估點清單</td></tr>
+<tr><td>Epic burndown</td><td>依 sprint 看進度，用近 3 sprint velocity 預測還要幾個 sprint</td></tr>
+<tr><td>Epic 顏色</td><td>卡片上的 epic 標籤色；card colors 也可 by epic</td></tr>
+<tr><td>Swimlanes by Epic</td><td>Board 依 epic 分泳道</td></tr>
+<tr><td>跨 project</td><td>CMP 的 epic 可以有<strong>別的 project</strong> 的 standard issue 當 child</td></tr>
+<tr><td>完成</td><td>Epic 有自己的狀態；把 epic 標成 Done 不會自動關 child</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">推薦題練習</div>
+<h2>先想「要新 type？用哪一層？」再看解答</h2>
+<div class="quiz">
+<details class="q"><summary>QA 團隊回報的缺陷需要「Steps to reproduce」「Severity」兩個必填欄位，並且要多一個「Verified」狀態才能關閉。</summary><div class="a"><div class="tag">解答</div><strong>新建 issue type「Bug」（或沿用 Bug）並配專用 screen 與專用 workflow</strong>——流程與欄位都不同；請 Jira admin 改 issue type screen scheme、field configuration scheme、workflow scheme。</div></details>
+<details class="q"><summary>PM 想把「行動版」「網頁版」的工作分開看報表，但流程和欄位完全相同。</summary><div class="a"><div class="tag">解答</div><strong>不要新 type</strong>；用 Component（Mobile／Web）或 label，報表用 Pie chart by component。</div></details>
+<details class="q"><summary>一個 Story 要前端、後端、QA 三個人分別做，PM 想在 sprint 內追蹤各自進度。</summary><div class="a"><div class="tag">解答</div><strong>Sub-task</strong>；同一 Story 下三個 sub-task 各自指派；story points 仍算在 Story 上。</div></details>
+<details class="q"><summary>「會員系統改版」預計橫跨四個 sprint，主管想看還要幾個 sprint 才做完。</summary><div class="a"><div class="tag">解答</div><strong>Epic</strong>；把四個 sprint 的 story 都掛在該 epic 下，看 <strong>Epic burndown</strong>（需 story points 估點、Scrum board）。</div></details>
+<details class="q"><summary>團隊想停用 sub-task，但按 Disable 失敗。</summary><div class="a"><div class="tag">解答</div>站台上還有既存 sub-task；先搜 <code>issuetype in subtaskIssueTypes()</code>，bulk move／convert 成 standard，再停用。</div></details>
+<details class="q"><summary>Sub-task 還沒做完，工程師就把 Story 拉到 Done，PM 想阻止。</summary><div class="a"><div class="tag">解答</div>在 workflow 的 Done transition 加 <strong>Subtask Blocking Condition</strong>（需 Jira admin，除非 workflow 為該 project 專用）。</div></details>
+<details class="q"><summary>主管把 200 個 sub-task 掛在同一張 Task 下，抱怨 time tracking 不準。</summary><div class="a"><div class="tag">解答</div>超過 <strong>500 child</strong> 顯示上限（或正在逼近），sub-task 不再納入 parent 時間追蹤；拆成多個 parent。</div></details>
+<details class="q"><summary>團隊在 Kanban board 上把 epic 也當卡片拖，問為什麼 epic 不會進 sprint。</summary><div class="a"><div class="tag">解答</div>Epic 是容器層，不是 sprint 的單位；要進 sprint 的是它底下的 standard issue。</div></details>
+<details class="q"><summary>客戶服務團隊要「Refund」和「Complaint」兩種請求，Refund 需要主管核准步驟。</summary><div class="a"><div class="tag">解答</div>兩種 request type／issue type，Refund 配含 Approval 步驟的 workflow——流程不同就該分 type。</div></details>
+<details class="q"><summary>想讓「文件撰寫」這類工作在 velocity 裡不被計算，但仍要追蹤。</summary><div class="a"><div class="tag">解答</div><strong>Sub-task</strong>（story points 不計 velocity），或另建 type 但在 board filter／estimation 上排除；官方模型下最直接是 sub-task。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「Epic 可以直接掛 sub-task」</td><td>不行，epic 的 child 只能是 standard</td></tr>
+<tr><td>「Sub-task 可以單獨拉進另一個 sprint」</td><td>不行，跟 parent</td></tr>
+<tr><td>「Sub-task 的 story points 也算 velocity」</td><td>不算，只算 parent</td></tr>
+<tr><td>「Sub-task 開關是 project 層設定」</td><td>全站設定</td></tr>
+<tr><td>「Project admin 可以建新 issue type」</td><td>CMP 不行，Jira admin 才行（TMP 可以）</td></tr>
+<tr><td>「想分類就建新 issue type」</td><td>只是分類用 component／label／custom field</td></tr>
+<tr><td>「Subtask Blocking Condition 是 validator」</td><td>是 condition，會直接隱藏轉換按鈕</td></tr>
+<tr><td>「Initiative 是 Jira 內建的第四層」</td><td>標準階層只有 epic／standard／sub-task；更高層要 Premium 的 Plans。把 epic 取名叫 Initiative <strong>不會</strong>多出一層</td></tr>
+<tr><td>「站台上有這個 issue type，我的 project 就用得到」</td><td>三項都要成立：該 type 在 project 的 <strong>issue type scheme</strong> 裡、對應 <strong>screen</strong> 上有你要填的欄位、你有該 project 的 <strong>Create Issues</strong> 權限</td></tr>
+<tr><td>「Sub-task 什麼都繼承 parent」</td><td>只繼承 project、issue security level 與 sprint；fix versions／components／assignee 都不繼承</td></tr>
+<tr><td>「Business 與 JSM project 也是 epic／story／task」</td><td>預設 type 不同：business 以 Task／Sub-task 為主，JSM 用 request types 對應到底層 issue types</td></tr>
+<tr><td>「TMP 也能加 Subtask Blocking Condition」</td><td>這是 <strong>CMP workflow</strong> 的 condition，TMP 的 workflow 編輯器沒有這一項；TMP 要做類似效果得靠 automation</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（20 分鐘）</div>
+<h2>把「type 是標籤」看成實體</h2>
+<ol>
+<li>在 CMP 建一個 epic，掛三張 story，每張 story 掛兩個 sub-task；開 Timeline 看 epic 長條與 child；把其中一張 story 拉進 sprint，觀察 sub-task 一起進去。</li>
+<li>給 sub-task 填 story points，開 sprint 後看 burndown 縱軸——確認沒算進去。</li>
+<li>請 Jira admin（或自己有權限）在 Done transition 加 Subtask Blocking Condition；sub-task 未完成時看 Done 按鈕消失。</li>
+<li>試著停用全站 sub-task，觀察錯誤訊息；把一個 sub-task 用 Move 轉成 Task，再試一次。</li>
+<li>在 ⚙ → Issues → Issue type schemes 看你的 project 用哪份 scheme，再看 workflow scheme 與 issue type screen scheme 裡 Bug 與 Task 各對到什麼。</li>
+<li>建 sub-task 時觀察<strong>繼承</strong>：先給 parent 一個 issue security level 並放進 sprint，再建 sub-task。<br><span class="note">預期：project、security level、sprint 三項自動帶入；<strong>Fix versions 是空的</strong>——不繼承。</span></li>
+<li>做一條 automation：所有 sub-task 轉 Done 時自動把 parent 轉 Done。<br><span class="note">預期：跟第 3 步的 blocking condition 對照——一個是<strong>事前擋住按鈕</strong>，一個是<strong>事後自動推進</strong>。</span></li>
+</ol>
+<div class="callout"><div class="t">來源</div>
+<ul style="margin:0;font-size:14px">
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/">What are work types?</a></li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/configure-sub-tasks/">Configure subtasks</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-work-item-and-a-subtask/">Create a work item and a subtask</a>（sub-task 繼承 project／security level／sprint；CMP 用 Add parent 指到 epic 的例外）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/set-up-issue-types-in-team-managed-projects/">Set up work types in team-managed spaces</a>（TMP 上限 30、只能自訂 standard 層）</li>
+<li><a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/">Jira automation actions</a>（用 automation 自動轉換 parent 與彙總日期）</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 10 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.1.3"></div>
+</section>
+
+<div class="footer-nav"><a href="620.1.2.html">← 620.1.2 建立與設定 TMP</a><a href="index.html">回首頁 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+</body>
+</html>

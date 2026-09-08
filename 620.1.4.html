@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.1.4 管理 project 的一般設定：details、sidebar、categories、trash｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp" open><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#details">Project details 逐欄</a>
+    <a href="#key">改 key 會怎樣</a>
+    <a href="#sidebar">Project sidebar</a>
+    <a href="#category">Project categories</a>
+    <a href="#trash">Trash 生命週期</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.1 Project Creation（13%）/ 620.1.4</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.1.4 · Describe how to manage general project configurations</div>
+<h1>管理 project 的一般設定：details、sidebar、categories、trash</h1>
+<p class="lead">這一節是 domain 1 的收尾，考的是 project admin 日常會碰的四件事：改 details（尤其是改 key 的後果）、整理 sidebar、用 category 分群、把 project 丟進 trash。內容不多，但「改了會怎樣」「誰能做」兩類細節是送分題，也是失分題。</p>
+<div class="term">術語：考試用 project／issue；現行產品為 space／work item，「project sidebar」現行已改為橫向的 space navigation tabs。本教材沿用考試用語，並標出現行差異。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>五條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Know how to update project details and configure the project sidebar</td><td>「要改 project 的 X，去哪裡？」「sidebar 上想少一個項目，誰能改？」</td></tr>
+<tr><td>Understand each feature of project details</td><td>「Default assignee 可以設成任何人嗎？」「URL 欄位是給什麼用的？」</td></tr>
+<tr><td>Understand the impacts of modifying project details</td><td>「改了 key，舊連結會壞嗎？board filter 要不要改？」——<strong>最常考</strong></td></tr>
+<tr><td>Understand how to create and use project categories</td><td>「誰能建 category？可以做階層嗎？JQL 怎麼用？」</td></tr>
+<tr><td>Know how to move a project to trash</td><td>「trash 放幾天？誰能還原？裡面的 issue 搜得到嗎？」</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Details ============ -->
+<section id="details">
+<div class="section-label">Project details</div>
+<h2>每個欄位是什麼、誰能改、改了影響誰</h2>
+<p>路徑：project 側欄 <strong>••• → Project settings → Details</strong> → 改完 <strong>Save details</strong>。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:15%">欄位</th><th style="width:31%">用途</th><th style="width:24%">誰能改</th><th>改了會怎樣</th></tr>
+<tr><td><strong>Name</strong></td><td>出現在搜尋、project 目錄、切換器</td><td>Project admin</td><td>站台上所有 filter 裡的 project 名稱<strong>自動更新</strong></td></tr>
+<tr><td><strong>Key</strong></td><td>issue key 的前綴（<code>KEY-123</code>），是追蹤工作的基礎 ID</td><td><strong>只有 org／site／Jira admin</strong></td><td>見下一節；舊 key 自動存進 Previous keys</td></tr>
+<tr><td><strong>URL</strong></td><td>連到外部文件（Confluence space、roadmap）；顯示在 Projects 目錄</td><td>Project admin</td><td><strong>只有 CMP 有</strong>這個欄位</td></tr>
+<tr><td><strong>Description</strong></td><td>給管理員看的摘要（顯示在 settings 的 Summary）</td><td>Project admin</td><td><strong>只有 CMP 有</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access（JSWCLOUD-17584「Ability to add a description on team-managed projects」2026-09-08 仍 Gathering Interest／Unresolved）</td></tr>
+<tr><td><strong>Category</strong></td><td>大型組織用來在目錄裡標記、篩選相似 project</td><td>Category 本身由 <strong>Jira admin 建</strong>；指派在 Project settings → Details（categories 頁未區分類型；details 頁對 CMP 寫「contact a Jira admin」，TMP 由 project admin 自己選）</td><td>可用於 JQL、filter、report；<strong>不能做階層</strong></td></tr>
+<tr><td><strong>Avatar／Icon</strong></td><td>側欄與 project 列表的圖示</td><td>Project admin</td><td>無副作用</td></tr>
+<tr><td><strong>Project lead／owner</strong></td><td>通常就是 project admin；也是 Default assignee 的候選</td><td>Project admin</td><td>人員異動要換；影響「Project lead」型的權限與通知</td></tr>
+<tr><td><strong>Default assignee</strong></td><td>新 issue 沒指定 assignee 時給誰；Open project 讓全站丟需求時特別有用，lead 會收到通知</td><td>Project admin</td><td><strong>只能選 Unassigned 或 Project lead</strong>；想指定別人要先換 lead</td></tr>
+<tr><td>Background、Card covers</td><td>視覺客製</td><td>Project admin</td><td>無副作用</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">兩個常被弄錯的限制</div>
+<ul style="margin:0">
+<li>Default assignee <strong>不是</strong>任意 user picker，只有 Unassigned／Project lead 兩個選項。若改不了，檢查 ⚙ General configuration 的「Allow unassigned issues」。</li>
+<li>Software ↔ Business project <strong>不能直接轉換</strong>；只能建新 project 再把 issue 搬過去。</li>
+</ul></div>
+</section>
+
+<!-- ============ Key change ============ -->
+<section id="key">
+<div class="section-label">改 project key 的後果</div>
+<h2>改 key 不會弄壞舊東西，刪 previous key 才會</h2>
+<p>官方把「改 key」設計成安全的：舊 key 自動保存為 <strong>previous key</strong>，靠 alias 讓舊連結、filter、JQL 繼續運作。真正會弄壞東西的是之後<strong>刪掉 previous key</strong>（為了把舊 key 給新 project 用）。自己按一遍。</p>
+
+<div id="s214-keylab" class="card">
+  <div class="toolbar" style="margin-top:0">
+    <button id="s214-btn-rename" class="btn">把 key 從 EXAMPLE 改成 DEMO</button>
+    <button id="s214-btn-delete" class="btn ghost" disabled>刪除 previous key「EXAMPLE」</button>
+    <button id="s214-btn-reset" class="btn ghost sm">重設</button>
+  </div>
+  <div class="grid-2" style="grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)">
+    <div>
+      <div class="kicker" style="margin-bottom:.4rem">Project</div>
+      <div class="issue">
+        <div class="key">Project key</div>
+        <div class="sum" style="font-size:1.4rem;letter-spacing:.02em"><span id="s214-key">EXAMPLE</span></div>
+        <div class="kicker">Previous keys：<span id="s214-prev">（無）</span></div>
+        <div class="kicker" style="margin-top:.5rem">第 1 張 issue 的 key：<code id="s214-issuekey">EXAMPLE-1</code></div>
+      </div>
+    </div>
+    <div>
+      <div class="kicker" style="margin-bottom:.4rem">站台上還在用舊 key 的東西</div>
+      <div id="s214-deps" class="chips" style="gap:.5rem">
+        <span class="chip on" data-d="link">留言裡的連結 EXAMPLE-1</span>
+        <span class="chip on" data-d="jql">JQL <code>project = EXAMPLE</code></span>
+        <span class="chip on" data-d="board">Board filter</span>
+        <span class="chip on" data-d="gadget">Dashboard filter gadget</span>
+        <span class="chip on" data-d="macro">Confluence Jira macro</span>
+      </div>
+      <p id="s214-msg" class="kicker" style="margin:.75rem 0 0">現在一切正常。</p>
+    </div>
+  </div>
+</div>
+
+<h3>改 key 之前要想到的（官方清單）</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:30%">項目</th><th>官方說法</th></tr>
+<tr><td>先備份</td><td>做重大變更前先備份站台</td></tr>
+<tr><td>舊 key 不能再用</td><td>舊 key 只有在<strong>刪掉原 project</strong>（或刪掉 previous key）後才能給新 project</td></tr>
+<tr><td>Confluence macro</td><td>繼續運作，快取可能延遲一下</td></tr>
+<tr><td>舊連結</td><td>靠 <strong>alias</strong> 繼續運作：描述裡的 <code>EXAMPLE-1</code> 不會被改寫成 <code>DEMO-1</code>，但點下去會到 DEMO-1</td></tr>
+<tr><td>要通知使用者</td><td>建議更新 board filter、dashboard filter gadget、全域 JQL 為新 key（雖然舊的仍能動）</td></tr>
+<tr><td>key 規則</td><td>至少 2 字元、大寫字母開頭、只含大寫字母與數字</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">證據界線：改 key 要什麼權限，兩篇官方寫得不一樣</div>
+<ul style="margin:0">
+<li><strong>Edit a space’s details</strong>（考綱連結那篇）：改 key 需要 <strong>org／site／Jira admin</strong>。</li>
+<li><strong>TMP 的說明頁</strong>把 Details 的編輯歸在 project 層權限（role Administrator／Administer projects），沒有另外把 key 拉出來限制。</li>
+</ul>
+<p style="margin:8px 0 0">考試以<strong>考綱連結那篇</strong>為準：<strong>改 key ＝ 需要 Jira／site／org admin</strong>。實機上若你是 TMP 的 project admin 而 key 可編輯，不代表考題答案改變。另外，建立 project 時 key 是 Jira 自動產生的，建立者預設成為 project owner。</p></div>
+<div class="callout exam"><div class="t">考題長相</div>「Project admin 想改 key 卻找不到欄位可編輯」→ 改 key 需要 org／site／Jira admin。「改 key 後舊連結壞了嗎？」→ 沒壞，alias 會導向；「什麼情況會壞？」→ 刪除 previous key。</div>
+</section>
+
+<!-- ============ Sidebar ============ -->
+<section id="sidebar">
+<div class="section-label">Project sidebar（現行：space navigation）</div>
+<h2>側欄上有什麼，由「開了哪些 features」決定</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">考試年代（2023）</div>
+<p style="font-size:.94rem;margin-top:.5rem">左側 sidebar 列出 Board、Backlog、Reports、Releases、Components、Issues、Project pages、Add shortcut…。</p>
+<ul style="font-size:.9rem"><li>CMP：項目對應 project 的 features；Releases 對應 versions、Components 對應 components</li><li>TMP：Project settings → <strong>Features</strong> 開關（Backlog、Sprints、Releases、Reports…），關掉就從 sidebar 消失</li><li><strong>Add shortcut</strong>：project admin 可加外部連結（例如 Confluence space）</li></ul></div>
+<div class="card"><div class="eyebrow" style="color:var(--teal)">現行（2026）</div>
+<p style="font-size:.94rem;margin-top:.5rem">Project 導覽改成頁面上方的<strong>橫向 tabs</strong>，概念相同、多了幾個可調項。</p>
+<ul style="font-size:.9rem"><li><strong>Project admin 或 board admin</strong> 可以：設預設 tab、改名、移除、還原、排序（拖曳或 More actions → Move tab left／right）</li><li>加 tab：導覽列的 <strong>+</strong> → Add to navigation</li><li>限制：<strong>永遠要有一個 default tab；List 與 Apps tab 不能移除</strong></li><li>能出現哪些 tab 取決於：project 類型（software／business）、管理方式（CMP／TMP）、<strong>開啟的 features</strong></li><li>改動對<strong>所有</strong>有權進入 project 的人生效</li></ul></div>
+</div>
+
+<h3>Navigation tabs 能做的五件事（現行）</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">動作</th><th style="width:26%">誰</th><th>規則／限制</th></tr>
+<tr><td>Set as default</td><td>Project admin 或 board admin</td><td>進 project 時預設打開的 tab；<strong>永遠要留一個 default</strong>，default tab 不能被移除</td></tr>
+<tr><td>Rename</td><td>同上</td><td>只改顯示名稱，不影響底層 feature 是否開啟</td></tr>
+<tr><td>Move left／right</td><td>同上</td><td>拖曳或 More actions → Move tab left／right；改動對<strong>所有</strong>能進 project 的人生效</td></tr>
+<tr><td>Remove／還原</td><td>同上</td><td><strong>List 與 Apps tab 不能移除</strong>；移除過的 tab 之後可用導覽列的 <strong>+</strong> → Add to navigation 加回來</td></tr>
+<tr><td>加 shortcut（外部連結）</td><td>Project admin（部分站台設定另需 Jira admin）</td><td>要填<strong>完整 URI</strong>（含 <code>https://</code>）；只填網域或相對路徑不會生效</td></tr>
+</table></div>
+<div class="callout"><div class="t">兩個年代共同的考點</div>sidebar／navigation 是「呈現層」：想讓 Releases 出現，先確認 project 有 versions（CMP）或 Releases feature 開著（TMP）；想讓某項目消失，是 project admin 的事，不用 Jira admin。</div>
+</section>
+
+<!-- ============ Categories ============ -->
+<section id="category">
+<div class="section-label">Project categories</div>
+<h2>Jira admin 建、project 挑、JQL 用</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 250" role="img" aria-label="Category 由 Jira admin 建立，多個 project 各自指派，JQL 可用 category 查詢">
+  <defs><marker id="s214-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：Jira admin 框 (40,90,200,70)；Category 框 (330,90,240,70)；三個 project (660,20,200,50)(660,100,200,50)(660,180,200,50)；bus x=610 -->
+  <rect x="40" y="90" width="200" height="70" rx="10" class="box brand"/>
+  <text x="140" y="118" text-anchor="middle" class="lbl b">Jira admin</text>
+  <text x="140" y="140" text-anchor="middle" class="s">⚙ → Projects → Project categories</text>
+  <path d="M240,125 H330" class="ln" marker-end="url(#s214-arr)"/>
+  <text x="285" y="115" text-anchor="middle" class="tag muted">建立</text>
+  <rect x="330" y="90" width="240" height="70" rx="10" class="box violet"/>
+  <text x="450" y="118" text-anchor="middle" class="lbl b">Category「Platform」</text>
+  <text x="450" y="140" text-anchor="middle" class="s">全站共用、不能巢狀</text>
+  <path d="M570,125 H610" class="ln"/>
+  <path d="M610,45 V205" class="ln"/>
+  <path d="M610,45 H660" class="ln" marker-end="url(#s214-arr)"/>
+  <path d="M610,125 H660" class="ln" marker-end="url(#s214-arr)"/>
+  <path d="M610,205 H660" class="ln" marker-end="url(#s214-arr)"/>
+  <rect x="660" y="20" width="200" height="50" rx="10" class="box"/><text x="760" y="50" text-anchor="middle" class="lbl b">Project A（指派）</text>
+  <rect x="660" y="100" width="200" height="50" rx="10" class="box"/><text x="760" y="130" text-anchor="middle" class="lbl b">Project B（指派）</text>
+  <rect x="660" y="180" width="200" height="50" rx="10" class="box"/><text x="760" y="210" text-anchor="middle" class="lbl b">Project C（指派）</text>
+  <text x="450" y="225" text-anchor="middle" class="s">JQL：category = "Platform" → 一次撈到 A、B、C 的 issue</text>
+</svg>
+<div class="cap">圖 1　category 是「貼在 project 上的標籤」，用途是跨 project 的搜尋、filter、report、目錄篩選；它<strong>不是</strong> parent project。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">動作</th><th style="width:22%">誰</th><th>路徑</th></tr>
+<tr><td>建立 category</td><td><strong>Jira admin</strong></td><td>⚙ Settings → Projects → Project categories → 輸入名稱與描述 → Add</td></tr>
+<tr><td>指派給 project</td><td>TMP：project admin；CMP：details 頁寫「contact a Jira admin」（categories 頁的步驟則未區分）。考試作答：<strong>Jira admin 建、在 Project settings → Details 指派</strong></td><td>••• → Project settings → Details → Category 下拉 → Save details</td></tr>
+<tr><td>刪除 category</td><td><strong>Jira admin</strong></td><td>⚙ Settings → Projects → Project categories → Delete（被指派的 project 變成無 category，project 本身不受影響）</td></tr>
+<tr><td>使用</td><td>任何人</td><td>JQL <code>category = "X"</code>、saved filter、dashboard gadget、Projects 目錄篩選</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考題長相</div>「想把 5 個 project 分成一組做 dashboard」→ category + <code>category = "X"</code>。「想用 category 做 parent／child project」→ 不行，官方明講 category 不能做階層；要階層用 Plans（Premium）或 epic 跨 project。</div>
+</section>
+
+<!-- ============ Trash ============ -->
+<section id="trash">
+<div class="section-label">Trash</div>
+<h2>60 天內可還原，之後永久刪除</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 260" role="img" aria-label="Project 的 trash 生命週期：Active → Trash（60 天）→ 永久刪除，Trash 可 Restore 回 Active">
+  <defs><marker id="s214-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：Active (40,60,220,70)；Trash (340,60,220,70)；Deleted (640,60,220,70)；Restore 迴路 y=190 -->
+  <rect x="40" y="60" width="220" height="70" rx="10" class="box green"/>
+  <text x="150" y="88" text-anchor="middle" class="lbl b">Active</text><text x="150" y="110" text-anchor="middle" class="s">目錄、搜尋、board 都正常</text>
+  <path d="M260,95 H340" class="ln" marker-end="url(#s214-arr2)"/>
+  <text x="300" y="50" text-anchor="middle" class="tag muted">Move to trash</text>
+  <rect x="340" y="60" width="220" height="70" rx="10" class="box amber"/>
+  <text x="450" y="88" text-anchor="middle" class="lbl b">Trash（60 天）</text><text x="450" y="110" text-anchor="middle" class="s">搜不到、直連可看不可編</text>
+  <path d="M560,95 H640" class="ln" marker-end="url(#s214-arr2)"/>
+  <text x="600" y="50" text-anchor="middle" class="tag muted">60 天後自動</text>
+  <text x="600" y="150" text-anchor="middle" class="tag muted">或手動 Delete permanently</text>
+  <rect x="640" y="60" width="220" height="70" rx="10" class="box rose"/>
+  <text x="750" y="88" text-anchor="middle" class="lbl b">永久刪除</text><text x="750" y="110" text-anchor="middle" class="s">無法復原</text>
+  <path d="M450,130 V190 H150 V130" class="ln" marker-end="url(#s214-arr2)"/>
+  <text x="300" y="215" text-anchor="middle" class="tag accent">Restore（需 Administer Jira）</text>
+  <text x="450" y="245" text-anchor="middle" class="s">Trash 期間 scheme、workflow、issue type、共用設定都不受影響</text>
+</svg>
+<div class="cap">圖 2　Trash 是「暫停」不是「刪除」；還原後 project 回到目錄、issue 回到搜尋結果。</div>
+</div>
+
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">動作</th><th style="width:34%">誰能做</th><th>路徑／備註</th></tr>
+<tr><td>Move to trash</td><td><strong>Administer Jira</strong> 全域權限，<strong>或</strong>該 project 的 <strong>Administer Projects</strong>（官方 Move a space to trash 頁原文：「the Administer Jira global permission or … the permission to administer spaces」）；TMP 的 Administrator role 也含此權限</td><td>⚙ → Projects（或 Manage projects）→ ••• → Move to trash → Move；project admin 也可從 Project settings → Details 進入</td></tr>
+<tr><td>Restore</td><td><strong>Administer Jira</strong></td><td>⚙ → Projects → Trash → ••• → Restore；legacy 的無效 epic-link 關係不會被恢復</td></tr>
+<tr><td>Delete permanently</td><td><strong>Administer Jira</strong></td><td>⚙ → Projects → Trash → ••• → Delete permanently；<strong>必須先在 trash 裡</strong>，不能直接刪</td></tr>
+<tr><td>Trash 期間</td><td>—</td><td>issue、components、attachments、versions 一起進 trash；issue 從基本／進階搜尋消失，直連可讀不可編；project 從目錄消失；admin 可看到誰、何時丟的、何時會被永久刪</td></tr>
+<tr><td>不受影響</td><td>—</td><td>schemes、workflows、issue types、共用設定</td></tr>
+</table></div>
+<h3 style="margin-top:24px">Trash 與 Archive 不是同一件事</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:16%">面向</th><th style="width:42%">Trash</th><th>Archive（封存）</th></tr>
+<tr><td>方案</td><td>所有方案都有</td><td><strong>只有 Premium／Enterprise</strong> 能封存；之後降到 Standard 仍可存取與還原已封存的 project，但<strong>不能再封存新的</strong></td></tr>
+<tr><td>誰能做</td><td>Move to trash：Administer Jira <strong>或</strong>該 project 的 Administer Projects；Restore／永久刪除：<strong>Administer Jira</strong></td><td>Jira／site admin 可封存與還原 <strong>CMP 與 TMP</strong>；project admin <strong>只能封存 TMP</strong></td></tr>
+<tr><td>期限</td><td>60 天後永久刪除</td><td><strong>沒有期限</strong>，不會被自動刪除</td></tr>
+<tr><td>一起被處理的資料</td><td>issue、components、attachments、versions</td><td>同樣是 issue、components、attachments、versions；<strong>不影響</strong> scheme、workflow、issue type 與跟別的 project 共用的設定</td></tr>
+<tr><td>還看得到嗎</td><td>搜尋看不到；直連可讀不可編</td><td>一樣搜尋看不到、<strong>直連可讀不可編</strong>；封存前就有權限的人仍可透過 <strong>API</strong> 讀到 project 細節，要真的擋掉必須<strong>封存前先改權限</strong></td></tr>
+</table></div>
+<div class="callout warn"><div class="t">兩個容易被考的細節</div>
+<ul style="margin:0">
+<li><strong>60 天不是保證</strong>：期限內任何有 Administer Jira 的人都可以直接 Delete permanently。「還在 trash 就一定救得回來」是錯的。</li>
+<li><strong>還原不會修好 legacy 的 epic-link</strong>：project 若有無效的 epic-link 關係，<strong>trash 還原與 archive 還原都不會</strong>把這些連結恢復。</li>
+</ul>
+<p class="note" style="margin:8px 0 0">來源：<a href="https://support.atlassian.com/jira-cloud-administration/docs/archive-a-project/">Archive a space</a></p></div>
+<div class="callout warn"><div class="t">證據界線：project admin 到底能不能把 CMP 丟進 trash</div>
+<ul style="margin:0">
+<li><strong>Move a space to trash</strong>（考綱路徑）寫的是「the Administer Jira global permission or … the permission to administer spaces」，<strong>沒有</strong>限定 project 類型——本教材以此為準。</li>
+<li><strong>Archive a space</strong> 則寫 project admin 只能封存 team-managed space，並補一句「同樣的規則也適用於把 project 移到 trash 與還原」。</li>
+</ul>
+<p style="margin:8px 0 0">兩篇不一致。作答原則：題目問「誰能把 project 丟進 trash」→ <strong>Administer Jira 或 Administer Projects</strong>；題目明確在講 <strong>archive</strong> → <strong>project admin 只能封存 TMP</strong>。Restore 與永久刪除兩篇一致，都是 <strong>Administer Jira</strong>。</p></div>
+<h3 style="margin-top:24px">「不見了」的三種排查</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:30%">現象</th><th style="width:32%">最可能的原因</th><th>怎麼確認</th></tr>
+<tr><td>board 上少了幾張，但搜尋找得到</td><td>board filter／quick filter 篩掉了；TMP Kanban 的 Done 會在 <strong>14 天</strong>後自動從 board 清掉</td><td>看 board 的 filter query；用 <strong>See all done issues</strong></td></tr>
+<tr><td>整批 issue 從搜尋消失，直連還打得開但不能編</td><td>整個 project 進了 <strong>Trash</strong> 或被 <strong>Archive</strong></td><td>⚙ → Projects → <strong>Trash</strong>／<strong>Archive</strong> 找 project 名稱，順便看是誰、什麼時候做的</td></tr>
+<tr><td>issue 還在，只是不出現在 Releases 清單</td><td><strong>version 被封存</strong>（version 層級，不是 project 層級）</td><td>Project settings → Releases → 顯示已封存的版本</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">官方的替代建議</div>之後可能還會用到的 project，官方建議<strong>archive（Premium）或 hide</strong>，而不是進 trash 等 60 天。Data Center 遷移到 Cloud 時，重新遷移前要先把 trash 裡的同名 project 永久刪除。</div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>Project admin 小美想把 project key 從 MOB 改成 APP，Details 頁的 key 欄位是灰的。為什麼？</summary><div class="a"><div class="tag">解答</div>改 key 需要 org／site／Jira admin；project admin 改不了。</div></details>
+<details class="q"><summary>Key 改成 APP 後，同事留言裡的 MOB-12 連結還能點嗎？</summary><div class="a"><div class="tag">解答</div>能。舊 key 存為 previous key，alias 會導向 APP-12；連結文字不會被改寫。</div></details>
+<details class="q"><summary>改 key 之後，Jira admin 還應該提醒團隊做什麼？</summary><div class="a"><div class="tag">解答</div>更新 board filter、dashboard filter gadget、全域 JQL 為新 key，並在改之前備份站台。</div></details>
+<details class="q"><summary>公司想把舊 key MOB 拿給一個全新的 project 用，該怎麼做、有什麼風險？</summary><div class="a"><div class="tag">解答</div>在原 project 的 Details → Previous keys 刪除 MOB（需 org／site／Jira admin）。風險：所有還在用 MOB 的連結、board filter、gadget、JQL 都會失效，要先通知使用者。</div></details>
+<details class="q"><summary>Default assignee 想設成 QA 小傑，但下拉只有 Unassigned 和小美。怎麼辦？</summary><div class="a"><div class="tag">解答</div>Default assignee 只能是 Unassigned 或 Project lead；把 Project lead 改成小傑再選。</div></details>
+<details class="q"><summary>想把 6 個 project 的 issue 放在同一個 dashboard 看，且不想一個一個列 project key。</summary><div class="a"><div class="tag">解答</div>請 Jira admin 建 category，各 project 指派後用 <code>category = "X"</code> 的 filter 餵 gadget。</div></details>
+<details class="q"><summary>PM 想用 category 做「母 project 底下有子 project」的結構。</summary><div class="a"><div class="tag">解答</div>做不到，官方明講 category 不能做階層；它只是標籤。跨 project 的階層要用 Plans 或跨 project epic。</div></details>
+<details class="q"><summary>Project admin 想把自己的 project 丟進 trash，需要找 Jira admin 嗎？之後想還原呢？</summary><div class="a"><div class="tag">解答</div>丟進 trash 不用：官方寫 Administer Jira <strong>或</strong> Administer Projects 都可以。但 <strong>Restore 與 Delete permanently 只有 Administer Jira</strong>，這時才要找 Jira admin。</div></details>
+<details class="q"><summary>Project 進 trash 後，有人用 JQL 搜還找得到裡面的 issue 嗎？拿到直連呢？</summary><div class="a"><div class="tag">解答</div>搜尋找不到；直連可以開來看，但不能編輯。60 天內 Jira admin 可還原。</div></details>
+<details class="q"><summary>Jira admin 想直接永久刪除一個 project，找不到 Delete 按鈕。</summary><div class="a"><div class="tag">解答</div>必須先 Move to trash，再到 ⚙ → Projects → Trash 裡 Delete permanently。</div></details>
+<details class="q"><summary>Project admin 想讓 Releases tab 出現在 project 導覽上，但找不到。</summary><div class="a"><div class="tag">解答</div>導覽項目取決於開啟的 features：TMP 去 Project settings → Features 開 Releases；CMP 需要 project 有 versions（Releases 對應 versions）。導覽本身 project／board admin 就能加、排、移除。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「改 key 會讓舊連結全部失效」</td><td>不會；previous key 的 alias 會導向。刪 previous key 才會失效</td></tr>
+<tr><td>「Project admin 可以改 key」</td><td>只有 org／site／Jira admin</td></tr>
+<tr><td>「Default assignee 可以指定任何成員」</td><td>只有 Unassigned 或 Project lead／owner（官方原句 the default assignee can only be either Unassigned, or the Space owner，2026-09-08）</td></tr>
+<tr><td>「Project admin 可以建 category」</td><td>Jira admin 才能建；project 只能挑</td></tr>
+<tr><td>「Category 可以做 parent project」</td><td>不能做階層</td></tr>
+<tr><td>「Project admin 丟了 project 也能自己還原」</td><td>丟 trash：Administer Jira 或 Administer Projects 都可；Restore／Delete permanently 只有 Administer Jira</td></tr>
+<tr><td>「Trash 裡的 issue 完全看不到」</td><td>搜尋看不到，直連可看不可編</td></tr>
+<tr><td>「Trash 會連 scheme 一起清掉」</td><td>schemes、workflows、issue types 不受影響</td></tr>
+<tr><td>「Software project 可以改成 Business project」</td><td>不能直接轉，建新 project 搬 issue</td></tr>
+<tr><td>「Archive 和 Trash 差不多」</td><td>Archive 沒有期限、要 Premium／Enterprise；Trash 60 天後永久刪除，所有方案都有</td></tr>
+<tr><td>「進了 trash 的 project，60 天內一定救得回來」</td><td>有 Administer Jira 的人可以隨時提早 Delete permanently</td></tr>
+<tr><td>「Project admin 可以封存任何 project」</td><td>project admin <strong>只能封存 TMP</strong>；CMP 要 Jira／site admin</td></tr>
+<tr><td>「封存後別人就完全存取不到了」</td><td>封存前有權限的人仍可透過 API 讀到細節；要擋掉必須封存前先改權限</td></tr>
+<tr><td>「navigation 上的 tab 都能移除」</td><td>List 與 Apps 不能移除，而且一定要留一個 default tab</td></tr>
+<tr><td>「加 shortcut 時填網域就好」</td><td>要完整 URI（含 <code>https://</code>）</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（20 分鐘）</div>
+<h2>在試用站台走一遍</h2>
+<ol>
+<li>用 project admin 帳號開 Details：確認 key 欄位不可編輯、Default assignee 只有兩個選項、URL 欄位只在 CMP 出現。</li>
+<li>用 Jira admin 改一個測試 project 的 key（先在 issue 留言貼舊 key 連結）：改完點舊連結，確認導向新 key；看 Details 的 Previous keys。</li>
+<li>刪掉 previous key，再點同一個連結，觀察失效；把 key 改回去。</li>
+<li>⚙ → Projects → Project categories 建「Lab」，指派給兩個 project，用 <code>category = "Lab"</code> 搜尋。</li>
+<li>用 project admin 帳號把測試 project 丟進 trash：搜尋看不到 issue、直連可讀不可編；同一帳號到 ⚙ → Projects → Trash 確認<strong>沒有</strong> Restore 權限；換 Jira admin 帳號看誰丟的、何時永久刪，Restore 回來。</li>
+<li>在 project 導覽按 +，加一個 tab、改名、設為 default、再移除；試著移除 List tab 確認不行。</li>
+<li>（Premium／Enterprise）把另一個測試 project <strong>Archive</strong>：<br><span class="note">預期：搜尋找不到它的 issue、直連仍可讀不可編、⚙ → Projects → Archive 看得到誰封存與何時封存；再 Restore 回來。跟 trash 的差別是<strong>沒有 60 天倒數</strong>。</span></li>
+<li>用 project admin 帳號分別對一個 <strong>CMP</strong> 與一個 <strong>TMP</strong> 按 Archive，記錄哪一個做得到。<br><span class="note">預期：只有 TMP 做得到，對應官方「project admin 只能封存 team-managed space」。</span></li>
+</ol>
+<div class="callout"><div class="t">來源（本節實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/">Edit a space's details</a>（官方考綱連結；含 change key、previous keys、URL、category、avatar、owner、default assignee）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/add-assign-and-delete-project-categories/">Add, assign, and delete space categories</a>（官方考綱連結）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/trash-for-jira-cloud-projects/">Trash for Jira Cloud spaces</a>（官方考綱連結；hub，含 60 天、搜尋不到但直連可讀不可編、不影響 scheme）→ 子頁 <a href="https://support.atlassian.com/jira-cloud-administration/docs/move-a-project-to-trash/">Move a space to trash</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/restore-a-project-from-trash/">Restore a space from trash</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/delete-a-project/">Delete a space</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/manage-and-customize-the-project-navigation/">Manage and customize the space navigation</a>（sidebar 的現行對應頁）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/archive-a-project/">Archive a space</a>（Premium／Enterprise、誰能封存哪種 project、API 仍讀得到、legacy epic-link 不還原）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-new-project/">Create a new space</a>（建立時 key 由 Jira 產生、建立者預設為 project owner）</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 12 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.1.4"></div>
+</section>
+
+<div class="footer-nav"><a href="620.1.3.html">← 620.1.3 Issue type 設計</a><a href="620.2.1.html">下一節：620.2.1 選擇 board 類型 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.1.4 改 key 模擬器（id 前綴 s214-） */
+(function () {
+  const $ = (s) => document.querySelector(s);
+  const pop = (el) => { if (window.springPop && !matchMedia('(prefers-reduced-motion: reduce)').matches) window.springPop(el); };
+  const rename = $('#s214-btn-rename'), del = $('#s214-btn-delete'), reset = $('#s214-btn-reset');
+  const key = $('#s214-key'), prev = $('#s214-prev'), ik = $('#s214-issuekey'), msg = $('#s214-msg');
+  const deps = Array.from(document.querySelectorAll('#s214-deps .chip'));
+  const NOTE = { link: '留言裡的連結 EXAMPLE-1', jql: 'JQL project = EXAMPLE', board: 'Board filter', gadget: 'Dashboard filter gadget', macro: 'Confluence Jira macro' };
+  function state(s) {
+    if (s === 'init') {
+      key.textContent = 'EXAMPLE'; prev.textContent = '（無）'; ik.textContent = 'EXAMPLE-1';
+      deps.forEach((c) => { c.className = 'chip on'; c.innerHTML = c.dataset.d === 'link' ? '留言裡的連結 EXAMPLE-1' : c.dataset.d === 'jql' ? 'JQL <code>project = EXAMPLE</code>' : NOTE[c.dataset.d]; });
+      msg.textContent = '現在一切正常。'; rename.disabled = false; del.disabled = true;
+    } else if (s === 'renamed') {
+      key.textContent = 'DEMO'; prev.textContent = 'EXAMPLE'; ik.textContent = 'DEMO-1'; pop(key);
+      deps.forEach((c) => { c.className = 'chip on'; pop(c); });
+      msg.innerHTML = '改成 DEMO 了。舊 key 進 <strong>Previous keys</strong>，五樣東西<strong>全部還能用</strong>：連結靠 alias 導到 DEMO-1、JQL 靠 previous key 解析、macro 等快取更新。建議通知使用者把 filter／gadget／JQL 改成新 key。';
+      rename.disabled = true; del.disabled = false;
+    } else if (s === 'deleted') {
+      prev.textContent = '（已刪除 EXAMPLE）';
+      deps.forEach((c) => { c.className = 'chip off rose'; c.style.opacity = '1'; pop(c); });
+      msg.innerHTML = '<strong>刪掉 previous key 之後</strong>：所有還在用 EXAMPLE 的連結、board filter、gadget、JQL、macro 全部失效。這就是官方要你「先通知使用者」的原因；EXAMPLE 現在可以給新 project 用。';
+      del.disabled = true;
+    }
+  }
+  rename.addEventListener('click', () => state('renamed'));
+  del.addEventListener('click', () => state('deleted'));
+  reset.addEventListener('click', () => state('init'));
+  state('init');
+})();
+</script>
+</body>
+</html>

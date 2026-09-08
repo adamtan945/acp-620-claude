@@ -1,0 +1,1236 @@
+[
+ {
+  "id": "620.1.1-001",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "一個實驗小組每週都在改自己的流程，希望由團隊自己維護設定，而且沒有跨 project 共用的需求。最適合哪種管理方式？",
+  "options": [
+   "Team-managed",
+   "Company-managed 並使用 shared configuration",
+   "Company-managed，由 Jira admin 每週幫他們改 workflow",
+   "只要選 Scrum template 就能滿足管理需求"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方定位 team-managed 給 autonomous teams：project admin 可自行改 issue types、fields、workflow，不需 Jira admin。",
+   "B": "Shared configuration 引入了題目沒有要求的跨 project 相依。",
+   "C": "可行但違反需求：每次改都要等 Jira admin。",
+   "D": "Template 只決定工作節奏（Scrum／Kanban），不決定設定由誰管理。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-team-managed-and-company-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-next-gen-project-settings/"
+  ],
+  "tags": [
+   "tmp-vs-cmp",
+   "選型"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.1-002",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "六個產品 project 必須使用同一套 workflow，將來調整時也要保持一致。你該推薦什麼？",
+  "options": [
+   "六個 team-managed project，把 workflow 取相同名稱",
+   "Company-managed project，使用 shared configuration",
+   "六個 project 都選同一個 template 就足夠",
+   "六個 team-managed project，由 project admin 定期手動同步"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "TMP 的 workflow 長在各自 project 裡，同名不代表同一份物件。",
+   "B": "只有 company-managed 的 scheme 是全站物件，一份可掛多個 project，Jira admin 改一次全部生效。",
+   "C": "Template 只是建立時的起點，不是持續同步的契約。",
+   "D": "手動同步無法保證一致，也不是官方提供的機制。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-team-managed-and-company-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-new-project/"
+  ],
+  "tags": [
+   "shared-configuration",
+   "標準化"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.1-003",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "Project A 與 B 共用同一份 workflow。Jira admin 在這份 workflow 加入 Review 狀態，哪些 project 會受影響？",
+  "options": [
+   "只有最後一個掛上這份 workflow 的 project",
+   "只有 A",
+   "A 與 B",
+   "Jira 裡所有 project"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "忽略了 B 也引用同一份 workflow。",
+   "C": "引用同一份 scheme 物件的 project 都會同步改變；這正是 shared configuration 的意義。",
+   "D": "沒有引用該 workflow 的 project 不在影響範圍。",
+   "A": "Scheme 沒有「最後掛上者優先」的概念。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-team-managed-and-company-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-new-project/"
+  ],
+  "tags": [
+   "shared-configuration",
+   "workflow"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.1-004",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "團隊持續接收工作，希望限制同時進行的數量（WIP）。單就工作節奏，哪個 template 最合適？",
+  "options": [
+   "Bug tracking",
+   "Company-managed",
+   "Scrum",
+   "Kanban"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "Scrum 以固定 sprint 週期規劃，不是連續流。",
+   "D": "Kanban 是連續流，board 有 column limit 可限制 WIP。",
+   "A": "Bug tracking 是簡化的追蹤模板，沒有 WIP 概念。",
+   "B": "Company-managed 是管理方式，不是 template。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-the-project-templates/"
+  ],
+  "tags": [
+   "template",
+   "kanban"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.1-005",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "Free plan 上的一般 project admin 想建立一個「與其他 project 共用設定」的新 project。哪個說法正確？",
+  "options": [
+   "此建立選項需要 Jira admin，且不適用 Free plan",
+   "只要兩個 project 用同一個 template 就自動共用",
+   "只要能管理 project 就能建立 shared configuration",
+   "改用 team-managed 就可以共用 schemes"
+  ],
+  "answer": "A",
+  "explain": {
+   "C": "Project admin 與 Jira admin 是不同層級；建 CMP 本身就需要 Administer Jira。",
+   "D": "TMP 沒有 scheme，設定長在 project 裡，無法共用。",
+   "A": "官方 Create a new project 頁：Share settings with an existing project 由 Jira admin 在建 CMP 時選，Free plan 不提供。",
+   "B": "同 template 只是起點，不是共用關係。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-new-project/",
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-team-managed-and-company-managed-projects/"
+  ],
+  "tags": [
+   "shared-configuration",
+   "free-plan",
+   "權限"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.1-006",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "只有三個人的團隊，卻必須沿用其他部門的共用設定，而且每兩週交付一次。哪個方案更合適？",
+  "options": [
+   "人少，所以一定要 team-managed",
+   "Company-managed ＋ Scrum，並確認 shared configuration",
+   "Kanban，因為所有小團隊都適用",
+   "Team-managed ＋ Scrum，之後再搬到 company-managed"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "官方選型準則是「自主 vs 標準化」，不是人數。",
+   "B": "共用設定只有 CMP 做得到；兩週交付是 Scrum 的線索。",
+   "C": "人數不決定 template；題目給的是固定週期。",
+   "D": "遷移沒有一鍵轉換，會掉 sprint／story points 等資料，不該當成預設路徑。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-team-managed-and-company-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/migrate-between-team-managed-and-company-managed-projects/"
+  ],
+  "tags": [
+   "選型",
+   "shared-configuration"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.1-007",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "團隊需要把 issue 依「前端／後端／資料庫」分組，並讓各模組負責人自動被指派。該建哪種 project？",
+  "options": [
+   "任一種都可以，components 兩邊都有",
+   "Team-managed，用 labels 分組",
+   "Company-managed，用 components 並設定 component 的 default assignee",
+   "Team-managed，用自訂 role 分組"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "Labels 不能設定自動指派。",
+   "C": "Components 只有 company-managed 有，且每個 component 可設 default assignee（component lead）。",
+   "D": "Role 控制的是權限，不是工作分類。",
+   "A": "Team-managed 沒有 components。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-team-managed-and-company-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/how-do-features-differ-based-on-project-type/"
+  ],
+  "tags": [
+   "components",
+   "選型"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.1-008",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "團隊要對外部承包商開放看板，但其中幾張 HR 相關 issue 只能內部看。哪種 project 才做得到？",
+  "options": [
+   "兩種都做不到，必須另開 project",
+   "Team-managed，把 project 設成 Limited",
+   "Team-managed，對 HR issue type 設 role 限制",
+   "Company-managed，使用 issue security scheme"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "Limited 只影響「沒被加入的人」的預設角色，承包商一旦被加入仍看得到全部。",
+   "C": "Issue type 限制只影響之後新建的 issue，且無法用 Reporter／Assignee 動態授權。",
+   "D": "Issue security scheme 可以在同一 project 內對個別 issue 設 security level，只有 level 成員看得到。",
+   "A": "CMP 就能在同一 project 內達成，不必拆 project。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-team-managed-and-company-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-next-gen-project-settings/"
+  ],
+  "tags": [
+   "issue-security",
+   "選型"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.1-009",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "公司想讓不用登入的訪客也能看「公開 roadmap」project。下列何者正確？",
+  "options": [
+   "Company-managed 把 Browse Projects 授予 Public，且站台允許匿名存取",
+   "Team-managed 設成 Limited 即可",
+   "任何 project 只要分享 board 連結就能匿名看",
+   "Team-managed 設成 Open 即可"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Open 是「站台上任何登入使用者自動成為 Member」，不是開放給網際網路。",
+   "A": "匿名存取只有 company-managed 做得到：permission scheme 的 Browse Projects 給 Public。",
+   "B": "Limited 同樣只針對站台使用者。",
+   "C": "Board 可見度取決於 filter 分享與 Browse 權限，不會因連結而匿名開放。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/next-gen-permissions/",
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-team-managed-and-company-managed-projects/"
+  ],
+  "tags": [
+   "匿名存取",
+   "permission-scheme"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.1-010",
+  "section": "620.1.1",
+  "domain": "620.1",
+  "stem": "一個 team-managed project 用了半年，公司要把它納入標準流程。搬到 company-managed 時，下列哪一項會遺失、無法恢復？",
+  "options": [
+   "Issue 的留言與附件",
+   "Story points 與報表歷史",
+   "Issue key（會保留原 key）",
+   "Issue 的建立時間"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "留言與附件會跟著 issue 一起 bulk move。",
+   "B": "官方遷移頁：story points 與 velocity／報表歷史不會帶過去；custom field、workflow、issue type 要在目的地重建。",
+   "C": "Issue key 會換成新 project 的 key，舊連結自動轉址。",
+   "D": "建立時間等系統欄位保留。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/migrate-between-team-managed-and-company-managed-projects/"
+  ],
+  "tags": [
+   "migration",
+   "遺失資料"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.2-001",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "一個 Open 的 team-managed project 裡，project admin 把小明加成 Viewer，為什麼小明仍然可以編輯 issue？",
+  "options": [
+   "Open 讓全站使用者自動成為 Member，指派的 role 是加總不是覆寫",
+   "Jira 快取沒更新",
+   "Viewer 在 team-managed 等同 Member",
+   "Viewer 本身可以編輯所有 issue"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Viewer 沒有 Edit any issue 權限。",
+   "A": "官方明文：指派的 role add to（rather than override）access level 給的權限；要限制人得先把 access level 降到 Limited。",
+   "B": "與快取無關，是權限模型的設計。",
+   "C": "三個內建 role 權限不同。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-how-people-access-your-team-managed-project/",
+   "https://support.atlassian.com/jira-software-cloud/docs/next-gen-permissions/"
+  ],
+  "tags": [
+   "access-level",
+   "role-疊加"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.2-002",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "從 team-managed project 的 Access 頁移除某人，就保證他無法再查看這個 project 嗎？",
+  "options": [
+   "是，移除後立即失去所有存取",
+   "否，他可能仍透過 Open／Limited 的 access level 或被加入的 group 取得權限",
+   "是，只要他不是 Jira admin",
+   "否，只有 site admin 能真正移除"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "移除只處理「直接指派」這一個來源。",
+   "B": "官方提醒：曾把全站 group 加進 role 時，被移除的人可能仍透過 group 有權限；Open／Limited 也會給預設 role。",
+   "C": "Jira admin 永遠能進 project settings，但這不是唯一例外。",
+   "D": "Access 頁的移除由 project admin 執行即可。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/add-people-to-team-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-how-people-access-your-team-managed-project/"
+  ],
+  "tags": [
+   "移除成員",
+   "group"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.2-003",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "Team-managed project 的內建 Viewer 預設可以做什麼？",
+  "options": [
+   "瀏覽並建立 issue",
+   "只能瀏覽，不能留言",
+   "瀏覽、留言、加附件、編輯或刪除自己的留言與附件",
+   "瀏覽並刪除所有人的留言"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "Viewer 不是純唯讀。",
+   "C": "官方權限表：Viewer 擁有 Collaborate 群組（Add comments／attachments、Edit own comments、Delete own comments／attachments）。",
+   "D": "刪任何留言是 Administrator 的權限。",
+   "A": "Create issues 屬於 Work on issues 群組，Viewer 沒有。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/next-gen-permissions/"
+  ],
+  "tags": [
+   "viewer",
+   "內建role"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.2-004",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "Team-managed 的 Member 想把一張 issue 搬到另一個 project。只有來源 project 的 Move any issue 權限夠嗎？",
+  "options": [
+   "不夠，需要 Jira admin 代為搬移",
+   "不夠，兩邊都要 Administrator",
+   "夠",
+   "不夠，還需要目的地 project 的 Create issues 權限"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "不夠。官方 Move any issue：「To successfully move a work item, they also need permission to create work items in the target space.」只有來源端權限無法完成搬移。",
+   "D": "搬移 = 在目的地建立，所以需要目的地的 Create 權限。",
+   "A": "一般成員有對應權限即可，不需 Jira admin。",
+   "B": "Administrator 不是必要條件。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/next-gen-permissions/"
+  ],
+  "tags": [
+   "move",
+   "權限組合"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.2-005",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "剛啟用 Sprints 的 team-managed project，board 一片空白但 backlog 有工作。先查什麼？",
+  "options": [
+   "是否已開始 sprint",
+   "是否把 project 設成 Private",
+   "是否需要刪除 project 重建",
+   "是否缺少 Done column"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方 Get started：If you have the Sprints feature enabled, your board won't show any work items until you start a sprint。",
+   "B": "Private 影響誰看得到 project，不會讓 board 空白。",
+   "C": "資料沒有遺失，只是視圖與 sprint 的關係。",
+   "D": "Board 永遠會有 Done column，這不是原因。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/"
+  ],
+  "tags": [
+   "sprint",
+   "board空白"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.2-006",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "刪除 team-managed project 的自訂 role 會發生什麼？",
+  "options": [
+   "持有該 role 的人被移出 project",
+   "人不會被移出，但綁在該 role 的 notifications 與 issue type restrictions 會受影響",
+   "內建的 Viewer 也會一起被刪",
+   "持有該 role 的使用者帳號被刪除"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "Role、project 成員、站台帳號是三個不同層次。",
+   "A": "官方：Deleting a role doesn't remove people with that role from the space。",
+   "B": "官方列出刪 role 會影響 Notifications 與 Work item restrictions，之後要重建。",
+   "C": "內建三個 role 不能刪。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-how-people-access-your-team-managed-project/"
+  ],
+  "tags": [
+   "role",
+   "刪除"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.2-007",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "一般使用者說「我沒有 Create project 按鈕」。在 team-managed 的情況下，最可能的原因？",
+  "options": [
+   "他的帳號沒有 Jira app access 的 Viewer 席次",
+   "他沒有 Administer Jira",
+   "Jira admin 已從他的群組移除 Create team-managed projects 全域權限",
+   "他不是任何 project 的 Administrator"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "建 TMP 不需要 Administer Jira，那是建 CMP 的條件。",
+   "C": "官方：By default, anyone can create team-managed spaces… Jira admins can prevent users… by managing which groups are granted this permission。",
+   "D": "Project role 與建 project 無關。",
+   "A": "有 Jira 授權席次的使用者預設就有此全域權限；沒有席次的人根本進不了 Jira。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-edit-and-delete-team-managed-projects/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/manage-global-permissions/"
+  ],
+  "tags": [
+   "建立TMP",
+   "global-permission"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.2-008",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "Team-managed project 的 key 規則，下列何者正確？",
+  "options": [
+   "至少 3 字元、可含小寫字母",
+   "可含連字號與底線",
+   "改 key 後舊 key 立即釋放給其他 project 使用",
+   "至少 2 字元、大寫字母開頭、只含大寫字母與數字；改 key 最多 10 分鐘生效"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方 Create and edit team-managed spaces 逐條列出這三條規則，並說明更新最多 10 分鐘反映在 board。",
+   "A": "下限是 2 字元且不可小寫。",
+   "B": "只允許大寫字母與數字。",
+   "C": "舊 key 進 Previous keys 保留，除非刻意刪除。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-edit-and-delete-team-managed-projects/"
+  ],
+  "tags": [
+   "project-key"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.2-009",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "一個 Limited 的 team-managed project，某位剛入職、沒被加進 project 的同事會得到什麼能力？",
+  "options": [
+   "能看、留言、加附件，但不能建立或編輯 issue",
+   "能看、建立、編輯 issue",
+   "能看但不能留言",
+   "看不到 project"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Limited 下全站使用者仍看得到 project；看不到的是 Private。",
+   "A": "官方：Limited 時 anyone on your Jira site can view and comment… gives anyone who logs in the Viewer role。Viewer 可留言與加附件。",
+   "B": "建立與編輯是 Member（Open 才自動給）。",
+   "C": "Viewer 可以留言。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/next-gen-permissions/",
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-how-people-access-your-team-managed-project/"
+  ],
+  "tags": [
+   "access-level",
+   "limited"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.2-010",
+  "section": "620.1.2",
+  "domain": "620.1",
+  "stem": "Project admin 把外包設計師加為 Member，但他說「看得到 issue、卻拖不動也改不了」。最可能的原因？",
+  "options": [
+   "project 是 Private",
+   "他沒有 Jira app access（授權席次），要找 site admin",
+   "Member 本來就不能編輯",
+   "他還需要 Administrator role"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "官方：Some permissions require app access to Jira… Only your site admin can grant individuals app access。Viewer 可給任何站台使用者，Member 的編輯類權限需要席次。",
+   "C": "Member 有 Edit any issue、Transition any issue。",
+   "D": "Administrator 不是編輯的必要條件。",
+   "A": "Private 只影響未被加入的人；他已被加入。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-how-people-access-your-team-managed-project/"
+  ],
+  "tags": [
+   "app-access",
+   "site-admin"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.3-001",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "Story 可以同時是 parent 也是 child 嗎？",
+  "options": [
+   "可以：Story 可掛在 Epic 下，同時有自己的 sub-task",
+   "不可以，只有 Epic 能當 parent",
+   "不可以，只有 Sub-task 能當 child",
+   "可以，但只有 Premium 方案"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方階層：Epic（parent）→ standard（Story／Task／Bug）→ sub-task（child）。Standard 層同時可有 parent 與 child。",
+   "B": "Standard issue 也能當 sub-task 的 parent。",
+   "C": "Standard issue 是 epic 的 child。",
+   "D": "三層階層是所有方案的預設。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/"
+  ],
+  "tags": [
+   "階層",
+   "parent-child"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.3-002",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "下列哪一個不屬於 Software project 預設的 standard 層 issue type？",
+  "options": [
+   "Bug",
+   "Sub-task",
+   "Story",
+   "Task"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "Task 是 standard。",
+   "A": "Bug 是 standard。",
+   "B": "Sub-task 位於 child 層（Level −1），只能當 child。",
+   "C": "Story 是 standard。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/"
+  ],
+  "tags": [
+   "階層",
+   "預設type"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.3-003",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "團隊要求所有 sub-task 完成後，parent 才能 Resolve。該怎麼做？",
+  "options": [
+   "在 sub-task 的 workflow 加 validator",
+   "只要建立 sub-task 即可，Jira 會自動擋",
+   "在 parent 的 Resolve transition 加 Subtask Blocking Condition",
+   "把 issue type 改名為 Done"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "建立關係不會自動阻擋。",
+   "C": "官方 Configure subtasks：在 workflow 的 transition 加 Subtask Blocking Condition，選 sub-task 必須達到的狀態。",
+   "D": "混淆 type 與 status。",
+   "A": "要擋的是 parent 的 transition，且這是 condition 不是 validator。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-sub-tasks/"
+  ],
+  "tags": [
+   "subtask-blocking-condition",
+   "workflow"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.3-004",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "Jira admin 想停用全站的 sub-task，但站台上已有使用中的 sub-task。應先做什麼？",
+  "options": [
+   "先刪除所有 sub-task",
+   "在每個 project 個別關閉",
+   "直接關閉，既有 sub-task 會自動轉型",
+   "先把既有 sub-task 轉成 standard issue type，再停用"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "官方不允許直接停用。",
+   "D": "官方：existing subtasks must be converted to standard work types before disabling the feature。",
+   "A": "刪除會遺失資料，非官方要求。",
+   "B": "Sub-task 是全站設定，不是 project 層。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-sub-tasks/"
+  ],
+  "tags": [
+   "subtask",
+   "全站開關"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.3-005",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "Jira admin 建立了新的 issue type，但 company-managed project 裡看不到這個選項。先查什麼？",
+  "options": [
+   "該 project 的 issue type scheme 是否包含它",
+   "是否需要重新命名 project",
+   "是否需要重建 board",
+   "是否需要 Premium 方案"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方：work types connect to spaces through work type schemes。type 必須加進 scheme 才會出現在 project。",
+   "B": "Project 名稱與可用 type 無關。",
+   "C": "Board 不決定 issue type。",
+   "D": "建立 issue type 是所有方案的基本功能。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-sub-tasks/"
+  ],
+  "tags": [
+   "issue-type-scheme"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.3-006",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "Jira admin 新增一個叫「Initiative」的 standard issue type。它會自動位於 Epic 之上嗎？",
+  "options": [
+   "會，名稱決定層級",
+   "不會，名稱與 hierarchy 設定是兩件事；要更高層級需 Premium 的 issue hierarchy 設定",
+   "會，只要把它加進 issue type scheme",
+   "不會，Jira 永遠只有三層"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "階層由 hierarchy configuration 決定，不靠命名。",
+   "B": "官方：Epic 之上的層級需要在 Premium／Enterprise 的 issue type hierarchy 設定裡配置標準 type。",
+   "C": "加進 scheme 只讓它可用，仍是 standard 層。",
+   "D": "Premium 以上可加更多層級。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/"
+  ],
+  "tags": [
+   "階層",
+   "initiative"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.3-007",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "QA 團隊回報的缺陷需要「Steps to reproduce」「Severity」兩個必填欄位，並且要多一個「Verified」狀態才能關閉。在 company-managed project 該如何推薦？",
+  "options": [
+   "把 Story 的 workflow 加 Verified 狀態即可",
+   "用 label 標記 Bug，不必新 type",
+   "建立（或沿用）Bug issue type，並配專用 screen 與專用 workflow，由 Jira admin 改對應的三張 scheme",
+   "建立 sub-task type 處理 QA"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "流程與欄位都不同時，label 無法達成必填與狀態需求。",
+   "C": "在 CMP，issue type 透過 workflow scheme、issue type screen scheme、field configuration scheme 對應到不同行為；這正是需要獨立 type 的條件。",
+   "D": "Sub-task 是拆工，不是分類缺陷。",
+   "A": "改 Story 的 workflow 會影響所有 Story，且欄位需求沒解決。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/"
+  ],
+  "tags": [
+   "推薦題",
+   "scheme"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.3-008",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "PM 想把「行動版」與「網頁版」的工作分開看報表，但兩者流程和欄位完全相同。最合適的做法？",
+  "options": [
+   "為兩者各建一個 project",
+   "用 sub-task 區分",
+   "為兩者各建一個 issue type",
+   "用 component（或 label）分類，報表用 Pie chart by component"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "流程與欄位相同時不需要新 type，多 type 只增加 scheme 維護成本。",
+   "D": "分類需求用 component／label 解決，報表可依 component 分群。",
+   "A": "分 project 過度且會切斷共用 backlog。",
+   "B": "Sub-task 是拆工，不是分類。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/"
+  ],
+  "tags": [
+   "推薦題",
+   "component"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.3-009",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "主管把 600 個 sub-task 掛在同一張 Task 下，抱怨 parent 上看不到 child 清單，time tracking 也不把 sub-task 算進來。原因是什麼？",
+  "options": [
+   "一個 work item 最多顯示 500 個 child，超過後只能改用搜尋檢視，且 time tracking 無法納入 sub-task，應把 parent 拆開",
+   "Task 不能有 sub-task，要改用 Story",
+   "Time tracking 需要 Premium",
+   "Sub-task 本來就不彙總工時"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Sub-task 工時可 roll-up 到 parent。",
+   "A": "官方 What are work types 的 Best practices：a work item can only display up to 500 child work items；超過時「you’ll have to view them in search」且「If you use time tracking, you won’t be able to include subtasks」，建議把 parent 拆成多張。",
+   "B": "Task 是 standard，可以有 sub-task。",
+   "C": "Time tracking 是所有方案的基本功能。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/"
+  ],
+  "tags": [
+   "500上限",
+   "time-tracking"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.3-010",
+  "section": "620.1.3",
+  "domain": "620.1",
+  "stem": "下列關於 sub-task 與 sprint 的敘述，何者正確？",
+  "options": [
+   "Sub-task 可以單獨拉進另一個 sprint",
+   "Sub-task 跟著 parent 進出 sprint，不能單獨排 sprint",
+   "Sub-task 的 story points 會計入 sprint burndown",
+   "Sub-task 必須先關閉 parent 才能建立"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "Sub-task 沒有獨立的 sprint 歸屬。",
+   "B": "Sub-task 隨 parent 一起進出 sprint；board 上通常在 parent 的泳道下。",
+   "C": "Burndown 只算 parent 的 story points，sub-task 不計。",
+   "D": "建立 sub-task 沒有這種前提。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/"
+  ],
+  "tags": [
+   "subtask",
+   "sprint"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.4-001",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "修改 project details 裡的 URL 欄位，會改掉 Jira 站台的網址嗎？",
+  "options": [
+   "不會，它是 project 詳細資料裡連到外部文件的連結欄位",
+   "會，但只影響這個 project 的路徑",
+   "不會，因為只有 Jira admin 能改站台網址，這個欄位是 project key",
+   "會，這就是站台網址"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "站台網址是 admin.atlassian.com 的 Update URL，與此欄位無關。",
+   "A": "官方 Edit a space’s details 把 URL 列為 space 詳細資料的其中一個欄位，與站台網址無關；站台網址要在 admin.atlassian.com 用 Update URL 修改。",
+   "B": "Project 路徑由 key 決定，不是 URL 欄位。",
+   "C": "此欄位不是 key。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/"
+  ],
+  "tags": [
+   "details",
+   "url欄位"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.4-002",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "把兩個 project 放進同一個 category，會讓它們自動共用 permission scheme 嗎？",
+  "options": [
+   "會",
+   "不會，category 只用於在目錄與 JQL 中分組查找",
+   "會，且會共用 workflow",
+   "只有 company-managed 會"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "Category 不是設定物件。",
+   "B": "官方 categories 頁：分類用於 group similar spaces… used in advanced search, filters, reports；與 shared configuration 無關。",
+   "C": "Workflow 由 workflow scheme 決定。",
+   "D": "兩種 project 都不會因 category 共用任何 scheme。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/add-assign-and-delete-project-categories/"
+  ],
+  "tags": [
+   "category"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.4-003",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "改了 project key 之後，寫在 Confluence 頁面裡的舊 key 連結文字沒變。這些連結一定失效嗎？",
+  "options": [
+   "否，因為 Jira 會自動改寫 Confluence 頁面文字",
+   "是，舊 key 立即失效",
+   "否，保留在 Previous keys 的舊 key 仍會導向新 key；刪除 previous key 才會失效",
+   "是，除非重新建立所有連結"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "舊 key 預設保留為 alias。",
+   "C": "官方：可從 Previous keys 刪除舊 key，但這會 restrict access to the work items that refer to that old key；不刪就仍可導向。",
+   "D": "顯示文字與導向是兩件事。",
+   "A": "Jira 不會改寫外部頁面文字。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-edit-and-delete-team-managed-projects/"
+  ],
+  "tags": [
+   "project-key",
+   "previous-keys"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.4-004",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "一般 project admin 能把已在 trash 裡的 company-managed project 還原嗎？",
+  "options": [
+   "可以，但只能還原 team-managed",
+   "可以，只要在 60 天內",
+   "可以，只要他曾是該 project 的 Administrator",
+   "不行，Restore 需要 Administer Jira 全域權限"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "Administer Projects 可以「丟進」trash，但還原不行。",
+   "D": "官方 Restore a project from trash：需要 Administer Jira 全域權限（site admin 亦可）。",
+   "A": "還原不分 project 類型，條件都是 Administer Jira。",
+   "B": "60 天是保留期限，不是權限條件。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/restore-a-project-from-trash/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/move-a-project-to-trash/"
+  ],
+  "tags": [
+   "trash",
+   "restore",
+   "權限"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.4-005",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "把一個 company-managed project 封存或移到 trash，它引用的共用 workflow 與 scheme 會一起被刪除嗎？",
+  "options": [
+   "不會，移到 trash 不影響共用的 scheme／workflow",
+   "會，60 天後一起刪",
+   "會，除非其他 project 也在用",
+   "會，立即刪除"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Trash 只影響 project 與其 issue。",
+   "A": "官方 Archive a space 明文：「This won’t affect associated schemes, workflows, work types, or any content that is shared with other spaces.」scheme 是獨立物件，其他共用的 project 照常運作。",
+   "B": "60 天後永久刪的是 project，不是 scheme。",
+   "C": "Scheme 是獨立物件，不會因任何 project 進 trash 被刪。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/archive-a-project/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/move-a-project-to-trash/"
+  ],
+  "tags": [
+   "trash",
+   "scheme"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.4-006",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "為什麼無法移除某個 project navigation tab？",
+  "options": [
+   "tab 一旦有資料就不能移除",
+   "它可能是 default tab，或是不能移除的 List／Apps 類型",
+   "所有 tab 永遠不能變動",
+   "只有 Jira admin 能移除 tab"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "官方 navigation 頁：default tab 要先換掉才能移除；List 與 Apps 等固定項目不可移除。",
+   "C": "Project admin 可以調整 navigation。",
+   "D": "調整 navigation 是 project admin 的能力。",
+   "A": "與資料量無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-and-customize-the-project-navigation/"
+  ],
+  "tags": [
+   "navigation",
+   "sidebar"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.4-007",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "Project 在 trash 裡滿 60 天後，還可以隨時還原嗎？",
+  "options": [
+   "可以，只要沒有其他 project 用同一個 key",
+   "可以，trash 是永久備份",
+   "不可以，期滿會永久刪除；管理員也可提前永久刪除",
+   "可以，但要付費方案"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "Trash 不是無限期備份。",
+   "C": "官方 Delete a space：「Once you permanently delete a space from the trash, you won’t be able to recover it.」具 Administer Jira 者可隨時 Delete permanently，因此 trash 不是永久備份。",
+   "D": "與方案無關。",
+   "A": "Key 不是條件。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/trash-for-jira-cloud-projects/"
+  ],
+  "tags": [
+   "trash",
+   "60天"
+  ],
+  "difficulty": 1,
+  "version_note": "「保留 60 天後自動永久刪除」是考綱時代的敘述；現行 Move／Restore／Delete a space 三頁均未載明保留天數。作答用 60 天，實務上不要把它當成「一定救得回來」的保證。",
+  "origin": "ported"
+ },
+ {
+  "id": "620.1.4-008",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "誰可以把一個 project 移到 trash？",
+  "options": [
+   "只有 site admin",
+   "只有 Organization admin",
+   "只有 Jira admin",
+   "擁有 Administer Jira 全域權限，或該 project 的 Administer Projects 權限的人"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "Project admin 也可以。",
+   "D": "官方 Move a space to trash：「You must have the Administer Jira global permission or you must have the permission to administer spaces to move spaces to trash.」Restore 與 Delete permanently 才限 Administer Jira。",
+   "A": "Site admin 不是條件。",
+   "B": "Org admin 不自動具備 Jira 產品內權限。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/move-a-project-to-trash/"
+  ],
+  "tags": [
+   "trash",
+   "權限"
+  ],
+  "difficulty": 2,
+  "version_note": "兩頁官方說法不一致：Move a space to trash 頁只寫「Administer Jira 或 administer spaces」；Archive a space 頁則寫「Space admins can only archive team-managed spaces. The same applies to moving company-managed and team-managed spaces to trash.」若題目特別指名 company-managed，請以站台實測為準（見 MERGE-LOG §1 與 620.1.4 的證據界線 callout）。",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.4-009",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "Project 的 Default assignee 欄位可以設成哪些值？",
+  "options": [
+   "只有 Unassigned 或 Project lead（現行稱 Space owner）",
+   "只有 Project admin",
+   "只有 component lead",
+   "任何 project 成員"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Details 頁的 default assignee 不能指定任意成員；要指定別人先換 lead。",
+   "A": "官方 Edit a space's details：The default assignee can only be set to Unassigned or the Space owner。改不了時檢查 General configuration 的 Allow unassigned issues。",
+   "B": "Project admin 不是選項。",
+   "C": "Component lead 是 component 層的設定。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/"
+  ],
+  "tags": [
+   "default-assignee"
+  ],
+  "difficulty": 2,
+  "version_note": "官方 Edit a space’s details 現行原句仍是「can only be either Unassigned, or the Space owner」；坊間「新版可指定任意成員」的說法查無官方依據，不予採用（見 MERGE-LOG §1 M9）。",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.4-010",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "Project admin 想為 project 選一個 category，卻找不到合適的分類。誰能建立新 category？",
+  "options": [
+   "Project admin 在 Project settings → Details 建立",
+   "Jira admin 在 ⚙ → Projects → Project categories 建立；project admin 只能挑選",
+   "任何有 Browse Projects 的人",
+   "Site admin 在 admin.atlassian.com 建立"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "Details 頁只能挑既有分類。",
+   "B": "官方 categories 頁：Jira admin 建立與管理分類；project admin 在 Details 指派。",
+   "C": "Browse 只是瀏覽權限。",
+   "D": "Category 是 Jira 產品內設定，不在 admin console。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/add-assign-and-delete-project-categories/",
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/"
+  ],
+  "tags": [
+   "category",
+   "權限"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.4-011",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "改 project key 前，下列哪一項最需要提前處理？",
+  "options": [
+   "先關閉 issue linking",
+   "先把 board 刪掉重建",
+   "先通知使用者並準備更新 board filter 與 dashboard 裡寫死舊 key 的 JQL",
+   "先把 project 移到 trash 再還原"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "Board 不需重建。",
+   "C": "官方 Things to consider before changing a project key：舊連結透過 alias 仍有效，但 JQL 裡寫死的 project key 要更新，並應通知使用者。",
+   "D": "Trash 與改 key 無關。",
+   "A": "Issue linking 與 key 無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/"
+  ],
+  "tags": [
+   "project-key",
+   "jql"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.1.4-012",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "把一個 project 封存（Archive）之後，它的 work item 會怎樣？",
+  "options": [
+   "完全無法存取，連直接連結也打不開",
+   "照常出現在搜尋與 board",
+   "立即被永久刪除，無法還原",
+   "從基本與進階搜尋中消失，但仍可用直接連結開啟、且不能編輯"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方 Archive a space：「its work items won’t appear in basic or advanced search results. You can still access these work items through direct links, but you won’t be able to edit them.」",
+   "A": "直接連結仍可開啟；原本有權限者甚至還能透過 API 讀到 space 的細節。",
+   "B": "封存後 work item 不會出現在基本或進階搜尋結果。",
+   "C": "封存可由 Jira／site admin 還原，與永久刪除不同。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/archive-a-project/"
+  ],
+  "tags": [
+   "archive",
+   "trash",
+   "搜尋"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ }
+]

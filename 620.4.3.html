@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.4.3 排查 Jira automation｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#perm">權限與 rule 的關係</a>
+    <a href="#tree">排查決策樹</a>
+    <a href="#finder">症狀排查器</a>
+    <a href="#log">Audit log 狀態</a>
+    <a href="#limits">執行上限</a>
+    <a href="#debug">除錯技巧</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.4 Automation（14%）/ 620.4.3</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.4.3 · Troubleshoot Jira automation</div>
+<h1>排查 Jira automation：<br>權限、audit log、上限與迴圈</h1>
+<p class="lead">Rule 沒照預期跑，九成是四種原因：根本沒觸發、condition 沒過、actor 沒權限、撞到上限。這一節把它們排成一棵決策樹，並解釋 automation 和 project 權限之間的關係——那是官方 bullet 特別點名的。</p>
+<div class="term">術語：考試用 rule／issue；現行文件稱 flow／work item。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>兩條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understand the relationship between project permissions and automation rules</td><td>「rule 顯示 permission 錯誤」→ actor 是誰、透過哪個 role 拿權限、TMP Private 為何失敗、project admin 能把 actor 設成誰</td></tr>
+<tr><td>Understand the typical root causes for rule failure</td><td>「audit log 沒紀錄／No actions performed／Some errors／LOOP／THROTTLED」各代表什麼、先查哪裡</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Permissions ============ -->
+<section id="perm">
+<div class="section-label">核心關係</div>
+<h2>Rule 不是萬能鑰匙：它以 actor 的身分行事</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 300" role="img" aria-label="rule 透過 actor 取得 project 權限">
+  <defs><marker id="s243-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- Rule x=40 y=60 w=220 h=80；Actor x=340 w=220；Permission scheme x=640 w=220；下方 TMP 註解 -->
+  <rect x="40" y="60" width="220" height="80" rx="10" class="box green"/>
+  <text x="150" y="88" text-anchor="middle" class="lbl b">Automation rule</text><text x="150" y="108" text-anchor="middle" class="s">action：Edit／Transition／Comment…</text><text x="150" y="126" text-anchor="middle" class="s">本身沒有任何權限</text>
+  <path d="M260,100 H340" class="ln" marker-end="url(#s243-arr)"/><text x="300" y="90" text-anchor="middle" class="s">以…身分</text>
+  <rect x="340" y="60" width="220" height="80" rx="10" class="box brand"/>
+  <text x="450" y="88" text-anchor="middle" class="lbl b">Actor</text><text x="450" y="108" text-anchor="middle" class="s">預設：Automation for Jira</text><text x="450" y="126" text-anchor="middle" class="s">或某個真人</text>
+  <path d="M560,100 H640" class="ln" marker-end="url(#s243-arr)"/><text x="600" y="90" text-anchor="middle" class="s">去查</text>
+  <rect x="640" y="60" width="220" height="80" rx="10" class="box violet"/>
+  <text x="750" y="88" text-anchor="middle" class="lbl b">Permission scheme</text><text x="750" y="108" text-anchor="middle" class="s">Automation for Jira 透過 role</text><text x="750" y="126" text-anchor="middle" class="s">atlassian-addons-project-access</text>
+  <text x="40" y="190" class="lbl b">CMP</text>
+  <text x="40" y="212" class="s">該 role 缺某權限（例如 Transition Issues）→ rule 那個 action 失敗</text>
+  <text x="40" y="232" class="s">Actor 是真人時，就看那個人的權限；歷史紀錄也顯示那個人</text>
+  <text x="40" y="266" class="lbl b">TMP</text>
+  <text x="40" y="288" class="s">Limited／Private project：actor 沒被加進 project 就失敗；改 Open 或把 actor 加進去</text>
+</svg>
+<div class="cap">圖 1　「rule 顯示沒權限」的檢查順序：actor 是誰 → 該 actor 在這個 project 有沒有這個 action 需要的權限。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">問題</th><th>答案</th></tr>
+<tr><td>誰能建 rule</td><td>CMP：Administer Projects ＋ Browse Projects；TMP：Administrator；global／multi-project：Administer Jira。Jira admin 可在 Global configuration 關掉 project admin 的建 rule 權</td></tr>
+<tr><td>Actor 可以是誰</td><td>Project admin 只能選<strong>自己或 Automation for Jira</strong>；Jira admin 可選任何人（Marketplace app 使用者除外）。若目前 actor 是別人，project admin 得先改回自己或 Automation for Jira 才能編輯</td></tr>
+<tr><td>Actor vs Owner</td><td>Actor 執行動作、需要 project 權限、歷史紀錄顯示它；Owner 收錯誤 email、可批次轉移。Actor 只能逐條改</td></tr>
+<tr><td>JQL 也算</td><td>JQL condition、Scheduled trigger 的 JQL、Lookup issues 都以 actor 權限執行——actor 看不到的 issue 就像不存在</td></tr>
+<tr><td>Issue security</td><td>issue 有 security level 時，actor 也要在該 level 內才動得了</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Tree ============ -->
+<section id="tree">
+<div class="section-label">核心模型</div>
+<h2>排查決策樹：先看 audit log 有沒有紀錄</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 960 500" role="img" aria-label="rule 排查決策樹">
+  <defs><marker id="s243-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- Root x=380 y=20 w=200 h=50；Q1 x=330 y=100 w=300 h=56；沒有 x=40 y=200 w=360 h=120；Q2 x=560 y=200 w=300 h=56；四個狀態框 y=360 h=110 w=200：x=60/280/500/720 -->
+  <rect x="380" y="20" width="200" height="50" rx="10" class="box q"/><text x="480" y="51" text-anchor="middle" class="lbl b">Rule 沒照預期跑</text>
+  <path d="M480,70 V100" class="ln" marker-end="url(#s243-arr2)"/>
+  <rect x="330" y="100" width="300" height="56" rx="10" class="box q"/><text x="480" y="134" text-anchor="middle" class="lbl b">Audit log 有這次執行的紀錄嗎？</text>
+  <path d="M480,156 V178 H220 V200" class="ln" marker-end="url(#s243-arr2)"/><text x="235" y="172" class="tag no">沒有</text>
+  <path d="M480,156 V178 H710 V200" class="ln" marker-end="url(#s243-arr2)"/><text x="690" y="172" text-anchor="end" class="tag yes">有</text>
+  <rect x="40" y="200" width="360" height="120" rx="10" class="box rose"/>
+  <text x="220" y="224" text-anchor="middle" class="lbl b">根本沒觸發</text>
+  <text x="60" y="248" class="s">· rule 被停用；scope 不含這個 project</text>
+  <text x="60" y="266" class="s">· trigger 不符：Issue updated 不含 assign／link／log work</text>
+  <text x="60" y="284" class="s">· 是別的 rule 造成的變更，但 Allow rule trigger 沒開</text>
+  <text x="60" y="302" class="s">· trigger 的篩選（狀態、欄位）設太窄；CSV import 不觸發</text>
+  <rect x="560" y="200" width="300" height="56" rx="10" class="box q"/><text x="710" y="234" text-anchor="middle" class="lbl b">看 Status 是哪一種</text>
+  <path d="M710,256 V340" class="ln"/>
+  <path d="M145,340 H805" class="ln"/>
+  <path d="M145,340 V360" class="ln" marker-end="url(#s243-arr2)"/>
+  <path d="M365,340 V360" class="ln" marker-end="url(#s243-arr2)"/>
+  <path d="M585,340 V360" class="ln" marker-end="url(#s243-arr2)"/>
+  <path d="M805,340 V360" class="ln" marker-end="url(#s243-arr2)"/>
+  <rect x="40" y="360" width="210" height="110" rx="10" class="box q"/>
+  <text x="145" y="384" text-anchor="middle" class="lbl b">No actions performed</text>
+  <text x="145" y="406" text-anchor="middle" class="s">condition 沒過（正常）</text><text x="145" y="424" text-anchor="middle" class="s">JQL 以 actor 權限跑</text><text x="145" y="442" text-anchor="middle" class="s">→ 檢查 condition 與 actor</text>
+  <rect x="260" y="360" width="210" height="110" rx="10" class="box rose"/>
+  <text x="365" y="384" text-anchor="middle" class="lbl b">Some errors／Failure</text>
+  <text x="365" y="406" text-anchor="middle" class="s">actor 沒權限、TMP Private</text><text x="365" y="424" text-anchor="middle" class="s">欄位不在 screen、必填沒填</text><text x="365" y="442" text-anchor="middle" class="s">smart value 空、web request 失敗</text>
+  <rect x="480" y="360" width="210" height="110" rx="10" class="box amber"/>
+  <text x="585" y="384" text-anchor="middle" class="lbl b">LOOP</text>
+  <text x="585" y="406" text-anchor="middle" class="s">rule 互相觸發超過 10 次</text><text x="585" y="424" text-anchor="middle" class="s">→ 加 condition 擋住</text><text x="585" y="442" text-anchor="middle" class="s">或關 Allow rule trigger</text>
+  <rect x="700" y="360" width="210" height="110" rx="10" class="box amber"/>
+  <text x="805" y="384" text-anchor="middle" class="lbl b">THROTTLED／Queued</text>
+  <text x="805" y="406" text-anchor="middle" class="s">撞到執行時間或並行上限</text><text x="805" y="424" text-anchor="middle" class="s">→ 縮小 trigger 範圍</text><text x="805" y="442" text-anchor="middle" class="s">改用 Field value changed</text>
+</svg>
+<div class="cap">圖 2　官方第一句就是「Checking the audit log should be your first step」。有沒有紀錄，決定你往左還是往右查。</div>
+</div>
+</section>
+
+<!-- ============ Finder ============ -->
+<section id="finder">
+<div class="section-label">互動</div>
+<h2>症狀排查器</h2>
+<div id="s243-finder" class="card">
+  <div class="toolbar" style="margin-top:0"><span style="font-weight:700;font-size:.88rem">你看到的症狀</span>
+    <div class="seg" id="s243-sym"><button data-v="nolog" class="on">Audit log 沒紀錄</button><button data-v="noact">No actions performed</button><button data-v="perm">錯誤提到 permission</button><button data-v="field">錯誤提到欄位</button><button data-v="loop">LOOP</button><button data-v="throttle">THROTTLED</button><button data-v="wrong">跑了但改錯 issue</button></div></div>
+  <div class="grid-2" style="margin-top:.9rem;align-items:stretch">
+    <div class="union" style="grid-template-columns:1fr;gap:0"><div class="panel result"><div class="h">最可能原因</div><div id="s243-cause" style="font-size:.95rem;line-height:1.55"></div></div></div>
+    <div class="union" style="grid-template-columns:1fr;gap:0"><div class="panel"><div class="h">怎麼修</div><div id="s243-fix" style="font-size:.9rem;line-height:1.55"></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Audit log ============ -->
+<section id="log">
+<div class="section-label">工具</div>
+<h2>Audit log：每次執行的紀錄</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">在哪裡</div>
+<ul style="margin-top:.5rem;font-size:.92rem"><li>單一 rule：rule 頁 → Audit log</li><li>整個 project：Project settings → Automation → Audit log</li><li>全站：⚙ → System → Global automation → Audit log（Jira admin）</li><li>保留 <strong>90 天</strong>，之後自動刪除、不可復原</li></ul></div>
+<div class="card"><div class="eyebrow">每筆顯示</div>
+<ul style="margin-top:.5rem;font-size:.92rem"><li>觸發時間、audit log ID、rule 名稱</li><li><strong>Status</strong>、總時間（含排隊與處理）</li><li>展開看每一步的執行結果與時間</li></ul></div>
+</div>
+<div class="tbl-wrap" style="margin-top:1rem"><table class="tbl">
+<tr><th style="width:26%">Status</th><th>意思</th><th style="width:34%">先查</th></tr>
+<tr><td><span class="yes">Success</span></td><td>全部 action 完成</td><td>若結果仍不對，看是不是改到別張 issue（{{issue}} vs {{triggerIssue}}）</td></tr>
+<tr><td>No actions performed</td><td>觸發了，但 condition 不符或 JQL 沒結果</td><td>condition；JQL 以 actor 權限執行</td></tr>
+<tr><td><span class="no">Some errors</span></td><td>部分 action 失敗，其餘完成</td><td>展開錯誤訊息：permission、欄位、smart value</td></tr>
+<tr><td><span class="no">Failure</span></td><td>整條失敗</td><td>同上；web request 回錯也算</td></tr>
+<tr><td>Loop</td><td>rule 互相觸發達 10 次被中止</td><td>Allow rule trigger、condition</td></tr>
+<tr><td>Throttled</td><td>超過處理時間或並行上限被暫停</td><td>trigger 太寬、分支太多、外部呼叫太慢</td></tr>
+<tr><td>Config change</td><td>rule 被修改的紀錄</td><td>誰改了什麼</td></tr>
+<tr><td colspan="3" class="kicker">狀態名稱依官方 audit log 與用量計算頁；計入用量的狀態為 SUCCESS、NO_ACTIONS_PERFORMED、SOME_ERRORS、ABORTED、NO_MATCH，THROTTLED 不計。</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Limits ============ -->
+<section id="limits">
+<div class="section-label">Service limits</div>
+<h2>會讓 rule 被 throttle 或停掉的數字</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:36%">上限</th><th>數字</th></tr>
+<tr><td>同時執行的 rule 數</td><td>Free 5／Standard 10／Premium 20／Enterprise 30（多產品取最高）</td></tr>
+<tr><td>處理時間（daily processing time）</td><td>每 12 小時 <strong>60 分鐘</strong>；外部呼叫慢、分支多都會吃掉，超過會被 THROTTLED</td></tr>
+<tr><td>迴圈偵測</td><td>rule 互相觸發 <strong>10 次</strong> → LOOP 中止</td></tr>
+<tr><td>Lookup issues</td><td>只取前 <strong>100</strong> 個</td></tr>
+<tr><td>一次執行處理的相關 issue</td><td><strong>5,000</strong></td></tr>
+<tr><td>全站排隊中的項目</td><td>50,000</td></tr>
+<tr><td>每條 rule 步驟數</td><td>65（進階 flow 500）</td></tr>
+<tr><td>Scheduled trigger</td><td>連續失敗 10 次自動停用</td></tr>
+<tr><td>Email（Free）</td><td>每 24 小時 100 封</td></tr>
+<tr><td>每月用量配額（usage limit）</td><td><strong>現行模型（2025 起）</strong>：以「步驟」計，trigger／condition／action／branch 各算一步，整個 organization 共用一個池；Jira 的每月額度 Free 150／訂閱、Standard 400／人、Premium 750／人、Enterprise 1,000／人。到 80%、100% 會通知 admin；100% 後 rule 停跑到下個計費日，除非開啟額外用量計費。查看：Atlassian Administration → Insights → Platform usage。<br><span class="kicker"><strong>考試版（2023 考綱年代）</strong>：以「rule 執行次數／月」計，單一 project 的 rule 不限量、只有 multi-project／global rule 計入配額，Enterprise 無上限。題目若用舊說法，照舊模型作答。</span></td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考點</div>「rule 突然停掉」的三個典型答案：Scheduled trigger 連續失敗 10 次自動停用；撞到 service limit（處理時間、排隊數）被 THROTTLED；或整個 product 的每月用量配額用完（usage limit）而全部停跑到下個月。「rule 跑很慢」→ 外部 web request 等待與分支數量會計入處理時間。</div>
+</section>
+
+<!-- ============ Debug ============ -->
+<section id="debug">
+<div class="section-label">技巧</div>
+<h2>官方建議的除錯手法</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:30%">手法</th><th>怎麼做</th></tr>
+<tr><td>先複製再改</td><td>Copy rule → 停用原本的 → 在副本上改；改壞可立即切回</td></tr>
+<tr><td>Manual trigger 測試</td><td>把 trigger 暫改成 Manual，在一張測試 issue 上按，不必等真實事件</td></tr>
+<tr><td>Log action</td><td>把 smart value 寫進 audit log：<code>Story points ×2 = {{#=}}{{issue.Story Points}} * 2{{/}}</code></td></tr>
+<tr><td><code>{{#debug}}…{{/}}</code></td><td>包住任何 smart value，照常運算並同時印進 audit log，不用另加步驟</td></tr>
+<tr><td>加 <code>{{now}}</code></td><td>在寫入的值裡帶時間，確認這次執行真的有寫、寫的是新值</td></tr>
+<tr><td>比對 issue 歷史</td><td>audit log 的每一步對照 issue history，看是哪一步沒生效</td></tr>
+<tr><td>檢查欄位在不在 screen</td><td>Edit issue 失敗最常見：欄位沒放在該 issue type 的 screen 上</td></tr>
+</table></div>
+<div class="callout"><div class="t">「Edit 之後讀到舊值」不是 bug</div>
+官方：<code>{{issue}}</code> 預設<strong>整條 rule 執行期間都不更新</strong>，維持觸發當下的快照。所以 <em>Log → Edit → Log</em> 第二次仍印舊值是預期行為；把需要最新值的步驟放在 <strong>Re-fetch issue data</strong> 之後即可。別把它誤判成 Edit 沒生效——先看 audit log 該步是不是 Success。
+<div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/">Jira automation actions</a> · Re-fetch work item data（2026-09-08 查核）</div></div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>Rule 在 audit log 顯示「Some errors」，展開寫「actor does not have permission to transition」。actor 是 Automation for Jira。</summary><div class="a"><div class="tag">解答</div>該 project 的 permission scheme 裡，<code>atlassian-addons-project-access</code> role 缺 Transition Issues；請 Jira admin 補，或把 actor 改成有權限的人。</div></details>
+<details class="q"><summary>同一條 rule 在 CMP 正常，在一個 Private 的 TMP 就失敗。</summary><div class="a"><div class="tag">解答</div>TMP Private／Limited 下 actor 沒被加進 project；把 actor 加進 project（給足夠 role）或改成 Open。</div></details>
+<details class="q"><summary>Rule 從沒在 audit log 出現過紀錄。</summary><div class="a"><div class="tag">解答</div>根本沒觸發：rule 停用、scope 不含此 project、trigger 不符（例如用 Issue updated 抓 assign）、或由別的 rule 觸發但 Allow rule trigger 沒開。</div></details>
+<details class="q"><summary>Audit log 每次都是「No actions performed」，沒有錯誤。</summary><div class="a"><div class="tag">解答</div>Condition 不符。若是 JQL condition，記得它以 actor 權限執行——actor 看不到的 issue 就不符。</div></details>
+<details class="q"><summary>Rule A：Priority 改變就加 label；Rule B：label 改變就把 Priority 調高。兩條都開了 Allow rule trigger，結果狀態變 LOOP。</summary><div class="a"><div class="tag">解答</div>互相觸發達 10 次被中止。在其中一條加 condition（例如 label 已存在就不動）或關掉 Allow rule trigger。</div></details>
+<details class="q"><summary>Project admin 想把 rule actor 改成主管，下拉選單裡只有自己和 Automation for Jira。</summary><div class="a"><div class="tag">解答</div>設計如此：project admin 只能選這兩個；要設別人請 Jira admin。</div></details>
+<details class="q"><summary>Scheduled rule 上週還在跑，這週發現被停用了，沒人動過。</summary><div class="a"><div class="tag">解答</div>Scheduled trigger 連續失敗 10 次會自動停用；看 audit log 找失敗原因再重新啟用。</div></details>
+<details class="q"><summary>Branch for sub-tasks 裡用 <code>{{issue.parent.summary}}</code> 想拿 Story 的 summary，有時是空的。</summary><div class="a"><div class="tag">解答</div>在 branch 裡直接用 <code>{{triggerIssue.summary}}</code> 更可靠；分支平行執行，不要依賴其他分支寫入的值。</div></details>
+<details class="q"><summary>Edit issue 設定 custom field「Severity」失敗，錯誤說欄位不可用。</summary><div class="a"><div class="tag">解答</div>該欄位不在此 issue type 的 screen（或 context）上；請 Jira admin 加到 screen，或用進階 JSON 但仍需欄位可用。</div></details>
+<details class="q"><summary>Rule 執行成功，但改到的是 parent 而不是觸發的 sub-task。</summary><div class="a"><div class="tag">解答</div>可能在 branch for parent 之後的 action 仍寫在 branch 內，或用了 <code>{{issue.parent}}</code>；核對每個 action 在 branch 內還是外，以及 {{issue}}／{{triggerIssue}}。</div></details>
+<details class="q"><summary>想知道某 custom field 的 smart value 名稱。</summary><div class="a"><div class="tag">解答</div>Manual trigger ＋ Log action 寫 <code>{{issue.欄位名稱}}</code> 觸發後看 audit log；或用 <code>{{#debug}}</code>。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「Rule 是系統跑的，不受 permission scheme 限制」</td><td>以 actor 身分執行；Automation for Jira 透過 atlassian-addons-project-access role 拿權限</td></tr>
+<tr><td>「Owner 收到錯誤信，所以 owner 沒權限」</td><td>Owner 只收通知；權限看 actor</td></tr>
+<tr><td>「No actions performed 是錯誤」</td><td>是 condition 不符的正常結果</td></tr>
+<tr><td>「一條 rule 改了欄位，另一條 rule 自然會接著跑」</td><td>預設不會；要開 Allow rule trigger</td></tr>
+<tr><td>「Audit log 永久保存」</td><td>90 天</td></tr>
+<tr><td>「Project admin 可以把 actor 設成任何人」</td><td>只能自己或 Automation for Jira</td></tr>
+<tr><td>「Lookup issues 會拿到全部結果」</td><td>只取前 100</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>故意弄壞三次，看 audit log 怎麼說</h2>
+<ol>
+<li>把一條會 Transition 的 rule 的 actor 改成一個沒有 Transition Issues 權限的測試帳號 → 觸發 → 讀 audit log 的錯誤字句。</li>
+<li>在 TMP 把 project 改成 Private、不加 Automation for Jira → 觸發 → 觀察失敗；改回 Open 或加進去再試。</li>
+<li>建 Rule A（Priority 改變→加 label）與 Rule B（label 改變→改 Priority），兩邊開 Allow rule trigger → 觸發 → 看 LOOP 出現需要幾次。</li>
+<li>把一條 rule 的 condition 改成永遠不符 → 觸發 → 確認 status 是 No actions performed 而不是錯誤。</li>
+<li>用 Manual trigger ＋ Log action 印 <code>{{#debug}}{{issue.fixVersions.name}}{{/}}</code>，讀 audit log。</li>
+<li>做「快照」實驗：Log Priority → Edit Priority → Log Priority（仍舊值）→ 插入 <strong>Re-fetch issue data</strong> → Log Priority（新值）。把「需要最新值的步驟放 re-fetch 之後」變成肌肉記憶。</li>
+</ol>
+<div class="callout"><div class="t">來源（本節精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/how-do-jira-permissions-work/">How do Jira permissions work</a>（hub）＋ <a href="https://support.atlassian.com/jira-cloud-administration/docs/manage-project-permissions/">Manage project permissions</a></li>
+<li><a href="https://support.atlassian.com/cloud-automation/docs/create-and-edit-jira-automation-rules/">Create and edit Jira automation rules</a></li>
+<li>補充：<a href="https://support.atlassian.com/cloud-automation/docs/debug-an-automation-rule/">Debug an automation flow</a>、<a href="https://support.atlassian.com/cloud-automation/docs/what-is-the-automation-audit-log/">What is an automation audit log?</a>、<a href="https://support.atlassian.com/cloud-automation/docs/automation-service-limits/">Automation service limits</a>、<a href="https://support.atlassian.com/cloud-automation/docs/how-is-my-usage-calculated/">How is your automation usage calculated</a>、<a href="https://support.atlassian.com/automation/kb/difference-between-automation-service-limits-and-automation-usage-limits/">Service limits vs usage limits（KB）</a>、<a href="https://support.atlassian.com/cloud-automation/docs/what-is-a-rule-actor/">What is a flow actor?</a>、<a href="https://support.atlassian.com/cloud-automation/docs/run-jira-rules-as-another-user/">Run Jira flows as another user</a>、<a href="https://support.atlassian.com/automation/kb/automation-rule-actor-vs-automation-rule-owner/">Actor vs owner（KB）</a>、<a href="https://support.atlassian.com/jira/kb/automation-fails-in-team-managed-project-if-the-actor-does-not-have-the-required-permission/">Automation fails in team-managed project（KB）</a>、<a href="https://support.atlassian.com/automation/kb/automation-for-jira-troubleshooting-guide-for-situations-where-automation/">Troubleshooting guide: rules not triggered（KB）</a></li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 14 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.4.3"></div>
+</section>
+
+<div class="footer-nav"><a href="620.4.2.html">← 620.4.2 建立 automation rule</a><a href="620.5.1.html">下一節：620.5.1 JQL →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.4.3 症狀排查器（id 前綴 s243-） */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const box=$('#s243-finder'); if(!box) return;
+  const D={
+    nolog:{c:'根本沒觸發：rule 停用、scope 不含這個 project、trigger 類型不符（Issue updated 不含 assign／link／log work）、trigger 篩選太窄，或是由另一條 rule 造成的變更但 Allow rule trigger 沒開。',f:'依序檢查：rule 開關 → rule details 的 scope → trigger 類型換成更精準的（Issue assigned／Field value changed）→ 若是 rule 觸發 rule，打開 Allow rule trigger。'},
+    noact:{c:'觸發了，但 condition 不符——這是正常結果，不是錯誤。JQL condition 以 actor 權限執行，actor 看不到的 issue 一律不符。',f:'展開 audit log 看哪一個 condition 停下；用 Issue fields condition 取代複雜 JQL；確認 actor 有 Browse Projects。'},
+    perm:{c:'Actor 在這個 project 沒有該 action 需要的權限。預設 actor 是 Automation for Jira，它透過 atlassian-addons-project-access role 拿權限；TMP 的 Limited／Private project 則要 actor 被加進 project。',f:'CMP：請 Jira admin 在 permission scheme 補該 role 的權限；TMP：把 actor 加進 project 或改 Open；或把 actor 換成有權限的人（project admin 只能選自己／Automation for Jira）。'},
+    field:{c:'Edit／Transition 要寫的欄位不在該 issue type 的 screen 上、context 不含此 project，或 transition 的必填欄位／validator 沒滿足。',f:'請 Jira admin 把欄位加到 screen；在 Transition action 一併填必填欄位；用 Log action 印出 smart value 確認不是空值。'},
+    loop:{c:'兩條以上的 rule 互相觸發，累積 10 次後被系統中止並標為 LOOP。',f:'在其中一條加 condition（例如「label 已存在就不做」），或關掉其中一條的 Allow rule trigger。'},
+    throttle:{c:'撞到 service limit：每條 rule 每 12 小時 60 分鐘處理時間、並行 rule 數、或 global／multi-project rule 的月配額。',f:'把 Issue updated 換成 Field value changed 縮小觸發範圍；減少分支與外部 web request；把 global rule 改成單一 project rule（不計配額）。'},
+    wrong:{c:'Action 放錯位置或 smart value 指錯對象：branch 裡的 {{issue}} 是相關 issue，不是觸發的那張；Create issue 之後的 action 仍作用在觸發 issue。',f:'核對每個 action 在 branch 內或外；觸發的那張一律用 {{triggerIssue}}；新建的用 {{createdIssue}} 或 branch「All created issues」。'}
+  };
+  const bs=$$('#s243-sym button');
+  function render(){const k=bs.find(b=>b.classList.contains('on')).dataset.v; $('#s243-cause').textContent=D[k].c; $('#s243-fix').textContent=D[k].f; if(window.springPop) window.springPop($('#s243-cause'));}
+  bs.forEach(b=>b.addEventListener('click',()=>{bs.forEach(x=>x.classList.remove('on'));b.classList.add('on');render();}));
+  render();
+})();
+</script>
+</body>
+</html>

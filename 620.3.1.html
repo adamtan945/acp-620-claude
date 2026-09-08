@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.3.1 為專案成員決定適當的權限｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#layers">四層權限與誰負責</a>
+    <a href="#global">全域權限對 project 的影響</a>
+    <a href="#catalog">Project 權限總表</a>
+    <a href="#combo">權限組合器</a>
+    <a href="#specific">最具體者勝</a>
+    <a href="#admin">Administer Projects 的邊界</a>
+    <a href="#roles">權限與 role 的關係</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.3 Managing Projects（25%）/ 620.3.1</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.3.1 · Determine appropriate permissions for project team members (project, global)</div>
+<h1>為專案成員決定適當的權限</h1>
+<p class="lead">這一節是 620.3 的第一站，也是整份考試「為什麼他做不了 X」類題目的來源。視角是 <strong>project admin</strong>：你不能改 permission scheme，但你要能判斷某個功能需要哪幾個權限、哪些是 Jira admin 才動得了的全域設定，以及該把人放進哪個 role。</p>
+<div class="term">術語：考試用 project／issue；現行官方文件為 space／work item。本教材沿用考試用語，引用現行文件時保留其用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>五條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understand how global permissions impact use of features in Jira Software</td><td>「使用者無法分享 filter／無法 bulk change／@提及看不到人」——哪個<strong>全域</strong>權限缺了？誰能給？</td></tr>
+<tr><td>Understand the functionality of each project permission</td><td>「要讓某人能改 due date 但不能改 assignee」——哪個 project 權限？</td></tr>
+<tr><td>Understand how some features in Jira software require multiple project permissions</td><td>「有 Move Issues 卻搬不過去」「有 Manage Sprints 卻拖不動 issue」——<strong>組合題</strong></td></tr>
+<tr><td>Understand the relationship between project permissions and project roles</td><td>「scheme 寫的是 role，人是誰填的？」「同一份 scheme 為什麼兩個 project 的人不同？」</td></tr>
+<tr><td>Understand the use of the Administer Projects permission</td><td>「project admin 能不能改 permission scheme／建 role／改 workflow？」——<strong>邊界題</strong></td></tr>
+</table></div>
+</section>
+
+<!-- ============ 四層 ============ -->
+<section id="layers">
+<div class="section-label">核心模型</div>
+<h2>四層權限，各有各的主人</h2>
+<p>官方把權限分成全站與 project 兩層，加上 workflow condition 與 issue security 兩個「再收緊」的機制。一個人能不能做某件事，要<strong>四層都放行</strong>；而每一層由誰設定並不相同——這正是 project admin 最常卡住的地方。</p>
+<div class="figure">
+<svg class="dia" viewBox="0 0 920 330" role="img" aria-label="四層權限：全域、project scheme、workflow condition、issue security，以及各層由誰設定">
+  <defs><marker id="s231-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：四個主框 x=240 w=420 h=56，y=20/100/180/260；左欄「誰設定」x=40；右欄「project admin 能做」x=690；箭頭 (450,76)->(450,100) 等 -->
+  <text x="40" y="14" class="s">誰設定</text>
+  <text x="690" y="14" class="s">project admin 能動的部分</text>
+
+  <rect x="240" y="20" width="420" height="56" rx="10" class="box brand"/>
+  <text x="450" y="43" text-anchor="middle" class="lbl b">① 全域權限（Global permissions）</text>
+  <text x="450" y="63" text-anchor="middle" class="s">全站一份；Administer Jira、Browse users、Bulk change…</text>
+  <text x="40" y="43" class="lbl b">Jira admin</text><text x="40" y="63" class="s">只能給群組</text>
+  <text x="690" y="43" class="lbl no">不能動</text><text x="690" y="63" class="s">只能請 Jira admin 把你加進群組</text>
+
+  <path d="M450,76 V100" class="ln" marker-end="url(#s231-arr)"/>
+  <rect x="240" y="100" width="420" height="56" rx="10" class="box brand"/>
+  <text x="450" y="123" text-anchor="middle" class="lbl b">② Project 權限方案（Permission scheme）</text>
+  <text x="450" y="143" text-anchor="middle" class="s">每個 project 掛一份；四類權限 → 11 種對象</text>
+  <text x="40" y="123" class="lbl b">Jira admin 寫規則</text><text x="40" y="143" class="s">可跨 project 共用</text>
+  <text x="690" y="123" class="lbl yes">填 role 的成員</text><text x="690" y="143" class="s">People 頁；規則本身不能改</text>
+
+  <path d="M450,156 V180" class="ln" marker-end="url(#s231-arr)"/>
+  <rect x="240" y="180" width="420" height="56" rx="10" class="box violet"/>
+  <text x="450" y="203" text-anchor="middle" class="lbl b">③ Workflow condition</text>
+  <text x="450" y="223" text-anchor="middle" class="s">依狀態再收緊：例如只有 Assignee 能按某個轉換</text>
+  <text x="40" y="203" class="lbl b">Jira admin</text><text x="40" y="223" class="s">workflow 共用時一定是</text>
+  <text x="690" y="203" class="lbl">有條件能動</text><text x="690" y="223" class="s">workflow 為本 project 專用時</text>
+
+  <path d="M450,236 V260" class="ln" marker-end="url(#s231-arr)"/>
+  <rect x="240" y="260" width="420" height="56" rx="10" class="box amber"/>
+  <text x="450" y="283" text-anchor="middle" class="lbl b">④ Issue security</text>
+  <text x="450" y="303" text-anchor="middle" class="s">單筆 issue 的可見範圍；有 Browse 也可能看不到這一筆</text>
+  <text x="40" y="283" class="lbl b">Jira admin 建 scheme</text><text x="40" y="303" class="s">掛到 project</text>
+  <text x="690" y="283" class="lbl">在 issue 上選 level</text><text x="690" y="303" class="s">需有 Set Issue Security 權限</text>
+</svg>
+<div class="cap">圖 1　由上往下每一層都要放行。Project admin 真正能動的只有第 ② 層的「role 成員」和第 ④ 層的「在 issue 上選 level」。</div>
+</div>
+<div class="callout exam"><div class="t">考題長相</div>「某人在 project 有 Browse 與 Edit，但仍看不到 MOB-88」→ 第 ④ 層 issue security。「某人有 Transition Issues，但某個轉換按鈕不出現」→ 第 ③ 層 workflow condition。先判斷是哪一層，再判斷該找誰。</div>
+</section>
+
+<!-- ============ 全域 ============ -->
+<section id="global">
+<div class="section-label">Bullet 1</div>
+<h2>全域權限怎麼影響 project 裡的功能</h2>
+<p>全域權限只有 8 個，而且<strong>只能授予群組</strong>（不能給個人、不能給 project role）。Project admin 沒有任何一個全域權限的設定權，但其中 5 個會直接影響 project 成員的日常操作。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">全域權限</th><th>缺了會發生什麼（project 內的症狀）</th><th style="width:22%">誰能給</th></tr>
+<tr><td><strong>Browse users and groups</strong></td><td>@提及、User picker 只看得到「同一個 project 有 Browse Projects 的人」，找不到別的部門同事。官方特別說這是限制資訊外流的常用手法，不一定是錯</td><td>Jira admin（給群組）</td></tr>
+<tr><td><strong>Share dashboards and filters</strong></td><td>建得了 filter 與 dashboard，但分享選單是空的 → 跨 project board 沒人看得到、dashboard 只能自己看</td><td>Jira admin</td></tr>
+<tr><td><strong>Make bulk changes</strong></td><td>搜尋結果頁沒有 Bulk change 選項。有了它還要配合 project 權限（Edit／Move／Delete／Transition）</td><td>Jira admin</td></tr>
+<tr><td><strong>Create team-managed projects</strong></td><td>看不到 Create project；只影響 TMP，CMP 永遠要 Administer Jira</td><td>Jira admin</td></tr>
+<tr><td><strong>Administer Jira</strong></td><td>建 CMP、custom field、workflow、各種 scheme、全站的 issue linking 與 time tracking 開關。Project admin 需要這些時只能開單</td><td>Org／Site admin 把人加進 <code>jira-administrators</code></td></tr>
+<tr><td>Manage group filter subscriptions</td><td>不能建群組訂閱</td><td>Jira admin</td></tr>
+<tr><td>Manage custom onboarding</td><td>與 project 無關</td><td>Jira admin</td></tr>
+<tr><td>Atlassian Home 連線</td><td>連結 work item 到 Projects；安裝 Connect addon 後出現</td><td>Jira admin</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">兩個「全域開關」不是全域權限，但一樣是 Jira admin 的事</div><strong>Issue linking</strong>（⚙ → Issues → Issue linking）與 <strong>Time tracking</strong>（⚙ → Issues → Time tracking）關掉時，project 裡就算有 Link Issues／Work On Issues 權限也做不了。考題把它們歸在「project 權限與全域設定的關係」。</div>
+</section>
+
+<!-- ============ 總表 ============ -->
+<section id="catalog">
+<div class="section-label">Bullet 2</div>
+<h2>Project 權限總表：分四類（現行官方四子頁共 39 項）</h2>
+<p class="kicker">依官方「Types of permissions you can grant in a scheme」四個子頁整理（2026-09 查核）。粗體是 620 最常考的。</p>
+<div class="callout warn"><div class="t">別用固定總數作答</div>39 是現行文件的數量，其中 Manage versions、Manage work item layouts、Edit workflows、Archive／Restore work items、View aggregated data 是 2023 考綱之後陸續新增的。考題不會問「總共幾項」，會問「做 X 需要哪幾項」；記類別與組合，不記總數。</div>
+<h3>A. Project 存取與設定（9 項）</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:30%">權限</th><th>能做什麼</th><th style="width:30%">備註</th></tr>
+<tr><td><strong>Browse Projects</strong></td><td>看見 project 與 issue、搜尋</td><td>幾乎所有其他權限的前提；不需 app access；可給 Public 做公開 project</td></tr>
+<tr><td><strong>Administer Projects</strong></td><td>指派 role 成員、編輯 versions／components、改 project details</td><td>Jira admin 自動擁有；只能給有授權席次者</td></tr>
+<tr><td>Manage Issue Layouts</td><td>改 issue layout</td><td>需 Browse；screen 被共用則改不動；JSM 無</td></tr>
+<tr><td>Edit Workflows</td><td>改 status 與 transition</td><td>需 Browse；workflow 被共用則改不動；需新版編輯器</td></tr>
+<tr><td><strong>Manage Versions</strong></td><td>建立／發布／封存／合併／刪除 version</td><td>官方 Manage versions 頁：需 Administer Projects ＋ Manage Versions</td></tr>
+<tr><td><strong>Manage Sprints</strong></td><td>建立、開始、結束 sprint，改長度與目標</td><td><strong>不含</strong>修改 sprint 內的 issue；跨 project sprint 要每個 project 都有</td></tr>
+<tr><td>View Aggregated Data</td><td>看 board／backlog／deployment 的彙整洞察</td><td>不需 app access；會外洩 epic 名稱、部署頻率</td></tr>
+<tr><td><strong>View Development Tools</strong></td><td>看 Development 面板、release page 的 warnings</td><td>只給有席次者</td></tr>
+<tr><td>View Read-only Workflow</td><td>唯讀看 workflow 圖</td><td>不需 app access</td></tr>
+</table></div>
+
+<h3>B. Issue 操作（15 項）</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:30%">權限</th><th>能做什麼</th><th style="width:30%">備註</th></tr>
+<tr><td><strong>Create Issues</strong></td><td>建 issue</td><td>不需 app access；Move 的目的地也要它</td></tr>
+<tr><td><strong>Edit Issues</strong></td><td>改欄位</td><td>但 Assignee、Reporter、Due date／rank 各自有更具體的權限</td></tr>
+<tr><td><strong>Assign Issues</strong></td><td>改 Assignee 欄位</td><td>≠ 可以被指派</td></tr>
+<tr><td><strong>Assignable User</strong></td><td>可以被填進 Assignee</td><td>≠ 可以改 Assignee；自動指派也要它</td></tr>
+<tr><td>Modify Reporter</td><td>改 Reporter</td><td>從 Edit 挖走</td></tr>
+<tr><td><strong>Schedule Issues</strong></td><td>改 Due date、在 board／backlog 拖曳 rank</td><td>從 Edit 挖走；Manage Sprints 拖不動 issue 的原因</td></tr>
+<tr><td><strong>Transition Issues</strong></td><td>改狀態</td><td>常與 Resolve、Close 三個一起</td></tr>
+<tr><td>Resolve Issues</td><td>設 Resolution、看 Fix version</td><td></td></tr>
+<tr><td>Close Issues</td><td>把 Resolution 設成關閉</td><td></td></tr>
+<tr><td><strong>Move Issues</strong></td><td>搬到別的 project 或換 issue type</td><td>需目的地 Create Issues</td></tr>
+<tr><td><strong>Link Issues</strong></td><td>連結 issue</td><td>需全域 issue linking 開啟；跨 project 兩邊都要</td></tr>
+<tr><td>Delete Issues</td><td>刪 issue 與其資料</td><td>不含單獨刪留言／附件；官方建議改用 Archive</td></tr>
+<tr><td>Archive／Restore Issues</td><td>封存與還原</td><td>可救回，取代 Delete</td></tr>
+<tr><td>Set Issue Security</td><td>在 issue 上選 security level</td><td>需 project 已掛 security scheme</td></tr>
+</table></div>
+
+<h3>C. 時間追蹤（5 項）與 D. 投票／關注／留言／附件（10 項）</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:30%">權限</th><th>說明</th></tr>
+<tr><td><strong>Work On Issues</strong></td><td>記錄工時；需全域 time tracking 開啟、欄位在 screen 上；五項時間追蹤權限都只能給被 admin 邀請者，且以 Browse Projects 為前提</td></tr>
+<tr><td>Edit／Delete Own Worklogs、Edit／Delete All Worklogs</td><td>own 只動自己的；all 動所有人的</td></tr>
+<tr><td>Add Comments；Edit／Delete Own Comments；Edit／Delete All Comments</td><td>Add 與 all 版需 Jira app access（只能給被 admin 邀請者）；Edit／Delete <strong>own</strong> 不需 app access，可給任何站台使用者；Delete All 在 JSM 會連客戶留言一起刪</td></tr>
+<tr><td>Create Attachments；Delete Own／All Attachments</td><td>需全域 attachments 開啟</td></tr>
+<tr><td>Manage Watchers；View Voters and Watchers</td><td>Manage 需 app access；View 不需，可給任何站台使用者</td></tr>
+</table></div>
+<h3>五項容易被忽略的補充權限</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">權限</th><th>能做什麼／界線</th></tr>
+<tr><td>View aggregated data</td><td>看 board、backlog、deployment 的<strong>彙總</strong>洞察。即使個別 issue 被 issue security 擋住，數量、Epic 名稱等彙總資訊仍可能呈現——要和「看得到那張 issue」分開評估</td></tr>
+<tr><td>View (read-only) workflow</td><td>只看 workflow 圖，<strong>不是</strong>編輯 workflow，也不是執行 transition</td></tr>
+<tr><td>Edit workflows</td><td>用新 workflow editor 編輯<strong>未被共用</strong>的流程；共用配置仍需 Administer Jira</td></tr>
+<tr><td>Manage work item layouts</td><td>只調整<strong>既有欄位</strong>的 layout；不授予建立全站新欄位的能力，screen 被共用時另受限</td></tr>
+<tr><td>Archive／Restore work items</td><td>封存與還原<strong>各自授權</strong>；與 Delete 的不可還原移除不同</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">兩個容易反直覺的組合</div>
+<ul style="margin:.3rem 0 0">
+<li><strong>Create Issues 不要求先有 Browse Projects。</strong>因此「建得出來，卻打不開自己剛建的那張」是權限設計的正常結果，不是壞掉。Reporter 身分也不會自動帶來 Browse，除非 scheme 另外把可見性授予 Reporter。<strong>新增成功不能拿來證明閱讀或編輯權限完整。</strong></li>
+<li><strong>Delete Issues</strong> 會連同附屬資料一起刪掉（即使操作者沒有 Delete all comments／attachments），但它<strong>不授權單獨刪除某一則留言或某個附件</strong>。</li>
+</ul></div>
+</section>
+
+<!-- ============ 組合器 ============ -->
+<section id="combo">
+<div class="section-label">Bullet 3 · 互動</div>
+<h2>權限組合器：一個動作要幾把鑰匙</h2>
+<p>官方「How permissions interact with each other」把三種情況講清楚：<strong>幾乎所有 issue 權限都以 Browse Projects 為前提</strong>、<strong>跨 project 的動作要兩邊都有權限</strong>、<strong>有些動作需要多個權限</strong>。點下面任一個常見動作，看它需要的 project 權限與全域前提。</p>
+<div id="s231-combo" class="card">
+  <div class="toolbar" style="margin-top:0" id="s231-actions"></div>
+  <div class="union" style="grid-template-columns:1.2fr 2.5rem 1fr 2.5rem 1.2fr;margin-top:.5rem">
+    <div class="panel"><div class="h">Project 權限（permission scheme）</div><div id="s231-proj" class="chips"></div></div>
+    <div class="op">＋</div>
+    <div class="panel"><div class="h">全域前提（Jira admin）</div><div id="s231-glob" class="chips"></div></div>
+    <div class="op">＝</div>
+    <div class="panel result"><div class="h">結論</div><div id="s231-note" style="font-size:.9rem"></div></div>
+  </div>
+</div>
+<div class="callout exam" style="margin-top:14px"><div class="t">考題長相</div>「使用者有 Manage Sprints 卻無法把 issue 拖進 sprint」→ 缺 Schedule Issues（或 Edit Issues）。「有 Move Issues 但目的 project 找不到」→ 目的地沒有 Create Issues。「有 Link Issues 但 Link 選單不見了」→ 全域 issue linking 關閉，或對方 project 沒給 Link Issues。</div>
+<h3>批次編輯：權限齊全，還有欄位條件</h3>
+<p><code>Make bulk changes</code> 是全站入口，<code>Edit Issues</code> 必須涵蓋<strong>每一張</strong>選取的 issue——但即使兩者都有，欄位本身還有條件。官方現行頁只寫「可用的批次編輯操作取決於所選的工作與欄位性質」，實務上這三個欄位最常卡住：</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">要批次改的欄位</th><th>還要滿足什麼</th></tr>
+<tr><td>Components</td><td>這批 issue 屬於<strong>同一個 project</strong>、該 project <strong>已經有 components</strong>、欄位<strong>未被 field configuration 隱藏</strong></td></tr>
+<tr><td>Fix versions／Affects versions</td><td>同上的單一 project 條件。<strong>即使兩個 project 都有「秋季版」，那仍是兩個不同的 version 物件</strong>，只能分批處理</td></tr>
+<tr><td>Sprint</td><td>可以批次指定實際的 sprint ID</td></tr>
+<tr><td>Due date</td><td>另需 <code>Schedule Issues</code>；只有 Edit Issues 不夠</td></tr>
+</table></div>
+<p class="kicker">issue 已經 resolved 不會把「修改 Components」變成 Resolve Issues 的操作；仍要看它目前是否可編輯。上限 <strong>1,000 張</strong>。（欄位層條件為實務歸納，官方現行頁未逐項列出）</p>
+<div class="callout exam"><div class="t">考題長相</div>「最少需要哪些權限？」的題目要<strong>先列能力再找角色聯集</strong>，不要背數量。例如「指派來源 project 的工作，再批次搬到另一個 project」＝來源 Browse ＋ Assign ＋ Move、目標 Create、全域 Make bulk changes；<strong>目標 Browse</strong> 決定搬完後讀不讀得到，和 Create 是兩回事。舊題庫常把 Edit Issues 一律算進「指派」的必要權限——依官方重疊規則，<strong>只有 Assign、沒有 Edit 的人也能改 Assignee</strong>。</div>
+</section>
+
+<!-- ============ 最具體 ============ -->
+<section id="specific">
+<div class="section-label">規則</div>
+<h2>兩個權限重疊時，最具體的那個決定</h2>
+<p class="quote">When two permissions overlap, the most specific applicable permission determines who can perform an action.<span class="src">— Atlassian, How permissions interact with each other</span></p>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 280" role="img" aria-label="Edit Issues 能改所有欄位，但 Assign Issues、Modify Reporter、Schedule Issues 各自把一個欄位挖走">
+  <defs><marker id="s231-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：大框 x=60 y=40 w=380 h=200；一般欄位 chip x=80 w=160；被挖走 chip x=270 w=150 y=80/130/180；右側權限框 x=560 w=280 h=56 y=66/116/166；連線 (560,c)->(420,c) -->
+  <rect x="60" y="40" width="380" height="200" rx="12" class="box brand"/>
+  <text x="250" y="66" text-anchor="middle" class="lbl b">Edit Issues 能改的欄位</text>
+  <g font-size="12" class="lbl">
+    <rect x="80" y="80" width="160" height="28" rx="6" class="chipbox"/><text x="160" y="99" text-anchor="middle">Summary、Description</text>
+    <rect x="80" y="130" width="160" height="28" rx="6" class="chipbox"/><text x="160" y="149" text-anchor="middle">Priority、Labels…</text>
+    <rect x="80" y="180" width="160" height="28" rx="6" class="chipbox"/><text x="160" y="199" text-anchor="middle">其他一般欄位</text>
+    <rect x="270" y="80" width="150" height="28" rx="6" class="box amber"/><text x="345" y="99" text-anchor="middle">Assignee</text>
+    <rect x="270" y="130" width="150" height="28" rx="6" class="box amber"/><text x="345" y="149" text-anchor="middle">Reporter</text>
+    <rect x="270" y="180" width="150" height="28" rx="6" class="box amber"/><text x="345" y="199" text-anchor="middle">Due date／rank</text>
+  </g>
+  <path d="M560,94 H420" class="ln" marker-end="url(#s231-arr2)"/>
+  <path d="M560,144 H420" class="ln" marker-end="url(#s231-arr2)"/>
+  <path d="M560,194 H420" class="ln" marker-end="url(#s231-arr2)"/>
+  <rect x="560" y="66" width="280" height="56" rx="10" class="box"/><text x="700" y="89" text-anchor="middle" class="lbl b">Assign Issues</text><text x="700" y="109" text-anchor="middle" class="s">一旦在 scheme 設定，只有它能改 Assignee</text>
+  <rect x="560" y="116" width="280" height="56" rx="10" class="box"/><text x="700" y="139" text-anchor="middle" class="lbl b">Modify Reporter</text><text x="700" y="159" text-anchor="middle" class="s">同理接管 Reporter</text>
+  <rect x="560" y="166" width="280" height="56" rx="10" class="box"/><text x="700" y="189" text-anchor="middle" class="lbl b">Schedule Issues</text><text x="700" y="209" text-anchor="middle" class="s">同理接管 Due date 與 board 上的排序</text>
+  <text x="450" y="264" text-anchor="middle" class="s">只有 Assign Issues 沒有 Edit Issues 的人：只能改 Assignee，其他欄位都不行</text>
+</svg>
+<div class="cap">圖 2　Scheme 裡沒定義 Assign Issues 時，有 Edit Issues 的人也能改 Assignee；一旦定義了，Assignee 就只聽 Assign Issues 的。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th>情況</th><th>誰能改 Assignee</th></tr>
+<tr><td>Scheme 只設定 Edit Issues</td><td>所有有 Edit Issues 的人</td></tr>
+<tr><td>Scheme 另外設定了 Assign Issues</td><td><strong>只有</strong>有 Assign Issues 的人；只有 Edit 的人可以改其他欄位</td></tr>
+<tr><td>只有 Assign Issues、沒有 Edit Issues</td><td>能改 Assignee，其他欄位都不能</td></tr>
+<tr><td>Workflow 加了 <code>jira.issue.editable=false</code> 或 <code>jira.permission.*</code> 屬性</td><td>依狀態再收緊，同樣「具體優先」</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Administer Projects ============ -->
+<div class="callout" style="margin-top:1rem"><div class="t">同一個 project，也可能只有部分 issue 能轉移</div>
+<p style="margin:.4rem 0 0">Permission scheme 除了 group／role，也能授權 <strong>Current assignee</strong>、<strong>Reporter</strong>、<strong>User custom field value</strong> 這種「由每張 issue 決定」的對象。例如 <code>Transition Issues</code> 只授予 Current assignee：小美是 ACLAB-1 的 assignee、卻不是 ACLAB-2 的，兩張同屬 ACLAB、共用同一份 scheme，她的轉移資格仍然不同。</p>
+<p style="margin:.4rem 0 0">所以排查時<strong>要逐張看，不能用「這個 project 有一張成功」推論全部都會成功</strong>，也不要把同 project 的部分失敗當成資料損壞。還要各自檢查 workflow condition、validator、目前狀態與 issue security。</p></div>
+<section id="admin">
+<div class="section-label">Bullet 5</div>
+<h2>Administer Projects 的邊界</h2>
+<p>官方把它定義為「指派 role 成員、編輯 components／versions、修改 project details」。以下是考試最愛問的「能／不能」對照：</p>
+<div class="grid-2">
+<div class="card"><div class="eyebrow" style="color:var(--green)">能做</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li>Project settings → People：把 user／group 放進任何 role（含 Administrators）</li>
+<li>Versions：建立、release、archive、merge、delete（官方頁另需 Manage Versions）</li>
+<li>Components：建立、設 lead 與 default assignee、刪除時重新連結</li>
+<li>Project details：名稱、key、avatar、category（選）、lead、default assignee</li>
+<li>Issue layout：前提是 screen 沒被其他 project 共用</li>
+<li>Workflow：前提是 workflow 為本 project 專用且用新編輯器（Edit Workflows 權限）</li>
+<li>看到 Project settings 側欄的各 scheme 名稱、換不了</li>
+</ul></div>
+<div class="card"><div class="eyebrow" style="color:var(--rose)">不能做（要 Jira admin）</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li>改 permission scheme 的任何一條規則、換 scheme</li>
+<li>建立新的 project role（⚙ → System → Project roles）</li>
+<li>建 custom field、issue type、screen、field configuration</li>
+<li>改被共用的 workflow 或 layout（需 Administer Jira）</li>
+<li>建 issue security scheme、掛 security scheme</li>
+<li>任何全域權限、issue linking／time tracking 開關</li>
+<li>把 CMP 丟進 trash（Jira／site admin）</li>
+</ul></div>
+</div>
+<div class="callout"><div class="t">TMP 對照</div>TMP 沒有 permission scheme：project admin（Administrator role）可自建 role、勾權限、改 access level，這些在 CMP 全是 Jira admin 的事。詳見 <a href="620.1.2.html#access">620.1.2</a>。</div>
+</section>
+
+<!-- ============ roles 關係 ============ -->
+<section id="roles">
+<div class="section-label">Bullet 4</div>
+<h2>權限與 role 的關係：scheme 寫角色名，project 填人</h2>
+<p>Permission scheme 可以把權限給 11 種對象；其中 <strong>project role</strong> 是一個「佔位符」——Jira admin 在 scheme 裡寫角色名，各 project 的 admin 自己決定誰是那個角色。這讓一份 scheme 掛 20 個 project 仍能各自不同，而且不必驚動 Jira admin。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">授權對象</th><th>什麼時候用</th><th style="width:30%">誰維護成員</th></tr>
+<tr><td><strong>Project role</strong></td><td>各 project 人不同、想把權限管理下放</td><td>Project admin（People 頁）</td></tr>
+<tr><td>Group</td><td>跨 project 同一批人（如 jira-administrators、全公司開發群組）</td><td>Org／Site admin</td></tr>
+<tr><td>Single user</td><td>極特殊情況；官方不建議因為 scheme 共用時會一起生效</td><td>Jira admin 改 scheme</td></tr>
+<tr><td>Reporter／Current assignee／Project lead</td><td>「只有開單的人能刪」「只有被指派者能轉狀態」這類動態授權</td><td>不用維護，隨 issue 資料變</td></tr>
+<tr><td>User／Group custom field value</td><td>每張 issue 各自指定的人（如 Approver 欄位）</td><td>填欄位的人</td></tr>
+<tr><td>Application access／Any logged in user／Public</td><td>廣泛授權；Public 用於公開 project</td><td>—</td></tr>
+</table></div>
+<p style="margin-top:12px">Role 除了在 permission scheme 用，官方還列了四個用途：notification scheme 的收件人、issue security level 的成員、workflow condition、filter 與 dashboard 的分享對象。怎麼把人放進 role、role 的預設成員與 <code>atlassian-addons-project-access</code>，在下一節 <a href="620.3.2.html">620.3.2</a>。</p>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先判斷「哪一層、缺哪把鑰匙、該找誰」</h2>
+<div class="quiz">
+<details class="q"><summary>小傑能看 issue、能留言，但拖曳 backlog 排序時卡片彈回去。他有 Edit Issues。</summary><div class="a"><div class="tag">解答</div>缺 <strong>Schedule Issues</strong>（rank 與 due date 被它接管）。請 project admin 把小傑放進有 Schedule Issues 的 role；若 scheme 沒把該權限給任何 role，要 Jira admin 改 scheme。</div></details>
+<details class="q"><summary>Scrum master 有 Manage Sprints，能開始 sprint，卻不能把 issue 從 backlog 拖進 sprint。</summary><div class="a"><div class="tag">解答</div>Manage Sprints 只管 sprint 本身；拖 issue 進 sprint 需要 <strong>Schedule Issues</strong>（與 Edit Issues）。組合題的標準答案。</div></details>
+<details class="q"><summary>使用者有 Move Issues，把 issue 從 MOB 搬到 WEB 時目的地清單沒有 WEB。</summary><div class="a"><div class="tag">解答</div>他在 WEB 沒有 <strong>Create Issues</strong>（也需要 Browse）。跨 project 動作要兩邊都有權限。</div></details>
+<details class="q"><summary>team 想用 Link Issues 把 MOB 與 WEB 的 issue 連起來，Link 選項根本不出現。</summary><div class="a"><div class="tag">解答</div>先查全域 <strong>Issue linking</strong> 是否啟用（Jira admin）；再查兩個 project 是否都有 Link Issues。</div></details>
+<details class="q"><summary>阿宏建了跨 project board，同事說「看不到這個 board」。</summary><div class="a"><div class="tag">解答</div>阿宏缺全域 <strong>Share dashboards and filters</strong>，board 的 saved filter 分享不出去；或同事在其中一個 project 沒有 Browse Projects。</div></details>
+<details class="q"><summary>PM 想一次把 80 張 issue 改優先度，搜尋結果頁沒有 Bulk change。</summary><div class="a"><div class="tag">解答</div>缺全域 <strong>Make bulk changes</strong>；有了之後還要 project 的 Edit Issues。</div></details>
+<details class="q"><summary>Project admin 小美想讓 Reviewer role 多一個 Edit Issues，在 Project settings 找不到地方改。</summary><div class="a"><div class="tag">解答</div>CMP 的權限規則在 permission scheme，只有 Jira admin 能改；小美只能填 role 成員。若 scheme 被多個 project 共用，改動會影響所有 project。</div></details>
+<details class="q"><summary>Scheme 只設定了 Edit Issues。後來 Jira admin 把 Assign Issues 給了 Administrators role。工程師抱怨突然不能改 Assignee。</summary><div class="a"><div class="tag">解答</div>「最具體者勝」：一旦定義 Assign Issues，只有拿到它的人能改 Assignee；工程師仍能改其他欄位。</div></details>
+<details class="q"><summary>Kevin（外包）能被指派 issue，但他自己改不了 Assignee；小美想確認這是不是設定錯誤。</summary><div class="a"><div class="tag">解答</div>不是錯誤：Assignable User（可被指派）與 Assign Issues（可改欄位）是兩個獨立權限，Kevin 只有前者。</div></details>
+<details class="q"><summary>小美有 Edit Workflows，卻改不了本 project 的 workflow。</summary><div class="a"><div class="tag">解答</div>該 workflow 被其他 project 共用；共用的 workflow 需要 <strong>Administer Jira</strong>。請 Jira admin 複製一份專用 workflow 與 workflow scheme。</div></details>
+<details class="q"><summary>使用者有 Work On Issues，issue 上卻沒有 Log work。</summary><div class="a"><div class="tag">解答</div>全域 time tracking 未啟用，或 time tracking 欄位不在 screen 上——兩者都是 Jira admin。</div></details>
+<details class="q"><summary>@提及時只找得到本 project 的人，找不到法務同事。</summary><div class="a"><div class="tag">解答</div>缺全域 <strong>Browse users and groups</strong>；沒有它只看得到「同 project 有 Browse 的人」。官方說這可能是刻意限制。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「全域權限可以給 project role」</td><td>只能給群組</td></tr>
+<tr><td>「有 Edit Issues 就什麼欄位都能改」</td><td>Assignee、Reporter、Due date／rank 一旦在 scheme 定義了專屬權限，就只聽專屬權限</td></tr>
+<tr><td>「Manage Sprints 可以拖 issue 進 sprint」</td><td>只管 sprint；拖 issue 要 Schedule Issues</td></tr>
+<tr><td>「Move Issues 就能搬到任何 project」</td><td>目的地要有 Create Issues</td></tr>
+<tr><td>「Project admin 可以調 permission scheme」</td><td>只能填 role 成員；scheme 是 Jira admin</td></tr>
+<tr><td>「Browse Projects 不重要」</td><td>幾乎所有 issue 權限的前提；排查永遠先看它</td></tr>
+<tr><td>「Link Issues 給了就能連」</td><td>還要全域 issue linking 開啟，跨 project 兩邊都要</td></tr>
+<tr><td>「看不到某張 issue 一定是 Browse 問題」</td><td>也可能是 issue security level，或 issue 被 archive</td></tr>
+<tr><td>「能建 issue 就一定看得到它」</td><td>Create Issues 不要求 Browse Projects；可能建完就打不開</td></tr>
+<tr><td>「同一個 project 的權限對每張 issue 都一樣」</td><td>Current assignee／Reporter／User custom field value 讓資格逐張不同</td></tr>
+<tr><td>「有 Make bulk changes 就能批次改任何欄位」</td><td>Components／versions 還有單一 project 等欄位條件；Due date 另需 Schedule Issues</td></tr></table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（45 分鐘）</div>
+<h2>親手踩一次每個組合</h2>
+<ol>
+<li>在 CMP 建 role「QA」，請 Jira admin（或自己）在 scheme 把 <strong>Schedule Issues</strong> 從 Any logged in user 改成只給 Administrators。用非 admin 帳號拖 backlog → 彈回。把該帳號放進 Administrators → 可拖。</li>
+<li>把 <strong>Assign Issues</strong> 加進 scheme 只給 QA；用只有 Edit Issues 的帳號改 Assignee → 欄位唯讀；改 Summary → 可以。</li>
+<li>Jira admin 把 ⚙ → Issues → Issue linking 停用；確認有 Link Issues 的人 Link 選單消失；再啟用。</li>
+<li>建第二個 project WEB 但不給測試帳號 Create Issues；用該帳號 Move MOB 的 issue → 目的地清單沒有 WEB。</li>
+<li>拿掉測試帳號群組的全域 Share dashboards and filters → 建 filter 時分享選項消失。</li>
+<li>用 Manage Sprints 的帳號開始 sprint，再試拖 issue 進 sprint → 失敗；補 Schedule Issues → 成功。</li>
+<li><strong>用一般帳號逐步驗證（A 版 lab）：</strong>請 Jira admin <strong>複製</strong>一份測試用 permission scheme、只套用到 ACLAB（記錄原 scheme，避免動到其他 project）。先只給測試角色 <code>Browse Projects</code> ＋ <code>Add Comments</code>，建一張 Task。</li>
+<li>Project settings → People／Access 把測試帳號加進該角色，<strong>用另一個瀏覽器工作階段</strong>登入測試帳號：預期能開、能留言、<strong>不能</strong>改 Summary。</li>
+<li>加上 <code>Edit Issues</code> 後重整、改 Summary → 應該成功；接著看 Due date：若 scheme 把 <code>Schedule Issues</code> 只給管理者，<strong>不能因為 Edit 成功就推論排程也可用</strong>。</li>
+<li>指派測試前分別確認「操作者有 Assign Issues」與「目標有 Assignable User」。記錄成「操作／授權路徑／結果」三欄，不要只截管理者看到的設定頁。</li>
+<li>收尾：移除測試成員、還原 scheme；若帳號仍看得到 project，列出其他 group／role／直接授權的路徑。<span class="kicker">Free 方案不提供 permission scheme 編輯，改用閱讀與預測表完成演練。</span></li></ol>
+<div class="callout"><div class="t">來源（精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/understand-project-permissions-and-roles/">Understand space permissions and roles</a>（考綱連結「How do Jira permissions work」的轉址目標；hub）→ 子頁 <a href="https://support.atlassian.com/jira-software-cloud/docs/add-users-to-space-roles-in-your-space/">Add users to space roles in your space</a></li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/what-are-global-permissions-and-what-do-they-do/">What are global permissions, and what do they control?</a>（考綱連結「Manage global permissions」的轉址目標）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/what-are-permission-schemes-in-jira/">What are permission schemes in Jira?</a>（考綱連結「Manage project permissions」的轉址目標）→ 子頁 <a href="https://support.atlassian.com/jira-cloud-administration/docs/how-permissions-interact-with-each-other/">How permissions interact with each other</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/how-to-use-space-roles/">How to use space roles</a></li>
+<li>權限總表：<a href="https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/">Space access and configuration permissions</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/work-item-permissions/">Work item permissions</a></li>
+<li>考綱連結「View and edit project role permissions」目前 404，內容由上列 hub 子頁取代。</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 13 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.3.1"></div>
+</section>
+
+<div class="footer-nav"><a href="620.2.7.html">← 620.2.7 Troubleshoot board 與 filter</a><a href="620.3.2.html">下一節：620.3.2 指派 project role →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.3.1 權限組合器 */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ACTIONS=[
+    {k:'create',t:'建立 issue',p:['Browse Projects','Create Issues'],g:[],n:'Create Issues 不需 app access，可給任何站台使用者；官方常用來讓其他部門丟需求。'},
+    {k:'assign',t:'把 issue 指派給同事',p:['Browse Projects','Assign Issues'],g:[],n:'改 Assignee 欄位要 Assign Issues；被指派的那位同事要有 Assignable User，否則他不會出現在清單。'},
+    {k:'rank',t:'拖曳 backlog 排序／改 due date',p:['Browse Projects','Schedule Issues'],g:[],n:'Rank 與 Due date 由 Schedule Issues 接管；只有 Edit Issues 不夠。'},
+    {k:'sprint',t:'把 issue 拖進 sprint 並開始 sprint',p:['Browse Projects','Manage Sprints','Schedule Issues','Edit Issues'],g:[],n:'Manage Sprints 只管 sprint 本身；跨 project 的 sprint 要每個 project 都有 Manage Sprints。'},
+    {k:'move',t:'把 issue 搬到別的 project',p:['Browse Projects（兩邊）','Move Issues','目的地的 Create Issues'],g:[],n:'官方原句：Move 需要在目的地 project 也有 Create work items。'},
+    {k:'link',t:'連結另一個 project 的 issue',p:['Browse Projects（兩邊）','Link Issues（兩邊）'],g:['Issue linking 已啟用'],n:'全域開關關掉時，權限給了也沒用；跨 project 要兩邊都有 Link Issues 才看得到連結。'},
+    {k:'close',t:'把 issue 關閉',p:['Browse Projects','Transition Issues','Resolve Issues','Close Issues'],g:[],n:'轉換狀態、設 Resolution、設關閉常需三個一起；還可能被 workflow condition 再限制。'},
+    {k:'log',t:'記錄工時',p:['Browse Projects','Work On Issues'],g:['Time tracking 已啟用','欄位在 screen 上'],n:'兩個全域前提都是 Jira admin。'},
+    {k:'bulk',t:'一次改 80 張 issue 的優先度',p:['Browse Projects','Edit Issues'],g:['Make bulk changes'],n:'全域 Make bulk changes 決定「有沒有 Bulk change 選項」；能改哪些欄位仍看 project 權限。'},
+    {k:'mention',t:'@提及別部門的同事',p:['Add Comments'],g:['Browse users and groups'],n:'沒有全域 Browse users 時只看得到同 project 有 Browse 的人——官方說這是限制資訊外流的常見做法。'},
+    {k:'share',t:'分享 filter 給團隊（跨 project board）',p:['Browse Projects（每個 project）'],g:['Share dashboards and filters'],n:'Board 能不能被看到＝filter 是否分享＋各 project 的 Browse。'},
+    {k:'workflow',t:'改本 project 的 workflow',p:['Browse Projects','Edit Workflows'],g:['workflow 若被共用 → 需 Administer Jira'],n:'官方：共用的 workflow／layout 只有 Administer Jira 能改。'},
+    {k:'admin',t:'把人放進 role、管 versions 與 components',p:['Administer Projects','Manage Versions（versions 頁另需）'],g:[],n:'這就是 project admin 的全部範圍；改不了 scheme、建不了 role。'}
+  ];
+  const bar=$('#s231-actions'); if(!bar) return;
+  ACTIONS.forEach(a=>{const b=document.createElement('button');b.className='btn ghost sm';b.textContent=a.t;b.dataset.k=a.k;bar.appendChild(b);});
+  function show(k){
+    const a=ACTIONS.find(x=>x.k===k);
+    $$('button',bar).forEach(b=>{b.classList.toggle('ghost',b.dataset.k!==k);});
+    const P=$('#s231-proj'), G=$('#s231-glob');
+    P.innerHTML=a.p.map(x=>`<span class="chip on">${x}</span>`).join(' ');
+    G.innerHTML=a.g.length?a.g.map(x=>`<span class="chip amber">${x}</span>`).join(' '):'<span class="chip">（沒有全域前提）</span>';
+    $('#s231-note').innerHTML=`<strong>${a.t}</strong>：${a.n}`;
+    if(window.springPop&&!reduced()){$$('.chip',P).forEach(c=>window.springPop(c));$$('.chip',G).forEach(c=>window.springPop(c));}
+  }
+  bar.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(b.dataset.k);});
+  show('sprint');
+  /* 進入視野自動示範一次：sprint → move → link */
+  if(!reduced()&&'IntersectionObserver'in window){
+    const box=$('#s231-combo'); const io=new IntersectionObserver(es=>{es.forEach(async en=>{if(en.isIntersecting&&en.intersectionRatio>=0.6&&!box.dataset.played){box.dataset.played='1';await new Promise(r=>setTimeout(r,900));show('move');await new Promise(r=>setTimeout(r,1600));show('link');}});},{threshold:[0.6]}); io.observe(box);
+  }
+})();
+</script>
+</body>
+</html>

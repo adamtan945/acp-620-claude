@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.2.3 設定 board columns 對應 workflow｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+/* 620.2.3 頁內元件 */
+.s223-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem}
+.s223-col{background:var(--bg-2);border:1px solid var(--line);border-radius:.7rem;padding:.6rem;min-height:9rem;transition:box-shadow .2s}
+.s223-col .h{font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--ink-2);display:flex;align-items:center;justify-content:space-between;padding:.1rem .2rem .5rem}
+.s223-col .h .n{font-size:.7rem;font-weight:600;color:var(--ink-3);white-space:nowrap}
+.s223-col.todo{border-top:4px solid var(--ink-3)}
+.s223-col.prog{border-top:4px solid var(--brand)}
+.s223-col.done{border-top:4px solid var(--green)}
+.s223-col.unmapped{border-top:4px solid var(--line-2);border-style:dashed}
+.s223-col.over{box-shadow:inset 0 0 0 2px var(--rose)}
+.s223-col.over .h{color:var(--rose)}
+.s223-st{display:flex;align-items:center;gap:.4rem;padding:.35rem .55rem;border-radius:.5rem;background:var(--card);border:1px solid var(--line);font-size:.82rem;margin:.3rem 0;cursor:pointer;user-select:none;transition:transform .1s}
+.s223-st:active{transform:scale(.97)}
+.s223-st .cnt{margin-left:auto;font-size:.7rem;color:var(--ink-3)}
+.s223-st .mv{color:var(--brand);font-weight:700}
+@media (max-width:760px){.s223-map{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#model">核心：column 是 status 的容器</a>
+    <a href="#lab-map">互動：對應 statuses</a>
+    <a href="#edit">增刪改 columns</a>
+    <a href="#simplified">Simplified workflow</a>
+    <a href="#constraints">Column constraints</a>
+    <a href="#done">完成判定與 Hide completed work</a>
+    <a href="#tmp">TMP 的 transition 限制</a>
+    <a href="#troubleshoot">卡片不見了</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.2 Board Configuration（29%）/ 620.2.3</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.2.3 · Configure board columns to match a workflow process</div>
+<h1>設定 board columns 對應 workflow</h1>
+<p class="lead">CMP 的 board columns 和 workflow statuses 是<strong>兩個獨立的東西，中間靠「對應」連起來</strong>。一欄可以裝多個 status；沒對到任何欄的 status，issue 就從 board 上消失；只有最右欄算完成。這一節的考題幾乎都從這三句話延伸。</p>
+<div class="term">術語：考試用 project／issue；現行產品為 space／work item。本教材沿用考試用語。本節內容針對 company-managed；TMP 的 column＝status 見 <a href="620.1.2.html#board">620.1.2</a>。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>三條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understand the relationship between board columns and workflow statuses</td><td>「一個 column 可以放幾個 status？」「status 沒對到 column 會怎樣？」「Jira 怎麼判斷 issue 完成？」</td></tr>
+<tr><td>Know how to add and remove columns</td><td>「誰能改 columns？路徑？」「刪 column 時裡面的 status 去哪？」</td></tr>
+<tr><td>Understand the implications of adding and removing columns</td><td>「Cancelled 放在中間欄會發生什麼？」「加了 column 為什麼 board 沒變？」「constraints 會擋住拖曳嗎？」</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Model ============ -->
+<section id="model">
+<div class="section-label">核心模型</div>
+<h2>Column 是 status 的容器；位置決定類別</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 360" role="img" aria-label="Workflow statuses 由上往下對應到 board columns：最左欄灰色代表新、中間藍色代表進行中、最右欄綠色代表完成；未對應的 status 不出現在 board">
+  <defs><marker id="s223-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：statuses 一列 y=40 h=32 w=112，x=40/160/280/400/520/640/760（中心 96/216/336/456/576/696/816）；
+       columns y=210 h=110 w=260：To Do 40–300(170)、In Progress 320–580(450)、Done 600–860(730)；匯流 bus y=140；內容 40–860 中心 450 -->
+  <text x="450" y="24" text-anchor="middle" class="s">Workflow statuses（Jira admin 在 workflow 定義）</text>
+  <rect x="40" y="40" width="112" height="32" rx="6" class="chipbox"/><text x="96" y="61" text-anchor="middle" class="lbl">Open</text>
+  <rect x="160" y="40" width="112" height="32" rx="6" class="chipbox"/><text x="216" y="61" text-anchor="middle" class="lbl">Reopened</text>
+  <rect x="280" y="40" width="112" height="32" rx="6" class="chipbox"/><text x="336" y="61" text-anchor="middle" class="lbl">In Progress</text>
+  <rect x="400" y="40" width="112" height="32" rx="6" class="chipbox"/><text x="456" y="61" text-anchor="middle" class="lbl">In Review</text>
+  <rect x="520" y="40" width="112" height="32" rx="6" class="chipbox"/><text x="576" y="61" text-anchor="middle" class="lbl">Resolved</text>
+  <rect x="640" y="40" width="112" height="32" rx="6" class="chipbox"/><text x="696" y="61" text-anchor="middle" class="lbl">Closed</text>
+  <rect x="760" y="40" width="112" height="32" rx="6" class="box rose"/><text x="816" y="61" text-anchor="middle" class="lbl">Cancelled</text>
+  <!-- To Do 群 -->
+  <path d="M96,72 V140 H170" class="ln"/><path d="M216,72 V140 H170" class="ln"/><path d="M170,140 V210" class="ln" marker-end="url(#s223-arr)"/>
+  <!-- In Progress 群 -->
+  <path d="M336,72 V140 H450" class="ln"/><path d="M456,72 V140 H450" class="ln"/><path d="M450,140 V210" class="ln" marker-end="url(#s223-arr)"/>
+  <!-- Done 群 -->
+  <path d="M576,72 V140 H730" class="ln"/><path d="M696,72 V140 H730" class="ln"/><path d="M730,140 V210" class="ln" marker-end="url(#s223-arr)"/>
+  <!-- Cancelled：未對應，沒有線 -->
+  <text x="816" y="100" text-anchor="middle" class="tag no">未對應</text>
+  <text x="816" y="118" text-anchor="middle" class="s">不在 board 上</text>
+
+  <rect x="40" y="210" width="260" height="110" rx="10" class="box"/><rect x="40" y="210" width="260" height="6" rx="3" class="muted"/>
+  <text x="170" y="244" text-anchor="middle" class="lbl b">To Do</text><text x="170" y="266" text-anchor="middle" class="s">最左＝新（灰）</text><text x="170" y="298" text-anchor="middle" class="s">Open、Reopened</text>
+  <rect x="320" y="210" width="260" height="110" rx="10" class="box"/><rect x="320" y="210" width="260" height="6" rx="3" class="accent"/>
+  <text x="450" y="244" text-anchor="middle" class="lbl b">In Progress</text><text x="450" y="266" text-anchor="middle" class="s">中間＝進行中（藍）</text><text x="450" y="298" text-anchor="middle" class="s">In Progress、In Review</text>
+  <rect x="600" y="210" width="260" height="110" rx="10" class="box"/><rect x="600" y="210" width="260" height="6" rx="3" class="yes"/>
+  <text x="730" y="244" text-anchor="middle" class="lbl b">Done</text><text x="730" y="266" text-anchor="middle" class="s">最右＝完成（綠）</text><text x="730" y="298" text-anchor="middle" class="s">Resolved、Closed</text>
+  <text x="450" y="348" text-anchor="middle" class="s">Board columns（board admin 或 location 的 project admin 設定）；只有最右欄算完成</text>
+</svg>
+<div class="cap">圖 1　預設 Jira workflow 的對應：To Do ← Open、Reopened；In Progress ← In Progress（自訂 status 如 In Review 也常放這）；Done ← Resolved、Closed。Simplified workflow 則是一對一。</div>
+</div>
+<div class="callout"><div class="t">三句話</div>
+<ul style="margin:0">
+<li><strong>一欄多 status</strong>：把細的 status 收進少數幾欄，board 乾淨、workflow 仍精細。</li>
+<li><strong>未對應＝隱形</strong>：status 在 Unmapped statuses 面板裡，issue 就不在 board 上。</li>
+<li><strong>只有最右欄算完成</strong>：Done、Blocked、Canceled 這類「結束」的 status 都要放最右欄，否則完成 sprint 時它們會被當成未完成帶到下一個 sprint。</li>
+</ul></div>
+</section>
+
+<!-- ============ Interactive mapping ============ -->
+<section id="lab-map">
+<div class="section-label">互動</div>
+<h2>自己對應看看：點 status 就會移到下一欄</h2>
+<p>下面有 7 張 issue 分佈在 7 個 status。點任一個 status 卡片，它會依序移到 To Do → In Progress → Done → Unmapped；觀察 board 上的張數、完成判定與 constraint 顏色怎麼變。</p>
+<div id="s223-lab" class="card">
+  <div class="toolbar" style="margin-top:0">
+    <span style="font-weight:700;font-size:.88rem">In Progress 欄的 max constraint</span>
+    <div class="seg" id="s223-max"><button data-m="0" class="on">無</button><button data-m="2">2</button><button data-m="3">3</button></div>
+    <button id="s223-reset" class="btn ghost sm">重設為預設對應</button>
+  </div>
+  <div class="s223-map">
+    <div class="s223-col todo" data-col="todo"><div class="h"><span>TO DO</span><span class="n" data-n="todo"></span></div><div class="body"></div></div>
+    <div class="s223-col prog" data-col="prog"><div class="h"><span>IN PROGRESS</span><span class="n" data-n="prog"></span></div><div class="body"></div></div>
+    <div class="s223-col done" data-col="done"><div class="h"><span>DONE</span><span class="n" data-n="done"></span></div><div class="body"></div></div>
+    <div class="s223-col unmapped" data-col="unmapped"><div class="h"><span>UNMAPPED STATUSES</span><span class="n" data-n="unmapped"></span></div><div class="body"></div></div>
+  </div>
+  <div class="grid-2" style="margin-top:.9rem">
+    <div class="issue"><div class="key">Board 上看得到</div><div class="sum"><span id="s223-visible">7</span> / 7 張</div><p id="s223-hidden" class="kicker" style="margin:0"></p></div>
+    <div class="issue"><div class="key">Complete sprint 時</div><div class="sum"><span id="s223-donecount">2</span> 張算完成</div><p id="s223-warn" class="kicker" style="margin:0"></p></div>
+  </div>
+</div>
+<div class="cap" style="font-size:.82rem;color:var(--ink-3);margin-top:.5rem">真實的 Jira 是用拖曳；這裡用點擊代替，規則一樣：Board settings → Layout → Columns → Map statuses to columns。</div>
+</section>
+
+<!-- ============ Edit columns ============ -->
+<section id="edit">
+<div class="section-label">增刪改 columns</div>
+<h2>路徑、權限、每個動作的後果</h2>
+<p>路徑：board ••• → <strong>Board settings → Layout → Columns</strong>。權限：<strong>該 board location 的 project admin，或該 board 的 board admin</strong>。</p>
+<h3>官方預設映射（新板的起點）</h3>
+<div class="grid-2">
+<div class="tbl-wrap"><table class="tbl">
+<tr><th colspan="2" class="hd">使用<strong>預設 Jira workflow</strong> 的 project</th></tr>
+<tr><th style="width:38%">預設 column</th><th>預設對應的 statuses</th></tr>
+<tr><td>To Do</td><td>Open、Reopened</td></tr>
+<tr><td>In Progress</td><td>In Progress</td></tr>
+<tr><td>Done</td><td>Resolved、Closed</td></tr>
+</table></div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th colspan="2" class="hd">使用 <strong>simplified workflow</strong> 的 project</th></tr>
+<tr><th style="width:38%">預設 column</th><th>預設對應的 statuses</th></tr>
+<tr><td>To Do</td><td>To Do</td></tr>
+<tr><td>In Progress</td><td>In Progress</td></tr>
+<tr><td>Done</td><td>Done</td></tr>
+</table></div>
+</div>
+<div class="callout warn"><div class="t">自訂 status 不在預設表裡</div>官方原文：<em>if you are using additional, customized Jira statuses, you will probably want to map them</em>。所以<strong>建了跨 project board 不代表所有來源 status 都已正確分配</strong>；之後擴大既有 filter，也要回頭檢查新進來的 status。同一塊 board 上，<strong>一個 status 只能對到一個 column</strong>。</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:20%">動作</th><th style="width:36%">怎麼做</th><th>後果</th></tr>
+<tr><td>Add column</td><td>欄位右側 <strong>+</strong> → 名稱、類別 → Add column</td><td>Simplified workflow 下會<strong>同時建一個同名 status</strong>；非 simplified 則只是空欄，要再把 status 拖進去</td></tr>
+<tr><td>Rename</td><td>點欄名直接改 → Enter</td><td>只改 column 名，<strong>status 名稱不變</strong>（simplified 也一樣，欄與 status 是分開的物件）</td></tr>
+<tr><td>Delete column</td><td>欄上方的刪除鈕</td><td>裡面的 status <strong>回到 Unmapped statuses 面板</strong>；issue 不會被刪，只是從 board 消失，直到你把 status 對到別欄</td></tr>
+<tr><td>Move column</td><td>拖曳欄頂</td><td>改變類別：搬到最左＝新、最右＝完成。<strong>把 Done 欄搬到中間，裡面的 issue 就不算完成了</strong></td></tr>
+<tr><td>Map status</td><td>從 Unmapped 拖進欄</td><td>該 status 的 issue 出現在 board</td></tr>
+<tr><td>Unmap status</td><td>拖回 Unmapped</td><td>該 status 的 issue 從 board 消失（仍在 backlog／搜尋）</td></tr>
+<tr><td>Move status between columns</td><td>欄與欄之間拖曳</td><td>issue 跟著搬；如果搬離最右欄，完成判定改變</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">自訂 status 沒出現在 Unmapped？</div>只有 board filter 涵蓋的 project <strong>其 workflow 真的用到</strong>的 status 才會出現。Jira admin 建了 status 但沒放進 workflow → board 看不到它。</div>
+</section>
+
+<!-- ============ Simplified ============ -->
+<section id="simplified">
+<div class="section-label">Simplified workflow</div>
+<h2>什麼時候 board admin 可以「在 board 上直接加 status」</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">項目</th><th>Simplified workflow</th><th>一般 workflow</th></tr>
+<tr><td>誰能加 status</td><td><strong>Project admin</strong>（Columns 頁的 Add status 按鈕；不是 project admin 就看不到）</td><td>只有 <strong>Jira admin</strong> 在 workflow editor</td></tr>
+<tr><td>加 column 時</td><td>自動建同名 status</td><td>只建空欄</td></tr>
+<tr><td>刪 status</td><td>拖到 Unmapped 後可刪，條件：你是 project admin <strong>且沒有任何 issue 在該 status</strong>；若別的 workflow 也用它，只是從此 workflow 移除、不刪</td><td>Jira admin 在 workflow editor</td></tr>
+<tr><td>直接在 board 上操作</td><td>project／board admin 可在 board 上 +（建欄）、改名、拖曳排序、右鍵設 column limit、刪欄</td><td>只能在 Board settings</td></tr>
+<tr><td>可用條件</td><td>board 的 filter 只含<strong>一個</strong> project；該 project <strong>所有 issue type 共用同一個 workflow</strong>；workflow 只用 Atlassian 內建的 post function／validator／condition；每個 status 至少一條出去的 transition</td><td>其餘情況</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考題長相</div>「Project admin 在 Columns 頁看不到 Add status」→ 不是 project admin，或 project 不再使用 simplified workflow（例如 workflow 被共用了）。</div>
+</section>
+
+<!-- ============ Constraints ============ -->
+<section id="constraints">
+<div class="section-label">Column constraints</div>
+<h2>只提醒、不阻擋；算總數、不理 quick filter</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">項目</th><th>內容</th></tr>
+<tr><td>開啟</td><td>Columns 頁 → Column constraints → <strong>Issue count</strong> 或 <strong>Issue count, excluding sub-tasks</strong>（Scrum 建議排除 sub-task，才是「幾張 story」）；選 None 全部關閉</td></tr>
+<tr><td>設定</td><td>每欄名稱下方輸入 min／max；清空即移除</td></tr>
+<tr><td>顯示</td><td><strong>紅色</strong>欄頭＝超過 max；<strong>黃色</strong>欄頭＝低於 min；數值顯示在欄頂</td></tr>
+<tr><td>不做的事</td><td>不影響顯示哪些 issue、<strong>不會阻止你拖第 N+1 張進去</strong>；純視覺提醒</td></tr>
+<tr><td>計算範圍</td><td>整欄的總數，<strong>即使被 quick filter 隱藏也算</strong></td></tr>
+<tr><td>用途</td><td>Kanban 的 WIP limit 核心；Scrum 用來早點看到瓶頸、調 sprint 範圍</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Done / Hide completed ============ -->
+<section id="done">
+<div class="section-label">完成判定</div>
+<h2>Scrum 看最右欄，Kanban 看 status category</h2>
+<p>「完成」在 Jira 有四種訊號，考題最愛把它們混在一起。<strong>它們不能互相抵銷</strong>。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:20%">訊號</th><th>代表什麼</th><th>不保證什麼</th></tr>
+<tr><td>Status</td><td>目前 workflow 節點，例如 Closed、Canceled</td><td>名稱含 Done <strong>不代表</strong>任何報表都視為完成</td></tr>
+<tr><td>Status category</td><td>每個 status 所屬的 To do／In progress／Done 大類</td><td>不等於這塊 board 的 column mapping</td></tr>
+<tr><td><strong>最右 column</strong></td><td><strong>Scrum</strong> 完成 sprint 與多數 agile report 的完成依據</td><td>不能直接套用到 Kanban 的 Hide completed work</td></tr>
+<tr><td>Resolution</td><td>結束的結果欄位（例如 Fixed）；空白＝unresolved</td><td>拖進最右欄<strong>不保證</strong>任何 workflow 都會替你設定它；reopen 也要處理清除</td></tr>
+</table></div>
+<h3>Kanban 的 Hide completed work</h3>
+<div class="callout warn"><div class="t">官方 KB：Kanban 用 status category，不是最右欄</div>原文：<em>Unlike Jira's scrum boards, Kanban boards use status category to determine whether a work item is complete.</em>／<em>When a work item reaches a status in the Done category, the Kanban board considers it complete, <strong>regardless of which column the status is mapped to</strong>.</em>——所以同一張 issue，在 Scrum 完成判定與 Kanban 隱藏機制裡<strong>可能有不同表現</strong>。</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">項目</th><th>內容</th></tr>
+<tr><td>可選區間</td><td><strong>1 週、2 週、4 週，或完全不隱藏</strong>——官方只列這幾個，<strong>沒有 5 週</strong>之類的選項</td></tr>
+<tr><td>判定依據</td><td>status 落在 <strong>Done 類別</strong>即視為完成，與它對到哪一欄無關</td></tr>
+<tr><td>計時起點</td><td><strong>任何欄位編輯都會重設計時器</strong>（官方點名 Description 等欄位）：改一下描述，早就完成的 issue 會<strong>重新出現</strong>在 board 上，直到區間再次經過</td></tr>
+<tr><td>與 Scrum 的差別</td><td>Scrum 完成 sprint 只認<strong>最右欄</strong>；Kanban 隱藏認<strong>category ＋ 計時</strong></td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考題長相</div>「Kanban board 上出現一張三個月前就 Done 的卡」→ 有人編輯過它，<strong>計時器被重設</strong>。「Hide completed work 設 1 週，跟 <code>resolved &gt;= startOfWeek()</code> 一樣嗎？」→ 不一樣：前者是<strong>滾動 7 天且會被編輯重設</strong>，後者是<strong>本曆週</strong>。</div>
+</section>
+
+<!-- ============ TMP transition rules ============ -->
+<section id="tmp">
+<div class="section-label">Team-managed 對照</div>
+<h2>TMP 沒有 workflow scheme，用 transition rules 限制誰能移動</h2>
+<p>CMP 靠 workflow 的 condition／validator／permission；TMP 則在 <strong>Space settings → Work types → 選 work type → Edit workflow → 選 transition → Rules</strong> 加規則，其中 <strong>Restrict who can move a work item</strong> 就是「誰能執行這個 transition」。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">項目</th><th>官方內容</th></tr>
+<tr><td>現行五種 rule</td><td>Assign a work item to someone／Update a work item field／<strong>Restrict who can move a work item</strong>／Remind people to update empty fields／Check that a work item has been through a status</td></tr>
+<tr><td>每個 transition 的上限</td><td><strong>10 組</strong> Restrict transition rules，每組 <strong>50 條</strong>；Validate details 50 條；Perform actions 50 條；每個 transition 最多加 <strong>10 條</strong>規則</td></tr>
+<tr><td>誰能設</td><td>Role：<strong>Administrator</strong>；Permission：<strong>Administer spaces</strong></td></tr>
+<tr><td>官方提醒</td><td><em>If you remove the role associated with the rule, your team may have trouble moving work items through your workflow.</em>——移除規則綁定的 role 會讓團隊卡在 transition</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">證據界線</div>舊教材常斷言「只能選人與 role」。本次核對到的官方頁只確認<strong>規則的存在、上限與所需權限</strong>，<strong>未取得可選對象的逐項清單</strong>；實際下拉選單支援哪些對象（指定使用者／role／group／特定 permission）請以站台畫面為準。另外要分清兩件事：<strong>直接指定 group</strong>，與<strong>讀取某個 group picker 欄位的值當允許名單</strong>，後者不能從前者推得。</div>
+</section>
+
+<!-- ============ Troubleshoot ============ -->
+<section id="troubleshoot">
+<div class="section-label">卡片不見了</div>
+<h2>官方的排查順序</h2>
+<ol>
+<li><strong>Board filter</strong>：Board settings → Details，確認 filter 涵蓋你要的 issue type 與 status。</li>
+<li><strong>Status 對應</strong>：Layout → Columns，確認要看的 status 都對到某一欄。</li>
+<li><strong>Backlog feature</strong>：Project settings → Features，確認 Backlog 有開（TMP）。</li>
+<li><strong>Backlog 對應</strong>：要放在 backlog 的 status 有沒有對到 Backlog 欄（Kanban backlog）。</li>
+</ol>
+<div class="callout"><div class="t">補兩條最常見的</div>Scrum board：issue 不在 active sprint 就不在 board 上，去 Backlog 找。Kanban board：status 落在 <strong>Done 類別</strong>且超過 Hide completed work 的區間就會被隱藏（與對到哪一欄無關）；反之被編輯過就會重新出現。</div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>Jira admin 在 workflow 加了「In Review」，但 board 上進 review 的 issue 全部消失。</summary><div class="a"><div class="tag">解答</div>新 status 在 Unmapped statuses；到 Board settings → Columns 把 In Review 拖進 In Progress 欄（或建新欄）。</div></details>
+<details class="q"><summary>Complete sprint 時，Cancelled 的 issue 被帶到下一個 sprint。</summary><div class="a"><div class="tag">解答</div>Cancelled 不在最右欄；把它對到 Done 欄，Jira 只把最右欄視為完成。</div></details>
+<details class="q"><summary>Board admin 刪掉了「Review」欄，工程師問 issue 是不是被刪了。</summary><div class="a"><div class="tag">解答</div>沒有；status 回到 Unmapped，issue 只是不在 board 上。重新對應即可。</div></details>
+<details class="q"><summary>Board admin 把 Done 欄拖到中間、把「QA」欄放到最右。</summary><div class="a"><div class="tag">解答</div>現在只有 QA 欄的 issue 算完成；Done 的 issue 變成進行中，burndown 與 sprint 完成判定都會錯。最右欄永遠是完成欄。</div></details>
+<details class="q"><summary>Project admin 想在 board 上直接加一個 status，Columns 頁沒有 Add status。</summary><div class="a"><div class="tag">解答</div>要 simplified workflow：board filter 只含一個 project 且 workflow 專屬。不符合就請 Jira admin 在 workflow editor 加。</div></details>
+<details class="q"><summary>In Progress 設了 max 3，但團隊還是能拖第 4 張進去。</summary><div class="a"><div class="tag">解答</div>Constraints 只是視覺提醒（欄頭變紅），不會阻擋拖曳。</div></details>
+<details class="q"><summary>用 quick filter 只看自己的 issue，In Progress 只有 2 張，欄頭卻是紅的。</summary><div class="a"><div class="tag">解答</div>Constraints 算整欄總數，不管 quick filter 隱藏了幾張。</div></details>
+<details class="q"><summary>Scrum 團隊開了 constraints，sub-task 一多欄頭就紅。</summary><div class="a"><div class="tag">解答</div>改用「Issue count, excluding sub-tasks」，只算 story。</div></details>
+<details class="q"><summary>誰能改一個 board 的 columns？</summary><div class="a"><div class="tag">解答</div>該 board location 的 project admin，或 board 的 board admin。</div></details>
+<details class="q"><summary>Simplified workflow 下想刪掉「Blocked」status，按鈕是灰的。</summary><div class="a"><div class="tag">解答</div>還有 issue 在 Blocked，或你不是 project admin；先把 issue 轉走。若別的 workflow 也用 Blocked，刪除只會從本 workflow 移除。</div></details>
+<details class="q"><summary>Jira admin 建了自訂 status「Waiting」，board 的 Unmapped 面板卻沒有它。</summary><div class="a"><div class="tag">解答</div>Status 沒被放進 board 所涵蓋 project 的 workflow；只有 workflow 真的用到的 status 才會出現。</div></details>
+<details class="q"><summary>Kanban board 設了「隱藏 2 週前完成的工作」，卻出現一張半年前就 Closed 的卡。</summary><div class="a"><div class="tag">解答</div>有人編輯過那張 issue，<strong>完成計時器被重設</strong>（官方點名 Description 等欄位編輯）；等區間再次經過就會消失。</div></details>
+<details class="q"><summary>某 status 的 category 是 Done，但在 Kanban board 被對到中間的欄位。它會被 Hide completed work 隱藏嗎？</summary><div class="a"><div class="tag">解答</div><strong>會</strong>。Kanban 用 <strong>status category</strong> 判定完成，與對到哪一欄無關；這點跟 Scrum 只認最右欄不同。</div></details>
+<details class="q"><summary>選項寫「Hide completed work 可以設 5 週」。</summary><div class="a"><div class="tag">解答</div>錯。官方只有 <strong>1 週、2 週、4 週或不隱藏</strong>。</div></details>
+<details class="q"><summary>TMP 團隊想限制只有特定角色能把 issue 移到 Done。</summary><div class="a"><div class="tag">解答</div>Space settings → Work types → Edit workflow → 該 transition → Rules → <strong>Restrict who can move a work item</strong>；需要 Administrator role／Administer spaces。注意：日後移除規則綁定的 role，團隊會卡住無法轉換。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「Column 就是 status」（CMP）</td><td>兩個獨立物件，靠對應連接；TMP 才是一體兩面</td></tr>
+<tr><td>「刪 column 會刪 issue」</td><td>只把 status 退回 Unmapped，issue 還在</td></tr>
+<tr><td>「加 column 就會出現新 status」</td><td>只有 simplified workflow 會；一般 workflow 只是空欄</td></tr>
+<tr><td>「叫 Done 的欄就是完成欄」</td><td>是<strong>最右</strong>的欄才是，跟名字無關</td></tr>
+<tr><td>「Constraints 會擋住超量」</td><td>只變色，不阻擋</td></tr>
+<tr><td>「Quick filter 隱藏的不算 constraint」</td><td>照算</td></tr>
+<tr><td>「Project admin 隨時能加 status」</td><td>要 simplified workflow；否則 Jira admin</td></tr>
+<tr><td>「改欄名會改 status 名」</td><td>不會，兩者分開</td></tr>
+<tr><td>「Kanban 也是最右欄才算完成」</td><td>Kanban 用 <strong>status category</strong>；最右欄是 <strong>Scrum</strong> 的規則</td></tr>
+<tr><td>「完成超過設定區間就一定看不到」</td><td>任何<strong>欄位編輯都會重設計時器</strong>，卡片會重新出現</td></tr>
+<tr><td>「一個 status 可以同時對到兩欄」</td><td>不行，同一塊 board 上一個 status 只能對到一欄</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>把三句話做出來</h2>
+<ol>
+<li>請 Jira admin 在 LAB 的 workflow 加「In Review」與「Cancelled」；回 board 觀察這兩個 status 的 issue消失，到 Columns 看 Unmapped 面板。</li>
+<li>把 In Review 拖進 In Progress 欄、Cancelled 拖進 Done 欄；建一個 sprint 含一張 Cancelled 的 issue，Complete sprint 確認它算完成；再把 Cancelled 拖到中間欄重做一次，看它被帶到下一個 sprint。</li>
+<li>把 Done 欄拖到中間，看 burndown 變化，再拖回去。</li>
+<li>開 constraints（excluding sub-tasks），In Progress 設 max 2，拖第 3 張進去看欄頭變紅；用 quick filter 隱藏一張，確認仍紅。</li>
+<li>建一個只含 LAB、用專屬 workflow 的 board → Columns 頁出現 Add status；把 filter 改成兩個 project → 按鈕消失。</li>
+<li><strong>Hide completed work</strong>：在 Kanban board 設「隱藏 1 週前完成的工作」，把一張 issue 移到 Done 類別的 status（<strong>刻意對到中間欄</strong>）→ 確認它仍被視為完成而隱藏；接著編輯它的 Description → 確認它<strong>重新出現</strong>。</li>
+<li><strong>安全重現 Unmapped</strong>：新增一個「Review view」欄並把測試 status 對進去 → 卡片出現 → 只刪這個欄 → status 回到 Unmapped、卡片從 board 消失；用 issue key 直接開或 JQL 搜尋，確認 <strong>issue 與 status 都沒變</strong>（刪欄 ≠ 刪 issue）→ 再把 status 對回原欄，卡片恢復。</li>
+</ol>
+<div class="callout"><div class="t">來源（本節實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-columns/">Configure columns</a>（官方考綱連結；含 Before you begin、Edit columns、Map statuses、Add／Delete a status、Column constraints、Configure directly on the board、Enable the kanban backlog、Troubleshoot missing work items）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/use-the-simplified-workflow/">Use the simplified workflow</a>（切換條件）</li>
+<li><a href="https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/">Kanban board shows or hides completed work unexpectedly in Jira Cloud</a>（KB：status category 判定、計時器被編輯重設、1／2／4 週選項）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/add-or-remove-workflow-rules-in-team-managed-projects/">Add or remove workflow rules in team-managed spaces</a>（五種 rule、每 transition 上限、Administrator／Administer spaces）</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 13 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.2.3"></div>
+</section>
+
+<div class="footer-nav"><a href="620.2.2.html">← 620.2.2 跨 project 的 board</a><a href="620.2.4.html">下一節：620.2.4 Filters、sub-filters、quick filters →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.2.3 status ↔ column 對應模擬器（id 前綴 s223-） */
+(function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const pop = (el) => { if (window.springPop && !matchMedia('(prefers-reduced-motion: reduce)').matches) window.springPop(el); };
+  const ORDER = ['todo', 'prog', 'done', 'unmapped'];
+  const DEFAULT = { Open: 'todo', Reopened: 'todo', 'In Progress': 'prog', 'In Review': 'prog', Resolved: 'done', Closed: 'done', Cancelled: 'unmapped' };
+  const ISSUES = { Open: 2, Reopened: 1, 'In Progress': 1, 'In Review': 1, Resolved: 1, Closed: 0, Cancelled: 1 }; // 共 7 張
+  let map = { ...DEFAULT }, max = 0;
+  const lab = $('#s223-lab');
+  function render() {
+    ORDER.forEach((c) => { $(`.s223-col[data-col="${c}"] .body`, lab).innerHTML = ''; });
+    let visible = 0, done = 0, hiddenNames = [], counts = { todo: 0, prog: 0, done: 0, unmapped: 0 };
+    Object.keys(map).forEach((st) => {
+      const col = map[st], n = ISSUES[st];
+      const el = document.createElement('div'); el.className = 's223-st'; el.dataset.st = st;
+      el.innerHTML = `<span>${st}</span><span class="cnt">${n} 張</span><span class="mv">→</span>`;
+      el.title = '點一下移到下一欄';
+      el.addEventListener('click', () => { map[st] = ORDER[(ORDER.indexOf(map[st]) + 1) % ORDER.length]; render(); const moved = $(`.s223-st[data-st="${st}"]`, lab); if (moved) pop(moved); });
+      $(`.s223-col[data-col="${col}"] .body`, lab).appendChild(el);
+      counts[col] += n;
+      if (col === 'unmapped') { if (n) hiddenNames.push(`${st}（${n}）`); } else { visible += n; if (col === 'done') done += n; }
+    });
+    ORDER.forEach((c) => { $(`[data-n="${c}"]`, lab).textContent = c === 'unmapped' ? '' : counts[c] + ' 張'; });
+    $('#s223-visible').textContent = visible; $('#s223-donecount').textContent = done;
+    $('#s223-hidden').textContent = hiddenNames.length ? `隱形：${hiddenNames.join('、')}——這些 status 沒對到欄，issue 不在 board 上` : '所有 status 都有對應，7 張全部在 board 上';
+    const warn = [];
+    if (map['Cancelled'] !== 'done' && ISSUES['Cancelled']) warn.push('Cancelled 不在最右欄 → 那張 issue 會被當未完成帶到下一個 sprint');
+    if (map['Resolved'] !== 'done' || map['Closed'] !== 'done') warn.push('有「結束」類的 status 不在最右欄 → 完成判定會錯');
+    $('#s223-warn').textContent = warn.length ? warn.join('；') : '所有結束類 status 都在最右欄，完成判定正確';
+    const prog = $('.s223-col[data-col="prog"]', lab);
+    const over = max > 0 && counts.prog > max;
+    prog.classList.toggle('over', over);
+    $('[data-n="prog"]', lab).textContent = (max ? `${counts.prog} / max ${max}` : counts.prog + ' 張') + (over ? '　超過！' : '');
+  }
+  $$('#s223-max button').forEach((b) => b.addEventListener('click', () => { $$('#s223-max button').forEach((x) => x.classList.remove('on')); b.classList.add('on'); max = +b.dataset.m; render(); }));
+  $('#s223-reset').addEventListener('click', () => { map = { ...DEFAULT }; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

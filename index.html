@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACP-620 教材｜Managing Jira Projects for Cloud</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+</aside>
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a></div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">ACP-620 · Managing Jira Projects for Cloud</div>
+<h1>逐節教材</h1>
+<p class="lead">依官方 Detailed Exam Topics（V2 / March 2023，2026-09 仍為現行版）逐節整理。24 節全部完成：每節由作者 agent 精讀官方連結製作，再由 QA agent 逐 URL 核對事實與格式。內容以 2023 考綱為作答基準，官方文件已改版處兩版並陳。</p>
+
+<div class="grid-3" style="margin-top:28px">
+  <div class="card"><div class="stat"><div class="hero-num">63</div><div class="l">題 · 180 分鐘</div></div></div>
+  <div class="card"><div class="stat"><div class="hero-num">38</div><div class="l">題及格（約 60%）</div></div></div>
+  <div class="card"><div class="stat"><div class="hero-num">5</div><div class="l">個 domain · 24 小節</div></div></div>
+</div>
+
+<section>
+<div class="section-label">Domain 比重</div>
+<h2>認證頁公布的百分比</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 250" role="img" aria-label="五個 domain 的比重長條圖">
+  <g class="lbl">
+    <text x="40" y="42">620.1 Project creation</text><rect x="260" y="26" width="78" height="22" rx="4" class="accent"/><text x="348" y="42" class="lbl b">13%</text>
+    <text x="40" y="82">620.2 Board configuration</text><rect x="260" y="66" width="174" height="22" rx="4" class="accent"/><text x="444" y="82" class="lbl b">29%</text>
+    <text x="40" y="122">620.3 Managing projects</text><rect x="260" y="106" width="150" height="22" rx="4" class="accent"/><text x="420" y="122" class="lbl b">25%</text>
+    <text x="40" y="162">620.4 Automation</text><rect x="260" y="146" width="84" height="22" rx="4" class="accent"/><text x="354" y="162" class="lbl b">14%</text>
+    <text x="40" y="202">620.5 Reporting</text><rect x="260" y="186" width="114" height="22" rx="4" class="accent"/><text x="384" y="202" class="lbl b">19%</text>
+  </g>
+  <text x="40" y="238" class="s">長條寬度 = 百分比 × 6。Board configuration 是最大的單一 domain。</text>
+</svg>
+</div>
+</section>
+
+<section id="exam-entry">
+<div class="section-label">模擬考與題庫</div>
+<h2><span id="qcount">305</span> 題題庫，63 題計時模擬考</h2>
+<p>題庫依官方文件逐題核對，每題附四段逐選項解析與來源連結。模擬考按認證頁公布的 domain 比重隨機抽 63 題、計時 180 分鐘，交卷後可看逐題回顧與錯題；也可只練單一 domain。每一節頁面底部另有該節的模擬題。</p>
+<div class="toolbar"><a class="btn" href="exam.html">開始模擬考 →</a><span class="note">作答紀錄存在瀏覽器，換裝置不會同步。</span></div>
+</section>
+
+<section>
+<div class="section-label">進度</div>
+<h2>已製作的章節</h2>
+<!--PROGRESS-->
+<div class="tbl-wrap"><table class="tbl"><tr><th style="width:14%">小節</th><th>主題</th><th style="width:10%" class="c">狀態</th></tr>
+<tr><td class="hd" colspan="3">620.1 Project Creation（13%）</td></tr>
+<tr><td><a href="620.1.1.html">620.1.1</a></td><td>選擇實作方式</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.1.2.html">620.1.2</a></td><td>建立與設定 TMP</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.1.3.html">620.1.3</a></td><td>Issue type 設計</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.1.4.html">620.1.4</a></td><td>專案設定與 trash</td><td class="c yes">✓</td></tr>
+<tr><td class="hd" colspan="3">620.2 Board Configuration（29%）</td></tr>
+<tr><td><a href="620.2.1.html">620.2.1</a></td><td>選 board 類型</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.2.2.html">620.2.2</a></td><td>跨 project board</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.2.3.html">620.2.3</a></td><td>Columns 與 status</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.2.4.html">620.2.4</a></td><td>Filter／sub-filter／quick filter</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.2.5.html">620.2.5</a></td><td>Estimation 與 time tracking</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.2.6.html">620.2.6</a></td><td>Swimlanes、卡片、工作日</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.2.7.html">620.2.7</a></td><td>Board 排查</td><td class="c yes">✓</td></tr>
+<tr><td class="hd" colspan="3">620.3 Managing Projects（25%）</td></tr>
+<tr><td><a href="620.3.1.html">620.3.1</a></td><td>專案權限</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.3.2.html">620.3.2</a></td><td>Project roles</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.3.3.html">620.3.3</a></td><td>Versions 與 roadmap</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.3.4.html">620.3.4</a></td><td>Components／labels／fields</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.3.5.html">620.3.5</a></td><td>自動指派</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.3.6.html">620.3.6</a></td><td>Issue layout</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.3.7.html">620.3.7</a></td><td>讓 issue 更豐富</td><td class="c yes">✓</td></tr>
+<tr><td class="hd" colspan="3">620.4 Automation（14%）</td></tr>
+<tr><td><a href="620.4.1.html">620.4.1</a></td><td>自動化手段</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.4.2.html">620.4.2</a></td><td>Automation rule</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.4.3.html">620.4.3</a></td><td>排查 automation</td><td class="c yes">✓</td></tr>
+<tr><td class="hd" colspan="3">620.5 Reporting（19%）</td></tr>
+<tr><td><a href="620.5.1.html">620.5.1</a></td><td>JQL</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.5.2.html">620.5.2</a></td><td>Dashboards 與 gadgets</td><td class="c yes">✓</td></tr>
+<tr><td><a href="620.5.3.html">620.5.3</a></td><td>Agile reports</td><td class="c yes">✓</td></tr>
+</table></div>
+<!--/PROGRESS-->
+</section>
+
+<section>
+<div class="section-label">閱讀方式</div>
+<h2>每頁的結構</h2>
+<ol>
+<li><strong>這一節考什麼</strong>：把官方 bullet 翻成考題語言。</li>
+<li><strong>核心模型</strong>：一張圖講清楚關係，能互動的就互動。</li>
+<li><strong>細節表格</strong>：考「有沒有」「誰負責」的對照。</li>
+<li><strong>情境題與陷阱</strong>：先自己判斷，再點開解答。</li>
+<li><strong>實作</strong>：在試用站台上做一次，建立肌肉記憶。</li>
+</ol>
+<div class="term">術語：考試（2023 V2）使用 project／issue；現行 Jira Cloud 已改稱 space／work item。教材沿用考試用語，引用現行官方文件時保留其用語。</div>
+</section>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

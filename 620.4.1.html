@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.4.1 辨識 Jira 的自動化手段｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#model">四種手段怎麼選</a>
+    <a href="#picker">手段選擇器</a>
+    <a href="#bulk">Bulk change</a>
+    <a href="#postfn">Workflow post function</a>
+    <a href="#subs">Filter subscription</a>
+    <a href="#a4j">Automation for Jira</a>
+    <a href="#compare">總比較表</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.4 Automation（14%）/ 620.4.1</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.4.1 · Identify ways to automate Jira (bulk change, workflow, automation, apps)</div>
+<h1>辨識 Jira 的自動化手段：<br>bulk change、workflow post function、automation、filter subscription、app</h1>
+<p class="lead">Domain 4 的官方導言說得很直接：project admin 要懂<strong>每一種手段怎麼運作、各自適用什麼情境</strong>，而且 post function 這種要跟 Jira admin 合作。這一節不教怎麼寫 rule（那是 620.4.2），只教「這個需求該用哪一種」。</p>
+<div class="term">術語：考試用 project／issue；現行產品為 space／work item，automation 的「rule」現行文件也稱「flow」。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>四條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understanding how Automation for Jira can be used to update issues</td><td>「某事件發生時自動改欄位／指派／建 sub-task」→ 該用 automation rule；誰能建、scope 在哪</td></tr>
+<tr><td>Understanding how filter subscriptions can be used to notify users based on specific criteria</td><td>「每週一把逾期 issue 寄給主管」→ 不是 automation 而是 <strong>filter subscription</strong>；群組訂閱要什麼全域權限</td></tr>
+<tr><td>Understand the available options for bulk update</td><td>Bulk change 的兩層權限、1,000 上限、五種操作、哪些欄位不能 bulk edit、搬移會掉什麼</td></tr>
+<tr><td>Understand how workflow post functions can be used to update issues</td><td>五個必要 post function 與順序、可插入的自訂項、誰能改（Jira admin）、和 condition／validator 的差別</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">標題裡的第五個字：apps</div>四種手段都做不到時才是 Marketplace app 的領域。考題通常把 app 當「排除其他選項後的答案」，不會考特定 app。</div>
+</section>
+
+<!-- ============ 核心模型 ============ -->
+<section id="model">
+<div class="section-label">核心模型</div>
+<h2>先問「多常發生、由什麼觸發」，手段自然浮現</h2>
+<p>四種手段（加上 app）不是功能強弱的排序，而是<strong>觸發方式不同</strong>：人手一次、workflow 轉換、時間表、事件。照下面的順序問，第一個答「是」的就是答案。</p>
+<div class="figure">
+<svg class="dia" viewBox="260 0 660 520" role="img" aria-label="自動化手段決策流程">
+  <defs><marker id="s241-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 問題框 x=300 w=300 h=64；結果框 x=680 w=200 h=48；內容 x 300–880，中心 590 -->
+  <rect x="300" y="20" width="300" height="64" rx="10" class="box q"/>
+  <text x="450" y="46" text-anchor="middle" class="lbl b">一次性、由人動手改一批 issue？</text><text x="450" y="68" text-anchor="middle" class="lbl">（搜尋結果 → 一起改欄位／搬移／轉換）</text>
+  <path d="M600,52 H680" class="ln" marker-end="url(#s241-arr)"/><text x="640" y="44" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,84 V130" class="ln" marker-end="url(#s241-arr)"/><text x="466" y="112" class="tag no">否</text>
+  <rect x="680" y="28" width="200" height="48" rx="10" class="box brand"/><text x="780" y="57" text-anchor="middle" class="lbl b">Bulk change</text>
+
+  <rect x="300" y="130" width="300" height="64" rx="10" class="box q"/>
+  <text x="450" y="156" text-anchor="middle" class="lbl b">每次走過某個 transition 都要做？</text><text x="450" y="178" text-anchor="middle" class="lbl">（同步、可靠、不需要條件分支）</text>
+  <path d="M600,162 H680" class="ln" marker-end="url(#s241-arr)"/><text x="640" y="154" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,194 V240" class="ln" marker-end="url(#s241-arr)"/><text x="466" y="222" class="tag no">否</text>
+  <rect x="680" y="138" width="200" height="48" rx="10" class="box violet"/><text x="780" y="159" text-anchor="middle" class="lbl b">Post function</text><text x="780" y="176" text-anchor="middle" class="s">Jira admin 設定</text>
+
+  <rect x="300" y="240" width="300" height="64" rx="10" class="box q"/>
+  <text x="450" y="266" text-anchor="middle" class="lbl b">只是要定期把符合條件的清單寄給人？</text><text x="450" y="288" text-anchor="middle" class="lbl">（不改任何 issue）</text>
+  <path d="M600,272 H680" class="ln" marker-end="url(#s241-arr)"/><text x="640" y="264" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,304 V350" class="ln" marker-end="url(#s241-arr)"/><text x="466" y="332" class="tag no">否</text>
+  <rect x="680" y="248" width="200" height="48" rx="10" class="box teal"/><text x="780" y="269" text-anchor="middle" class="lbl b">Filter subscription</text><text x="780" y="286" text-anchor="middle" class="s">saved filter ＋ 排程</text>
+
+  <rect x="300" y="350" width="300" height="64" rx="10" class="box q"/>
+  <text x="450" y="376" text-anchor="middle" class="lbl b">事件驅動、要條件分支、要動相關 issue？</text><text x="450" y="398" text-anchor="middle" class="lbl">（建立、留言、欄位改變、排程、webhook…）</text>
+  <path d="M600,382 H680" class="ln" marker-end="url(#s241-arr)"/><text x="640" y="374" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,414 V460" class="ln" marker-end="url(#s241-arr)"/><text x="466" y="442" class="tag no">否</text>
+  <rect x="680" y="358" width="200" height="48" rx="10" class="box green"/><text x="780" y="379" text-anchor="middle" class="lbl b">Automation rule</text><text x="780" y="396" text-anchor="middle" class="s">project admin 可建</text>
+
+  <rect x="330" y="460" width="240" height="48" rx="10" class="box amber"/><text x="450" y="481" text-anchor="middle" class="lbl b">Marketplace app</text><text x="450" y="498" text-anchor="middle" class="s">以上都做不到才考慮</text>
+</svg>
+<div class="cap">圖 1　手段決策流程。順序有意義：越上面的手段越簡單、越不需要別人；automation 最強但也最容易被濫用。</div>
+</div>
+</section>
+
+<!-- ============ 選擇器 ============ -->
+<section id="picker">
+<div class="section-label">互動</div>
+<h2>手段選擇器：描述需求，看該用什麼</h2>
+<div id="s241-picker" class="card">
+  <div class="toolbar" style="margin-top:0">
+    <span style="font-weight:700;font-size:.88rem;width:7rem">多常發生</span>
+    <div class="seg" id="s241-freq"><button data-v="once" class="on">一次性</button><button data-v="transition">每次 transition</button><button data-v="event">某事件發生時</button><button data-v="schedule">固定時間</button></div>
+  </div>
+  <div class="toolbar" style="margin-top:.25rem">
+    <span style="font-weight:700;font-size:.88rem;width:7rem">要做什麼</span>
+    <div class="seg" id="s241-goal"><button data-v="edit" class="on">改欄位／狀態</button><button data-v="notify">通知人</button><button data-v="related">動相關 issue</button></div>
+  </div>
+  <div class="grid-2" style="margin-top:.9rem;align-items:stretch">
+    <div class="union" style="grid-template-columns:1fr;gap:0"><div class="panel result"><div class="h">建議手段</div><div id="s241-result" style="font-size:1.05rem;font-weight:700"></div><p id="s241-why" class="kicker" style="margin:.4rem 0 0"></p></div></div>
+    <div class="union" style="grid-template-columns:1fr;gap:0"><div class="panel"><div class="h">誰能設、要注意什麼</div><div id="s241-who" style="font-size:.9rem"></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ Bulk change ============ -->
+<section id="bulk">
+<div class="section-label">手段 1</div>
+<h2>Bulk change：一次改最多 1,000 個 issue</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">需要的兩層權限</div>
+<ul style="margin-top:.5rem;font-size:.94rem"><li><strong>全域權限 Make bulk changes</strong>（Jira admin 授予群組）</li><li><strong>該操作在每個受影響 project 的權限</strong>：bulk move 要 Move Issues、bulk transition 要 Transition Issues、bulk delete 要 Delete Issues…</li></ul>
+<p class="kicker">缺任一層，搜尋結果的 ••• 選單就不會出現 Bulk change。</p></div>
+<div class="card"><div class="eyebrow">上限與範圍</div>
+<ul style="margin-top:.5rem;font-size:.94rem"><li>一次<strong>最多 1,000 個 issue</strong></li><li>入口：搜尋結果 → ••• → <strong>Bulk change all N issues</strong></li><li>可跨 project（每個 project 都要有對應權限）</li></ul></div>
+</div>
+<h3>四步驟</h3>
+<div class="steps">
+  <div class="step"><div class="n">1</div><div class="h">選 issue</div><div class="d">從搜尋結果勾選（全選或部分）</div></div>
+  <div class="step"><div class="n">2</div><div class="h">選操作</div><div class="d">Edit／Move／Transition／Delete／Watch／Stop watching</div></div>
+  <div class="step"><div class="n">3</div><div class="h">設定</div><div class="d">要改的欄位、目的地 project、對應 status、必填欄位</div></div>
+  <div class="step"><div class="n">4</div><div class="h">確認</div><div class="d">可取消「Send mail for this update」</div></div>
+</div>
+<h3 style="margin-top:1.8rem">五種操作與注意事項</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%">操作</th><th>能做什麼</th><th style="width:36%">注意</th></tr>
+<tr><td><strong>Edit</strong></td><td>一次改 assignee、due date、priority、components、labels、custom field…</td><td class="no">不能改：Summary、Description、Environment、Attachments、Project、Resolution、time tracking 欄位、Import Id、Read-only text 類 custom field</td></tr>
+<tr><td><strong>Move</strong></td><td>搬到另一個 project 或改 issue type</td><td>workflow 不同要對應 status、補必填欄位；<strong>CMP → TMP 會掉 components 與 versions</strong></td></tr>
+<tr><td><strong>Transition</strong></td><td>一批 issue 走同一個 transition</td><td>要填該 transition 的必填欄位（例如 Resolution）；只有共用 workflow 的 issue 能一起轉</td></tr>
+<tr><td><strong>Delete</strong></td><td>一次刪除</td><td>不可逆；一般建議用 Done 類狀態或 archive 取代</td></tr>
+<tr><td><strong>Watch／Stop watching</strong></td><td>批次加入或退出關注</td><td>—</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">考題最愛的兩個數字與一個清單</div><strong>1,000</strong>（上限）、<strong>兩層權限</strong>（Make bulk changes ＋ project 權限）、以及「Resolution 不能 bulk edit，要走 bulk transition」。</div>
+</section>
+
+<!-- ============ Post functions ============ -->
+<section id="postfn">
+<div class="section-label">手段 2</div>
+<h2>Workflow post function：transition 之後自動做的事</h2>
+<p>Post function 掛在 workflow 的 transition 上，<strong>每次</strong>有人走過那個 transition 就同步執行。它和 condition、validator 是同一個 transition 上的三個階段，考題常混在一起問。</p>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 330" role="img" aria-label="一個 transition 的三個階段">
+  <defs><marker id="s241-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 三個階段框 y=40 h=70：Condition x=40 w=220；Validator x=340 w=220；Post functions x=640 w=220 -->
+  <rect x="40" y="40" width="220" height="70" rx="10" class="box violet"/>
+  <text x="150" y="66" text-anchor="middle" class="lbl b">① Condition</text><text x="150" y="88" text-anchor="middle" class="s">決定按鈕要不要出現</text>
+  <path d="M260,75 H340" class="ln" marker-end="url(#s241-arr2)"/>
+  <rect x="340" y="40" width="220" height="70" rx="10" class="box amber"/>
+  <text x="450" y="66" text-anchor="middle" class="lbl b">② Validator</text><text x="450" y="88" text-anchor="middle" class="s">按下後檢查輸入是否合法</text>
+  <path d="M560,75 H640" class="ln" marker-end="url(#s241-arr2)"/>
+  <rect x="640" y="40" width="220" height="70" rx="10" class="box green"/>
+  <text x="750" y="66" text-anchor="middle" class="lbl b">③ Post functions</text><text x="750" y="88" text-anchor="middle" class="s">通過後依序執行</text>
+  <text x="150" y="132" text-anchor="middle" class="s no">不符 → 使用者根本看不到按鈕</text>
+  <text x="450" y="132" text-anchor="middle" class="s no">不符 → 擋下，post function 不執行</text>
+  <!-- 五個必要 post function：x=640 w=220 h=26，y 從 160 起每 32 -->
+  <rect x="640" y="160" width="220" height="26" rx="6" class="chipbox"/><text x="750" y="178" text-anchor="middle" class="s">1 Set issue status</text>
+  <rect x="640" y="192" width="220" height="26" rx="6" class="chipbox"/><text x="750" y="210" text-anchor="middle" class="s">2 Add comment（若有）</text>
+  <rect x="640" y="224" width="220" height="26" rx="6" class="chipbox"/><text x="750" y="242" text-anchor="middle" class="s">3 Update change history</text>
+  <rect x="640" y="256" width="220" height="26" rx="6" class="chipbox"/><text x="750" y="274" text-anchor="middle" class="s">4 Re-index issue</text>
+  <rect x="640" y="288" width="220" height="26" rx="6" class="chipbox"/><text x="750" y="306" text-anchor="middle" class="s">5 Fire Generic Event</text>
+  <text x="620" y="178" text-anchor="end" class="s">五個必要項，順序固定、不可刪</text>
+  <text x="620" y="200" text-anchor="end" class="s">自訂項只能插在它們之間</text>
+  <text x="620" y="222" text-anchor="end" class="s">（例：Assign to reporter、</text>
+  <text x="620" y="240" text-anchor="end" class="s">Update issue field、Copy value、</text>
+  <text x="620" y="258" text-anchor="end" class="s">Clear field、Trigger a webhook）</text>
+  <text x="620" y="292" text-anchor="end" class="s">改了 5 個必要項會讓 automation</text>
+  <text x="620" y="310" text-anchor="end" class="s">與 Marketplace app 行為異常</text>
+</svg>
+<div class="cap">圖 2　Condition 藏按鈕、validator 擋提交、post function 事後執行。Subtask Blocking Condition（620.1.3）就是第 ① 階段。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">項目</th><th>內容</th></tr>
+<tr><td>誰能改</td><td><strong>Jira admin</strong>（workflow 是全站物件）。Project admin 只有在 workflow 未共用且用新編輯器時才能動——所以 domain 導言說「需要與 Jira admin 合作」</td></tr>
+<tr><td>可加的自訂項</td><td>Assign to Current User／Lead Developer／Reporter、Clear Field Value、Copy Value From Other Field、Update Issue Field、Update Issue Custom Field、Trigger a Webhook、Set issue security level based on project role</td></tr>
+<tr><td>典型用途</td><td>轉到 Done 時設 Resolution；Reopen 時清 Resolution；轉到 In Review 時指派給 reporter</td></tr>
+<tr><td>和 automation 的差別</td><td>Post function <strong>同步</strong>、只認 transition、沒有條件分支、改完要 publish workflow；automation 非同步、任何事件都能觸發、有 condition／branch，但受執行上限與 actor 權限影響</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Filter subscription ============ -->
+<section id="subs">
+<div class="section-label">手段 3</div>
+<h2>Filter subscription：不改 issue，只按時寄清單</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">怎麼建</div>
+<ol style="margin-top:.5rem;font-size:.94rem"><li>搜尋 → <strong>Save as</strong> 存成 filter（可加星、可分享）</li><li>Filter → Details → <strong>New subscription</strong></li><li>選收件人（自己或 group）、排程（每日／每週／每月或 cron）、是否空結果也寄</li></ol></div>
+<div class="card"><div class="eyebrow">權限與陷阱</div>
+<ul style="margin-top:.5rem;font-size:.94rem"><li>訂閱給<strong>群組</strong>需要全域權限 <strong>Manage group filter subscriptions</strong></li><li>收件人只會看到<strong>自己有權限看</strong>的 issue（filter 以收件人身分執行）</li><li>要分享 filter 給別人需全域權限 <strong>Share dashboards and filters</strong></li><li>它是「通知」手段，不會改任何欄位；要改欄位請用 automation 的 Scheduled trigger</li></ul></div>
+</div>
+<div class="callout exam"><div class="t">考題長相</div>「每週一早上把逾期未關閉的 issue 寄給各 PM」→ filter subscription（或 automation Scheduled ＋ Send email）。若題目強調「不要改 issue、只要 email 清單」，選 filter subscription；若要同時改欄位或依條件分流，選 automation。</div>
+</section>
+
+<!-- ============ Automation ============ -->
+<section id="a4j">
+<div class="section-label">手段 4</div>
+<h2>Automation for Jira：事件驅動的 rule</h2>
+<p>官方定義：「removes the need to do manual, repetitive work by letting your team's processes and workflows run themselves.」每條 rule 由 <strong>trigger → condition → action</strong> 組成，可加 <strong>branch</strong> 對相關 issue 動作。細節在 <a href="620.4.2.html">620.4.2</a>，這裡只放本節會考的定位：</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">面向</th><th>內容</th></tr>
+<tr><td>誰能建</td><td><strong>Project admin</strong> 在 Project settings → Automation 建單一 project 的 rule（CMP 需 Administer Projects ＋ Browse Projects；TMP 需 Administrator）。<strong>Global／multi-project rule 只有 Administer Jira</strong> 能建</td></tr>
+<tr><td>建立方式</td><td>從 template、從零開始、或用 Rovo 描述需求產生</td></tr>
+<tr><td>三種入口</td><td>Issue 事件（created／transitioned／updated／field changed／commented…）、Scheduled（cron ＋ JQL）、Manual、DevOps 事件、Incoming webhook</td></tr>
+<tr><td>典型用途</td><td>建立時自動指派與加 sub-task、欄位改變時同步 parent、Done 時關閉所有 sub-task、每天找逾期 issue 加標籤並通知</td></tr>
+<tr><td>代價</td><td>受 <strong>actor 權限</strong>與<strong>執行上限</strong>限制；非同步；rule 多了難追（620.4.3）</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 總比較 ============ -->
+<section id="compare">
+<div class="section-label">總比較表</div>
+<h2>五種手段一次看</h2>
+<div class="tbl-wrap"><table class="tbl" style="font-size:.88rem">
+<tr><th>手段</th><th>觸發</th><th>誰能設</th><th>能改 issue？</th><th>條件分支</th><th>上限／代價</th></tr>
+<tr><td><strong>Bulk change</strong></td><td>人手，一次</td><td>有 Make bulk changes ＋ project 權限的人</td><td class="yes">可（部分欄位除外）</td><td class="no">無</td><td>1,000／次；某些欄位不能改</td></tr>
+<tr><td><strong>Post function</strong></td><td>每次 transition</td><td>Jira admin</td><td class="yes">可</td><td class="no">無（靠不同 transition 區分）</td><td>要 publish workflow；影響所有共用該 workflow 的 project</td></tr>
+<tr><td><strong>Filter subscription</strong></td><td>排程</td><td>filter 擁有者；群組訂閱需全域權限</td><td class="no">不可，只寄 email</td><td class="no">無</td><td>收件人看到的內容依其權限</td></tr>
+<tr><td><strong>Automation rule</strong></td><td>事件／排程／手動／webhook</td><td>Project admin（單一 project）；Jira admin（global）</td><td class="yes">可，還能動相關 issue</td><td class="yes">condition、if／else、branch</td><td>執行上限、actor 權限、非同步</td></tr>
+<tr><td><strong>Marketplace app</strong></td><td>依 app</td><td>Jira admin 安裝</td><td class="yes">依 app</td><td class="yes">依 app</td><td>費用、維護、授權</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>PM 想把 sprint 結束時 200 張未完成的 issue 一次改成 priority = Low，並且不想寄出 200 封通知。</summary><div class="a"><div class="tag">解答</div><strong>Bulk change → Edit</strong>，第 4 步取消「Send mail for this update」。需要 Make bulk changes ＋ 該 project 的 Edit Issues。</div></details>
+<details class="q"><summary>使用者有 Make bulk changes 全域權限，但在某個 project 的搜尋結果裡看不到 Bulk change 選項。</summary><div class="a"><div class="tag">解答</div>缺第二層：該 project 的對應權限（例如 Edit Issues）。兩層都要。</div></details>
+<details class="q"><summary>想用 bulk edit 把 300 張 issue 的 Resolution 設成 Won't Do。</summary><div class="a"><div class="tag">解答</div>Resolution 不能 bulk edit；改用 <strong>bulk transition</strong> 走一個會要求 Resolution 的 transition。</div></details>
+<details class="q"><summary>每次 issue 轉到 Done，都要把 Resolution 設成 Done；團隊不想依賴任何人記得做。</summary><div class="a"><div class="tag">解答</div><strong>Post function</strong>（Update Issue Field → Resolution）掛在 Done transition；需要 Jira admin。同步且必然執行，比 automation 更適合。</div></details>
+<details class="q"><summary>Jira admin 在 Done transition 想把「Fire Generic Event」移到最前面，讓 app 早一點收到事件。</summary><div class="a"><div class="tag">解答</div>不可以。五個必要 post function 順序固定、不可刪改；改了會讓 automation 與 Marketplace app 行為異常。</div></details>
+<details class="q"><summary>主管要每週一 09:00 收到「逾期且未指派」的 issue 清單 email，不需要改任何欄位。</summary><div class="a"><div class="tag">解答</div><strong>Filter subscription</strong>：存 filter（`duedate < now() AND assignee is EMPTY AND resolution is EMPTY`），New subscription 排每週一。</div></details>
+<details class="q"><summary>承上，要寄給整個 `pm-team` 群組，但建立訂閱時找不到群組選項。</summary><div class="a"><div class="tag">解答</div>缺全域權限 <strong>Manage group filter subscriptions</strong>，請 Jira admin 授予。</div></details>
+<details class="q"><summary>Issue 建立時，若 component 是 Backend 就自動加三個固定 sub-task 並指派給 lead。</summary><div class="a"><div class="tag">解答</div><strong>Automation rule</strong>：Issue created → Issue fields condition（component = Backend）→ Create sub-tasks ×3 → Assign。有條件、要建相關 issue，其他手段做不到。</div></details>
+<details class="q"><summary>Project admin 想建一條「跨三個 project」的 rule。</summary><div class="a"><div class="tag">解答</div>Multi-project／global rule 需要 <strong>Administer Jira</strong>；project admin 只能建自己 project 的 rule，請 Jira admin 在 Global automation 建。</div></details>
+<details class="q"><summary>需求是「issue 進 In Progress 時，把它的 Confluence 需求頁狀態同步改成 In development」——Jira 內建手段做得到嗎？</summary><div class="a"><div class="tag">解答</div>Automation 可用 Send web request 或 Confluence 動作嘗試；若牽涉 Confluence 頁面屬性等內建動作不支援的操作，才考慮 Marketplace app。考題邏輯：先排除四種內建手段，再選 app。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「有 Make bulk changes 就能 bulk 任何操作」</td><td>還要每個 project 對應的權限（Edit／Move／Transition／Delete Issues）</td></tr>
+<tr><td>「Bulk edit 可以改 Summary 或 Resolution」</td><td>Summary、Description、Environment、Attachments、Project、Resolution、time tracking 都不能；Resolution 走 bulk transition，Project 走 bulk move</td></tr>
+<tr><td>「Post function 只有 Jira admin 看得到，跟 project admin 無關」</td><td>Project admin 要懂它的效果（例如 Resolution 為什麼自動被設），才能判斷需求該找 Jira admin 還是自己用 automation</td></tr>
+<tr><td>「Filter subscription 可以順便改欄位」</td><td>只寄 email；要改欄位用 automation Scheduled trigger</td></tr>
+<tr><td>「Automation 是萬能的，一律用它」</td><td>每次 transition 都要做、且要同步保證的事，post function 更可靠；一次性的事用 bulk change 更省</td></tr>
+<tr><td>「Project admin 可以建 global rule」</td><td>只能建自己 project 的 rule；global／multi-project 要 Administer Jira</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">選型反例：一次性清理不要留成永久 Scheduled rule</div>
+「把 300 張舊卡補上 label」是<strong>一次性</strong>需求，做成每天跑的 Scheduled rule 會長期吃用量、而且未來新卡也會被改到。正確做法是<strong>分批 Bulk change，做完就結束</strong>。反過來，「每次建立 Bug 都要指派」是持續性需求，用 bulk change 只會補一次、之後的新卡不會處理。
+<strong>判斷句：先問這是「一次把既有資料改好」還是「以後每次都要做」。</strong>
+<div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/">Edit multiple work items</a>、<a href="https://support.atlassian.com/cloud-automation/docs/automation-service-limits/">Automation service limits</a></div></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>四種手段各做一次</h2>
+<ol>
+<li><strong>Bulk change</strong>：搜出 5 張 issue → ••• → Bulk change → Edit → 改 priority，取消 Send mail；再試 bulk edit Summary，確認欄位不在清單裡。</li>
+<li><strong>Post function</strong>（需 Jira admin 或專用 workflow）：在 Done transition 加 Update Issue Field → Resolution = Done；在 Reopen transition 加 Resolution = None。轉一張 issue 來回看 Resolution 變化。</li>
+<li><strong>Filter subscription</strong>：存一個「逾期未指派」filter → New subscription → 每天 → 勾「即使沒有結果也寄」，看隔天信箱。試著改成寄給 group，觀察是否有權限。</li>
+<li><strong>Automation</strong>：Project settings → Automation → Create rule：Issue created → Issue fields condition → Assign issue。看 audit log 一次成功紀錄。</li>
+<li>做完回到圖 1，對每一步問自己「為什麼不是另一種手段」。</li>
+</ol>
+<div class="callout"><div class="t">來源（本節精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://www.atlassian.com/software/jira/guides/expand-jira/automation">Jira automation guide（expand-jira/automation）</a></li>
+<li><a href="https://support.atlassian.com/cloud-automation/docs/create-and-edit-jira-automation-rules/">Create and edit Jira automation rules</a></li>
+<li><a href="https://support.atlassian.com/cloud-automation/docs/edit-issue-fields-with-jira-automation/">Edit issues with Jira automation</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/save-your-search-as-a-filter/">Save your search as a filter</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/">Edit multiple issues at the same time</a></li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/">Configure advanced issue workflows（post functions）</a></li>
+<li><a href="https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/">Permissions required to manage automation flows</a>（補充）</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 14 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.4.1"></div>
+</section>
+
+<div class="footer-nav"><a href="620.3.7.html">← 620.3.7 讓 issue 更豐富</a><a href="620.4.2.html">下一節：620.4.2 建立 automation rule →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.4.1 手段選擇器（id 前綴 s241-） */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const box=$('#s241-picker'); if(!box) return;
+  const freq=$$('#s241-freq button'), goal=$$('#s241-goal button');
+  const R={
+    bulk:{name:'Bulk change',why:'一次性、由人動手，搜尋結果直接改，不需要建 rule。',who:'需要全域 Make bulk changes ＋ 每個 project 的對應權限；一次最多 1,000 個；Summary／Description／Resolution 不能 bulk edit。'},
+    post:{name:'Workflow post function',why:'每次走過 transition 都要做、要同步保證，post function 最可靠。',who:'Jira admin 改 workflow 並 publish；project admin 只能提需求。五個必要項順序不可改。'},
+    subs:{name:'Filter subscription',why:'只要按時寄清單、不改任何 issue，saved filter ＋ 排程就夠。',who:'filter 擁有者即可；寄給群組要全域 Manage group filter subscriptions；收件人只看到自己有權限的 issue。'},
+    auto:{name:'Automation rule',why:'事件驅動、可加條件與分支、能動相關 issue，是唯一做得到的內建手段。',who:'project admin 可建單一 project 的 rule；跨 project 要 Administer Jira。注意 actor 權限與執行上限。'},
+    autoS:{name:'Automation rule（Scheduled trigger）',why:'固定時間跑 JQL 並對結果動作——因為要「改」而不只是「寄」，filter subscription 不夠。',who:'同 automation；Scheduled trigger 連續失敗 10 次會自動停用。'},
+    autoN:{name:'Automation rule（Send email／Slack）',why:'事件發生當下就要通知，filter subscription 只能按排程寄。',who:'同 automation；也可用 notification scheme（若只是標準事件通知）。'}
+  };
+  function pick(){
+    const f=freq.find(b=>b.classList.contains('on')).dataset.v, g=goal.find(b=>b.classList.contains('on')).dataset.v;
+    let k;
+    if(f==='once') k='bulk';
+    else if(f==='transition') k=(g==='related')?'auto':'post';
+    else if(f==='schedule') k=(g==='notify')?'subs':'autoS';
+    else k=(g==='notify')?'autoN':'auto';
+    if(f==='once'&&g==='related') k='auto';
+    if(f==='once'&&g==='notify') k='subs';
+    const r=R[k]; $('#s241-result').textContent=r.name; $('#s241-why').textContent=r.why; $('#s241-who').textContent=r.who;
+    if(window.springPop) window.springPop($('#s241-result'));
+  }
+  freq.forEach(b=>b.addEventListener('click',()=>{freq.forEach(x=>x.classList.remove('on'));b.classList.add('on');pick();}));
+  goal.forEach(b=>b.addEventListener('click',()=>{goal.forEach(x=>x.classList.remove('on'));b.classList.add('on');pick();}));
+  pick();
+})();
+</script>
+</body>
+</html>

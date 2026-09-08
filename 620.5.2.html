@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.5.2 Dashboard 與 gadget 的設計｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#model">核心模型：資料來源 → gadget</a>
+    <a href="#manage">建立、分享、管理</a>
+    <a href="#layout">版面互動</a>
+    <a href="#picker">需求 → gadget 推薦器</a>
+    <a href="#catalog">Gadget 目錄</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.5 Reporting（19%）/ 620.5.2</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.5.2 · Determine an appropriate gadget and dashboard configuration</div>
+<h1>Dashboard 與 gadget 的設計</h1>
+<p class="lead">Dashboard 是 Jira 登入後的首頁，也是把 filter（620.5.1）變成「別人看得懂的畫面」的地方。考題兩種：操作面（誰能建、怎麼分享、丟掉後怎麼救）與選型面（主管要看 X，該放哪個 gadget、它要吃什麼資料來源）。</p>
+<div class="term">術語：考試用 project／issue；官方 gadget 名稱現已改為 work item（例如「Work item Statistics」），本頁以考試常見的舊名為主、括號附新名。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>兩條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Know how to create and configure a dashboard</td><td>「誰能建 dashboard？」「分享給 project role 需要什麼權限？」「丟到 trash 後誰能救、多久後永久刪？」「wallboard 是什麼？」</td></tr>
+<tr><td>Understand the features and use cases for dashboard gadgets</td><td>「主管想看每個人手上有幾張未完成，用哪個 gadget？」「Pie Chart 需要什麼來源？」「Two Dimensional 與 Issue Statistics 差在哪？」</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 核心模型 ============ -->
+<section id="model">
+<div class="section-label">核心模型</div>
+<h2>Gadget 不會自己有資料：每個都要接一個來源</h2>
+<p>幾乎所有 gadget 的設定第一格都是「Filter or project」。所以 dashboard 的設計順序是：<strong>先把需求寫成 saved filter → 再挑 gadget 呈現 → 最後決定分享給誰</strong>。看的人要同時看得到 dashboard 與底層 filter，畫面才會有內容。</p>
+
+<div class="figure">
+<svg class="dia" viewBox="0 0 960 330" role="img" aria-label="資料來源（saved filter、project、board／sprint）餵給不同 gadget">
+  <defs><marker id="s252-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標註解：左欄來源框 x=60 w=220 h=56，y=60／150／240（中心 88／178／268）
+       右欄 gadget 框 x=560 w=340 h=44：y=40／96／152／208／264（中心 62／118／174／230／286）
+       匯流：來源右邊 (280,cy) → 直線到 x=400 → 垂直到目標 cy → 水平到 560 -->
+  <text x="170" y="36" text-anchor="middle" class="t">資料來源</text>
+  <text x="730" y="26" text-anchor="middle" class="t">Gadget（例）</text>
+  <rect x="60" y="60" width="220" height="56" rx="10" class="box brand"/><text x="170" y="84" text-anchor="middle" class="lbl b">Saved filter（JQL）</text><text x="170" y="104" text-anchor="middle" class="s">看的人要有此 filter 的檢視權</text>
+  <rect x="60" y="150" width="220" height="56" rx="10" class="box teal"/><text x="170" y="174" text-anchor="middle" class="lbl b">Project</text><text x="170" y="194" text-anchor="middle" class="s">等同 project = X 的 filter</text>
+  <rect x="60" y="240" width="220" height="56" rx="10" class="box violet"/><text x="170" y="264" text-anchor="middle" class="lbl b">Board／Sprint</text><text x="170" y="284" text-anchor="middle" class="s">只有 sprint 類 gadget 用</text>
+  <!-- filter → 4 個 gadget -->
+  <path d="M280,88 H400" class="ln"/>
+  <path d="M400,62 V230" class="ln"/>
+  <path d="M400,62 H560" class="ln" marker-end="url(#s252-arr)"/>
+  <path d="M400,118 H560" class="ln" marker-end="url(#s252-arr)"/>
+  <path d="M400,174 H560" class="ln" marker-end="url(#s252-arr)"/>
+  <path d="M400,230 H560" class="ln" marker-end="url(#s252-arr)"/>
+  <!-- project → 同一條 bus（合流到 x=400） -->
+  <path d="M280,178 H400" class="ln"/>
+  <!-- board → sprint gadget -->
+  <path d="M280,268 H440" class="ln"/><path d="M440,268 V286 H560" class="ln" marker-end="url(#s252-arr)"/>
+  <rect x="560" y="40" width="340" height="44" rx="8" class="box"/><text x="730" y="67" text-anchor="middle" class="lbl">Filter Results（列出 issue）</text>
+  <rect x="560" y="96" width="340" height="44" rx="8" class="box"/><text x="730" y="123" text-anchor="middle" class="lbl">Pie Chart／Issue Statistics（一維分佈）</text>
+  <rect x="560" y="152" width="340" height="44" rx="8" class="box"/><text x="730" y="179" text-anchor="middle" class="lbl">Two Dimensional Filter Statistics（交叉表）</text>
+  <rect x="560" y="208" width="340" height="44" rx="8" class="box"/><text x="730" y="235" text-anchor="middle" class="lbl">Created vs Resolved、Average Age（趨勢）</text>
+  <rect x="560" y="264" width="340" height="44" rx="8" class="box violet"/><text x="730" y="291" text-anchor="middle" class="lbl">Sprint Health、Sprint Burndown、Days Remaining</text>
+  <text x="480" y="322" text-anchor="middle" class="s">Filter 與 Project 走同一條匯流線：對 gadget 來說「project」就是一個現成的 filter</text>
+</svg>
+<div class="cap">圖 1　挑 gadget 前先問「它吃 filter、project 還是 board」；再問「看的人有沒有那個來源的權限」。</div>
+</div>
+<div class="callout exam"><div class="t">考題長相</div>「同事打開我分享的 dashboard 全是空的」→ dashboard 分享了，但底層 <strong>saved filter 沒分享</strong>給他。分享 dashboard 與分享 filter 是兩件事。</div>
+</section>
+
+<!-- ============ Manage ============ -->
+<section id="manage">
+<div class="section-label">操作面</div>
+<h2>建立、分享、管理（官方三頁整理）</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:20%">動作</th><th>路徑／規則</th></tr>
+<tr><td>建立</td><td>側欄 <strong>Dashboards → Create dashboard</strong>，填名稱與描述。<strong>任何 Jira 使用者都能建</strong>。</td></tr>
+<tr><td>版面</td><td>Edit → <strong>Change layout</strong>：單欄、兩欄（等寬或左右不等）、三欄。</td></tr>
+<tr><td>加 gadget</td><td>Edit → <strong>Add gadget</strong>（要看全部先按 Load all gadgets）→ 設定來源 → 拖曳排列。</td></tr>
+<tr><td>分享</td><td>••• → <strong>Rename or share</strong>：分別指定 <strong>Viewers</strong> 與 <strong>Editors</strong>；對象可以是 user、group、project（現行文件稱 space）、project role，或開放給任何登入者／public。<strong>分享需要全域權限 Share dashboards and filters</strong>（見 620.3.1）。</td></tr>
+<tr><td>加星</td><td>Star 後出現在側欄「Starred and recent」；只有加星的會顯示在側欄。</td></tr>
+<tr><td>複製</td><td>••• → Copy dashboard：以既有 dashboard 為底建新的。</td></tr>
+<tr><td>自動刷新</td><td>••• → <strong>Configure automatic refresh</strong>，以分鐘為單位；<strong>任何使用者</strong>都能對自己的 dashboard 設定（官方 Configure custom dashboards）。</td></tr>
+<tr><td>Wallboard</td><td>單一 dashboard 全螢幕，或 <strong>wallboard slideshow</strong> 多個輪播、可設秒數。</td></tr>
+<tr><td>刪除</td><td>••• → <strong>Move to trash</strong>。<strong>只有 Jira admin 能從 trash 還原</strong>；60 天後永久刪除。</td></tr>
+<tr><td>System dashboard</td><td>登入預設看到的那一個，由 <strong>Jira admin</strong> 設定；改了會影響所有用它的人（gadget 仍受權限影響，例如 Administration gadget 只有 admin 看得到）。</td></tr>
+<tr><td>找別人的</td><td>Dashboards → View all dashboards，可搜尋分享給你的 dashboard。</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Layout ============ -->
+<section id="layout">
+<div class="section-label">互動</div>
+<h2>版面怎麼影響閱讀</h2>
+<p>切換 layout，看同一組 gadget 怎麼重排。原則：<strong>寬的放表格與趨勢圖，窄的放數字與清單</strong>；wallboard 上放不超過 6 個。</p>
+<div id="s252-layout" class="card">
+  <div class="toolbar" style="margin-top:0">
+    <span style="font-weight:700;font-size:.88rem">Layout</span>
+    <div class="seg" id="s252-lay"><button data-l="1">單欄</button><button data-l="2" class="on">兩欄</button><button data-l="2b">兩欄（左寬）</button><button data-l="3">三欄</button></div>
+    <span id="s252-lay-msg" class="note"></span>
+  </div>
+  <div id="s252-grid" style="display:grid;gap:.6rem;margin-top:.75rem"></div>
+</div>
+</section>
+
+<!-- ============ Picker ============ -->
+<section id="picker">
+<div class="section-label">互動</div>
+<h2>需求 → gadget 推薦器</h2>
+<p>選一個主管常問的問題，看該用哪個 gadget、要接什麼來源、設定時要注意什麼。</p>
+<div id="s252-picker" class="card">
+  <div class="chips" id="s252-needs"></div>
+  <div id="s252-rec" style="margin-top:.9rem;padding:.9rem 1rem;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-s)"></div>
+</div>
+</section>
+
+<!-- ============ Catalog ============ -->
+<section id="catalog">
+<div class="section-label">Gadget 目錄</div>
+<h2>內建 gadget（官方 Use dashboard gadgets 全表，依用途分群）</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:14%">用途</th><th style="width:30%">Gadget</th><th style="width:14%">來源</th><th>顯示什麼</th></tr>
+<tr><td class="hd">列清單</td><td>Filter Results</td><td>filter</td><td>某 filter 的 issue 列表，可選欄位與筆數</td></tr>
+<tr><td class="hd" rowspan="3">分佈</td><td>Pie Chart</td><td>filter／project</td><td>依一個欄位（status、priority、assignee…）分佈的圓餅</td></tr>
+<tr><td>Issue Statistics（Work item Statistics）</td><td>filter／project</td><td>依一個欄位分組的計數表（一維）</td></tr>
+<tr><td>Two Dimensional Filter Statistics</td><td>filter</td><td>兩個欄位交叉的表格（例如 Assignee × Status）</td></tr>
+<tr><td class="hd" rowspan="4">趨勢與時間</td><td>Created vs Resolved</td><td>filter／project</td><td>一段期間建立與解決的差異圖，看 backlog 是漲是跌</td></tr>
+<tr><td>Recently Created Issues</td><td>filter／project</td><td>建立速率的長條，含已解決比例</td></tr>
+<tr><td>Average Age</td><td>filter／project</td><td>未解決 issue 的平均年齡（天）長條</td></tr>
+<tr><td>Resolution Time</td><td>filter／project</td><td>已解決 issue 的平均解決時間</td></tr>
+<tr><td class="hd" rowspan="2">狀態停留</td><td>Average Time in Status</td><td>filter／project</td><td>各狀態平均停留天數</td></tr>
+<tr><td>Average Number of Times in Status</td><td>filter／project</td><td>各狀態平均進入次數（反覆退回的訊號）</td></tr>
+<tr><td class="hd" rowspan="3">個人</td><td>Assigned to Me</td><td>—</td><td>指派給我、跨所有 project 的未完成 issue</td></tr>
+<tr><td>Issues in Progress（Work items in Progress）</td><td>—</td><td>我進行中的 issue</td></tr>
+<tr><td>Watched Issues／Voted Issues</td><td>—</td><td>我關注／投票的 issue</td></tr>
+<tr><td class="hd" rowspan="3">Sprint</td><td>Sprint Health</td><td>board</td><td>sprint 進度、工作分配、scope 變動的快照</td></tr>
+<tr><td>Sprint Burndown</td><td>board</td><td>剩餘工作曲線</td></tr>
+<tr><td>Days Remaining in Sprint</td><td>board</td><td>倒數天數</td></tr>
+<tr><td class="hd" rowspan="2">版本與 project</td><td>Road Map</td><td>project</td><td>指定期間內要 release 的版本與進度</td></tr>
+<tr><td>Projects（Spaces）</td><td>project</td><td>project 資訊與相關 filter 捷徑</td></tr>
+<tr><td class="hd" rowspan="4">其他</td><td>Bubble Chart</td><td>filter</td><td>四個維度找出「重要」的 issue（例如 votes × age）</td></tr>
+<tr><td>Labels</td><td>project</td><td>該 project 用過的所有 label</td></tr>
+<tr><td>Time Since Issues</td><td>filter／project</td><td>依某個日期欄位（created、updated、due、resolved、自訂）的活動長條</td></tr>
+<tr><td>Activity Stream、Introduction、Quick Links、Wallboard Spacer、Issue Calendar（需外掛）、Time to First Response、Service Project Report</td><td>各異</td><td>活動流、自訂文字、捷徑、排版空白、行事曆（外掛）、JSM 專用兩個</td></tr>
+</table></div>
+<p class="kicker" style="margin-top:.5rem">Marketplace 可加更多 gadget；也可用 XML descriptor 自製 gadget 當 plugin 安裝。</p>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>主管要一張「每個工程師手上各狀態有幾張」的表。</summary><div class="a"><div class="tag">解答</div><strong>Two Dimensional Filter Statistics</strong>：X＝Status、Y＝Assignee，來源是團隊 filter。一維的 Issue Statistics 只能看一個欄位。</div></details>
+<details class="q"><summary>想知道 backlog 這三個月是越積越多還是在消化。</summary><div class="a"><div class="tag">解答</div><strong>Created vs Resolved</strong>，期間設 90 天。</div></details>
+<details class="q"><summary>Project admin 建好 dashboard，分享時找不到 project role 選項或分享失敗。</summary><div class="a"><div class="tag">解答</div>缺全域權限 <strong>Share dashboards and filters</strong>，找 Jira admin。</div></details>
+<details class="q"><summary>同事看得到 dashboard，但 Pie Chart 一片空白。</summary><div class="a"><div class="tag">解答</div>底層 saved filter 沒分享給他，或他沒有該 project 的 Browse 權限。gadget 依看的人的權限顯示。</div></details>
+<details class="q"><summary>不小心把 dashboard 丟進 trash，自己救得回來嗎？</summary><div class="a"><div class="tag">解答</div>不行，只有 Jira admin 能還原；60 天後永久刪除。</div></details>
+<details class="q"><summary>想在牆上電視輪播三個團隊的 dashboard。</summary><div class="a"><div class="tag">解答</div>Wallboard slideshow，設定輪播秒數；每張 wallboard 少放 gadget。</div></details>
+<details class="q"><summary>Scrum master 要在 dashboard 上看目前 sprint 還剩幾天和燃盡狀況。</summary><div class="a"><div class="tag">解答</div>Days Remaining in Sprint ＋ Sprint Burndown（或 Sprint Health），來源是 board 不是 filter。</div></details>
+<details class="q"><summary>誰能改 System dashboard？改了會影響誰？</summary><div class="a"><div class="tag">解答</div>Jira admin；影響所有沒有自訂首頁的使用者，但 gadget 仍依各人權限顯示。</div></details>
+<details class="q"><summary>想找出「票數多且放很久」的需求。</summary><div class="a"><div class="tag">解答</div>Bubble Chart：可用四個維度（例如 votes、age、priority、watchers）一次看。</div></details>
+<details class="q"><summary>老闆只想看「指派給我的」，不想設 filter。</summary><div class="a"><div class="tag">解答</div>Assigned to Me 不需要來源，跨所有 project 列出未完成的指派。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「只有 admin 能建 dashboard」</td><td>任何 Jira 使用者都能建；分享才需要 Share dashboards and filters。</td></tr>
+<tr><td>「分享 dashboard 就等於分享資料」</td><td>gadget 的來源 filter 要另外分享，且看的人要有 project 的 Browse 權限。</td></tr>
+<tr><td>「Pie Chart 可以交叉兩個欄位」</td><td>一維；交叉用 Two Dimensional Filter Statistics。</td></tr>
+<tr><td>「Sprint gadget 用 filter 當來源」</td><td>用 board。</td></tr>
+<tr><td>「刪掉的 dashboard 自己可以還原」</td><td>只有 Jira admin，60 天內。</td></tr>
+<tr><td>「Wallboard 就是普通 dashboard 放大」</td><td>是全螢幕模式，另有 slideshow 輪播；設計上要少而大。</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>建一個團隊 dashboard</h2>
+<ol>
+<li>用 620.5.1 存的 filter 建 dashboard，layout 選兩欄（左寬）。</li>
+<li>左欄放 Two Dimensional（Assignee × Status）與 Created vs Resolved；右欄放 Assigned to Me、Days Remaining in Sprint、Filter Results（前 10 筆）。</li>
+<li>分享給 project role Developers；用第二帳號開——先不分享 filter，看 gadget 空白；再分享 filter，看資料出現。</li>
+<li>設 automatic refresh 15 分鐘；開 wallboard 看版面。</li>
+<li>丟進 trash，用非 admin 帳號確認救不回；請 Jira admin 還原。</li>
+<li><strong>用同一份資料比對兩個 gadget</strong>：沿用 620.5.1 那三張 <code>acp620-jql-lab</code> 卡，filter 寫 <code>project = KEY AND labels = acp620-jql-lab</code>（<strong>不要</strong>加 <code>currentUser()</code>）。加入 <em>Filter Results</em>（看到三張）與 <em>Two Dimensional Filter Statistics</em>（Assignee × Status，未指派自成一類）。只把其中一張改成 In Progress 再重新整理 → 交叉表格數移動、總數仍是 3。</li>
+<li>另存一份含 <code>assignee = currentUser()</code> 的 filter 換掉其中一個 gadget → 該 gadget 只剩自己的工作，另一個仍是完整集合。<strong>這就是「主管只看到自己切片」的成因</strong>。</li>
+<li>用一般測試帳號分別測 dashboard 分享與 filter 分享，體會<strong>容器分享 ≠ 資料來源分享</strong>；不要用「分享給 Anyone」當測試捷徑。</li></ol>
+<div class="callout"><div class="t">來源（本頁實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-dashboard/">What is a Jira dashboard</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/">Create and edit dashboards</a></li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/configure-custom-dashboards/">Configure custom dashboards</a></li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/">Use dashboard gadgets</a></li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 17 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.5.2"></div>
+</section>
+
+<div class="footer-nav"><a href="620.5.1.html">← 620.5.1 JQL</a><a href="620.5.3.html">下一節：620.5.3 Agile 報表 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.5.2 版面互動與需求→gadget 推薦器（id 一律 s252- 前綴） */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const G=[['Two Dimensional Filter Statistics','wide'],['Created vs Resolved','wide'],['Filter Results','wide'],['Assigned to Me','narrow'],['Days Remaining in Sprint','narrow'],['Pie Chart','narrow']];
+  const grid=$('#s252-grid');
+  function layout(l){
+    const cols={ '1':'1fr','2':'1fr 1fr','2b':'2fr 1fr','3':'1fr 1fr 1fr'}[l];
+    grid.style.gridTemplateColumns=cols;
+    grid.innerHTML=G.map(([n,k])=>`<div class="issue" style="min-height:${k==='wide'?'5.5rem':'4rem'};display:flex;align-items:center;justify-content:center;text-align:center;font-size:.85rem;font-weight:600;color:var(--ink-2)">${n}</div>`).join('');
+    $$('.issue',grid).forEach(el=>window.springPop&&window.springPop(el));
+    $('#s252-lay-msg').textContent={ '1':'單欄：適合 wallboard 或只放 2–3 個大 gadget','2':'兩欄等寬：最常用','2b':'兩欄左寬：左放表格與趨勢，右放數字與清單','3':'三欄：資訊密度高，每格要小'}[l];
+  }
+  $$('#s252-lay button').forEach(b=>b.addEventListener('click',()=>{$$('#s252-lay button').forEach(x=>x.classList.remove('on'));b.classList.add('on');layout(b.dataset.l);}));
+  layout('2');
+
+  const NEEDS=[
+    ['每個人手上各狀態有幾張','Two Dimensional Filter Statistics','saved filter','X 軸 Status、Y 軸 Assignee；filter 要分享給看的人'],
+    ['backlog 是漲還是跌','Created vs Resolved','filter 或 project','期間選 30／90 天；看兩線是否交叉'],
+    ['未解決的 issue 放多久了','Average Age','filter 或 project','數字往上＝債在累積'],
+    ['依優先度／狀態的比例','Pie Chart','filter 或 project','一次只能一個欄位'],
+    ['列出最緊急的 10 張','Filter Results','saved filter','filter 用 ORDER BY priority DESC，筆數設 10'],
+    ['我今天要做什麼','Assigned to Me','不需要','跨所有 project、只列未完成'],
+    ['目前 sprint 狀況','Sprint Health ＋ Sprint Burndown','board','來源是 board，不是 filter'],
+    ['哪些版本快要 release','Road Map','project','設定期間，顯示版本進度'],
+    ['卡在某狀態太久','Average Time in Status','filter 或 project','搭配 Average Number of Times in Status 看反覆退回'],
+    ['票數多又老的需求','Bubble Chart','saved filter','四個維度：例如 votes、age、priority、watchers']
+  ];
+  const needs=$('#s252-needs'), rec=$('#s252-rec');
+  NEEDS.forEach((n,i)=>{const b=document.createElement('button');b.className='btn ghost sm';b.textContent=n[0];b.dataset.i=i;b.addEventListener('click',()=>show(i,b));needs.appendChild(b);});
+  function show(i,btn){
+    $$('button',needs).forEach(x=>{x.classList.add('ghost')}); btn.classList.remove('ghost');
+    const n=NEEDS[i];
+    rec.innerHTML=`<div class="kicker">需求</div><div style="font-weight:700;margin-bottom:.4rem">${n[0]}</div><div class="chips"><span class="chip brand">Gadget：${n[1]}</span><span class="chip teal">來源：${n[2]}</span></div><p style="margin:.6rem 0 0;font-size:.92rem">${n[3]}</p>`;
+    window.springPop&&window.springPop(rec);
+  }
+  show(0,$('button',needs));
+})();
+</script>
+</body>
+</html>

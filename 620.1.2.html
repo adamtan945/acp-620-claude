@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.1.2 建立與設定 team-managed project｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp" open><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#create">Bullet 1：建立 TMP</a>
+    <a href="#board">建完第一眼：board</a>
+    <a href="#access">Bullet 2：存取與權限</a>
+    <a href="#roles">三個內建 role</a>
+    <a href="#bundles">三個權限包</a>
+    <a href="#mapping">與 CMP 權限對照</a>
+    <a href="#manage-roles">Roles 管理規則</a>
+    <a href="#people">Bullet 3：加人</a>
+    <a href="#scenario">情境串連</a>
+    <a href="#quiz">自測</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.1 Project Creation（13%）/ 620.1.2</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.1.2 · Create and configure team-managed projects</div>
+<h1>建立與設定 team-managed project</h1>
+<p class="lead">三條 bullet：怎麼建、存取與權限怎麼運作、怎麼加人。官方四個有效連結加上 hub 子頁「Create and edit team-managed projects」全部讀完，建立流程的細節都在那頁。</p>
+<div class="term">術語：考試用 project／issue；現行產品為 space／work item。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>三條 bullet</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考點</th></tr>
+<tr><td>Understand how to create team-managed projects</td><td>誰能建（全域權限）、建立步驟、key 規則、details 能改什麼、board 與 workflow 綁在一起的行為</td></tr>
+<tr><td>Understand team-managed project access and permissions</td><td>access level ∪ role 的加總、三個內建 role 的權限表、三個權限包、與 CMP 權限名稱對照</td></tr>
+<tr><td>Understand how to add users to team-managed projects</td><td>兩個入口、只能加站台上已有的人、guest、多重 role、移除的兩個陷阱</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Bullet 1 ============ -->
+<section id="create">
+<div class="section-label">Bullet 1</div>
+<h2>怎麼建立 TMP</h2>
+
+<h3>誰能建</h3>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 200" role="img" aria-label="建立 TMP 的權限來源">
+  <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <rect x="40" y="60" width="240" height="80" rx="10" class="box teal"/>
+  <text x="160" y="92" text-anchor="middle" class="lbl b">任何站台使用者</text><text x="160" y="114" text-anchor="middle" class="s">預設就能建 TMP</text>
+  <path d="M280,100 H340" class="ln" marker-end="url(#arr)"/>
+  <rect x="340" y="60" width="260" height="80" rx="10" class="box brand"/>
+  <text x="470" y="86" text-anchor="middle" class="lbl b">全域權限</text><text x="470" y="106" text-anchor="middle" class="lbl">Create team-managed projects</text><text x="470" y="126" text-anchor="middle" class="s">軟體授權的使用者預設擁有</text>
+  <path d="M600,100 H660" class="ln" marker-end="url(#arr)"/>
+  <rect x="660" y="60" width="200" height="80" rx="10" class="box amber"/>
+  <text x="760" y="86" text-anchor="middle" class="lbl b">Jira admin 想禁止</text><text x="760" y="106" text-anchor="middle" class="s">⚙ System → Global permissions</text><text x="760" y="126" text-anchor="middle" class="s">從群組拿掉此權限</text>
+  <text x="450" y="178" text-anchor="middle" class="s">自我檢查：側欄 Projects 看得到「Create project」就代表你有權；看不到就找 Jira admin。</text>
+</svg>
+<div class="cap">圖 1　TMP 的「誰能建」和 CMP 完全不同：CMP 永遠要 Administer Jira。</div>
+</div>
+
+<h3>建立流程</h3>
+<div class="steps">
+  <div class="step"><div class="n">1</div><div class="h">選 template</div><div class="d">Projects → Create project → Scrum／Kanban… → Use template</div></div>
+  <div class="step"><div class="n">2</div><div class="h">Select a team-managed project</div><div class="d">這一步決定 TMP／CMP</div></div>
+  <div class="step"><div class="n">3</div><div class="h">Name → key</div><div class="d">key 自動生成，可改 → Next</div></div>
+  <div class="step"><div class="n">4</div><div class="h">（可選）連接</div><div class="d">code repo、security container、Confluence space</div></div>
+</div>
+<div class="grid-2" style="margin-top:22px">
+<div class="callout warn" style="margin:0"><div class="t">Project name 全站唯一，且 Jira admin 永遠看得到</div>即使 project 是 Private。官方建議敏感專案用<strong>代號</strong>（codename）當名稱。</div>
+<div class="callout" style="margin:0"><div class="t">Key 規則</div>至少 2 字元、<strong>大寫字母開頭</strong>、只能大寫字母與數字。</div>
+</div>
+
+<h3>Details 頁能改什麼</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:20%">欄位</th><th>備註</th></tr>
+<tr><td>Icon</td><td>側欄與 project 列表顯示</td></tr>
+<tr><td>Name</td><td>搜尋、目錄、切換器都用它</td></tr>
+<tr><td>Key</td><td>改後最多 <strong>10 分鐘</strong>才在 board 反映；舊 key 進 Previous keys，可刪但刪了舊連結就失效，建議保留</td></tr>
+<tr><td>Category</td><td><strong>Jira admin 建</strong>，project admin 只能挑；用於 JQL、filter、report</td></tr>
+<tr><td>Project owner</td><td>通常就是 project admin；人員異動時換</td></tr>
+<tr><td>Default assignee</td><td>新 issue 預設指派給誰；Open project 讓全站丟需求時特別有用。<strong>改不了時</strong>→ 檢查 ⚙ General configuration 的「Allow unassigned issues」</td></tr>
+</table></div>
+
+<h3>Work types：TMP 自己管，但有兩個硬限制</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">項目</th><th>官方規則</th></tr>
+<tr><td>誰能改</td><td>Role <strong>Administrator</strong>／permission <strong>Administer projects</strong>——TMP 的 project admin 自己就能加，不用 Jira admin</td></tr>
+<tr><td>數量上限</td><td>一個 TMP 最多 <strong>30 個 work types</strong>（建議清單與自訂加起來一起算）</td></tr>
+<tr><td>能自訂哪一層</td><td><strong>只能建 standard 層</strong>的自訂 type；<strong>不能</strong>自訂 parent（epic）層或 subtask 層</td></tr>
+<tr><td>不要自己造同名 type</td><td>Timeline／reports 靠內建的 <strong>Epic</strong>、board swimlanes 與進度靠內建的 <strong>Subtask</strong>；自建一個叫「Epic」「Subtask」的 type 會拿不到這些功能</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">TMP 的欄位只屬於這個 project</div>TMP 自建的欄位可以在站台搜尋與 dashboard gadget 用得到，但<strong>不會</strong>出現在別的 project 的建立畫面；兩個 TMP 各自建一個同名欄位，是<strong>兩個不同的物件</strong>，值不互通、報表也不會合併。要跨 project 共用欄位就是 CMP 的全域 custom field。
+<p class="note" style="margin:8px 0 0">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/set-up-issue-types-in-team-managed-projects/">Set up work types in team-managed spaces</a></p></div>
+</section>
+
+<!-- ============ Board ============ -->
+<section id="board">
+<div class="section-label">建完第一眼</div>
+<h2>TMP 的 board 和 workflow 是綁在一起的</h2>
+<p>官方「Get started」花很多篇幅講 board，因為這是 TMP 跟 CMP 最大的操作差異：<strong>column ＝ status，一體兩面</strong>。自己按按看。</p>
+
+<div id="col-lab" class="card">
+  <div class="toolbar" style="margin-top:0">
+    <button id="btn-addcol" class="btn">＋ Create column</button>
+    <button id="btn-delcol" class="btn ghost">刪除最後一個自訂 column</button>
+    <span id="col-msg" class="note">按「Create column」看右側 status 清單同步變化。</span>
+  </div>
+  <div class="grid-2 col-lab-grid">
+    <div>
+      <div class="kicker" style="margin-bottom:6px">Board</div>
+      <div id="board-mock" class="board">
+        <div class="col" data-id="todo"><div class="ch"><span class="dot" style="background:#7b8296"></span>TO DO</div><div class="cardm"></div><div class="cardm"></div></div>
+        <div class="col" data-id="prog"><div class="ch"><span class="dot" style="background:#2d4ac7"></span>IN PROGRESS</div><div class="cardm"></div></div>
+        <div class="col" data-id="done"><div class="ch"><span class="dot" style="background:#2f855a"></span>DONE</div><div class="cardm"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="kicker" style="margin-bottom:6px">Workflow statuses（自動同步）</div>
+      <div id="status-list" class="statuses">
+        <div class="status" id="st-todo"><span class="dot" style="background:#7b8296"></span>To do<span class="cat"></span></div>
+        <div class="status" id="st-prog"><span class="dot" style="background:#2d4ac7"></span>In progress<span class="cat"></span></div>
+        <div class="status" id="st-done"><span class="dot" style="background:#2f855a"></span>Done<span class="cat"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-2" style="margin-top:18px">
+<div class="card"><div class="eyebrow" style="color:var(--teal)">TMP：column ＝ status</div>
+<ul style="font-size:14px;margin-top:8px"><li>建 column「Review」→ 同時生成 status「Review」</li><li>改 column 名稱 → status 跟著改名</li><li>刪 column → status 一起刪，issue 要指定搬去哪</li></ul></div>
+<div class="card"><div class="eyebrow">CMP：column 與 status 分開</div>
+<ul style="font-size:14px;margin-top:8px"><li>status 在 workflow（Jira admin）</li><li>column 在 board settings（board admin）</li><li>一欄可對多個 status；未對應的 status 不出現在 board</li></ul></div>
+</div>
+
+<h3>必記規則</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">規則</th><th>內容</th></tr>
+<tr><td>位置決定類別</td><td>最左欄 ＝ To do 類別；最右欄 ＝ Done 類別；中間全是 In progress</td></tr>
+<tr><td>最右欄 ＝ resolved</td><td>進最右欄的 issue 打勾、視為完成</td></tr>
+<tr><td>永遠要有 Done</td><td>不能刪掉最後一個 Done column；刪含 issue 的 Done 欄，接收的欄會<strong>繼承 Done 狀態</strong></td></tr>
+<tr><td>Sprints 開著時</td><td>board 在 sprint 開始前是<strong>空的</strong>；<strong>不能在 board 上直接建 issue</strong>，只能在 backlog 建再拉進 sprint；sprint 結束時 Done 的 issue 清掉、<strong>不回 backlog</strong></td></tr>
+<tr><td>Sprints 關著（Kanban 式）</td><td>Done 的 issue <strong>14 天後自動清掉</strong>；可手動清（僅 project admin／Jira admin）；清 parent 時 sub-task 一起清，不管 sub-task 狀態</td></tr>
+<tr><td>Column limit</td><td>Kanban 式可設每欄上限（••• → Set column limit）</td></tr>
+<tr><td>Status categories</td><td>To do／In progress／Done 三類，多個 status 可歸同一類（例：Backlog、Waiting for approval 都是 To do）</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考題</div>「TMP 開了 Sprints，成員說 board 上看不到任何 issue」→ 還沒開始 sprint。「TMP Kanban 的 Done issue 兩週後不見了」→ 正常，14 天自動清除，可用 See all Done issues 找回。</div>
+</section>
+
+<!-- ============ Bullet 2 ============ -->
+<section id="access">
+<div class="section-label">Bullet 2</div>
+<h2>存取與權限：兩個變數決定一個人能做什麼</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 190" role="img" aria-label="最終權限 = access level 預設 role ∪ 指派的 role">
+  <rect x="40" y="50" width="300" height="90" rx="10" class="box brand"/>
+  <text x="190" y="80" text-anchor="middle" class="lbl b">Access level 給的預設 role（地板）</text>
+  <text x="190" y="103" text-anchor="middle" class="s">Open → Member ／ Limited → Viewer</text>
+  <text x="190" y="123" text-anchor="middle" class="s">Private → 無</text>
+  <text x="375" y="102" text-anchor="middle" font-size="30" class="muted">∪</text>
+  <rect x="410" y="50" width="260" height="90" rx="10" class="box teal"/>
+  <text x="540" y="80" text-anchor="middle" class="lbl b">被明確指派的 role（往上疊）</text>
+  <text x="540" y="103" text-anchor="middle" class="s">可多個；內建或自訂</text>
+  <text x="540" y="123" text-anchor="middle" class="s">Access 頁指派</text>
+  <text x="705" y="102" text-anchor="middle" font-size="30" class="muted">=</text>
+  <rect x="740" y="50" width="130" height="90" rx="10" class="box green"/>
+  <text x="805" y="90" text-anchor="middle" class="lbl b">最終權限</text>
+  <text x="805" y="112" text-anchor="middle" class="s">兩者聯集</text>
+  <text x="450" y="172" text-anchor="middle" class="s">Jira admin 永遠能進 project settings，不受 access level 影響；TMP 不支援匿名。</text>
+</svg>
+<div class="cap">圖 2　互動版加總計算器在 <a href="620.1.1.html#levels">620.1.1 的存取等級段落</a>。</div>
+</div>
+
+<h3>被加入 project 時自動獲得的三項</h3>
+<p>不管給什麼 role，一被加入就有：<span class="chip on">Browse project</span> <span class="chip on">View project</span> <span class="chip on">View issues</span>。所以 TMP 沒有「加了人但他看不到 project」這種狀況（CMP 有，因為 Browse Projects 可能沒給那個 role）。</p>
+
+<div class="callout warn"><div class="t">三個反例（考題最愛）</div>
+<ul style="margin:0">
+<li><strong>Open ＋ 指派 Viewer ≠ 唯讀</strong>：Open 已經給全站 Member，Viewer 只是疊上去，他照樣能編輯。要唯讀得先把 project 改成 Limited。</li>
+<li><strong>從 Open 改成 Limited，原本的人不會自動保有 Member</strong>：只有<strong>被明確加入</strong>的人保住原 role，其餘（包含正被指派 issue 的人）掉成 Viewer。想保住核心成員，先把他們明確加為 Member 再改 access level。</li>
+<li><strong>Viewer 不是純唯讀</strong>：Viewer 能<strong>留言與加附件</strong>。「Limited 之下沒被加入的人能不能留言？」答案是能。</li>
+</ul>
+<p class="note" style="margin:8px 0 0">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/manage-how-people-access-your-team-managed-project/">Manage how people access your team-managed space</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/next-gen-permissions/">Team-managed space permissions</a></p></div>
+</section>
+
+<!-- ============ Roles table ============ -->
+<section id="roles">
+<div class="section-label">三個內建 role</div>
+<h2>完整權限表（官方表格）</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%">權限群組</th><th>權限</th><th class="c" style="width:90px">Viewer</th><th class="c" style="width:90px">Member</th><th class="c" style="width:90px">Admin</th></tr>
+<tr><td class="hd">Administer</td><td>Administer the project</td><td class="c dash">—</td><td class="c dash">—</td><td class="c yes">✓</td></tr>
+<tr><td class="hd" rows="1">Manage issues</td><td>Add／remove watchers</td><td class="c dash">—</td><td class="c dash">—</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Delete any attachment／comment／issue／work log</td><td class="c dash">—</td><td class="c dash">—</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Edit any comment／work log</td><td class="c dash">—</td><td class="c dash">—</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Edit reporters</td><td class="c dash">—</td><td class="c dash">—</td><td class="c yes">✓</td></tr>
+<tr><td></td><td><strong>Edit any due date</strong></td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td><strong>Manage sprints</strong></td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td><strong>Access development tools</strong></td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td class="hd">Work on issues</td><td>Assign any issue</td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Edit any issue</td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Transition any issue</td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Link／Move any issue</td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Log work；edit／delete own work log</td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Create issues</td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td class="hd">Collaborate</td><td>Add comments／attachments</td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>Edit own comments；delete own comments／attachments</td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+<tr><td></td><td>View watchers</td><td class="c dash">—</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">三個灰色地帶</div>Member 有 <strong>Edit any due date、Manage sprints、Access dev tools</strong>——這三項歸在「Manage issues」群組，但 Member 也有。</div>
+</section>
+
+<!-- ============ Bundles ============ -->
+<section id="bundles">
+<div class="section-label">三個權限包（bundle）</div>
+<h2>建自訂 role 時可以一次勾的三組</h2>
+<div class="grid-3">
+  <div class="role-card" style="border-color:var(--teal)"><div class="h"><span class="dot" style="background:var(--teal)"></span>Collaborate on issues</div><p class="kicker">給「不是核心成員但要參與討論」的人：設計師、技術寫手、顧問；JSM agent 也可用這包</p><ul><li>Add comments</li><li>Add attachments</li><li>Edit own comments</li><li>Delete own comments</li><li>Delete own attachments</li></ul></div>
+  <div class="role-card" style="border-color:var(--brand)"><div class="h"><span class="dot" style="background:var(--brand)"></span>Work on issues</div><p class="kicker">給「核心團隊」：開發、PM、QA</p><ul><li>Assign any issue</li><li>Edit any issue</li><li>Transition any issue</li><li>Link／Move any issue</li><li>Log work</li><li>Edit／Delete own work logs</li></ul></div>
+  <div class="role-card" style="border-color:var(--violet)"><div class="h"><span class="dot" style="background:var(--violet)"></span>Manage issues</div><p class="kicker">給「監督專案的人」：team lead、Scrum master、PM</p><ul><li>Add／remove watchers</li><li>Edit any due date</li><li>Edit any comment／work log</li><li>Edit reporters</li><li>Delete any attachment／comment／issue／work log</li></ul></div>
+</div>
+</section>
+
+<!-- ============ Mapping ============ -->
+<section id="mapping">
+<div class="section-label">與 CMP 權限名稱對照</div>
+<h2>考題會混著問</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">TMP 權限</th><th style="width:36%">對應的 CMP 權限</th><th>差異</th></tr>
+<tr><td>Transition any issue</td><td>Transition ＋ <strong>Resolve ＋ Close</strong> 三合一</td><td>TMP 一個權限做完關閉流程</td></tr>
+<tr><td>Edit any due date</td><td>Schedule Issues</td><td>—</td></tr>
+<tr><td>Log work on any issue</td><td>Work On Issues</td><td>—</td></tr>
+<tr><td>Edit reporters</td><td>Modify Reporter</td><td>—</td></tr>
+<tr><td>（沒有 Assignable User）</td><td>Assignable User</td><td><strong>TMP：任何有「Work on issues」群組中任一權限的 role，其成員都可被指派</strong></td></tr>
+<tr><td>Move any issue</td><td>Move Issues</td><td>同樣需要目的地 project 的 Create 權限</td></tr>
+<tr><td>Link any issue</td><td>Link Issues</td><td>同樣要在目標 project 也有 Link 權限才看得到連結</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">高頻考點</div>「Assignable User」在 TMP 被簡化掉了，不能單獨控制「誰可以被指派」。</div>
+
+<h3>需要 app access 的權限</h3>
+<p>Viewer 可以給<strong>任何站台註冊使用者</strong>，不需要 Jira 授權席次。但 Member／Administrator 的多數權限<strong>需要 Jira app access</strong>——沒有席次的人即使給了 Member，功能也用不全。席次只有 <strong>site admin</strong> 能給。</p>
+<div class="callout exam"><div class="t">考題</div>「加了一個人為 Member，他能看但不能編輯」→ 他沒有 Jira app access（授權席次），找 site admin。</div>
+</section>
+
+<!-- ============ Roles mgmt ============ -->
+<section id="manage-roles">
+<div class="section-label">Roles 的管理規則</div>
+<h2>路徑與限制</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">動作</th><th>路徑／規則</th></tr>
+<tr><td>看某 role 的權限</td><td>Project settings → Access → Manage roles → 點 role</td></tr>
+<tr><td>建自訂 role</td><td>Manage roles → Create role → 名稱、描述、勾權限</td></tr>
+<tr><td>複製 role</td><td>Manage roles → Duplicate（內建 role 不能改，<strong>要客製就複製</strong>）</td></tr>
+<tr><td>編輯 role</td><td>改了<strong>套用到所有持有該 role 的人</strong></td></tr>
+<tr><td>刪 role</td><td>內建三個<strong>不能刪</strong>；刪自訂 role 會影響 <strong>notifications</strong> 與 <strong>issue type restrictions</strong>；<strong>刪 role 不會把人移出 project</strong></td></tr>
+<tr><td>Free 方案</td><td>不能編輯 permissions／roles</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Bullet 3 ============ -->
+<section id="people">
+<div class="section-label">Bullet 3</div>
+<h2>怎麼加人</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 230" role="img" aria-label="加人的兩個入口">
+  <defs><marker id="arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <rect x="40" y="30" width="220" height="70" rx="10" class="box teal"/>
+  <text x="150" y="58" text-anchor="middle" class="lbl b">入口 A：Share</text><text x="150" y="80" text-anchor="middle" class="s">project 或 issue 畫面的 Share</text>
+  <rect x="40" y="130" width="220" height="70" rx="10" class="box teal"/>
+  <text x="150" y="158" text-anchor="middle" class="lbl b">入口 B：Project settings</text><text x="150" y="180" text-anchor="middle" class="s">Access → Add people</text>
+  <path d="M260,65 H320 V115" class="ln"/>
+  <path d="M260,165 H320 V115" class="ln"/>
+  <path d="M320,115 H380" class="ln" marker-end="url(#arr2)"/>
+  <rect x="380" y="70" width="220" height="90" rx="10" class="box brand"/>
+  <text x="490" y="100" text-anchor="middle" class="lbl b">輸入 name／group／email</text><text x="490" y="122" text-anchor="middle" class="lbl">→ 選 Role → Add</text><text x="490" y="144" text-anchor="middle" class="s">需要 Administrator role</text>
+  <path d="M600,115 H660" class="ln" marker-end="url(#arr2)"/>
+  <rect x="660" y="70" width="200" height="90" rx="10" class="box green"/>
+  <text x="760" y="100" text-anchor="middle" class="lbl b">加入完成</text><text x="760" y="122" text-anchor="middle" class="s">自動獲得 Browse／View</text><text x="760" y="144" text-anchor="middle" class="s">＋ 所選 role 的權限</text>
+</svg>
+<div class="cap">圖 3　兩個入口匯合到同一個「加人」對話框，之後流程相同。</div>
+</div>
+
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">規則</th><th>內容</th></tr>
+<tr><td>能加誰</td><td><strong>只能加已加入 Atlassian 站台的人</strong>；搜不到 → 請 Jira admin 先邀請進站台</td></tr>
+<tr><td>外部協作者</td><td>請 admin 邀請為 <strong>guest</strong>（限單一 project、不佔正式席次）</td></tr>
+<tr><td>可加群組</td><td>可以，整個 group 拿同一個 role</td></tr>
+<tr><td>多重 role</td><td>一個人或 group 可同時有多個 role</td></tr>
+<tr><td>疊加原則</td><td>Access 頁指派的 role <strong>不覆蓋</strong> access level 給的 role，是<strong>加上去</strong></td></tr>
+<tr><td>Role 的兩種用途（官方）</td><td>① 給 access level 沒給的權限 ② 讓核心成員即使 access level 之後改變也<strong>保有穩定權限</strong></td></tr>
+</table></div>
+<p style="margin-top:12px">第二個用途值得記：把核心團隊明確加為 Member，之後就算 project 從 Open 改成 Limited，他們仍是 Member；沒被明確加的人則降成 Viewer。</p>
+
+<h3>移除人的兩個陷阱</h3>
+<ol>
+<li>如果你曾把<strong>全站 group</strong> 加進某個 role，被移除的人可能仍透過 group 有權限——要跟 Jira admin 確認 group 成員。</li>
+<li>從 project 移除 ≠ 從 Jira 移除；後者只有 Jira admin／site admin 在 user management 做。</li>
+</ol>
+</section>
+
+<!-- ============ Scenario ============ -->
+<section id="scenario">
+<div class="section-label">把三個 bullet 串起來</div>
+<h2>Acme 新成立「Data Platform」團隊，工程師小林要自己開 project</h2>
+<div class="card">
+<ol style="margin:0">
+<li>小林點 Projects → 看得到 Create project → 有權限（Create TMP 全域權限）</li>
+<li>Scrum template → Select a team-managed project → Name「Data Platform」，key 自動「DP」→ Next</li>
+<li>Details：category 選 Jira admin 建好的「Engineering」；default assignee 設自己</li>
+<li>Access：改成 <strong>Limited</strong>（全公司可看可留言，不能亂改）</li>
+<li>Add people：三個工程師 → Member（明確加，之後 level 變動也不掉權限）；資料分析師阿芳 → 複製 Member 改成「Analyst」，拿掉 Manage sprints；外包 Kevin → 請 admin 邀成 guest，加為自訂 role「Contractor」，只勾 Collaborate 包 ＋ Create issues</li>
+<li>Sprints 開著 → 提醒團隊：board 在第一個 sprint 開始前是空的，issue 要在 backlog 建</li>
+</ol>
+</div>
+<div class="grid-2" style="margin-top:14px">
+<div class="callout warn" style="margin:0"><div class="t">阿芳說她看得到 issue 但拖不動、改不了</div>檢查 site admin 有沒有給她 Jira app access。</div>
+<div class="callout warn" style="margin:0"><div class="t">Kevin 可以被指派 issue，但小林沒給他 Work on 的權限</div>檢查是否勾了 Work on 群組裡任一項（例如 Log work）；TMP 只要有其中一項就可被指派。</div>
+</div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">自測</div>
+<h2>13 題</h2>
+<div class="quiz">
+<details class="q"><summary>使用者說「我沒有 Create project 按鈕」，TMP 的情況下該查什麼？</summary><div class="a"><div class="tag">解答</div>全域權限 Create team-managed projects 是否被 Jira admin 從其群組移除。</div></details>
+<details class="q"><summary>TMP 的 key 規則有哪三條？改 key 後多久生效？</summary><div class="a"><div class="tag">解答</div>≥2 字元、大寫字母開頭、只含大寫字母與數字；最多 10 分鐘。</div></details>
+<details class="q"><summary>Private project 的名稱，Jira admin 看得到嗎？官方建議？</summary><div class="a"><div class="tag">解答</div>看得到（Jira admin 永遠看得到所有 project 名稱）；敏感專案用代號。</div></details>
+<details class="q"><summary>Sprints 開著時，能在 board 上直接建 issue 嗎？</summary><div class="a"><div class="tag">解答</div>不能，只能在 backlog 建再拉進 sprint。</div></details>
+<details class="q"><summary>Kanban 式 TMP 的 Done issue 多久清一次？誰能手動清？</summary><div class="a"><div class="tag">解答</div>14 天自動；project admin 與 Jira admin 可手動（Sprints 開著時不能手動清）。</div></details>
+<details class="q"><summary>被加入 TMP 時自動獲得哪三項權限？</summary><div class="a"><div class="tag">解答</div>Browse project、View project、View issues。</div></details>
+<details class="q"><summary>Member 有沒有 Manage sprints？有沒有 Edit reporters？</summary><div class="a"><div class="tag">解答</div>有 Manage sprints；沒有 Edit reporters（那是 Admin）。</div></details>
+<details class="q"><summary>TMP 的 Transition any issue 對應 CMP 哪三個權限？</summary><div class="a"><div class="tag">解答</div>Transition Issues、Resolve Issues、Close Issues。</div></details>
+<details class="q"><summary>TMP 怎麼決定誰可以被指派？</summary><div class="a"><div class="tag">解答</div>任何 role 只要有「Work on issues」群組中任一權限，其成員即可被指派；沒有獨立的 Assignable User。</div></details>
+<details class="q"><summary>內建的 Viewer／Member／Administrator 能編輯嗎？能刪嗎？</summary><div class="a"><div class="tag">解答</div>不能編輯、不能刪除；要客製就 Duplicate。</div></details>
+<details class="q"><summary>刪除自訂 role 會影響哪兩件事？會把人移出 project 嗎？</summary><div class="a"><div class="tag">解答</div>Notifications、issue type restrictions；不會移出人。</div></details>
+<details class="q"><summary>加人時找不到某位同事，原因？外部人員怎麼辦？</summary><div class="a"><div class="tag">解答</div>他還沒被邀請進 Atlassian 站台，請 Jira admin 邀請；外部人員請 admin 邀為 guest。</div></details>
+<details class="q"><summary>Open project 裡明確把某人加為 Viewer，他能編輯 issue 嗎？</summary><div class="a"><div class="tag">解答</div>能——Open 給全站 Member，指派的 Viewer 只是疊加，不會降權。要限制先改成 Limited。</div></details>
+</div>
+
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「把人指派成 Viewer 就變唯讀」</td><td>Open 之下他仍是 Member；role 是疊加，不會降權</td></tr>
+<tr><td>「Private project 連 Jira admin 都看不到」</td><td>Jira admin 永遠看得到 project 名稱，也進得了 project settings；敏感專案要用代號命名</td></tr>
+<tr><td>「加成 Member 就一定能編輯」</td><td>還要有 <strong>Jira app access</strong>（授權席次），否則只能看</td></tr>
+<tr><td>「刪掉自訂 role，那些人就離開 project 了」</td><td>不會；人還在，只是少了該 role 的權限，另會影響 notifications 與 issue type restrictions</td></tr>
+<tr><td>「TMP 可以指定誰能被指派」</td><td>沒有獨立的 Assignable User；有 Work on issues 群組任一項權限就可被指派</td></tr>
+<tr><td>「TMP 的自訂欄位別的 project 也能用」</td><td>只屬於這個 project；同名欄位是兩個物件</td></tr>
+<tr><td>「TMP 想加幾種 work type 都可以」</td><td>上限 <strong>30 個</strong>，而且只能自訂 standard 層</td></tr>
+<tr><td>「把人從 project 移除＝他在 Jira 沒帳號了」</td><td>兩回事；他可能還透過 <strong>group</strong> 有權限，移除站台帳號是 Jira／site admin 的事</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（25 分鐘）</div>
+<h2>用第二個帳號，把六種組合各看一次</h2>
+<p>建一個測試 TMP，準備第二個帳號（測試帳號或請同事幫忙）。每一步都用第二個帳號實際開 project，確認「看得到什麼、能做什麼」。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:6%">#</th><th style="width:34%">設定</th><th>第二個帳號應該看到的結果</th></tr>
+<tr><td>A</td><td>Access ＝ <strong>Open</strong>，不加任何人</td><td>找得到 project、<strong>能編輯</strong> issue（全站預設 Member）</td></tr>
+<tr><td>B</td><td>Open ＋ 明確指派 <strong>Viewer</strong></td><td><strong>仍然能編輯</strong>——role 疊加，不會降權</td></tr>
+<tr><td>C</td><td>改成 <strong>Limited</strong>，不加人</td><td>看得到、<strong>能留言與加附件</strong>，但不能編輯</td></tr>
+<tr><td>D</td><td>Limited ＋ 明確加為 <strong>Member</strong></td><td>能編輯；之後 access level 再變也保得住</td></tr>
+<tr><td>E</td><td>改成 <strong>Private</strong>（保留 D 的指派）</td><td>D 的人仍進得去；沒被加的人<strong>搜不到也進不去</strong></td></tr>
+<tr><td>F</td><td>Manage roles → Duplicate Member → 自訂 role（只留 View、Comment）→ 指派</td><td>驗證自訂 role 生效；同時確認內建三個 role <strong>不能編輯也不能刪</strong></td></tr>
+</table></div>
+<h3>「他為什麼不能做 X」的排查順序</h3>
+<ol>
+<li>他在<strong>站台上有帳號</strong>嗎？（Add people 搜不到人＝還沒被邀請進站台）</li>
+<li>他是不是 <strong>Jira admin</strong>？（是的話權限來自全域，不受 access level 影響）</li>
+<li>project 的 <strong>access level</strong> 是什麼？（決定他的預設 role）</li>
+<li>他有沒有被<strong>明確指派 role</strong>？（記得是疊加，不是覆蓋）</li>
+<li>他是不是透過 <strong>group</strong> 拿到 role？（移除個人不會拿掉 group 給的）</li>
+<li>他有 <strong>Jira app access</strong>（授權席次）嗎？（看得到但不能編輯，多半是這一項）</li>
+<li>站台<strong>方案</strong>限制？（Free 不能編輯 permissions／roles）</li>
+<li>該 issue 有沒有 <strong>issue type restriction</strong> 或留言可見度限制？</li>
+</ol>
+<div class="callout"><div class="t">來源</div>
+<ul style="margin:0;font-size:14px">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/">Get started with team-managed spaces</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/manage-and-administer-team-managed-projects/">Manage and administer team-managed spaces</a>（hub）→ 子頁 <a href="https://support.atlassian.com/jira-software-cloud/docs/create-edit-and-delete-team-managed-projects/">Create and edit team-managed spaces</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/next-gen-permissions/">Team-managed space permissions</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/manage-how-people-access-your-team-managed-project/">Manage how people access your team-managed space</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/add-people-to-team-managed-projects/">Add people to team-managed spaces</a></li>
+</ul></div>
+</section>
+
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 10 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.1.2"></div>
+</section>
+
+<div class="footer-nav"><a href="620.1.1.html">← 620.1.1 選擇實作方式</a><a href="620.1.3.html">下一節：620.1.3 Issue type 設計 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+</body>
+</html>

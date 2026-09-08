@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.5.1 把需求翻成 JQL｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#model">核心模型：一句 JQL 的解剖</a>
+    <a href="#builder">JQL 組句器</a>
+    <a href="#keywords">Keywords</a>
+    <a href="#operators">Operators</a>
+    <a href="#functions">Functions</a>
+    <a href="#fields">常考 Fields</a>
+    <a href="#basic">Basic search 做不到的</a>
+    <a href="#recipes">常考寫法</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.5 Reporting（19%）/ 620.5.1</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.5.1 · Translate business requirements into appropriate JQL queries</div>
+<h1>把業務需求翻成 JQL</h1>
+<p class="lead">Reporting 這個 domain 的三節裡，JQL 是地基：filter 餵 board、餵 dashboard gadget、餵報表。考題給你一段「老闆想看…」的需求，要你挑出正確的 JQL，或指出哪一句寫錯在哪。官方三份 reference（fields、functions、keywords、operators）這一頁全部讀完，並整理成可以查表的形式。</p>
+<div class="term">術語：考試用 project／issue；現行 JQL 文件已改稱 space／work item（例如 <code>space = X</code>、<code>standardWorkTypes()</code>），但舊字仍可用且考試用舊字。本教材沿用 <code>project</code>、<code>issuetype</code>、<code>standardIssueTypes()</code>。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>兩條 bullet，翻成考題語言</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understand how advanced searching can be used to create filters for complex criteria</td><td>「PM 要一個 filter：上週建立、未指派、或指派給自己且不是 Done 的 bug」→ 四個選項哪個對？考括號優先序、<code>OR</code> 與 <code>IN</code>、空值的處理</td></tr>
+<tr><td>Understand each part of advanced searching — fields, functions, keywords and operators</td><td>「<code>status WAS "In Progress"</code> 找到什麼？」「<code>assignee != jsmith</code> 會不會包含未指派？」「<code>ORDER BY</code> 放中間為什麼錯？」——四種元件各自的規則與限制</td></tr>
+</table></div>
+<p style="margin-top:.75rem">domain 導言另外提到 project admin「may be called upon to provide input on Atlassian tools to enable scaled agile including Advanced Roadmaps and Jira Align」——這部分放在 620.5.3 最後一段。</p>
+</section>
+
+<!-- ============ 核心模型 ============ -->
+<section id="model">
+<div class="section-label">核心模型</div>
+<h2>一句 JQL 只有四種零件</h2>
+<p>官方定義：一個最簡單的查詢（clause）＝ <strong>field → operator → value 或 function</strong>；多個 clause 用 <strong>keyword</strong> 接起來；最後可加 <strong>ORDER BY</strong>。看懂零件，就能拆任何一句。</p>
+
+<div class="figure">
+<svg class="dia" viewBox="0 0 960 250" role="img" aria-label="JQL 語句解剖：project = TEST AND assignee = currentUser() ORDER BY created DESC">
+  <defs><marker id="s251-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標註解：token 列 y=50 h=44；token x/w：project 40/100、= 150/40、"TEST" 200/90、AND 300/70、assignee 380/110、= 500/40、currentUser() 550/150、ORDER BY 710/110、created desc 830/110
+       標籤：奇數 token 標在 y=150（線 94→132），偶數 token 標在 y=200（線 94→182） -->
+  <text x="480" y="30" text-anchor="middle" class="s">project = "TEST" AND assignee = currentUser() ORDER BY created DESC</text>
+  <rect x="40" y="50" width="100" height="44" rx="8" class="box brand"/><text x="90" y="78" text-anchor="middle" class="lbl b">project</text>
+  <rect x="150" y="50" width="40" height="44" rx="8" class="box amber"/><text x="170" y="78" text-anchor="middle" class="lbl b">=</text>
+  <rect x="200" y="50" width="90" height="44" rx="8" class="box green"/><text x="245" y="78" text-anchor="middle" class="lbl b">"TEST"</text>
+  <rect x="300" y="50" width="70" height="44" rx="8" class="box violet"/><text x="335" y="78" text-anchor="middle" class="lbl b">AND</text>
+  <rect x="380" y="50" width="110" height="44" rx="8" class="box brand"/><text x="435" y="78" text-anchor="middle" class="lbl b">assignee</text>
+  <rect x="500" y="50" width="40" height="44" rx="8" class="box amber"/><text x="520" y="78" text-anchor="middle" class="lbl b">=</text>
+  <rect x="550" y="50" width="150" height="44" rx="8" class="box teal"/><text x="625" y="78" text-anchor="middle" class="lbl b">currentUser()</text>
+  <rect x="710" y="50" width="110" height="44" rx="8" class="box violet"/><text x="765" y="78" text-anchor="middle" class="lbl b">ORDER BY</text>
+  <rect x="830" y="50" width="110" height="44" rx="8" class="box brand"/><text x="885" y="78" text-anchor="middle" class="lbl b">created DESC</text>
+  <!-- 標籤線：奇數 token → y=132；偶數 → y=182 -->
+  <path d="M90,94 V132" class="ln"/><text x="90" y="150" text-anchor="middle" class="lbl">Field 欄位</text>
+  <path d="M170,94 V182" class="ln"/><text x="170" y="200" text-anchor="middle" class="lbl">Operator 運算子</text>
+  <path d="M245,94 V132" class="ln"/><text x="245" y="150" text-anchor="middle" class="lbl">Value 值</text>
+  <path d="M335,94 V182" class="ln"/><text x="335" y="200" text-anchor="middle" class="lbl">Keyword 關鍵字</text>
+  <path d="M435,94 V132" class="ln"/><text x="435" y="150" text-anchor="middle" class="lbl">Field 欄位</text>
+  <path d="M520,94 V182" class="ln"/><text x="520" y="200" text-anchor="middle" class="lbl">Operator 運算子</text>
+  <path d="M625,94 V132" class="ln"/><text x="625" y="150" text-anchor="middle" class="lbl">Function 函數</text>
+  <path d="M765,94 V182" class="ln"/><text x="765" y="200" text-anchor="middle" class="lbl">Keyword 關鍵字</text>
+  <path d="M885,94 V132" class="ln"/><text x="885" y="150" text-anchor="middle" class="lbl">排序欄位＋方向</text>
+  <text x="480" y="238" text-anchor="middle" class="s">clause ＝ field + operator + value／function；clause 之間用 AND／OR／NOT；ORDER BY 永遠放最後</text>
+</svg>
+<div class="cap">圖 1　四種零件的顏色沿用整份教材：brand＝欄位、amber＝運算子、green＝值、teal＝函數、violet＝關鍵字。</div>
+</div>
+
+<div class="grid-2">
+<div class="card"><div class="eyebrow">官方對四種零件的定義</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li><strong>Field</strong>：代表一個 Jira 欄位（含 custom field）的字。</li>
+<li><strong>Operator</strong>：比較左邊欄位與右邊值的符號或字，只留下為真的結果；有些會搭配 <code>NOT</code>。</li>
+<li><strong>Keyword</strong>：把 clause 接起來、改變邏輯、或有特殊定義的字（AND、OR、NOT、EMPTY、NULL、ORDER BY）。</li>
+<li><strong>Function</strong>：字加括號，對 Jira 資料做計算後回傳值，例如 <code>currentUser()</code>、<code>startOfWeek(-1)</code>。</li>
+</ul></div>
+<div class="card"><div class="eyebrow" style="color:var(--violet)">優先序與括號</div>
+<p style="font-size:.92rem;margin-top:.5rem">沒有括號時<strong>由左到右</strong>依序評估。官方例子：</p>
+<p style="font-size:.9rem"><code>(status=resolved AND project=SysAdmin) OR assignee=bobsmith</code></p>
+<p style="font-size:.92rem">括號也可以把一組 clause 包起來給 <code>NOT</code>：<code>NOT (reporter = jsmith OR reporter = jbrown)</code>。考題常拿「少了括號意思就變了」出題。</p></div>
+</div>
+</section>
+
+<!-- ============ Builder ============ -->
+<section id="builder">
+<div class="section-label">互動</div>
+<h2>JQL 組句器：選零件，看它組出什麼、代表什麼</h2>
+<p>選欄位後，運算子清單會跟著欄位型別變（文字欄位只能 <code>~</code>、日期才能 <code>&gt;</code>、歷史類只有 6 個欄位能用 <code>WAS</code>）。下方會即時組出 JQL，並用白話說明它到底找到什麼、Basic search 做不做得到。</p>
+<div id="s251-builder" class="card">
+  <div style="display:grid;gap:.9rem">
+    <div>
+      <div class="kicker" style="margin-bottom:.35rem">Clause 1</div>
+      <div class="toolbar" style="margin:0">
+        <select id="s251-f1" class="sel"></select>
+        <select id="s251-o1" class="sel"></select>
+        <select id="s251-v1" class="sel"></select>
+      </div>
+    </div>
+    <div>
+      <div class="kicker" style="margin-bottom:.35rem">連接 ＋ Clause 2</div>
+      <div class="toolbar" style="margin:0">
+        <div class="seg" id="s251-join"><button data-j="">（無）</button><button data-j="AND" class="on">AND</button><button data-j="OR">OR</button></div>
+        <select id="s251-f2" class="sel"></select>
+        <select id="s251-o2" class="sel"></select>
+        <select id="s251-v2" class="sel"></select>
+      </div>
+    </div>
+  </div>
+  <div class="toolbar" style="margin:.75rem 0 0">
+    <span style="font-weight:700;font-size:.88rem">ORDER BY</span>
+    <select id="s251-ob" class="sel"><option value="">（不排序）</option><option value="created DESC">created DESC</option><option value="priority DESC, created ASC">priority DESC, created ASC</option><option value="updated DESC">updated DESC</option><option value="rank ASC">rank ASC</option></select>
+    <label class="check"><input type="checkbox" id="s251-paren">把 Clause 1 與 2 用括號包起來</label>
+  </div>
+  <div style="margin-top:1rem;padding:.9rem 1rem;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-s)">
+    <div class="kicker">組出的 JQL</div>
+    <div id="s251-out" style="font-family:var(--mono);font-size:1rem;margin:.25rem 0 .6rem;word-break:break-all"></div>
+    <div id="s251-explain" style="font-size:.92rem"></div>
+    <div id="s251-flags" class="chips" style="margin-top:.6rem"></div>
+  </div>
+</div>
+<div class="callout exam"><div class="t">考題長相</div>四個選項只差在括號位置、<code>!=</code> 有沒有配 <code>is EMPTY</code>、或 <code>ORDER BY</code> 的位置。先把需求拆成「哪些 clause」「用 AND 還是 OR 接」「有沒有要包含空值」三個問題，再對選項。</div>
+</section>
+
+<!-- ============ Keywords ============ -->
+<section id="keywords">
+<div class="section-label">Keywords</div>
+<h2>六個關鍵字（官方 reference 全表）</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:14%">Keyword</th><th style="width:38%">作用</th><th>官方例子</th></tr>
+<tr><td><code>AND</code></td><td>合併多個 clause，<strong>縮小</strong>結果</td><td><code>project in (JRA,CONF) and fixVersion = "3.14"</code></td></tr>
+<tr><td><code>OR</code></td><td>合併多個 clause，<strong>擴大</strong>結果；多值時 <code>IN</code> 更方便</td><td><code>duedate &lt; now() or duedate is empty</code>（逾期或沒設到期日）</td></tr>
+<tr><td><code>NOT</code></td><td>否定單一 clause 或括號內整組</td><td><code>not (reporter = jsmith or reporter = jbrown)</code></td></tr>
+<tr><td><code>EMPTY</code></td><td>欄位沒有值；<strong>只能配支援 IS／IS NOT 的欄位</strong></td><td><code>duedate is empty</code>（<code>duedate = empty</code> 也接受）</td></tr>
+<tr><td><code>NULL</code></td><td>與 EMPTY 完全相同</td><td><code>duedate is null</code></td></tr>
+<tr><td><code>ORDER BY</code></td><td>指定排序欄位；<strong>必須放在整句最後</strong>，否則無效；可多欄、<code>asc</code>／<code>desc</code></td><td><code>duedate = empty order by created, priority desc</code></td></tr>
+</table></div>
+<div class="callout warn"><div class="t">官方註記</div>用 Components 或 Versions 排序時，會先依 project 排、再依欄位自然順序（JRA-31113）。</div>
+</section>
+
+<!-- ============ Operators ============ -->
+<section id="operators">
+<div class="section-label">Operators</div>
+<h2>運算子分四群，各有「不能用在哪」</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:12%">群</th><th style="width:22%">運算子</th><th>規則與陷阱（官方原文整理）</th></tr>
+<tr><td class="hd">相等</td><td><code>=</code> <code>!=</code> <code>IN</code> <code>NOT IN</code></td><td><code>=</code> 不能用在文字欄位（要用 <code>~</code>）。<code>IN (a,b,c)</code> ＝ 多個 <code>=</code> 用 OR 接。<strong><code>!=</code> 與 <code>NOT IN</code> 不會匹配空值</strong>：<code>component != fred</code> 只找「有 component 且不是 fred」；要含沒有 component 的，寫 <code>component != fred OR component IS EMPTY</code>。<code>field != EMPTY</code> 等於 <code>field IS NOT EMPTY</code>。</td></tr>
+<tr><td class="hd">比較</td><td><code>&gt;</code> <code>&gt;=</code> <code>&lt;</code> <code>&lt;=</code></td><td>只能用在<strong>可排序</strong>的欄位：日期、版本、數字、priority（<code>priority &gt; normal</code>）。不能用在文字欄位。日期可用相對值：<code>created &gt;= "-5d"</code>、<code>updated &lt;= "-4w 2d"</code>。逾期：<code>duedate &lt; now() AND resolution IS EMPTY</code>。</td></tr>
+<tr><td class="hd">文字</td><td><code>~</code> <code>!~</code></td><td>用在 Summary、Description、Environment、Comments、Free Text Searcher 的 custom field，以及 issue key。支援模糊／詞幹（<code>summary ~ win</code> 也找到 wins）、萬用字元（<code>"win*"</code>）、精確片語（<code>"\"full screen\""</code>）。<code>text ~ "x"</code> 一次搜所有文字欄位，欄位多時較慢。<code>!~</code> 對多則留言的 issue 會失效。</td></tr>
+<tr><td class="hd">空值</td><td><code>IS</code> <code>IS NOT</code></td><td><strong>只能配 EMPTY／NULL</strong>：<code>fixVersion is empty</code>、<code>votes is not empty</code>。</td></tr>
+<tr><td class="hd">歷史</td><td><code>WAS</code> <code>WAS IN</code> <code>WAS NOT</code> <code>WAS NOT IN</code> <code>CHANGED</code></td><td><strong>只能用在 6 個欄位：Assignee、Fix Version、Priority、Reporter、Resolution、Status</strong>。述詞：<code>AFTER</code>、<code>BEFORE</code>、<code>BY</code>（可多人 <code>BY (a,b)</code>）、<code>DURING ("d1","d2")</code>、<code>ON</code>；<code>CHANGED</code> 另有 <code>FROM</code>、<code>TO</code>。<code>WAS</code> ＝ 現在是或曾經是；<code>WAS NOT</code> ＝ 從來沒有過。超過 10,000 筆變更只搜最近的。</td></tr>
+</table></div>
+
+<h3>WAS 與 CHANGED 的差別，用一張 issue 的歷史看</h3>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 200" role="img" aria-label="issue 狀態歷史時間軸：Open → In Progress → Open → Done">
+  <defs><marker id="s251-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標註解：時間軸 y=70；四個狀態框 w=130 h=40：x=60、270、480、690；箭頭在框之間 -->
+  <text x="450" y="28" text-anchor="middle" class="s">MOB-7 的 Status 歷史（左→右＝時間）</text>
+  <rect x="60" y="50" width="130" height="40" rx="8" class="box"/><text x="125" y="75" text-anchor="middle" class="lbl b">Open</text>
+  <path d="M190,70 H270" class="ln" marker-end="url(#s251-arr2)"/>
+  <rect x="270" y="50" width="130" height="40" rx="8" class="box brand"/><text x="335" y="75" text-anchor="middle" class="lbl b">In Progress</text>
+  <path d="M400,70 H480" class="ln" marker-end="url(#s251-arr2)"/>
+  <rect x="480" y="50" width="130" height="40" rx="8" class="box"/><text x="545" y="75" text-anchor="middle" class="lbl b">Open</text>
+  <path d="M610,70 H690" class="ln" marker-end="url(#s251-arr2)"/>
+  <rect x="690" y="50" width="130" height="40" rx="8" class="box green"/><text x="755" y="75" text-anchor="middle" class="lbl b">Done（現在）</text>
+  <text x="60" y="125" class="lbl b yes">✓ status WAS "In Progress"</text><text x="60" y="143" class="s">曾經是（現在不是也算）</text>
+  <text x="60" y="172" class="lbl b yes">✓ status CHANGED FROM "In Progress" TO "Open"</text><text x="60" y="190" class="s">有一次「從 In Progress 變成 Open」的變更</text>
+  <text x="520" y="125" class="lbl b no">✗ status WAS NOT "In Progress"</text><text x="520" y="143" class="s">從來沒有過才成立</text>
+  <text x="520" y="172" class="lbl b yes">✓ status = Done AND status WAS "Open"</text><text x="520" y="190" class="s">現在 Done，且曾經 Open</text>
+</svg>
+<div class="cap">圖 2　<code>WAS</code> 看「有沒有出現過這個值」；<code>CHANGED</code> 看「有沒有發生過這個變更」。兩者都只支援六個欄位。</div>
+</div>
+</section>
+
+<!-- ============ Functions ============ -->
+<section id="functions">
+<div class="section-label">Functions</div>
+<h2>常考函數（依用途分群）</h2>
+<p class="kicker">官方 functions reference 有 60 多個，其中 JSM（SLA、approval、organization）與 Assets 的不在 620 範圍。下表是 Software 會考的。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:16%">用途</th><th style="width:36%">函數</th><th>備註（官方）</th></tr>
+<tr><td class="hd">人</td><td><code>currentUser()</code><br><code>membersOf("group")</code></td><td><code>currentUser()</code> 只有登入者能用——<strong>分享給匿名使用者的 filter 不要用它</strong>。<code>membersOf</code> 超過 10,000 人會報錯；也可用 <code>membersOf(id:&lt;teamId&gt;)</code>。</td></tr>
+<tr><td class="hd">Sprint</td><td><code>openSprints()</code> <code>closedSprints()</code> <code>futureSprints()</code></td><td>一張 issue 可能同時屬於已完成與未完成的 sprint（被拉到下個 sprint 時）。</td></tr>
+<tr><td class="hd">日期</td><td><code>now()</code><br><code>startOfDay/Week/Month/Year()</code><br><code>endOfDay/Week/Month/Year()</code></td><td>可帶增量 <code>startOfWeek(-1)</code>＝上週一開始；單位 y M w d h m，省略單位時用函數的自然單位（<code>endOfDay("+1")</code>＝ +1d）。週的起始日依 Look and feel 的 ISO8601 設定。</td></tr>
+<tr><td class="hd">版本</td><td><code>releasedVersions()</code> <code>unreleasedVersions()</code><br><code>latestReleasedVersion(project)</code> <code>earliestUnreleasedVersion(project)</code></td><td>可省略 project 搜全站。「最早／最新」依 Releases 頁的版本排序。Kanban board 的 sub-filter 就是 <code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code>。</td></tr>
+<tr><td class="hd">類型</td><td><code>standardIssueTypes()</code> <code>subtaskIssueTypes()</code></td><td>現行名稱 <code>standardWorkTypes()</code>／<code>subtaskWorkTypes()</code>；例：<code>issuetype in subtaskIssueTypes()</code>。</td></tr>
+<tr><td class="hd">連結</td><td><code>linkedIssues("KEY")</code><br><code>linkedIssues("KEY","blocks")</code></td><td>可限制 link type（大小寫敏感）。現行名稱 <code>linkedWorkItems()</code>。</td></tr>
+<tr><td class="hd">角色</td><td><code>projectsLeadByUser()</code> <code>componentsLeadByUser()</code><br><code>projectsWhereUserHasRole("role")</code> <code>projectsWhereUserHasPermission("perm")</code></td><td>省略 user 就是自己；未登入必須指定。Permission 版本是 project 層級判斷，不看 issue 層級的 Reporter 授權。</td></tr>
+<tr><td class="hd">個人</td><td><code>watchedIssues()</code> <code>votedIssues()</code> <code>issueHistory()</code><br><code>lastLogin()</code> <code>currentLogin()</code></td><td>只有登入者能用；watched／voted 最多回 32,000 筆；<code>issueHistory()</code> 最多 50 筆（最近看過的）。</td></tr>
+<tr><td class="hd">更新者</td><td><code>updatedBy(user)</code> <code>updatedBy(user, from, to)</code></td><td>「更新」含建立、改欄位、留言（不含刪留言）。</td></tr>
+<tr><td class="hd">Custom field</td><td><code>cascadeOption(parent, child)</code> <code>choiceOption(id)</code></td><td>Cascading select 與多選欄位的選項比對。</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Fields ============ -->
+<section id="fields">
+<div class="section-label">Fields</div>
+<h2>常考欄位與它們的「限制條件」</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">Field</th><th>要記的點</th></tr>
+<tr><td><code>project</code>（現行 <code>space</code>）</td><td>可用名稱、key 或 ID</td></tr>
+<tr><td><code>category</code></td><td>找「屬於某 project category 的 project」裡的 issue——跨 project 報表常用，category 由 Jira admin 建（620.1.4）</td></tr>
+<tr><td><code>issuetype</code>（現行 <code>type</code>）</td><td>名稱或 ID；搭配 <code>standardIssueTypes()</code>／<code>subtaskIssueTypes()</code></td></tr>
+<tr><td><code>status</code>、<code>statusCategory</code></td><td><code>statusCategory = Done</code> 跨 workflow 通用，不用列舉每個 Done 狀態名</td></tr>
+<tr><td><code>resolution</code></td><td><code>resolution IS EMPTY</code> ＝ 未解決；team-managed service project 沒有這個欄位</td></tr>
+<tr><td><code>sprint</code></td><td>可用 sprint 名稱（部分字串會 autocomplete）或 ID；配 <code>openSprints()</code></td></tr>
+<tr><td><code>fixVersion</code>、<code>affectedVersion</code></td><td>名稱或 ID；配版本函數</td></tr>
+<tr><td><code>parent</code></td><td>找某 parent 的所有 child，TMP、CMP 都可用（取代舊的 Epic Link）</td></tr>
+<tr><td><code>text</code></td><td>主欄位：一次搜 Summary、Description、Environment、Comments 與所有文字 custom field</td></tr>
+<tr><td><code>summary</code>、<code>description</code>、<code>comment</code></td><td>只能用 <code>~</code>／<code>!~</code></td></tr>
+<tr><td><code>created</code>、<code>updated</code>、<code>resolved</code>、<code>due</code>（duedate）</td><td>日期沒指定時間時算<strong>當天 00:00</strong>；due 只看日期不看時間</td></tr>
+<tr><td><code>assignee</code>、<code>reporter</code>、<code>creator</code></td><td>可用全名、ID、email；creator 是「建立者」，reporter 可被改</td></tr>
+<tr><td><code>labels</code>、<code>component</code></td><td><code>labels IS EMPTY</code> 找沒貼標籤的；component 只有 CMP 有</td></tr>
+<tr><td><code>votes</code>、<code>watchers</code></td><td>數量欄位，可用 <code>&gt;</code></td></tr>
+<tr><td><code>level</code></td><td>issue security level；只有啟用 issue security 才有</td></tr>
+<tr><td><code>originalEstimate</code>、<code>remainingEstimate</code>、<code>timeSpent</code>、<code>workRatio</code>、<code>worklogDate</code></td><td>只有全域 time tracking 啟用才有</td></tr>
+</table></div>
+<div class="callout"><div class="t">兩個容易漏掉的欄位技巧</div>
+<ul style="margin:.3rem 0 0">
+<li><strong><code>workRatio</code></strong>：官方定義 <code>workRatio = (timeSpent / originalEstimate) × 100</code>。想找「已超過原估工時」寫 <code>workRatio &gt; 100</code>；官方範例 <code>workRatio &gt; 75</code> 是「已用掉超過 75% 原估」。需要全域 time tracking 已啟用且兩個欄位都有值。</li>
+<li><strong><code>cf[欄位ID]</code></strong>：自訂欄位名稱重複（不同 context 同名）或含空白時，改用 ID 精確指定，例如 <code>cf[10003] = "New York"</code>、<code>cf[10003] in ("London","Milan")</code>。ID 在不同站台不同，不要照抄別站的 ID。</li>
+<li><strong>JQL 不能逐筆比較兩個欄位</strong>：寫不出 <code>assignee = reporter</code> 或 <code>timeSpent &gt; originalEstimate</code>。先找有沒有現成的衍生欄位（<code>workRatio</code> 就是這種），真的需要才評估匯出或 app。</li>
+</ul>
+<div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-fields/">JQL fields</a>（Custom field、Work ratio 段，2026-09-08 查核）</div></div>
+</section>
+
+<!-- ============ Basic ============ -->
+<section id="basic">
+<div class="section-label">Basic vs JQL</div>
+<h2>Basic search 做不到、非切 JQL 不可的</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">Basic search 的天花板</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li>clause 之間只能 <strong>AND</strong>；沒有 OR、NOT</li>
+<li>沒有 EMPTY、<code>!=</code>、<code>&gt;</code>、<code>~</code> 這類運算子（只有「等於」與文字關鍵字）</li>
+<li>沒有 ORDER BY（只能點欄頭排序）</li>
+<li>沒有 WAS／CHANGED 歷史查詢</li>
+<li>沒選 project 時，project 專屬欄位（component、version）不會出現</li>
+<li>複雜 JQL 切回 Basic 時會被拒絕，例如用了 OR、NOT、括號、EMPTY、比較運算子</li>
+</ul></div>
+<div class="card"><div class="eyebrow" style="color:var(--teal)">官方提醒的兩種查詢</div>
+<p style="font-size:.92rem;margin-top:.5rem"><strong>Bounded</strong>：至少有一個「欄位 運算子 值」的限制，例如 <code>project = TEST order by key</code>。</p>
+<p style="font-size:.92rem"><strong>Unbounded</strong>：沒有任何限制，只有排序或空白，例如 <code>order by createdDate</code>。</p>
+<p style="font-size:.92rem">保留字（a、an、and、or、by、on、after…約 200 個）與特殊字元要用引號包起來：<code>summary ~ "\"full screen\""</code>、<code>field ~ "email@atlassian.com"</code>。</p></div>
+</div>
+</section>
+
+<!-- ============ Recipes ============ -->
+<section id="recipes">
+<div class="section-label">常考寫法</div>
+<h2>把需求翻成 JQL：12 個模板</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:36%">需求</th><th>JQL</th></tr>
+<tr><td>指派給我、還沒完成</td><td><code>assignee = currentUser() AND resolution IS EMPTY</code></td></tr>
+<tr><td>未指派<strong>或</strong>不是我的</td><td><code>assignee != currentUser() OR assignee IS EMPTY</code>（少了第二段就漏掉未指派）</td></tr>
+<tr><td>上週建立</td><td><code>created &gt;= startOfWeek(-1) AND created &lt; startOfWeek()</code></td></tr>
+<tr><td>最近 7 天有更新</td><td><code>updated &gt;= -7d</code></td></tr>
+<tr><td>逾期未解決</td><td><code>duedate &lt; now() AND resolution IS EMPTY</code></td></tr>
+<tr><td>目前 sprint 的 bug</td><td><code>sprint IN openSprints() AND issuetype = Bug</code></td></tr>
+<tr><td>某 category 下所有 project 的 open issue</td><td><code>category = "Platform" AND statusCategory != Done</code></td></tr>
+<tr><td>曾經進行中但現在不是</td><td><code>status WAS "In Progress" AND status != "In Progress"</code></td></tr>
+<tr><td>上個月由 jsmith 改成 Done</td><td><code>status CHANGED TO Done BY jsmith DURING (startOfMonth(-1), endOfMonth(-1))</code></td></tr>
+<tr><td>Summary 含 login 開頭的字</td><td><code>summary ~ "login*"</code></td></tr>
+<tr><td>某 epic 底下的所有 child</td><td><code>parent = MOB-100</code></td></tr>
+<tr><td>三個 project、高優先、依優先再依建立時間排序</td><td><code>project IN (A,B,C) AND priority IN (Highest, High) ORDER BY priority DESC, created ASC</code></td></tr>
+</table></div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>PM 要「所有沒有 component 的 issue，加上 component 不是 Backend 的」。<code>component != Backend</code> 夠嗎？</summary><div class="a"><div class="tag">解答</div>不夠。<code>!=</code> 不匹配空值，要寫 <code>component != Backend OR component IS EMPTY</code>。</div></details>
+<details class="q"><summary><code>project = MOB AND status = Done ORDER BY created DESC AND priority = High</code> 哪裡錯？</summary><div class="a"><div class="tag">解答</div><code>ORDER BY</code> 必須在整句最後；排序後面不能再接 clause。</div></details>
+<details class="q"><summary>「找 summary 含有 crash 這個字的 issue」該用哪個運算子？</summary><div class="a"><div class="tag">解答</div><code>summary ~ crash</code>。文字欄位不能用 <code>=</code>。</div></details>
+<details class="q"><summary><code>status WAS "In Progress"</code> 會不會找到現在正在 In Progress 的 issue？</summary><div class="a"><div class="tag">解答</div>會。<code>WAS</code> 是「現在是或曾經是」。要排除現在的，加 <code>AND status != "In Progress"</code>。</div></details>
+<details class="q"><summary>想用 <code>WAS</code> 查 component 的歷史，可以嗎？</summary><div class="a"><div class="tag">解答</div>不行。WAS／CHANGED 只支援 Assignee、Fix Version、Priority、Reporter、Resolution、Status 六個欄位。</div></details>
+<details class="q"><summary>Filter 要分享給匿名的公開 dashboard 用，裡面寫 <code>assignee = currentUser()</code>，會怎樣？</summary><div class="a"><div class="tag">解答</div>匿名使用者沒有 currentUser，查詢不會如預期。官方明講：預期給匿名用的 saved filter 不要用 <code>currentUser()</code>。</div></details>
+<details class="q"><summary><span>「resolved 的 SysAdmin issue，加上所有指派給 bobsmith 的 issue」，寫成 <code style="white-space:normal">status=resolved AND project=SysAdmin OR assignee=bobsmith</code> 對嗎？</span></summary><div class="a"><div class="tag">解答</div>沒括號時由左到右評估，這句剛好等於 <code>(status=resolved AND project=SysAdmin) OR assignee=bobsmith</code>，結果正確；但為了可讀與避免誤判，官方建議加括號。若需求改成「resolved 且（SysAdmin 或 bobsmith）」就必須寫 <code>status=resolved AND (project=SysAdmin OR assignee=bobsmith)</code>。</div></details>
+<details class="q"><summary>「上週建立的 issue」寫成 <code>created &gt;= -7d</code> 有什麼問題？</summary><div class="a"><div class="tag">解答</div><code>-7d</code> 是「最近 7 天」，不是「上一個日曆週」。要用 <code>created &gt;= startOfWeek(-1) AND created &lt; startOfWeek()</code>。</div></details>
+<details class="q"><summary>Basic search 可以做「status 是 Done 或 Closed，且不是 jsmith 建立的」嗎？</summary><div class="a"><div class="tag">解答</div>「Done 或 Closed」可以（同一欄位多選＝IN）；「不是 jsmith」不行——Basic 沒有 NOT／<code>!=</code>，要切 JQL：<code>status IN (Done, Closed) AND reporter != jsmith</code>。</div></details>
+<details class="q"><summary>想找 label 完全沒貼的 issue。</summary><div class="a"><div class="tag">解答</div><code>labels IS EMPTY</code>。EMPTY 只能配 IS／IS NOT。</div></details>
+<details class="q"><summary>跨三個 project 找「未完成」，各 project 的 Done 狀態名不同。</summary><div class="a"><div class="tag">解答</div>用 <code>statusCategory != Done</code>（或 <code>resolution IS EMPTY</code>），不要逐一列狀態名。</div></details>
+<details class="q"><summary><code>reporter in (Jack,Jill,John)</code> 等於哪一種寫法？</summary><div class="a"><div class="tag">解答</div><code>reporter = Jack OR reporter = Jill OR reporter = John</code>。<code>NOT IN</code> 則等於多個 <code>!=</code> 用 AND 接，且同樣不含空值。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「<code>!=</code> 會把沒有值的也找出來」</td><td>不會；要另加 <code>OR field IS EMPTY</code>。<code>NOT IN</code> 同理。</td></tr>
+<tr><td>「<code>ORDER BY</code> 可以放在任何位置」</td><td>只能放最後，否則整句無效。</td></tr>
+<tr><td>「文字欄位可以用 <code>=</code> 精確比對」</td><td>不能；用 <code>~</code>，精確片語用跳脫引號。</td></tr>
+<tr><td>「WAS 可以查任何欄位的歷史」</td><td>只有六個欄位。</td></tr>
+<tr><td>「<code>-7d</code> 等於上週」</td><td>是「往前 7 天」；日曆週用 startOfWeek(-1)。</td></tr>
+<tr><td>「JQL 是 SQL」</td><td>官方明講不是資料庫查詢語言，只是語法相似；沒有 JOIN、沒有子查詢。</td></tr>
+<tr><td>「<code>currentUser()</code> 在公開 filter 也能用」</td><td>只有登入者能用。</td></tr>
+<tr><td>「保留字可以直接寫」</td><td>約 200 個保留字（a、an、and、or、by、on…）當值用時要加引號。</td></tr>
+<tr><td>「Basic 與 JQL 可以無損互切」</td><td>用了 OR、NOT、括號、EMPTY、比較運算子等就切不回 Basic。</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>把 12 個模板各跑一次</h2>
+<ol>
+<li>開 Filters → View all issues，切到 JQL。把「常考寫法」12 句逐一貼上，觀察 autocomplete 與結果數。</li>
+<li>拿掉 <code>OR assignee IS EMPTY</code> 再跑一次，比較結果數——親眼看 <code>!=</code> 不含空值。</li>
+<li>把 <code>ORDER BY</code> 移到中間，看錯誤訊息。</li>
+<li>對某張 issue 改幾次狀態，分別跑 <code>status WAS</code>、<code>status CHANGED FROM … TO …</code>、<code>status WAS NOT</code>，對照圖 2。</li>
+<li>存成 filter，分享給 project role，再到 620.5.2 用它建 dashboard。</li>
+<li>試著把含 OR 的 JQL 切回 Basic，看它拒絕。</li>
+<li><strong>用四張卡證明邊界（另一套教材的 lab）</strong>：在隔離 project 建 A（Task／指派自己／labels <code>acp620-jql-lab, urgent</code>）、B（Task／未指派／<code>acp620-jql-lab</code>）、C（Bug／指派自己／<code>acp620-jql-lab</code>）、D（Task／labels 留白）。
+先跑 <code>labels = acp620-jql-lab</code> → 預期 A、B、C；加 <code>AND assignee != currentUser()</code> → <strong>B 不會被選中</strong>；改成 <code>AND (assignee != currentUser() OR assignee IS EMPTY)</code> → B 回來。
+再用 <code>key IN (…四張…)</code> 限定範圍測 <code>labels NOT IN (urgent) OR labels IS EMPTY</code> → 預期 B、C、D。</li>
+<li>用一般測試帳號開同一個 filter，確認查不到時可能是 <strong>filter 沒分享或缺 Browse Projects／issue security</strong>，不一定是語法錯。</li>
+</ol>
+<div class="callout"><div class="t">來源（本頁實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-searching-in-jira-cloud/">What is advanced search in Jira Cloud?</a>（結構、優先序、保留字、bounded／unbounded、切換限制）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-fields/">JQL fields</a>（全表）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/">JQL functions</a>（全表，JSM／Assets 函數略）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-keywords/">JQL keywords</a>（全表）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/">JQL operators</a>（全表）</li>
+<li>Free Course: Gain Project Insights through JQL（university.atlassian.com）——<strong>已轉址到 community.atlassian.com/learning，未讀</strong></li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 20 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.5.1"></div>
+</section>
+
+<div class="footer-nav"><a href="620.4.3.html">← 620.4.3 Troubleshoot automation</a><a href="620.5.2.html">下一節：620.5.2 Dashboards 與 gadgets →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.5.1 JQL 組句器（id 一律 s251- 前綴） */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const FIELDS={
+    assignee:{label:'assignee',type:'user',basic:true,values:['currentUser()','jsmith','EMPTY']},
+    reporter:{label:'reporter',type:'user',basic:true,values:['currentUser()','jsmith','EMPTY']},
+    status:{label:'status',type:'select',basic:true,values:['"To Do"','"In Progress"','Done','EMPTY']},
+    project:{label:'project',type:'select',basic:true,values:['MOB','(MOB, WEB)']},
+    issuetype:{label:'issuetype',type:'select',basic:true,values:['Bug','Story','subtaskIssueTypes()']},
+    priority:{label:'priority',type:'ordered',basic:true,values:['High','Medium','normal']},
+    created:{label:'created',type:'date',basic:true,values:['-7d','startOfWeek(-1)','startOfMonth()','"2026/09/01"']},
+    duedate:{label:'duedate',type:'date',basic:false,values:['now()','endOfWeek()','EMPTY']},
+    summary:{label:'summary',type:'text',basic:true,values:['login','"login*"','"\\"full screen\\""']},
+    sprint:{label:'sprint',type:'sprint',basic:true,values:['openSprints()','closedSprints()','"Sprint 12"']},
+    fixVersion:{label:'fixVersion',type:'version',basic:true,values:['unreleasedVersions()','"1.2"','EMPTY']},
+    labels:{label:'labels',type:'select',basic:true,values:['urgent','EMPTY']}
+  };
+  const OPS={
+    user:['=','!=','IN','NOT IN','IS','IS NOT','WAS','CHANGED'],
+    select:['=','!=','IN','NOT IN','IS','IS NOT'],
+    ordered:['=','!=','>','>=','<','<='],
+    date:['=','>','>=','<','<=','IS','IS NOT'],
+    text:['~','!~'],
+    sprint:['=','IN','NOT IN','IS','IS NOT'],
+    version:['=','!=','IN','NOT IN','IS','IS NOT','WAS']
+  };
+  const HIST=['status','assignee','reporter','priority','fixVersion','resolution'];
+  const OPX={
+    '=':'等於','!=':'不等於（不含空值）','IN':'是清單中任一個','NOT IN':'不是清單中任何一個（不含空值）','IS':'沒有值','IS NOT':'有值',
+    '>':'大於','>=':'大於等於','<':'小於','<=':'小於等於','~':'含有（模糊、詞幹、萬用字元）','!~':'不含有','WAS':'現在是或曾經是','CHANGED':'曾經改變過'
+  };
+  function fill(sel,items,keep){const old=sel.value;sel.innerHTML=items.map(v=>`<option value="${v.replace(/"/g,'&quot;')}">${v.replace(/</g,'&lt;')}</option>`).join('');if(keep&&items.includes(old))sel.value=old;}
+  function clause(n){
+    const f=$('#s251-f'+n), o=$('#s251-o'+n), v=$('#s251-v'+n);
+    const F=FIELDS[f.value]; const op=o.value; if(!F||!op) return null;
+    let val=v.value;
+    if(op==='IS'||op==='IS NOT') val='EMPTY';
+    if(op==='CHANGED') val='';
+    if((op==='IN'||op==='NOT IN')&&!val.startsWith('(')&&!val.endsWith(')')) val='('+val+')';
+    if((op==='=' || op==='!=') && val==='EMPTY') val='EMPTY';
+    const jql=`${F.label} ${op}${val?' '+val:''}`;
+    // 說明與旗標
+    const flags=[]; let ex=`<strong>${F.label}</strong> ${OPX[op]||op}${val?' <strong>'+val.replace(/</g,'&lt;')+'</strong>':''}`;
+    if(op==='!='||op==='NOT IN') flags.push(['warn','!= / NOT IN 不含空值，要含空值再加 OR '+F.label+' IS EMPTY']);
+    if((op==='WAS'||op==='CHANGED')&&!HIST.includes(f.value)) flags.push(['risk','WAS／CHANGED 只支援 status、assignee、reporter、priority、fixVersion、resolution']);
+    if(F.type==='text'&&(op==='='||op==='!=')) flags.push(['risk','文字欄位不能用 =，要用 ~']);
+    if(val==='currentUser()') flags.push(['warn','currentUser() 只有登入者能用；公開 filter 不要用']);
+    if(val==='-7d') flags.push(['note','-7d 是「往前 7 天」，日曆週用 startOfWeek(-1)']);
+    if(!F.basic||['!=','NOT IN','IS','IS NOT','>','>=','<','<=','WAS','CHANGED','~','!~'].includes(op)) flags.push(['note','Basic search 做不到，必須用 JQL']);
+    return {jql,ex,flags};
+  }
+  function render(){
+    const j=$('#s251-join .on').dataset.j; const c1=clause(1); const c2=j?clause(2):null; if(!c1) return;
+    const ob=$('#s251-ob').value; const paren=$('#s251-paren').checked&&c2;
+    let body=paren?`(${c1.jql} ${j} ${c2.jql})`:(c2?`${c1.jql} ${j} ${c2.jql}`:c1.jql);
+    const jql=body+(ob?' ORDER BY '+ob:'');
+    $('#s251-out').textContent=jql;
+    let ex='找出：'+c1.ex;
+    if(c2) ex+=(j==='AND'?'，<strong>而且</strong> ':'，<strong>或者</strong> ')+c2.ex;
+    if(ob) ex+='；結果依 <strong>'+ob+'</strong> 排序';
+    if(!c2&&$('#s251-paren').checked) ex+='（只有一個 clause，括號沒有作用）';
+    $('#s251-explain').innerHTML=ex+'。';
+    const flags=[...c1.flags,...(c2?c2.flags:[])];
+    const seen=new Set(); const cls={warn:'amber',risk:'rose',note:'brand'};
+    $('#s251-flags').innerHTML=flags.filter(f=>!seen.has(f[1])&&seen.add(f[1])).map(f=>`<span class="chip ${cls[f[0]]}">${f[1]}</span>`).join('')||'<span class="chip teal">Basic search 也能做</span>';
+  }
+  function setupClause(n,defF,defO,defV){
+    const f=$('#s251-f'+n),o=$('#s251-o'+n),v=$('#s251-v'+n);
+    fill(f,Object.keys(FIELDS)); f.value=defF;
+    const upd=(keep)=>{const F=FIELDS[f.value]; fill(o,OPS[F.type],keep); if(!keep&&defO&&OPS[F.type].includes(defO)){o.value=defO;defO=null;} fill(v,F.values,keep); if(defV&&F.values.includes(defV)){v.value=defV;defV=null;} v.disabled=(o.value==='IS'||o.value==='IS NOT'||o.value==='CHANGED'); render();};
+    f.addEventListener('change',()=>upd(false)); o.addEventListener('change',()=>{v.disabled=(o.value==='IS'||o.value==='IS NOT'||o.value==='CHANGED');render();}); v.addEventListener('change',render);
+    upd(false);
+  }
+  setupClause(1,'assignee','=','currentUser()');
+  setupClause(2,'status','!=','Done');
+  $$('#s251-join button').forEach(b=>b.addEventListener('click',()=>{$$('#s251-join button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render();}));
+  $('#s251-ob').addEventListener('change',render); $('#s251-paren').addEventListener('change',e=>{e.target.closest('label').classList.toggle('on',e.target.checked);render();});
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2553 @@
+[
+ {
+  "id": "620.2.1-001",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "團隊每兩週固定規劃一批功能，並想比較每期的交付量。哪種 board 最適合？",
+  "options": [
+   "Scrum board",
+   "Kanban board，因為有 Done 欄",
+   "只改 project 名稱",
+   "只加 Labels 分類"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "Scrum 直接支援 sprint 規劃、承諾與交付檢視（Velocity、Sprint report）。",
+   "B": "Done 欄只是完成狀態的欄位，不提供 sprint 節奏與逐期比較。",
+   "C": "名稱不會帶來 sprint 功能。",
+   "D": "Labels 只分類工作，不建立交付節奏。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-software-board/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board/"
+  ],
+  "tags": [
+   "board-type",
+   "scrum"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.1-002",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "維運團隊每天不定量接件，待評估清單很長且把執行板塞滿。最佳起點？",
+  "options": [
+   "Scrum，因為工作很多",
+   "Kanban with backlog",
+   "刪除未完成工作",
+   "每人建一個 project"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "拆容器增加管理成本，仍沒有分開 ready 與待評估。",
+   "A": "錯。多開 project 只增加管理成本，仍然沒有把「待評估」與「可執行」的工作分開。",
+   "B": "Kanban 保留持續流動，Kanban backlog 把待評估工作移到獨立畫面，執行板只留 ready 的工作。",
+   "C": "刪除會失去需求，不是管理待辦的方法。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-software-board/",
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "board-type",
+   "kanban-backlog"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.1-003",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "在同一個 project 再建第二塊 board，讀取同一個 saved filter，會發生什麼？",
+  "options": [
+   "自動複製所有 issue",
+   "自動建立新 workflow",
+   "兩個視圖讀取同一批 issue",
+   "原 board 失效"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "同一 issue 的狀態異動會同時反映在所有符合條件的 board。",
+   "D": "多塊 board 可並存。",
+   "A": "Board 只是視圖，不會複製 issue。",
+   "B": "建立 board 不等於建立 workflow。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/"
+  ],
+  "tags": [
+   "board-basics"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.1-004",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "Scrum board 一片空白，但 backlog 明明有工作。首先檢查什麼？",
+  "options": [
+   "是否所有人都是 Jira admin",
+   "是否每筆工作都已估點",
+   "是否最近更換了 project key",
+   "是否有 active sprint 且工作已拉進去"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "Scrum 的 active sprints 視圖只顯示進行中 sprint 的工作；沒開始 sprint 就是空的。",
+   "A": "看板不需要 Jira admin。",
+   "B": "未估點不會讓 issue 從 board 消失。",
+   "C": "換 key 不影響 sprint 狀態。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-sprints-in-company-managed-projects/"
+  ],
+  "tags": [
+   "scrum",
+   "troubleshoot"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.1-005",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "關於 Kanban backlog，何者正確？",
+  "options": [
+   "把待處理工作整理到獨立於執行板的區域",
+   "啟用後一定會有兩週的 sprint",
+   "backlog 裡的工作與 issue 資料庫分離",
+   "啟用後工作會自動完成"
+  ],
+  "answer": "A",
+  "explain": {
+   "B": "Kanban backlog 不會建立 sprint 節奏。",
+   "C": "仍是原本的 issue，只是換個地方顯示。",
+   "D": "完成仍由 workflow 與最右欄決定。",
+   "A": "Kanban backlog 讓執行板聚焦，並保留可排序的待辦區。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/",
+   "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-software-board/"
+  ],
+  "tags": [
+   "kanban-backlog"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.1-006",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "一塊 Kanban board 上的 issue 數已接近上限，效能開始變慢。官方建議的單一 board 顯示上限是多少？",
+  "options": [
+   "1,000",
+   "5,000",
+   "沒有上限",
+   "500"
+  ],
+  "answer": "B",
+  "explain": {
+   "C": "有上限，且超過會影響效能與顯示。",
+   "D": "500 是單一 parent 的 child 顯示上限，不是 board。",
+   "A": "1,000 是 bulk change 的一次上限。",
+   "B": "官方文件：board 最多顯示 5,000 個 issue，超過要縮小 filter 範圍。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-software-board/"
+  ],
+  "tags": [
+   "limit"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.1-007",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "團隊原本用 Kanban template 建了 CMP，現在想改跑 Scrum。最合理的作法？",
+  "options": [
+   "把 project 轉成 team-managed",
+   "在 Board settings 把 board type 切成 Scrum",
+   "在同一個 project 另建一個 Scrum board",
+   "刪除 project 重建"
+  ],
+  "answer": "C",
+  "explain": {
+   "D": "過度且會遺失歷史。",
+   "A": "管理方式與 board 類型無關，且 TMP 反而只有一個 board。",
+   "B": "Board settings 沒有 Scrum／Kanban 的切換選項，board 類型在建立時決定。",
+   "C": "CMP 允許多個 board，直接為同一 project 建 Scrum board，資料不動。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/"
+  ],
+  "tags": [
+   "board-type"
+  ],
+  "difficulty": 2,
+  "version_note": "考試作答：CMP 想換打法是「再建一個 board」；官方頁未明寫「不能互轉」，但 Board settings 無切換選項。",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.1-008",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "TMP 的 Kanban board 上，Done 的 issue 什麼時候會從 board 消失？",
+  "options": [
+   "Release 版本時",
+   "永遠不會消失",
+   "每次重新整理",
+   "移到 Done 欄 14 天後自動清除，project admin 也可手動清"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "不是重新整理觸發。",
+   "D": "官方：Done 的 work item 14 天後自動清除；project admin 或 Jira admin 可手動 Clear Done work items。",
+   "A": "Release 清 Done 是 CMP Kanban sub-filter 的機制，不是 TMP 的。",
+   "B": "會自動清除。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/"
+  ],
+  "tags": [
+   "tmp",
+   "kanban",
+   "clear-done"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.1-009",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "TMP 開啟了 Sprints 功能後，關於手動清除 Done 工作，何者正確？",
+  "options": [
+   "不能手動清除；sprint 完成時 Done 的工作會被清掉且不回 backlog",
+   "Done 的工作會回到 backlog",
+   "只有 Jira admin 能手動清除",
+   "隨時可以手動 Clear Done work items"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "官方明寫 Sprints 啟用時無法手動清除。",
+   "A": "sprint 完成時 Done 的工作從 board 清除，且不回 backlog。",
+   "B": "完成的工作不回 backlog。",
+   "C": "Sprints 啟用時連 Jira admin 也不能用手動清除。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/"
+  ],
+  "tags": [
+   "tmp",
+   "sprint",
+   "clear-done"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.1-010",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "TMP Kanban 清除一張 parent 時，它底下還有未完成的 sub-task。結果？",
+  "options": [
+   "sub-task 留在 board 上",
+   "sub-task 不論狀態一起被清除",
+   "Jira 拒絕清除",
+   "sub-task 自動轉成 standard issue"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "錯。官方明寫 parent 被清除時，其 sub-task 也一併清除，不會留在 board 上。",
+   "B": "不論 sub-task 狀態都跟著 parent 一起從 board 清除。",
+   "C": "不會被拒絕。",
+   "D": "不會改變 issue type。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/"
+  ],
+  "tags": [
+   "tmp",
+   "sub-task",
+   "clear-done"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.1-011",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "兩個團隊共用一個 CMP Scrum board 並各跑自己的 sprint（parallel sprints）。關於 Velocity chart，何者正確？",
+  "options": [
+   "每個 sprint 各自產生一張 Velocity",
+   "Velocity 會自動依團隊拆成兩條線",
+   "Velocity 仍是整塊 board 的數字，不會按團隊自動拆開",
+   "啟用 parallel sprints 後 Velocity 會停用"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "官方沒有按 sprint／團隊拆分的功能。",
+   "C": "Velocity chart 是 board-specific；官方提醒 parallel sprints 假設各團隊估算方式一致。",
+   "D": "不會停用。",
+   "A": "Velocity 以 board 為單位。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-sprints-in-company-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
+  ],
+  "tags": [
+   "parallel-sprints",
+   "velocity"
+  ],
+  "difficulty": 3,
+  "version_note": "Parallel sprints：CMP 與 TMP 現行都支援（JSWCLOUD-17195 已 Fixed），不要把它當 CMP 專屬。",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.1-012",
+  "section": "620.2.1",
+  "domain": "620.2",
+  "stem": "Sprint 結束時有未完成工作，PM 想把它直接放進另一個正在進行的 sprint。官方流程是？",
+  "options": [
+   "用 bulk change 改 sprint 欄位即可跳過 backlog",
+   "只能建新 sprint 承接",
+   "完成 sprint 時直接選另一個 active sprint 當目的地",
+   "先退回 backlog，再拖進目標 sprint"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "Complete Sprint 對未完成工作只提供 Backlog、任一既有的 future sprint、或新建 sprint 三個去處，不包含其他 active sprint。",
+   "D": "官方 Complete a sprint：未完成工作只能送到 backlog／future sprint／新 sprint，要進另一個 active sprint 得先經 backlog 再拖入。",
+   "A": "不是官方流程；且 bulk 仍需 Schedule 等權限。",
+   "B": "不一定要建新 sprint。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-sprints-in-company-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/complete-a-sprint/"
+  ],
+  "tags": [
+   "sprint",
+   "complete-sprint"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.2-001",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "一塊共用 board 的 location 掛在 WEBLAB，saved filter 包含 WEBLAB 與 APILAB。board 上的卡片來自哪裡？",
+  "options": [
+   "兩個 project 中使用者可讀且符合 filter 的 issue",
+   "APILAB 的 issue 會被搬到 WEBLAB",
+   "由 swimlane 名稱決定",
+   "只有 WEBLAB"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Location 只決定 board 掛在哪裡，不是資料來源。",
+   "A": "filter 決定候選，使用者的 Browse 與 issue security 決定實際看得到哪些。",
+   "B": "建 board 不會搬 issue。",
+   "C": "Swimlane 只是呈現分組。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/",
+   "https://support.atlassian.com/jira-software-cloud/docs/change-the-location-of-a-board/"
+  ],
+  "tags": [
+   "cross-project",
+   "location"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.2-002",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "同事打得開共用 board，卻看不到 APILAB 的工作。優先查什麼？",
+  "options": [
+   "把 board 改名",
+   "同事對 APILAB 的 Browse Projects 與 issue security",
+   "刪除 APILAB",
+   "增加 card colors"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "顏色不授權。",
+   "A": "名稱不改權限。",
+   "B": "看得到 board ≠ 看得到每個 project 的 issue；先查缺少的 project 的 Browse 與 issue security。",
+   "C": "破壞資料且不解決權限。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/"
+  ],
+  "tags": [
+   "cross-project",
+   "permissions",
+   "troubleshoot"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.2-003",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "只想改一塊 board 的資料範圍，但它用的 saved filter 已被另外兩塊 board 共用。較適合的作法？",
+  "options": [
+   "把 board 的 location 搬走",
+   "把所有 issue 改到另一個 project",
+   "Save as 存成新 filter，讓目標 board 改用新 filter",
+   "直接覆寫原 filter 的 JQL"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "另存新 filter 可保留其他 board 的既有範圍。",
+   "D": "會同時波及依賴同一 filter 的所有 board、gadget 與訂閱。",
+   "A": "Location 不改查詢。",
+   "B": "搬資料過度且可能改配置。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-filters/",
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
+  ],
+  "tags": [
+   "filter",
+   "shared-filter"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.2-004",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "跨 project board 上，兩個 project 的進行中 status 分別叫 Developing 與 Implementing，想在同一欄呈現。應該？",
+  "options": [
+   "刪掉其中一個 status",
+   "為每張 issue 建兩份",
+   "只改卡片顏色",
+   "把兩個 status 都對應到同一個 column"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "一個 column 可對應多個 status，保留原流程並統一呈現。",
+   "A": "刪 status 會動到 workflow，不是必要步驟。",
+   "B": "複製資料會分歧。",
+   "C": "顏色不能合併欄位。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "cross-project",
+   "status-mapping"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.2-005",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "Team-managed project 的團隊想要一塊額外的跨 project board。何者正確？",
+  "options": [
+   "用 saved filter 建立一塊新 board，來源 project 的管理方式不變",
+   "新增 board 會讓兩個 project 自動共用 workflow",
+   "一定要改成 Scrum 才能建",
+   "只能先把 project 轉成 company-managed"
+  ],
+  "answer": "A",
+  "explain": {
+   "B": "Board 不會共享或轉換 workflow。",
+   "C": "Scrum 或 Kanban 都可以。",
+   "D": "不需要轉換管理方式。",
+   "A": "官方提供 Create a board based on filters 這條路徑；TMP 本身只有一塊內建 board，額外的走 saved filter。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/"
+  ],
+  "tags": [
+   "tmp",
+   "cross-project"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.2-006",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "你建了一塊跨 project 的 Scrum board，同事說「我打開只看到空白，連 board 都找不到」。最可能的原因？",
+  "options": [
+   "board 的 location 設在你的個人 profile",
+   "底層 saved filter 沒有分享給他",
+   "他沒有 Jira app access",
+   "board 不是 Kanban"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "官方：board 對「能存取該 filter 的使用者」可見；filter 沒分享，別人連 board 都看不到。",
+   "C": "若沒有 app access 連 Jira 都進不去，題意是能登入。",
+   "D": "board 類型與可見度無關。",
+   "A": "Location 在個人 profile 仍可被看到（若 filter 有分享）。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/",
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
+  ],
+  "tags": [
+   "visibility",
+   "shared-filter"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.2-007",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "要把 saved filter 分享給團隊，讓 board 對他們可見，操作者需要什麼？",
+  "options": [
+   "Board admin",
+   "Administer Jira",
+   "全域權限 Share dashboards and filters",
+   "Manage Sprints"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "不需要 Jira admin。",
+   "C": "分享 filter／dashboard 需要全域權限 Share dashboards and filters。",
+   "D": "Manage Sprints 管 sprint，不管分享。",
+   "A": "Board admin 不能替 filter owner 分享。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/"
+  ],
+  "tags": [
+   "permissions",
+   "shared-filter"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.2-008",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "PM 想複製一塊既有的 board 給新團隊用。關於 Copy board，何者正確？",
+  "options": [
+   "只有 Jira admin 能複製 board",
+   "複製後原 board 會被停用",
+   "副本會建立一個新的 saved filter",
+   "副本沿用同一個 saved filter，複製者成為副本的 administrator"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "原 board 不受影響。",
+   "C": "官方：副本使用同一個 saved filter，不會自動複製 filter。",
+   "D": "官方頁明寫複製者成為副本的 administrator；官方未列出完整 Administrators 名單，不要推論「只有」複製者。",
+   "A": "board admin 或 location 的 project admin 也可。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/copy-an-existing-board/"
+  ],
+  "tags": [
+   "copy-board"
+  ],
+  "difficulty": 2,
+  "version_note": "不採信第三方題庫「複製一律需要 Create Shared Objects」或「一定複製出新 filter」。",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.2-009",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "跨 project Scrum board 上，某位同事無法開始 sprint。他已經是 board admin。還缺什麼？",
+  "options": [
+   "board filter 涵蓋的每個 project 都要有 Manage Sprints 權限",
+   "一個名為 Create and Reorder Sprints 的權限",
+   "Administer Jira",
+   "Schedule Issues"
+  ],
+  "answer": "A",
+  "explain": {
+   "C": "不需要 Jira admin。",
+   "D": "Schedule 管排序與 due date，不管開始 sprint。",
+   "A": "官方原文：sprint 若含多個 board 的工作，更新該 sprint 需要「所有 space 的 Manage sprints」權限。",
+   "B": "官方權限清單裡沒有這個名稱的獨立權限。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-sprints-in-company-managed-projects/"
+  ],
+  "tags": [
+   "cross-project",
+   "manage-sprints"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.2-010",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "跨 project board 想直接在 board 上新增 status（simplified workflow）。為什麼做不到？",
+  "options": [
+   "status 只能由 Jira admin 建",
+   "simplified workflow 只能用在 filter 只含一個 project 的 board",
+   "跨 project board 不能有 column",
+   "需要付費方案"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "與方案無關。",
+   "A": "單一 project 且符合條件時 project admin 可在 board 上加 status。",
+   "B": "官方四條件之一：board filter 只包含單一 project。其餘條件：該 project 所有 issue type 共用同一 workflow、只用內建 post function／validator／condition、每個 status 至少一條出去的 transition。",
+   "C": "跨 project board 當然有 column。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/use-the-simplified-workflow/",
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "simplified-workflow"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.2-011",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "兩個 project 各自有一個叫「Autumn Release」的 version。跨 project board 上的 Releases／version 相關篩選會怎麼看它們？",
+  "options": [
+   "只顯示第一個 project 的",
+   "視為同一個 version",
+   "兩個不同的 version",
+   "自動合併"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "同名但不同 project 的 version 是兩個獨立物件；篩選時要各自指定。",
+   "D": "不會自動合併。",
+   "A": "不會只顯示一個。",
+   "B": "Version 屬於各自 project。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/"
+  ],
+  "tags": [
+   "version",
+   "cross-project"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.2-012",
+  "section": "620.2.2",
+  "domain": "620.2",
+  "stem": "board 的 location 原本掛在某位同事的個人 profile，他離職帳號被停用後，board 出現在哪裡？",
+  "options": [
+   "自動刪除",
+   "轉給 Jira admin",
+   "自動搬到 project",
+   "找不到，需由 board admin 或 project admin 重新指定 location"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "不會自動搬。",
+   "D": "官方：location 掛在停用的 user／project 上會失聯，要重新指定。",
+   "A": "不會刪除。",
+   "B": "不會自動轉移。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/change-the-location-of-a-board/"
+  ],
+  "tags": [
+   "location",
+   "troubleshoot"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.3-001",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "刪除 company-managed board 上的一個 column，原本對應到它的 status 會怎樣？",
+  "options": [
+   "回到 Unmapped，issue 不再顯示於 board",
+   "自動改成 Done",
+   "移到另一個 project",
+   "連同所有 issue 一起永久刪除"
+  ],
+  "answer": "A",
+  "explain": {
+   "C": "Column 不決定 project。",
+   "D": "刪 column 不會刪 issue 或 status。",
+   "A": "官方：status 回到 Unmapped statuses 面板，這些 status 的 issue 不會出現在 board。",
+   "B": "不會自動完成。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "columns",
+   "unmapped"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.3-002",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "兩個 status 想在同一欄顯示，正確作法？",
+  "options": [
+   "刪掉其中一個 status",
+   "把兩個 status 都拖到同一個 column",
+   "複製 board",
+   "合併所有 workflow"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "多對一映射是原生用法。",
+   "C": "複製 board 不解決映射。",
+   "D": "不必為呈現改造 workflow。",
+   "A": "支援多 status 對一欄，不需刪除。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "status-mapping"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.3-003",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "某個 status 名稱叫 Done，卻對應在倒數第二欄。Scrum 的 sprint 完成判斷會看什麼？",
+  "options": [
+   "卡片是不是綠色",
+   "assignee 是誰",
+   "最右欄的映射",
+   "status 的英文名稱"
+  ],
+  "answer": "C",
+  "explain": {
+   "D": "名稱不足以證明完成。",
+   "A": "顏色來自其他設定。",
+   "B": "負責人不決定完成。",
+   "C": "Scrum board 以最右 column 作為完成依據；名字叫 Done 但不在最右欄不算完成。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/",
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
+  ],
+  "tags": [
+   "done",
+   "rightmost"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.3-004",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "In Progress 欄設了 Maximum 3，第四筆仍然可以拖進去。代表什麼？",
+  "options": [
+   "Jira 故障",
+   "filter 已壞",
+   "一定缺少 Browse 權限",
+   "Column constraint 只是視覺警示"
+  ],
+  "answer": "D",
+  "explain": {
+   "A": "這是設計行為。",
+   "B": "與 filter 無關。",
+   "C": "能移入代表權限正常。",
+   "D": "超過上限欄頭變紅提醒，不是 validator 或禁止規則。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "constraints"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.3-005",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "新增了 Review 欄並映射好 status，卡片卻拖不進去。優先檢查？",
+  "options": [
+   "workflow 是否有可用的 transition 到該 status，以及 Transition 權限",
+   "改 working days",
+   "增加 card fields",
+   "換卡片顏色"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "顏色不建立 transition。",
+   "A": "映射只決定顯示位置；能否拖進去取決於 workflow transition 存在、condition 通過與 Transition Issues 權限。",
+   "B": "工作日只影響報表。",
+   "C": "卡片欄位只是資訊。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "transition",
+   "troubleshoot"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.3-006",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "Jira admin 建了一個新 status「Waiting」，但 board 的 Unmapped statuses 面板裡看不到它。為什麼？",
+  "options": [
+   "要先重新整理 board",
+   "Unmapped 只列出 board filter 涵蓋 project 的 workflow 真的用到的 status",
+   "需要 board admin 權限",
+   "status 名稱有空白"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "名稱不影響。",
+   "A": "不是快取問題。",
+   "B": "官方：只有相關 project workflow 實際使用的 status 才會出現；沒放進 workflow 的 status 不會列出。",
+   "C": "看得到 Columns 頁就有權限。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "unmapped",
+   "troubleshoot"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.3-007",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "CMP Kanban board 的 Hide completed work 設定，官方提供哪些選項？",
+  "options": [
+   "任意天數",
+   "只有 14 天",
+   "1、2、4 週或不隱藏",
+   "1、2、3、5 週"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "官方 KB 原文：可設 1 week、2 weeks、4 weeks，或 removed completely（完全不隱藏）。",
+   "D": "沒有 3 週、5 週。",
+   "A": "不能自訂天數。",
+   "B": "14 天自動清除是 TMP 的規則，不是 CMP 的 Hide completed work。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/"
+  ],
+  "tags": [
+   "hide-completed",
+   "kanban"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.3-008",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "CMP Kanban 上一張早就完成的 issue，因為有人改了它的 Description，隔天又出現在 board 上。原因？",
+  "options": [
+   "sub-filter 被改掉",
+   "board filter 排序改變",
+   "issue 被 reopen",
+   "Hide completed work 的計時以「最後更新時間」起算，編輯欄位會重設"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方 KB：Kanban 以 Done status category 判斷完成，隱藏的計時受最後更新影響，編輯後重新計算。",
+   "A": "sub-filter 沒動。",
+   "B": "排序不影響顯示與否。",
+   "C": "狀態沒變。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/"
+  ],
+  "tags": [
+   "hide-completed",
+   "troubleshoot"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.3-009",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "CMP Kanban 判斷「已完成」與 Scrum board 判斷「已完成」的依據，何者正確？",
+  "options": [
+   "Kanban 的 Hide completed work 看 Done status category；Scrum 看最右欄",
+   "兩者都看 status category",
+   "Kanban 看 resolution，Scrum 看 status",
+   "兩者都看最右欄"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Kanban 的隱藏規則不是看欄位位置。",
+   "A": "官方 KB：Kanban Hide completed work 以 Done category 判斷；Scrum 以最右 column 判斷 sprint 完成。",
+   "B": "Scrum 看最右欄。",
+   "C": "兩者都不是以 resolution 為準。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/",
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "done",
+   "kanban",
+   "scrum"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.3-010",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "單一 project 的 board 用 simplified workflow。project admin 想刪除一個 status，官方條件是？",
+  "options": [
+   "隨時可刪",
+   "該 status 底下沒有 issue；若別的 workflow 也用它，只會從本 workflow 移除",
+   "只有 Jira admin 可刪",
+   "要先刪掉 column"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "順序無關。",
+   "A": "有 issue 時不能刪。",
+   "B": "官方：status 無 issue 才可刪；共用的 status 只從這個 workflow 移除，不會全站刪除。",
+   "C": "simplified workflow 下 project admin 可操作。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/use-the-simplified-workflow/",
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "simplified-workflow",
+   "status"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.3-011",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "同一個 status 能否同時映射到兩個 column？",
+  "options": [
+   "只有 Jira admin 可以設定",
+   "可以，用於在兩欄都顯示",
+   "不可以，一個 status 只能屬於一個 column",
+   "只有 Kanban 可以"
+  ],
+  "answer": "C",
+  "explain": {
+   "D": "Kanban、Scrum 都一樣。",
+   "A": "不是權限問題。",
+   "B": "不支援重複映射。",
+   "C": "官方：每個 status 只能對應到一個 column。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "status-mapping"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.3-012",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "一般 Jira workflow（Open／In Progress／Resolved／Closed）的 board 建立時，官方預設映射是？",
+  "options": [
+   "全部 Unmapped",
+   "依 status 名稱字母序",
+   "全部進 To Do",
+   "Open、Reopened → To Do；In Progress → In Progress；Resolved、Closed → Done"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "不是全部同欄。",
+   "D": "官方 Configure columns 頁的預設映射表；simplified workflow 則是 To Do／In Progress／Done 一對一。",
+   "A": "預設會映射。",
+   "B": "不是字母序。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "status-mapping",
+   "default"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.3-013",
+  "section": "620.2.3",
+  "domain": "620.2",
+  "stem": "TMP 想限制「誰可以把工作移進 Done」，要用 workflow rule。關於 team-managed 的 transition rules，官方明列的是？",
+  "options": [
+   "每個 transition 最多 10 組 Restrict transition rules，每組 50 條；移除 rule 綁定的 role 會讓團隊無法轉換",
+   "只有 Jira admin 能新增 workflow rule",
+   "Restrict who can move a work item 只能指定單一使用者",
+   "每個 transition 最多只能有 1 條 rule"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "錯。官方寫每個 transition 可加多條，且 Restrict 類另有分組上限。",
+   "A": "對。官方 Add or remove workflow rules 頁明列每個 transition 上限：10 組 Restrict transition rules（每組 50 條）、50 條 Validate details、50 條 Perform actions，並提醒移除 rule 所綁的 role 會讓團隊無法移動工作。",
+   "B": "錯。需要的是 space 的 Administrator role 與 Administer spaces 權限，不是 Jira admin。",
+   "C": "錯。官方頁未把可選對象限縮成單一使用者；實際可選清單以站台畫面為準。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/add-or-remove-workflow-rules-in-team-managed-projects/"
+  ],
+  "tags": [
+   "tmp",
+   "board-rules"
+  ],
+  "difficulty": 2,
+  "version_note": "官方頁未逐項列出 Restrict who can move a work item 的可選對象（使用者／role／group／assignee／reporter…），要斷言清單請以實機畫面驗證。",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.4-001",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "開會時只想臨時看自己的工作，應優先用？",
+  "options": [
+   "Quick filter",
+   "改 board 的 location",
+   "刪除別人的工作",
+   "改所有 board 共用的 base filter"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "會改變其他使用者的資料範圍。",
+   "A": "Quick filter 暫時聚焦、可隨時取消，不影響他人。",
+   "B": "Location 不是篩選。",
+   "C": "刪除不是視圖管理。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/"
+  ],
+  "tags": [
+   "quick-filter"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.4-002",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "Base filter 只含 WEBLAB，一個 quick filter 寫 project = APILAB。啟用後結果？",
+  "options": [
+   "顯示全部 APILAB",
+   "空集合",
+   "APILAB 的工作被搬進 WEBLAB",
+   "自動合併兩個 project"
+  ],
+  "answer": "B",
+  "explain": {
+   "C": "Filter 不搬工作。",
+   "D": "Quick filter 是在 board filter 結果上再篩。",
+   "A": "不能擴充 base filter 的範圍。",
+   "B": "兩個互斥條件無交集。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/",
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-filters/"
+  ],
+  "tags": [
+   "quick-filter",
+   "AND"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.4-003",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "想一次看到 Bug 或 Task，最適合的 quick filter？",
+  "options": [
+   "assignee = currentUser()",
+   "ORDER BY priority",
+   "issuetype in (Bug, Task)",
+   "分別建 Bug 與 Task 兩個 quick filter 同時啟用"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "單一 quick filter 用 IN 表達聯集。",
+   "D": "多個 quick filter 同時啟用是 AND，互斥的類型條件會變空。",
+   "A": "篩負責人不是類型。",
+   "B": "排序不表達條件。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/"
+  ],
+  "tags": [
+   "quick-filter",
+   "AND",
+   "jql"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.4-004",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "CMP Kanban 想排除已 release 的版本、但保留沒有版本的工作。哪個 sub-filter 符合？",
+  "options": [
+   "fixVersion is not EMPTY",
+   "resolution = Unresolved",
+   "assignee is EMPTY",
+   "fixVersion in unreleasedVersions() OR fixVersion is EMPTY"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "Resolution 與發版是不同資料。",
+   "C": "與版本無關。",
+   "D": "對。現行官方 KB 描述預設 Kanban sub-filter 會移除「Fix version 已 Released」的工作；保留未發版與無版本的寫法就是 fixVersion in unreleasedVersions() OR fixVersion is EMPTY。",
+   "A": "只挑有版本的，沒判斷是否發版。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/",
+   "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/",
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "sub-filter",
+   "jql"
+  ],
+  "difficulty": 1,
+  "version_note": "現行 Cloud 的 sub-filter 說明頁不再逐字列出這句 JQL，行為敘述在 KB；作答仍以這個預設語意為準。",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.4-005",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "Board admin 無法編輯別人擁有的 saved filter，但需要改 board 範圍。最適合？",
+  "options": [
+   "Save as 另存新 filter，並在 Board settings → General 指定 board 改用它",
+   "變更所有 issue type",
+   "改 working days",
+   "一直重新整理"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "重新整理不授予編輯權。",
+   "A": "另存後指定 board 使用新 filter，原 filter 不動。",
+   "B": "與 filter 編輯權無關。",
+   "C": "工作日不處理 filter。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-filters/",
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
+  ],
+  "tags": [
+   "filter",
+   "permissions"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.4-006",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "board filter 拿掉了 ORDER BY Rank ASC。以下哪一件事仍然可以做？",
+  "options": [
+   "在 backlog 拖曳排序",
+   "用 quick filter 篩選卡片",
+   "把 sub-task 歸在 parent 底下顯示",
+   "把 Kanban backlog 的工作拖進 board"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "拖曳排序需要 Rank 排序。",
+   "B": "quick filter 不依賴 Rank。",
+   "C": "sub-task 歸組依賴 Rank。",
+   "D": "從 Kanban backlog 拖進 board 也依賴 Rank。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/",
+   "https://support.atlassian.com/jira-software-cloud/docs/rank-an-issue/"
+  ],
+  "tags": [
+   "rank"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.4-007",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "board 顯示「無法拖曳排序」，board admin 按下 Add Rank。這個動作的影響範圍？",
+  "options": [
+   "會建立新 filter",
+   "只影響自己的畫面",
+   "會修改 saved filter，使用同一 filter 的其他 board 也受影響",
+   "只影響目前 board"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "不是個人設定。",
+   "C": "Add Rank 會在 saved filter 加上 ORDER BY Rank；共用該 filter 的 board 都受影響。",
+   "D": "filter 是共用的。",
+   "A": "是修改原 filter，不是新建。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/"
+  ],
+  "tags": [
+   "rank",
+   "shared-filter"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.4-008",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "company-managed board 的 Board settings → Quick Filters 裡，Jira 預設就給的兩個 quick filter 是？",
+  "options": [
+   "Bugs 與 Tasks",
+   "Unassigned 與 Overdue",
+   "Current Sprint 與 Backlog",
+   "Only My Issues 與 Recently Updated"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "不是預設。",
+   "C": "不是預設。",
+   "D": "對。官方：Only My Issues 與 Recently Updated 只出現在 company-managed space；Assignee／Epic／Label／Work type 那組篩選則兩種 project 都有。",
+   "A": "不是預設。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/",
+   "https://support.atlassian.com/jira-software-cloud/docs/show-or-hide-issues-on-your-board/"
+  ],
+  "tags": [
+   "quick-filter",
+   "default"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.4-009",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "CMP Kanban 上，某個 issue type 的所有工作都不見了，其他 type 正常。排查後發現該 type 的 Fix Version 欄位被 field configuration 隱藏。為什麼會消失？",
+  "options": [
+   "對 JQL 而言該 type 的 fixVersion 既不是 unreleased 也不是 EMPTY，被預設 sub-filter 排除",
+   "隱藏欄位讓 issue 失去 Browse 權限",
+   "Kanban 不支援沒有版本的工作",
+   "隱藏欄位會刪除工作"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "不會刪除。",
+   "A": "對。官方 KB（Cloud）：board filter／sub-filter 的 JQL 若引用了被 field configuration 隱藏的欄位，該 issue type 的工作就不會顯示在 board 上。",
+   "B": "與權限無關。",
+   "C": "沒有版本的工作在預設 sub-filter 下是保留的。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira/kb/specific-issue-type-is-not-visible-on-the-board-for-the-jira-kanban-project/",
+   "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/"
+  ],
+  "tags": [
+   "sub-filter",
+   "field-configuration",
+   "troubleshoot"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.4-010",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "關於 Kanban sub-filter 對報表的影響，最符合官方文件的說法？",
+  "options": [
+   "所有報表一定都套用 sub-filter",
+   "官方說它可讓 Reports 顯示不同資料，但未逐一列出每個報表的行為；CFD 與 Velocity 以 board saved filter 定義基礎範圍",
+   "只影響 Burndown",
+   "對所有報表完全沒有影響"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "官方沒有這樣說。",
+   "A": "官方也沒有逐報表保證。",
+   "B": "這是證據界線：sub-filter 頁只說「可能不同」，CFD／Velocity 頁以 board filter 為範圍。",
+   "C": "Kanban 沒有 Burndown。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/",
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/",
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
+  ],
+  "tags": [
+   "sub-filter",
+   "reports",
+   "evidence"
+  ],
+  "difficulty": 3,
+  "version_note": "兩種極端說法（完全不影響／一定影響）都不採。",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.4-011",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "在 Board settings → General 看到兩個動作：換一個 Saved Filter，以及 Edit Filter Query。差別是？",
+  "options": [
+   "後者會建立新 filter",
+   "一樣的功能",
+   "前者讓 board 改用另一個既有 filter；後者修改目前 filter 的 JQL（影響所有共用者）",
+   "前者只有 Jira admin 能用"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "不同。",
+   "C": "換 filter 不動原 filter；Edit Filter Query 改的是共用 filter 本身。",
+   "D": "board admin 就能換。",
+   "A": "Edit 是就地修改。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-filters/"
+  ],
+  "tags": [
+   "filter",
+   "board-settings"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.4-012",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "board filter 有 A、B、C 三張卡片；sub-filter 只保留 B、C；quick filter 只保留 A、C。全部啟用後 board 顯示？",
+  "options": [
+   "空集合",
+   "A、B、C",
+   "B、C",
+   "C"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "三層都是 AND，只有同時通過的 C 留下。",
+   "A": "C 同時符合三層。",
+   "B": "三層是逐層縮小。",
+   "C": "quick filter 再排除 B。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/",
+   "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/"
+  ],
+  "tags": [
+   "AND",
+   "layers"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.4-013",
+  "section": "620.2.4",
+  "domain": "620.2",
+  "stem": "Rank 欄位相關的正確描述？",
+  "options": [
+   "站台只應有一個 global context 的 Rank 欄位；JQL 中 Rank 只能用來 ORDER BY",
+   "Rank 是每個 board 各自一份",
+   "Rank 大小寫不敏感",
+   "JQL 可以寫 Rank > 5 取前幾名"
+  ],
+  "answer": "A",
+  "explain": {
+   "B": "Rank 是全站欄位。",
+   "C": "JQL 中 Rank 欄位名稱大小寫敏感。",
+   "D": "Rank 不能做數值比較。",
+   "A": "官方 Enable ranking 頁：Rank 只用於排序，且應維持單一 global context。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/"
+  ],
+  "tags": [
+   "rank",
+   "jql"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.5-001",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "Story points 5 是否等於 5 小時？",
+  "options": [
+   "兩者是不同尺度，不能直接換算",
+   "只在 Kanban 上等於",
+   "取決於卡片顏色",
+   "一定等於"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Points 不是時間單位。",
+   "A": "估算尺度與時間資料要分開解讀。",
+   "B": "board 類型不建立換算率。",
+   "C": "顏色沒有單位含義。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
+  ],
+  "tags": [
+   "story-points"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.5-002",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "Board settings 的 Time tracking 選 None 代表什麼？",
+  "options": [
+   "全站禁止記錄工時",
+   "沿用 estimation statistic 來追蹤 sprint 進度",
+   "取消 sprint",
+   "刪除所有 worklog"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "既有 worklog 不會被刪。",
+   "A": "不是全站 time tracking 設定。",
+   "B": "None = 不另選獨立的 tracking 方法，burndown 用 statistic 算。",
+   "C": "sprint 不受影響。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
+  ],
+  "tags": [
+   "time-tracking"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.5-003",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "原估 10h、已花 4h、剩餘 8h。目前對總投入的預測是？",
+  "options": [
+   "10h，永遠不變",
+   "4h",
+   "12h",
+   "6h"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "4h 只是已花時間。",
+   "C": "4 + 8 = 12h，是目前的預測。",
+   "D": "6 是原估減已花，不是目前 remaining。",
+   "A": "原始估算不是上限。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
+  ],
+  "tags": [
+   "time-tracking",
+   "remaining"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.5-004",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "Scrum board 的 estimation 從 Story points 改成 Original time estimate 之後，怎麼看 velocity 趨勢？",
+  "options": [
+   "直接視為可比較",
+   "所有 points 自動乘 8",
+   "刪除舊 sprint",
+   "重新確認欄位、單位與報表尺度，接受歷史斷層"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "刪 sprint 不是比較方法。",
+   "D": "換 statistic 會造成 velocity 歷史斷層，要先確認兩期量測意義相同。",
+   "A": "尺度不同。",
+   "B": "沒有通用轉換率。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/",
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
+  ],
+  "tags": [
+   "statistic",
+   "velocity"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.5-005",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "board 設了 Story points 為 statistic，但 issue 上沒有這個欄位可填。先查？",
+  "options": [
+   "欄位 context、issue type、screen／layout 與權限",
+   "提高 WIP limit",
+   "分享 dashboard",
+   "Board 名稱"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "名稱無關。",
+   "A": "欄位顯示與可編輯性有自己的配置鏈（context → screen → layout → 權限）。",
+   "B": "WIP 只管欄位提醒。",
+   "C": "Dashboard 不補欄位。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
+  ],
+  "tags": [
+   "story-points",
+   "troubleshoot"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.5-006",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "Board settings 沒有選任何 estimation statistic 時，burndown 用什麼算？",
+  "options": [
+   "Original time estimate",
+   "Issue count（work item count）",
+   "不顯示 burndown",
+   "Story points"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "沒選就不會用 story points。",
+   "A": "沒選就不會用時間。",
+   "B": "對。官方原句：If you don’t select an estimation statistic, work will be measured by the “work item count”。",
+   "C": "仍會顯示。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/",
+   "https://support.atlassian.com/jira-software-cloud/docs/enable-estimation/"
+  ],
+  "tags": [
+   "statistic",
+   "default"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.5-007",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "Time tracking 選 Remaining estimate and time spent 後，sub-task 的 remaining estimate 會怎麼進入 burndown？",
+  "options": [
+   "只計 story points",
+   "完全忽略",
+   "捲上 parent 一起計入",
+   "以獨立卡片計入"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "time tracking 模式下 sub-task 工時會計入。",
+   "C": "官方：sub-task 的 remaining estimate 捲上 parent。",
+   "D": "不是獨立計。",
+   "A": "此模式不用 points。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/",
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
+  ],
+  "tags": [
+   "sub-task",
+   "time-tracking"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.5-008",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "sub-task 填了 3 個 story points，parent 填 5。Scrum burndown 與 velocity 會算多少？",
+  "options": [
+   "3",
+   "依 board 設定",
+   "8",
+   "5"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "這是固定規則。",
+   "C": "sub-task 的 story points 不計入。",
+   "D": "只算 parent 的 5 點；sub-task 的估點永遠不計入 burndown／velocity。",
+   "A": "不會只算 sub-task。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/",
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
+  ],
+  "tags": [
+   "sub-task",
+   "story-points"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.5-009",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "Sprint 開始後 burndown 沒有灰色 guideline。哪個不是官方列出的原因？",
+  "options": [
+   "board 的 card layout 沒加 Story points 欄位",
+   "sprint 開始時 board 上沒有任何 issue 或估點",
+   "sprint 開始時間被設在過去或時區不一致",
+   "完成的 status 沒對到最右欄"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "是原因之一（完成狀態沒對到最右欄）。",
+   "A": "card layout 只影響卡片顯示，不影響 burndown。",
+   "B": "是原因之一。",
+   "C": "是原因之一。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
+  ],
+  "tags": [
+   "burndown",
+   "guideline",
+   "troubleshoot"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.5-010",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "Velocity chart 的縱軸單位由什麼決定？",
+  "options": [
+   "board 的 time tracking 設定",
+   "board 的 estimation statistic",
+   "每張 issue 的 Original estimate",
+   "Jira admin 的全站設定"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "官方：velocity 以 board 設定的 estimation statistic 為單位。",
+   "C": "不是逐張決定。",
+   "D": "是 board 層設定。",
+   "A": "velocity 永遠用 statistic，不受 time tracking 影響。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/",
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
+  ],
+  "tags": [
+   "velocity",
+   "statistic"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.5-011",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "TMP 的 Story point estimate 與 CMP 的 Story Points，以下何者正確？",
+  "options": [
+   "CMP 不能用 story points",
+   "是同一個欄位，跨 board 自動一致",
+   "是兩個不同的欄位，跨 board 比較前要先確認",
+   "TMP 不能用 story points"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "不是天然同一欄位。",
+   "C": "官方：TMP 用 Story point estimate，CMP 用 Story Points；混用時要驗證。",
+   "D": "TMP 可用。",
+   "A": "CMP 可用。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
+  ],
+  "tags": [
+   "tmp",
+   "story-points"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.5-012",
+  "section": "620.2.5",
+  "domain": "620.2",
+  "stem": "同一個 project 有兩塊 Scrum board。關於 estimation statistic 的設定，何者正確？",
+  "options": [
+   "由 project 決定",
+   "由 workflow 決定",
+   "兩塊 board 必須相同",
+   "statistic 是每塊 board 各自的設定，可以不同"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "與 workflow 無關。",
+   "C": "沒有強制一致。",
+   "D": "官方：estimation 是 board 層設定。",
+   "A": "不是 project 層。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
+  ],
+  "tags": [
+   "statistic",
+   "board-settings"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.6-001",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "跨 project board 想依來源 project 分區顯示，最直接的設定？",
+  "options": [
+   "Swimlanes by Projects",
+   "複製 Rank 欄位",
+   "改 issue security",
+   "Working days"
+  ],
+  "answer": "A",
+  "explain": {
+   "B": "Rank 不能取代分組。",
+   "C": "Security 控制可讀，不是分類。",
+   "D": "日曆不分來源。",
+   "A": "一個 project 一條泳道。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/"
+  ],
+  "tags": [
+   "swimlanes"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.6-002",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "一張卡片同時符合兩條 Card colors 的 Query，會用哪個顏色？",
+  "options": [
+   "隨機",
+   "由上到下第一個符合的",
+   "一定用 priority 顏色",
+   "最後一個符合的"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "官方：第一個符合的 query 決定顏色，具體規則放前面。",
+   "C": "選了 Queries 就依 query。",
+   "D": "不是最後匹配。",
+   "A": "順序有意義。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
+  ],
+  "tags": [
+   "card-colors"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.6-003",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "company-managed board 的 Card layout 最多可以加幾個額外欄位？",
+  "options": [
+   "沒有上限",
+   "等於所有 custom field",
+   "3 個",
+   "1 個"
+  ],
+  "answer": "C",
+  "explain": {
+   "D": "不只一個。",
+   "A": "刻意有限。",
+   "B": "不會全部列出。",
+   "C": "官方：最多 3 個額外欄位，backlog 與 board 可分開設定。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
+  ],
+  "tags": [
+   "card-layout"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.6-004",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "把週末設成 non-working days 代表？",
+  "options": [
+   "週末不能登入",
+   "週末禁止移動 issue",
+   "自動刪除週末的 worklog",
+   "相關報表與 gadget 的日曆會略過週末"
+  ],
+  "answer": "D",
+  "explain": {
+   "A": "不是登入控制。",
+   "B": "不是 transition 限制。",
+   "C": "不刪資料。",
+   "D": "working days 影響 Burndown、Sprint／Epic／Version report、Control chart 與相關 gadget 的計算。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/"
+  ],
+  "tags": [
+   "working-days"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.6-005",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "Card layout 加了欄位，卡片上卻沒顯示值。應該？",
+  "options": [
+   "查 issue 的實際值與該欄位的適用／顯示配置",
+   "改 project 名稱",
+   "認定資料被刪",
+   "一直加更多欄位"
+  ],
+  "answer": "A",
+  "explain": {
+   "C": "空白不證明被刪。",
+   "D": "顯示欄位不會產生資料。",
+   "A": "從資料與 configuration 查。",
+   "B": "名稱無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
+  ],
+  "tags": [
+   "card-layout",
+   "troubleshoot"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.6-006",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "Swimlanes 選 Queries 時，官方預設的第一條泳道是？",
+  "options": [
+   "Everything Else",
+   "Expedite：priority = Blocker",
+   "Bugs：issuetype = Bug",
+   "Mine：assignee = currentUser()"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "不是預設。",
+   "A": "Everything Else 是刪不掉的最後一條，不是第一條。",
+   "B": "預設 Expedite 用 priority = Blocker。",
+   "C": "不是預設。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/"
+  ],
+  "tags": [
+   "swimlanes",
+   "default"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.6-007",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "Swimlanes by Queries 裡的 Everything Else，何者正確？",
+  "options": [
+   "可以刪除",
+   "可以拖到最上面",
+   "刪不掉，永遠在最下，收所有不符合其他 query 的卡片",
+   "只在 Kanban 出現"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "固定在最下。",
+   "C": "官方：Everything Else 是 catch-all。",
+   "D": "Scrum、Kanban 都有。",
+   "A": "刪不掉。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/"
+  ],
+  "tags": [
+   "swimlanes"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.6-008",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "卡片上啟用了 Days in column。一張工作先在 In progress 待 2 天，移到 Code review 1 天，又移回 In progress 待 1 天。In progress 欄的指示器會顯示幾天？",
+  "options": [
+   "0 天（移出就歸零）",
+   "1 天（只算最後一次）",
+   "2 天（只算第一次）",
+   "3 天（累計）"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "錯。不是只算最後一次進入的天數。",
+   "C": "錯。不是只算第一次。",
+   "D": "對。官方原文：工作若曾回到同一欄，指示器顯示它在該欄的「累計」天數，例子正是 2＋1＝3 天。",
+   "A": "錯。移出不會歸零，回來會累加。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
+  ],
+  "tags": [
+   "days-in-column"
+  ],
+  "difficulty": 3,
+  "version_note": "官方對照表只列天數級距（1、2、3、5、8、12、20 天以上），圓點顏色以畫面為準，不要背顏色組合。",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.6-009",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "哪一個報表「不」受 working days 設定影響？",
+  "options": [
+   "Cumulative flow diagram",
+   "Version report",
+   "Burndown",
+   "Control chart"
+  ],
+  "answer": "A",
+  "explain": {
+   "C": "受影響。",
+   "D": "受影響。",
+   "A": "官方受影響清單不含 CFD；CFD 按日曆日。",
+   "B": "受影響。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/"
+  ],
+  "tags": [
+   "working-days",
+   "reports"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.6-010",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "Card colors 的下拉裡沒有「Status」選項，但團隊想讓 In Review 的卡片變色。怎麼做？",
+  "options": [
+   "做不到",
+   "選 Queries，寫 status = \"In Review\"",
+   "改 workflow",
+   "用 swimlane 代替"
+  ],
+  "answer": "B",
+  "explain": {
+   "D": "swimlane 是分組不是顏色。",
+   "A": "做得到。",
+   "B": "Queries 方法可用任何 JQL，包括 status。",
+   "C": "不需動 workflow。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
+  ],
+  "tags": [
+   "card-colors",
+   "jql"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.6-011",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "Issue detail view（board 右側面板）的欄位設定，何者正確？",
+  "options": [
+   "TMP 才有這個設定",
+   "Summary 可以移除",
+   "Summary 與 Description 永遠顯示；其餘由 project admin 設定",
+   "只有 Jira admin 能改"
+  ],
+  "answer": "C",
+  "explain": {
+   "D": "Administer Projects 即可。",
+   "A": "這是 CMP board 的設定。",
+   "B": "Summary 不可移除。",
+   "C": "官方：Summary、Description 永遠顯示；其他欄位可增減。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-the-issue-detail-view/"
+  ],
+  "tags": [
+   "issue-detail-view"
+  ],
+  "difficulty": 2,
+  "version_note": "考綱時代路徑是 Board settings → Issue detail view；現行官方頁指到 Project settings → Screens → View issue screen。",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.6-012",
+  "section": "620.2.6",
+  "domain": "620.2",
+  "stem": "關於 Swimlanes by Stories，何者正確？",
+  "options": [
+   "沒有 parent 的工作排在最上面",
+   "只有 Kanban 支援",
+   "每個 epic 一條泳道",
+   "sub-task 掛在 parent 底下；沒有 sub-task 的工作集中顯示在所有泳道下方"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方原文：work items that have no sub-tasks appearing below。",
+   "A": "不是最上面。",
+   "B": "Scrum 也支援。",
+   "C": "那是 Swimlanes by Epics。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/"
+  ],
+  "tags": [
+   "swimlanes",
+   "sub-task"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.7-001",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "使用者可以直接打開 issue，base filter 也搜得到它，但 board 上沒有卡片。下一步？",
+  "options": [
+   "查 sub-filter、column 映射與目前視圖（sprint／backlog）",
+   "直接給他 Jira admin",
+   "刪除 project",
+   "重新建立 issue"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "會造成重複。",
+   "A": "已排除權限與 base filter，接著查 sub-filter、status 映射、是否在 active sprint／Kanban backlog。",
+   "B": "過度授權不定位原因。",
+   "C": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/",
+   "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/"
+  ],
+  "tags": [
+   "troubleshoot"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.7-002",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "想手動拖曳 backlog 順序，board filter 應該用哪個排序？",
+  "options": [
+   "ORDER BY priority DESC",
+   "ORDER BY Rank ASC",
+   "依 card color",
+   "ORDER BY created DESC"
+  ],
+  "answer": "B",
+  "explain": {
+   "C": "顏色不是排序欄。",
+   "D": "依建立時間。",
+   "A": "依優先級，不是自由順序。",
+   "B": "Rank 排序才支援拖曳與相關排程功能。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/"
+  ],
+  "tags": [
+   "rank"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.7-003",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "分享 saved filter 給同事，是否足以讓他讀到所有符合的 issue？",
+  "options": [
+   "只要 board 公開就全部可讀",
+   "只看 working days",
+   "否，仍受各 issue 的 Browse 與 issue security 約束",
+   "是，分享就等於授權"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "查詢的存取與資料的存取分開。",
+   "D": "分享不是授權。",
+   "A": "board 可見不繞過 issue security。",
+   "B": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/"
+  ],
+  "tags": [
+   "permissions",
+   "shared-filter"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.7-004",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "Bugs 與 Tasks 兩個自訂 quick filter 同時開啟，board 變空。原因？",
+  "options": [
+   "所有資料被刪",
+   "workflow 壞掉",
+   "瀏覽器語言不同",
+   "互斥的類型條件取交集"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "語言無關。",
+   "D": "多個 quick filter 是 AND；要「任一類型」用單一 IN／OR 的 quick filter。",
+   "A": "關掉 filter 就恢復。",
+   "B": "與 workflow 無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/"
+  ],
+  "tags": [
+   "quick-filter",
+   "AND"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.7-005",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "Add Rank 的影響範圍？",
+  "options": [
+   "使用同一 saved filter 的其他 board 也會受影響",
+   "只改卡片顏色",
+   "會建立新 project",
+   "只有自己的畫面"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "會修改共用 filter。",
+   "A": "先評估 filter 的相依關係。",
+   "B": "Rank 是排序。",
+   "C": "不會建 project。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/"
+  ],
+  "tags": [
+   "rank",
+   "shared-filter"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.2.7-006",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "「issue 不在 board 上」的官方排查順序，第一步是？",
+  "options": [
+   "檢查 Jira admin 權限",
+   "檢查 board filter 是否包含它",
+   "檢查 working days",
+   "檢查 card layout"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "官方順序：Board filter → Status 對應 → Backlog feature／Kanban backlog → sub-filter → 是否在 active sprint。",
+   "C": "工作日只影響報表。",
+   "D": "卡片欄位不影響顯示。",
+   "A": "不是第一步。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "troubleshoot",
+   "order"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.7-007",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "CMP Kanban 的 Done 欄一直堆滿舊卡片。最可能的設定問題？",
+  "options": [
+   "沒有 quick filter",
+   "working days 沒設",
+   "沒有 Release 版本，或 sub-filter 被改掉、Hide completed work 設成不隱藏",
+   "board filter 沒有 Rank"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "工作日不影響顯示。",
+   "C": "Done 清理靠 Release＋sub-filter 或 Hide completed work（1／2／4 週）。",
+   "D": "Rank 影響拖曳，不影響 Done 堆積。",
+   "A": "quick filter 是暫時篩選。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/",
+   "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/"
+  ],
+  "tags": [
+   "kanban",
+   "hide-completed",
+   "troubleshoot"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.7-008",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "PM 說「Kanban 只顯示最近一週完成的工作」。用 Hide completed work 選 1 週，與寫 sub-filter resolved >= startOfWeek() 有什麼差別？",
+  "options": [
+   "後者只有 Jira admin 能設",
+   "前者需要 Rank",
+   "沒有差別",
+   "前者是滾動 7 天（且計時受更新影響），後者是本曆週從週一起算"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "語意不同。",
+   "D": "「最近一週」≠「本曆週」；Hide completed work 以最後更新起算滾動期間。",
+   "A": "board admin 就能改 sub-filter。",
+   "B": "無關 Rank。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/",
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "hide-completed",
+   "jql"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.7-009",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "同事有 Manage Sprints 卻無法在 backlog 拖曳排序 issue。缺什麼？",
+  "options": [
+   "Schedule Issues 與 Edit Issues",
+   "Browse users and groups",
+   "Board admin",
+   "Administer Jira"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "不需要。",
+   "A": "官方：重新排序（Rank）需要 Schedule Issues；Manage Sprints 只管 sprint 本身。",
+   "B": "無關。",
+   "C": "board admin 不授予 issue 權限。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/",
+   "https://support.atlassian.com/jira-software-cloud/docs/rank-an-issue/"
+  ],
+  "tags": [
+   "permissions",
+   "rank",
+   "manage-sprints"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.7-010",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "Scrum backlog 裡看不到 sub-task 可以獨立拖進 sprint。這是？",
+  "options": [
+   "bug",
+   "正常：sub-task 跟著 parent，不是可獨立規劃的項目",
+   "filter 少了 Rank",
+   "sub-task 被隱藏欄位擋住"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "是設計行為。",
+   "B": "對。官方 Rank a work item：sub-task 只能在同一 parent 的兄弟之間排序，且 parent 移動時 sub-task 跟著移動——它不是可獨立規劃進 sprint 的項目。",
+   "C": "與 Rank 無關。",
+   "D": "不是欄位問題。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/rank-an-issue/"
+  ],
+  "tags": [
+   "sub-task",
+   "backlog"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.7-011",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "filter owner 離職後，團隊需要修改 board 用的 saved filter。誰能處理？",
+  "options": [
+   "filter 會自動轉給 project lead",
+   "任何 board admin 可直接編輯",
+   "Jira admin 可變更 filter 的 owner",
+   "必須重建 board"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "非 owner 不能編輯別人的 filter。",
+   "C": "官方：Jira admin 可在 Manage filters 變更 owner。",
+   "D": "不必重建。",
+   "A": "不會自動轉。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
+  ],
+  "tags": [
+   "filter",
+   "owner"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.7-012",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "Epics panel 開啟時，epic 在 Scrum board／backlog 怎麼呈現？",
+  "options": [
+   "完全隱藏",
+   "只在 Timeline 顯示",
+   "以卡片出現在 board 欄位裡",
+   "出現在 backlog 的 Epic panel，不以卡片出現"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "Timeline 也有，但題目問 board。",
+   "C": "epic 不以卡片出現。",
+   "D": "epic 在 backlog 側邊的 Epic panel，用來篩選與拖曳歸屬。",
+   "A": "不是隱藏。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/customize-your-view-of-the-board-and-backlog/"
+  ],
+  "tags": [
+   "epic",
+   "backlog"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.2.7-013",
+  "section": "620.2.7",
+  "domain": "620.2",
+  "stem": "開會時同事說「我的 board 跟你的不一樣」。board filter 含 assignee = currentUser()。原因？",
+  "options": [
+   "currentUser() 讓每個人看到的結果不同，這是 filter 設計",
+   "board 沒同步",
+   "需要重新整理",
+   "他的權限較少"
+  ],
+  "answer": "A",
+  "explain": {
+   "B": "不是同步問題。",
+   "C": "不是快取。",
+   "D": "不一定。",
+   "A": "currentUser() 依登入者變動；共用 board 不該把它寫進 board filter，應放 quick filter。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/",
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-filters/"
+  ],
+  "tags": [
+   "jql",
+   "currentUser"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ }
+]

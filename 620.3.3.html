@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.3.3 Versions、releases、roadmap 與範圍變動｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#lifecycle">Version 生命週期</a>
+    <a href="#lab-release">互動：Release 一個版本</a>
+    <a href="#fields">Fix versions vs Affects versions</a>
+    <a href="#release-page">Release page（release hub）</a>
+    <a href="#timeline">Timeline（roadmap）</a>
+    <a href="#scope">範圍變動在報表上長怎樣</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.3 Managing Projects（25%）/ 620.3.3</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.3.3 · Implement versioning, manage releases and roadmaps, and predict the impact of scope changes</div>
+<h1>Versions、releases、roadmap 與範圍變動</h1>
+<p class="lead">Version 是 project 裡的「時間點」：把工作打包成一個可以 release 的東西。這一節有四件事要會：version 的建立與狀態操作、release page 能看出什麼、timeline（roadmap）怎麼排、以及<strong>範圍變了會在哪些報表上顯示出來</strong>。</p>
+<div class="term">術語：考試用 version／roadmap／issue；現行官方文件為 release／timeline／work item。本教材沿用考試用語，引用現行文件時保留其用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>四條 bullet</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Know how to create and modify versions</td><td>誰能建（Administer Projects ＋ Manage Versions）、三種狀態、release／unrelease／archive／merge／delete 各自的後果、Fix vs Affects</td></tr>
+<tr><td>Understand the features of the release hub</td><td>release page 的進度條、warnings 出現的三個條件、dev info、approvals</td></tr>
+<tr><td>Understand how to use the project roadmap</td><td>timeline 只看單一 project、Scrum 與 Kanban 的排程依據、Show inline hierarchy 開／關的顯示差異、dependencies</td></tr>
+<tr><td>Understand how scope is reflected on board reports</td><td>Release burndown／Version report／Epic burndown 的「scope added」、Sprint report 的星號、Burnup 紅線上升</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 生命週期 ============ -->
+<section id="lifecycle">
+<div class="section-label">核心模型</div>
+<h2>Version 的三個狀態與六個動作</h2>
+<p>官方定義三種狀態：<strong>Unreleased</strong>（開著的包裹）、<strong>Released</strong>（打包好的）、<strong>Archived</strong>（歷史快照，從報表與下拉選單隱藏）。狀態決定 version 出現在哪些下拉選單（例如 Fix version）與報表裡。</p>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 300" role="img" aria-label="Version 三個狀態之間的轉換，以及 merge、delete 兩個不分狀態的動作">
+  <defs><marker id="s233-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：三個狀態框 y=80 h=64 w=200，x=60/350/640（中心 160/450/740）；上方線 y=96 Release →；下方線 y=128 ← Unrelease；Archive 線 y=96 (550→640)、Unarchive y=128 (640→550)；下排兩個動作框 y=220 h=56 w=300，x=120/480 -->
+  <rect x="60" y="80" width="200" height="64" rx="12" class="box amber"/>
+  <text x="160" y="106" text-anchor="middle" class="lbl b">Unreleased</text>
+  <text x="160" y="128" text-anchor="middle" class="s">開著的包裹；逾期時日期變紅</text>
+  <rect x="350" y="80" width="200" height="64" rx="12" class="box green"/>
+  <text x="450" y="106" text-anchor="middle" class="lbl b">Released</text>
+  <text x="450" y="128" text-anchor="middle" class="s">Kanban board 上這批 issue 消失</text>
+  <rect x="640" y="80" width="200" height="64" rx="12" class="box"/>
+  <text x="740" y="106" text-anchor="middle" class="lbl b">Archived</text>
+  <text x="740" y="128" text-anchor="middle" class="s">從報表與下拉選單隱藏</text>
+  <path d="M260,96 H350" class="ln" marker-end="url(#s233-arr)"/><text x="305" y="88" text-anchor="middle" class="tag yes">Release</text>
+  <path d="M350,128 H260" class="ln" marker-end="url(#s233-arr)"/><text x="305" y="150" text-anchor="middle" class="tag muted">Unrelease</text>
+  <path d="M550,96 H640" class="ln" marker-end="url(#s233-arr)"/><text x="595" y="88" text-anchor="middle" class="tag">Archive</text>
+  <path d="M640,128 H550" class="ln" marker-end="url(#s233-arr)"/><text x="595" y="150" text-anchor="middle" class="tag muted">Unarchive</text>
+  <text x="450" y="200" text-anchor="middle" class="s">任何狀態的 version 都可以：</text>
+  <rect x="120" y="220" width="300" height="56" rx="10" class="box violet"/>
+  <text x="270" y="243" text-anchor="middle" class="lbl b">Merge（併入另一個 version）</text>
+  <text x="270" y="263" text-anchor="middle" class="s">issue 的 Fix version 改成目標；原 version 消失</text>
+  <rect x="480" y="220" width="300" height="56" rx="10" class="box rose"/>
+  <text x="630" y="243" text-anchor="middle" class="lbl b">Delete</text>
+  <text x="630" y="263" text-anchor="middle" class="s">選：issue 移到另一個 version，或直接清掉關聯</text>
+</svg>
+<div class="cap">圖 1　Release 與 Archive 都可逆（Unrelease／Unarchive）；Merge 與 Delete 不可逆，且都要先決定 issue 去哪。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%">動作</th><th>路徑</th><th>要注意的後果（官方）</th></tr>
+<tr><td>Create</td><td>Project settings → Versions（或 Releases）→ Create version：名稱、可選 start／release date、描述</td><td>Start date 供 <strong>Version report</strong> 用；規劃很早但實際晚開工時，讓報表更準</td></tr>
+<tr><td>加 issue 進 version</td><td>有 backlog：Backlog → Versions panel 拖曳；沒有 backlog：在 issue 填 Fix versions</td><td>填 <strong>Fix versions</strong> 才算加入；Affects versions 不算</td></tr>
+<tr><td>Release</td><td>••• → Release；或 release page 上 Unreleased → Release</td><td>會問<strong>未解決的 issue 要怎麼處理</strong>（忽略／移到另一個 version）並填 release date；影響報表與欄位下拉；Bamboo 整合可自動觸發 build，build 失敗就不 release</td></tr>
+<tr><td>Unrelease</td><td>••• → Unrelease</td><td>回到 Unreleased</td></tr>
+<tr><td>Archive／Unarchive</td><td>••• → Archive</td><td>隱藏；不可再指派</td></tr>
+<tr><td>Merge</td><td>••• → Merge → 選目標 version</td><td>issue 全部搬過去、來源消失；不可逆</td></tr>
+<tr><td>Edit</td><td>••• → Edit</td><td>改名、日期、描述</td></tr>
+<tr><td>Delete</td><td>••• → Delete</td><td>要選 issue 移到別的 version 或移除關聯</td></tr>
+<tr><td>Reschedule</td><td>在清單拖曳</td><td>改 version 的先後順序</td></tr>
+</table></div>
+<div class="callout"><div class="t">誰能做</div>官方 Manage versions 頁：Role <strong>Project admin</strong>，Permission <strong>Administer Projects、Manage Versions</strong>。Release page 頁另寫「must have project admin permissions to release」。TMP 要先在 features 開啟 Releases。</div>
+</section>
+
+<!-- ============ 互動 ============ -->
+<section id="lab-release">
+<div class="section-label">互動</div>
+<h2>Release 一個還有未解決 issue 的版本</h2>
+<p>這是考題最愛的情境。下面的 v1.0 有三張 issue，其中一張還沒做完。按 Release，看 Jira 會問你什麼、選了之後 issue 跑去哪。</p>
+<div id="s233-lab" class="card">
+  <div class="grid-2" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)">
+    <div>
+      <div class="kicker" style="margin-bottom:.4rem">Releases</div>
+      <div class="issue" style="margin-bottom:.6rem"><div class="key">v1.0 · <span id="s233-st10" class="st">Unreleased</span></div><div class="sum">登入改版</div>
+        <div class="chips" id="s233-issues10"><span class="chip on">MOB-1 Done</span><span class="chip on">MOB-2 Done</span><span class="chip amber">MOB-3 In Progress</span></div></div>
+      <div class="issue"><div class="key">v1.1 · <span class="st">Unreleased</span></div><div class="sum">下一版</div>
+        <div class="chips" id="s233-issues11"><span class="chip">（空）</span></div></div>
+    </div>
+    <div>
+      <div class="kicker" style="margin-bottom:.4rem">動作</div>
+      <div class="toolbar" style="margin:0 0 .5rem"><button id="s233-release" class="btn">Release v1.0</button><button id="s233-reset" class="btn ghost sm">重設</button></div>
+      <div id="s233-prompt" hidden class="callout warn" style="margin:.5rem 0"><div class="t">v1.0 還有 1 張未解決的 issue，要怎麼處理？</div>
+        <div class="toolbar" style="margin:.5rem 0 0"><button id="s233-ignore" class="btn ghost sm">忽略，直接 release</button><button id="s233-move" class="btn sm">移到 v1.1</button></div></div>
+      <p id="s233-msg" class="kicker" style="margin:.5rem 0 0">按 Release 看 Jira 的提問。</p>
+    </div>
+  </div>
+</div>
+<div class="callout exam" style="margin-top:1rem"><div class="t">考題長相</div>「Release 版本時發現有未完成的 issue，最佳做法？」→ 選「移到下一個 version」，讓 release 的內容與實際交付一致；「忽略」會讓 release 內含未完成的工作，Version report 也會失真。</div>
+</section>
+
+<!-- ============ Fix vs Affects ============ -->
+<section id="fields">
+<div class="section-label">必考</div>
+<h2>Fix versions vs Affects versions</h2>
+<div class="grid-2">
+<div class="card"><div class="eyebrow" style="color:var(--green)">Fix versions</div>
+<p style="font-size:.94rem;margin-top:.4rem">這張 issue 的工作<strong>在哪個版本釋出</strong>。官方例子：bug 修好、隨 3.6.2 出貨 → Fix version = 3.6.2。</p>
+<ul style="font-size:.9rem"><li><strong>填了就等於把 issue 加進該 version</strong></li><li>Release page、Version report、Release burndown 都看它</li><li>Kanban 的 sub-filter 也看它（released 就從 board 消失）</li></ul></div>
+<div class="card"><div class="eyebrow" style="color:var(--amber)">Affects versions</div>
+<p style="font-size:.94rem;margin-top:.4rem">這個 bug <strong>影響哪些版本</strong>。可能好幾個舊版都有。</p>
+<ul style="font-size:.9rem"><li><strong>填了不會把 issue 加進 version</strong></li><li>用途是搜尋：「哪些 issue 影響 3.5？」</li><li>不影響 release 與報表</li></ul></div>
+</div>
+<div class="callout warn" style="margin-top:1rem"><div class="t">Team-managed：有 Releases ≠ 兩種版本欄位都有</div>
+<p style="margin:.3rem 0 0">TMP 在 features 開啟 <strong>Releases</strong> 後可以使用 <strong>Fix versions</strong>，但<strong>不要因此推論 Affects versions 也能用</strong>。官方功能請求 <a href="https://jira.atlassian.com/browse/JRACLOUD-85690">JRACLOUD-85690「Affects Version/s in team-managed projects」</a>在 2026-09-08 查核時仍是 <strong>Gathering Interest／未解決</strong>。</p>
+<p style="margin:.3rem 0 0">遇到欄位不見時，<strong>先核對 project 類型與功能支援</strong>，不是加一個同名的文字 custom field 就好——自己新增的文字欄位<strong>沒有</strong>系統版本欄位的語意與關聯（不會進 release 範圍、不會被 Version report 認得）。</p></div>
+<div class="callout"><div class="t">「直接從 board 發布版本」是 CMP Kanban 的入口</div>
+<p style="margin:.3rem 0 0">題目若指定「要能直接在 board 上 release」，那是 <strong>company-managed Kanban board</strong> 的功能。這和「這個 project 能不能管理 versions」是<strong>兩個不同條件</strong>：TMP 能用 Releases，不代表有相同的 board 操作入口。反過來，「依 issue type 使用不同 workflow」兩種管理模式都做得到，<strong>不能只憑這一項</strong>就判定必須用 company-managed。</p></div>
+</section>
+
+<!-- ============ Release page ============ -->
+<section id="release-page">
+<div class="section-label">Bullet 2</div>
+<h2>Release page（release hub）能看出什麼</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">區塊</th><th>內容</th><th style="width:30%">前提</th></tr>
+<tr><td>Progress</td><td>進度條：issue 的 done／complete／warnings，以及 related work 的 added／placeholder</td><td>—</td></tr>
+<tr><td>Approvals</td><td>被指定的 approver 可 Approve／Decline（可附理由）；勾了「Require approvals」才會擋 release</td><td>建立或編輯 release 時設定</td></tr>
+<tr><td><strong>Warnings</strong></td><td>issue 標成 Done 但：有 open pull request、有未 review 的 commit、build 失敗、有 open review（Fisheye／Crucible）</td><td><strong>三個條件同時成立</strong>：已連接 dev tool、有 <strong>View Development Tools</strong> 權限、warnings 已啟用（Work items 區 ••• → 設定；project admin）</td></tr>
+<tr><td>Development info</td><td>每張 issue 的 commits、branches、PR 狀態、build 狀態、deployment 環境、feature flag 比例</td><td>已連接 Bitbucket／GitHub／GitLab／Jenkins／LaunchDarkly 等，且 branch 名、commit 訊息、PR 標題含 issue key</td></tr>
+<tr><td>Related work</td><td>把設計稿、文件、部署等外部連結掛在 version 上</td><td>—</td></tr>
+<tr><td>Release 按鈕</td><td>Unreleased → Release：確認未解決 issue 的處理、填 release date</td><td>Project admin</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">最常考的細節</div>Warnings 不是「連了 dev tool 就有」，還要看的人有 <strong>View Development Tools</strong>。同事說「我看不到 warnings」時，先查這個權限，再查 warnings 設定是否被關掉。</div>
+</section>
+
+<!-- ============ Timeline ============ -->
+<section id="timeline">
+<div class="section-label">Bullet 3</div>
+<h2>Timeline（roadmap）：單一 project 的 Gantt</h2>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 270" role="img" aria-label="Timeline：epic 長條、child 依 sprint 排、dependency 線、release 標記；inline hierarchy 開啟時沒有 parent 的 child 不出現">
+  <defs><marker id="s233-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：時間軸 x=300..860；sprint 欄 3 格各 180；Epic bar y=70 h=24 x=300 w=540；Story1 y=110 x=300 w=160；Story2 y=140 x=480 w=160；Story3 y=170 x=660 w=160；dependency (460,122)->(480,152)：M460,122 H470 V152 H480；release 線 x=840 -->
+  <text x="40" y="34" class="s">左欄：issue 清單</text>
+  <text x="390" y="34" text-anchor="middle" class="lbl b">Sprint 1</text><text x="570" y="34" text-anchor="middle" class="lbl b">Sprint 2</text><text x="750" y="34" text-anchor="middle" class="lbl b">Sprint 3</text>
+  <path d="M300,44 V240" class="ln"/><path d="M480,44 V240" class="ln" stroke-dasharray="4 4"/><path d="M660,44 V240" class="ln" stroke-dasharray="4 4"/>
+  <text x="40" y="86" class="lbl b">Epic A（parent）</text>
+  <rect x="300" y="70" width="540" height="24" rx="6" class="box violet"/><text x="570" y="87" text-anchor="middle" class="s">日期由 child 推算，或手動設</text>
+  <text x="60" y="126" class="lbl">Story 1</text>
+  <rect x="300" y="110" width="160" height="24" rx="6" class="box brand"/><text x="380" y="127" text-anchor="middle" class="s">依 sprint 1 的日期</text>
+  <text x="60" y="156" class="lbl">Story 2</text>
+  <rect x="480" y="140" width="160" height="24" rx="6" class="box brand"/><text x="560" y="157" text-anchor="middle" class="s">依 sprint 2</text>
+  <text x="60" y="186" class="lbl">Story 3</text>
+  <rect x="660" y="170" width="160" height="24" rx="6" class="box brand"/><text x="740" y="187" text-anchor="middle" class="s">依 sprint 3</text>
+  <path d="M460,122 H470 V152 H480" class="ln" marker-end="url(#s233-arr2)"/>
+  <text x="470" y="115" class="tag accent">dependency</text>
+  <path d="M840,44 V240" class="ln accent" stroke-dasharray="6 4" style="stroke:var(--green)"/>
+  <text x="840" y="256" text-anchor="middle" class="tag yes">v1.0 release</text>
+  <text x="60" y="222" class="lbl muted">Task Z（沒有 parent）</text>
+  <text x="300" y="222" class="s">→ 不會出現在 timeline 上</text>
+</svg>
+<div class="cap">圖 2　Scrum project 的 child 依所屬 sprint 的日期排（也可用 Start／Due date）；Kanban project 只用 Start／Due date。</div>
+</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">規則（官方）</th><th>內容</th></tr>
+<tr><td>範圍</td><td><strong>一個 timeline 只能顯示一個 project</strong>；跨 project 規劃要 Plans（Premium／Enterprise）</td></tr>
+<tr><td>Parent 的排程</td><td>手動設日期，或由 child 推算</td></tr>
+<tr><td>Child 的排程（Scrum）</td><td>依所屬 sprint 的日期，或 Start date／Due date</td></tr>
+<tr><td>Child 的排程（Kanban）</td><td>只用 Start date／Due date</td></tr>
+<tr><td>沒有 parent 的 child</td><td><strong>Show inline hierarchy 開啟</strong>（預設，考試作答用這版）：child 縮排在 parent 下，<strong>沒有 parent 的 child 不會出現</strong>；只顯示 level 1 與 level 0，sub-task 不顯示。<br><strong>關閉</strong>：官方原句「The timeline uses a flat layout and shows work items without their parent and subtasks」——改成平面清單，可含沒有 parent 的工作（<a href="https://support.atlassian.com/jira-software-cloud/docs/set-up-the-roadmap/">Timeline limits</a>，2026-09-08）</td></tr>
+<tr><td>Dependencies</td><td>就是 issue links（其他地方叫 Work item links）；表示先後順序</td></tr>
+<tr><td>畫面元素</td><td>週／月／季切換、sprint（Scrum）與 release 標記、圖例、全螢幕、點 bar 開側欄直接編輯</td></tr>
+<tr><td>Parent 的 type</td><td>預設 Epic，但 Jira admin 可設定其他 type 當 parent（畫面會變成 Create Feature 之類）</td></tr>
+</table></div>
+<h3>Timeline 的內建 filters（官方清單未列 Sprint）</h3>
+<p>現行單一 project Timeline 的內建 filters 是：<strong>assignee、status、versions、type、label、component、keyword、goals</strong>。<strong>官方清單沒有列出 Sprint。</strong>Scrum 的 child 可以「依 sprint 日期排長條」，不代表畫面上一定有獨立的 Sprint filter。</p>
+<p class="kicker">CMP 可用 board quick filters、TMP 可用 custom filters 補足；新篩選功能也可能分批推出。要按 sprint 限縮時<strong>核對站台實際的自訂篩選能力</strong>，別斷言「Timeline 永遠無法依 sprint 篩選」。</p>
+<h3>比 Timeline 更大的規劃：Plans（Premium／Enterprise）</h3>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">Saved views</div>
+<ul style="font-size:.9rem;margin-top:.4rem">
+<li>同一份計畫，管理者看高階進度、團隊看 sprint capacity、協調者看 blockers</li>
+<li>調整 filters／columns／grouping 後存成 view：<code>More on current view → Save current view</code></li>
+<li>這和「把欄位變更<strong>寫回</strong> Jira issue」是<strong>兩種不同操作</strong>；計畫內的變更要經 review／save 才寫回，模擬中的日期不是對團隊的承諾</li>
+<li>多人同時改同一個 view 時，<strong>另存新 view</strong> 可保留對方的設定</li>
+</ul></div>
+<div class="card"><div class="eyebrow">Goals 分組與自訂階層</div>
+<ul style="font-size:.9rem;margin-top:.4rem">
+<li>Plans 可依 <strong>Goals</strong> 分組，也可依 team、sprint、release 分組 → 不能說「Plans 與 Goals 完全無關」</li>
+<li>但也<strong>不能</strong>因此推論它有完整的預算／投資組合管理能力</li>
+<li><strong>Epic 之上的自訂階層</strong>（年度目標 → Epic → Story → Sub-task）：要由 <strong>Jira admin 先建立標準 work type</strong>、加進適當 scheme，再關聯到高層級</li>
+<li><strong>只把某個 type 命名成「Initiative」不會讓它自動位於 Epic 之上</strong>；階層變更會影響既有 Plans 與 parent 關係，不是個人顯示偏好</li>
+</ul></div>
+</div>
+<p class="kicker">判斷功能時找<strong>具體能力</strong>（容量規劃、相依性、多情境比較），「Portfolio」「Lean」這種泛稱不足以判定支援與否。</p>
+</section>
+
+<!-- ============ Scope ============ -->
+<section id="scope">
+<div class="section-label">Bullet 4</div>
+<h2>範圍變了，報表上長怎樣</h2>
+<p>「預測範圍變動的影響」在考試裡通常是問：某個動作之後，哪張報表會怎麼變。把三個東西對起來——<strong>動作 → 報表 → 視覺特徵</strong>。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">報表</th><th>範圍變動的視覺特徵</th><th style="width:30%">預測的依據</th></tr>
+<tr><td><strong>Release burndown</strong>（Scrum，依 version）</td><td>每個 sprint 一根長條；<strong>scope added</strong> 以深色段標示；預測還要幾個 sprint</td><td>近幾個 sprint 的 velocity；未估點比例高時預測不可靠</td></tr>
+<tr><td><strong>Version report</strong></td><td>預測 release 日期線；scope 增加時預測日往後移</td><td>受 version 的 start date 與 working days 影響</td></tr>
+<tr><td><strong>Epic burndown</strong></td><td>同 Release burndown，但以 epic 為範圍；scope added 深色段</td><td>近 3 sprint velocity；&gt;30% 未估點則不準</td></tr>
+<tr><td><strong>Sprint report</strong></td><td>sprint 開始後加入的 issue 標「<strong>*</strong>」；估點改變顯示「3 → 5」</td><td>用來判斷 overcommit 與 scope creep</td></tr>
+<tr><td><strong>Burnup</strong></td><td><strong>紅線（scope）往上跳</strong>＝中途加了工作；紅綠交會＝完成</td><td>—</td></tr>
+<tr><td><strong>Burndown</strong></td><td>剩餘工作線往上跳；guideline 不變</td><td>sprint 開始時沒有 issue 就沒有 guideline</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考題長相</div>「PM 在 sprint 中途把兩張 story 加進 sprint，哪張報表會標記？」→ Sprint report 的星號、Burnup 紅線上升、Burndown 往上跳。「v2.0 加了 10 張 story，主管想知道會延多久？」→ Version report 的預測線，或 Release burndown 的預估 sprint 數。</div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>PM 把 bug 的 Affects versions 填成 v2.0，卻發現 v2.0 的 release page 沒有這張 bug。</summary><div class="a"><div class="tag">解答</div>Affects versions 不會把 issue 加進 version；要填 <strong>Fix versions</strong>。</div></details>
+<details class="q"><summary>Release v1.0 時有 3 張 issue 未解決，PM 想讓 release 內容與實際一致。</summary><div class="a"><div class="tag">解答</div>在 release 對話框選「移到另一個 version」（例如 v1.1），不要選忽略。</div></details>
+<details class="q"><summary>Release v1.0 之後，Kanban board 上原本 Done 的卡片全部消失，團隊以為出錯。</summary><div class="a"><div class="tag">解答</div>正常：Kanban 的 sub-filter 預設 <code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code>，released 的 issue 就從 board 移除。</div></details>
+<details class="q"><summary>v1.1 與 v1.2 內容重疊，PM 想合併成一個，且不想逐張改 Fix version。</summary><div class="a"><div class="tag">解答</div>Merge：把 v1.1 併入 v1.2，issue 的 Fix version 自動改；v1.1 消失，不可逆。</div></details>
+<details class="q"><summary>刪除 v0.9 時，Jira 問了一個問題，是什麼？</summary><div class="a"><div class="tag">解答</div>該 version 上的 issue 要移到另一個 version，還是直接移除關聯。</div></details>
+<details class="q"><summary>Release page 上同事看不到「open pull request」的 warnings，但 PM 看得到。</summary><div class="a"><div class="tag">解答</div>同事缺 <strong>View Development Tools</strong> 權限（warnings 的三個前提之一）。</div></details>
+<details class="q"><summary>Version report 的預測日期明顯太早，PM 說「我們規劃很早但實際兩個月後才開工」。</summary><div class="a"><div class="tag">解答</div>在 version 設 <strong>Start date</strong>，Version report 會以它為起點。</div></details>
+<details class="q"><summary>Timeline 上看不到某張 Task，它明明在 sprint 裡。</summary><div class="a"><div class="tag">解答</div>它沒有 parent（epic）；預設「Show inline hierarchy」開啟時，沒有 parent 的 child 不會出現在 timeline。把 Show inline hierarchy 關掉會改成平面清單而看得到，但考題預設以開啟狀態作答。</div></details>
+<details class="q"><summary>PM 想在同一張 timeline 看 MOB 與 WEB 兩個 project。</summary><div class="a"><div class="tag">解答</div>Timeline 只顯示單一 project；跨 project 要 Plans（Premium／Enterprise）。</div></details>
+<details class="q"><summary>Kanban project 的 timeline 上 story 沒有長條。</summary><div class="a"><div class="tag">解答</div>Kanban 的 child 只依 Start date／Due date 排；沒填日期就沒有長條。</div></details>
+<details class="q"><summary>Sprint 中途加了兩張 story，主管問「哪裡看得出來是中途加的？」</summary><div class="a"><div class="tag">解答</div>Sprint report 上這兩張有「*」；Burnup 紅線在那天往上跳。</div></details>
+<details class="q"><summary>v2.0 突然多了 10 張 story，主管想知道預計還要幾個 sprint。</summary><div class="a"><div class="tag">解答</div>Release burndown（依近幾個 sprint 的 velocity 預測）；若很多 story 沒估點，先估點否則預測不可靠。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「Affects versions 也會把 issue 放進 release」</td><td>只有 Fix versions 會</td></tr>
+<tr><td>「Release 會擋住有未解決 issue 的版本」</td><td>不會擋，會問你要忽略或移走</td></tr>
+<tr><td>「Merge 之後還能拆回來」</td><td>不可逆；來源 version 消失</td></tr>
+<tr><td>「連了 Bitbucket 就一定看得到 warnings」</td><td>還要 View Development Tools 權限與 warnings 設定開啟</td></tr>
+<tr><td>「Timeline 可以跨 project」</td><td>單一 project；跨 project 是 Plans</td></tr>
+<tr><td>「Timeline 會顯示所有 issue」</td><td>預設（inline hierarchy 開）沒有 parent 的 child 不顯示，sub-task 也不顯示；關掉 inline hierarchy 才變平面清單</td></tr>
+<tr><td>「Archive 等於刪除」</td><td>只是隱藏，可 Unarchive</td></tr>
+<tr><td>「任何人都能 release」</td><td>需 project admin（Administer Projects、Manage Versions）</td></tr>
+<tr><td>「TMP 開了 Releases 就有 Affects versions」</td><td>只有 Fix versions；Affects Version/s 的官方需求 JRACLOUD-85690 仍未解決（2026-09-08）</td></tr>
+<tr><td>「Timeline 可以用 Sprint 篩選」</td><td>官方內建 filters 清單是 assignee／status／versions／type／label／component／keyword／goals，未列 Sprint</td></tr>
+<tr><td>「把 issue type 命名成 Initiative 就會在 Epic 之上」</td><td>要 Jira admin 建標準 work type、加進 scheme 並關聯到自訂階層層級</td></tr></table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（40 分鐘）</div>
+<h2>把一個版本從建立走到封存</h2>
+<ol>
+<li>建 v1.0（設 start date 與 release date）、v1.1。在 backlog 的 Versions panel 把 5 張 issue 拖進 v1.0；再對其中一張改用 Fix versions 欄位加入 v1.1，觀察兩種方式等價。</li>
+<li>對一張 bug 只填 Affects versions = v1.0 → 確認 v1.0 的 release page 沒有它。</li>
+<li>留一張 issue 未完成就 Release v1.0 → 選「移到 v1.1」；到 Kanban board 看 Done 卡片消失。</li>
+<li>Unrelease → Release → Archive → Unarchive，觀察 Fix version 下拉選單裡 v1.0 的出現與消失。</li>
+<li>Merge v1.1 into v2.0，確認 issue 的 Fix version 變成 v2.0、v1.1 消失。</li>
+<li>Release page：設定一個 approver 並勾 Require approvals；連接 Bitbucket 後用沒有 View Development Tools 的帳號看 warnings 是否消失。</li>
+<li>Timeline：建 epic 掛三張 story 分到三個 sprint，畫一條 dependency；建一張沒有 parent 的 task 確認不出現，再關掉 Show inline hierarchy 看它以平面清單出現；切到 Kanban project 只填 Start／Due date 看長條。</li>
+<li>Sprint 中途加兩張 story，開 Sprint report（找星號）、Burnup（紅線跳）、Release burndown（scope added 段）。</li>
+<li><strong>範圍變動的可追蹤練習（A 版 lab）：</strong>完成 v1.0 其中一張 Task 後記錄 release progress，再把一張<strong>新的</strong> Task 納入 v1.0 → 預期「完成張數不變、總範圍增加」，比例因此下降。</li>
+<li>Timeline 練習：切換 <strong>Weeks／Months／Quarters</strong> 觀察長條，確認這只是觀看尺度，<strong>不是</strong>把 issue 工期換算成不同承諾。</li></ol>
+<div class="callout"><div class="t">來源（精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/">Manage versions</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/">Generate a report</a>（各報表的用途與適用範圍）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/use-the-release-page-to-check-the-progress-of-a-version/">Use the release page to check the progress of a version</a>（含 Related work、warnings、dev info、approvals）、<a href="https://support.atlassian.com/jira-software-cloud/docs/check-the-progress-of-a-version/">Check the progress of a version</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-roadmap/">What does the space timeline show?</a>（考綱「What is the roadmap」）、<a href="https://support.atlassian.com/jira-software-cloud/docs/set-up-the-roadmap/">Timeline filters 與 Show inline hierarchy</a></li>
+<li><a href="https://jira.atlassian.com/browse/JRACLOUD-85690">JRACLOUD-85690 Affects Version/s in team-managed projects</a>（Gathering Interest，2026-09-08 查核）</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 11 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.3.3"></div>
+</section>
+
+<div class="footer-nav"><a href="620.3.2.html">← 620.3.2 指派 project role</a><a href="620.3.4.html">下一節：620.3.4 Components、labels、custom fields →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.3.3 Release 互動 */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const lab=$('#s233-lab'); if(!lab) return;
+  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pop=el=>{if(window.springPop&&!reduced())window.springPop(el);};
+  const st=$('#s233-st10'), i10=$('#s233-issues10'), i11=$('#s233-issues11'), prompt=$('#s233-prompt'), msg=$('#s233-msg'), rel=$('#s233-release');
+  const init={i10:i10.innerHTML,i11:i11.innerHTML};
+  function reset(){st.textContent='Unreleased';st.classList.remove('done');i10.innerHTML=init.i10;i11.innerHTML=init.i11;prompt.hidden=true;rel.disabled=false;msg.textContent='按 Release 看 Jira 的提問。';}
+  rel.addEventListener('click',()=>{ if(st.textContent==='Released'){msg.textContent='v1.0 已經 released；可 Unrelease（此處按重設）。';return;} prompt.hidden=false; pop(prompt); msg.textContent='Jira 不會擋你，但會先問未解決的 issue 怎麼辦。'; });
+  $('#s233-ignore').addEventListener('click',()=>{ st.textContent='Released'; st.classList.add('done'); pop(st); prompt.hidden=true; rel.disabled=true;
+    msg.innerHTML='<strong>忽略</strong>：v1.0 標成 Released，但 MOB-3 仍在裡面且未完成 → release 內容與實際交付不一致，Version report 也會把它算成這一版。Kanban board 上 MOB-1、MOB-2 會因 sub-filter 消失。'; });
+  $('#s233-move').addEventListener('click',()=>{ st.textContent='Released'; st.classList.add('done'); pop(st); prompt.hidden=true; rel.disabled=true;
+    i10.innerHTML='<span class="chip on">MOB-1 Done</span><span class="chip on">MOB-2 Done</span>'; i11.innerHTML='<span class="chip amber">MOB-3 In Progress</span>'; pop(i11.firstChild);
+    msg.innerHTML='<strong>移到 v1.1</strong>：MOB-3 的 Fix version 改成 v1.1，v1.0 只剩完成的工作 → 這是官方與考題的「最佳做法」。'; });
+  $('#s233-reset').addEventListener('click',reset);
+})();
+</script>
+</body>
+</html>

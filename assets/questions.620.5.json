@@ -1,0 +1,1660 @@
+[
+ {
+  "id": "620.5.1-001",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "你想找出「指派給別人」以及「還沒指派」的 issue。哪個 JQL 正確？",
+  "options": [
+   "assignee != currentUser() OR assignee IS EMPTY",
+   "assignee = EMPTY AND assignee = currentUser()",
+   "assignee NOT IN (currentUser(), EMPTY)",
+   "assignee != currentUser()"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "!= 不會匹配空值，未指派的會被漏掉。",
+   "A": "用 OR 明確補上 IS EMPTY。",
+   "B": "兩個條件互斥，永遠無結果。",
+   "C": "EMPTY 不能放在 IN 清單裡。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/",
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-keywords/"
+  ],
+  "tags": [
+   "jql",
+   "empty",
+   "not-equals"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.1-002",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "要找同時有 web 與 payment 兩個 labels 的 issue。哪個正確？",
+  "options": [
+   "labels IN (web, payment)",
+   "labels = web AND labels = payment",
+   "summary ~ \"web payment\"",
+   "labels = \"web payment\""
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "IN 是「任一」。",
+   "B": "多值欄位用 AND 連兩個等式，要求兩者都有。",
+   "C": "查的是 summary 文字。",
+   "D": "Label 不能含空白，這是一個不存在的 label。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
+  ],
+  "tags": [
+   "jql",
+   "labels",
+   "multi-value"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.1-003",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "哪個 JQL 表示「本月曾經轉成 Done」，但不要求現在仍是 Done？",
+  "options": [
+   "status = Done",
+   "updated >= startOfMonth()",
+   "status CHANGED TO Done AFTER startOfMonth()",
+   "resolution = Done"
+  ],
+  "answer": "C",
+  "explain": {
+   "A": "看的是目前狀態。",
+   "B": "只知道有更新，不知道改了什麼。",
+   "C": "CHANGED TO 搭配 AFTER 述詞，精確描述轉換事件與時段。",
+   "D": "Resolution 不是狀態轉換事件。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
+  ],
+  "tags": [
+   "jql",
+   "changed",
+   "predicate"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.1-004",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "你分享了一個含 currentUser() 的 filter，Alex 和 Bea 看到的結果不同。最合理的解釋？",
+  "options": [
+   "Filter 一定損壞",
+   "只有 owner 可以執行函數",
+   "分享失敗",
+   "函數依各自的登入身分求值，加上兩人的可見權限可能不同"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "currentUser() 是動態函數；結果再被各自的 Browse／security 過濾。",
+   "A": "沒有證據。",
+   "B": "任何登入者都能用。",
+   "C": "看得到 filter 就是分享成功。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "jql",
+   "currentUser"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.1-005",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "要搜尋目前進行中 sprint 的 issue，正確寫法是？",
+  "options": [
+   "sprint IN openSprints()",
+   "status = openSprints()",
+   "sprint ~ open",
+   "sprint = openSprints()"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "函數回傳集合，要用 IN。",
+   "A": "正確。",
+   "B": "欄位錯。",
+   "C": "~ 是文字搜尋。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "jql",
+   "openSprints"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.1-006",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "要找 2026 年 9 月建立的 issue，哪種邊界最清楚？",
+  "options": [
+   "created >= startOfMonth(-1)",
+   "created >= \"2026-09-01\" AND created < \"2026-10-01\"",
+   "created = \"2026-09-01\"",
+   "created <= \"2026-09-30\""
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "包含整月且不跨到十月。",
+   "C": "只比對某一天。",
+   "D": "沒有起點，且 9/30 當天晚於 00:00 的會漏。",
+   "A": "相對日期，會隨執行時間變動。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
+  ],
+  "tags": [
+   "jql",
+   "date-range"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.1-007",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "你的 JQL 有結果，放到 dashboard 後同事看不到內容。首先檢查？",
+  "options": [
+   "改 dashboard 名稱",
+   "把 query 改成空字串",
+   "Filter 是否分享給他，以及他對相關 project 的 Browse 權限",
+   "刪掉所有 labels"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "改範圍不補權限。",
+   "C": "Dashboard、filter、資料是三層權限。",
+   "D": "破壞資料。",
+   "A": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
+  ],
+  "tags": [
+   "filter-sharing",
+   "dashboard"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.1-008",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "內建 JQL 能直接做到哪一項？",
+  "options": [
+   "JOIN 兩個 project 的資料表",
+   "SELECT SUM(storyPoints) GROUP BY assignee",
+   "assignee = reporter（逐筆比較兩個欄位）",
+   "project = FOOD ORDER BY created DESC"
+  ],
+  "answer": "D",
+  "explain": {
+   "B": "JQL 沒有聚合函數。",
+   "C": "JQL 不支援欄位對欄位比較。",
+   "D": "合法的篩選＋排序。",
+   "A": "JQL 不是 SQL。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-searching-in-jira-cloud/"
+  ],
+  "tags": [
+   "jql",
+   "limits"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.1-009",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "WAS、WAS IN、CHANGED 這類歷史運算子，只能用在哪些欄位？",
+  "options": [
+   "Assignee、Fix Version、Priority、Reporter、Resolution、Status",
+   "只有 Status",
+   "只有自訂欄位",
+   "任何欄位"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "限定六個欄位。",
+   "A": "官方原句：This operator can be used with the Assignee, Fix Version, Priority, Reporter, Resolution, and Status fields only。另注意變更筆數過多時 WAS 只搜尋最近的變更。",
+   "B": "不只 Status。",
+   "C": "自訂欄位不支援。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
+  ],
+  "tags": [
+   "jql",
+   "was",
+   "changed"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-010",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "「resolved >= -3m」的意思是？",
+  "options": [
+   "最近三個月內解決",
+   "最近三分鐘內解決",
+   "三個月前解決",
+   "語法錯誤"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "月份的單位是 w／d 換算或用 startOfMonth；m 是分鐘。",
+   "B": "JQL 相對時間的 m 代表 minutes。",
+   "C": "方向相反。",
+   "D": "語法合法。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-fields/"
+  ],
+  "tags": [
+   "jql",
+   "relative-date"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-011",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "要找某個群組成員被指派的 issue，正確寫法是？",
+  "options": [
+   "assignee ~ \"dev-team\"",
+   "assignee IS membersOf(\"dev-team\")",
+   "assignee IN membersOf(\"dev-team\")",
+   "assignee = membersOf(\"dev-team\")"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "IS 只能配 EMPTY／NULL。",
+   "C": "函數回傳集合，用 IN。",
+   "D": "集合不能用 =。",
+   "A": "~ 是文字搜尋。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "jql",
+   "membersOf"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-012",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "以下哪一個是存在的 JQL 函數？",
+  "options": [
+   "unreleasedVersion()",
+   "versionsReleased()",
+   "releasedVersion()",
+   "releasedVersions()"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "少了 s，不存在。",
+   "D": "與 unreleasedVersions()、earliestUnreleasedVersion()、latestReleasedVersion() 同族。",
+   "A": "不存在。",
+   "B": "不存在。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "jql",
+   "functions"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-013",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "Basic search（非 JQL）做不到下列哪一項？",
+  "options": [
+   "用 OR 或 NOT 組合條件",
+   "依 status 篩選",
+   "依 project 篩選",
+   "依 assignee 篩選"
+  ],
+  "answer": "A",
+  "explain": {
+   "C": "Basic 可以。",
+   "D": "Basic 可以。",
+   "A": "OR、NOT、EMPTY、比較運算子都要切到 JQL。",
+   "B": "Basic 可以。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-searching-in-jira-cloud/"
+  ],
+  "tags": [
+   "basic-search"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-014",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "status WAS \"In Progress\" 與 status CHANGED FROM \"In Progress\" 的差別？",
+  "options": [
+   "完全相同",
+   "WAS：歷史上任一時刻曾是該值（含現在）；CHANGED FROM：曾從該值變成別的值",
+   "WAS 只看現在",
+   "CHANGED FROM 只看現在"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "語意不同。",
+   "B": "WAS 包含目前仍是該狀態的 issue；CHANGED FROM 要求發生過離開該狀態的轉換。",
+   "C": "WAS 看歷史。",
+   "D": "CHANGED 看歷史。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
+  ],
+  "tags": [
+   "jql",
+   "was",
+   "changed"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-015",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "ORDER BY 子句在 JQL 裡的規則？",
+  "options": [
+   "不能與 AND 同時使用",
+   "可以放在任何位置",
+   "必須在整個查詢的最後",
+   "只能排序一個欄位"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "位置固定。",
+   "C": "ORDER BY 必須放最後，可排多個欄位並各指定 ASC／DESC。",
+   "D": "可多欄位。",
+   "A": "可以同時用。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-keywords/"
+  ],
+  "tags": [
+   "jql",
+   "order-by"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-016",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "要找上一個完整曆週建立的 issue，正確寫法？",
+  "options": [
+   "created >= startOfWeek()",
+   "created = startOfWeek(-1)",
+   "created >= -7d",
+   "created >= startOfWeek(-1) AND created < startOfWeek()"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "是滾動七天，不是曆週。",
+   "D": "從上週開始到本週開始（不含）。",
+   "A": "這是本週。",
+   "B": "只比對一個時間點。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "jql",
+   "startOfWeek"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-017",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "summary ~ \"login\" 與 summary = \"login\" 的差別？",
+  "options": [
+   "~ 是文字搜尋（含詞幹與部分比對）；文字欄位不能用 =",
+   "= 比 ~ 更寬鬆",
+   "~ 只能用在自訂欄位",
+   "兩者相同"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "不同。",
+   "A": "Summary、Description、Comment 等文字欄位只支援 ~ 與 !~。",
+   "B": "文字欄位不支援 =。",
+   "C": "~ 用於所有文字欄位。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
+  ],
+  "tags": [
+   "jql",
+   "text-search"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-018",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "要找某個 epic 底下的所有 child issue，現行寫法？",
+  "options": [
+   "issue in epic(MOB-100)",
+   "parent = MOB-100",
+   "epic = MOB-100",
+   "\"Epic Link\" ~ MOB-100"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "現行以 Parent 欄位表示 epic 關係；也可用 parentEpic()。",
+   "C": "沒有 epic 欄位。",
+   "D": "Epic Link 已由 Parent 取代。",
+   "A": "不是有效函數。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-fields/"
+  ],
+  "tags": [
+   "jql",
+   "parent"
+  ],
+  "difficulty": 2,
+  "version_note": "考綱時代可能用 \"Epic Link\"；現行用 parent／parentEpic()。",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-019",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "要用 JQL 找出所有「sub-task 層級」的工作，現行官方文件記載的寫法是？",
+  "options": [
+   "issuetype IN subtaskIssueTypes()",
+   "parent IS NOT EMPTY",
+   "hierarchyLevel = -1",
+   "hierarchyLevel = 0"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "官方 JQL fields 頁記載 hierarchyLevel：story 層是 0、sub-task 層是 -1（範例 hierarchyLevel > -1 意為「高於 subtask 層」），所以 sub-task 寫 hierarchyLevel = -1。",
+   "D": "0 是 standard（story／task／bug）層，不是 sub-task。",
+   "A": "subtaskIssueTypes()／standardIssueTypes() 是舊有寫法，現行 Cloud 的 JQL 函數參考頁已未列出，不要當成官方答案。",
+   "B": "parent 有值的不只 sub-task；掛在 epic 底下的 story 也有 parent，範圍過寬。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-fields/",
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "jql",
+   "hierarchy",
+   "sub-task"
+  ],
+  "difficulty": 1,
+  "version_note": "現行官方 JQL 函數頁未列 subtaskIssueTypes()／standardIssueTypes()；hierarchyLevel 有官方欄位說明與範例。",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.1-020",
+  "section": "620.5.1",
+  "domain": "620.5",
+  "stem": "「priority != High」會不會找到 priority 為空的 issue？",
+  "options": [
+   "只有 Jira admin 執行時會",
+   "取決於 ORDER BY",
+   "會",
+   "不會，!= 不匹配空值；要含空值需加 OR priority IS EMPTY"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "!= 排除空值。",
+   "D": "官方明列 != 與 NOT IN 不匹配 EMPTY。",
+   "A": "與權限無關。",
+   "B": "排序不影響結果集合。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
+  ],
+  "tags": [
+   "jql",
+   "not-equals",
+   "empty"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-001",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "要看「每個 Assignee × 每個 Status 的件數」交叉表，選哪個 gadget？",
+  "options": [
+   "Two Dimensional Filter Statistics",
+   "Activity Stream",
+   "Assigned To Me",
+   "Pie Chart"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "雙維度統計表。",
+   "B": "活動事件流。",
+   "C": "只看自己。",
+   "D": "Pie chart 只有一個維度。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "two-dimensional"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.2-002",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Dashboard 已分享成功，但 Filter Results gadget 對同事顯示無存取權。下一步？",
+  "options": [
+   "再分享一次 dashboard",
+   "檢查 gadget 用的 saved filter 是否分享給他",
+   "修改每張卡的 Summary",
+   "刪掉 gadget 重加"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "問題不在 dashboard 層。",
+   "B": "Gadget 的資料來源 filter 有自己的分享設定。",
+   "C": "無關。",
+   "D": "重加仍用同一 filter。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/",
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
+  ],
+  "tags": [
+   "dashboard",
+   "filter-sharing"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.2-003",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Pie Chart 顯示某人佔一半的 issue。可以推論他承擔一半的工作量嗎？",
+  "options": [
+   "只要加上 Resolution Time 就可以",
+   "一定可以",
+   "不能，件數不等於工時或估點",
+   "改成三欄版面就可以"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "單位不同。",
+   "C": "要看估點或 workload 類 gadget（例如 Workload Pie Chart）。",
+   "D": "版面不改統計。",
+   "A": "Resolution time 看的是解決耗時。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "pie-chart"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.2-004",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "想讓每位同事在同一個 dashboard 上各自看到自己未完成的工作。用哪個 gadget？",
+  "options": [
+   "固定 assignee = 某主管的 Filter Results",
+   "Road Map",
+   "Labels",
+   "Assigned To Me"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "依查看者身分動態變化。",
+   "A": "固定一個人。",
+   "B": "看版本。",
+   "C": "看標籤。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "assigned-to-me"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.2-005",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "想知道 backlog 是否老化（未解決 issue 放了多久），用哪個 gadget？",
+  "options": [
+   "Average Age",
+   "Resolution Time",
+   "Days Remaining in Sprint",
+   "Created vs Resolved"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "未解決 issue 的平均年齡。",
+   "B": "已解決 issue 的平均耗時。",
+   "C": "Sprint 倒數。",
+   "D": "建立與解決的趨勢，不是年齡。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "average-age"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.2-006",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "把 dashboard 加星號（favourite）有什麼效果？",
+  "options": [
+   "授予所有同事 Browse Projects",
+   "讓它出現在自己的側欄與 Dashboards 選單，方便找",
+   "讓資料每分鐘更新",
+   "把 dashboard 公開"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "與權限無關。",
+   "B": "純個人導覽便利。",
+   "C": "刷新是另一個設定。",
+   "D": "分享是另一個設定。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-dashboard/"
+  ],
+  "tags": [
+   "dashboard",
+   "favourite"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.2-007",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Filter Results gadget 只顯示 10 筆，但同一 filter 在搜尋頁有 37 筆。先檢查？",
+  "options": [
+   "把 filter 改成 public",
+   "認定資料消失",
+   "Gadget 的顯示筆數、分頁與排序設定",
+   "新增另一個 project"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "沒有依據。",
+   "C": "Filter Results 可設每頁筆數。",
+   "D": "無關。",
+   "A": "分享不影響筆數。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "filter-results"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.2-008",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "使用者建立了 dashboard，但分享對話框沒有出現任何可分享的對象。原因是？",
+  "options": [
+   "沒有 Browse Projects",
+   "Dashboard 必須先加星號",
+   "Dashboard 不能分享",
+   "缺少 Share dashboards and filters 全域權限"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "可以分享。",
+   "D": "分享 dashboard 與 filter 都需要這個全域權限。",
+   "A": "Browse 是資料層。",
+   "B": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/what-are-global-permissions-and-what-do-they-do/"
+  ],
+  "tags": [
+   "dashboard",
+   "share-permission"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-009",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "不小心刪掉一個團隊共用的 dashboard。何者正確？",
+  "options": [
+   "進入 trash，60 天內 Jira admin 可還原",
+   "任何 viewer 都能還原",
+   "只能重建",
+   "永久消失"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "有 trash。",
+   "A": "官方：刪除的 dashboard 保留 60 天，由 Jira admin 還原。",
+   "B": "只有 Jira admin。",
+   "C": "可還原。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/"
+  ],
+  "tags": [
+   "dashboard",
+   "trash"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-010",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "想看「即將在指定期間內 release 的版本」，用哪個 gadget？",
+  "options": [
+   "Heat Map",
+   "Road Map",
+   "Sprint Health",
+   "Created vs Resolved"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "Road Map gadget 顯示指定期間內到期的版本。",
+   "C": "看 sprint。",
+   "D": "看趨勢。",
+   "A": "看分佈。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "road-map"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-011",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "想看「建立速度是否超過解決速度」，用哪個 gadget？",
+  "options": [
+   "Labels",
+   "Voted Issues",
+   "Created vs Resolved",
+   "Average Age"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "顯示建立與解決的差異曲線。",
+   "D": "看年齡。",
+   "A": "看標籤。",
+   "B": "看投票。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "created-vs-resolved"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-012",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Dashboard 的分享對象可以是哪些？",
+  "options": [
+   "只能給 project role",
+   "只能公開",
+   "只能給個人",
+   "User、group、project、project role、任何登入者或 public"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "可給多種對象。",
+   "D": "分享對話框的 Viewers／Editors 可填使用者、群組與 space（可再限定 role）；站台允許時另可開放給任何登入者或 public。收件者看到的資料仍受各自權限過濾。",
+   "A": "不只 role。",
+   "B": "可限縮。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/"
+  ],
+  "tags": [
+   "dashboard",
+   "share"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-013",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Dashboard 上的 Sprint Burndown gadget 需要指定什麼資料來源？",
+  "options": [
+   "一個 Scrum board",
+   "一個 project category",
+   "一個 version",
+   "一個 saved filter"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "Sprint 類 gadget 以 board 為來源。",
+   "A": "正確。",
+   "B": "無關。",
+   "C": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "sprint-burndown"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-014",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "System dashboard 與個人 dashboard 的差別？",
+  "options": [
+   "System dashboard 不能加 gadget",
+   "System dashboard 由 Jira admin 管理、所有人預設看到；個人 dashboard 由建立者管理",
+   "兩者完全相同",
+   "個人 dashboard 只能有一個 gadget"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "正確。",
+   "C": "不同。",
+   "D": "沒有這種限制。",
+   "A": "可以加。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-custom-dashboards/"
+  ],
+  "tags": [
+   "system-dashboard"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-015",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "想在會議室大螢幕輪播 dashboard 且自動更新，該用什麼？",
+  "options": [
+   "分享給 public",
+   "改成單欄版面",
+   "Wallboard 模式並設定自動刷新",
+   "把 dashboard 加星號"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "官方：wallboard 是 dashboard 的全螢幕顯示，隱藏導覽並輪播 gadget，適合投在電視螢幕；另可設定 wallboard slide show 輪播多個 dashboard。",
+   "D": "無關。",
+   "A": "與顯示無關。",
+   "B": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/",
+   "https://support.atlassian.com/jira-software-cloud/docs/set-up-a-wallboard/"
+  ],
+  "tags": [
+   "wallboard"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-016",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Dashboard 的 Filter Results gadget 用了含 currentUser() 的 filter，並分享給整個團隊。結果？",
+  "options": [
+   "只有 owner 看得到內容",
+   "Gadget 會顯示錯誤",
+   "每個人看到相同內容",
+   "每個人看到依自己身分計算的內容"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "currentUser() 動態求值。",
+   "D": "正確。",
+   "A": "任何有 filter 存取權的人都看得到。",
+   "B": "不會錯誤。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
+  ],
+  "tags": [
+   "dashboard",
+   "currentUser"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-017",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Dashboard 分享給某個 project，代表誰能看到？",
+  "options": [
+   "該 project 的所有 Browse Projects 持有者（或指定 role）",
+   "只有 project lead",
+   "所有站台使用者",
+   "只有 Jira admin"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "以 project 分享可再限定 role；能瀏覽該 project 的人可看 dashboard，資料仍依各自權限。",
+   "B": "不只 lead。",
+   "C": "那是 any logged in user。",
+   "D": "錯。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/"
+  ],
+  "tags": [
+   "dashboard",
+   "share"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-001",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Sprint 開始 20 點，完成 5 點，之後又加入 5 點；burndown 剩餘仍是 20 點。最合理的解釋？",
+  "options": [
+   "新增的 5 點抵銷了完成的 5 點",
+   "Jira 一定算錯",
+   "Burndown 只算 sub-task",
+   "團隊沒有完成任何工作"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "已完成 5 點。",
+   "A": "20 − 5 + 5 = 20；burndown 會在加入時往上跳。",
+   "B": "沒有必要假設錯誤。",
+   "C": "Sub-task 不計。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
+  ],
+  "tags": [
+   "burndown",
+   "scope-change"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-002",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "想同時看到「總範圍」與「完成量」兩條線，選哪個報表？",
+  "options": [
+   "Average Age",
+   "Burnup chart",
+   "Assigned To Me",
+   "Activity Stream"
+  ],
+  "answer": "B",
+  "explain": {
+   "B": "Burnup 把 scope 與 completed 分兩線，scope 線上升就是 scope creep。",
+   "C": "個人清單。",
+   "D": "事件流。",
+   "A": "年齡。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burnup-chart/"
+  ],
+  "tags": [
+   "burnup"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-003",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Sprint 開始時 8 點，開始後又加 2 點且全部完成。Velocity chart 的 Commitment 是多少？",
+  "options": [
+   "2",
+   "10",
+   "8",
+   "0"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "10 是 Completed。",
+   "C": "Commitment 固定為 sprint 開始時的總估算。",
+   "D": "錯。",
+   "A": "錯。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
+  ],
+  "tags": [
+   "velocity",
+   "commitment"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-004",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Done 狀態沒有對到 board 最右欄，agile 報表不把它當完成。先做什麼？",
+  "options": [
+   "只改 Resolution",
+   "把 issue 改名為 Completed",
+   "刪掉 sprint",
+   "檢查 board 的 column mapping"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "Board 類報表以最右欄判定完成。",
+   "A": "Resolution 影響通用報表，不取代 column mapping。",
+   "B": "無關。",
+   "C": "過度。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
+  ],
+  "tags": [
+   "column-mapping",
+   "reports"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-005",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Kanban 團隊想找出流程卡在哪一個階段。最適合的報表？",
+  "options": [
+   "Cumulative flow diagram",
+   "Velocity chart",
+   "Version report",
+   "Sprint report"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "CFD 某個色帶垂直變寬就是該欄堆積。",
+   "B": "以 sprint 為基礎。",
+   "C": "看版本預測。",
+   "D": "Scrum 專用。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/"
+  ],
+  "tags": [
+   "cfd",
+   "bottleneck"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-006",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Control chart 只勾選 In Progress 與 Review 兩個欄位。它的時間會自動包含 To Do 的等待時間嗎？",
+  "options": [
+   "會",
+   "不會，時間只計算所選欄位（cycle time）",
+   "只要 issue 有 assignee 就會",
+   "取決於 working days"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "錯。",
+   "B": "Control chart 計算的是所選狀態的時間；包含等待就是 lead time。",
+   "C": "無關。",
+   "D": "Working days 影響天數計算，不影響選哪些欄位。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-control-chart/"
+  ],
+  "tags": [
+   "control-chart",
+   "cycle-time"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-007",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Epic burndown 預測還要一個 sprint，但 epic 裡多數 issue 尚未估點。應該？",
+  "options": [
+   "改用 Pie chart",
+   "直接承諾一個 sprint 完成",
+   "說明預測缺少未估點工作，先補估點再看",
+   "把未估點的工作全部刪除"
+  ],
+  "answer": "C",
+  "explain": {
+   "B": "未估點超過 30% 時官方標示預測不可靠。",
+   "C": "正確。",
+   "D": "破壞範圍。",
+   "A": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-epic-burndown-report/"
+  ],
+  "tags": [
+   "epic-burndown",
+   "unestimated"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-008",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "未解決的 issue 愈放愈久，要先看哪個報表？",
+  "options": [
+   "Resolution Time report",
+   "Sprint report",
+   "Version report",
+   "Average Age report"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "看未解決 issue 的平均年齡。",
+   "A": "已解決的耗時。",
+   "B": "Sprint 內容。",
+   "C": "版本預測。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
+  ],
+  "tags": [
+   "issue-analysis",
+   "average-age"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-009",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "同一 project 的 project insights 與 board 報表件數不同。可能原因？",
+  "options": [
+   "前者涵蓋整個 project，後者受 board filter 範圍限制",
+   "一定有人刪資料",
+   "兩者永遠應相同",
+   "Board 報表只算 sub-task"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "Board 報表以 board saved filter 為範圍。",
+   "B": "沒有依據。",
+   "C": "資料定義不同。",
+   "D": "錯。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
+  ],
+  "tags": [
+   "board-scope",
+   "reports"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-010",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "原估 8h，已記錄 5h，Remaining 6h。目前預計總耗時是？",
+  "options": [
+   "3h",
+   "11h",
+   "8h",
+   "6h"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "8−5 不是目前剩餘。",
+   "B": "已花 5h + 剩餘 6h。",
+   "C": "原始估算，未反映新資訊。",
+   "D": "只是剩餘。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/configure-time-tracking/"
+  ],
+  "tags": [
+   "time-tracking"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "ported"
+ },
+ {
+  "id": "620.5.3-011",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Sprint report 裡某張 issue 前面有星號（*），代表什麼？",
+  "options": [
+   "它被移除了",
+   "它沒有估點",
+   "它是 sprint 開始後才加入的",
+   "它是 bug"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "星號標示 sprint 開始後加入的工作。",
+   "D": "無關。",
+   "A": "移除的列在另一區。",
+   "B": "未估點另有標示。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-sprint-report/"
+  ],
+  "tags": [
+   "sprint-report"
+  ],
+  "difficulty": 1,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-012",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Version report 一直沒有預測完成日。最可能的原因？",
+  "options": [
+   "版本已 Released",
+   "沒有 Fix Version 的 issue",
+   "Board 不是 Kanban",
+   "版本裡估算工作完成不到 10%"
+  ],
+  "answer": "D",
+  "explain": {
+   "D": "官方：至少完成 10% 的估算工作才會出現預測。",
+   "A": "Released 仍可看報表。",
+   "B": "版本內就是有 Fix Version 的 issue。",
+   "C": "Version report 是 Scrum 報表。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-version-report/"
+  ],
+  "tags": [
+   "version-report"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-013",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Version report 的樂觀與悲觀預測線是怎麼算的？",
+  "options": [
+   "平均日進度 ±10%",
+   "平均日進度 ±50%",
+   "最快與最慢 sprint",
+   "隨機"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "官方：樂觀 +10%、悲觀 −10%。",
+   "B": "錯。",
+   "C": "錯。",
+   "D": "錯。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-version-report/"
+  ],
+  "tags": [
+   "version-report"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-014",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Control chart 的 rolling average 是怎麼取樣的？",
+  "options": [
+   "固定每 7 天",
+   "取顯示總數的 20%，最少 5 個，且永遠取奇數個 issue",
+   "只取最近 3 個 issue",
+   "取全部 issue 的平均"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "不是固定天數。",
+   "B": "官方定義。",
+   "C": "錯。",
+   "D": "那是整體平均，不是 rolling。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-control-chart/"
+  ],
+  "tags": [
+   "control-chart",
+   "rolling-average"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-015",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Release burndown 顯示某些 issue 完全不計入。最可能的原因？",
+  "options": [
+   "它們是 bug",
+   "它們有附件",
+   "它們的 status 沒有對應到任何 board column",
+   "它們沒有 assignee"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "未映射 column 的 status 完全不計入 release burndown。",
+   "D": "無關。",
+   "A": "無關。",
+   "B": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-release-burndown-report/"
+  ],
+  "tags": [
+   "release-burndown",
+   "unmapped"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-016",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Velocity chart 的 Y 軸單位由什麼決定？",
+  "options": [
+   "Time tracking 設定",
+   "Working days",
+   "永遠是 story points",
+   "Board 的 estimation statistic"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "也可以是 issue count 或 original estimate。",
+   "D": "正確；sub-task 估算不計。",
+   "A": "Velocity 不受 time tracking 影響。",
+   "B": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
+  ],
+  "tags": [
+   "velocity",
+   "estimation-statistic"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-017",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Epic report 與 Epic burndown 的差別？",
+  "options": [
+   "Epic report 是某時點的完成／未完成／未估點清單；Epic burndown 是依 sprint 看進度並預測還要幾個 sprint",
+   "Epic report 只在 Kanban 有",
+   "Epic burndown 不需要估點",
+   "完全相同"
+  ],
+  "answer": "A",
+  "explain": {
+   "D": "不同。",
+   "A": "正確；Epic burndown 用近三個 sprint 的 velocity 預測。",
+   "B": "兩者都是 Scrum 報表。",
+   "C": "沒估點就無法預測。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-epic-report/",
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-epic-burndown-report/"
+  ],
+  "tags": [
+   "epic-report",
+   "epic-burndown"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-018",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "CFD 上某個色帶「變窄」，可以直接推論人力過剩嗎？",
+  "options": [
+   "可以",
+   "不能；帶寬只反映該狀態的 WIP 數量，原因要另外查",
+   "可以，只要 Kanban",
+   "只有 Scrum 才能推論"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "過度斷言。",
+   "B": "CFD 只描述累積數量的變化，不解釋原因。",
+   "C": "錯。",
+   "D": "錯。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/"
+  ],
+  "tags": [
+   "cfd",
+   "interpretation"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-019",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Burndown chart 沒有灰色 guideline。最可能的原因？",
+  "options": [
+   "Board 是 Kanban",
+   "Issue 沒有 assignee",
+   "Sprint 開始時 board 上沒有任何有估算的 issue",
+   "Working days 沒設"
+  ],
+  "answer": "C",
+  "explain": {
+   "C": "Guideline 依 sprint 開始時的總估算畫出；開始時為零就沒有線。",
+   "D": "影響形狀不影響有無。",
+   "A": "Kanban 沒有 burndown。",
+   "B": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
+  ],
+  "tags": [
+   "burndown",
+   "guideline"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-020",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Working days 設定會影響下列哪個報表？",
+  "options": [
+   "Pie chart gadget",
+   "Two Dimensional Filter Statistics",
+   "Cumulative flow diagram",
+   "Burndown chart"
+  ],
+  "answer": "D",
+  "explain": {
+   "C": "CFD 按日曆日，不受影響。",
+   "D": "Burndown、Sprint／Epic／Version report、Control chart 都受 working days 影響。",
+   "A": "無關。",
+   "B": "無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/"
+  ],
+  "tags": [
+   "working-days",
+   "reports"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ }
+]

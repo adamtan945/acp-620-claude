@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.2.1 選擇 board 類型：Scrum、Kanban、Kanban with backlog｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#anatomy">Board 的組成</a>
+    <a href="#types">三種 board</a>
+    <a href="#decide">選型流程</a>
+    <a href="#kanplan">Kanban backlog 細節</a>
+    <a href="#clear">清 Done 的三條路</a>
+    <a href="#parallel">Parallel sprints</a>
+    <a href="#create">怎麼建、誰能建</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.2 Board Configuration（29%）/ 620.2.1</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.2.1 · Recommend an appropriate board type (Scrum, Kanban, Kanban with backlog)</div>
+<h1>選擇 board 類型：Scrum、Kanban、Kanban with backlog</h1>
+<p class="lead">620.2 是最大的 domain（29%），而這一節是它的入口：先搞懂 board 到底是什麼（<strong>一個 saved filter ＋ 一組 column 對應 ＋ 一種工作節奏</strong>），三種類型的差別就只剩「有沒有 sprint」「backlog 放哪裡」。</p>
+<div class="term">術語：考試用 project／issue；現行產品為 space／work item。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>一條 bullet，三種 board</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understand board types and features for each – scrum, Kanban and Kanban with backlog</td><td>「團隊 X 的工作方式是…，該建哪種 board？」（情境選型）、「Kanban board 的 Done 怎麼清掉？」「Kanban backlog 誰能開、開了會怎樣？」（功能差異）</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Anatomy ============ -->
+<section id="anatomy">
+<div class="section-label">核心模型</div>
+<h2>Board ＝ filter ＋ columns ＋ 工作節奏</h2>
+<p>官方定義：board 把團隊的工作顯示成<strong>可在 columns 間移動的卡片</strong>；columns 代表 issue 的 status。它是「戰術」工具（未來一兩週），長期規劃是 Timeline 的事。一個 board 最多顯示 <strong>5,000</strong> 個 issue。</p>
+<div class="figure">
+<svg class="dia" viewBox="0 0 900 300" role="img" aria-label="Board 由 saved filter 決定內容，columns 對應 status，再依類型決定 Scrum、Kanban 或 Kanban with backlog">
+  <defs><marker id="s221-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：Filter (40,110,200,80)；Board (330,60,240,180) 內三欄；bus x=605；三個類型 (640,50/120/190,220,60) -->
+  <rect x="40" y="110" width="200" height="80" rx="10" class="box brand"/>
+  <text x="140" y="140" text-anchor="middle" class="lbl b">Saved filter（JQL）</text>
+  <text x="140" y="162" text-anchor="middle" class="s">決定「哪些 issue 進 board」</text>
+  <path d="M240,150 H330" class="ln" marker-end="url(#s221-arr)"/>
+  <rect x="330" y="60" width="240" height="180" rx="12" class="box"/>
+  <text x="450" y="86" text-anchor="middle" class="lbl b">Board</text>
+  <rect x="345" y="100" width="66" height="120" rx="6" class="chipbox"/><text x="378" y="120" text-anchor="middle" class="s">To Do</text>
+  <rect x="417" y="100" width="66" height="120" rx="6" class="chipbox"/><text x="450" y="120" text-anchor="middle" class="s">In Prog.</text>
+  <rect x="489" y="100" width="66" height="120" rx="6" class="chipbox"/><text x="522" y="120" text-anchor="middle" class="s">Done</text>
+  <text x="450" y="232" text-anchor="middle" class="s">columns ↔ statuses 對應</text>
+  <path d="M570,150 H605" class="ln"/>
+  <path d="M605,80 V220" class="ln"/>
+  <path d="M605,80 H640" class="ln" marker-end="url(#s221-arr)"/>
+  <path d="M605,150 H640" class="ln" marker-end="url(#s221-arr)"/>
+  <path d="M605,220 H640" class="ln" marker-end="url(#s221-arr)"/>
+  <rect x="640" y="50" width="220" height="60" rx="10" class="box violet"/>
+  <text x="750" y="75" text-anchor="middle" class="lbl b">Scrum</text><text x="750" y="96" text-anchor="middle" class="s">backlog ＋ sprint 節奏</text>
+  <rect x="640" y="120" width="220" height="60" rx="10" class="box teal"/>
+  <text x="750" y="145" text-anchor="middle" class="lbl b">Kanban</text><text x="750" y="166" text-anchor="middle" class="s">連續流，backlog 就是第一欄</text>
+  <rect x="640" y="190" width="220" height="60" rx="10" class="box green"/>
+  <text x="750" y="215" text-anchor="middle" class="lbl b">Kanban with backlog</text><text x="750" y="236" text-anchor="middle" class="s">Kanban ＋ 獨立的 backlog 畫面</text>
+  <text x="450" y="280" text-anchor="middle" class="s">同一份 filter 可以餵多個 board；改 filter，所有用它的 board 一起變</text>
+</svg>
+<div class="cap">圖 1　三種類型共用前兩層（filter、columns），差別在第三層「工作節奏」。</div>
+</div>
+</section>
+
+<!-- ============ Types ============ -->
+<section id="types">
+<div class="section-label">三種 board</div>
+<h2>功能對照</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%">面向</th><th>Scrum</th><th>Kanban</th><th>Kanban with backlog</th></tr>
+<tr><td>工作節奏</td><td><strong>Sprint</strong>：固定週期承諾一批工作</td><td><strong>連續流</strong>：隨時拉新工作，靠 WIP 限制節流</td><td>同 Kanban</td></tr>
+<tr><td>Backlog</td><td>獨立 Backlog 畫面：排 rank、規劃 sprint、Epic panel、Versions panel</td><td>Board 的<strong>第一欄</strong>就是 backlog（預設欄叫 Backlog）</td><td>把某個 status 拖進 <strong>Kanban backlog</strong> 面板 → 有獨立 Backlog 畫面（列表、rank、Epic panel）</td></tr>
+<tr><td>預設 columns</td><td>To Do、In Progress、Done</td><td>Backlog、Selected for Development、In Progress、Done</td><td>同 Kanban，但 Backlog 那一欄離開 board</td></tr>
+<tr><td>Board 上什麼時候有卡片</td><td><strong>Sprint 開始後</strong>才有；sprint 開始前 board 是空的</td><td>隨時（符合 filter 且 status 有對應 column）</td><td>同 Kanban；backlog 狀態的 issue 不在 board 上</td></tr>
+<tr><td>Done 怎麼清</td><td>Complete sprint 時清掉；<strong>不回 backlog</strong></td><td>CMP：<strong>Release</strong>（sub-filter 隱藏已 release 的版本）；TMP：<strong>14 天</strong>自動清</td><td>同 Kanban</td></tr>
+<tr><td>估算</td><td>Story points／時間／issue count；velocity</td><td>通常不估點，看 cycle time</td><td>同 Kanban</td></tr>
+<tr><td>報表</td><td>Burndown、Burnup、Sprint report、Velocity、Epic／Version report</td><td>Control chart、Cumulative flow diagram</td><td>同 Kanban</td></tr>
+<tr><td>Column constraints（WIP）</td><td>可用（看瓶頸、調 sprint 範圍）</td><td><strong>核心功能</strong></td><td>同 Kanban</td></tr>
+<tr><td>Kanban backlog 的可見規則</td><td>—</td><td>—</td><td>issue 要<strong>同時</strong>符合 filter，且 status 對到 backlog 欄<strong>或下一欄</strong>才會出現在 Backlog 畫面</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">高頻考點</div>「Scrum board 建好了但看不到任何 issue」→ 還沒開始 sprint。「Kanban board 的 Done 一直堆著」→ CMP 要 Release 版本，TMP 等 14 天或手動清。「Kanban backlog 開了但 Backlog 畫面是空的」→ 沒有任何 status 對到 backlog 的<strong>下一欄</strong>（例如全部 status 都塞在第一欄）。</div>
+</section>
+
+<!-- ============ Decide ============ -->
+<section id="decide">
+<div class="section-label">選型流程</div>
+<h2>兩個問題就能決定</h2>
+<div class="figure">
+<svg class="dia" viewBox="270 0 630 340" role="img" aria-label="選 board 類型的決策流程">
+  <defs><marker id="s221-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：Q1 (290,20,320,64)；Q2 (290,150,320,64)；Scrum (680,28,200,48)；Kanban+backlog (680,158,200,48)；Kanban (350,270,200,48)；內容 290–880 中心 585 -->
+  <rect x="290" y="20" width="320" height="64" rx="10" class="box q"/>
+  <text x="450" y="46" text-anchor="middle" class="lbl b">團隊以固定週期承諾一批工作，</text><text x="450" y="68" text-anchor="middle" class="lbl">並想看 velocity／burndown？</text>
+  <path d="M610,52 H680" class="ln" marker-end="url(#s221-arr2)"/><text x="645" y="44" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,84 V150" class="ln" marker-end="url(#s221-arr2)"/><text x="466" y="122" class="tag no">否</text>
+  <rect x="680" y="28" width="200" height="48" rx="10" class="box violet"/><text x="780" y="57" text-anchor="middle" class="lbl b">Scrum</text>
+
+  <rect x="290" y="150" width="320" height="64" rx="10" class="box q"/>
+  <text x="450" y="176" text-anchor="middle" class="lbl b">連續交付，但 backlog 很長、</text><text x="450" y="198" text-anchor="middle" class="lbl">第一欄塞不下、需要獨立規劃畫面？</text>
+  <path d="M610,182 H680" class="ln" marker-end="url(#s221-arr2)"/><text x="645" y="174" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,214 V270" class="ln" marker-end="url(#s221-arr2)"/><text x="466" y="246" class="tag no">否</text>
+  <rect x="680" y="158" width="200" height="48" rx="10" class="box green"/><text x="780" y="187" text-anchor="middle" class="lbl b">Kanban with backlog</text>
+
+  <rect x="350" y="270" width="200" height="48" rx="10" class="box teal"/><text x="450" y="299" text-anchor="middle" class="lbl b">Kanban</text>
+</svg>
+<div class="cap">圖 2　關鍵字：「sprint／承諾／velocity」→ Scrum；「持續交付／維運／支援」→ Kanban；「backlog 太長把 board 塞爆」→ Kanban with backlog。</div>
+</div>
+<div class="grid-3">
+  <div class="role-card" style="border-color:var(--violet)"><div class="h"><span class="dot" style="background:var(--violet)"></span>選 Scrum 的訊號</div><ul><li>兩週一次 sprint planning、review</li><li>要估點、看 velocity 預測產能</li><li>「這個 sprint 承諾什麼」是團隊的語言</li></ul></div>
+  <div class="role-card" style="border-color:var(--teal)"><div class="h"><span class="dot" style="background:var(--teal)"></span>選 Kanban 的訊號</div><ul><li>工作隨時進來（維運、支援、內容）</li><li>關心 cycle time、瓶頸、WIP</li><li>backlog 小，第一欄放得下</li></ul></div>
+  <div class="role-card" style="border-color:var(--green)"><div class="h"><span class="dot" style="background:var(--green)"></span>選 Kanban with backlog 的訊號</div><ul><li>Kanban，但 backlog 上百張</li><li>PM 要在獨立畫面排 rank、用 Epic panel 規劃</li><li>團隊只想在 board 上看 WIP</li></ul></div>
+</div>
+</section>
+
+<!-- ============ Kanplan ============ -->
+<section id="kanplan">
+<div class="section-label">Kanban backlog 細節</div>
+<h2>怎麼開、誰能開、開了哪些 issue 會出現</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">項目</th><th>內容</th></tr>
+<tr><td>誰能開</td><td><strong>該 board location 的 project admin，或該 board 的 board admin</strong>（Jira admin 亦可）；開了之後 board 使用者才看得到 Backlog</td></tr>
+<tr><td>怎麼開</td><td>Board ••• → Board settings → Layout → Columns → 把一個既有 status 拖進 <strong>Kanban backlog</strong> 面板（或 Add status 建一個再拖）</td></tr>
+<tr><td>Backlog 畫面顯示什麼</td><td>Backlog 段（對到 kanban backlog 欄的 status）＋ 下一段（通常叫 Selected for Development，對到 board 第一欄）；可在兩段之間拖曳</td></tr>
+<tr><td>可見規則</td><td>issue 要符合 board filter，<strong>且</strong> status 對到 backlog 欄或下一欄。如果所有 status 都塞在第一欄，Backlog 段會是空的</td></tr>
+<tr><td>在 Backlog 能做</td><td>建 issue、拖曳排 rank、直接編 Summary／Assignee／Story point／Parent／Priority、多選 bulk edit、建 sub-task、拖到下一段＝轉換狀態</td></tr>
+<tr><td>Epic 的顯示</td><td>開了 kanban backlog 後可選 epic 顯示成卡片或放在 backlog 的 Epic panel</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Clear Done ============ -->
+<section id="clear">
+<div class="section-label">完成工作怎麼離開 board</div>
+<h2>清 Done 的三條路：Complete sprint、Release、14 天自動清</h2>
+<p>「Done 欄太長」是視圖問題，不是節奏問題。<strong>先辨認管理方式，再選清理手段</strong>；不要因為想保留幾週的 Done 就去改 board 類型。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">情境</th><th>怎麼清</th><th>誰能做</th></tr>
+<tr><td>CMP Scrum</td><td><strong>Complete sprint</strong>：最右欄的 issue 視為完成，清出 board 且<strong>不回 backlog</strong></td><td>Manage Sprints</td></tr>
+<tr><td>CMP Kanban</td><td><strong>Release 版本</strong>（sub-filter 排除已 release 的 fixVersion）；或調 <strong>Hide completed work</strong>（1／2／4 週或不隱藏，詳見 <a href="620.2.3.html#done">620.2.3</a>）</td><td>Manage Versions／board admin</td></tr>
+<tr><td>TMP（未啟用 Sprints）</td><td>Done 欄 ••• → <strong>Clear Done work items</strong> 手動清；另有移入 Done 後 <strong>14 天</strong>自動清</td><td>官方原文：<em>Only space admins and Jira admins can clear Done work items</em></td></tr>
+<tr><td>TMP（已啟用 Sprints）</td><td><strong>不能手動清</strong>；完成 sprint 時一併清出，且不回 backlog</td><td>—</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">清 parent 會連 sub-task 一起清（TMP）</div>官方原文：<em>When a parent work item is cleared, its subtasks are also cleared, regardless of each subtask’s status.</em>——<strong>即使 sub-task 還沒完成</strong>也會從 board 消失。這是「從 board 移除」不是刪除：用 Done 欄的 <strong>See all Done work items</strong>，或開 work item navigator 選 Done 篩選，仍找得到。</div>
+<div class="callout exam"><div class="t">考題長相</div>「維運團隊只嫌 Done 欄太長，需要改成 Scrum 嗎？」→ <strong>不必</strong>。TMP Kanban 手動 Clear Done 或等 14 天；CMP Kanban 用 Release／Hide completed work。把視圖整潔需求誤當成 sprint 節奏需求是典型陷阱。</div>
+</section>
+
+<!-- ============ Parallel sprints ============ -->
+<section id="parallel">
+<div class="section-label">Parallel sprints</div>
+<h2>同一個 backlog，多個 active sprint</h2>
+<p>同一份 backlog 可以同時跑多個 sprint，各自獨立開始與完成——例如開發一個、設計一個。<strong>company-managed 與 team-managed 都支援</strong>，不要當成 CMP 專屬功能（team-managed 的支援見 <a href="https://jira.atlassian.com/browse/JSWCLOUD-17195">JSWCLOUD-17195</a>，狀態 Closed／Fixed）。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:24%">項目</th><th>內容</th></tr>
+<tr><td>CMP 啟用路徑</td><td>⚙ <strong>Settings → Jira apps → Jira configuration →</strong> 切換 <strong>Parallel sprints for company-managed spaces</strong>；需 <strong>Administer Jira</strong> 權限。這條路徑<strong>不適用</strong> TMP</td></tr>
+<tr><td>資料關係</td><td>多個 sprint 共用同一個 backlog；每個 sprint 各自 start／complete；同一張 issue 仍只能在<strong>一個</strong> active sprint</td></tr>
+<tr><td>報表</td><td>不會讓同一張 Velocity chart 自動按團隊拆開；官方也提醒此用法<strong>假設各團隊估算方式一致</strong>，兩組不同尺度的點數不該相加比較</td></tr>
+<tr><td>把未完成工作換到另一個 active sprint</td><td>先<strong>退回 backlog</strong>，再加入該 active sprint；不能直接在兩個 active sprint 之間拖</td></tr>
+<tr><td>重開已關閉的 sprint</td><td>官方：若要把誤移到未來 sprint 的工作移回已關閉的原 sprint，<strong>必須先啟用 parallel sprints</strong> 才能重開</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Create ============ -->
+<section id="create">
+<div class="section-label">怎麼建、誰能建</div>
+<h2>三種來源、一個前提</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">來源</th><th>路徑</th><th>結果</th></tr>
+<tr><td>新 project</td><td>Boards → Create board → Scrum／Kanban → 新 software project</td><td>project 與 board 一起建</td></tr>
+<tr><td>既有 project（可多選）</td><td>同上 → 選一或多個既有 project；或 project 側欄 hover → <strong>+</strong> → Scrum／Kanban → 選要納入的內容 → Create</td><td>自動產生 filter <code>project = "X" ORDER BY Rank ASC</code></td></tr>
+<tr><td>Saved filter</td><td>Create board → <strong>Board from an existing Saved Filter</strong>；或側欄 + → Advanced → 選 filter</td><td>跨 project、或 <strong>TMP 要第二個 board 的唯一方法</strong>；board 對所有能存取該 filter 的人可見</td></tr>
+</table></div>
+<div class="callout"><div class="t">前提</div>從既有或新 project 建 board 都需要 <strong>Browse Projects</strong> 權限；project 沒出現在下拉時，通常是沒權限或它是 TMP → 改用 saved filter。board 建好後可自由改設定，但 Scrum ↔ Kanban <strong>不能互轉</strong>，要換就用同一份 filter 再建一個（產品行為；官方 Create board 頁未明寫，Board settings 沒有切換類型的選項）。</div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>行銷團隊每天有新需求進來，沒有固定發布週期，主管想知道一張需求平均多久做完。</summary><div class="a"><div class="tag">解答</div><strong>Kanban</strong>：連續流、看 control chart 的 cycle time。</div></details>
+<details class="q"><summary>開發團隊兩週一次 planning，PM 要用歷史數據預測下個 release 能做多少。</summary><div class="a"><div class="tag">解答</div><strong>Scrum</strong>：sprint ＋ 估點 ＋ velocity。</div></details>
+<details class="q"><summary>維運團隊用 Kanban，但 backlog 累積 300 多張，第一欄捲不完，PM 想用 Epic panel 分組排序。</summary><div class="a"><div class="tag">解答</div><strong>Kanban with backlog</strong>：把 Backlog status 拖進 Kanban backlog 面板。</div></details>
+<details class="q"><summary>Scrum board 建好了，成員說 board 上一張卡都沒有。</summary><div class="a"><div class="tag">解答</div>Sprint 還沒開始；Scrum 的 board 只顯示 active sprint 的 issue，先到 Backlog 建 sprint 並 Start。</div></details>
+<details class="q"><summary>CMP 的 Kanban board，Done 欄已經堆了兩個月的卡片。</summary><div class="a"><div class="tag">解答</div>Kanban 靠 <strong>Release</strong> 清 Done（sub-filter 預設排除已 release 的 fixVersion）；把完成的 issue 指到版本並 Release。</div></details>
+<details class="q"><summary>TMP 的 Kanban，成員問為什麼上週 Done 的卡片自己不見了。</summary><div class="a"><div class="tag">解答</div>TMP 沒 sprint 時 Done 的 issue <strong>14 天</strong>自動清掉；用 See all Done issues 找回。</div></details>
+<details class="q"><summary>開了 Kanban backlog，但 Backlog 畫面的 Backlog 段永遠是空的。</summary><div class="a"><div class="tag">解答</div>可見規則：issue 的 status 要對到 backlog 欄<strong>或下一欄</strong>；檢查 columns 對應，至少要有一個 status 對到 board 的第一欄（Selected for Development）之外的欄位。</div></details>
+<details class="q"><summary>Project admin 想把現有的 Kanban board 改成 Scrum。</summary><div class="a"><div class="tag">解答</div>做不到，類型不能互轉；用同一份 filter 再建一個 Scrum board。</div></details>
+<details class="q"><summary>TMP 團隊想要第二個 board 看不同切面。</summary><div class="a"><div class="tag">解答</div>TMP 不能直接加 board；建 saved filter，再用「Board from an existing Saved Filter」建。</div></details>
+<details class="q"><summary>誰能把 Kanban backlog 開起來？</summary><div class="a"><div class="tag">解答</div>Jira admin 或該 board 的 board admin（在 Board settings → Columns 拖 status 進 Kanban backlog 面板）。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「Board 屬於某個 project」</td><td>Board 屬於一份 <strong>filter</strong>；location 只是它掛在哪裡</td></tr>
+<tr><td>「Scrum board 隨時看得到所有 issue」</td><td>只看 active sprint；sprint 開始前是空的</td></tr>
+<tr><td>「Kanban 的 Done 會自動消失」</td><td>CMP 要 Release；只有 TMP（無 sprint）才 14 天自動清</td></tr>
+<tr><td>「Kanban with backlog 是另一種 board 類型」</td><td>就是 Kanban board 開了 Kanban backlog；仍是 Kanban</td></tr>
+<tr><td>「Kanban board 不能估點」</td><td>可以設 estimation，只是通常不用；報表以 control chart／CFD 為主</td></tr>
+<tr><td>「一個 board 可以顯示無限多 issue」</td><td>上限 5,000</td></tr>
+<tr><td>「Board 可以從 Kanban 切成 Scrum」</td><td>不能互轉，用同一份 filter 重建（產品行為，官方頁未明寫）</td></tr>
+<tr><td>「Parallel sprints 是 CMP 專屬」</td><td>CMP、TMP 都支援；只有<strong>啟用路徑</strong>不同（CMP 走 Jira configuration，需 Administer Jira）</td></tr>
+<tr><td>「TMP 隨時都能手動 Clear Done」</td><td>啟用 Sprints 後<strong>不能</strong>手動清；且只有 space admin 與 Jira admin 能清</td></tr>
+<tr><td>「清 Done 只清完成的卡」</td><td>清 parent 時<strong>連未完成的 sub-task 一起</strong>從 board 清掉</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（30 分鐘）</div>
+<h2>三種 board 各建一個，用同一份 filter</h2>
+<ol>
+<li>存一個 filter <code>project = LAB ORDER BY Rank ASC</code>。</li>
+<li>用它建 Scrum board：確認 board 空的 → 到 Backlog 建 sprint、拉 3 張 issue、Start sprint → board 出現卡片 → Complete sprint 看 Done 消失且不回 backlog。</li>
+<li>用同一份 filter 建 Kanban board：看預設四欄；把 3 張 issue 拉到 Done → 指 fixVersion 並 Release → Done 清空。</li>
+<li>在 Kanban board 的 Columns 設定把 Backlog status 拖進 Kanban backlog 面板 → 出現 Backlog 畫面；把所有 status 都拖到第一欄，觀察 Backlog 段變空，再改回來。</li>
+<li>試著在 Board settings 找「改成 Scrum」——確認沒有這個選項。</li>
+<li><strong>TMP 清 Done</strong>：另建一個 TMP Kanban（未開 Sprints），把一張含 sub-task 的 parent 拖到 Done → Done 欄 ••• → Clear Done work items → 確認 parent 與<strong>未完成的 sub-task 一起</strong>從 board 消失，再用 <strong>See all Done work items</strong> 找回；接著開啟 Sprints feature，確認手動清的選項不見了。</li>
+<li><strong>Parallel sprints</strong>：在 CMP 走 ⚙ Settings → Jira apps → Jira configuration 開啟，建兩個 sprint 同時 Start；把一張未完成 issue 從 sprint A 換到 sprint B——先退回 backlog 再加入，體會不能直接互拖。</li>
+</ol>
+<div class="callout"><div class="t">來源（本節實際精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-software-board/">What is a board in software spaces?</a>（官方考綱連結）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-board/">Create a scrum board based on spaces</a>（官方考綱連結）→ 同組頁面 <a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-kanban-board-based-on-projects/">Create a Kanban board based on spaces</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/">Create a board based on filters</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-columns/">Configure columns</a>（Enable the kanban backlog 一節）、<a href="https://support.atlassian.com/jira-software-cloud/docs/use-your-kanban-backlog/">Use your kanban backlog</a></li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/">Get started with team-managed spaces</a>（Clear done work items：權限、14 天、sub-task 連帶、Sprints 開啟時不可手動清）</li>
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/use-parallel-sprints/">Enable parallel sprints</a>（CMP 啟用路徑與 Administer Jira）、<a href="https://jira.atlassian.com/browse/JSWCLOUD-17195">JSWCLOUD-17195</a>（TMP parallel sprints，Closed／Fixed）</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 12 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.2.1"></div>
+</section>
+
+<div class="footer-nav"><a href="620.1.4.html">← 620.1.4 一般設定</a><a href="620.2.2.html">下一節：620.2.2 跨團隊、跨 project 的 board →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+</body>
+</html>

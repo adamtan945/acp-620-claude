@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>620.3.4 Components、labels、custom fields：怎麼幫 issue 分類｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp" open><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a></nav>
+  <!--/NAV-->
+  <div class="group">本頁目錄</div>
+  <!--TOC-->
+  <nav>
+    <a href="#goal">這一節考什麼</a>
+    <a href="#decide">決策流程</a>
+    <a href="#picker">互動：選型器</a>
+    <a href="#compare">三者對照表</a>
+    <a href="#components">Components 細節</a>
+    <a href="#labels">Labels 細節</a>
+    <a href="#fields">Custom field 型別</a>
+    <a href="#quiz">情境練習</a>
+    <a href="#traps">常見陷阱</a>
+    <a href="#lab">實作</a>
+    <a href="#qbank">模擬題</a>
+  </nav>
+</aside>
+
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.3 Managing Projects（25%）/ 620.3.4</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">620.3.4 · Recommend a method to sub-categorize issues (components, labels, custom fields)</div>
+<h1>Components、labels、custom fields：<br>怎麼幫 issue 分類</h1>
+<p class="lead">三種工具都能「把 issue 分群」，差別在<strong>誰能建、範圍多大、能不能管控、能不能自動指派</strong>。這是推薦題：題目給需求，你要選對工具，並知道哪些需要 Jira admin。</p>
+<div class="term">術語：考試用 project／issue；現行官方文件為 space／work item。本教材沿用考試用語。</div>
+
+<section id="goal">
+<div class="section-label">這一節考什麼</div>
+<h2>兩條 bullet</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
+<tr><td>Understand use cases for components, labels and custom fields</td><td>「團隊要依模組分工並自動指派」「跨 project 隨手標記」「要固定選項避免拼字錯」——各選哪個？</td></tr>
+<tr><td>Know what custom field types are available</td><td>「要一個有階層的選單」「要能選使用者但只限某 role」「要顯示算出來的數字」——哪種型別？</td></tr>
+</table></div>
+</section>
+
+<!-- ============ 決策流程 ============ -->
+<section id="decide">
+<div class="section-label">核心模型</div>
+<h2>三個問題定案</h2>
+<div class="figure">
+<svg class="dia" viewBox="255 0 660 440" role="img" aria-label="選 component、label 或 custom field 的決策流程">
+  <defs><marker id="s234-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 座標：問題框 x=290 w=320 h=64，y=20/140/260；結果框 x=680 w=200 h=48，y=28/148；custom field 框 y=268 h=56；底框 x=465 y=380 w=240 h=48；內容 290..880 中心 585，viewBox 255..915 -->
+  <rect x="290" y="20" width="320" height="64" rx="10" class="box q"/>
+  <text x="450" y="46" text-anchor="middle" class="lbl b">要有負責人或自動指派，</text><text x="450" y="68" text-anchor="middle" class="lbl">而且只在這個 CMP 內用？</text>
+  <path d="M610,52 H680" class="ln" marker-end="url(#s234-arr)"/><text x="645" y="44" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,84 V140" class="ln" marker-end="url(#s234-arr)"/><text x="466" y="116" class="tag no">否</text>
+  <rect x="680" y="28" width="200" height="48" rx="10" class="box brand"/><text x="780" y="57" text-anchor="middle" class="lbl b">Component</text>
+
+  <rect x="290" y="140" width="320" height="64" rx="10" class="box q"/>
+  <text x="450" y="166" text-anchor="middle" class="lbl b">跨 project 通用、隨手標記、</text><text x="450" y="188" text-anchor="middle" class="lbl">不需要管控選項？</text>
+  <path d="M610,172 H680" class="ln" marker-end="url(#s234-arr)"/><text x="645" y="164" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,204 V260" class="ln" marker-end="url(#s234-arr)"/><text x="466" y="236" class="tag no">否</text>
+  <rect x="680" y="148" width="200" height="48" rx="10" class="box teal"/><text x="780" y="177" text-anchor="middle" class="lbl b">Label</text>
+
+  <rect x="290" y="260" width="320" height="64" rx="10" class="box q"/>
+  <text x="450" y="286" text-anchor="middle" class="lbl b">要固定選項、可驗證、</text><text x="450" y="308" text-anchor="middle" class="lbl">進報表或 JQL 精確篩選？</text>
+  <path d="M610,292 H680" class="ln" marker-end="url(#s234-arr)"/><text x="645" y="284" text-anchor="middle" class="tag yes">是</text>
+  <path d="M450,324 V380" class="ln" marker-end="url(#s234-arr)"/><text x="466" y="356" class="tag no">否</text>
+  <rect x="680" y="264" width="200" height="56" rx="10" class="box violet"/><text x="780" y="287" text-anchor="middle" class="lbl b">Custom field</text><text x="780" y="307" text-anchor="middle" class="s">請 Jira admin 建</text>
+
+  <rect x="465" y="380" width="240" height="48" rx="10" class="box amber"/><text x="585" y="401" text-anchor="middle" class="lbl b">先用 label 試</text><text x="585" y="419" text-anchor="middle" class="s">需求穩定後再升級成 field</text>
+</svg>
+<div class="cap">圖 1　口訣：<strong>要負責人 → component；要自由 → label；要管控 → custom field</strong>。TMP 沒有 component，第一題直接跳過。</div>
+</div>
+</section>
+
+<!-- ============ 選型器 ============ -->
+<section id="picker">
+<div class="section-label">互動</div>
+<h2>選型器：勾需求，看建議</h2>
+<div id="s234-picker" class="card">
+  <div class="toolbar" style="margin-top:0;gap:.5rem">
+    <label class="check"><input type="checkbox" value="owner">要有負責人或自動指派</label>
+    <label class="check"><input type="checkbox" value="cross">要跨 project 共用</label>
+    <label class="check"><input type="checkbox" value="fixed">要固定選項（避免拼錯）</label>
+    <label class="check"><input type="checkbox" value="report">要進報表／JQL 精確篩選</label>
+    <label class="check"><input type="checkbox" value="tmp">project 是 team-managed</label>
+    <label class="check"><input type="checkbox" value="noadmin">找不到 Jira admin</label>
+  </div>
+  <div class="union" style="grid-template-columns:1fr 2.5rem 1.6fr;margin-top:.5rem">
+    <div class="panel"><div class="h">建議</div><div id="s234-rec" class="chips"></div></div>
+    <div class="op">→</div>
+    <div class="panel result"><div class="h">理由</div><div id="s234-why" style="font-size:.9rem"></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ 對照表 ============ -->
+<section id="compare">
+<div class="section-label">Bullet 1</div>
+<h2>三者對照</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%"></th><th>Components</th><th>Labels</th><th>Custom fields</th></tr>
+<tr><td>誰建</td><td>Project admin（App admin 也可）</td><td>任何人打字就建</td><td><strong>Jira admin</strong></td></tr>
+<tr><td>範圍</td><td><strong>只在該 CMP</strong>；TMP 沒有</td><td>全站共用，跨 project 同名即同一個</td><td>全站物件；可用 context 限定 project／issue type</td></tr>
+<tr><td>結構</td><td>名稱、描述、<strong>lead</strong>、<strong>default assignee</strong></td><td>純文字，無屬性</td><td>依型別：選項、使用者、日期、數字、公式…</td></tr>
+<tr><td>管控</td><td>選項固定（admin 建）</td><td>無；拼字變體會變成不同 label</td><td>選項固定；可設必填、驗證</td></tr>
+<tr><td>自動指派</td><td><strong>有</strong>（component default assignee）</td><td>無</td><td>無（要靠 automation）</td></tr>
+<tr><td>報表</td><td>Pie chart／filter by component；Version workload</td><td>Labels gadget；可 filter</td><td>Pie chart／2D statistics 皆可用</td></tr>
+<tr><td>適合</td><td>產品模組、團隊分工、要負責人</td><td>臨時、輕量、跨 project 標記</td><td>固定分類、報表、需驗證的資料</td></tr>
+<tr><td>風險</td><td>刪除時要重新連結 issue；TMP 不能用</td><td>拼字混亂、無法控管、任何人可加</td><td>要等 Jira admin；型別建了不能改；太多會拖慢</td></tr>
+</table></div>
+</section>
+
+<!-- ============ Components ============ -->
+<section id="components">
+<div class="section-label">Components</div>
+<h2>Jira components：project 內的模組與負責人</h2>
+<p class="quote">Jira components are only available in company-managed spaces, and are scoped to the space they're created in.<span class="src">— Atlassian, What are Jira components?</span></p>
+<div class="grid-2">
+<div class="card"><div class="eyebrow">建立與欄位</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li>Project settings → Components → Create component（或側欄 Components）</li>
+<li>名稱、描述（hover 時顯示）、<strong>Component lead</strong>、<strong>Default assignee</strong></li>
+<li>建了第一個 component 後，issue 上才出現 Components 欄位</li>
+<li>刪除時：把已連結的 issue 改連到別的 component，或解除連結</li>
+<li><strong>Compass components 是另一套</strong>（跨系統的軟體架構目錄），project 可切換使用哪一套；它<strong>不是</strong>考綱裡 project-scoped 的 Jira components。做自動指派 lab 前先確認自己在用哪一套</li>
+</ul></div>
+<div class="card"><div class="eyebrow">Default assignee 的四個選項</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li><strong>Project default</strong>：跟 project 的預設一樣</li>
+<li><strong>Project lead</strong></li>
+<li><strong>Component lead</strong>：官方建議用 role 型的選項，人員異動不用改</li>
+<li><strong>Unassigned</strong>：站台允許未指派時才有效</li>
+</ul>
+<p class="kicker" style="margin:.5rem 0 0">Component 的 default assignee <strong>覆蓋</strong> project 的 default assignee；多個 component 時<strong>先比 default assignee 的類型優先序</strong>（Component lead ＞ Project lead ＞ Unassigned ＞ Project default），<strong>同一級再依 component 名稱字母序</strong>取第一個；候選人要有 Assignable User，沒有就往下一個（官方 KB，2026-09-08）。細節與互動在 620.3.5。</p></div>
+</div>
+</section>
+
+<!-- ============ Labels ============ -->
+<section id="labels">
+<div class="section-label">Labels</div>
+<h2>Labels：最自由，也最難管</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">特性</th><th>內容</th></tr>
+<tr><td>誰能加</td><td>任何有 Edit Issues 的人，打字就新增；官方 Label 型別欄位描述：「select from an existing label or create new ones」</td></tr>
+<tr><td>範圍</td><td>全站；同名 label 在所有 project 是同一個，適合跨 project 主題（例如 <code>tech-debt</code>）</td></tr>
+<tr><td>格式</td><td>不能有空白；大小寫與拼字不同就是不同 label（<code>UX</code>、<code>ux</code>、<code>u-x</code>）</td></tr>
+<tr><td>報表</td><td>Labels gadget；JQL <code>labels = tech-debt</code>；Pie chart by Labels</td></tr>
+<tr><td>Jira admin 也可以建 Label 型別的 custom field</td><td>與內建 Labels 欄位分開，用來做第二套標籤</td></tr>
+</table></div>
+<div class="callout"><div class="t">清理 labels 之前</div>
+<p style="margin:.3rem 0 0">先查每個值的<strong>實際使用量</strong>，以及有沒有 board filter／automation 正在用它。若要批次把 <code>payments</code> 統一成 <code>payment</code>，務必<strong>保留每張 issue 其他既有的 labels</strong>——用「整欄覆寫」會意外刪掉無關的標記。分類一改，JQL 結果與報表分組都會跟著變。</p></div>
+</section>
+
+<!-- ============ Custom fields ============ -->
+<section id="fields">
+<div class="section-label">Bullet 2</div>
+<h2>Custom field 型別（Jira admin 才能建）</h2>
+<div class="callout warn"><div class="t">兩條鐵律（官方）</div>① <strong>建了之後不能改型別</strong>。② 選項型欄位讓報表一致、沒有拼字錯誤——這就是它勝過 label 的理由。</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">類別</th><th style="width:34%">型別</th><th>用途與備註</th></tr>
+<tr><td rowspan="9" class="hd">預先定義答案</td><td>Select list（single／multi／<strong>cascading</strong>）</td><td>Cascading 有父子層：Pies → Apple／Peach（官方例）；選項多時用</td></tr>
+<tr><td>Checkboxes、Radio buttons</td><td>多選／單選</td></tr>
+<tr><td><strong>User picker</strong>（single／multi）</td><td>可用 <strong>context</strong> 限制只顯示特定 group 或 project role 的人；也可當 permission scheme 的授權對象</td></tr>
+<tr><td>Group picker（single／multi）</td><td>選 Atlassian 目錄的群組；也可當授權對象</td></tr>
+<tr><td>Version picker（single／multi）</td><td>選 version（有別於 Fix／Affects）</td></tr>
+<tr><td>Label</td><td>第二套標籤</td></tr>
+<tr><td>Parent</td><td>取代舊的 Parent link 與 Epic link</td></tr>
+<tr><td>Project picker</td><td>用 project 名稱當標籤（不是 parent 關係）</td></tr>
+<tr><td>Team、Assets</td><td>Atlassian Teams；Assets 多用於 JSM</td></tr>
+<tr><td class="hd">日期</td><td>Date picker、Date time picker</td><td>—</td></tr>
+<tr><td class="hd">數字</td><td>Number</td><td>格式：number／currency／percentage，可設小數位；範圍 ±1 兆；四捨五入到千分位；可用 5e3 輸入</td></tr>
+<tr><td class="hd">公式</td><td>Formula</td><td>直接在 issue 上算：預算 − 實際；輸出可為數字、貨幣、百分比、日期、時長、文字</td></tr>
+<tr><td rowspan="2" class="hd">文字</td><td>Paragraph</td><td>rich text</td></tr>
+<tr><td>Short text</td><td>純文字 255 字</td></tr>
+<tr><td rowspan="4" class="hd">唯讀資訊</td><td>Date of first response</td><td>第一則非 reporter 留言的日期</td></tr>
+<tr><td>Days since last comment</td><td>不可搜尋排序；受留言可見範圍影響</td></tr>
+<tr><td>Participants</td><td>參與者清單</td></tr>
+<tr><td>Time in status</td><td>供 Average Time／Number of Times in Status 圖表用</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考題長相</div>「產品線 → 子產品 兩層選單」→ cascading select。「Approver 欄位只能選 QA role 的人」→ user picker ＋ context 限制。「顯示預算差額」→ formula。「欄位建成 text 後想改成 select」→ 不能改型別，得建新欄位搬資料。</div>
+<h3>四個容易答錯的現行差異</h3>
+<div class="grid-2">
+<div class="card"><div class="eyebrow" style="color:var(--amber)">Priority schemes：現行 Cloud 已經有</div>
+<p style="font-size:.92rem;margin-top:.4rem"><strong>別把「Jira Cloud 沒有 Priority scheme」當成現行規則。</strong>官方已提供 priority schemes：為 project 指定一組可用的 priority 與預設值，多個 project 也能共用；沒有指定 scheme 的 project 使用<strong>預設 scheme（含站台全部 priorities）</strong>。</p>
+<p class="kicker">它處理的是 <strong>Priority 系統欄位的選項</strong>，不等於新增一個 custom field。入口：<code>⚙ → Work items → Priorities／Priority schemes</code>（需 Jira app admin）。<br><a href="https://support.atlassian.com/jira-cloud-administration/docs/manage-priorities/">Manage priorities</a>（2026-09-08 查核）</p></div>
+<div class="card"><div class="eyebrow" style="color:var(--rose)">Disable 選項 ≠ 刪除選項</div>
+<p style="font-size:.92rem;margin-top:.4rem"><strong>Disable</strong> 只是讓這個選項<strong>不再供新的選取</strong>；<strong>Delete</strong> 才是移除定義。兩者不是同一個清理操作。</p>
+<p style="font-size:.92rem">退役舊代碼時，先查既有 issue 的引用與報表，再決定停用或遷移——<strong>停用不代表已經批次清掉歷史值</strong>，舊 issue 上那個值還在，JQL 也還找得到。</p></div>
+<div class="card"><div class="eyebrow">Context 的 default value ≠ Component 的 default assignee</div>
+<p style="font-size:.92rem;margin-top:.4rem">兩個都叫「預設」，但：<strong>context 的 default value 是預填欄位的值</strong>；<strong>component 的 default assignee 決定 Automatic 指派給誰</strong>。custom field <strong>沒有</strong> component lead 那套內建規則，但仍可當 automation 的指派條件。</p>
+<p class="kicker">另外別因為 Components 可多選，就以為所有 custom field 都是多選：Multi-select／Checkboxes 才能保留多值，單選欄位不行。</p></div>
+<div class="card"><div class="eyebrow">User picker 的 Edit User Filtering</div>
+<p style="font-size:.92rem;margin-top:.4rem">「單選一人＋各 project 不同名單」不必用四個欄位：<strong>User picker（single user）</strong>在各 context 設 default，再用 <strong>Edit User Filtering</strong> 限定 group／project role——採購 project 只列採購審核群組，工程 project 只列工程審核群組。</p>
+<p style="font-size:.92rem"><strong>這是候選名單，不是授權</strong>；被選的人沒有因此取得任何 project 權限。若預設人員停用或離開了允許的群組，<strong>原本的 default 可能導致建立 issue 失敗</strong>。</p></div>
+</div>
+<div class="callout warn"><div class="t">Team-managed 欄位的版本界線</div>
+<ul style="margin:.3rem 0 0">
+<li><strong>Dependent dropdown</strong>（第二層選項隨第一層而變，例如先選產品類別再選型號；和兩個互不相關的 dropdown 不同）：舊版 TMP 介面有這個型別，但 2026-09-08 核對現行欄位清單<strong>未列出</strong>。<strong>不能只憑舊截圖保證所有站台現在都能新增，也不能因文件沒列就斷言完全不支援</strong>——請在目標 project 的 Create a field 實際檢查。</li>
+<li><strong>Time stamp</strong> 含日期與時間，別和登錄工時的 Time tracking 混淆。舊畫面的「Set to current time by default」是<strong>預填值</strong>選項，不是每次讀取都會更新的即時時鐘。</li>
+</ul></div>
+</section>
+
+<!-- ============ Quiz ============ -->
+<section id="quiz">
+<div class="section-label">情境練習</div>
+<h2>先自己判斷，再點開解答</h2>
+<div class="quiz">
+<details class="q"><summary>CMP 團隊想把 issue 分成前端、後端、資料庫，各模組有負責人自動接單。</summary><div class="a"><div class="tag">解答</div><strong>Components</strong>，各設 lead 並把 default assignee 設為 Component lead。</div></details>
+<details class="q"><summary>四個 project 都想標記「technical debt」，方便一個跨 project filter 找出來。</summary><div class="a"><div class="tag">解答</div><strong>Label</strong>（全站共用）；或請 Jira admin 建一個全站的 select 欄位如果要管控。</div></details>
+<details class="q"><summary>PM 發現 label 有 <code>ux</code>、<code>UX</code>、<code>u-x</code> 三種，報表分散。</summary><div class="a"><div class="tag">解答</div>label 無法管控；改成 Jira admin 建的 select list 欄位，選項固定。</div></details>
+<details class="q"><summary>TMP 團隊想用 component 分模組。</summary><div class="a"><div class="tag">解答</div>TMP 沒有 component；用 label 或自建欄位（TMP 的欄位只在該 project）。</div></details>
+<details class="q"><summary>要一個「產品線 → 子產品」的兩層選單。</summary><div class="a"><div class="tag">解答</div>Cascading select list（Jira admin 建）。</div></details>
+<details class="q"><summary>「Approver」欄位只能選 QA role 的人。</summary><div class="a"><div class="tag">解答</div>User picker ＋ context 限制為 project role QA。</div></details>
+<details class="q"><summary>Jira admin 把「Severity」建成 short text，現在想改成下拉選單。</summary><div class="a"><div class="tag">解答</div>型別不能改；建新的 select 欄位，bulk edit 搬資料，再隱藏舊欄位。</div></details>
+<details class="q"><summary>issue 同時掛 component「Backend」（lead 阿宏）與「Alpha」（lead 小傑），Assignee 留 Automatic，誰被指派？</summary><div class="a"><div class="tag">解答</div>字母順序第一個「Alpha」的 default assignee → 小傑（若他有 Assignable User）。</div></details>
+<details class="q"><summary>Project admin 想在 issue 上顯示「預算 − 實際支出」。</summary><div class="a"><div class="tag">解答</div>請 Jira admin 建 Formula 欄位；project admin 建不了 custom field。</div></details>
+<details class="q"><summary>刪掉 component「Legacy」時 Jira 問了什麼？</summary><div class="a"><div class="tag">解答</div>已連結的 issue 要改連到別的 component，還是解除連結。</div></details>
+</div>
+</section>
+
+<!-- ============ Traps ============ -->
+<section id="traps">
+<div class="section-label">常見陷阱</div>
+<h2>考題喜歡設的誤解</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:42%">誤解</th><th>事實</th></tr>
+<tr><td>「TMP 也有 components」</td><td>只有 CMP 有</td></tr>
+<tr><td>「Component 可以跨 project 共用」</td><td>只在建它的 project</td></tr>
+<tr><td>「Project admin 可以建 custom field」</td><td>Jira admin 才能（TMP 的 project admin 可建僅限該 project 的欄位）</td></tr>
+<tr><td>「Custom field 建錯型別可以改」</td><td>不能改</td></tr>
+<tr><td>「Label 可以設負責人」</td><td>label 沒有任何屬性</td></tr>
+<tr><td>「多個 component 時用 project default assignee」或「只看字母序」</td><td>先看 default assignee 類型優先序（Component lead ＞ Project lead ＞ Unassigned ＞ Project default），同級才依 component 名稱字母序</td></tr>
+<tr><td>「Jira Cloud 沒有 Priority scheme」</td><td>現行已提供；可為 project 指定可用 priority 與預設值，多 project 可共用</td></tr>
+<tr><td>「Disable 選項＝把歷史值清掉」</td><td>只是不再供新選取；舊 issue 的值還在、JQL 仍找得到</td></tr>
+<tr><td>「User picker 選到的人就有權限」</td><td>那只是候選名單；Edit User Filtering 限的是「能選誰」，不授權</td></tr>
+<tr><td>「TMP 一定（或一定不）有 Dependent dropdown」</td><td>舊介面有、現行清單未列；兩種絕對斷言都不安全，實機檢查 Create a field</td></tr></table></div>
+</section>
+
+<!-- ============ Lab ============ -->
+<section id="lab">
+<div class="section-label">實作（25 分鐘）</div>
+<h2>三種分類各做一次</h2>
+<ol>
+<li>CMP：建 components Backend（lead A，default assignee = Component lead）與 Alpha（lead B）；建 issue 同時掛兩個、Assignee 留 Automatic → 觀察 B 被指派。</li>
+<li>刪除 Alpha，看 Jira 要求你處理已連結的 issue。</li>
+<li>在兩個 project 各加 label <code>tech-debt</code>，用 JQL <code>labels = tech-debt</code> 跨 project 找到；再故意加 <code>Tech-Debt</code> 觀察變成另一個 label。</li>
+<li>Jira admin：建 cascading select「產品線」、user picker「Approver」（context 限 QA role）、formula「預算差額」；把它們加到 screen；試著改型別 → 不行。</li>
+<li>到 TMP 找 Components → 沒有；在 TMP 建一個 select 欄位，到別的 project 找它 → 找不到。</li>
+<li><strong>拼字防護對照（A 版 lab）：</strong>在單選欄位試著輸入拼錯的 <code>Priorty</code> → 單選<strong>不應</strong>把任意拼字變成正式選項；同一張 issue 的 Labels 卻能直接新增這個新值。這就是「受控 vs 自由」的差別。</li>
+<li>做一份<strong>欄位決策表</strong>：需求／型別／是否多值／誰維護／哪些 project 使用。用它解釋為什麼某個需求<strong>不該</strong>用 Components。</li>
+<li>清理測試欄位前先確認 context 與 usage，只移除測試用的 labels、component 與關聯，<strong>不要動到共用的正式欄位</strong>。</li></ol>
+<div class="callout"><div class="t">來源（精讀）</div>
+<ul style="margin:0;font-size:.88rem">
+<li><a href="https://support.atlassian.com/jira-software-cloud/docs/what-are-jira-components/">What are Jira components?</a>（考綱「Organize work with components」的轉址目標；hub）→ 子頁 <a href="https://support.atlassian.com/jira-software-cloud/docs/configure-jira-components/">Configure Jira components</a></li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/field-types-you-can-create-as-a-jira-admin/">Field types you can create as a Jira admin</a>（考綱「Custom field types in company-managed projects」的轉址目標）</li>
+<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/manage-priorities/">Manage priorities</a>、<a href="https://support.atlassian.com/jira-cloud-administration/docs/manage-priority-schemes/">Manage priority schemes</a>（2026-09-08 查核：現行 Cloud 有 priority scheme）</li>
+</ul></div>
+</section>
+
+<section id="qbank">
+<div class="section-label">模擬題</div>
+<h2>本節 11 題，附逐選項解析與來源</h2>
+<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
+<div class="qbank" data-section="620.3.4"></div>
+</section>
+
+<div class="footer-nav"><a href="620.3.3.html">← 620.3.3 Versions 與 roadmap</a><a href="620.3.5.html">下一節：620.3.5 自動指派 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/exam.js"></script>
+<script>
+/* 620.3.4 選型器 */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const box=$('#s234-picker'); if(!box) return;
+  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function render(){
+    const on=new Set($$('input',box).filter(c=>c.checked).map(c=>c.value));
+    $$('label.check',box).forEach(l=>l.classList.toggle('on',l.querySelector('input').checked));
+    const rec=[], why=[];
+    if(on.has('owner')&&!on.has('tmp')&&!on.has('cross')){rec.push(['brand','Component']);why.push('需要負責人／自動指派，而且範圍在單一 CMP → component 是唯一有 lead 與 default assignee 的工具。');}
+    if(on.has('owner')&&on.has('tmp')){why.push('TMP 沒有 component：改用 label 標記模組，自動指派改靠 automation rule。');rec.push(['teal','Label ＋ automation']);}
+    if(on.has('owner')&&on.has('cross')&&!on.has('tmp')){why.push('Component 只在單一 project；跨 project 的負責人要用 user picker 欄位（Jira admin）或各 project 各建 component。');rec.push(['violet','User picker 欄位（Jira admin）']);}
+    if((on.has('fixed')||on.has('report'))&&!on.has('noadmin')){rec.push(['violet','Custom field（select／cascading）']);why.push('要固定選項或精確報表 → 只有 Jira admin 建的欄位能保證選項一致、無拼字錯誤。');}
+    if((on.has('fixed')||on.has('report'))&&on.has('noadmin')){rec.push(['amber','先用 label，約定命名']);why.push('找不到 Jira admin 時先用 label 過渡，命名規則寫在 project 說明；需求穩定後再請 admin 建欄位搬資料（型別建了不能改，搬一次就好）。');}
+    if(on.has('cross')&&!on.has('fixed')&&!on.has('report')&&!on.has('owner')){rec.push(['teal','Label']);why.push('跨 project、不需管控 → label 全站共用、任何人可加，最輕量。');}
+    if(!on.size){rec.push(['','（先勾需求）']);why.push('口訣：要負責人 → component；要自由 → label；要管控 → custom field。');}
+    const R=$('#s234-rec'); R.innerHTML=rec.map(([c,t])=>`<span class="chip ${c}">${t}</span>`).join(' ');
+    $('#s234-why').innerHTML=why.map(w=>`<p style="margin:0 0 .4rem">${w}</p>`).join('');
+    if(window.springPop&&!reduced()) $$('.chip',R).forEach(c=>window.springPop(c));
+  }
+  box.addEventListener('change',render); render();
+})();
+</script>
+</body>
+</html>
