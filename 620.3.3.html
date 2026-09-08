@@ -126,12 +126,12 @@
 <tr><td>Create</td><td>Project settings → Versions（或 Releases）→ Create version：名稱、可選 start／release date、描述</td><td>Start date 供 <strong>Version report</strong> 用；規劃很早但實際晚開工時，讓報表更準</td></tr>
 <tr><td>加 issue 進 version</td><td>有 backlog：Backlog → Versions panel 拖曳；沒有 backlog：在 issue 填 Fix versions</td><td>填 <strong>Fix versions</strong> 才算加入；Affects versions 不算</td></tr>
 <tr><td>Release</td><td>••• → Release；或 release page 上 Unreleased → Release</td><td>會問<strong>未解決的 issue 要怎麼處理</strong>（忽略／移到另一個 version）並填 release date；影響報表與欄位下拉；Bamboo 整合可自動觸發 build，build 失敗就不 release</td></tr>
-<tr><td>Unrelease</td><td>••• → Unrelease</td><td>回到 Unreleased</td></tr>
-<tr><td>Archive／Unarchive</td><td>••• → Archive</td><td>隱藏；不可再指派</td></tr>
-<tr><td>Merge</td><td>••• → Merge → 選目標 version</td><td>issue 全部搬過去、來源消失；不可逆</td></tr>
-<tr><td>Edit</td><td>••• → Edit</td><td>改名、日期、描述</td></tr>
-<tr><td>Delete</td><td>••• → Delete</td><td>要選 issue 移到別的 version 或移除關聯</td></tr>
-<tr><td>Reschedule</td><td>在清單拖曳</td><td>改 version 的先後順序</td></tr>
+<tr><td>Unrelease</td><td>••• → Unrelease</td><td>把已發佈的版本退回 Unreleased 狀態；被 Kanban sub-filter 藏起來的 issue 也會重新出現在 board 上</td></tr>
+<tr><td>Archive／Unarchive</td><td>••• → Archive</td><td>從報表與 Fix version 的下拉選單中隱藏，也不能再把新的 issue 指派給它；隨時可以 Unarchive 還原</td></tr>
+<tr><td>Merge</td><td>••• → Merge → 選目標 version</td><td>來源版本的 issue 會全部改掛到目標版本，來源版本本身消失；<strong>這個動作不可逆</strong>，合併前先確認方向</td></tr>
+<tr><td>Edit</td><td>••• → Edit</td><td>可以修改版本的名稱、start／release 日期與描述，不影響已掛在底下的 issue</td></tr>
+<tr><td>Delete</td><td>••• → Delete</td><td>Jira 會問你底下的 issue 要移到哪一個 version，還是直接移除版本關聯；<strong>issue 本身不會被刪除</strong></td></tr>
+<tr><td>Reschedule</td><td>在清單拖曳</td><td>在 Releases 清單中拖曳版本，調整它們的先後順序（影響下拉選單與報表的排列）</td></tr>
 </table></div>
 <div class="callout"><div class="t">誰能做</div>官方 Manage versions 頁：Role <strong>Project admin</strong>，Permission <strong>Administer Projects、Manage Versions</strong>。Release page 頁另寫「must have project admin permissions to release」。TMP 要先在 features 開啟 Releases。</div>
 </section>
@@ -228,13 +228,13 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:26%">規則（官方）</th><th>內容</th></tr>
 <tr><td>範圍</td><td><strong>一個 timeline 只能顯示一個 project</strong>；跨 project 規劃要 Plans（Premium／Enterprise）</td></tr>
-<tr><td>Parent 的排程</td><td>手動設日期，或由 child 推算</td></tr>
-<tr><td>Child 的排程（Scrum）</td><td>依所屬 sprint 的日期，或 Start date／Due date</td></tr>
-<tr><td>Child 的排程（Kanban）</td><td>只用 Start date／Due date</td></tr>
+<tr><td>Parent 的排程</td><td>可以手動指定 parent 的起訖日期，也可以讓 Jira 依底下 child 的日期自動推算出範圍</td></tr>
+<tr><td>Child 的排程（Scrum）</td><td>優先採用它所屬 sprint 的起訖日期，沒有 sprint 時才看 Start date 與 Due date——所以 Scrum 的 issue 就算沒填日期也畫得出長條</td></tr>
+<tr><td>Child 的排程（Kanban）</td><td>只能依 Start date 與 Due date 來畫，因為 Kanban 沒有 sprint 可以借用時間框架；沒填日期就沒有長條</td></tr>
 <tr><td>沒有 parent 的 child</td><td><strong>Show inline hierarchy 開啟</strong>（預設，考試作答用這版）：child 縮排在 parent 下，<strong>沒有 parent 的 child 不會出現</strong>；只顯示 level 1 與 level 0，sub-task 不顯示。<br><strong>關閉</strong>：官方原句「The timeline uses a flat layout and shows work items without their parent and subtasks」——改成平面清單，可含沒有 parent 的工作（<a href="https://support.atlassian.com/jira-software-cloud/docs/set-up-the-roadmap/">Timeline limits</a>，2026-09-08）</td></tr>
-<tr><td>Dependencies</td><td>就是 issue links（其他地方叫 Work item links）；表示先後順序</td></tr>
+<tr><td>Dependencies</td><td>Timeline 上的 dependency 其實就是 issue links（現行稱 work item links），用來表達「這件事要等那件事完成」的先後關係</td></tr>
 <tr><td>畫面元素</td><td>週／月／季切換、sprint（Scrum）與 release 標記、圖例、全螢幕、點 bar 開側欄直接編輯</td></tr>
-<tr><td>Parent 的 type</td><td>預設 Epic，但 Jira admin 可設定其他 type 當 parent（畫面會變成 Create Feature 之類）</td></tr>
+<tr><td>Parent 的 type</td><td>預設是 Epic，但 Jira admin 可以指定別的 work type 當作 parent 層（設定後畫面上的按鈕會跟著變成 Create Feature 之類的字樣）</td></tr>
 </table></div>
 <h3>Timeline 的內建 filters（官方清單未列 Sprint）</h3>
 <p>現行單一 project Timeline 的內建 filters 是：<strong>assignee、status、versions、type、label、component、keyword、goals</strong>。<strong>官方清單沒有列出 Sprint。</strong>Scrum 的 child 可以「依 sprint 日期排長條」，不代表畫面上一定有獨立的 Sprint filter。</p>
@@ -281,18 +281,18 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>PM 把 bug 的 Affects versions 填成 v2.0，卻發現 v2.0 的 release page 沒有這張 bug。</summary><div class="a"><div class="tag">解答</div>Affects versions 不會把 issue 加進 version；要填 <strong>Fix versions</strong>。</div></details>
-<details class="q"><summary>Release v1.0 時有 3 張 issue 未解決，PM 想讓 release 內容與實際一致。</summary><div class="a"><div class="tag">解答</div>在 release 對話框選「移到另一個 version」（例如 v1.1），不要選忽略。</div></details>
-<details class="q"><summary>Release v1.0 之後，Kanban board 上原本 Done 的卡片全部消失，團隊以為出錯。</summary><div class="a"><div class="tag">解答</div>正常：Kanban 的 sub-filter 預設 <code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code>，released 的 issue 就從 board 移除。</div></details>
-<details class="q"><summary>v1.1 與 v1.2 內容重疊，PM 想合併成一個，且不想逐張改 Fix version。</summary><div class="a"><div class="tag">解答</div>Merge：把 v1.1 併入 v1.2，issue 的 Fix version 自動改；v1.1 消失，不可逆。</div></details>
-<details class="q"><summary>刪除 v0.9 時，Jira 問了一個問題，是什麼？</summary><div class="a"><div class="tag">解答</div>該 version 上的 issue 要移到另一個 version，還是直接移除關聯。</div></details>
-<details class="q"><summary>Release page 上同事看不到「open pull request」的 warnings，但 PM 看得到。</summary><div class="a"><div class="tag">解答</div>同事缺 <strong>View Development Tools</strong> 權限（warnings 的三個前提之一）。</div></details>
-<details class="q"><summary>Version report 的預測日期明顯太早，PM 說「我們規劃很早但實際兩個月後才開工」。</summary><div class="a"><div class="tag">解答</div>在 version 設 <strong>Start date</strong>，Version report 會以它為起點。</div></details>
-<details class="q"><summary>Timeline 上看不到某張 Task，它明明在 sprint 裡。</summary><div class="a"><div class="tag">解答</div>它沒有 parent（epic）；預設「Show inline hierarchy」開啟時，沒有 parent 的 child 不會出現在 timeline。把 Show inline hierarchy 關掉會改成平面清單而看得到，但考題預設以開啟狀態作答。</div></details>
-<details class="q"><summary>PM 想在同一張 timeline 看 MOB 與 WEB 兩個 project。</summary><div class="a"><div class="tag">解答</div>Timeline 只顯示單一 project；跨 project 要 Plans（Premium／Enterprise）。</div></details>
-<details class="q"><summary>Kanban project 的 timeline 上 story 沒有長條。</summary><div class="a"><div class="tag">解答</div>Kanban 的 child 只依 Start date／Due date 排；沒填日期就沒有長條。</div></details>
-<details class="q"><summary>Sprint 中途加了兩張 story，主管問「哪裡看得出來是中途加的？」</summary><div class="a"><div class="tag">解答</div>Sprint report 上這兩張有「*」；Burnup 紅線在那天往上跳。</div></details>
-<details class="q"><summary>v2.0 突然多了 10 張 story，主管想知道預計還要幾個 sprint。</summary><div class="a"><div class="tag">解答</div>Release burndown（依近幾個 sprint 的 velocity 預測）；若很多 story 沒估點，先估點否則預測不可靠。</div></details>
+<details class="q"><summary>PM 把 bug 的 Affects versions 填成 v2.0，卻發現 v2.0 的 release page 沒有這張 bug。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Affects versions 不會把 issue 加進 version</strong>，它記錄的是「這個 bug 影響到哪些版本」，純粹是給搜尋與分類用的資訊。真正把一張 issue 納入某個版本範圍的欄位是 <strong>Fix versions</strong>——填了它，這張 issue 才會出現在 release page、Version report 與 Release burndown 裡。記法很簡單：<strong>Affects 是「哪裡壞了」，Fix 是「哪一版修好出貨」</strong>，只有後者會影響 release 與報表。</div></details>
+<details class="q"><summary>Release v1.0 時有 3 張 issue 未解決，PM 想讓 release 內容與實際一致。</summary><div class="a"><div class="tag">解答</div>在按下 Release 之後跳出的對話框裡選<strong>「把未解決的 issue 移到另一個 version」</strong>（例如 v1.1），不要選忽略。差別在於：選忽略的話，那 3 張沒做完的 issue 仍然掛在 v1.0 底下，等於這個 release 宣稱交付了實際上沒交付的東西，Version report 也會跟著失真；把它們移到 v1.1，v1.0 的內容就與實際出貨一致，剩下的工作也自然滾進下一個版本。<strong>Jira 不會阻止你發佈一個有未完成工作的版本</strong>，它只會問你怎麼處理——這一點常被考題拿來設陷阱。</div></details>
+<details class="q"><summary>Release v1.0 之後，Kanban board 上原本 Done 的卡片全部消失，團隊以為出錯。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常且刻意的設計</strong>，不是出錯。Kanban board 的預設 sub-filter 是 <code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code>，意思是只顯示「還沒發佈」或「沒填版本」的工作。v1.0 一旦被 release，掛在它底下的 issue 就不再符合這個條件，自然從 board 上消失——這正是 Kanban 用來清空 Done 欄的機制（Scrum 則是靠完成 sprint）。要強調的是<strong>資料完全沒有被刪除</strong>，JQL 搜尋、release page 都還找得到。</div></details>
+<details class="q"><summary>v1.1 與 v1.2 內容重疊，PM 想合併成一個，且不想逐張改 Fix version。</summary><div class="a"><div class="tag">解答</div>用 <strong>Merge</strong>（••• → Merge → 選目標 version）。把 v1.1 併入 v1.2 之後，原本掛在 v1.1 的 issue 會<strong>自動改成 v1.2</strong>，完全不用逐張編輯。要提醒的是兩個後果：<strong>來源 version（v1.1）會消失</strong>，而且這個動作<strong>不可逆</strong>，Jira 不會幫你留備份，也沒有「拆回來」的功能。所以合併前先確認方向對不對——併錯了只能手動一張張改回去。</div></details>
+<details class="q"><summary>刪除 v0.9 時，Jira 問了一個問題，是什麼？</summary><div class="a"><div class="tag">解答</div>Jira 會問你<strong>掛在 v0.9 底下的那些 issue 該怎麼辦</strong>：是要把它們移到另一個 version，還是單純把版本關聯拿掉（issue 的 Fix versions 變成空白）。這個提問的用意是避免資料悄悄消失——<strong>刪除 version 不會刪掉 issue</strong>，issue 一定會留著，只是它們的版本歸屬需要你做決定。Delete 跟 Merge 的差別在這裡：Merge 是把 issue 全部搬到目標版本，Delete 則讓你選擇搬走或斷開關聯。</div></details>
+<details class="q"><summary>Release page 上同事看不到「open pull request」的 warnings，但 PM 看得到。</summary><div class="a"><div class="tag">解答</div>因為同事缺少 <strong>View Development Tools</strong> 這個 project 權限。release warnings 要出現必須<strong>三個條件同時成立</strong>：站台已經連接了開發工具（Bitbucket、GitHub 等）、看的人擁有 View Development Tools 權限、而且 warnings 功能沒有被關掉（Work items 區的 ••• 裡由 project admin 設定）。PM 看得到代表前後兩個條件都沒問題，差別就在權限這一項。排查順序建議：先確認同事的權限，再去看 warnings 設定。</div></details>
+<details class="q"><summary>Version report 的預測日期明顯太早，PM 說「我們規劃很早但實際兩個月後才開工」。</summary><div class="a"><div class="tag">解答</div>在這個 version 上補設 <strong>Start date</strong>。Version report 是用「起點到現在的實際完成速度」來推估 release 日期的；如果沒有設 start date，它會拿版本<strong>建立的時間</strong>當起點，於是把中間那兩個月完全沒動工的空窗期也算進去，平均速度被稀釋、預測自然失準（通常是預測得過於悲觀或過於樂觀，端看資料分佈）。設定 start date 之後，報表就會從真正開工的那天開始算。</div></details>
+<details class="q"><summary>Timeline 上看不到某張 Task，它明明在 sprint 裡。</summary><div class="a"><div class="tag">解答</div>因為<strong>這張 Task 沒有 parent（沒有掛在任何 epic 底下）</strong>。在 <strong>Show inline hierarchy 開啟</strong>的狀態下（這是預設值，也是考試作答的依據），timeline 是以階層方式呈現的：child 縮排在自己的 parent 下方，<strong>沒有 parent 的工作就沒有位置可以放，因此不會顯示</strong>；sub-task 也同樣不會出現。解法有兩個：把它掛到某個 epic 底下，或是<strong>關閉 Show inline hierarchy</strong> 切換成平面清單（官方原文說這時會顯示沒有 parent 的工作）。答題時記得預設是開啟。</div></details>
+<details class="q"><summary>PM 想在同一張 timeline 看 MOB 與 WEB 兩個 project。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>官方規定<strong>一個 timeline 只能顯示一個 project</strong>，這是硬性限制，沒有設定可以打開。要在同一個畫面上跨 project 規劃，得用 <strong>Plans</strong>（需要 Premium 或 Enterprise 方案）——Plans 才是為多團隊、多 project 的長期規劃設計的，還帶有容量規劃、相依性與多情境比較的能力。這也是考題常見的對照：<strong>Timeline 是單一 project 的戰術視圖，Plans 是跨 project 的規劃工具</strong>。</div></details>
+<details class="q"><summary>Kanban project 的 timeline 上 story 沒有長條。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Kanban project 的 child 只能依 Start date 與 Due date 來畫長條</strong>，沒有填日期就沒有東西可以畫。這一點與 Scrum 不同：Scrum 的 child 可以<strong>依所屬 sprint 的起訖日期</strong>自動產生長條，就算沒填日期也看得到。原因很單純——Kanban 沒有 sprint 這個時間框架可以借用。解法是替這些 story 補上 Start date 與 Due date。</div></details>
+<details class="q"><summary>Sprint 中途加了兩張 story，主管問「哪裡看得出來是中途加的？」</summary><div class="a"><div class="tag">解答</div>有三個地方看得出來。第一，<strong>Sprint report</strong> 會在 sprint 開始後才加入的 issue 旁邊標一個<strong>星號「*」</strong>，這是最直接的證據。第二，<strong>Burnup chart</strong> 的<strong>紅線（scope 線）會在那一天往上跳一階</strong>，視覺上非常明顯。第三，<strong>Burndown chart</strong> 的剩餘工作線也會往上跳，但要注意<strong>guideline 那條斜線不會跟著改變</strong>——它反映的永遠是 sprint 開始當下的承諾量，所以圖上會出現實際線跑到 guideline 上方的情況，這正是 scope creep 的樣子。</div></details>
+<details class="q"><summary>v2.0 突然多了 10 張 story，主管想知道預計還要幾個 sprint。</summary><div class="a"><div class="tag">解答</div>看 <strong>Release burndown</strong>：它以 sprint 為單位畫出這個版本的剩餘工作，新增的範圍會以<strong>深色的 scope added 段</strong>標示出來，並根據<strong>最近幾個 sprint 的 velocity</strong> 推估還需要幾個 sprint 才收得完。另一個可以參考的是 <strong>Version report</strong> 的預測日期線。但有一個前提要先講清楚：<strong>如果新加進來的 story 大多沒有估點，這個預測是不可靠的</strong>（官方對 Epic burndown 的說法是未估點超過 30% 就別信），所以正確順序是先讓團隊估點，再拿預測去跟主管報告。</div></details>
 </div>
 </section>
 
@@ -302,14 +302,14 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Affects versions 也會把 issue 放進 release」</td><td>只有 Fix versions 會</td></tr>
-<tr><td>「Release 會擋住有未解決 issue 的版本」</td><td>不會擋，會問你要忽略或移走</td></tr>
-<tr><td>「Merge 之後還能拆回來」</td><td>不可逆；來源 version 消失</td></tr>
-<tr><td>「連了 Bitbucket 就一定看得到 warnings」</td><td>還要 View Development Tools 權限與 warnings 設定開啟</td></tr>
-<tr><td>「Timeline 可以跨 project」</td><td>單一 project；跨 project 是 Plans</td></tr>
+<tr><td>「Affects versions 也會把 issue 放進 release」</td><td>不會。只有 <strong>Fix versions</strong> 才會把 issue 納入 version 的範圍；Affects versions 記錄的是「這個問題影響哪些版本」，純供搜尋分類，不影響 release 與報表</td></tr>
+<tr><td>「Release 會擋住有未解決 issue 的版本」</td><td>不會擋。Jira 只會跳出對話框問你這些未解決的 issue 要忽略還是移到另一個 version；真的要擋住 release，得用 release 的 <strong>Require approvals</strong> 設定</td></tr>
+<tr><td>「Merge 之後還能拆回來」</td><td>不能。Merge 是<strong>不可逆</strong>的動作，來源 version 會直接消失，issue 的 Fix version 全部改成目標版本；併錯了只能一張張手動改回去</td></tr>
+<tr><td>「連了 Bitbucket 就一定看得到 warnings」</td><td>不一定。warnings 要三個條件同時成立：已連接開發工具、<strong>看的人有 View Development Tools 權限</strong>、而且 warnings 沒有被 project admin 關掉</td></tr>
+<tr><td>「Timeline 可以跨 project」</td><td>不行。一個 timeline 只顯示一個 project，這是硬性限制；要跨 project 規劃必須用 <strong>Plans</strong>（Premium／Enterprise）</td></tr>
 <tr><td>「Timeline 會顯示所有 issue」</td><td>預設（inline hierarchy 開）沒有 parent 的 child 不顯示，sub-task 也不顯示；關掉 inline hierarchy 才變平面清單</td></tr>
-<tr><td>「Archive 等於刪除」</td><td>只是隱藏，可 Unarchive</td></tr>
-<tr><td>「任何人都能 release」</td><td>需 project admin（Administer Projects、Manage Versions）</td></tr>
+<tr><td>「Archive 等於刪除」</td><td>不是。Archive 只是把 version 從報表與欄位下拉裡隱藏起來（也不能再指派新的 issue），資料完好，隨時可以 Unarchive 拿回來</td></tr>
+<tr><td>「任何人都能 release」</td><td>不是。發佈版本需要 project admin 身分，官方列出的權限是 <strong>Administer Projects</strong> 加上 <strong>Manage Versions</strong></td></tr>
 <tr><td>「TMP 開了 Releases 就有 Affects versions」</td><td>只有 Fix versions；Affects Version/s 的官方需求 JRACLOUD-85690 仍未解決（2026-09-08）</td></tr>
 <tr><td>「Timeline 可以用 Sprint 篩選」</td><td>官方內建 filters 清單是 assignee／status／versions／type／label／component／keyword／goals，未列 Sprint</td></tr>
 <tr><td>「把 issue type 命名成 Initiative 就會在 Epic 之上」</td><td>要 Jira admin 建標準 work type、加進 scheme 並關聯到自訂階層層級</td></tr></table></div>

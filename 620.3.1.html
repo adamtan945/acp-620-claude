@@ -144,11 +144,11 @@
 <tr><th style="width:26%">全域權限</th><th>缺了會發生什麼（project 內的症狀）</th><th style="width:22%">誰能給</th></tr>
 <tr><td><strong>Browse users and groups</strong></td><td>@提及、User picker 只看得到「同一個 project 有 Browse Projects 的人」，找不到別的部門同事。官方特別說這是限制資訊外流的常用手法，不一定是錯</td><td>Jira admin（給群組）</td></tr>
 <tr><td><strong>Share dashboards and filters</strong></td><td>建得了 filter 與 dashboard，但分享選單是空的 → 跨 project board 沒人看得到、dashboard 只能自己看</td><td>Jira admin</td></tr>
-<tr><td><strong>Make bulk changes</strong></td><td>搜尋結果頁沒有 Bulk change 選項。有了它還要配合 project 權限（Edit／Move／Delete／Transition）</td><td>Jira admin</td></tr>
+<tr><td><strong>Make bulk changes</strong></td><td>搜尋結果頁的 ••• 選單裡不會出現 Bulk change 這個選項，等於整個批次操作的入口被關上。要注意有了它還不夠，實際執行時還得在每個受影響的 project 具備對應權限：批次編輯要 Edit Issues、搬移要 Move Issues、刪除要 Delete Issues、轉換狀態要 Transition Issues</td><td>Jira admin</td></tr>
 <tr><td><strong>Create team-managed projects</strong></td><td>看不到 Create project；只影響 TMP，CMP 永遠要 Administer Jira</td><td>Jira admin</td></tr>
 <tr><td><strong>Administer Jira</strong></td><td>建 CMP、custom field、workflow、各種 scheme、全站的 issue linking 與 time tracking 開關。Project admin 需要這些時只能開單</td><td>Org／Site admin 把人加進 <code>jira-administrators</code></td></tr>
-<tr><td>Manage group filter subscriptions</td><td>不能建群組訂閱</td><td>Jira admin</td></tr>
-<tr><td>Manage custom onboarding</td><td>與 project 無關</td><td>Jira admin</td></tr>
+<tr><td>Manage group filter subscriptions</td><td>不能替群組建立 filter 的定期訂閱信</td><td>Jira admin</td></tr>
+<tr><td>Manage custom onboarding</td><td>與 project 內的操作無關，是站台的導覽客製功能</td><td>Jira admin</td></tr>
 <tr><td>Atlassian Home 連線</td><td>連結 work item 到 Projects；安裝 Connect addon 後出現</td><td>Jira admin</td></tr>
 </table></div>
 <div class="callout warn"><div class="t">兩個「全域開關」不是全域權限，但一樣是 Jira admin 的事</div><strong>Issue linking</strong>（⚙ → Issues → Issue linking）與 <strong>Time tracking</strong>（⚙ → Issues → Time tracking）關掉時，project 裡就算有 Link Issues／Work On Issues 權限也做不了。考題把它們歸在「project 權限與全域設定的關係」。</div>
@@ -163,31 +163,31 @@
 <h3>A. Project 存取與設定（9 項）</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:30%">權限</th><th>能做什麼</th><th style="width:30%">備註</th></tr>
-<tr><td><strong>Browse Projects</strong></td><td>看見 project 與 issue、搜尋</td><td>幾乎所有其他權限的前提；不需 app access；可給 Public 做公開 project</td></tr>
+<tr><td><strong>Browse Projects</strong></td><td>看得見這個 project 與裡面的 issue，也才搜尋得到它們</td><td>幾乎所有其他權限的前提；不需 app access；可給 Public 做公開 project</td></tr>
 <tr><td><strong>Administer Projects</strong></td><td>指派 role 成員、編輯 versions／components、改 project details</td><td>Jira admin 自動擁有；只能給有授權席次者</td></tr>
-<tr><td>Manage Issue Layouts</td><td>改 issue layout</td><td>需 Browse；screen 被共用則改不動；JSM 無</td></tr>
-<tr><td>Edit Workflows</td><td>改 status 與 transition</td><td>需 Browse；workflow 被共用則改不動；需新版編輯器</td></tr>
+<tr><td>Manage Issue Layouts</td><td>調整 issue 詳細頁面上既有欄位的排列方式</td><td>需 Browse；screen 被共用則改不動；JSM 無</td></tr>
+<tr><td>Edit Workflows</td><td>用新版編輯器修改本 project 專用 workflow 的 status 與 transition</td><td>需 Browse；workflow 被共用則改不動；需新版編輯器</td></tr>
 <tr><td><strong>Manage Versions</strong></td><td>建立／發布／封存／合併／刪除 version</td><td>官方 Manage versions 頁：需 Administer Projects ＋ Manage Versions</td></tr>
 <tr><td><strong>Manage Sprints</strong></td><td>建立、開始、結束 sprint，改長度與目標</td><td><strong>不含</strong>修改 sprint 內的 issue；跨 project sprint 要每個 project 都有</td></tr>
 <tr><td>View Aggregated Data</td><td>看 board／backlog／deployment 的彙整洞察</td><td>不需 app access；會外洩 epic 名稱、部署頻率</td></tr>
 <tr><td><strong>View Development Tools</strong></td><td>看 Development 面板、release page 的 warnings</td><td>只給有席次者</td></tr>
-<tr><td>View Read-only Workflow</td><td>唯讀看 workflow 圖</td><td>不需 app access</td></tr>
+<tr><td>View Read-only Workflow</td><td>只能檢視 workflow 的流程圖，不能編輯，也跟能不能執行 transition 無關</td><td>不需 app access</td></tr>
 </table></div>
 
 <h3>B. Issue 操作（15 項）</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:30%">權限</th><th>能做什麼</th><th style="width:30%">備註</th></tr>
-<tr><td><strong>Create Issues</strong></td><td>建 issue</td><td>不需 app access；Move 的目的地也要它</td></tr>
-<tr><td><strong>Edit Issues</strong></td><td>改欄位</td><td>但 Assignee、Reporter、Due date／rank 各自有更具體的權限</td></tr>
-<tr><td><strong>Assign Issues</strong></td><td>改 Assignee 欄位</td><td>≠ 可以被指派</td></tr>
-<tr><td><strong>Assignable User</strong></td><td>可以被填進 Assignee</td><td>≠ 可以改 Assignee；自動指派也要它</td></tr>
-<tr><td>Modify Reporter</td><td>改 Reporter</td><td>從 Edit 挖走</td></tr>
+<tr><td><strong>Create Issues</strong></td><td>在這個 project 建立新的 issue</td><td>不需 app access；Move 的目的地也要它</td></tr>
+<tr><td><strong>Edit Issues</strong></td><td>修改 issue 的一般欄位內容</td><td>但 Assignee、Reporter、Due date／rank 各自有更具體的權限</td></tr>
+<tr><td><strong>Assign Issues</strong></td><td>可以去修改 issue 的 Assignee 欄位（主動指派別人）</td><td>≠ 可以被指派</td></tr>
+<tr><td><strong>Assignable User</strong></td><td>他自己可以被別人填進 Assignee 欄位（被動接受指派）</td><td>≠ 可以改 Assignee；自動指派也要它</td></tr>
+<tr><td>Modify Reporter</td><td>修改 issue 的 Reporter（開單人）欄位</td><td>從 Edit 挖走</td></tr>
 <tr><td><strong>Schedule Issues</strong></td><td>改 Due date、在 board／backlog 拖曳 rank</td><td>從 Edit 挖走；Manage Sprints 拖不動 issue 的原因</td></tr>
-<tr><td><strong>Transition Issues</strong></td><td>改狀態</td><td>常與 Resolve、Close 三個一起</td></tr>
-<tr><td>Resolve Issues</td><td>設 Resolution、看 Fix version</td><td></td></tr>
-<tr><td>Close Issues</td><td>把 Resolution 設成關閉</td><td></td></tr>
-<tr><td><strong>Move Issues</strong></td><td>搬到別的 project 或換 issue type</td><td>需目的地 Create Issues</td></tr>
-<tr><td><strong>Link Issues</strong></td><td>連結 issue</td><td>需全域 issue linking 開啟；跨 project 兩邊都要</td></tr>
+<tr><td><strong>Transition Issues</strong></td><td>執行 workflow 的 transition，把 issue 從一個 status 推到下一個</td><td>常與 Resolve、Close 三個一起</td></tr>
+<tr><td>Resolve Issues</td><td>可以設定 Resolution 欄位（結束的結果，例如 Fixed），也看得到 Fix version</td><td>常與 Transition、Close 三個一起授予同一個 role</td></tr>
+<tr><td>Close Issues</td><td>把 issue 關閉，也就是把 Resolution 設成代表結案的值</td><td>在只給 Transition、不給 Close 的設計下，使用者能推進流程但不能結案</td></tr>
+<tr><td><strong>Move Issues</strong></td><td>把 issue 搬到別的 project，或是變更它的 issue type</td><td>需目的地 Create Issues</td></tr>
+<tr><td><strong>Link Issues</strong></td><td>在兩張 issue 之間建立關聯（blocks、relates to 等）</td><td>需全域 issue linking 開啟；跨 project 兩邊都要</td></tr>
 <tr><td>Delete Issues</td><td>刪 issue 與其資料</td><td>不含單獨刪留言／附件；官方建議改用 Archive</td></tr>
 <tr><td>Archive／Restore Issues</td><td>封存與還原</td><td>可救回，取代 Delete</td></tr>
 <tr><td>Set Issue Security</td><td>在 issue 上選 security level</td><td>需 project 已掛 security scheme</td></tr>
@@ -340,18 +340,18 @@
 <div class="section-label">情境練習</div>
 <h2>先判斷「哪一層、缺哪把鑰匙、該找誰」</h2>
 <div class="quiz">
-<details class="q"><summary>小傑能看 issue、能留言，但拖曳 backlog 排序時卡片彈回去。他有 Edit Issues。</summary><div class="a"><div class="tag">解答</div>缺 <strong>Schedule Issues</strong>（rank 與 due date 被它接管）。請 project admin 把小傑放進有 Schedule Issues 的 role；若 scheme 沒把該權限給任何 role，要 Jira admin 改 scheme。</div></details>
-<details class="q"><summary>Scrum master 有 Manage Sprints，能開始 sprint，卻不能把 issue 從 backlog 拖進 sprint。</summary><div class="a"><div class="tag">解答</div>Manage Sprints 只管 sprint 本身；拖 issue 進 sprint 需要 <strong>Schedule Issues</strong>（與 Edit Issues）。組合題的標準答案。</div></details>
-<details class="q"><summary>使用者有 Move Issues，把 issue 從 MOB 搬到 WEB 時目的地清單沒有 WEB。</summary><div class="a"><div class="tag">解答</div>他在 WEB 沒有 <strong>Create Issues</strong>（也需要 Browse）。跨 project 動作要兩邊都有權限。</div></details>
-<details class="q"><summary>team 想用 Link Issues 把 MOB 與 WEB 的 issue 連起來，Link 選項根本不出現。</summary><div class="a"><div class="tag">解答</div>先查全域 <strong>Issue linking</strong> 是否啟用（Jira admin）；再查兩個 project 是否都有 Link Issues。</div></details>
-<details class="q"><summary>阿宏建了跨 project board，同事說「看不到這個 board」。</summary><div class="a"><div class="tag">解答</div>阿宏缺全域 <strong>Share dashboards and filters</strong>，board 的 saved filter 分享不出去；或同事在其中一個 project 沒有 Browse Projects。</div></details>
-<details class="q"><summary>PM 想一次把 80 張 issue 改優先度，搜尋結果頁沒有 Bulk change。</summary><div class="a"><div class="tag">解答</div>缺全域 <strong>Make bulk changes</strong>；有了之後還要 project 的 Edit Issues。</div></details>
-<details class="q"><summary>Project admin 小美想讓 Reviewer role 多一個 Edit Issues，在 Project settings 找不到地方改。</summary><div class="a"><div class="tag">解答</div>CMP 的權限規則在 permission scheme，只有 Jira admin 能改；小美只能填 role 成員。若 scheme 被多個 project 共用，改動會影響所有 project。</div></details>
-<details class="q"><summary>Scheme 只設定了 Edit Issues。後來 Jira admin 把 Assign Issues 給了 Administrators role。工程師抱怨突然不能改 Assignee。</summary><div class="a"><div class="tag">解答</div>「最具體者勝」：一旦定義 Assign Issues，只有拿到它的人能改 Assignee；工程師仍能改其他欄位。</div></details>
-<details class="q"><summary>Kevin（外包）能被指派 issue，但他自己改不了 Assignee；小美想確認這是不是設定錯誤。</summary><div class="a"><div class="tag">解答</div>不是錯誤：Assignable User（可被指派）與 Assign Issues（可改欄位）是兩個獨立權限，Kevin 只有前者。</div></details>
-<details class="q"><summary>小美有 Edit Workflows，卻改不了本 project 的 workflow。</summary><div class="a"><div class="tag">解答</div>該 workflow 被其他 project 共用；共用的 workflow 需要 <strong>Administer Jira</strong>。請 Jira admin 複製一份專用 workflow 與 workflow scheme。</div></details>
-<details class="q"><summary>使用者有 Work On Issues，issue 上卻沒有 Log work。</summary><div class="a"><div class="tag">解答</div>全域 time tracking 未啟用，或 time tracking 欄位不在 screen 上——兩者都是 Jira admin。</div></details>
-<details class="q"><summary>@提及時只找得到本 project 的人，找不到法務同事。</summary><div class="a"><div class="tag">解答</div>缺全域 <strong>Browse users and groups</strong>；沒有它只看得到「同 project 有 Browse 的人」。官方說這可能是刻意限制。</div></details>
+<details class="q"><summary>小傑能看 issue、能留言，但拖曳 backlog 排序時卡片彈回去。他有 Edit Issues。</summary><div class="a"><div class="tag">解答</div>他缺的是 <strong>Schedule Issues</strong>。很多人以為排序屬於「編輯」，但 Jira 把兩件事從 Edit Issues 裡挖了出來交給 Schedule Issues 管：<strong>Due date</strong> 與 <strong>board／backlog 的拖曳排序（rank）</strong>。所以有 Edit Issues 卻拖不動，是完全正常的權限設計。處理順序是：先請 project admin 把小傑放進一個已經有 Schedule Issues 的 role；如果查下來發現這份 permission scheme 根本沒把該權限給任何 role，那就得請 Jira admin 修改 scheme——而且要提醒他，這份 scheme 若被多個 project 共用，改動會一次影響全部。</div></details>
+<details class="q"><summary>Scrum master 有 Manage Sprints，能開始 sprint，卻不能把 issue 從 backlog 拖進 sprint。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Manage Sprints 管的是「sprint 這個容器」，不是「sprint 裡面的工作」</strong>。它涵蓋建立、開始、結束 sprint，以及修改 sprint 的期間與目標；但把某一張 issue 放進 sprint，本質上是在<strong>修改那張 issue</strong>，需要的是 <strong>Schedule Issues</strong>（搭配 Edit Issues）。這是 620 最典型的組合題——記住這句話：<strong>能管 sprint ≠ 能改 sprint 裡的每一張 issue</strong>。</div></details>
+<details class="q"><summary>使用者有 Move Issues，把 issue 從 MOB 搬到 WEB 時目的地清單沒有 WEB。</summary><div class="a"><div class="tag">解答</div>因為他在<strong>目的地 WEB</strong> 沒有 <strong>Create Issues</strong> 權限。搬移 issue 對 Jira 來說等同於「在目的地建立一張新的」，所以目的地清單只會列出你有建立權的 project。這體現了官方講的通則：<strong>跨 project 的動作，兩邊的權限都要具備</strong>。另外提醒一個容易漏掉的後續問題——就算搬成功了，他在 WEB 若沒有 <strong>Browse Projects</strong>，搬完之後那張 issue 他自己就打不開了。</div></details>
+<details class="q"><summary>team 想用 Link Issues 把 MOB 與 WEB 的 issue 連起來，Link 選項根本不出現。</summary><div class="a"><div class="tag">解答</div>排查有先後順序。<strong>第一步查全域開關</strong>：⚙ → Issues → <strong>Issue linking</strong> 是不是被停用了。這是站台層級的總開關，一旦關閉，不管 project 權限給得多完整，Link 選單都不會出現，而且只有 Jira admin 能開。<strong>第二步才查 project 權限</strong>：兩個 project 是不是都把 <strong>Link Issues</strong> 給了這位使用者——跨 project 的連結一樣要兩邊都有權限。</div></details>
+<details class="q"><summary>阿宏建了跨 project board，同事說「看不到這個 board」。</summary><div class="a"><div class="tag">解答</div>兩個可能，順序上先查前者。第一，<strong>阿宏缺全域的 Share dashboards and filters 權限</strong>——沒有它，他建得出 filter，但分享的選單會是空的，board 因此沒有人看得到（board 沒有自己的分享設定，可見度完全跟著 filter 走）。第二，如果 filter 確實分享了，那就是<strong>同事在其中一個來源 project 缺 Browse Projects</strong>，這種情況他通常打得開 board、只是少了一半卡片。全域權限只有 Jira admin 能給，而且只能授予群組。</div></details>
+<details class="q"><summary>PM 想一次把 80 張 issue 改優先度，搜尋結果頁沒有 Bulk change。</summary><div class="a"><div class="tag">解答</div>因為他缺全域權限 <strong>Make bulk changes</strong>——這是搜尋結果頁出現 Bulk change 選項的<strong>入口條件</strong>，由 Jira admin 授予群組。但拿到入口之後還沒結束：實際執行時，他必須對<strong>每一張被選取的 issue</strong> 都有 <strong>Edit Issues</strong> 權限，只要其中幾張沒有，那幾張就會被跳過。另外要注意批次一次最多 <strong>1,000 張</strong>，而某些欄位（Components、versions）還有「必須是同一個 project」之類的額外條件。</div></details>
+<details class="q"><summary>Project admin 小美想讓 Reviewer role 多一個 Edit Issues，在 Project settings 找不到地方改。</summary><div class="a"><div class="tag">解答</div>因為在 CMP，<strong>「哪個 role 有哪些權限」這件事寫在 permission scheme 裡，而 scheme 是站台層級的物件，只有 Jira admin 動得了</strong>。project admin 能做的是另一半：決定<strong>誰</strong>屬於哪個 role（Project settings → People）。這正是 CMP 權限模型的精髓——<strong>Jira admin 定規則，project admin 填人</strong>。小美要做的是開單請 Jira admin 調整，並且提醒對方：如果這份 scheme 被多個 project 共用，改動會一次影響所有 project，必要時應該先複製一份專用的 scheme。</div></details>
+<details class="q"><summary>Scheme 只設定了 Edit Issues。後來 Jira admin 把 Assign Issues 給了 Administrators role。工程師抱怨突然不能改 Assignee。</summary><div class="a"><div class="tag">解答</div>這是官方明訂的<strong>「最具體者勝」</strong>規則在起作用。原本 scheme 裡沒有定義 Assign Issues，改 Assignee 這件事就由比較籠統的 Edit Issues 涵蓋；一旦 Jira admin<strong>把 Assign Issues 明確定義出來</strong>，這個欄位的管轄權就轉移給它，從此<strong>只有拿到 Assign Issues 的人才能改 Assignee</strong>。工程師沒有被降權，他仍然可以改 Summary、Description 等其他欄位——只是 Assignee 這一格被更具體的權限接管了。同樣的邏輯也適用於 Reporter（Modify Reporter）與 Due date（Schedule Issues）。</div></details>
+<details class="q"><summary>Kevin（外包）能被指派 issue，但他自己改不了 Assignee；小美想確認這是不是設定錯誤。</summary><div class="a"><div class="tag">解答</div><strong>不是設定錯誤，這正是預期行為。</strong>Jira 把「指派」拆成兩個方向相反的權限：<strong>Assignable User</strong> 是「他可以<strong>被</strong>填進 Assignee 欄位」（被動），<strong>Assign Issues</strong> 是「他可以<strong>去改</strong>別人或自己的 Assignee 欄位」（主動）。Kevin 只有前者，所以別人指派得動他，他自己卻改不了這個欄位。這樣的拆分很實用——外包廠商應該能接工作，但不該有權把工作丟給別人。</div></details>
+<details class="q"><summary>小美有 Edit Workflows，卻改不了本 project 的 workflow。</summary><div class="a"><div class="tag">解答</div>因為<strong>這份 workflow 被其他 project 共用了</strong>。Edit Workflows 這個 project 權限只能編輯<strong>本 project 專用</strong>的流程；一旦是共用的物件，改動會波及別人，Jira 就把門檻拉高到 <strong>Administer Jira</strong>。解法是請 Jira admin <strong>複製一份專用的 workflow 與 workflow scheme</strong> 指派給這個 project，之後小美就能自己改了。這個模式在 CMP 反覆出現：<strong>共用的東西一律回到 Jira admin 手上</strong>，layout、screen 也是同樣的道理。</div></details>
+<details class="q"><summary>使用者有 Work On Issues，issue 上卻沒有 Log work。</summary><div class="a"><div class="tag">解答</div>有兩個可能，而且<strong>都不是權限問題，都要找 Jira admin</strong>。第一，站台的 <strong>time tracking 全域開關被停用</strong>（⚙ → Issues → Time tracking），關掉之後全站都不能記工時。第二，<strong>time tracking 欄位沒有出現在該 issue type 的 screen 上</strong>，欄位不在畫面上自然填不了。這題想建立的觀念是：<strong>「有權限」只是必要條件，欄位還得真的顯示出來、功能還得真的開著</strong>。</div></details>
+<details class="q"><summary>@提及時只找得到本 project 的人，找不到法務同事。</summary><div class="a"><div class="tag">解答</div>因為缺了全域權限 <strong>Browse users and groups</strong>。沒有它的時候，@提及與 user picker 的候選名單會被限縮成「<strong>跟我在同一個 project、而且有 Browse Projects 的人</strong>」，其他部門的同事自然找不到。要特別提醒的是：<strong>這通常不是設定錯誤，而是刻意的</strong>——官方明講這是限制使用者名單外流的常見手法，尤其在有外部協作者的站台。所以回報之前先問清楚公司的政策，不要直接請 Jira admin 打開。</div></details>
 </div>
 </section>
 
@@ -361,16 +361,16 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「全域權限可以給 project role」</td><td>只能給群組</td></tr>
+<tr><td>「全域權限可以給 project role」</td><td>不行。全域權限<strong>只能授予群組</strong>，不能給個別使用者，也不能給 project role；要調整只能請 Jira admin 增減群組成員</td></tr>
 <tr><td>「有 Edit Issues 就什麼欄位都能改」</td><td>Assignee、Reporter、Due date／rank 一旦在 scheme 定義了專屬權限，就只聽專屬權限</td></tr>
-<tr><td>「Manage Sprints 可以拖 issue 進 sprint」</td><td>只管 sprint；拖 issue 要 Schedule Issues</td></tr>
-<tr><td>「Move Issues 就能搬到任何 project」</td><td>目的地要有 Create Issues</td></tr>
-<tr><td>「Project admin 可以調 permission scheme」</td><td>只能填 role 成員；scheme 是 Jira admin</td></tr>
-<tr><td>「Browse Projects 不重要」</td><td>幾乎所有 issue 權限的前提；排查永遠先看它</td></tr>
-<tr><td>「Link Issues 給了就能連」</td><td>還要全域 issue linking 開啟，跨 project 兩邊都要</td></tr>
-<tr><td>「看不到某張 issue 一定是 Browse 問題」</td><td>也可能是 issue security level，或 issue 被 archive</td></tr>
-<tr><td>「能建 issue 就一定看得到它」</td><td>Create Issues 不要求 Browse Projects；可能建完就打不開</td></tr>
-<tr><td>「同一個 project 的權限對每張 issue 都一樣」</td><td>Current assignee／Reporter／User custom field value 讓資格逐張不同</td></tr>
+<tr><td>「Manage Sprints 可以拖 issue 進 sprint」</td><td>不能。Manage Sprints 管的是 sprint 這個容器（建立、開始、結束、改期間與目標）；把 issue 放進 sprint 屬於修改那張 issue，需要 <strong>Schedule Issues</strong></td></tr>
+<tr><td>「Move Issues 就能搬到任何 project」</td><td>不行。搬移等於在目的地建立，所以<strong>目的地 project 也要有 Create Issues</strong>；搬完後想讀得到，還得在那邊有 Browse Projects</td></tr>
+<tr><td>「Project admin 可以調 permission scheme」</td><td>不能。CMP 的權限規則寫在 permission scheme（站台物件），只有 Jira admin 改得動；project admin 能做的是決定<strong>誰</strong>屬於哪個 role</td></tr>
+<tr><td>「Browse Projects 不重要」</td><td>非常重要。它是幾乎所有 issue 權限的前提（少數例外如 Create Issues），排查「他為什麼做不了」時永遠先確認這一項</td></tr>
+<tr><td>「Link Issues 給了就能連」</td><td>不一定。還要站台的 <strong>Issue linking 全域開關</strong>是開著的；而且跨 project 的連結，兩個 project 都要有 Link Issues</td></tr>
+<tr><td>「看不到某張 issue 一定是 Browse 問題」</td><td>不一定。也可能是這張 issue 被設了 <strong>issue security level</strong> 而他不在名單內，或是 issue 已經被封存（archive）</td></tr>
+<tr><td>「能建 issue 就一定看得到它」</td><td>不一定。<strong>Create Issues 並不以 Browse Projects 為前提</strong>，所以確實可能出現「建得出來、卻打不開自己剛建的那張」；Reporter 身分也不會自動帶來瀏覽權</td></tr>
+<tr><td>「同一個 project 的權限對每張 issue 都一樣」</td><td>不一定。permission scheme 可以授權給 <strong>Current assignee、Reporter、User custom field value</strong> 這類動態對象，因此同一個 project 裡，每張 issue 的可操作對象都可能不同——排查時要逐張看</td></tr>
 <tr><td>「有 Make bulk changes 就能批次改任何欄位」</td><td>Components／versions 還有單一 project 等欄位條件；Due date 另需 Schedule Issues</td></tr></table></div>
 </section>
 

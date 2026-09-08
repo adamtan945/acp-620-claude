@@ -258,22 +258,22 @@
 <h2>常考欄位與它們的「限制條件」</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">Field</th><th>要記的點</th></tr>
-<tr><td><code>project</code>（現行 <code>space</code>）</td><td>可用名稱、key 或 ID</td></tr>
+<tr><td><code>project</code>（現行 <code>space</code>）</td><td>可以用 project 的名稱、key 或數字 ID 來指定；用 key 最不容易因為改名而失效</td></tr>
 <tr><td><code>category</code></td><td>找「屬於某 project category 的 project」裡的 issue——跨 project 報表常用，category 由 Jira admin 建（620.1.4）</td></tr>
-<tr><td><code>issuetype</code>（現行 <code>type</code>）</td><td>名稱或 ID；搭配 <code>standardIssueTypes()</code>／<code>subtaskIssueTypes()</code></td></tr>
+<tr><td><code>issuetype</code>（現行 <code>type</code>）</td><td>可以填名稱或 ID；要一次涵蓋所有標準類型或所有 sub-task 類型時，搭配 <code>standardIssueTypes()</code> 與 <code>subtaskIssueTypes()</code> 兩個函數最省事</td></tr>
 <tr><td><code>status</code>、<code>statusCategory</code></td><td><code>statusCategory = Done</code> 跨 workflow 通用，不用列舉每個 Done 狀態名</td></tr>
 <tr><td><code>resolution</code></td><td><code>resolution IS EMPTY</code> ＝ 未解決；team-managed service project 沒有這個欄位</td></tr>
 <tr><td><code>sprint</code></td><td>可用 sprint 名稱（部分字串會 autocomplete）或 ID；配 <code>openSprints()</code></td></tr>
-<tr><td><code>fixVersion</code>、<code>affectedVersion</code></td><td>名稱或 ID；配版本函數</td></tr>
+<tr><td><code>fixVersion</code>、<code>affectedVersion</code></td><td>可以填版本名稱或 ID；搭配 <code>unreleasedVersions()</code>、<code>earliestUnreleasedVersion()</code> 等版本函數，就不必每次發版都回頭改 filter</td></tr>
 <tr><td><code>parent</code></td><td>找某 parent 的所有 child，TMP、CMP 都可用（取代舊的 Epic Link）</td></tr>
 <tr><td><code>text</code></td><td>主欄位：一次搜 Summary、Description、Environment、Comments 與所有文字 custom field</td></tr>
-<tr><td><code>summary</code>、<code>description</code>、<code>comment</code></td><td>只能用 <code>~</code>／<code>!~</code></td></tr>
+<tr><td><code>summary</code>、<code>description</code>、<code>comment</code></td><td>這些都是文字欄位，只能用 <code>~</code>（包含）與 <code>!~</code>（不包含），不能用 <code>=</code> 做精確比對</td></tr>
 <tr><td><code>created</code>、<code>updated</code>、<code>resolved</code>、<code>due</code>（duedate）</td><td>日期沒指定時間時算<strong>當天 00:00</strong>；due 只看日期不看時間</td></tr>
 <tr><td><code>assignee</code>、<code>reporter</code>、<code>creator</code></td><td>可用全名、ID、email；creator 是「建立者」，reporter 可被改</td></tr>
 <tr><td><code>labels</code>、<code>component</code></td><td><code>labels IS EMPTY</code> 找沒貼標籤的；component 只有 CMP 有</td></tr>
-<tr><td><code>votes</code>、<code>watchers</code></td><td>數量欄位，可用 <code>&gt;</code></td></tr>
-<tr><td><code>level</code></td><td>issue security level；只有啟用 issue security 才有</td></tr>
-<tr><td><code>originalEstimate</code>、<code>remainingEstimate</code>、<code>timeSpent</code>、<code>workRatio</code>、<code>worklogDate</code></td><td>只有全域 time tracking 啟用才有</td></tr>
+<tr><td><code>votes</code>、<code>watchers</code></td><td>這兩個是數量欄位，可以用比較運算子，例如 <code>votes &gt; 5</code> 找出被投票最多的需求</td></tr>
+<tr><td><code>level</code></td><td>代表 issue 的 security level；只有在 project 掛了 issue security scheme 時才有這個欄位可用</td></tr>
+<tr><td><code>originalEstimate</code>、<code>remainingEstimate</code>、<code>timeSpent</code>、<code>workRatio</code>、<code>worklogDate</code></td><td>這一組時間追蹤欄位，只有在站台的 time tracking 啟用、而且欄位有值的情況下才查得到</td></tr>
 </table></div>
 <div class="callout"><div class="t">兩個容易漏掉的欄位技巧</div>
 <ul style="margin:.3rem 0 0">
@@ -331,18 +331,18 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>PM 要「所有沒有 component 的 issue，加上 component 不是 Backend 的」。<code>component != Backend</code> 夠嗎？</summary><div class="a"><div class="tag">解答</div>不夠。<code>!=</code> 不匹配空值，要寫 <code>component != Backend OR component IS EMPTY</code>。</div></details>
-<details class="q"><summary><code>project = MOB AND status = Done ORDER BY created DESC AND priority = High</code> 哪裡錯？</summary><div class="a"><div class="tag">解答</div><code>ORDER BY</code> 必須在整句最後；排序後面不能再接 clause。</div></details>
-<details class="q"><summary>「找 summary 含有 crash 這個字的 issue」該用哪個運算子？</summary><div class="a"><div class="tag">解答</div><code>summary ~ crash</code>。文字欄位不能用 <code>=</code>。</div></details>
-<details class="q"><summary><code>status WAS "In Progress"</code> 會不會找到現在正在 In Progress 的 issue？</summary><div class="a"><div class="tag">解答</div>會。<code>WAS</code> 是「現在是或曾經是」。要排除現在的，加 <code>AND status != "In Progress"</code>。</div></details>
-<details class="q"><summary>想用 <code>WAS</code> 查 component 的歷史，可以嗎？</summary><div class="a"><div class="tag">解答</div>不行。WAS／CHANGED 只支援 Assignee、Fix Version、Priority、Reporter、Resolution、Status 六個欄位。</div></details>
-<details class="q"><summary>Filter 要分享給匿名的公開 dashboard 用，裡面寫 <code>assignee = currentUser()</code>，會怎樣？</summary><div class="a"><div class="tag">解答</div>匿名使用者沒有 currentUser，查詢不會如預期。官方明講：預期給匿名用的 saved filter 不要用 <code>currentUser()</code>。</div></details>
+<details class="q"><summary>PM 要「所有沒有 component 的 issue，加上 component 不是 Backend 的」。<code>component != Backend</code> 夠嗎？</summary><div class="a"><div class="tag">解答</div><strong>不夠。</strong>這是 JQL 最經典的陷阱：<strong><code>!=</code> 與 <code>NOT IN</code> 都不會匹配「沒有值」的 issue</strong>。<code>component != Backend</code> 的實際意思是「<strong>有</strong> component，而且那個 component 不是 Backend」——完全沒填 component 的 issue 一張都不會出現。要涵蓋兩者必須明確寫出來：<code>component != Backend OR component IS EMPTY</code>。背後的道理是 Jira 認為「空值」不是任何一種值，無法參與比較。凡是用到 <code>!=</code> 的地方都要先問自己一句：<strong>那些沒填值的要不要算進來？</strong></div></details>
+<details class="q"><summary><code>project = MOB AND status = Done ORDER BY created DESC AND priority = High</code> 哪裡錯？</summary><div class="a"><div class="tag">解答</div>錯在 <strong><code>ORDER BY</code> 的位置</strong>。它必須放在<strong>整句 JQL 的最後面</strong>，後面不能再接任何 clause。這句把 <code>AND priority = High</code> 寫在 ORDER BY 之後，Jira 會直接判定語法錯誤。正確寫法是把所有條件寫完再排序：<code>project = MOB AND status = Done AND priority = High ORDER BY created DESC</code>。順帶一提，ORDER BY 可以指定多個欄位（<code>ORDER BY priority DESC, created ASC</code>），排序會依序套用。</div></details>
+<details class="q"><summary>「找 summary 含有 crash 這個字的 issue」該用哪個運算子？</summary><div class="a"><div class="tag">解答</div>用 <strong><code>summary ~ crash</code></strong>。文字型欄位（Summary、Description、Environment、Comments 以及 Free Text 類型的 custom field）<strong>不能用 <code>=</code></strong>，只能用 <code>~</code>（包含）與 <code>!~</code>（不包含）。<code>~</code> 還支援幾種進階寫法：詞幹比對（打 win 也會找到 wins）、萬用字元（在字尾加星號）、以及用跳脫引號指定精確片語。要一次搜尋所有文字欄位可以用 text 這個主欄位，但欄位多的站台會比較慢。</div></details>
+<details class="q"><summary><code>status WAS "In Progress"</code> 會不會找到現在正在 In Progress 的 issue？</summary><div class="a"><div class="tag">解答</div><strong>會找到。</strong><code>WAS</code> 的語意是「<strong>現在是，或曾經是</strong>」，並不排除目前的狀態。如果要的是「以前待過但現在已經離開」，必須自己補上排除條件：<code>status WAS "In Progress" AND status != "In Progress"</code>。順便記住配套的另一個：<code>WAS NOT</code> 的意思是「<strong>從來沒有進入過</strong>這個狀態」，不是「現在不是」。這組語意差異是考題最愛設計的陷阱。</div></details>
+<details class="q"><summary>想用 <code>WAS</code> 查 component 的歷史，可以嗎？</summary><div class="a"><div class="tag">解答</div><strong>不行。</strong>歷史類的運算子（<code>WAS</code>、<code>WAS IN</code>、<code>WAS NOT</code>、<code>WAS NOT IN</code>、<code>CHANGED</code>）<strong>只支援六個欄位：Assignee、Fix Version、Priority、Reporter、Resolution、Status</strong>，component 不在其中。這六個值得直接背下來——考題常拿 component、labels、sprint 這些「看起來也該有歷史」的欄位來設陷阱。要追蹤其他欄位的變更歷史，只能開 issue 的 History 逐張看，或改用 automation 在變更時寫進別的地方。</div></details>
+<details class="q"><summary>Filter 要分享給匿名的公開 dashboard 用，裡面寫 <code>assignee = currentUser()</code>，會怎樣？</summary><div class="a"><div class="tag">解答</div>查詢結果不會如預期——<strong>匿名使用者根本沒有「currentUser」這個身分</strong>，函數取不到值。官方在 functions reference 裡明確警告：<strong>預期要給匿名使用者用的 saved filter，不要使用 <code>currentUser()</code></strong>。同一類的還有 <code>watchedIssues()</code>、<code>votedIssues()</code>、<code>issueHistory()</code>、<code>lastLogin()</code> 這些「跟登入者綁定」的函數，全都不適合放在公開 filter 裡。公開 dashboard 應該改用明確的條件，例如指定 project、issue type 或 label。</div></details>
 <details class="q"><summary><span>「resolved 的 SysAdmin issue，加上所有指派給 bobsmith 的 issue」，寫成 <code style="white-space:normal">status=resolved AND project=SysAdmin OR assignee=bobsmith</code> 對嗎？</span></summary><div class="a"><div class="tag">解答</div>沒括號時由左到右評估，這句剛好等於 <code>(status=resolved AND project=SysAdmin) OR assignee=bobsmith</code>，結果正確；但為了可讀與避免誤判，官方建議加括號。若需求改成「resolved 且（SysAdmin 或 bobsmith）」就必須寫 <code>status=resolved AND (project=SysAdmin OR assignee=bobsmith)</code>。</div></details>
-<details class="q"><summary>「上週建立的 issue」寫成 <code>created &gt;= -7d</code> 有什麼問題？</summary><div class="a"><div class="tag">解答</div><code>-7d</code> 是「最近 7 天」，不是「上一個日曆週」。要用 <code>created &gt;= startOfWeek(-1) AND created &lt; startOfWeek()</code>。</div></details>
-<details class="q"><summary>Basic search 可以做「status 是 Done 或 Closed，且不是 jsmith 建立的」嗎？</summary><div class="a"><div class="tag">解答</div>「Done 或 Closed」可以（同一欄位多選＝IN）；「不是 jsmith」不行——Basic 沒有 NOT／<code>!=</code>，要切 JQL：<code>status IN (Done, Closed) AND reporter != jsmith</code>。</div></details>
-<details class="q"><summary>想找 label 完全沒貼的 issue。</summary><div class="a"><div class="tag">解答</div><code>labels IS EMPTY</code>。EMPTY 只能配 IS／IS NOT。</div></details>
-<details class="q"><summary>跨三個 project 找「未完成」，各 project 的 Done 狀態名不同。</summary><div class="a"><div class="tag">解答</div>用 <code>statusCategory != Done</code>（或 <code>resolution IS EMPTY</code>），不要逐一列狀態名。</div></details>
-<details class="q"><summary><code>reporter in (Jack,Jill,John)</code> 等於哪一種寫法？</summary><div class="a"><div class="tag">解答</div><code>reporter = Jack OR reporter = Jill OR reporter = John</code>。<code>NOT IN</code> 則等於多個 <code>!=</code> 用 AND 接，且同樣不含空值。</div></details>
+<details class="q"><summary>「上週建立的 issue」寫成 <code>created &gt;= -7d</code> 有什麼問題？</summary><div class="a"><div class="tag">解答</div>問題在於 <strong><code>-7d</code> 是「從現在往前推 7 天」的滾動區間，不是「上一個日曆週」</strong>。今天是星期三的話，<code>-7d</code> 涵蓋的是上週三到今天，跟老闆心裡想的「上週一到上週日」完全是兩回事。要精確表達日曆週，用 <code>created &gt;= startOfWeek(-1) AND created &lt; startOfWeek()</code>：前半段是上週的第一天，後半段排除本週。這裡也提醒一個常被忽略的設定——<strong>一週從星期幾開始，是由站台 Look and feel 的 ISO8601 設定決定的</strong>。</div></details>
+<details class="q"><summary>Basic search 可以做「status 是 Done 或 Closed，且不是 jsmith 建立的」嗎？</summary><div class="a"><div class="tag">解答</div><strong>只能做一半。</strong>「status 是 Done 或 Closed」做得到——在 Basic search 裡對<strong>同一個欄位</strong>複選多個值，等同於 <code>IN</code>。但「不是 jsmith 建立的」就做不到了，因為 <strong>Basic search 沒有 NOT，也沒有 <code>!=</code> 運算子</strong>，它的 clause 之間永遠是 AND，值也只能是「等於」。所以必須切換到 JQL 寫：<code>status IN (Done, Closed) AND reporter != jsmith</code>。而且要有心理準備——<strong>這句用了 <code>!=</code>，之後就切不回 Basic 了</strong>。</div></details>
+<details class="q"><summary>想找 label 完全沒貼的 issue。</summary><div class="a"><div class="tag">解答</div>寫 <strong><code>labels IS EMPTY</code></strong>。要記住兩件事：第一，<strong>EMPTY（或完全等價的 NULL）只能搭配 <code>IS</code> 與 <code>IS NOT</code></strong>，不能寫成 <code>labels &gt; EMPTY</code> 之類的形式（不過 <code>labels = EMPTY</code> 官方也接受）。第二，這正是前面提過的空值陷阱的另一面——<strong>沒有值的 issue 不會被 <code>!=</code> 抓到，只有 IS EMPTY 找得到它們</strong>。</div></details>
+<details class="q"><summary>跨三個 project 找「未完成」，各 project 的 Done 狀態名不同。</summary><div class="a"><div class="tag">解答</div>用 <strong><code>statusCategory != Done</code></strong>，或是 <strong><code>resolution IS EMPTY</code></strong>。理由是每個 project 的 workflow 可以自訂 status 名稱（有的叫 Done、有的叫 Closed、有的叫 Shipped），逐一列舉不但冗長，<strong>而且日後任何一個 project 新增了 status，這個 filter 就悄悄漏掉資料了</strong>。statusCategory 只有 To do／In progress／Done 三個值，是跨 workflow 通用的抽象層，正好解決這個問題。這個技巧在跨 project 的 dashboard 與報表上非常實用。</div></details>
+<details class="q"><summary><code>reporter in (Jack,Jill,John)</code> 等於哪一種寫法？</summary><div class="a"><div class="tag">解答</div>等於 <strong><code>reporter = Jack OR reporter = Jill OR reporter = John</code></strong>——<code>IN</code> 就是「多個 <code>=</code> 用 OR 串起來」的簡寫，值一多就比手寫 OR 清楚得多。對照著記另一半：<strong><code>NOT IN</code> 等於「多個 <code>!=</code> 用 AND 串起來」</strong>，而且它<strong>同樣不會匹配空值</strong>，需要涵蓋沒填值的 issue 時一樣要補 <code>OR field IS EMPTY</code>。</div></details>
 </div>
 </section>
 
@@ -352,15 +352,15 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「<code>!=</code> 會把沒有值的也找出來」</td><td>不會；要另加 <code>OR field IS EMPTY</code>。<code>NOT IN</code> 同理。</td></tr>
-<tr><td>「<code>ORDER BY</code> 可以放在任何位置」</td><td>只能放最後，否則整句無效。</td></tr>
-<tr><td>「文字欄位可以用 <code>=</code> 精確比對」</td><td>不能；用 <code>~</code>，精確片語用跳脫引號。</td></tr>
-<tr><td>「WAS 可以查任何欄位的歷史」</td><td>只有六個欄位。</td></tr>
-<tr><td>「<code>-7d</code> 等於上週」</td><td>是「往前 7 天」；日曆週用 startOfWeek(-1)。</td></tr>
-<tr><td>「JQL 是 SQL」</td><td>官方明講不是資料庫查詢語言，只是語法相似；沒有 JOIN、沒有子查詢。</td></tr>
-<tr><td>「<code>currentUser()</code> 在公開 filter 也能用」</td><td>只有登入者能用。</td></tr>
-<tr><td>「保留字可以直接寫」</td><td>約 200 個保留字（a、an、and、or、by、on…）當值用時要加引號。</td></tr>
-<tr><td>「Basic 與 JQL 可以無損互切」</td><td>用了 OR、NOT、括號、EMPTY、比較運算子等就切不回 Basic。</td></tr>
+<tr><td>「<code>!=</code> 會把沒有值的也找出來」</td><td>不會。<code>!=</code> 的意思是「有值、而且不等於它」，完全沒填值的 issue 不會出現；要涵蓋就得另加 <code>OR field IS EMPTY</code>。<code>NOT IN</code> 也是一樣的行為。</td></tr>
+<tr><td>「<code>ORDER BY</code> 可以放在任何位置」</td><td>不行。<code>ORDER BY</code> 只能放在整句的<strong>最後面</strong>，後面不能再接任何條件，否則整句語法錯誤。</td></tr>
+<tr><td>「文字欄位可以用 <code>=</code> 精確比對」</td><td>不能。Summary、Description 這類文字欄位只能用 <code>~</code>（包含）與 <code>!~</code>（不包含）；要精確比對一個片語，用跳脫引號把它包起來。</td></tr>
+<tr><td>「WAS 可以查任何欄位的歷史」</td><td>不行。WAS 與 CHANGED <strong>只支援六個欄位</strong>：Assignee、Fix Version、Priority、Reporter、Resolution、Status；component、labels、sprint 都不在其中。</td></tr>
+<tr><td>「<code>-7d</code> 等於上週」</td><td>不是。<code>-7d</code> 是「從現在往前推 7 天」的滾動區間；要表達上一個<strong>日曆週</strong>得用 <code>created &gt;= startOfWeek(-1) AND created &lt; startOfWeek()</code>。</td></tr>
+<tr><td>「JQL 是 SQL」</td><td>不是。官方明講 JQL 並非資料庫查詢語言，只是語法看起來相似；它<strong>沒有 JOIN、沒有子查詢，也不能逐筆比較兩個欄位</strong>（寫不出 <code>assignee = reporter</code>）。</td></tr>
+<tr><td>「<code>currentUser()</code> 在公開 filter 也能用」</td><td>不能。<code>currentUser()</code> 只有登入者能用，匿名使用者取不到值；官方明講預期給匿名用的 saved filter 不要使用它。</td></tr>
+<tr><td>「保留字可以直接寫」</td><td>不行。JQL 有大約 200 個保留字（a、an、and、or、by、on…），拿它們當值使用時必須用引號包起來，含特殊字元的值也一樣。</td></tr>
+<tr><td>「Basic 與 JQL 可以無損互切」</td><td>不行。只要用到 OR、NOT、括號、EMPTY 或比較運算子，就<strong>無法再切回 Basic search</strong>——因為 Basic 表達不出這些條件。</td></tr>
 </table></div>
 </section>
 

@@ -12,10 +12,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "!= 不會匹配空值，未指派的會被漏掉。",
-   "A": "用 OR 明確補上 IS EMPTY。",
-   "B": "兩個條件互斥，永遠無結果。",
-   "C": "EMPTY 不能放在 IN 清單裡。"
+   "D": "這正是本題要打破的直覺——它<strong>會漏掉所有未指派的 issue</strong>，只找到「有指派、但不是我」的那些。",
+   "A": "正解。這是 JQL 最經典的空值陷阱：<strong><code>!=</code> 只會匹配「有值、而且不等於它」的 issue，完全不會涵蓋沒有值的</strong>。所以「指派給別人」用 <code>assignee != currentUser()</code> 沒問題，但「還沒指派」必須<strong>另外用 <code>OR assignee IS EMPTY</code> 明確補上</strong>。凡是用到 <code>!=</code> 或 <code>NOT IN</code> 的地方，都要先問自己：<strong>那些沒填值的要不要算進來？</strong>",
+   "B": "這兩個條件<strong>互斥</strong>——一張 issue 不可能同時「沒有 assignee」又「assignee 是我」，用 AND 串起來永遠是空結果。",
+   "C": "<strong>EMPTY 不能放進 <code>IN</code> 的清單裡</strong>，這是語法上不成立的寫法；EMPTY 只能搭配 <code>IS</code> 與 <code>IS NOT</code>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/",
@@ -43,10 +43,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "IN 是「任一」。",
-   "B": "多值欄位用 AND 連兩個等式，要求兩者都有。",
-   "C": "查的是 summary 文字。",
-   "D": "Label 不能含空白，這是一個不存在的 label。"
+   "A": "<code>IN</code> 的語意是「<strong>任一</strong>」（等同多個 <code>=</code> 用 OR 串起來），所以這句找到的是「有 web <strong>或</strong> payment」的 issue，範圍太寬。",
+   "B": "正解。<strong>對多值欄位（labels、components、fix versions）而言，要求「同時具備多個值」的寫法就是用 AND 串接多個等式</strong>：<code>labels = web AND labels = payment</code>。這看起來有點反直覺（同一個欄位怎麼會同時等於兩個值），但因為 labels 是多值欄位，每個等式各自檢查「這個集合裡有沒有包含它」，所以成立。",
+   "C": "這是在搜尋 <strong>summary 的文字內容</strong>，跟 labels 欄位完全是兩回事。",
+   "D": "<strong>label 不能包含空白</strong>，所以 <code>\"web payment\"</code> 是一個根本不存在的 label，查不到任何東西。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
@@ -73,10 +73,10 @@
   ],
   "answer": "C",
   "explain": {
-   "A": "看的是目前狀態。",
-   "B": "只知道有更新，不知道改了什麼。",
-   "C": "CHANGED TO 搭配 AFTER 述詞，精確描述轉換事件與時段。",
-   "D": "Resolution 不是狀態轉換事件。"
+   "A": "這只查<strong>目前的狀態</strong>，會漏掉「本月轉成 Done、後來又被重開」的那些，也無法限定發生的時間。",
+   "B": "<code>updated</code> 只告訴你這張 issue 本月有被更新過，<strong>完全不知道改的是什麼</strong>——可能只是有人加了一則留言。",
+   "C": "正解。<strong><code>CHANGED TO Done</code> 描述的是「發生過這個轉換事件」，搭配 <code>AFTER startOfMonth()</code> 限定時段</strong>，正好對應題目要的「本月曾經轉成 Done、但不要求現在仍是」。順帶對照另一個歷史運算子：<code>status WAS Done</code> 的語意是「<strong>現在是或曾經是</strong>」，涵蓋範圍不同。記得 <strong>WAS／CHANGED 只支援六個欄位</strong>：Assignee、Fix Version、Priority、Reporter、Resolution、Status。",
+   "D": "<strong>resolution 是「結案的結果」欄位，不是狀態轉換事件</strong>，兩者概念不同（而且 Done 通常是 status 的名字，不見得是 resolution 的值）。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
@@ -103,10 +103,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "currentUser() 是動態函數；結果再被各自的 Browse／security 過濾。",
-   "A": "沒有證據。",
-   "B": "任何登入者都能用。",
-   "C": "看得到 filter 就是分享成功。"
+   "D": "正解。有兩層原因疊在一起：<strong>① <code>currentUser()</code> 是動態函數，它依「目前登入的人」求值</strong>，所以 Alex 看到的是 Alex 的工作、Bea 看到的是 Bea 的；<strong>② 就算沒有這個函數，兩人的 Browse Projects 權限與 issue security 也可能不同</strong>，結果一樣會有差異。實務上的建議：<strong>共用的 filter 不要把 <code>currentUser()</code> 寫死在裡面</strong>，把它留給 quick filter 讓每個人自己決定；而且<strong>要分享給匿名使用者的 filter 絕對不能用它</strong>。",
+   "A": "沒有任何跡象顯示 filter 損壞——這是完全正常的行為。",
+   "B": "<strong>任何登入的使用者都能使用 <code>currentUser()</code></strong>，不限 owner。（真正不能用的是<strong>匿名使用者</strong>。）",
+   "C": "兩人都<strong>看得到這個 filter</strong>，就代表分享是成功的。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
@@ -132,10 +132,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "函數回傳集合，要用 IN。",
-   "A": "正確。",
-   "B": "欄位錯。",
-   "C": "~ 是文字搜尋。"
+   "D": "函數回傳的是一個<strong>集合</strong>，用 <code>=</code> 拿單一值去比對集合是不成立的，必須用 <code>IN</code>。",
+   "A": "正解。<strong><code>openSprints()</code> 這個函數回傳的是「一組」目前進行中的 sprint，所以要用 <code>IN</code> 而不是 <code>=</code></strong>。相關的三個函數一起記：<code>openSprints()</code>（進行中）、<code>closedSprints()</code>（已完成）、<code>futureSprints()</code>（尚未開始）。有一個細節值得注意——<strong>同一張 issue 可能同時屬於已完成與未完成的 sprint</strong>（被從上個 sprint 拉到下一個時），所以 <code>sprint in closedSprints()</code> 查到的不一定都做完了。",
+   "B": "欄位用錯了：sprint 的資訊在 <code>sprint</code> 欄位，不是 <code>status</code>。",
+   "C": "<code>~</code> 是<strong>文字包含</strong>運算子，只能用在 Summary、Description 這類文字欄位，不能用在 sprint。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
@@ -161,10 +161,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "包含整月且不跨到十月。",
-   "C": "只比對某一天。",
-   "D": "沒有起點，且 9/30 當天晚於 00:00 的會漏。",
-   "A": "相對日期，會隨執行時間變動。"
+   "B": "正解。<strong>用明確的日期加上「大於等於起點、小於下個月起點」的半開區間，是表達整個月份最乾淨的寫法</strong>：<code>created &gt;= \"2026-09-01\" AND created &lt; \"2026-10-01\"</code>。用 <code>&lt;</code>（而不是 <code>&lt;= \"2026-09-30\"</code>）的理由很重要——<strong>JQL 的日期若沒有指定時間，一律當成當天 00:00</strong>，寫 <code>&lt;= \"2026-09-30\"</code> 會漏掉 9 月 30 日當天 00:00 之後建立的所有 issue。",
+   "C": "<code>=</code> 只比對<strong>某一天</strong>（而且是那天的 00:00），涵蓋不到整個月。",
+   "D": "<strong>沒有起點</strong>，會把 9 月之前的所有 issue 都撈進來；而且如同上面說的，<code>&lt;= \"2026-09-30\"</code> 還會漏掉 9 月 30 日當天的資料。",
+   "A": "<code>startOfMonth(-1)</code> 是<strong>相對日期</strong>，它的結果會隨著執行時間而變動——這個月跑是八月，下個月跑就變成九月，無法穩定表達「2026 年 9 月」這個固定區間。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
@@ -190,10 +190,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "改範圍不補權限。",
-   "C": "Dashboard、filter、資料是三層權限。",
-   "D": "破壞資料。",
-   "A": "無關。"
+   "B": "把查詢改成空的只會讓大家都看不到資料，<strong>完全沒有補上任何權限</strong>。",
+   "C": "正解。這裡有<strong>三層獨立的權限</strong>要逐一確認：<strong>① dashboard 有沒有分享給他</strong>（決定他打不打得開這個頁面）；<strong>② gadget 所使用的 saved filter 有沒有分享給他</strong>（決定 gadget 能不能執行查詢）；<strong>③ 他對相關 project 有沒有 Browse Projects 權限、以及 issue security 有沒有擋住</strong>（決定查詢會回傳哪些資料）。「dashboard 打得開、gadget 卻空白」通常卡在第二或第三層。",
+   "D": "刪除 labels 是破壞資料，跟權限問題毫無關係。",
+   "A": "dashboard 的名稱跟權限毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
@@ -219,10 +219,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "JQL 沒有聚合函數。",
-   "C": "JQL 不支援欄位對欄位比較。",
-   "D": "合法的篩選＋排序。",
-   "A": "JQL 不是 SQL。"
+   "B": "<strong>JQL 沒有聚合函數</strong>（SUM、COUNT、GROUP BY 都沒有）。要做這種統計得用 dashboard gadget（例如 Two Dimensional Filter Statistics）或報表。",
+   "C": "<strong>JQL 不支援欄位對欄位的逐筆比較</strong>——寫不出 <code>assignee = reporter</code> 或 <code>timeSpent &gt; originalEstimate</code>。遇到這種需求，先找有沒有現成的<strong>衍生欄位</strong>（<code>workRatio</code> 就是把 timeSpent／originalEstimate 算好的一個），真的沒有才考慮匯出資料或用 app。",
+   "D": "正解。<strong>JQL 的能力範圍就是「篩選 ＋ 排序」</strong>：<code>project = FOOD</code> 是合法的欄位比較，<code>ORDER BY created DESC</code> 是合法的排序子句（而且放在最後面，位置正確）。這題的價值在於劃清 JQL 的邊界——<strong>它擅長找出「哪些 issue」，不擅長「算出什麼數字」</strong>。",
+   "A": "<strong>JQL 不是 SQL，它沒有 JOIN</strong>——官方明講它只是語法看起來相似的查詢語言，不是資料庫查詢語言。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-searching-in-jira-cloud/"
@@ -248,10 +248,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "限定六個欄位。",
-   "A": "官方原句：This operator can be used with the Assignee, Fix Version, Priority, Reporter, Resolution, and Status fields only。另注意變更筆數過多時 WAS 只搜尋最近的變更。",
-   "B": "不只 Status。",
-   "C": "自訂欄位不支援。"
+   "D": "<strong>限定六個欄位</strong>，不是任何欄位都可以。要追蹤其他欄位的變更，只能開 issue 的 History 逐張看，或用 automation 在變更時把資料寫到別的地方。",
+   "A": "正解。官方原句明列：<strong>這類歷史運算子只能用在 Assignee、Fix Version、Priority、Reporter、Resolution 與 Status 這六個欄位</strong>。這六個值得直接背下來，因為考題常拿 component、labels、sprint 這些「看起來也該有歷史」的欄位來設陷阱。另外還有一個官方提到的限制：<strong>當某張 issue 的變更筆數超過 10,000 時，WAS 只會搜尋最近的那些變更</strong>。",
+   "B": "不只 Status，總共有六個欄位。",
+   "C": "<strong>自訂欄位完全不支援</strong>歷史運算子。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
@@ -278,10 +278,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "月份的單位是 w／d 換算或用 startOfMonth；m 是分鐘。",
-   "B": "JQL 相對時間的 m 代表 minutes。",
-   "C": "方向相反。",
-   "D": "語法合法。"
+   "A": "這正是最容易誤選的答案——<strong><code>m</code> 是分鐘（minutes），不是月份</strong>。要表達三個月可以寫 <code>-12w</code>（約略）或用 <code>startOfMonth(-3)</code>（精確到曆月）。",
+   "B": "正解。<strong>JQL 相對時間的單位是：<code>w</code>（週）、<code>d</code>（天）、<code>h</code>（小時）、<code>m</code>（分鐘）</strong>，所以 <code>-3m</code> 的意思是「最近三分鐘」。這是很常見的踩雷點——寫 <code>-3m</code> 想查三個月，結果查到幾乎空白的結果還以為資料有問題。要表達曆月請用 <code>startOfMonth()</code> 系列函數。",
+   "C": "方向反了。<code>&gt;=</code> 搭配負值代表「從那個時間點<strong>到現在</strong>」，不是「在那個時間點之前」。",
+   "D": "語法完全合法，只是語意跟寫的人想的不一樣——這比語法錯誤更危險，因為不會有任何錯誤提示。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-fields/"
@@ -307,10 +307,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "IS 只能配 EMPTY／NULL。",
-   "C": "函數回傳集合，用 IN。",
-   "D": "集合不能用 =。",
-   "A": "~ 是文字搜尋。"
+   "B": "<strong><code>IS</code> 只能搭配 <code>EMPTY</code> 或 <code>NULL</code></strong>，不能拿來比對集合。",
+   "C": "正解。<strong><code>membersOf(\"dev-team\")</code> 回傳的是「一組使用者」，所以要用 <code>IN</code> 來判斷 assignee 是不是其中之一</strong>。這是 JQL 裡的通則——<strong>凡是回傳集合的函數（<code>membersOf()</code>、<code>openSprints()</code>、<code>unreleasedVersions()</code>、<code>subtaskIssueTypes()</code>）一律搭配 <code>IN</code></strong>。順帶提醒官方的一個限制：群組成員超過 10,000 人時 <code>membersOf</code> 會報錯。",
+   "D": "<code>=</code> 是拿單一值做比較，<strong>不能用來比對一個集合</strong>。",
+   "A": "<code>~</code> 是<strong>文字包含</strong>運算子，只能用在 Summary、Description 這類文字欄位；assignee 是使用者欄位，用它會出錯。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
@@ -336,10 +336,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "少了 s，不存在。",
-   "D": "與 unreleasedVersions()、earliestUnreleasedVersion()、latestReleasedVersion() 同族。",
-   "A": "不存在。",
-   "B": "不存在。"
+   "C": "<strong>少了 s</strong>——這是考題最愛的細節陷阱，單複數差一個字母就是不存在的函數。",
+   "D": "正解。<strong><code>releasedVersions()</code> 是官方的版本函數之一</strong>，同族的還有 <code>unreleasedVersions()</code>、<code>latestReleasedVersion(project)</code> 與 <code>earliestUnreleasedVersion(project)</code>。注意<strong>回傳多個版本的用複數形、要搭配 <code>IN</code>；回傳單一版本的用單數形、可以用 <code>=</code></strong>。Kanban board 的預設 sub-filter 就用到了其中一個：<code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code>。",
+   "A": "不存在。正確的是複數形的 <code>unreleasedVersions()</code>。",
+   "B": "不存在，這是憑空造出來的名稱。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
@@ -365,10 +365,10 @@
   ],
   "answer": "A",
   "explain": {
-   "C": "Basic 可以。",
-   "D": "Basic 可以。",
-   "A": "OR、NOT、EMPTY、比較運算子都要切到 JQL。",
-   "B": "Basic 可以。"
+   "C": "Basic search <strong>可以</strong>依 project 篩選。（附帶一提：<strong>沒有先選 project 時，component、version 這類 project 專屬欄位不會出現在篩選器上</strong>。）",
+   "D": "Basic search <strong>可以</strong>依 assignee 篩選。",
+   "A": "正解。<strong>Basic search 的 clause 之間永遠是 AND，沒有 OR 也沒有 NOT</strong>，值也只能是「等於」。要用到 <strong>OR、NOT、<code>!=</code>、EMPTY、比較運算子（<code>&gt;</code> <code>&lt;</code>）、<code>~</code> 文字搜尋、ORDER BY、以及 WAS／CHANGED 歷史查詢</strong>，就必須切換到 JQL。而且要有心理準備——<strong>用了這些之後就切不回 Basic 了</strong>，因為 Basic 表達不出來。",
+   "B": "Basic search <strong>可以</strong>依 status 篩選，而且同一個欄位可以複選多個值（效果等同 <code>IN</code>）。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-searching-in-jira-cloud/"
@@ -393,10 +393,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "語意不同。",
-   "B": "WAS 包含目前仍是該狀態的 issue；CHANGED FROM 要求發生過離開該狀態的轉換。",
-   "C": "WAS 看歷史。",
-   "D": "CHANGED 看歷史。"
+   "A": "兩者的語意<strong>明顯不同</strong>，這正是本題的重點。",
+   "B": "正解。<strong><code>WAS</code>：歷史上任一時刻曾經是這個值——而且「包含現在仍然是」</strong>；<strong><code>CHANGED FROM</code>：曾經發生過「從這個值變成別的值」的轉換事件</strong>。差別最明顯的例子是一張<strong>目前正在 In Progress、從來沒離開過</strong>的 issue：它符合 <code>WAS</code>，但不符合 <code>CHANGED FROM</code>。要表達「曾經進行中但現在不是」，常見寫法是 <code>status WAS \"In Progress\" AND status != \"In Progress\"</code>。",
+   "C": "<code>WAS</code> 查的是<strong>歷史紀錄</strong>，不是只看現在（雖然它也涵蓋現在）。",
+   "D": "<code>CHANGED</code> 查的也是<strong>歷史上的轉換事件</strong>，跟現在的狀態無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
@@ -423,10 +423,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "位置固定。",
-   "C": "ORDER BY 必須放最後，可排多個欄位並各指定 ASC／DESC。",
-   "D": "可多欄位。",
-   "A": "可以同時用。"
+   "B": "位置是<strong>固定的</strong>，不能隨意擺放。",
+   "C": "正解。<strong><code>ORDER BY</code> 必須放在整個查詢的最後面，後面不能再接任何 clause</strong>，否則整句語法錯誤。它<strong>可以排序多個欄位</strong>並各自指定 ASC 或 DESC，例如 <code>ORDER BY priority DESC, created ASC</code>（先依優先度由高到低，同優先度再依建立時間由舊到新）。",
+   "D": "<strong>可以排序多個欄位</strong>，用逗號分隔即可。",
+   "A": "<strong>可以同時使用</strong>——先用 AND 串接條件，最後再接 ORDER BY，這是最常見的寫法。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-keywords/"
@@ -452,10 +452,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "是滾動七天，不是曆週。",
-   "D": "從上週開始到本週開始（不含）。",
-   "A": "這是本週。",
-   "B": "只比對一個時間點。"
+   "C": "<code>-7d</code> 是<strong>從現在往前推 7 天的滾動區間</strong>——今天是星期三的話，它涵蓋上週三到今天，跟「上週一到上週日」完全是兩回事。",
+   "D": "正解。<strong><code>created &gt;= startOfWeek(-1) AND created &lt; startOfWeek()</code></strong>：起點是上一週的第一天，終點是本週的第一天（用 <code>&lt;</code> 排除本週），精確涵蓋整個上一個曆週。這裡有一個容易忽略的設定要一併知道——<strong>一週從星期幾開始，是由站台 Look and feel 的 ISO8601 設定決定的</strong>。",
+   "A": "<code>startOfWeek()</code>（不帶參數）是<strong>本週</strong>的第一天，這句查到的是本週建立的。",
+   "B": "<code>=</code> 只比對<strong>一個時間點</strong>（上週第一天的 00:00），涵蓋不到整週。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
@@ -481,10 +481,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "不同。",
-   "A": "Summary、Description、Comment 等文字欄位只支援 ~ 與 !~。",
-   "B": "文字欄位不支援 =。",
-   "C": "~ 用於所有文字欄位。"
+   "D": "兩者完全不同——一個是合法的文字搜尋，一個是不成立的寫法。",
+   "A": "正解。<strong>Summary、Description、Environment、Comments 以及 Free Text 類型的 custom field 這些文字欄位，只支援 <code>~</code>（包含）與 <code>!~</code>（不包含），不能用 <code>=</code></strong>。而且 <code>~</code> 的行為比單純的字串比對聰明：<strong>它支援詞幹比對（搜 win 也會找到 wins）與萬用字元</strong>，要精確比對一個片語則用跳脫引號把它包起來。",
+   "B": "文字欄位<strong>根本不支援 <code>=</code></strong>，談不上寬鬆或嚴格。",
+   "C": "<code>~</code> 適用於<strong>所有文字型欄位</strong>，包含系統欄位 Summary、Description 等，不限自訂欄位。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
@@ -510,10 +510,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "現行以 Parent 欄位表示 epic 關係；也可用 parentEpic()。",
-   "C": "沒有 epic 欄位。",
-   "D": "Epic Link 已由 Parent 取代。",
-   "A": "不是有效函數。"
+   "B": "正解。<strong>現行 Jira 用 <code>Parent</code> 欄位來表示階層關係，它取代了舊的 Epic Link</strong>，所以查某個 epic 底下的 child 就寫 <code>parent = MOB-100</code>。這個寫法在 CMP 與 TMP 都適用。（要一次涵蓋更深的層級，另有 <code>parentEpic()</code> 之類的函數可用。）",
+   "C": "<strong>沒有 <code>epic</code> 這個欄位</strong>可以直接比對。",
+   "D": "<strong>Epic Link 已經被 Parent 欄位取代</strong>，而且 <code>~</code> 是文字搜尋運算子，用在這裡也不對。",
+   "A": "這不是有效的 JQL 語法，<code>epic()</code> 這個函數並不存在。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-fields/"
@@ -539,10 +539,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "官方 JQL fields 頁記載 hierarchyLevel：story 層是 0、sub-task 層是 -1（範例 hierarchyLevel > -1 意為「高於 subtask 層」），所以 sub-task 寫 hierarchyLevel = -1。",
-   "D": "0 是 standard（story／task／bug）層，不是 sub-task。",
-   "A": "subtaskIssueTypes()／standardIssueTypes() 是舊有寫法，現行 Cloud 的 JQL 函數參考頁已未列出，不要當成官方答案。",
-   "B": "parent 有值的不只 sub-task；掛在 epic 底下的 story 也有 parent，範圍過寬。"
+   "C": "正解。<strong>官方的 JQL fields 頁記載了 <code>hierarchyLevel</code> 這個欄位：standard 層（story／task／bug）是 0，sub-task 層是 -1</strong>（官方的範例 <code>hierarchyLevel &gt; -1</code> 意思正是「高於 subtask 層」）。所以要精確找出所有 sub-task 層級的工作，現行寫法是 <code>hierarchyLevel = -1</code>。",
+   "D": "<strong>0 是 standard 層</strong>（Story、Task、Bug），不是 sub-task。",
+   "A": "<code>subtaskIssueTypes()</code> 與 <code>standardIssueTypes()</code> 是<strong>舊有的寫法</strong>，<strong>現行 Cloud 的 JQL 函數參考頁已經沒有列出它們</strong>，所以不能當成官方答案（雖然部分站台可能還吃得下去）。",
+   "B": "<code>parent IS NOT EMPTY</code> 的範圍<strong>太寬了</strong>——掛在 epic 底下的 story 也有 parent，會被一併撈進來，並非只有 sub-task。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-fields/",
@@ -570,10 +570,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "!= 排除空值。",
-   "D": "官方明列 != 與 NOT IN 不匹配 EMPTY。",
-   "A": "與權限無關。",
-   "B": "排序不影響結果集合。"
+   "C": "這正是本題要打破的直覺——<strong>不會</strong>找到空值的。",
+   "D": "正解。官方明列 <strong><code>!=</code> 與 <code>NOT IN</code> 都不匹配 EMPTY</strong>：<code>priority != High</code> 的實際意思是「<strong>有</strong> priority，而且不是 High」，完全沒填 priority 的 issue 一張都不會出現。要涵蓋它們必須明確補上 <code>OR priority IS EMPTY</code>。這是 JQL 最經典也最常出現在考題裡的陷阱——<strong>凡是用到 <code>!=</code> 的地方都要先問：沒填值的要不要算進來？</strong>",
+   "A": "跟執行者是誰完全無關，這是 JQL 運算子本身的行為。",
+   "B": "ORDER BY 只影響結果的<strong>排列順序</strong>，不會改變結果的<strong>集合內容</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-operators/"
@@ -600,10 +600,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "雙維度統計表。",
-   "B": "活動事件流。",
-   "C": "只看自己。",
-   "D": "Pie chart 只有一個維度。"
+   "A": "正解。題目要的是「Assignee」與「Status」<strong>兩個維度的交叉</strong>，這正是 <strong>Two Dimensional Filter Statistics</strong> 的功能——X 軸與 Y 軸各設一個欄位，交叉出一張數字表格。它是唯一能回答這種問題的內建 gadget。",
+   "B": "Activity Stream 顯示的是<strong>活動事件流</strong>（誰在什麼時候做了什麼），不做任何統計。",
+   "C": "Assigned To Me 只列出<strong>查看者本人</strong>的工作，看不到整個團隊。",
+   "D": "<strong>Pie Chart 只有一個維度</strong>，一次只能依單一欄位分群（例如只看 status 分佈或只看 assignee 分佈），做不出交叉表。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
@@ -629,10 +629,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "問題不在 dashboard 層。",
-   "B": "Gadget 的資料來源 filter 有自己的分享設定。",
-   "C": "無關。",
-   "D": "重加仍用同一 filter。"
+   "A": "問題不在 dashboard 這一層——他<strong>已經打得開 dashboard</strong> 了，代表第一層分享是成功的。",
+   "B": "正解。<strong>dashboard 與 filter 是兩個獨立的物件，各自有各自的分享設定</strong>。分享 dashboard 只是給了他「容器」的存取權；<strong>gadget 實際要跑的那份 saved filter 必須另外分享給他</strong>，否則 gadget 會顯示無存取權。這正是「dashboard 打得開、gadget 卻空白或報錯」最典型的成因。查完 filter 分享之後，還要確認他對相關 project 有 Browse Projects 權限。",
+   "C": "修改 issue 的 Summary 跟權限毫無關係。",
+   "D": "刪掉重加的 gadget <strong>仍然會指向同一份沒有分享的 filter</strong>，問題完全沒解決。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/",
@@ -659,10 +659,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "單位不同。",
-   "C": "要看估點或 workload 類 gadget（例如 Workload Pie Chart）。",
-   "D": "版面不改統計。",
-   "A": "Resolution time 看的是解決耗時。"
+   "B": "<strong>單位不同就不能直接推論</strong>，這正是本題的重點。",
+   "C": "正解。<strong>Pie Chart 統計的是「件數」，而件數不等於工作量</strong>——一個人可能接了 20 張五分鐘的小事，另一個人扛了 2 張橫跨兩週的大工程。要衡量真正的負擔，應該看<strong>估點</strong>（例如把 Two Dimensional 的統計類型改成 story points）或用 <strong>Workload Pie Chart Report</strong>、<strong>User Workload Report</strong> 這類以工時為基礎的報表。這也是讀所有圖表的通則：<strong>先確認它統計的單位是什麼</strong>。",
+   "D": "版面配置只影響排版，<strong>不會改變統計的內容</strong>。",
+   "A": "Resolution Time 看的是「<strong>已解決的 issue 平均花多久解決</strong>」，它一樣不會告訴你工作量的大小。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
@@ -688,10 +688,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "依查看者身分動態變化。",
-   "A": "固定一個人。",
-   "B": "看版本。",
-   "C": "看標籤。"
+   "D": "正解。<strong>Assigned To Me 會依「查看者自己的身分」動態顯示指派給他、且尚未完成的工作</strong>，而且跨所有 project、不需要設定任何來源。所以同一張 dashboard 分享給十個人，每個人看到的都是自己的清單，不必為每個人各做一份 filter。同一類的個人型 gadget 還有 Issues in Progress、Watched Issues 與 Voted Issues。",
+   "A": "把 assignee 寫死成某一個人，<strong>所有人看到的都是同一個人的工作</strong>，完全不符合需求。",
+   "B": "Road Map gadget 顯示的是<strong>版本的發佈進度</strong>，跟個人工作無關。",
+   "C": "Labels gadget 列出的是某個 project 用過的標籤。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
@@ -717,10 +717,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "未解決 issue 的平均年齡。",
-   "B": "已解決 issue 的平均耗時。",
-   "C": "Sprint 倒數。",
-   "D": "建立與解決的趨勢，不是年齡。"
+   "A": "正解。<strong>Average Age gadget 統計的正是「目前未解決的 issue 平均放了多久」</strong>（從建立到現在的天數），數字持續上升就代表 backlog 在老化、舊案子沒人處理。這正好對應題目的需求。",
+   "B": "Resolution Time 算的是「<strong>已解決</strong>的 issue 從建立到解決花了多久」——它衡量的是處理效率，不是<strong>還沒被處理</strong>的工作放了多久，兩者的對象完全不同。",
+   "C": "Days Remaining in Sprint 只是 sprint 的倒數天數。",
+   "D": "Created vs Resolved 呈現的是<strong>建立與解決的數量趨勢</strong>（backlog 是漲是跌），它回答的是「進出是否平衡」，不是「留下來的那些放了多久」。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
@@ -746,10 +746,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "與權限無關。",
-   "B": "純個人導覽便利。",
-   "C": "刷新是另一個設定。",
-   "D": "分享是另一個設定。"
+   "A": "加星號是<strong>個人的書籤行為</strong>，完全不涉及任何權限授予。",
+   "B": "正解。<strong>Star（加星）純粹是個人的導覽便利功能</strong>——加了之後這張 dashboard 會出現在自己側欄的「Starred and recent」與 Dashboards 選單裡，方便快速找到。它<strong>不影響任何人的權限，也不改變資料</strong>。（順帶一提，filter 也有同樣的加星機制。）",
+   "C": "自動刷新是另一個獨立的設定（••• → Configure automatic refresh），跟加星無關。",
+   "D": "分享是另一個獨立的設定（••• → Rename or share），跟加星無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-dashboard/"
@@ -775,10 +775,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "沒有依據。",
-   "C": "Filter Results 可設每頁筆數。",
-   "D": "無關。",
-   "A": "分享不影響筆數。"
+   "B": "沒有任何依據——同一份 filter 在搜尋頁明明查得到 37 筆，資料好好的。",
+   "C": "正解。<strong>Filter Results gadget 有自己的「顯示筆數」設定</strong>（預設通常是 10），它只是把 filter 結果的前幾筆呈現出來，不是資料不見了。到 gadget 的設定裡把筆數調高即可。順帶一提，這也提醒一件事：<strong>gadget 上看到的數字不見得是全部，做判斷前要先確認它的顯示上限</strong>。",
+   "D": "新增 project 跟顯示筆數毫無關係。",
+   "A": "分享設定影響的是「誰看得到」，<strong>完全不影響顯示幾筆</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
@@ -804,10 +804,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "可以分享。",
-   "D": "分享 dashboard 與 filter 都需要這個全域權限。",
-   "A": "Browse 是資料層。",
-   "B": "無關。"
+   "C": "dashboard <strong>當然可以分享</strong>，只是需要對應的全域權限。",
+   "D": "正解。<strong>分享 dashboard 與 filter 都需要全域權限「Share dashboards and filters」</strong>。缺了它的人建得出 dashboard 與 filter，但<strong>分享對話框裡的選單會是空的</strong>——這正是題目描述的症狀。這是全域權限，只有 Jira admin 能授予，而且跟所有全域權限一樣<strong>只能授予群組</strong>。",
+   "A": "Browse Projects 是<strong>資料層</strong>的權限（決定看得到哪些 issue），跟能不能分享 dashboard 是兩回事。",
+   "B": "加星號純粹是個人的書籤功能，<strong>跟分享毫無關係</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/",
@@ -834,10 +834,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "有 trash。",
-   "A": "官方：刪除的 dashboard 保留 60 天，由 Jira admin 還原。",
-   "B": "只有 Jira admin。",
-   "C": "可還原。"
+   "D": "不會永久消失，<strong>有 60 天的緩衝期</strong>。",
+   "A": "正解。<strong>被刪除的 dashboard 會進入 trash 保留 60 天，期間可以還原，但只有 Jira admin 有權執行</strong>。所以誤刪時要立刻找 Jira admin，不要拖過期限。這組規則跟 project 的 trash 很像，可以一起記：<strong>丟進去相對容易，救出來一律要站台管理員</strong>。",
+   "B": "<strong>只有 Jira admin 能還原</strong>，一般的 viewer 甚至原本的擁有者都不行。",
+   "C": "<strong>可以還原</strong>，不必重建（重建還會失去原本的分享設定與 gadget 配置）。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/"
@@ -863,10 +863,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "Road Map gadget 顯示指定期間內到期的版本。",
-   "C": "看 sprint。",
-   "D": "看趨勢。",
-   "A": "看分佈。"
+   "B": "正解。<strong>Road Map gadget 會顯示指定期間內即將到期（release）的版本與它們的進度</strong>，正好對應題目的需求。它接的來源是 <strong>project</strong>。",
+   "C": "Sprint Health 看的是<strong>目前 sprint</strong> 的健康狀況（進度、工作分配、scope 變動），跟版本無關。",
+   "D": "Created vs Resolved 呈現的是建立與解決的<strong>數量趨勢</strong>，跟版本發佈時程無關。",
+   "A": "Heat Map 呈現的是分佈密度，跟版本發佈毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
@@ -892,10 +892,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "顯示建立與解決的差異曲線。",
-   "D": "看年齡。",
-   "A": "看標籤。",
-   "B": "看投票。"
+   "C": "正解。<strong>Created vs Resolved 把一段期間內「新建立」與「已解決」的數量畫在同一張圖上</strong>，兩條線的落差就直接回答了「進得比出得快嗎」——<strong>建立線持續高於解決線，就代表 backlog 在膨脹</strong>。這是回答「趨勢」類問題的標準 gadget。",
+   "D": "Average Age 看的是「<strong>未解決的 issue 平均放了多久</strong>」，它回答的是老化程度，不是進出速度的比較。（兩者常一起看：Created vs Resolved 說明為什麼會積，Average Age 說明積了多久。）",
+   "A": "Labels gadget 只列出某個 project 用過的標籤。",
+   "B": "Voted Issues 列出的是自己投過票的 issue。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
@@ -921,10 +921,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "可給多種對象。",
-   "D": "分享對話框的 Viewers／Editors 可填使用者、群組與 space（可再限定 role）；站台允許時另可開放給任何登入者或 public。收件者看到的資料仍受各自權限過濾。",
-   "A": "不只 role。",
-   "B": "可限縮。"
+   "C": "不只個人，也可以給群組與整個 project。",
+   "D": "正解。分享對話框的 <strong>Viewers 與 Editors 可以分別指定：使用者、群組、project（還可以再限定該 project 的某個 role）</strong>；站台允許時另可開放給<strong>任何登入者</strong>或 <strong>public</strong>。要記住兩件事：<strong>Viewers 與 Editors 是分開設定的</strong>（能看不等於能改），而且<strong>不論分享給誰，收件者實際看到的資料仍然受他自己的 Browse Projects 與 issue security 過濾</strong>——分享不等於授權。",
+   "A": "不只 project role，可選的對象種類相當多。",
+   "B": "分享範圍<strong>可以精確限縮</strong>，不是只有公開一種選擇。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/"
@@ -950,10 +950,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Sprint 類 gadget 以 board 為來源。",
-   "A": "正確。",
-   "B": "無關。",
-   "C": "無關。"
+   "D": "這是最容易誤選的答案——<strong>大多數 gadget 確實接 saved filter，但 sprint 類的例外，它們接 board</strong>。",
+   "A": "正解。<strong>Sprint 類的 gadget（Sprint Burndown、Sprint Health、Days Remaining in Sprint）都是以「board」為資料來源</strong>，而且必須是 Scrum board——因為 sprint 這個概念本身就屬於 board。這是它們與大多數 gadget（接 filter 或 project）最不一樣的地方，也是考題愛問的細節。",
+   "B": "project category 是用來分群 project 的標籤，不能當 sprint gadget 的來源。",
+   "C": "version 是交付的包裹，跟 sprint 是不同的概念；以 version 為來源的是 Road Map 那類 gadget。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
@@ -979,10 +979,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "正確。",
-   "C": "不同。",
-   "D": "沒有這種限制。",
-   "A": "可以加。"
+   "B": "正解。<strong>System dashboard 是使用者登入後預設看到的那一張，由 Jira admin 管理</strong>，改動會影響站台上所有沒有自訂首頁的人，所以要相當謹慎。<strong>個人 dashboard 則由建立者自己管理與分享</strong>。有一點可以放心：<strong>System dashboard 上的 gadget 內容仍然依照每個人自己的權限顯示</strong>，不會因為放在公用首頁就洩漏資料（例如 Administration gadget 只有管理員看得到內容）。",
+   "C": "兩者的管理者與影響範圍都不同。",
+   "D": "個人 dashboard <strong>可以放很多個 gadget</strong>，沒有這種限制。",
+   "A": "System dashboard <strong>當然可以加 gadget</strong>，那正是 Jira admin 用來佈置全站首頁的方式。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-custom-dashboards/"
@@ -1007,10 +1007,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "官方：wallboard 是 dashboard 的全螢幕顯示，隱藏導覽並輪播 gadget，適合投在電視螢幕；另可設定 wallboard slide show 輪播多個 dashboard。",
-   "D": "無關。",
-   "A": "與顯示無關。",
-   "B": "無關。"
+   "C": "正解。官方說明：<strong>wallboard 是 dashboard 的全螢幕顯示模式，會隱藏導覽列、放大 gadget，適合投在電視螢幕上</strong>；要輪播多個 dashboard 則用 <strong>wallboard slide show</strong>（可設定每張停留幾秒）。搭配 <strong>••• → Configure automatic refresh</strong> 設定自動刷新間隔，數字就會自己更新。設計上的建議是<strong>每張 wallboard 少放 gadget、放大字</strong>，因為那是給人幾公尺外掃一眼的。",
+   "D": "加星號只是把它加進自己的書籤清單，跟顯示方式無關。",
+   "A": "分享給 public 是<strong>權限</strong>設定，跟大螢幕的顯示方式毫無關係（而且會有資安疑慮）。",
+   "B": "版面配置只是欄位排列，<strong>不會進入全螢幕或自動輪播</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/",
@@ -1036,10 +1036,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "currentUser() 動態求值。",
-   "D": "正確。",
-   "A": "任何有 filter 存取權的人都看得到。",
-   "B": "不會錯誤。"
+   "C": "正好相反，<strong><code>currentUser()</code> 會依查看者的身分動態求值</strong>，所以每個人看到的內容不同。",
+   "D": "正解。<strong><code>currentUser()</code> 是動態函數，它依「目前登入的人」求值</strong>，所以同一個 gadget 每位團隊成員看到的都是自己的工作。這其實可以是刻意的設計（就像 Assigned To Me 那樣），但也常造成困惑——<strong>開會時「你的畫面跟我的不一樣」多半就是這個原因</strong>。如果希望所有人看到同一份資料，就不要在共用的 filter 裡用這個函數；另外要記得<strong>分享給匿名使用者的 filter 絕對不能用它</strong>。",
+   "A": "<strong>任何有這份 filter 存取權的人都看得到內容</strong>，不限 owner。",
+   "B": "<strong>不會出現錯誤</strong>——這是完全正常的行為。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/advanced-search-reference-jql-functions/"
@@ -1065,10 +1065,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "以 project 分享可再限定 role；能瀏覽該 project 的人可看 dashboard，資料仍依各自權限。",
-   "B": "不只 lead。",
-   "C": "那是 any logged in user。",
-   "D": "錯。"
+   "A": "正解。<strong>以 project 為對象分享時，該 project 中擁有 Browse Projects 權限的人就能看到這張 dashboard</strong>，而且分享時<strong>還可以進一步限定成該 project 的某個 role</strong>（例如只給 Developers）。要記住的是：<strong>能打開 dashboard 不代表看得到所有資料</strong>——每個 gadget 的內容仍然依照查看者自己的權限與 issue security 過濾。",
+   "B": "<strong>不只 project lead</strong>，範圍是整個 project 的可瀏覽者（或指定的 role）。",
+   "C": "那是選「<strong>任何登入者</strong>」時的效果，跟分享給某個 project 是不同的選項。",
+   "D": "完全不對，一般使用者也看得到。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-and-edit-dashboards/"
@@ -1094,10 +1094,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "已完成 5 點。",
-   "A": "20 − 5 + 5 = 20；burndown 會在加入時往上跳。",
-   "B": "沒有必要假設錯誤。",
-   "C": "Sub-task 不計。"
+   "D": "團隊<strong>已經完成了 5 點</strong>，只是被新增的 5 點抵銷掉，數字上看不出來。這正是為什麼要區分「剩餘量」與「完成量」兩種視角。",
+   "A": "正解。算式是 <strong>20 − 5（完成）＋ 5（新增）＝ 20</strong>，所以剩餘量看起來沒有變動。但這不代表團隊沒做事——<strong>burndown 在新工作加入的那個時間點會有一個明顯的往上跳</strong>，仔細看曲線就分辨得出來。想更清楚地看到範圍變動，改看 <strong>Burnup</strong>（紅色的 scope 線會往上跳）或 <strong>Sprint report</strong>（中途加入的 issue 旁邊會有星號）會更直觀。",
+   "B": "沒有必要假設系統算錯——這個數字完全符合預期，只是需要理解 scope change 的影響。",
+   "C": "正好相反：<strong>burndown 只算 parent（standard 層）的估點，sub-task 的 story points 完全不計入</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
@@ -1123,10 +1123,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "Burnup 把 scope 與 completed 分兩線，scope 線上升就是 scope creep。",
-   "C": "個人清單。",
-   "D": "事件流。",
-   "A": "年齡。"
+   "B": "正解。<strong>Burnup chart 把「總範圍（scope）」與「已完成量（completed）」分成兩條線</strong>：紅線是 scope、綠線是完成。這樣的好處是<strong>範圍變動一目了然——紅線往上跳就是 scope creep</strong>。相較之下 burndown 只有一條剩餘量的線，範圍增加與進度落後在圖上看起來很像，不容易區分。",
+   "C": "Assigned To Me 是個人的工作清單，不是趨勢圖。",
+   "D": "Activity Stream 是活動事件流，不做任何統計。",
+   "A": "Average Age 看的是未解決 issue 的年齡，只有一條線。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burnup-chart/"
@@ -1151,10 +1151,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "10 是 Completed。",
-   "C": "Commitment 固定為 sprint 開始時的總估算。",
-   "D": "錯。",
-   "A": "錯。"
+   "B": "<strong>10 是 Completed（實際完成量）</strong>——中途加入的 2 點雖然不算進 commitment，但因為做完了，所以會計入 completed。",
+   "C": "正解。<strong>Velocity chart 的 Commitment 固定為「sprint 開始當下」的總估算量</strong>，也就是 <strong>8</strong>。<strong>sprint 開始之後才加入的 issue、或是中途被調高的估點，都不會回頭改變 commitment，但會計入 Completed</strong>。所以這個 sprint 的兩根柱子會是 commitment 8、completed 10。這組定義正是 velocity 能反映「承諾 vs 實際」的關鍵——如果 commitment 會隨時被改，這張圖就失去意義了。",
+   "D": "sprint 開始時明明有 8 點的工作，commitment 不會是 0。",
+   "A": "2 是後來新增的量，不是 commitment。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
@@ -1180,10 +1180,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "Board 類報表以最右欄判定完成。",
-   "A": "Resolution 影響通用報表，不取代 column mapping。",
-   "B": "無關。",
-   "C": "過度。"
+   "D": "正解。<strong>Scrum 的 agile 報表判定「完成」的唯一依據是 issue 落在 board 的最右欄</strong>，跟 status 叫什麼名字、屬於哪個 category 都無關。所以第一步就是到 <strong>Board settings → Columns</strong> 檢查 column mapping，把 Done、Closed、Cancelled 這些代表結束的 status 通通拖到最右欄。（附帶對照：<strong>Kanban 的 Hide completed work 剛好相反，它看的是 status category</strong>。）",
+   "A": "<strong>Resolution 影響的是通用型報表與 JQL 查詢，它不能取代 board 的 column mapping</strong>——agile 報表（burndown、velocity、sprint report）判定完成的依據是欄位位置，不是 resolution。",
+   "B": "改 issue 的名稱不會改變任何判定邏輯。",
+   "C": "刪掉 sprint 會損失資料，而且完全不對症。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -1209,10 +1209,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "CFD 某個色帶垂直變寬就是該欄堆積。",
-   "B": "以 sprint 為基礎。",
-   "C": "看版本預測。",
-   "D": "Scrum 專用。"
+   "A": "正解。<strong>Cumulative flow diagram（CFD）把各狀態的數量隨時間堆疊起來，哪一個色帶持續垂直變寬，就代表工作在那個階段堆積——那就是瓶頸</strong>。它是 Kanban 團隊找瓶頸的標準工具（Kanban 只有 CFD 與 Control chart 兩張報表）。判讀時要注意：<strong>色帶的「厚度」才是該狀態的件數，累積線的「高度」是含底下所有狀態的上界</strong>。",
+   "B": "Velocity chart 以 sprint 為基礎，<strong>Kanban 沒有 sprint，根本沒有這張報表</strong>。",
+   "C": "Version report 是版本的完成預測，跟流程瓶頸無關，而且它只在 CMP Scrum board 上有。",
+   "D": "Sprint report 是 Scrum 專用的回顧報表，Kanban 沒有。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/"
@@ -1238,10 +1238,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "錯。",
-   "B": "Control chart 計算的是所選狀態的時間；包含等待就是 lead time。",
-   "C": "無關。",
-   "D": "Working days 影響天數計算，不影響選哪些欄位。"
+   "A": "<strong>不會</strong>——這正是本題要澄清的重點。",
+   "B": "正解。<strong>Control chart 只計算「你所勾選的那些欄位」的停留時間</strong>，所以勾了 In Progress 與 Review，算出來的就是這兩段的總和，<strong>不包含 To Do 的排隊等待時間</strong>。這正好對應兩個不同的指標：<strong>只算實際處理階段 ＝ cycle time；從建立到完成、含所有等待 ＝ lead time</strong>。要看哪一種，就靠 Columns 的勾選來決定。跟客戶或主管報數字之前，一定要先講清楚<strong>你算的是哪一段</strong>。",
+   "C": "有沒有 assignee 跟時間計算毫無關係。",
+   "D": "working days 影響的是<strong>天數怎麼計算</strong>（要不要跳過週末），<strong>不影響「計算哪些欄位」</strong>，兩者是不同的設定。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-control-chart/"
@@ -1267,10 +1267,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "未估點超過 30% 時官方標示預測不可靠。",
-   "C": "正確。",
-   "D": "破壞範圍。",
-   "A": "無關。"
+   "B": "這正是最危險的做法——<strong>官方明訂未估點的工作超過 30% 時報表會標示預測不可靠</strong>，拿一個已知不可信的數字去對外承諾，等於埋下延期的地雷。",
+   "C": "正解。<strong>Epic burndown 的預測算法是「剩餘工作量 ÷ 最近三個 sprint 的平均 velocity」</strong>——問題在於<strong>未估點的工作在分子裡等於 0</strong>，所以剩餘量被嚴重低估，預測自然過度樂觀。官方在<strong>未估點超過 30% 時會主動顯示警告</strong>。正確的處理是先向主管說明這個預測的前提有缺陷，讓團隊把估點補齊之後再看一次。",
+   "D": "刪除工作是竄改範圍，會讓數字更失真，而且損失了真實的需求。",
+   "A": "Pie chart 呈現的是分佈比例，回答不了「還要幾個 sprint」的問題。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-epic-burndown-report/"
@@ -1296,10 +1296,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "看未解決 issue 的平均年齡。",
-   "A": "已解決的耗時。",
-   "B": "Sprint 內容。",
-   "C": "版本預測。"
+   "D": "正解。<strong>Average Age report 統計的正是「目前未解決的 issue 平均放了多久」</strong>，完全對應「愈放愈久」這個症狀。這題的重點是分辨兩個相似報表的對象：<strong>Average Age 看的是「還沒解決的」，Resolution Time 看的是「已經解決的」</strong>。",
+   "A": "Resolution Time 算的是「<strong>已解決</strong>的 issue 從建立到解決花了多久」——它的對象是已經處理完的工作，不是還沒被處理的。",
+   "B": "Sprint report 呈現的是某個 sprint 的完成／未完成清單，範圍限於那個 sprint。",
+   "C": "Version report 是版本的完成趨勢與發佈日期預測。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
@@ -1325,10 +1325,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "Board 報表以 board saved filter 為範圍。",
-   "B": "沒有依據。",
-   "C": "資料定義不同。",
-   "D": "錯。"
+   "A": "正解。兩者的資料範圍定義不同：<strong>project insights 涵蓋整個 project 的資料，而 board 上的報表則受該 board 的 saved filter 限制</strong>——filter 可能排除了某些 issue type、某些狀態，或是只涵蓋部分工作。另外還有兩個相關差異值得一起記：<strong>CMP 有多個 board 時，報表以「目前顯示的 board」為準</strong>；而且 <strong>board 報表的完成判定看的是最右欄</strong>，跟 insights 的統計基準未必一致。看到數字對不起來，先比對兩邊的資料範圍定義，而不是懷疑資料出錯。",
+   "B": "沒有任何依據支持「有人刪資料」這個推論。",
+   "C": "<strong>兩者的資料定義本來就不同</strong>，不應該預期它們永遠一致。",
+   "D": "board 報表<strong>不是只算 sub-task</strong>——正好相反，多數 agile 報表的估點統計是<strong>排除</strong> sub-task 的。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
@@ -1354,10 +1354,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "8−5 不是目前剩餘。",
-   "B": "已花 5h + 剩餘 6h。",
-   "C": "原始估算，未反映新資訊。",
-   "D": "只是剩餘。"
+   "A": "3h 是「原估 8 減去已花 5」的算術結果，但那只是<strong>假設原估完全準確</strong>時的推論；實際的剩餘量是使用者自己重新評估後填的 6h。",
+   "B": "正解。<strong>目前預計總耗時 ＝ 已花（5h）＋ 剩餘（6h）＝ 11h</strong>，比原估的 8h 多了 3 小時，代表這張工作被低估了——這正是 time tracking 面板要傳達的資訊。要提醒團隊一個常見的壞習慣：<strong>不要為了讓數字好看，硬把 Remaining 填成 3h 來湊平原估</strong>，remaining 應該反映最新的真實預測，那才是它的價值所在。",
+   "C": "8h 是<strong>當初的原始估算</strong>，它不會隨進度改變，也沒有反映後來取得的新資訊。",
+   "D": "6h 只是<strong>剩下要花的</strong>，沒有把已經投入的 5 小時算進去。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-time-tracking/"
@@ -1382,10 +1382,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "星號標示 sprint 開始後加入的工作。",
-   "D": "無關。",
-   "A": "移除的列在另一區。",
-   "B": "未估點另有標示。"
+   "C": "正解。<strong>Sprint report 用星號（*）標示「sprint 開始之後才被加入」的 issue</strong>，也就是不在原本承諾範圍內的工作。這是 retro 時很有價值的線索——它把「這個 sprint 沒做完」的原因區分成「中途被塞了工作」與「原本就低估」兩類。同一份報表裡另一個相關標記是「<strong>3 → 5</strong>」，代表估點在 sprint 進行中被改過。順帶記住：<strong>這些後來加入的工作不計入 Velocity 的 Commitment，但會計入 Completed</strong>。",
+   "D": "跟 issue 是不是 bug 完全無關。",
+   "A": "被移除的 issue 列在 Sprint report 的另一個區塊（<strong>Removed</strong>），不是用星號標示。",
+   "B": "未估點的工作另有標示方式，跟星號無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-sprint-report/"
@@ -1410,10 +1410,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "官方：至少完成 10% 的估算工作才會出現預測。",
-   "A": "Released 仍可看報表。",
-   "B": "版本內就是有 Fix Version 的 issue。",
-   "C": "Version report 是 Scrum 報表。"
+   "D": "正解。官方明訂：<strong>版本裡的估算工作至少要完成 10%，Version report 才會產生預測</strong>。道理很直觀——完成量太少時，平均日進度的樣本不足，算出來的預測沒有意義。另外兩個相關的前提也一併記住：<strong>版本要設 Start date</strong>（否則會拿建立時間當起點，把沒動工的空窗期也算進去），而且<strong>預測會受 board 的 working days 設定影響</strong>。",
+   "A": "版本已經 Released 之後<strong>仍然可以檢視報表</strong>，不影響預測的產生。",
+   "B": "「版本裡的 issue」定義上就是<strong>有填 Fix Version 的那些</strong>，這個選項在邏輯上不成立。",
+   "C": "<strong>Version report 本來就是 Scrum board 的報表</strong>（而且是 CMP 專屬），board 不是 Kanban 正好是它能出現的前提。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-version-report/"
@@ -1438,10 +1438,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "官方：樂觀 +10%、悲觀 −10%。",
-   "B": "錯。",
-   "C": "錯。",
-   "D": "錯。"
+   "A": "正解。官方定義：<strong>藍線是依「平均日進度」推算的預測日期，樂觀線是平均速度 +10%，悲觀線是 −10%</strong>，兩條線在圖上形成預測日期的區間（左灰帶樂觀、右灰帶悲觀）。要注意這個區間<strong>只是依歷史速度的簡單外推，不是信心區間</strong>——範圍持續增加或團隊產能變動時，它會失準。",
+   "B": "±50% 不是官方的數字，區間也不會這麼寬。",
+   "C": "用最快與最慢的 sprint 當上下界，是 Release burndown 那類以 sprint 為單位的邏輯，<strong>不是 Version report 的算法</strong>（後者是以「日進度」為基礎）。",
+   "D": "完全不是隨機，它有明確的計算規則。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-version-report/"
@@ -1466,10 +1466,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "不是固定天數。",
-   "B": "官方定義。",
-   "C": "錯。",
-   "D": "那是整體平均，不是 rolling。"
+   "A": "<strong>不是固定天數</strong>——這是最容易誤選的答案，因為「rolling average」聽起來很像時間窗。",
+   "B": "正解。官方定義：<strong>rolling average 依「issue 的數量」取樣，每一個點取自己加上前後各 X 個 issue 來平均，而 X 是目前顯示總數的 20%，最少 5 個，且永遠取奇數</strong>。這樣設計的用意是<strong>讓單一離群點不會把整條線拉歪</strong>，也讓工作量忽多忽少的期間不會產生假訊號。取奇數則是為了讓每個點的前後樣本對稱。",
+   "C": "不是固定取最近 3 個，樣本數會隨顯示的總數而變。",
+   "D": "取全部的平均是<strong>整體平均</strong>，那樣就畫不出「隨時間變化的趨勢線」了——rolling 的意義正是每個點各自取鄰近樣本。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-control-chart/"
@@ -1495,10 +1495,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "未映射 column 的 status 完全不計入 release burndown。",
-   "D": "無關。",
-   "A": "無關。",
-   "B": "無關。"
+   "C": "正解。官方明訂：<strong>status 沒有對應到任何 board column 的工作，在 Release burndown 中「完全不列入」</strong>——它們不會進 sprint bar、不算進未估點的百分比，也不算進剩餘 story points，等於整批從報表上消失。所以看到「報表少了一批卡」，<strong>第一個要查的就是 Board settings → Columns 的 Unmapped statuses 面板</strong>。這也再次呼應那條通則：<strong>board 類報表的資料範圍與判定，全都建立在 column mapping 上</strong>。",
+   "D": "有沒有 assignee 跟報表計算無關。",
+   "A": "issue type 是什麼跟計不計入毫無關係。",
+   "B": "附件跟報表計算毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-release-burndown-report/"
@@ -1524,10 +1524,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "也可以是 issue count 或 original estimate。",
-   "D": "正確；sub-task 估算不計。",
-   "A": "Velocity 不受 time tracking 影響。",
-   "B": "無關。"
+   "C": "<strong>不一定是 story points</strong>——也可以是 issue count（張數）或 original time estimate（時間），取決於 board 的設定。",
+   "D": "正解。<strong>Velocity chart 的 Y 軸單位由 board 的 estimation statistic 決定</strong>（Board settings → Estimation）。附帶兩個重點：<strong>sub-task 的估算永遠不計入</strong>（官方原句 Estimates from sub-tasks are not included），而且<strong>這是 board 層級的設定</strong>——同一個 project 的兩塊 board 可以用不同的 statistic，數字不能互相比較。",
+   "A": "<strong>velocity 完全不受 time tracking 設定影響</strong>——那個旋鈕只改變 burndown 追蹤進度的方式。這是兩個設定最重要的分工。",
+   "B": "working days 影響的是<strong>天數怎麼計算</strong>（要不要跳過週末），跟縱軸的單位無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
@@ -1553,10 +1553,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "不同。",
-   "A": "正確；Epic burndown 用近三個 sprint 的 velocity 預測。",
-   "B": "兩者都是 Scrum 報表。",
-   "C": "沒估點就無法預測。"
+   "D": "兩者的用途明顯不同，不能互相取代。",
+   "A": "正解。兩者的視角不同：<strong>Epic report 呈現的是「某個時間點的快照」</strong>——這個 epic 底下哪些已完成、哪些未完成、哪些還沒估點，適合盤點現況；<strong>Epic burndown 則是「隨 sprint 演進的趨勢」</strong>，以 sprint 為單位畫出剩餘量，並用<strong>最近三個 sprint 的 velocity</strong> 推估還要幾個 sprint 才做得完，適合回答「什麼時候能完成」。",
+   "B": "<strong>兩者都是 Scrum 的報表</strong>（而且是 CMP 專屬）；Kanban 只有 Control chart 與 CFD。",
+   "C": "<strong>沒有估點就無法預測</strong>——Epic burndown 的預測就是靠估點與 velocity 算出來的，官方還會在未估點超過 30% 時標示預測不可靠。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-epic-report/",
@@ -1583,10 +1583,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "過度斷言。",
-   "B": "CFD 只描述累積數量的變化，不解釋原因。",
-   "C": "錯。",
-   "D": "錯。"
+   "A": "這是<strong>過度斷言</strong>——從一張圖的形狀直接跳到人力配置的結論，中間缺了太多推理。",
+   "B": "正解。<strong>CFD 只描述「各狀態的數量隨時間如何變化」，它不解釋原因</strong>。某個色帶變窄可以有很多種解釋：團隊確實處理得更快了、上游流入減少了、工作被移出這個 board、或者只是那批工作剛好比較小。<strong>正確的做法是把 CFD 當成「提問的起點」而不是「結論」</strong>——看到異常再去查流入流出、訪談團隊。同樣的道理也適用於變寬（不能直接說某人偷懶）。",
+   "C": "是不是 Kanban 不影響這個推理上的限制。",
+   "D": "Scrum 也一樣不能從 CFD 的形狀直接推論人力配置。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/"
@@ -1612,10 +1612,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "Guideline 依 sprint 開始時的總估算畫出；開始時為零就沒有線。",
-   "D": "影響形狀不影響有無。",
-   "A": "Kanban 沒有 burndown。",
-   "B": "無關。"
+   "C": "正解。<strong>guideline 是依「sprint 開始當下的總估算量」從起點直直畫到 0 的參考線</strong>，所以只要那個起始總量是 0，這條線就畫不出來——最常見的操作順序錯誤就是<strong>先按 Start sprint、才把 issue 拉進去</strong>，或是 issue 全都沒有填估點。其他官方列出的原因還有：sprint 日期被設在過去、時區不一致、完成的 status 沒對到最右欄，以及使用了 burndown 不認得的自訂估算欄位。",
+   "D": "working days 影響的是 guideline 在非工作日會不會走平（<strong>形狀</strong>），<strong>不影響它存不存在</strong>。",
+   "A": "<strong>Kanban board 根本沒有 burndown 這張報表</strong>，所以不會出現「有圖但缺 guideline」的情況。",
+   "B": "assignee 是誰跟 guideline 毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
@@ -1641,10 +1641,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "CFD 按日曆日，不受影響。",
-   "D": "Burndown、Sprint／Epic／Version report、Control chart 都受 working days 影響。",
-   "A": "無關。",
-   "B": "無關。"
+   "C": "<strong>CFD 一律按日曆日連續計算，不受 working days 影響</strong>——這是最常被考的例外，週末在圖上會是平的一段，那是真實情況而不是設定沒生效。",
+   "D": "正解。受 working days 影響的報表清單值得整組記起來：<strong>Burndown chart、Sprint report、Epic report、Version report、Control chart，以及 Sprint Health 與 Burndown 這兩個 gadget</strong>。最直接的好處是 burndown 的 guideline 會在非工作日走平，團隊不會因為週末沒進度而被畫成落後。要記住這是<strong>每塊 board 各自的設定</strong>（包含時區在內），跨時區團隊要各自處理。",
+   "A": "Pie chart gadget 統計的是欄位的分佈比例，<strong>不涉及任何天數計算</strong>，所以不受影響。",
+   "B": "Two Dimensional Filter Statistics 是交叉統計表，<strong>同樣不涉及天數計算</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/"

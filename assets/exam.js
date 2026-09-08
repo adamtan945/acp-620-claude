@@ -7,6 +7,10 @@
   const WEIGHT = { '620.1': 13, '620.2': 29, '620.3': 25, '620.4': 14, '620.5': 19 };
   const DNAME = { '620.1': 'Project Creation', '620.2': 'Board Configuration', '620.3': 'Managing Projects', '620.4': 'Automation', '620.5': 'Reporting' };
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  /* 解析文字允許少數排版標籤（資料來自本專案的 questions.js，非使用者輸入）：
+     先整段 escape，再把白名單標籤還原，其餘一律當純文字顯示。 */
+  const RICH_OK = /&lt;(\/?)(strong|em|b|i|code)&gt;/g;
+  const rich = (s) => esc(s).replace(RICH_OK, '<$1$2>').replace(/&lt;br\s*\/?&gt;/g, '<br>');
   const shuffle = (a, rng = Math.random) => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
   const store = { get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
 
@@ -23,10 +27,10 @@
   }
   function feedbackHTML(q, chosen) {
     const ok = chosen === q.answer;
-    const rows = ['A', 'B', 'C', 'D'].map((L) => `<li class="${L === q.answer ? 'right' : ''} ${L === chosen && !ok ? 'wrong' : ''}"><strong>${L}</strong>　${esc(q.explain[L])}</li>`).join('');
+    const rows = ['A', 'B', 'C', 'D'].map((L) => `<li class="${L === q.answer ? 'right' : ''} ${L === chosen && !ok ? 'wrong' : ''}"><strong>${L}</strong>　${rich(q.explain[L])}</li>`).join('');
     const src = (q.sources || []).map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc((u.replace(/^https?:\/\/(support\.)?atlassian\.com\//, '') || u).slice(0, 70))}</a>`).join('、');
     return `<div class="qverdict ${ok ? 'ok' : 'no'}">${ok ? '✓ 答對' : '✗ 答錯，正解 ' + q.answer}</div>
-      ${q.version_note ? `<div class="callout warn" style="margin:.5rem 0"><div class="t">考試版／現行版</div>${esc(q.version_note)}</div>` : ''}
+      ${q.version_note ? `<div class="callout warn" style="margin:.5rem 0"><div class="t">考試版／現行版</div>${rich(q.version_note)}</div>` : ''}
       <ul class="qexp">${rows}</ul><div class="qsrc">來源：${src}</div>`;
   }
   function bindPractice(root) {

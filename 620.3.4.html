@@ -146,14 +146,14 @@
 <h2>三者對照</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:18%"></th><th>Components</th><th>Labels</th><th>Custom fields</th></tr>
-<tr><td>誰建</td><td>Project admin（App admin 也可）</td><td>任何人打字就建</td><td><strong>Jira admin</strong></td></tr>
+<tr><td>誰建</td><td>Project admin 自己就能建立與維護（App admin 亦可），不必找 Jira admin</td><td>任何有 Edit Issues 權限的人，在欄位裡打字就能建立一個新的 label，完全沒有審核</td><td><strong>Jira admin</strong></td></tr>
 <tr><td>範圍</td><td><strong>只在該 CMP</strong>；TMP 沒有</td><td>全站共用，跨 project 同名即同一個</td><td>全站物件；可用 context 限定 project／issue type</td></tr>
-<tr><td>結構</td><td>名稱、描述、<strong>lead</strong>、<strong>default assignee</strong></td><td>純文字，無屬性</td><td>依型別：選項、使用者、日期、數字、公式…</td></tr>
-<tr><td>管控</td><td>選項固定（admin 建）</td><td>無；拼字變體會變成不同 label</td><td>選項固定；可設必填、驗證</td></tr>
+<tr><td>結構</td><td>名稱、描述、<strong>lead</strong>、<strong>default assignee</strong></td><td>就只是一串純文字，沒有描述、沒有負責人，也不能設任何屬性</td><td>依型別：選項、使用者、日期、數字、公式…</td></tr>
+<tr><td>管控</td><td>選項由 admin 事先建好，使用者只能從清單挑，不會出現拼字變體</td><td>完全沒有管控，而且大小寫或拼法只要差一個字就會變成另一個 label，報表因此被拆散</td><td>選項固定，還可以透過 field configuration 設成必填、加上驗證規則</td></tr>
 <tr><td>自動指派</td><td><strong>有</strong>（component default assignee）</td><td>無</td><td>無（要靠 automation）</td></tr>
 <tr><td>報表</td><td>Pie chart／filter by component；Version workload</td><td>Labels gadget；可 filter</td><td>Pie chart／2D statistics 皆可用</td></tr>
-<tr><td>適合</td><td>產品模組、團隊分工、要負責人</td><td>臨時、輕量、跨 project 標記</td><td>固定分類、報表、需驗證的資料</td></tr>
-<tr><td>風險</td><td>刪除時要重新連結 issue；TMP 不能用</td><td>拼字混亂、無法控管、任何人可加</td><td>要等 Jira admin；型別建了不能改；太多會拖慢</td></tr>
+<tr><td>適合</td><td>適合用來表示產品模組與團隊分工，尤其是<strong>需要一個負責人自動接單</strong>的情境</td><td>適合臨時性、輕量、需要跨 project 共用的標記，例如全公司的 <code>tech-debt</code> 盤點</td><td>適合需要固定分類、長期做報表、或必須驗證格式的資料</td></tr>
+<tr><td>風險</td><td>刪除時必須處理已連結的 issue（改連或解除關聯），而且 TMP 完全沒有這個功能</td><td>容易長出拼字變體造成報表分散，沒有任何控管機制，任何人都能新增</td><td>必須排隊等 Jira admin 處理，型別一旦建立就不能修改，而且欄位數量過多會拖慢站台效能</td></tr>
 </table></div>
 </section>
 
@@ -210,18 +210,18 @@
 <tr><td><strong>User picker</strong>（single／multi）</td><td>可用 <strong>context</strong> 限制只顯示特定 group 或 project role 的人；也可當 permission scheme 的授權對象</td></tr>
 <tr><td>Group picker（single／multi）</td><td>選 Atlassian 目錄的群組；也可當授權對象</td></tr>
 <tr><td>Version picker（single／multi）</td><td>選 version（有別於 Fix／Affects）</td></tr>
-<tr><td>Label</td><td>第二套標籤</td></tr>
-<tr><td>Parent</td><td>取代舊的 Parent link 與 Epic link</td></tr>
+<tr><td>Label</td><td>用來做一套與內建 Labels 欄位分開的標籤，例如讓某個部門有自己的標記體系</td></tr>
+<tr><td>Parent</td><td>現行用來指定上層工作項目的欄位，取代了舊版的 Parent link 與 Epic link</td></tr>
 <tr><td>Project picker</td><td>用 project 名稱當標籤（不是 parent 關係）</td></tr>
 <tr><td>Team、Assets</td><td>Atlassian Teams；Assets 多用於 JSM</td></tr>
 <tr><td class="hd">日期</td><td>Date picker、Date time picker</td><td>—</td></tr>
 <tr><td class="hd">數字</td><td>Number</td><td>格式：number／currency／percentage，可設小數位；範圍 ±1 兆；四捨五入到千分位；可用 5e3 輸入</td></tr>
 <tr><td class="hd">公式</td><td>Formula</td><td>直接在 issue 上算：預算 − 實際；輸出可為數字、貨幣、百分比、日期、時長、文字</td></tr>
-<tr><td rowspan="2" class="hd">文字</td><td>Paragraph</td><td>rich text</td></tr>
-<tr><td>Short text</td><td>純文字 255 字</td></tr>
+<tr><td rowspan="2" class="hd">文字</td><td>Paragraph</td><td>可以做格式的多行文字（rich text），適合較長的說明</td></tr>
+<tr><td>Short text</td><td>單行純文字，長度上限 255 個字元</td></tr>
 <tr><td rowspan="4" class="hd">唯讀資訊</td><td>Date of first response</td><td>第一則非 reporter 留言的日期</td></tr>
 <tr><td>Days since last comment</td><td>不可搜尋排序；受留言可見範圍影響</td></tr>
-<tr><td>Participants</td><td>參與者清單</td></tr>
+<tr><td>Participants</td><td>自動列出參與過這張 issue 的人，唯讀不可編輯</td></tr>
 <tr><td>Time in status</td><td>供 Average Time／Number of Times in Status 圖表用</td></tr>
 </table></div>
 <div class="callout exam"><div class="t">考題長相</div>「產品線 → 子產品 兩層選單」→ cascading select。「Approver 欄位只能選 QA role 的人」→ user picker ＋ context 限制。「顯示預算差額」→ formula。「欄位建成 text 後想改成 select」→ 不能改型別，得建新欄位搬資料。</div>
@@ -252,16 +252,16 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>CMP 團隊想把 issue 分成前端、後端、資料庫，各模組有負責人自動接單。</summary><div class="a"><div class="tag">解答</div><strong>Components</strong>，各設 lead 並把 default assignee 設為 Component lead。</div></details>
-<details class="q"><summary>四個 project 都想標記「technical debt」，方便一個跨 project filter 找出來。</summary><div class="a"><div class="tag">解答</div><strong>Label</strong>（全站共用）；或請 Jira admin 建一個全站的 select 欄位如果要管控。</div></details>
-<details class="q"><summary>PM 發現 label 有 <code>ux</code>、<code>UX</code>、<code>u-x</code> 三種，報表分散。</summary><div class="a"><div class="tag">解答</div>label 無法管控；改成 Jira admin 建的 select list 欄位，選項固定。</div></details>
-<details class="q"><summary>TMP 團隊想用 component 分模組。</summary><div class="a"><div class="tag">解答</div>TMP 沒有 component；用 label 或自建欄位（TMP 的欄位只在該 project）。</div></details>
-<details class="q"><summary>要一個「產品線 → 子產品」的兩層選單。</summary><div class="a"><div class="tag">解答</div>Cascading select list（Jira admin 建）。</div></details>
-<details class="q"><summary>「Approver」欄位只能選 QA role 的人。</summary><div class="a"><div class="tag">解答</div>User picker ＋ context 限制為 project role QA。</div></details>
-<details class="q"><summary>Jira admin 把「Severity」建成 short text，現在想改成下拉選單。</summary><div class="a"><div class="tag">解答</div>型別不能改；建新的 select 欄位，bulk edit 搬資料，再隱藏舊欄位。</div></details>
-<details class="q"><summary>issue 同時掛 component「Backend」（lead 阿宏）與「Alpha」（lead 小傑），Assignee 留 Automatic，誰被指派？</summary><div class="a"><div class="tag">解答</div>字母順序第一個「Alpha」的 default assignee → 小傑（若他有 Assignable User）。</div></details>
-<details class="q"><summary>Project admin 想在 issue 上顯示「預算 − 實際支出」。</summary><div class="a"><div class="tag">解答</div>請 Jira admin 建 Formula 欄位；project admin 建不了 custom field。</div></details>
-<details class="q"><summary>刪掉 component「Legacy」時 Jira 問了什麼？</summary><div class="a"><div class="tag">解答</div>已連結的 issue 要改連到別的 component，還是解除連結。</div></details>
+<details class="q"><summary>CMP 團隊想把 issue 分成前端、後端、資料庫，各模組有負責人自動接單。</summary><div class="a"><div class="tag">解答</div>用 <strong>components</strong>。建三個 component（Frontend、Backend、Database），各自指定 <strong>Component lead</strong>，並把每個 component 的 <strong>Default assignee</strong> 設成 Component lead。這樣新 issue 只要掛上某個 component、Assignee 留 Automatic，就會自動指派給該模組的負責人。這題的關鍵字是「<strong>自動接單</strong>」——label 與 custom field 都做不到自動指派（要另外寫 automation），只有 component 內建這個能力。另外別忘了前提：<strong>components 只有 company-managed project 有</strong>。</div></details>
+<details class="q"><summary>四個 project 都想標記「technical debt」，方便一個跨 project filter 找出來。</summary><div class="a"><div class="tag">解答</div>用 <strong>label</strong>。理由是 label 是<strong>全站共用</strong>的：四個 project 打同一個 <code>tech-debt</code>，在 Jira 眼中就是同一個值，一句 <code>labels = tech-debt</code> 就能跨 project 撈出來。component 做不到（它只存在於單一 project），custom field 則要請 Jira admin 建立並設定 context。代價是 label 完全沒有管控，可能長出 <code>tech-debt</code>、<code>techdebt</code>、<code>TechDebt</code> 三種寫法；如果這個分類很重要、要長期做報表，就值得請 Jira admin 建一個全站的 select list 欄位換取一致性。</div></details>
+<details class="q"><summary>PM 發現 label 有 <code>ux</code>、<code>UX</code>、<code>u-x</code> 三種，報表分散。</summary><div class="a"><div class="tag">解答</div>因為 <strong>label 本質上不受管控</strong>——任何有 Edit Issues 權限的人打字就能建立新值，而且<strong>大小寫與拼法不同就是不同的 label</strong>，Jira 不會幫你合併。要根治只有一條路：請 Jira admin 建一個 <strong>select list 型別的 custom field</strong>，選項由 admin 固定，使用者只能從清單挑，報表自然一致。這正是官方點名的「選項型欄位勝過 label 的理由」。清理既有資料時要小心：批次改 label 時務必<strong>保留每張 issue 其他既有的 labels</strong>，用整欄覆寫會誤刪無關的標記。</div></details>
+<details class="q"><summary>TMP 團隊想用 component 分模組。</summary><div class="a"><div class="tag">解答</div><strong>辦不到，TMP 沒有 components 這個功能</strong>，官方原文明講 Jira components 只存在於 company-managed space。替代方案有兩個：用 <strong>label</strong>（全站共用、任何人可加、沒有管控），或是由 project admin 在 TMP 裡<strong>自建一個 select 欄位</strong>（選項受控，但這個欄位只存在於該 project，別的 project 用不到）。兩種替代方案都<strong>無法做到 component 的自動指派</strong>，那部分只能靠 automation 補。如果自動指派與跨 project 一致性都是硬需求，正確答案其實是改用 CMP。</div></details>
+<details class="q"><summary>要一個「產品線 → 子產品」的兩層選單。</summary><div class="a"><div class="tag">解答</div>用 <strong>Cascading select list</strong>（層級式下拉），由 Jira admin 建立。它的特色是第二層的選項會<strong>隨第一層的選擇而變</strong>——官方的例子是先選 Pies，第二層才出現 Apple／Peach。這正好對應「產品線 → 子產品」的需求。要跟兩個獨立的 select list 區分開：後者的第二個欄位不管你第一個選什麼，選項都一樣，沒有連動關係。</div></details>
+<details class="q"><summary>「Approver」欄位只能選 QA role 的人。</summary><div class="a"><div class="tag">解答</div>用 <strong>User picker（single user）</strong>型別的 custom field，再透過 <strong>Edit User Filtering</strong>（context 設定）把候選範圍限定成 project role QA。這樣使用者打開下拉時就只看得到 QA role 的成員，避免誤選。有兩個重點要記牢：第一，<strong>這只是候選名單，不是授權</strong>——被選中的人不會因此獲得任何 project 權限。第二，如果預設帶入的那個人日後被停用或離開了允許的群組，<strong>建立 issue 可能會直接失敗</strong>，所以人員異動時要記得回頭檢查 context 的 default value。</div></details>
+<details class="q"><summary>Jira admin 把「Severity」建成 short text，現在想改成下拉選單。</summary><div class="a"><div class="tag">解答</div><strong>型別建立之後就不能更改</strong>，這是官方的硬性規則，沒有任何設定可以繞過。正確做法是走一套遷移流程：<strong>建一個新的 select list 欄位</strong> → 把它加進對應的 screen → 用 <strong>bulk edit</strong> 依舊欄位的值分批填進新欄位 → 確認報表與 JQL 都改用新欄位之後，再把舊的 text 欄位從 screen 上隱藏（先別急著刪除，保留一段時間以防需要回頭核對）。這也是為什麼建立 custom field 前值得多想一下型別——事後補救的成本相當高。</div></details>
+<details class="q"><summary>issue 同時掛 component「Backend」（lead 阿宏）與「Alpha」（lead 小傑），Assignee 留 Automatic，誰被指派？</summary><div class="a"><div class="tag">解答</div>會指派給<strong>小傑</strong>。判斷順序是這樣的：先比較兩個 component 的 <strong>default assignee 類型優先序</strong>（Component lead ＞ Project lead ＞ Unassigned ＞ Project default）；兩個都設成 Component lead、同一級的話，<strong>再依 component 名稱的字母序取第一個</strong>——Alpha 排在 Backend 前面，所以由 Alpha 的 lead 小傑接手。還有一個前提條件：<strong>候選人必須具備 Assignable User 權限</strong>，如果小傑沒有，Jira 會往下一個候選人找。（這一項的實際行為官方 KB 與部分第三方題庫說法不一，教材以官方 KB 為準，站台實測項目列在專案的 SITE-VERIFY 清單。）</div></details>
+<details class="q"><summary>Project admin 想在 issue 上顯示「預算 − 實際支出」。</summary><div class="a"><div class="tag">解答</div>要用 <strong>Formula</strong> 型別的 custom field，直接在 issue 上算出「預算 − 實際支出」，輸出可以是數字、貨幣或百分比。但這件事 <strong>project admin 做不到</strong>——在 CMP，建立 custom field 是站台層級的動作，只有 <strong>Jira admin</strong> 有權限，而且建好之後還要把欄位加進對應 issue type 的 screen，使用者才看得到。所以 project admin 的正確動作是開單給 Jira admin，並在單裡寫清楚欄位名稱、型別、公式與要套用的 project／issue type。</div></details>
+<details class="q"><summary>刪掉 component「Legacy」時 Jira 問了什麼？</summary><div class="a"><div class="tag">解答</div>Jira 會問你<strong>那些已經掛著 Legacy 的 issue 該怎麼處理</strong>：是要把它們改連到另一個 component，還是直接解除關聯（Components 欄位變空白）。這個提問是為了避免資料悄悄斷掉——<strong>刪除 component 不會刪掉任何 issue</strong>。順帶一提，這也是 component 相較 label 的一個管理優勢：刪除時系統會強迫你面對既有資料，而 label 沒有這道防護。</div></details>
 </div>
 </section>
 
@@ -271,11 +271,11 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「TMP 也有 components」</td><td>只有 CMP 有</td></tr>
-<tr><td>「Component 可以跨 project 共用」</td><td>只在建它的 project</td></tr>
-<tr><td>「Project admin 可以建 custom field」</td><td>Jira admin 才能（TMP 的 project admin 可建僅限該 project 的欄位）</td></tr>
-<tr><td>「Custom field 建錯型別可以改」</td><td>不能改</td></tr>
-<tr><td>「Label 可以設負責人」</td><td>label 沒有任何屬性</td></tr>
+<tr><td>「TMP 也有 components」</td><td>沒有。Jira components 只存在於 company-managed project，官方原文明講它的範圍限定在建立它的那個 space；TMP 只能用 label 或自建欄位替代</td></tr>
+<tr><td>「Component 可以跨 project 共用」</td><td>不行。component 的範圍就是建立它的那一個 project，別的 project 既看不到也用不到；要跨 project 分類請用 label 或全站的 custom field</td></tr>
+<tr><td>「Project admin 可以建 custom field」</td><td>在 CMP 不行，custom field 是全站物件，只有 Jira admin 建得了；<strong>TMP 例外</strong>——project admin 可以自建欄位，但那個欄位只存在於該 project</td></tr>
+<tr><td>「Custom field 建錯型別可以改」</td><td>不能。型別一旦建立就固定了，只能新建一個正確型別的欄位、用 bulk edit 搬資料，再把舊欄位從 screen 隱藏</td></tr>
+<tr><td>「Label 可以設負責人」</td><td>不能。label 就只是一串純文字，沒有 lead、沒有 default assignee、沒有描述，什麼屬性都沒有；要自動指派得用 component</td></tr>
 <tr><td>「多個 component 時用 project default assignee」或「只看字母序」</td><td>先看 default assignee 類型優先序（Component lead ＞ Project lead ＞ Unassigned ＞ Project default），同級才依 component 名稱字母序</td></tr>
 <tr><td>「Jira Cloud 沒有 Priority scheme」</td><td>現行已提供；可為 project 指定可用 priority 與預設值，多 project 可共用</td></tr>
 <tr><td>「Disable 選項＝把歷史值清掉」</td><td>只是不再供新選取；舊 issue 的值還在、JQL 仍找得到</td></tr>

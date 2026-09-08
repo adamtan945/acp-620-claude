@@ -178,26 +178,26 @@
 <h2>內建 gadget（官方 Use dashboard gadgets 全表，依用途分群）</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:14%">用途</th><th style="width:30%">Gadget</th><th style="width:14%">來源</th><th>顯示什麼</th></tr>
-<tr><td class="hd">列清單</td><td>Filter Results</td><td>filter</td><td>某 filter 的 issue 列表，可選欄位與筆數</td></tr>
-<tr><td class="hd" rowspan="3">分佈</td><td>Pie Chart</td><td>filter／project</td><td>依一個欄位（status、priority、assignee…）分佈的圓餅</td></tr>
-<tr><td>Issue Statistics（Work item Statistics）</td><td>filter／project</td><td>依一個欄位分組的計數表（一維）</td></tr>
-<tr><td>Two Dimensional Filter Statistics</td><td>filter</td><td>兩個欄位交叉的表格（例如 Assignee × Status）</td></tr>
-<tr><td class="hd" rowspan="4">趨勢與時間</td><td>Created vs Resolved</td><td>filter／project</td><td>一段期間建立與解決的差異圖，看 backlog 是漲是跌</td></tr>
+<tr><td class="hd">列清單</td><td>Filter Results</td><td>filter</td><td>把某個 filter 的結果直接列成清單，可以自己選要顯示哪些欄位、最多顯示幾筆</td></tr>
+<tr><td class="hd" rowspan="3">分佈</td><td>Pie Chart</td><td>filter／project</td><td>依<strong>單一</strong>欄位（status、priority、assignee…）畫出佔比的圓餅圖，適合回答「哪一類最多」</td></tr>
+<tr><td>Issue Statistics（Work item Statistics）</td><td>filter／project</td><td>依<strong>單一</strong>欄位分組後列出數量的表格，跟 Pie Chart 同樣是一維，只是以數字而非圖形呈現</td></tr>
+<tr><td>Two Dimensional Filter Statistics</td><td>filter</td><td>把<strong>兩個</strong>欄位交叉成一張表格（例如 Assignee × Status），是唯一能回答「每個人各狀態幾張」這種問題的內建 gadget</td></tr>
+<tr><td class="hd" rowspan="4">趨勢與時間</td><td>Created vs Resolved</td><td>filter／project</td><td>把一段期間內「新建立」與「已解決」的數量畫在一起，兩條線的落差就看得出 backlog 是越積越多還是正在消化</td></tr>
 <tr><td>Recently Created Issues</td><td>filter／project</td><td>建立速率的長條，含已解決比例</td></tr>
-<tr><td>Average Age</td><td>filter／project</td><td>未解決 issue 的平均年齡（天）長條</td></tr>
+<tr><td>Average Age</td><td>filter／project</td><td>用長條呈現目前未解決 issue 的平均「年齡」（從建立到現在幾天），數字持續上升代表舊案子沒人處理</td></tr>
 <tr><td>Resolution Time</td><td>filter／project</td><td>已解決 issue 的平均解決時間</td></tr>
 <tr><td class="hd" rowspan="2">狀態停留</td><td>Average Time in Status</td><td>filter／project</td><td>各狀態平均停留天數</td></tr>
-<tr><td>Average Number of Times in Status</td><td>filter／project</td><td>各狀態平均進入次數（反覆退回的訊號）</td></tr>
-<tr><td class="hd" rowspan="3">個人</td><td>Assigned to Me</td><td>—</td><td>指派給我、跨所有 project 的未完成 issue</td></tr>
+<tr><td>Average Number of Times in Status</td><td>filter／project</td><td>統計 issue 平均進入每個狀態幾次；某個狀態的次數明顯大於 1，通常代表工作在那裡反覆被退回，是流程有問題的訊號</td></tr>
+<tr><td class="hd" rowspan="3">個人</td><td>Assigned to Me</td><td>—</td><td>列出目前指派給觀看者本人、尚未完成的 issue，<strong>跨所有 project 且不需要設定來源</strong></td></tr>
 <tr><td>Issues in Progress（Work items in Progress）</td><td>—</td><td>我進行中的 issue</td></tr>
 <tr><td>Watched Issues／Voted Issues</td><td>—</td><td>我關注／投票的 issue</td></tr>
-<tr><td class="hd" rowspan="3">Sprint</td><td>Sprint Health</td><td>board</td><td>sprint 進度、工作分配、scope 變動的快照</td></tr>
-<tr><td>Sprint Burndown</td><td>board</td><td>剩餘工作曲線</td></tr>
-<tr><td>Days Remaining in Sprint</td><td>board</td><td>倒數天數</td></tr>
+<tr><td class="hd" rowspan="3">Sprint</td><td>Sprint Health</td><td>board</td><td>一張圖同時呈現目前 sprint 的進度、工作在成員之間的分配，以及 scope 有沒有中途被追加</td></tr>
+<tr><td>Sprint Burndown</td><td>board</td><td>目前 sprint 的燃盡曲線，跟 board 上的 burndown chart 是同一份資料</td></tr>
+<tr><td>Days Remaining in Sprint</td><td>board</td><td>單純顯示目前 sprint 還剩幾天，適合放在牆上的 wallboard 提醒團隊</td></tr>
 <tr><td class="hd" rowspan="2">版本與 project</td><td>Road Map</td><td>project</td><td>指定期間內要 release 的版本與進度</td></tr>
 <tr><td>Projects（Spaces）</td><td>project</td><td>project 資訊與相關 filter 捷徑</td></tr>
-<tr><td class="hd" rowspan="4">其他</td><td>Bubble Chart</td><td>filter</td><td>四個維度找出「重要」的 issue（例如 votes × age）</td></tr>
-<tr><td>Labels</td><td>project</td><td>該 project 用過的所有 label</td></tr>
+<tr><td class="hd" rowspan="4">其他</td><td>Bubble Chart</td><td>filter</td><td>用 X 軸、Y 軸、泡泡大小與顏色<strong>四個維度</strong>一次呈現，適合從一大堆 issue 裡撈出「又重要又拖很久」的那幾張</td></tr>
+<tr><td>Labels</td><td>project</td><td>列出這個 project 用過的所有 label，可以用來檢查標籤有沒有長出拼字變體</td></tr>
 <tr><td>Time Since Issues</td><td>filter／project</td><td>依某個日期欄位（created、updated、due、resolved、自訂）的活動長條</td></tr>
 <tr><td>Activity Stream、Introduction、Quick Links、Wallboard Spacer、Issue Calendar（需外掛）、Time to First Response、Service Project Report</td><td>各異</td><td>活動流、自訂文字、捷徑、排版空白、行事曆（外掛）、JSM 專用兩個</td></tr>
 </table></div>
@@ -209,16 +209,16 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>主管要一張「每個工程師手上各狀態有幾張」的表。</summary><div class="a"><div class="tag">解答</div><strong>Two Dimensional Filter Statistics</strong>：X＝Status、Y＝Assignee，來源是團隊 filter。一維的 Issue Statistics 只能看一個欄位。</div></details>
-<details class="q"><summary>想知道 backlog 這三個月是越積越多還是在消化。</summary><div class="a"><div class="tag">解答</div><strong>Created vs Resolved</strong>，期間設 90 天。</div></details>
-<details class="q"><summary>Project admin 建好 dashboard，分享時找不到 project role 選項或分享失敗。</summary><div class="a"><div class="tag">解答</div>缺全域權限 <strong>Share dashboards and filters</strong>，找 Jira admin。</div></details>
-<details class="q"><summary>同事看得到 dashboard，但 Pie Chart 一片空白。</summary><div class="a"><div class="tag">解答</div>底層 saved filter 沒分享給他，或他沒有該 project 的 Browse 權限。gadget 依看的人的權限顯示。</div></details>
-<details class="q"><summary>不小心把 dashboard 丟進 trash，自己救得回來嗎？</summary><div class="a"><div class="tag">解答</div>不行，只有 Jira admin 能還原；60 天後永久刪除。</div></details>
-<details class="q"><summary>想在牆上電視輪播三個團隊的 dashboard。</summary><div class="a"><div class="tag">解答</div>Wallboard slideshow，設定輪播秒數；每張 wallboard 少放 gadget。</div></details>
-<details class="q"><summary>Scrum master 要在 dashboard 上看目前 sprint 還剩幾天和燃盡狀況。</summary><div class="a"><div class="tag">解答</div>Days Remaining in Sprint ＋ Sprint Burndown（或 Sprint Health），來源是 board 不是 filter。</div></details>
-<details class="q"><summary>誰能改 System dashboard？改了會影響誰？</summary><div class="a"><div class="tag">解答</div>Jira admin；影響所有沒有自訂首頁的使用者，但 gadget 仍依各人權限顯示。</div></details>
-<details class="q"><summary>想找出「票數多且放很久」的需求。</summary><div class="a"><div class="tag">解答</div>Bubble Chart：可用四個維度（例如 votes、age、priority、watchers）一次看。</div></details>
-<details class="q"><summary>老闆只想看「指派給我的」，不想設 filter。</summary><div class="a"><div class="tag">解答</div>Assigned to Me 不需要來源，跨所有 project 列出未完成的指派。</div></details>
+<details class="q"><summary>主管要一張「每個工程師手上各狀態有幾張」的表。</summary><div class="a"><div class="tag">解答</div>用 <strong>Two Dimensional Filter Statistics</strong>，X 軸設 Status、Y 軸設 Assignee，來源接團隊的 saved filter。判斷關鍵在需求裡的「<strong>每個工程師</strong>」加上「<strong>各狀態</strong>」——兩個維度交叉，就必須用二維的 gadget。一維的 <strong>Issue Statistics</strong> 或 <strong>Pie Chart</strong> 一次只能依<strong>一個</strong>欄位分組，做不出這張表。</div></details>
+<details class="q"><summary>想知道 backlog 這三個月是越積越多還是在消化。</summary><div class="a"><div class="tag">解答</div>用 <strong>Created vs Resolved</strong>，期間設成 90 天。它會同時畫出「這段期間新建了多少」與「解決了多少」兩條線，兩者的落差就直接回答了「backlog 在漲還是在消」——建立線持續高於解決線就是越積越多。這是回答「趨勢」類問題的標準 gadget，而 Pie Chart 那種只能呈現「此刻的分佈」，看不出時間變化。</div></details>
+<details class="q"><summary>Project admin 建好 dashboard，分享時找不到 project role 選項或分享失敗。</summary><div class="a"><div class="tag">解答</div>因為缺少全域權限 <strong>Share dashboards and filters</strong>。建立 dashboard 本身<strong>任何 Jira 使用者都可以</strong>，不需要特別權限；但要把它<strong>分享出去</strong>就必須有這一項。它是全域權限，只有 Jira admin 能授予，而且<strong>只能授予群組</strong>。順帶一提，同一個權限也管 filter 的分享——所以缺了它，dashboard 與底層 filter 兩邊都分享不出去。</div></details>
+<details class="q"><summary>同事看得到 dashboard，但 Pie Chart 一片空白。</summary><div class="a"><div class="tag">解答</div>因為<strong>底層的 saved filter 沒有分享給他</strong>，或是他<strong>沒有該 project 的 Browse Projects 權限</strong>。這題要建立的核心觀念是：<strong>分享 dashboard 只是分享了「容器」，資料來源要另外分享</strong>。而且 gadget 的內容永遠是<strong>依照觀看者自己的權限</strong>即時查詢出來的——這其實是好事，代表不會因為分享 dashboard 而洩漏他無權查看的 issue，但也意味著同一張 dashboard 每個人看到的數字可能不同。</div></details>
+<details class="q"><summary>不小心把 dashboard 丟進 trash，自己救得回來嗎？</summary><div class="a"><div class="tag">解答</div><strong>自己救不回來。</strong>dashboard 被 Move to trash 之後，<strong>只有 Jira admin 能執行還原</strong>，一般使用者（包含原本的擁有者）都不行，而且<strong>60 天後就會永久刪除</strong>。所以誤刪時要立刻找 Jira admin，不要拖。這個規則跟 project 的 trash 很像，可以一起記：<strong>丟進去比較容易，救出來一律要站台管理員</strong>。</div></details>
+<details class="q"><summary>想在牆上電視輪播三個團隊的 dashboard。</summary><div class="a"><div class="tag">解答</div>用 <strong>wallboard slideshow</strong>：它可以把多個 dashboard 排成輪播，並設定每一張停留幾秒。一般的 wallboard 只是把單一 dashboard 全螢幕顯示，要輪播就得用 slideshow 模式。設計上有一個實務建議：<strong>牆上的螢幕是給人幾公尺外掃一眼的，每張 wallboard 放的 gadget 要少而大</strong>（建議不超過 6 個），密密麻麻的表格在遠處完全讀不到。</div></details>
+<details class="q"><summary>Scrum master 要在 dashboard 上看目前 sprint 還剩幾天和燃盡狀況。</summary><div class="a"><div class="tag">解答</div>放 <strong>Days Remaining in Sprint</strong> 加上 <strong>Sprint Burndown</strong>（想一次看進度、工作分配與 scope 變動的話，改用 <strong>Sprint Health</strong>）。這題最重要的考點是<strong>資料來源</strong>：這三個 sprint 相關的 gadget 都是接 <strong>board</strong>，不是接 filter——因為 sprint 這個概念本身就屬於 board。大部分其他 gadget 接的是 filter 或 project，這一組是例外，很值得記起來。</div></details>
+<details class="q"><summary>誰能改 System dashboard？改了會影響誰？</summary><div class="a"><div class="tag">解答</div>只有 <strong>Jira admin</strong> 能修改 System dashboard。它是使用者登入後預設看到的那一張，所以改動會<strong>影響站台上所有沒有自訂首頁的人</strong>，要相當謹慎。不過有一點可以放心：<strong>gadget 的內容仍然依照每個人自己的權限顯示</strong>，不會因為放在公用首頁就洩漏資料（例如 Administration gadget 只有管理員看得到內容）。</div></details>
+<details class="q"><summary>想找出「票數多且放很久」的需求。</summary><div class="a"><div class="tag">解答</div>用 <strong>Bubble Chart</strong>。它的特色是一次可以呈現<strong>四個維度</strong>——X 軸、Y 軸、泡泡大小與顏色，例如把票數放 X、停留天數放 Y、優先度當顏色、關注人數當大小。這樣「票多又放很久」的需求就會浮現在圖的右上角，一眼認得出來。這是其他 gadget 做不到的：Pie Chart 只有一維，Two Dimensional 也只有兩維而且是表格形式。</div></details>
+<details class="q"><summary>老闆只想看「指派給我的」，不想設 filter。</summary><div class="a"><div class="tag">解答</div>用 <strong>Assigned to Me</strong>。它是少數<strong>不需要設定任何來源</strong>的 gadget，直接列出「目前指派給觀看者本人、且尚未完成」的 issue，而且<strong>跨所有 project</strong>。同一類的還有 Issues in Progress、Watched Issues、Voted Issues。這類個人型 gadget 的另一個好處是：同一張 dashboard 分享給十個人，每個人看到的都是自己的工作，不必為每個人各做一份 filter。</div></details>
 </div>
 </section>
 
@@ -228,12 +228,12 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「只有 admin 能建 dashboard」</td><td>任何 Jira 使用者都能建；分享才需要 Share dashboards and filters。</td></tr>
-<tr><td>「分享 dashboard 就等於分享資料」</td><td>gadget 的來源 filter 要另外分享，且看的人要有 project 的 Browse 權限。</td></tr>
-<tr><td>「Pie Chart 可以交叉兩個欄位」</td><td>一維；交叉用 Two Dimensional Filter Statistics。</td></tr>
-<tr><td>「Sprint gadget 用 filter 當來源」</td><td>用 board。</td></tr>
-<tr><td>「刪掉的 dashboard 自己可以還原」</td><td>只有 Jira admin，60 天內。</td></tr>
-<tr><td>「Wallboard 就是普通 dashboard 放大」</td><td>是全螢幕模式，另有 slideshow 輪播；設計上要少而大。</td></tr>
+<tr><td>「只有 admin 能建 dashboard」</td><td>不是。<strong>任何 Jira 使用者都能建立 dashboard</strong>，不需要任何特殊權限；只有要把它<strong>分享出去</strong>時，才需要全域權限 Share dashboards and filters。</td></tr>
+<tr><td>「分享 dashboard 就等於分享資料」</td><td>不等於。分享 dashboard 只是分享了「容器」，<strong>gadget 接的那份 saved filter 必須另外分享</strong>，而且觀看者還要有該 project 的 Browse Projects 權限，畫面才會有資料。</td></tr>
+<tr><td>「Pie Chart 可以交叉兩個欄位」</td><td>不行。Pie Chart 與 Issue Statistics 都是<strong>一維</strong>的，一次只能依一個欄位分組；要兩個欄位交叉請用 <strong>Two Dimensional Filter Statistics</strong>。</td></tr>
+<tr><td>「Sprint gadget 用 filter 當來源」</td><td>不是。Sprint Health、Sprint Burndown、Days Remaining in Sprint 這一組接的來源是 <strong>board</strong>，不是 filter，因為 sprint 本身就屬於 board。</td></tr>
+<tr><td>「刪掉的 dashboard 自己可以還原」</td><td>不行。只有 <strong>Jira admin</strong> 能從 trash 還原 dashboard，而且要在 <strong>60 天</strong>內，逾期就永久刪除。</td></tr>
+<tr><td>「Wallboard 就是普通 dashboard 放大」</td><td>不只如此。wallboard 是專門的全螢幕模式，還可以用 <strong>slideshow</strong> 輪播多張 dashboard 並設定秒數；因為是給人遠距離掃視的，設計上要<strong>少而大</strong>。</td></tr>
 </table></div>
 </section>
 

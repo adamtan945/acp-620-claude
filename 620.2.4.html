@@ -176,7 +176,7 @@
 <p>建 board 時有三種來源，前兩種其實也是 filter——Jira 會自動幫你建一個。</p>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">來源</th><th>Jira 幫你做什麼</th><th style="width:30%">適用</th></tr>
-<tr><td>新 project</td><td>建 project 同時建 board 與 filter</td><td>從零開始</td></tr>
+<tr><td>新 project</td><td>建立 project 的同時，一併把 board 與它背後的 filter 都建好，你不用自己寫 JQL</td><td>從零開始</td></tr>
 <tr><td>既有 project（一或多個）</td><td>自動產生 filter：<code>project = "X" ORDER BY Rank ASC</code>；需要該 project 的 Browse Projects</td><td>CMP 想要第二、第三個 board</td></tr>
 <tr><td><strong>Saved filter</strong></td><td>你先在 Filters 存好 JQL，建 board 時選「Board from an existing Saved Filter」；可以是自己的或別人分享給你的</td><td><strong>跨 project board；TMP 要額外 board 的唯一方法</strong></td></tr>
 </table></div>
@@ -235,10 +235,10 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">項目</th><th>內容</th></tr>
 <tr><td>預設 JQL</td><td><code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code><div class="kicker" style="margin-top:.3rem">來源：官方 KB「Kanban board does not show all issues」與 board filter JQL 範例頁；Cloud 的 configure-filters 現行頁已不列此句，實機 Kanban board 預設值相同。</div></td></tr>
-<tr><td>意思</td><td>只顯示「還沒發布」或「沒填 fixVersion」的 issue。Kanban 沒有 sprint，靠 <strong>Release 版本</strong>把最右欄的 Done 清掉——Release 後這些 issue 的 fixVersion 變成 released，就被 sub-filter 藏起來</td></tr>
+<tr><td>意思</td><td>這句 JQL 的意思是「只顯示尚未發佈、或根本沒填 fixVersion 的 issue」。Kanban 沒有 sprint 可以完成，它清掉 Done 卡片的方式就是靠 <strong>Release 版本</strong>：一旦你把完成的 issue 指定某個版本並發佈，它的 fixVersion 就變成 released，於是自動被這個 sub-filter 藏起來——注意是「藏起來」，資料完全沒有被刪除</td></tr>
 <tr><td>在哪裡改</td><td>Board settings → General → <strong>Kanban board sub-filter</strong>；board admin 或 project admin 可改</td></tr>
-<tr><td>常見改法</td><td>加 <code>AND status != Cancelled</code>；或直接清空 sub-filter（就再也不會自動清 Done）</td></tr>
-<tr><td>只有 Kanban 有</td><td>Scrum board 沒有這個欄位，Scrum 靠完成 sprint 清 Done</td></tr>
+<tr><td>常見改法</td><td>常見的調整有兩種：一是追加條件例如 <code>AND status != Cancelled</code>，把取消的工作也一併藏起來；二是<strong>直接把 sub-filter 清空</strong>，代價是 board 從此不會再自動清 Done，卡片會一直累積</td></tr>
+<tr><td>只有 Kanban 有</td><td>sub-filter 只存在於 Kanban board，Scrum board 的設定頁面根本沒有這個欄位，因為它是用「完成 sprint」來清 Done 的</td></tr>
 </table></div>
 <div class="callout exam"><div class="t">證據界線：sub-filter 對「報表」的影響不能一概而論</div>
 官方 sub-filter 頁只說它會讓 Reports 呈現不同資料，<strong>沒有逐一列出每個報表怎麼套用</strong>；而 <a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/">CFD</a> 與 <a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/">Velocity</a> 兩頁都明講「<em>board-specific — 只包含符合 board saved filter 的工作</em>」。所以「sub-filter 對所有報表都沒影響」與「所有報表都套用 sub-filter」<strong>兩種通則都不能背</strong>；作答時要指名是哪一張報表、哪一層 filter。CFD 另有 <strong>Refine report</strong> 可在報表內再篩選，board 上亮著的 quick filter 不會自動繼承到每種報表。</div>
@@ -263,12 +263,12 @@
 <h3>與 board filter 的整合規則</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:36%">規則</th><th>說明</th></tr>
-<tr><td>作用範圍</td><td>只在 board filter（與 sub-filter）的結果上再篩；<strong>不能讓被排除的 issue 出現</strong></td></tr>
+<tr><td>作用範圍</td><td>它只在 board filter（以及 Kanban 的 sub-filter）篩完的結果上<strong>再篩一次</strong>，方向永遠是往下收窄；<strong>沒有任何辦法讓已經被排除的 issue 重新出現</strong></td></tr>
 <tr><td>多選</td><td><strong>AND</strong>：同時勾三個 ＝ 三個條件都要符合</td></tr>
 <tr><td>JQL 可用什麼</td><td>任何 JQL 子句，含函數：<code>assignee in membersOf("bugfix")</code>、<code>type = Bug</code>、<code>savedfilter = "My Filter"</code>、<code>duedate <= endOfWeek()</code></td></tr>
-<tr><td>ORDER BY</td><td>quick filter 裡寫 ORDER BY 沒意義，排序仍由 board filter 決定</td></tr>
+<tr><td>ORDER BY</td><td>在 quick filter 的 JQL 裡寫 ORDER BY 不會有任何效果，board 上卡片的排序自始至終都由 board filter 的 ORDER BY 決定</td></tr>
 <tr><td>與 swimlane／card color 的差別</td><td>quick filter 是「藏／顯示」；swimlane 是「分組」；card color 是「上色」——三者都用 JQL，但功能不同</td></tr>
-<tr><td>狀態記憶</td><td>勾選狀態是每位使用者自己的瀏覽器狀態，不影響別人</td></tr>
+<tr><td>狀態記憶</td><td>誰勾了哪些 quick filter，是記在<strong>各自的瀏覽器</strong>裡的個人狀態，不會影響其他人看到的畫面，所以放心勾</td></tr>
 </table></div>
 <div class="callout warn" style="margin-top:1rem"><div class="t">互斥的兩個 quick filter ＝ 空集合</div>
 同時勾 <code>type = Bug</code> 與 <code>type = Task</code>，因為多選是 <strong>AND</strong>，一張 issue 不可能同時是兩種 type → board 全空。要「Bug 或 Task」必須寫成<strong>單一</strong> quick filter <code>issuetype in (Bug, Task)</code>。同理「我的或未指派」要寫 <code>assignee = currentUser() OR assignee is EMPTY</code>，不是開兩個 filter。
@@ -296,17 +296,17 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>TMP 團隊想要第二張只看 Bug 的 board，怎麼做？</summary><div class="a"><div class="tag">解答</div>TMP 不能直接建額外 board；先存一個 saved filter（<code>project = X AND type = Bug ORDER BY Rank ASC</code>），再從 Boards → Create board → Board from an existing Saved Filter 建。</div></details>
-<details class="q"><summary>同事說看得到 project，卻在 Boards 清單找不到你建的跨 project board。</summary><div class="a"><div class="tag">解答</div>底層 saved filter 沒分享給他。Board 可見度＝filter 分享 ∩ Browse Projects。到 Filters 把 filter 分享給對應的 project／group／role。</div></details>
-<details class="q"><summary>Board 上拖不動卡片，也不能建 sprint。</summary><div class="a"><div class="tag">解答</div>filter 的 ORDER BY 不是 Rank（或沒有 ORDER BY）。Board settings → General → Add Rank，Jira 會補上 <code>ORDER BY Rank ASC</code>。</div></details>
-<details class="q"><summary>Kanban board 上 Done 欄的卡片放了一個月都不消失。</summary><div class="a"><div class="tag">解答</div>沒有 Release 版本（或 sub-filter 被清空）。Kanban 靠 Release 讓 issue 的 fixVersion 變 released，再被預設 sub-filter 藏起來。</div></details>
-<details class="q"><summary>Kanban board 上所有「Task」都不見了，但搜尋得到；Bug 正常。</summary><div class="a"><div class="tag">解答</div>Task 的 field configuration 把 Fix Version 藏起來，對 sub-filter 而言欄位不存在，整個 type 被濾掉。把欄位設回可見並 re-index，或清空 sub-filter。</div></details>
-<details class="q"><summary>使用者勾了「Only My Issues」再勾「Bugs」，抱怨卡片變更少。</summary><div class="a"><div class="tag">解答</div>正常，quick filter 多選是 AND。要「我的 或 Bug」得另外寫一個 quick filter：<code>assignee = currentUser() OR type = Bug</code>。</div></details>
-<details class="q"><summary>PM 想用 quick filter 在 board 上順便看另一個 project 的 issue。</summary><div class="a"><div class="tag">解答</div>做不到。quick filter 只能在 board filter 結果內篩；要看另一個 project 得改 board filter（或用 saved filter 另建 board）。</div></details>
-<details class="q"><summary>你是 board admin，但 Board settings 的 filter 改不了。</summary><div class="a"><div class="tag">解答</div>board admin ≠ filter editor。要 filter owner 把你加為 editor，或請 Jira admin 改（Jira admin 可改 filter owner）。</div></details>
-<details class="q"><summary>Jira admin 把 board filter 的 <code>project = A</code> 改成 <code>project in (A, B)</code>，B 的 issue 卻沒出現在 board。</summary><div class="a"><div class="tag">解答</div>B 的 workflow status 沒對到這張 board 的 columns（unmapped）。到 Board settings → Columns 把 B 的 status 拖進對應欄。</div></details>
-<details class="q"><summary>一個 saved filter 被三張 board 共用，其中一張的 admin 想只改自己那張的範圍。</summary><div class="a"><div class="tag">解答</div>改 filter 會同時影響三張 board。正確做法：複製 filter、改 JQL、把該 board 的 filter 換成新的（或用 quick filter 做臨時篩選）。</div></details>
-<details class="q"><summary>Scrum board 的 Board settings 找不到 sub-filter 欄位。</summary><div class="a"><div class="tag">解答</div>正常，sub-filter 只有 Kanban 有；Scrum 用完成 sprint 清 Done。</div></details>
+<details class="q"><summary>TMP 團隊想要第二張只看 Bug 的 board，怎麼做？</summary><div class="a"><div class="tag">解答</div>因為 <strong>TMP 只有一個內建 board，沒有「再建一個」的入口</strong>，所以要繞路走 saved filter。先到 Filters 存一份 JQL：<code>project = X AND type = Bug ORDER BY Rank ASC</code>（結尾的 <code>ORDER BY Rank</code> 別漏，否則新 board 上的卡片拖不動），再到 Boards → Create board → <strong>Board from an existing Saved Filter</strong> 選它建立。建好之後記得檢查 filter 的分享對象，因為<strong>能存取這份 filter 的人才看得到這張 board</strong>。</div></details>
+<details class="q"><summary>同事說看得到 project，卻在 Boards 清單找不到你建的跨 project board。</summary><div class="a"><div class="tag">解答</div>因為<strong>底層的 saved filter 沒有分享給他</strong>。board 本身沒有獨立的分享設定，它的可見度是一個交集：<strong>filter 的分享範圍 ∩ 各 project 的 Browse Projects 權限</strong>。他有 project 權限只滿足了後半段，前半段沒過，board 就不會出現在他的清單裡。解法是到 Filters 找到那份 filter，把它分享給對應的 project、group 或 role。</div></details>
+<details class="q"><summary>Board 上拖不動卡片，也不能建 sprint。</summary><div class="a"><div class="tag">解答</div>因為這張 board 的 filter <strong>沒有以 <code>ORDER BY Rank</code> 結尾</strong>（可能被改成 <code>ORDER BY created</code>，或根本沒寫 ORDER BY）。Jira 是靠 Rank 這個特殊欄位記住人工排序的，沒有它就無法拖曳，連帶建 sprint、sub-task 歸組也會失效——所以這不只是「排序不同」而已。解法是到 Board settings → General 按 <strong>Add Rank</strong>，Jira 會自動把 filter 補上 <code>ORDER BY Rank ASC</code>。</div></details>
+<details class="q"><summary>Kanban board 上 Done 欄的卡片放了一個月都不消失。</summary><div class="a"><div class="tag">解答</div>因為<strong>沒有人發佈版本</strong>，或是這張 board 的 sub-filter 被清空了。Kanban 沒有 sprint 可以「完成」，它清 Done 的機制是：預設 sub-filter <code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code> 只顯示尚未發佈的工作；當你把 issue 指定一個版本並 <strong>Release</strong> 掉，它的 fixVersion 變成 released，就自然被 sub-filter 藏起來了。所以卡片堆著不動，通常代表這個 project 根本沒在用 version，或有人把 sub-filter 清掉了。</div></details>
+<details class="q"><summary>Kanban board 上所有「Task」都不見了，但搜尋得到；Bug 正常。</summary><div class="a"><div class="tag">解答</div>這是官方 KB 記載的一個陷阱：<strong>Task 的 field configuration 把 Fix Version 設成 hidden 了</strong>。欄位一旦被隱藏，對 JQL 來說這個欄位「不存在」——它既不符合 <code>fixVersion in unreleasedVersions()</code>，也不符合 <code>fixVersion is EMPTY</code>，於是預設的 sub-filter 就把<strong>整個 issue type</strong> 全部濾掉了。Bug 沒事，正是因為它的 field configuration 不同。修法有兩條：把 Fix Version 設回可見並重建索引（re-index），或是把 sub-filter 清空。</div></details>
+<details class="q"><summary>使用者勾了「Only My Issues」再勾「Bugs」，抱怨卡片變更少。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常行為</strong>：同時勾選多個 quick filter 時，它們之間是 <strong>AND</strong> 而不是 OR，也就是「既是我的、又是 Bug」的卡片才留得下來，勾愈多當然愈少。如果使用者真正想看的是「我的<strong>或</strong> Bug」，那就得另外做一個 quick filter，把 OR 寫在同一句 JQL 裡：<code>assignee = currentUser() OR type = Bug</code>。</div></details>
+<details class="q"><summary>PM 想用 quick filter 在 board 上順便看另一個 project 的 issue。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>三層過濾是一個只能往下收窄的漏斗：quick filter 作用的對象是 <strong>board filter（與 sub-filter）已經篩完的結果</strong>，它<strong>沒有能力把被排除掉的 issue 找回來</strong>。想看另一個 project，只能往上游動——修改 board filter 的 JQL 把那個 project 納進來（記得接著檢查它的 status 有沒有對應到 columns），或是另存一份 filter 建一張新的 board。</div></details>
+<details class="q"><summary>你是 board admin，但 Board settings 的 filter 改不了。</summary><div class="a"><div class="tag">解答</div>因為 <strong>board admin 和 filter editor 是兩種不同的權限</strong>。board admin 管的是這張 board 的設定（columns、swimlanes、quick filters…），但 filter 是一個獨立的物件，要改它的 JQL 必須是 filter 的 owner，或是被 owner 加為 editor。解法有三：請 filter owner 把你加進 editors、請 Jira admin 幫忙改（Jira admin 也能變更 filter 的 owner），或是用 <strong>Save as</strong> 另存一份自己的 filter 再把 board 指過去——最後這招最安全，因為不會動到別人共用的查詢。</div></details>
+<details class="q"><summary>Jira admin 把 board filter 的 <code>project = A</code> 改成 <code>project in (A, B)</code>，B 的 issue 卻沒出現在 board。</summary><div class="a"><div class="tag">解答</div>因為 <strong>B project 的 workflow status 還沒有對應到這張 board 的 columns</strong>，它們全躺在 Unmapped statuses 面板裡。三層漏斗只解決了「母體有沒有包含它」，而<strong>能不能顯示在 board 上還要過 column mapping 這一關</strong>——兩個 project 的 workflow 往往不同，這一步幾乎每次擴大 filter 都要做。到 Board settings → Columns 把 B 的 status 逐一拖進對應的欄位即可，特別記得把它的「結束」status 拖到最右欄。</div></details>
+<details class="q"><summary>一個 saved filter 被三張 board 共用，其中一張的 admin 想只改自己那張的範圍。</summary><div class="a"><div class="tag">解答</div><strong>不能直接改</strong>——那份 filter 是三張 board 共用的，動一次三張一起變，另外兩個團隊會莫名其妙少一堆卡片。正確做法是<strong>先複製再修改</strong>：用 Save as 另存一份新的 filter、在新的那份上改 JQL，然後到自己這張 board 的 Board settings → General 把 filter 換成新的。如果只是想臨時看個切面、不需要永久改變範圍，用 <strong>quick filter</strong> 就好，完全不會影響到別人。</div></details>
+<details class="q"><summary>Scrum board 的 Board settings 找不到 sub-filter 欄位。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常的</strong>，sub-filter 是 Kanban board 專屬的欄位。原因在於兩種 board 清 Done 的機制不同：<strong>Kanban 沒有 sprint，所以需要 sub-filter 搭配 Release 來把已完成的工作藏起來</strong>；<strong>Scrum 則是靠「完成 sprint」這個動作</strong>，一次把最右欄的 issue 清出 board，不需要額外的過濾層。</div></details>
 </div>
 </section>
 
@@ -316,13 +316,13 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「quick filter 多選是 OR」</td><td>是 AND</td></tr>
-<tr><td>「quick filter 可以擴大 board 範圍」</td><td>只能縮小；範圍由 board filter 決定</td></tr>
-<tr><td>「board admin 就能改 board filter」</td><td>要 filter 的編輯權；board admin 只管 board 設定</td></tr>
-<tr><td>「Scrum 也有 sub-filter」</td><td>只有 Kanban；Scrum 用完成 sprint 清 Done</td></tr>
-<tr><td>「filter 私有沒關係，board 分享就好」</td><td>board 沒有獨立分享設定；可見度跟著 filter</td></tr>
-<tr><td>「拿掉 ORDER BY Rank 只影響排序」</td><td>還會讓拖曳、建 sprint、sub-task 歸組全部失效</td></tr>
-<tr><td>「Release 會刪掉 Done 的 issue」</td><td>只是被 sub-filter 藏起來，issue 還在，搜尋得到</td></tr>
+<tr><td>「quick filter 多選是 OR」</td><td>是 <strong>AND</strong>。同時勾選多個 quick filter，代表這些條件必須全部符合，所以勾愈多卡片愈少；想要 OR 的效果，得把 OR 寫在同一個 quick filter 的 JQL 裡</td></tr>
+<tr><td>「quick filter 可以擴大 board 範圍」</td><td>不行。quick filter 只能在既有結果上<strong>繼續縮小</strong>，沒有能力把 board filter 排除掉的 issue 找回來；要擴大範圍只能改 board filter</td></tr>
+<tr><td>「board admin 就能改 board filter」</td><td>不一定。改 filter 需要的是<strong>該 filter 的編輯權</strong>（owner 或 editor），而 board admin 管的只是 board 本身的設定，兩者是不同層級的權限</td></tr>
+<tr><td>「Scrum 也有 sub-filter」</td><td>沒有。sub-filter 是 Kanban 專屬的；Scrum board 靠「完成 sprint」把最右欄的 issue 清出去，不需要這一層</td></tr>
+<tr><td>「filter 私有沒關係，board 分享就好」</td><td>有關係。board 沒有自己的分享設定，它的可見度完全跟著 filter 走；filter 是 private，就只有你和 Jira admin 看得到這張 board</td></tr>
+<tr><td>「拿掉 ORDER BY Rank 只影響排序」</td><td>不只。Rank 是 Jira 記住人工排序的欄位，少了它，board 上的<strong>拖曳、建立 sprint、sub-task 歸到 parent 底下</strong>全都會失效，不是單純換個排序而已</td></tr>
+<tr><td>「Release 會刪掉 Done 的 issue」</td><td>不會刪。Release 只是讓那些 issue 的 fixVersion 變成已發佈，於是被預設的 sub-filter 藏起來；issue 本身完好無缺，JQL 搜尋、直接開連結都還在</td></tr>
 </table></div>
 </section>
 

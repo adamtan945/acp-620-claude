@@ -173,10 +173,10 @@
 
 <div class="callout"><div class="t">從這個結構可以推導出幾乎所有考點</div>
 <ul style="margin:0">
-<li>CMP 能標準化、TMP 不能 → 因為 TMP 沒有可共用的 scheme。</li>
-<li>CMP 要 Jira admin、TMP 不用 → 因為 scheme 是全站物件，只有 Jira admin 能碰。</li>
-<li>CMP 改設定會影響別的 project、TMP 不會 → 因為共用。</li>
-<li>TMP 的 custom field 不能跨 project 用 → 因為它「長在 project 裡」。</li>
+<li><strong>只有 CMP 能做到跨 project 標準化</strong>，因為它的設定放在可共用的 scheme 裡；TMP 沒有 scheme 這種物件，自然也沒有東西可以共用。</li>
+<li><strong>改 CMP 的設定一定要找 Jira admin，改 TMP 不用</strong>，因為 scheme 是站台層級的全域物件，只有握有 Administer Jira 的人碰得到；TMP 的設定就放在 project 裡，project admin 自己就能改。</li>
+<li><strong>改一個 CMP 的設定可能連帶影響別的 project，改 TMP 只會影響自己</strong>，差別在於前者動到的是多個 project 共掛的同一份 scheme。</li>
+<li><strong>TMP 的 custom field 沒辦法拿到別的 project 用</strong>，因為這個欄位是長在該 project 裡面的，離開它就不存在——即使另一個 TMP 建了同名欄位，那也是兩個不同的物件。</li>
 </ul></div>
 </section>
 
@@ -240,18 +240,18 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:18%">面向</th><th>Company-managed</th><th>Team-managed</th></tr>
 <tr><td>Issue type 的本質</td><td>「<strong>標籤</strong>」，用來分類與報表；掛在 issue type scheme</td><td>「<strong>工作的主要容器</strong>」，每個 type 有自己的欄位集</td></tr>
-<tr><td>新增 issue type</td><td>Jira admin 建、加進 scheme</td><td>Project admin 直接在 Project settings → Issue types 建</td></tr>
-<tr><td>Custom field</td><td>Jira admin 建、全站物件，透過 screen scheme 跨 project 共用</td><td>Project admin 建，<strong>只存在於這個 project</strong></td></tr>
-<tr><td>Workflow 進階功能</td><td>Conditions、validators、post functions、properties、transition screens 全部有</td><td>簡化的 workflow rules；沒有完整的 validators／post functions</td></tr>
+<tr><td>新增 issue type</td><td>由 Jira admin 建立，再把它加進 issue type scheme，指派了 scheme 的 project 才會出現這個 type</td><td>Project admin 直接在 Project settings → Issue types 建</td></tr>
+<tr><td>Custom field</td><td>由 Jira admin 建立，屬於全站物件，再透過 screen scheme 掛到各 project，因此可以跨 project 共用同一個欄位與同一份資料</td><td>Project admin 建，<strong>只存在於這個 project</strong></td></tr>
+<tr><td>Workflow 進階功能</td><td>Conditions、validators、post functions、properties、transition screens 全部有</td><td>只提供簡化過的 workflow rules，沒有 CMP 那一整套 validators 與 post functions，能做的自動化與檢核相對有限</td></tr>
 </table></div>
 
 <h3>Board 與敏捷功能</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:18%">面向</th><th>Company-managed</th><th>Team-managed</th></tr>
 <tr><td>Board 數量</td><td>一個 project 可多個 board；可跨 project board</td><td><strong>一個 project 一個 board</strong>；要第二個得用 saved filter 建</td></tr>
-<tr><td>Board 設定</td><td>Columns、swimlanes、quick filters、card colors、card layout、estimation、working days、detail view</td><td>簡化：columns、board rules；features 開關</td></tr>
+<tr><td>Board 設定</td><td>Columns、swimlanes、quick filters、card colors、card layout、estimation、working days、detail view</td><td>設定選項精簡許多，只有 columns 與 board rules，其餘靠 features 開關調整</td></tr>
 <tr><td>Sprint</td><td>有；parallel sprints（Premium）</td><td>有；<strong>parallel sprints 也支援</strong>（JRACLOUD-85641／JSWCLOUD-17195 於 2022-09-29 標為 Fixed；舊教材與遷移頁仍寫不支援，考試若出現以「支援」作答）</td></tr>
-<tr><td>Kanban 清 Done</td><td>Release 版本（sub-filter）</td><td>自動每 14 天清除；project／Jira admin 可手動清</td></tr>
+<tr><td>Kanban 清掉 Done 的卡片</td><td>靠發佈 release 版本，或在 board 的 sub-filter 設定條件把已完成的 issue 濾掉，時機由你決定</td><td>系統每 14 天自動清一次；project admin 或 Jira admin 也可以隨時手動清</td></tr>
 <tr><td>Components</td><td class="yes">有</td><td class="no">無</td></tr>
 <tr><td>Issue security</td><td class="yes">有（issue security scheme）</td><td class="no">無</td></tr>
 <tr><td>匿名／公開存取</td><td class="yes">可（Browse Projects 給 Public）</td><td class="no">不可</td></tr>
@@ -259,9 +259,9 @@
 </table></div>
 
 <div class="grid-3" style="margin-top:18px">
-  <div class="card"><div class="eyebrow">Work types differ（子頁）</div><p style="margin-top:6px;font-size:14px">TMP：work type 是<strong>容器</strong>，custom field <strong>綁在 project 裡不能共用</strong>。CMP：work type 是<strong>標籤</strong>，欄位透過 screen scheme <strong>跨 project 共用</strong>。</p></div>
-  <div class="card"><div class="eyebrow">Settings differ（子頁）</div><p style="margin-top:6px;font-size:14px">最大差別是<strong>誰管設定</strong>。TMP <strong>每個人都必須有一個 role</strong>，權限綁 role；CMP 透過 permission scheme 給 user／group／role。</p></div>
-  <div class="card"><div class="eyebrow">Features differ（子頁）</div><p style="margin-top:6px;font-size:14px">TMP 隨時開關 features；<strong>CMP 被 template 鎖定</strong>。CMP 想從 Kanban 改跑 Scrum，是在同一 project 再建一個 Scrum board。</p></div>
+  <div class="card"><div class="eyebrow">Work types differ（子頁）</div><p style="margin-top:6px;font-size:14px">在 TMP 裡，work type 是工作的<strong>容器</strong>，每個 type 自己帶一組欄位，而這些 custom field <strong>綁死在 project 裡，不能給別的 project 用</strong>。CMP 剛好相反：work type 比較像分類用的<strong>標籤</strong>，欄位是全站物件，透過 screen scheme 掛給不同 project，因此<strong>可以跨 project 共用</strong>。</p></div>
+  <div class="card"><div class="eyebrow">Settings differ（子頁）</div><p style="margin-top:6px;font-size:14px">最大的差別在於<strong>設定歸誰管</strong>。TMP 要求<strong>每個成員都必須被指派一個 role</strong>，能做什麼完全看那個 role 勾了哪些能力；CMP 則是把權限寫在 permission scheme 裡，再逐項授權給 user、group 或 role，同一個權限可以同時給好幾種對象。</p></div>
+  <div class="card"><div class="eyebrow">Features differ（子頁）</div><p style="margin-top:6px;font-size:14px">TMP 的 features 可以隨時開開關關，Sprints、Backlog、Releases 想要就打開；<strong>CMP 的 features 在建立當下就被 template 鎖定了</strong>，之後改不了。所以一個用 Kanban template 建的 CMP 想改跑 Scrum，做法不是去開關設定，而是在同一個 project 底下<strong>再建一個 Scrum board</strong>。</p></div>
 </div>
 </section>
 
@@ -324,9 +324,9 @@
 <p>Acme 站台有 200 個 Jira 使用者。Mobile App 只明確加了小美、阿宏、小傑、Kevin。<strong>其他 196 人</strong>（例如剛入職、沒被加進 project 的阿強）會遇到什麼，就由 access level 決定。</p>
 
 <div class="grid-3">
-  <div class="role-card" style="border-color:var(--brand)"><div class="h"><span class="dot" style="background:var(--brand)"></span>Open</div><p class="kicker">全站使用者自動拿到 <strong>Member</strong></p><ul><li>阿強能看、建、編、拖 board、轉狀態</li><li>官方用途：打破部門穀倉</li><li>風險：任何人都能改你的 issue</li></ul></div>
-  <div class="role-card" style="border-color:var(--teal)"><div class="h"><span class="dot" style="background:var(--teal)"></span>Limited</div><p class="kicker">全站使用者自動拿到 <strong>Viewer</strong></p><ul><li>阿強能看、<strong>留言、加附件</strong></li><li>不能建 issue、不能編輯、不能轉狀態</li><li>典型：透明給全公司，只有團隊能動</li></ul></div>
-  <div class="role-card" style="border-color:var(--rose)"><div class="h"><span class="dot" style="background:var(--rose)"></span>Private</div><p class="kicker">只有<strong>被點名的人</strong>與 Jira admin</p><ul><li>阿強完全看不到：目錄沒有、JQL 搜不到、直連被拒</li><li>Jira admin 永遠能進 project settings</li><li>典型：HR、法務、資安事件</li></ul></div>
+  <div class="role-card" style="border-color:var(--brand)"><div class="h"><span class="dot" style="background:var(--brand)"></span>Open</div><p class="kicker">全站使用者自動拿到 <strong>Member</strong></p><ul><li>阿強不用被加進來，就能瀏覽、建立、編輯 issue，也能在 board 上拖卡片、轉換狀態</li><li>官方設想的用途是打破部門之間的穀倉，讓跨團隊的人都能直接參與</li><li>代價是站台上任何一個人都能改你的 issue，包括不熟這個專案的人</li></ul></div>
+  <div class="role-card" style="border-color:var(--teal)"><div class="h"><span class="dot" style="background:var(--teal)"></span>Limited</div><p class="kicker">全站使用者自動拿到 <strong>Viewer</strong></p><ul><li>阿強能瀏覽，也能<strong>留言與加附件</strong>，等於可以參與討論</li><li>但不能建立 issue、不能編輯內容，也不能轉換狀態，動不到工作本身</li><li>典型場景是把進度透明地攤給全公司看，實際推動工作的還是團隊成員</li></ul></div>
+  <div class="role-card" style="border-color:var(--rose)"><div class="h"><span class="dot" style="background:var(--rose)"></span>Private</div><p class="kicker">只有<strong>被點名的人</strong>與 Jira admin</p><ul><li>阿強完全看不到這個 project：專案目錄裡不會列出、JQL 搜尋不到，連拿到網址直接開都會被擋</li><li>不過 Jira admin 永遠進得了 project settings，Private 擋的是一般使用者，不是站台管理員</li><li>典型用在 HR、法務、資安事件這類本來就只該少數人看到的工作</li></ul></div>
 </div>
 
 <h3 style="margin-top:30px">規則 1：指派的 role 是「疊加」，不是「覆蓋」</h3>
@@ -370,7 +370,7 @@
 <div class="callout warn"><div class="t">Viewer 不是「純唯讀」</div>它能留言和附檔。考題若問「Limited 存取下未加入的使用者能不能留言」，答案是<strong>能</strong>。</div>
 
 <h3>操作位置</h3>
-<ul><li><strong>Project settings → Access → Change project access</strong> → 選一個 → 確認。需要 Administrator role（Jira admin 也可）。</li><li>Free 方案：不能改 permissions／roles，但 access level 仍可切換。</li></ul>
+<ul><li><strong>Project settings → Access → Change project access</strong> → 選一個 → 確認。需要 Administrator role（Jira admin 也可）。</li><li>Free 方案的 TMP 不能修改 permissions 與 roles，但三個 access level 還是可以照常切換，這是 Free 方案少數仍保留的存取控制手段。</li></ul>
 </section>
 
 <!-- ============ Templates ============ -->
@@ -396,7 +396,7 @@
 </ul>
 </div>
 <div class="card">
-<p style="font-size:15px">620 只考 Software 的 <strong>Scrum／Kanban</strong>（Bug tracking 偶爾出現）。Template 決定：預設 issue types、預設 workflow、board 類型、哪些 features 開著。</p>
+<p style="font-size:15px">620 只考 Software 底下的 <strong>Scrum 與 Kanban</strong>（Bug tracking 偶爾出現）。Template 的作用是幫你決定這個 project 的起點：它會帶進一組預設的 issue types、一套預設的 workflow、對應的 board 類型，以及一開始哪些 features 是開著的。</p>
 <ul style="font-size:14px"><li><strong>CMP</strong>：建完後 Jira admin 可換 scheme，但 <strong>features 被 template 鎖定</strong>；想換打法要再建一個 board（CMP 允許多 board）。</li><li><strong>TMP</strong>：建完後 project admin 可在 features 開關 Sprints／Backlog，等於 Scrum ↔ Kanban 可以事後切換。</li></ul>
 </div>
 </div>
@@ -426,7 +426,7 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th>優點</th><th>限制／代價</th></tr>
 <tr><td>新 project 零設定，立即與 X 一致</td><td>之後<strong>任何一方</strong>想改 workflow 都會影響另一方</td></tr>
-<tr><td>Jira admin 改一次，全部生效（治理）</td><td>想「只改我的」→ 得先 copy scheme 再指派，是 Jira admin 的工作</td></tr>
+<tr><td>Jira admin 改一次，全部生效（治理）</td><td>之後想「只改我這邊」，得先請 Jira admin 複製一份 scheme 再重新指派，一般 project admin 做不到</td></tr>
 <tr><td>減少 scheme 數量，站台乾淨</td><td>X 的設定本來就不理想的話，新 project 也繼承問題</td></tr>
 </table></div>
 <h3 style="margin-top:26px">三個很像、承諾卻不同的做法</h3>
@@ -439,7 +439,7 @@
 <div class="callout warn"><div class="t">證據界線：官方明列共用哪六項</div>
 <p style="margin:0 0 6px">Create a new space 列出 shared configuration 共用的是 <strong>work types（issue types）、workflows、screens、fields、permissions、notifications</strong>，並註明改其中一個 project 的設定會影響所有共用的 project。</p>
 <ul style="margin:0">
-<li><strong>只有 Jira admin</strong> 能建立共用設定的 project，且<strong>Free 方案沒有</strong>這個選項。</li>
+<li><strong>只有 Jira admin</strong> 建得出共用設定的 project，因為這個動作要動到全站的 scheme；<strong>Free 方案沒有</strong>這個選項。</li>
 <li>官方清單裡<strong>沒有</strong> components、versions、board 設定與 issue 資料——這些屬於各 project 自己，不會因為共用設定而共用。</li>
 <li>共用的是<strong>設定</strong>不是<strong>成員</strong>：permission scheme 用 role 授權，而 role 的成員各 project 各自指定，所以「共用 scheme」不等於「同一群人有權限」。</li>
 </ul>
@@ -451,7 +451,7 @@
 <section id="migrate">
 <div class="section-label">遷移（Migrate）</div>
 <h2>沒有一鍵轉換：建新 project → bulk move issues</h2>
-<p>Issue key 會換成新 project 的 key（舊連結自動轉址）。考的是「會掉什麼」。</p>
+<p>Jira 沒有提供把 CMP 一鍵轉成 TMP（或反過來）的按鈕。實際做法是先建一個目標型態的新 project，再用 bulk move 把 issue 整批搬過去。搬完之後 issue key 會換成新 project 的 key，舊的連結 Jira 會自動轉址，所以連結不會斷。真正要留意、也是考題最愛問的，是<strong>哪些東西搬不過去</strong>——下表把兩個方向分開列。</p>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:16%">方向</th><th>保留</th><th>遺失</th></tr>
 <tr><td><strong>CMP → TMP</strong></td><td>issue、留言、附件、歷史；全域 custom field 值（暫時空白，搬回去可恢復）</td><td class="no">Sprint、Components（不可恢復）、Versions（不可恢復）、story points、報表歷史與 velocity（parallel sprints 兩種 project 現行都支援，遷移不因此受限）</td></tr>
@@ -465,16 +465,16 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>新成立的 5 人團隊想這週就開始用 Jira，公司唯一的 Jira admin 出差兩週。</summary><div class="a"><div class="tag">解答</div><strong>TMP</strong>：不需 Jira admin、快速開始。</div></details>
-<details class="q"><summary>法遵部門要求所有軟體團隊的 bug 都走同一套 workflow，審計時要能證明流程一致。</summary><div class="a"><div class="tag">解答</div><strong>CMP</strong> + 共用 workflow scheme：只有 CMP 能跨 project 標準化。</div></details>
-<details class="q"><summary>團隊需要把 issue 依「前端／後端／資料庫」分組，並讓各模組負責人自動被指派。</summary><div class="a"><div class="tag">解答</div><strong>CMP</strong>：components 只有 CMP 有，且 component default assignee 可自動指派。</div></details>
-<details class="q"><summary>團隊要對外部承包商開放看板，但其中幾張 HR 相關 issue 只能內部看。</summary><div class="a"><div class="tag">解答</div><strong>CMP</strong>：需要 issue security scheme；TMP 只能整個 project Private 或限制 issue type，達不到「同一 project 內幾張隱藏」。</div></details>
-<details class="q"><summary>三個團隊共用一個 backlog，各自有自己的 board 看不同切面。</summary><div class="a"><div class="tag">解答</div><strong>CMP</strong>：TMP 一個 project 只能一個 board。</div></details>
-<details class="q"><summary>團隊想試驗新的工作流程，改來改去，且不想影響任何人。</summary><div class="a"><div class="tag">解答</div><strong>TMP</strong>：self-contained，改設定不影響他人。</div></details>
-<details class="q"><summary>已有 DEV project，現在要為新產品線開 project，流程與權限完全照 DEV。</summary><div class="a"><div class="tag">解答</div><strong>CMP，Share settings with existing project（DEV）</strong>。</div></details>
-<details class="q"><summary>一個 TMP 團隊用了半年，公司要把它納入標準流程，遷移時 PM 最擔心哪些資料？</summary><div class="a"><div class="tag">解答</div>Story points 與報表／velocity 歷史會掉；custom field、issue types、workflow 要重建；權限要重設。遷移前先把 sprint 結束。</div></details>
-<details class="q"><summary>Open 的 project，小美建了「唯讀」role 給實習生，實習生還是能編輯，為什麼？</summary><div class="a"><div class="tag">解答</div>Open 讓全站都是 Member，指派的 role 是疊加；要先切成 Limited，再給實習生「唯讀」role（Viewer 就夠）。</div></details>
-<details class="q"><summary>Private 的 project，外部客戶要看，怎麼辦？</summary><div class="a"><div class="tag">解答</div>客戶得先有站台帳號（請 admin 邀請為 guest），再被明確加入；TMP 不支援匿名，Private 也不例外。</div></details>
+<details class="q"><summary>新成立的 5 人團隊想這週就開始用 Jira，公司唯一的 Jira admin 出差兩週。</summary><div class="a"><div class="tag">解答</div>選 <strong>TMP</strong>。建立 team-managed project 不需要 Jira admin 出手，團隊成員自己就能建、自己設定，符合「這週就要開始用」的時間壓力。反過來看，CMP 一定要 Jira admin 才建得起來，因為它牽涉到指派站台層級的 scheme；人不在，這條路就是死的。</div></details>
+<details class="q"><summary>法遵部門要求所有軟體團隊的 bug 都走同一套 workflow，審計時要能證明流程一致。</summary><div class="a"><div class="tag">解答</div>選 <strong>CMP</strong>，並讓這些 project 共用同一份 workflow scheme。關鍵字是「所有團隊走同一套」與「審計要能證明一致」，這是標準化需求，而<strong>只有 CMP 做得到跨 project 標準化</strong>——因為它的 workflow 放在可共用的 scheme 裡，改一次全部生效，也查得到誰改了什麼。TMP 的設定各自獨立，十個團隊就是十套，無法保證一致。</div></details>
+<details class="q"><summary>團隊需要把 issue 依「前端／後端／資料庫」分組，並讓各模組負責人自動被指派。</summary><div class="a"><div class="tag">解答</div>選 <strong>CMP</strong>。題目講的「依模組分組」就是 components 的典型用途，而 <strong>components 只有 CMP 才有</strong>，TMP 完全沒有這個功能。更關鍵的是後半句「各模組負責人自動被指派」——component 可以設定 default assignee（例如 Component lead），新 issue 一掛上該 component 就自動指派給對應的人，這也是 TMP 給不了的。</div></details>
+<details class="q"><summary>團隊要對外部承包商開放看板，但其中幾張 HR 相關 issue 只能內部看。</summary><div class="a"><div class="tag">解答</div>選 <strong>CMP</strong>，並且要用到 <strong>issue security scheme</strong>。題目的難點在於「同一個 project 裡，大部分開放、少數幾張隱藏」，這種逐張 issue 的可見度控制只有 issue security 做得到，而它是 CMP 專屬。TMP 的手段只有兩種：把整個 project 設成 Private（那承包商就全看不到了），或是限制某個 issue type 只有特定 role 能用（而且只對之後新建的 issue 生效），兩者都達不到題目要的效果。</div></details>
+<details class="q"><summary>三個團隊共用一個 backlog，各自有自己的 board 看不同切面。</summary><div class="a"><div class="tag">解答</div>選 <strong>CMP</strong>。因為<strong>一個 TMP 只能有一個 board</strong>，想要第二個就得繞路用 saved filter 另外建；而 CMP 本來就允許一個 project 底下掛多個 board，每個 board 用不同的 filter 與欄位設定去看同一批 issue，正好對應「共用 backlog、各看各的切面」。</div></details>
+<details class="q"><summary>團隊想試驗新的工作流程，改來改去，且不想影響任何人。</summary><div class="a"><div class="tag">解答</div>選 <strong>TMP</strong>。官方對 TMP 的定位就是 self-contained（自給自足）：所有設定都關在這個 project 裡，怎麼改都不會波及別人，很適合拿來做實驗。如果改的是 CMP，動到的可能是好幾個 project 共掛的同一份 scheme，一個實驗會炸到別的團隊。</div></details>
+<details class="q"><summary>已有 DEV project，現在要為新產品線開 project，流程與權限完全照 DEV。</summary><div class="a"><div class="tag">解答</div>選 <strong>CMP</strong>，並且在建立流程中展開 Advanced，勾 <strong>Share settings with an existing project</strong> 指定 DEV。這樣新 project 一建好就直接掛上 DEV 現有的那幾份 scheme，零設定就與 DEV 完全一致。但要記得代價：兩邊從此指到<strong>同一份</strong> scheme，日後任何一方改 workflow 或權限，另一方會同時變動；想拆開得請 Jira admin 複製一份 scheme 再重新指派。</div></details>
+<details class="q"><summary>一個 TMP 團隊用了半年，公司要把它納入標準流程，遷移時 PM 最擔心哪些資料？</summary><div class="a"><div class="tag">解答</div>TMP 搬到 CMP 時，<strong>story points 以及報表與 velocity 的歷史會掉</strong>，這是最讓 PM 心痛的部分，因為過去的估算基準沒了。另外 custom field 要在 CMP 重新建立（TMP 的欄位是 project 私有的，搬不過去）、issue types 要重建、status 得請 Jira admin 在 workflow 裡重做、權限也要用 permission scheme 重新設一次。實務上的建議是<strong>遷移前先把進行中的 sprint 結束</strong>，避免 sprint 資料在搬移過程中變成孤兒。</div></details>
+<details class="q"><summary>Open 的 project，小美建了「唯讀」role 給實習生，實習生還是能編輯，為什麼？</summary><div class="a"><div class="tag">解答</div>因為 access level 設成 Open 時，站台上每個人<strong>已經自動是 Member</strong> 了，而你另外指派的 role 是<strong>疊加</strong>上去、不是覆蓋下來，所以實習生的權限是「Member ∪ 唯讀」＝ 仍然是 Member，照樣能編輯。正確做法是把順序倒過來：<strong>先把 project 切成 Limited</strong>（讓沒被加入的人預設只有 Viewer），再視需要用 role 往上加。以這個案例來說，切成 Limited 之後連自訂 role 都不必建，內建的 Viewer 就夠用了。</div></details>
+<details class="q"><summary>Private 的 project，外部客戶要看，怎麼辦？</summary><div class="a"><div class="tag">解答</div>客戶必須<strong>先在這個 Atlassian 站台上有帳號</strong>——請 admin 邀請他成為 <strong>guest</strong>（guest 只能存取指定的那一個 project，也不佔正式授權席次），然後才能在 Access 頁把他明確加進來並指派 role。沒有捷徑可走：<strong>TMP 完全不支援匿名存取</strong>，Private 當然更不例外，不可能靠發一個公開網址讓客戶直接看。</div></details>
 </div>
 </section>
 
@@ -484,14 +484,14 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:40%">誤解</th><th>事實</th></tr>
-<tr><td>「TMP 功能比較少所以比較差」</td><td>官方說 core functionality 相同；差在<strong>管理模型</strong></td></tr>
-<tr><td>「TMP 給小團隊、CMP 給大團隊」</td><td>官方準則是<strong>自主 vs 標準化</strong>，不是人數</td></tr>
+<tr><td>「TMP 功能比較少所以比較差」</td><td>官方明講兩者的 core functionality 是相同的，差別在<strong>管理模型</strong>——設定放在哪裡、由誰來改，而不是功能多寡</td></tr>
+<tr><td>「TMP 給小團隊、CMP 給大團隊」</td><td>官方的判準是團隊要<strong>自主決定自己的設定</strong>，還是要跟其他 project <strong>維持一致的標準</strong>，跟團隊人數多少無關</td></tr>
 <tr><td>「Project admin 可以把 TMP 轉成 CMP」</td><td>沒有轉換按鈕；是建新 project + bulk move，且需 Jira admin 建 CMP</td></tr>
 <tr><td>「CMP 的 project admin 什麼都不能改」</td><td>能改 details、role 成員、versions、components、layout（screen 未共用時）、專用 workflow（新編輯器）</td></tr>
-<tr><td>「TMP 可以設公開讓匿名看」</td><td>不行，TMP 不支援匿名</td></tr>
-<tr><td>「TMP 的 custom field 別的 project 也能用」</td><td>不行，只屬於該 project</td></tr>
-<tr><td>「Shared configuration 之後可以各自獨立改」</td><td>改的是同一份 scheme，會互相影響</td></tr>
-<tr><td>「CMP 建完可以把 Kanban 改成 Scrum」</td><td>Features 被 template 鎖定；要再建一個 Scrum board</td></tr>
+<tr><td>「TMP 可以設公開讓匿名看」</td><td>不行，TMP 完全不支援匿名存取；Open 只是說「站台上所有登入的人」都能進來，不等於公開到網際網路</td></tr>
+<tr><td>「TMP 的 custom field 別的 project 也能用」</td><td>不行，TMP 的 custom field 只屬於它所在的那個 project，別的 project 既看不到也用不到</td></tr>
+<tr><td>「Shared configuration 之後可以各自獨立改」</td><td>共用之後兩個 project 指到的是同一份 scheme，任何一方改動都會同時反映在另一方身上，想拆開得請 Jira admin 複製一份再重新指派</td></tr>
+<tr><td>「CMP 建完可以把 Kanban 改成 Scrum」</td><td>CMP 的 features 在建立時就被 template 鎖住了，事後開不了 Sprints；想跑 Scrum 只能在同一個 project 底下再建一個 Scrum board</td></tr>
 <tr><td>「用同一個 template 建的兩個 project 會一起更新」</td><td>template 只決定<strong>建立當下</strong>的起點；之後各自獨立</td></tr>
 <tr><td>「兩個 TMP 有同名欄位＝同一個欄位」</td><td>名稱一樣也是<strong>兩個不同物件</strong>；值不互通、報表不會合併</td></tr>
 <tr><td>「一個 board 同時看兩個 project＝它們共用設定」</td><td>board 只是 filter 的呈現，跟 scheme 無關；跨 project board ≠ shared configuration</td></tr>

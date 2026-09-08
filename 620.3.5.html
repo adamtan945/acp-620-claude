@@ -181,10 +181,10 @@
 <h3>Component 的四個 default assignee 選項</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:24%">選項</th><th>意思</th><th style="width:22%">多 component 時的優先序</th></tr>
-<tr><td>Component lead</td><td>指派給該 component 的 Lead 欄位那個人</td><td class="c"><strong>1（最高）</strong></td></tr>
-<tr><td>Project lead</td><td>指派給 project 的 lead</td><td class="c">2</td></tr>
-<tr><td>Unassigned</td><td>不指派（需全域允許 unassigned）</td><td class="c">3</td></tr>
-<tr><td>Project default</td><td>退回 project 的 Default assignee 設定</td><td class="c">4（最低）</td></tr>
+<tr><td>Component lead</td><td>指派給這個 component 的 Lead 欄位所填的人；官方建議優先使用這一種，人員異動時只要改 component 的 lead 即可</td><td class="c"><strong>1（最高）</strong></td></tr>
+<tr><td>Project lead</td><td>指派給整個 project 的 lead（現行 UI 稱 Space owner），不管這個 component 自己的 lead 是誰</td><td class="c">2</td></tr>
+<tr><td>Unassigned</td><td>刻意不指派任何人；前提是站台的「Allow unassigned issues」開關是開著的，否則這個選項不會出現</td><td class="c">3</td></tr>
+<tr><td>Project default</td><td>不自己決定，退回去採用 project 的 Default assignee 設定；在多 component 比較時它的優先序最低</td><td class="c">4（最低）</td></tr>
 </table></div>
 <p class="kicker" style="margin-top:.5rem">同一優先序有多個 component → 依 component <strong>名稱</strong>字母序取第一個。現行 UI 把 Project lead 標示為「Space owner」、Project default 標示為「Space default」。</p>
 </section>
@@ -196,7 +196,7 @@
 <p>Component 只能指到「一個固定的人」；一旦需求是輪流、平衡負載、依欄位值分流，就要用 automation。官方列出的指派方式：</p>
 <div class="grid-2">
 <div class="card"><div class="eyebrow">從一組人裡挑</div>
-<ul style="margin-top:.5rem;font-size:.92rem"><li><strong>Balanced workload</strong>：在 JQL 範圍內讓每個人手上的 issue 數量相近</li><li><strong>Random</strong>：隨機</li><li><strong>Round robin</strong>：依序輪流</li><li>可排除特定人、限定群組</li></ul></div>
+<ul style="margin-top:.5rem;font-size:.92rem"><li><strong>Balanced workload</strong>：在指定的 JQL 範圍內比較每個人目前手上的 issue 數量，指給最少的那一位，讓負載趨於平均</li><li><strong>Random</strong>：從名單中隨機挑一位，不考慮工作量或順序</li><li><strong>Round robin</strong>：照名單順序輪流指派，每個人接到的張數大致相同</li><li>可排除特定人、限定群組</li></ul></div>
 <div class="card"><div class="eyebrow">從 issue 本身推導</div>
 <ul style="margin-top:.5rem;font-size:.92rem"><li><strong>Copy from field</strong>：例如指給 Reporter、前一任 assignee、某個 user picker 欄位的人</li><li><strong>Smart value</strong>：例如留言者 <code>{{comment.author}}</code></li><li><strong>Related issue</strong>：複製 parent／linked issue 的 assignee</li><li><strong>Automatic</strong>：走上面那條 component／project default 決策鏈</li><li>Event triggerer、指定人、Unassigned、user group、團隊中的特定 role、on-call responder（多個輪值時隨機）</li></ul></div>
 </div>
@@ -229,17 +229,17 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>Issue 掛了 Backend（lead 阿宏，default＝Component lead）與 Alpha（lead 小傑，default＝Component lead），建立時選 Automatic。誰被指派？</summary><div class="a"><div class="tag">解答</div>小傑。兩個都是 Component lead 同一優先序，依 component 名稱字母序 Alpha 在前。</div></details>
-<details class="q"><summary>承上，小傑沒有 Assignable User 權限。誰被指派？</summary><div class="a"><div class="tag">解答</div>阿宏。Jira 跳過沒有權限的候選人，往下一個。</div></details>
-<details class="q"><summary>Issue 只掛 Zeta（default＝Project default），project 的 Default assignee 是 Project lead 小美。結果？</summary><div class="a"><div class="tag">解答</div>小美。Project default 退回 project 設定。</div></details>
-<details class="q"><summary>PM 想把 project 的 Default assignee 設成 QA 小傑，但小傑不是 project lead。怎麼辦？</summary><div class="a"><div class="tag">解答</div>Project default 只有 Unassigned／Project lead 兩種；把小傑設成 project lead，或改用 automation 的 Assign issue → 指定人。</div></details>
-<details class="q"><summary>三位客服要輪流接單，該用哪個手段？</summary><div class="a"><div class="tag">解答</div>Automation：Issue created → Assign issue → 從一組人裡 Round robin（或 Balanced workload）。Component 只能指固定一人。</div></details>
-<details class="q"><summary>Component default 設成 Unassigned，卻存不了或選不到。原因？</summary><div class="a"><div class="tag">解答</div>全域 General configuration 的 Allow unassigned issues 關閉；請 Jira admin 打開。</div></details>
-<details class="q"><summary>Issue 掛了 Docs（default＝Unassigned）與 Zeta（default＝Project default），project default 是 Project lead。結果？</summary><div class="a"><div class="tag">解答</div>Unassigned。優先序 Unassigned（3）高於 Project default（4）。</div></details>
-<details class="q"><summary>TMP 團隊想「前端 issue 自動給前端負責人」，Components 頁找不到。</summary><div class="a"><div class="tag">解答</div>TMP 沒有 components。用 automation（例如 Field value changed／Issue created + 條件 + Assign issue），或改用 CMP。</div></details>
-<details class="q"><summary>某條 automation 的 Assign work item action 選了「Automatic」，團隊以為它會走 component 決策鏈，結果全部指到 project lead。為什麼？</summary><div class="a"><div class="tag">解答</div>Automation action 的 Automatic 依官方文件是指派給 <strong>project 的 default assignee</strong>，不等於建立畫面 Assignee 欄那條 component → project default 決策鏈。要按 component 分流就用條件搭配指定人／欄位複製。</div></details>
-<details class="q"><summary>Issue 建立時 assignee 是 Amy，幾秒後變成 Ben。第一步該查哪裡？</summary><div class="a"><div class="tag">解答</div>issue 的 <strong>History</strong>（誰改的、何時），再對同時段的 automation audit log。建立當下是 Amy 表示 component 決策鏈正確，之後的變更是另一個事件；不要去改 component 名稱。</div></details>
-<details class="q"><summary>手動在建立畫面選了 Kevin，issue 同時掛了 Backend（lead 阿宏）。誰被指派？</summary><div class="a"><div class="tag">解答</div>Kevin。手動選擇永遠覆蓋 Automatic 的決策鏈。</div></details>
+<details class="q"><summary>Issue 掛了 Backend（lead 阿宏，default＝Component lead）與 Alpha（lead 小傑，default＝Component lead），建立時選 Automatic。誰被指派？</summary><div class="a"><div class="tag">解答</div>是<strong>小傑</strong>。判斷分兩步：第一步比較兩個 component 的 <strong>default assignee 類型優先序</strong>——兩者都設成 Component lead，屬於同一級，分不出高下；第二步才依 <strong>component 名稱的字母序</strong>取第一個，<code>Alpha</code> 排在 <code>Backend</code> 之前，所以由 Alpha 的 lead 小傑接手。特別注意比的是 <strong>component 的名稱</strong>，不是 lead 的姓名，也不是誰先被建立或先被掛上去。</div></details>
+<details class="q"><summary>承上，小傑沒有 Assignable User 權限。誰被指派？</summary><div class="a"><div class="tag">解答</div>改成<strong>阿宏</strong>。因為自動指派有一個必要條件：<strong>被指派的人必須具備 Assignable User 權限</strong>。小傑雖然在字母序上勝出，但他不是合格的候選人，Jira 會<strong>跳過他、往決策鏈的下一個候選人找</strong>，於是輪到 Backend 的 lead 阿宏。官方 KB 有一句對應的原文（Jupiter 雖然是 Component Lead，但沒有 Assignable user 權限，所以 Jira 無法把 issue 指派給她）。如果所有候選人都不合格，最後會落到 project default 或 Unassigned。</div></details>
+<details class="q"><summary>Issue 只掛 Zeta（default＝Project default），project 的 Default assignee 是 Project lead 小美。結果？</summary><div class="a"><div class="tag">解答</div>是<strong>小美</strong>。因為 Zeta 這個 component 的 default assignee 設定是「<strong>Project default</strong>」，意思就是「我不做決定，退回去用 project 的設定」；而 project 的 Default assignee 是 Project lead，也就是小美。這個選項存在的意義是讓某些 component 明確表態「照 project 的規矩來」，跟「沒有設定」在多 component 比較時的優先序不同——Project default 的優先序是最低的第 4 級。</div></details>
+<details class="q"><summary>PM 想把 project 的 Default assignee 設成 QA 小傑，但小傑不是 project lead。怎麼辦？</summary><div class="a"><div class="tag">解答</div>因為 <strong>Project default assignee 的下拉永遠只有兩個選項</strong>：Unassigned 或 Project lead（官方原句寫的是 Unassigned 或 Space owner），它不是一個可以自由挑人的 user picker。所以有兩條路：<strong>把小傑改設成 project lead</strong>（副作用是他會連帶接收 project lead 的通知與某些權限），或是<strong>改用 automation</strong>——建一條 Issue created → Assign issue → 指定小傑的規則，彈性高得多，也不用動 project 的組織設定。</div></details>
+<details class="q"><summary>三位客服要輪流接單，該用哪個手段？</summary><div class="a"><div class="tag">解答</div>要用 <strong>automation</strong>：建一條 <code>Issue created</code> 觸發、動作是 <code>Assign issue</code> 並選 <strong>Round robin</strong>（依序輪流）的規則，把三位客服放進名單即可。如果希望依照每個人手上的工作量分派而不是硬性輪流，改選 <strong>Balanced workload</strong>。這題的關鍵是認清能力邊界：<strong>component 的 default assignee 只能指向「一個固定的人」</strong>，做不出輪流、隨機或負載平衡，那是 automation 的守備範圍。</div></details>
+<details class="q"><summary>Component default 設成 Unassigned，卻存不了或選不到。原因？</summary><div class="a"><div class="tag">解答</div>因為站台層級的開關 <strong>Allow unassigned issues 被關閉了</strong>（⚙ → System → General configuration）。這個開關關著的時候，整個站台不允許存在沒有 assignee 的 issue，所以任何地方的 Unassigned 選項都會消失或存不起來——不只 component，project 的 Details 頁也一樣。要開啟只能請 <strong>Jira admin</strong> 處理，這是全域設定，改了會影響所有 project。</div></details>
+<details class="q"><summary>Issue 掛了 Docs（default＝Unassigned）與 Zeta（default＝Project default），project default 是 Project lead。結果？</summary><div class="a"><div class="tag">解答</div>結果是 <strong>Unassigned</strong>。這題考的是四級優先序：<strong>Component lead（1）＞ Project lead（2）＞ Unassigned（3）＞ Project default（4）</strong>。Docs 的設定是 Unassigned（第 3 級），Zeta 是 Project default（第 4 級），Docs 的優先序比較高就直接勝出，<strong>根本輪不到比字母序</strong>（字母序只在同一級時才用得上，而且 Docs 的字母序本來也在 Zeta 之前）。很多人會直覺認為「有人可指派總比不指派好」，但 Jira 的規則是照這張表走，不看結果好不好。</div></details>
+<details class="q"><summary>TMP 團隊想「前端 issue 自動給前端負責人」，Components 頁找不到。</summary><div class="a"><div class="tag">解答</div>因為 <strong>TMP 根本沒有 components 這個功能</strong>，找不到是正常的。替代做法是用 <strong>automation</strong>：例如 <code>Issue created</code> 觸發，加一個條件判斷某個欄位或 label 是不是「前端」，成立就執行 <code>Assign issue</code> 指定前端負責人。如果這類依模組自動分派的需求很多、又希望有內建的 lead 與報表支援，那更根本的建議是<strong>改用 company-managed project</strong>。</div></details>
+<details class="q"><summary>某條 automation 的 Assign work item action 選了「Automatic」，團隊以為它會走 component 決策鏈，結果全部指到 project lead。為什麼？</summary><div class="a"><div class="tag">解答</div>因為<strong>這是兩個同名但不同行為的「Automatic」</strong>。automation 的 <em>Assign work item</em> action 裡的 Automatic，官方文件描述的是「指派給 <strong>project 的 default assignee</strong>」；而建立畫面上 Assignee 欄位的 Automatic，走的才是完整的 <strong>component → project default 決策鏈</strong>。團隊誤以為兩者相同，結果 automation 直接跳過 component 這一層，全部落到 project lead 身上。要按 component 分流，正確做法是在規則裡加條件判斷 component，再用「指定人」或「從欄位複製」來指派。</div></details>
+<details class="q"><summary>Issue 建立時 assignee 是 Amy，幾秒後變成 Ben。第一步該查哪裡？</summary><div class="a"><div class="tag">解答</div>第一步一定是開這張 issue 的 <strong>History</strong>，看清楚「誰在什麼時間把 assignee 改掉了」。這一步的價值在於<strong>分辨是「一開始就指錯」還是「後來被改掉」</strong>——建立當下是 Amy，代表 component 的決策鏈本身完全正確，幾秒後變 Ben 是<strong>另一個獨立事件</strong>造成的，通常是 automation 規則或 workflow 的 post function。第二步再去比對同時段的 <strong>automation audit log</strong> 找出是哪一條規則。切記<strong>不要用改 component 名稱字母序的方式去「修正」這種問題</strong>——病因不在那裡，改了只會讓設定變得難以理解。</div></details>
+<details class="q"><summary>手動在建立畫面選了 Kevin，issue 同時掛了 Backend（lead 阿宏）。誰被指派？</summary><div class="a"><div class="tag">解答</div>是 <strong>Kevin</strong>。整條 component → project default 的決策鏈，<strong>只有在 Assignee 欄位維持 Automatic 時才會啟動</strong>；一旦有人手動指定了對象，就是直接照他選的走，自動規則完全不介入。這也提醒排查時要先確認一件事：使用者抱怨「自動指派沒生效」時，先去看那張 issue 建立當下 Assignee 欄位到底是不是 Automatic，很多時候只是有人順手選了人。</div></details>
 </div>
 </section>
 
@@ -249,12 +249,12 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:44%">誤解</th><th>事實</th></tr>
-<tr><td>「多個 component 時取『先加的』或『lead 名字字母序』」</td><td>依 <strong>component 名稱</strong>字母序，且先看 default assignee 類型優先序</td></tr>
-<tr><td>「Project default 可以設任何人」</td><td>只有 Unassigned／Project lead</td></tr>
-<tr><td>「Component lead 一定會被指派」</td><td>沒有 Assignable User 就跳過</td></tr>
-<tr><td>「Project default 比 component 優先」</td><td>相反，component 的設定覆蓋 project default</td></tr>
-<tr><td>「TMP 也能用 components 自動指派」</td><td>TMP 沒有 components</td></tr>
-<tr><td>「輪流指派可以用 component 做」</td><td>要用 automation 的 Round robin／Balanced workload</td></tr>
+<tr><td>「多個 component 時取『先加的』或『lead 名字字母序』」</td><td>都不是。比的是 <strong>component 的名稱</strong>字母序，而且要先比 default assignee 的類型優先序（Component lead ＞ Project lead ＞ Unassigned ＞ Project default），同一級才輪到字母序</td></tr>
+<tr><td>「Project default 可以設任何人」</td><td>不行。它的下拉永遠只有兩個選項：Unassigned 或 Project lead（owner）；想指派其他人，得先換 project lead 或改用 automation</td></tr>
+<tr><td>「Component lead 一定會被指派」</td><td>不一定。被指派者必須具備 <strong>Assignable User</strong> 權限，沒有的話 Jira 會跳過他，往決策鏈的下一個候選人找</td></tr>
+<tr><td>「Project default 比 component 優先」</td><td>剛好相反。<strong>component 的 default assignee 會覆蓋 project 的設定</strong>；只有在 issue 沒掛任何 component、或 component 明確選了「Project default」時，才會退回 project 的設定</td></tr>
+<tr><td>「TMP 也能用 components 自動指派」</td><td>不行，TMP 完全沒有 components 這個功能；要在 TMP 做依模組自動指派，只能靠 automation</td></tr>
+<tr><td>「輪流指派可以用 component 做」</td><td>不行。component 的 default assignee 只能指向一個固定的人，輪流與負載平衡要用 automation 的 <strong>Round robin</strong> 或 <strong>Balanced workload</strong></td></tr>
 </table></div>
 </section>
 

@@ -81,8 +81,8 @@
 <h2>標題的三個關鍵字</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:26%">關鍵字</th><th>意思</th></tr>
-<tr><td>business requirements</td><td>題目給你一段情境（團隊怎麼工作、要追蹤什麼）</td></tr>
-<tr><td>recommend</td><td>你要選：需要哪些 issue type？哪一層？要不要新建？</td></tr>
+<tr><td>business requirements</td><td>題目會先給你一段情境，描述這個團隊怎麼工作、他們想追蹤什麼；你要從敘述裡讀出真正的需求，而不是照字面挑名詞</td></tr>
+<tr><td>recommend</td><td>要你做出建議，而建議通常包含三個判斷：需要哪幾種 issue type、每一種該放在 epic／standard／sub-task 的哪一層、以及到底該不該為它新建一個 type</td></tr>
 <tr><td>company-managed</td><td>CMP 的 issue type 是「標籤 ＋ scheme」，建新 type 要 Jira admin；你是 project admin，要懂<strong>什麼時候該去請 Jira admin 建、什麼時候不必</strong></td></tr>
 </table></div>
 <p style="margin-top:12px">唯一的 bullet：「Understand the features associated with epics, base (standard) and sub-task issue types」——三層各自<strong>能做什麼、不能做什麼</strong>。</p>
@@ -137,11 +137,11 @@
 
 <div class="hier-cards">
   <div class="card" data-lvl="epic"><div class="h"><span class="dot" style="width:12px;height:12px;border-radius:50%;background:var(--violet)"></span>Epic</div>
-    <ul><li class="no">獨立進 sprint：不會（它是容器）</li><li>Board 上：不以卡片出現；在 backlog 的 Epic panel、Timeline 是長條</li><li class="no">Story points 計入 burndown：不算（用 child 加總）</li><li>Time tracking：child 可 roll-up</li><li>專屬報表：Epic report、Epic burndown、Timeline</li><li>Child 顯示上限 <strong>500</strong></li></ul></div>
+    <ul><li class="no">不能自己進 sprint，因為它是裝東西的容器，真正進 sprint 的是它底下的 standard issue</li><li>不會以卡片形式出現在 board 上；它出現在 backlog 的 Epic panel 裡，在 Timeline 上則畫成一條長條</li><li class="no">自己的 story points 不計入 burndown，進度是把底下 child 的點數加總出來的</li><li>底下 child 記錄的工時可以向上彙總（roll-up）到 epic</li><li>有專屬的報表可看：Epic report、Epic burndown 與 Timeline</li><li>一個 epic 底下的 child 顯示上限是 <strong>500</strong> 個</li></ul></div>
   <div class="card" data-lvl="std"><div class="h"><span class="dot" style="width:12px;height:12px;border-radius:50%;background:var(--brand)"></span>Standard（Story／Task／Bug）</div>
-    <ul><li class="yes">獨立進 sprint：可，sprint 的基本單位</li><li>Board 上：卡片</li><li class="yes">Story points 計入 burndown／velocity：算</li><li>Time tracking：可；sub-task 工時可 roll-up 到它</li><li>專屬報表：Sprint report、burndown 等</li><li>Child（sub-task）顯示上限 500</li></ul></div>
+    <ul><li class="yes">可以獨立放進 sprint，它就是 sprint 規劃的基本單位</li><li>在 board 上以一張卡片呈現，是團隊每天在拖動的東西</li><li class="yes">它的 story points <strong>會</strong>計入 burndown 與 velocity，估點估在這一層才有意義</li><li>可以自己記錄工時，底下 sub-task 的工時也會彙總上來</li><li>Sprint report、burndown 這些報表算的都是這一層</li><li>底下的 sub-task 一樣有 500 個的顯示上限</li></ul></div>
   <div class="card" data-lvl="sub"><div class="h"><span class="dot" style="width:12px;height:12px;border-radius:50%;background:var(--teal)"></span>Sub-task</div>
-    <ul><li class="no">獨立進 sprint：不行，跟著 parent</li><li>Board 上：卡片，通常在 parent 的泳道下</li><li class="no">Story points 計入 burndown／velocity：<strong>不算</strong></li><li>Time tracking：可，roll-up 到 parent</li><li>專屬報表：無（併入 parent）</li><li>Issue security：繼承 parent</li></ul></div>
+    <ul><li class="no">不能自己進 sprint，它永遠跟著 parent 一起進、一起出</li><li>在 board 上也是一張卡片，通常顯示在 parent 所屬的泳道底下</li><li class="no">就算你替它填了 story points，也<strong>不會</strong>計入 burndown 或 velocity</li><li>可以記錄工時，而且會彙總到 parent 身上</li><li>沒有自己的報表，所有數字都併進 parent 一起看</li><li>Issue security 直接繼承 parent，不能單獨設一個等級</li></ul></div>
 </div>
 
 <div class="callout warn" style="margin-top:18px"><div class="t">500 上限的後果（考點）</div>超過 500 個 child，parent 上看不到 child 清單（得用搜尋），而且 <strong>sub-task 不再納入 parent 的 time tracking 彙總</strong>。官方建議拆成多個 parent。</div>
@@ -156,9 +156,9 @@
 <h3>三層在 Scrum vs Kanban 的角色</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:14%">層</th><th>Scrum</th><th>Kanban</th></tr>
-<tr><td>Epic</td><td>跨 sprint 的主題；看 Epic burndown 預測還要幾個 sprint</td><td>同樣是主題容器，在 Timeline 上排長條；沒有 sprint 就沒有 Epic burndown</td></tr>
-<tr><td>Standard</td><td>sprint 承諾的單位，估點</td><td>流過 board 的卡片，看 cycle time</td></tr>
-<tr><td>Sub-task</td><td>sprint 內分工，不影響 velocity</td><td>同一卡片的分工；Stories 泳道下顯示</td></tr>
+<tr><td>Epic</td><td>用來裝跨越多個 sprint 的大主題，並靠 Epic burndown 預測還要幾個 sprint 才做得完</td><td>同樣是主題容器，在 Timeline 上排長條；沒有 sprint 就沒有 Epic burndown</td></tr>
+<tr><td>Standard</td><td>團隊在 sprint planning 時承諾的單位，story points 就估在這一層</td><td>就是在 board 上從左流到右的卡片，重點指標是 cycle time（一張卡走完要多久）</td></tr>
+<tr><td>Sub-task</td><td>用來在 sprint 內把一張卡分給不同人做，但不影響 velocity 的計算</td><td>一樣是同一張卡片內部的分工，在 Stories 泳道模式下會顯示在 parent 底下</td></tr>
 </table></div>
 </section>
 
@@ -214,7 +214,7 @@
 <tr><td>Business</td><td class="dash">—</td><td>Task</td><td>Subtask</td></tr>
 <tr><td>Service management</td><td class="dash">—</td><td>Service request、Incident、Problem、Change、IT help…</td><td class="dash">—</td></tr>
 </table></div>
-<p class="kicker" style="margin-top:8px">考題可能問「Software project 預設沒有哪個 type」→ 沒有 Initiative（Premium 才有更上層）。</p>
+<p class="kicker" style="margin-top:8px">考題可能會問「Software project 預設<strong>沒有</strong>哪一個 type」，答案是 <strong>Initiative</strong>。標準階層只到 epic 為止，比 epic 更高的層級要 Premium 方案的 Plans 才有；把某個 epic 取名叫 Initiative 並不會因此多出一層。</p>
 </section>
 
 <!-- ============ Decide ============ -->
@@ -274,12 +274,12 @@
 <h3>Sub-task 與 parent 的互動規則</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">行為</th><th>規則</th></tr>
-<tr><td>Sprint</td><td>跟 parent 同進同出，不能單獨拉</td></tr>
-<tr><td>Board 清除（TMP Kanban）</td><td>parent 被清，sub-task 不論狀態一起清</td></tr>
+<tr><td>Sprint</td><td>永遠跟 parent 同進同出，沒辦法把 sub-task 單獨拉進某個 sprint</td></tr>
+<tr><td>Board 清除（TMP Kanban）</td><td>parent 被清出 board 時，底下的 sub-task 不管自己是什麼狀態都會一起被清掉</td></tr>
 <tr><td>Issue security</td><td><strong>繼承 parent 的 level</strong>，不能單獨設</td></tr>
-<tr><td>Story points</td><td>不計入 burndown／velocity</td></tr>
+<tr><td>Story points</td><td>就算填了也不計入 burndown 與 velocity，估點請估在 parent 上</td></tr>
 <tr><td>時間追蹤</td><td>工時可彙總到 parent（parent 的 time tracking 面板勾 include sub-tasks）</td></tr>
-<tr><td>Move 到別的 project</td><td>要跟 parent 一起，或先轉成 standard</td></tr>
+<tr><td>Move 到別的 project</td><td>不能單獨搬走，要嘛跟著 parent 一起 move，要嘛先用 Move 把它轉成 standard type 再搬</td></tr>
 <tr><td>轉換</td><td>Sub-task ↔ standard 都可透過 Move 功能轉換；轉成 sub-task 時要指定 parent</td></tr>
 <tr><td>建立時繼承</td><td>新 sub-task 自動繼承 parent 的 <strong>project</strong>、<strong>issue security level</strong>，以及 <strong>sprint</strong>（software project）。官方原句：sub-task 會 <em>inherit the space, work security level, and sprint value (software spaces) from their parent</em></td></tr>
 <tr><td>不繼承的東西</td><td><strong>Fix versions、components、assignee、priority、估點</strong>都不繼承，要自己填。「parent 有 fix version，sub-task 就會出現在 release report」是錯的</td></tr>
@@ -317,7 +317,7 @@
   </div>
 </div>
 </div>
-<div class="callout exam" style="margin-top:14px"><div class="t">Condition vs validator</div>這是「condition」不是「validator」——<strong>condition 隱藏轉換按鈕，validator 在按下後才擋</strong>。</div>
+<div class="callout exam" style="margin-top:14px"><div class="t">Condition 和 validator 差在哪</div>這一項是 <strong>condition</strong>，不是 validator，兩者攔截的時間點不同：<strong>condition 在你還沒動作前就把轉換按鈕整個藏起來</strong>，你根本看不到那個選項；<strong>validator 則是讓按鈕照常出現，等你按下去、送出表單之後才跳錯誤擋下來</strong>。考題常拿這兩個互換來設陷阱，看到「按鈕不見了」就是 condition，看到「按了才報錯」才是 validator。</div>
 
 <h3 style="margin-top:22px">「擋住 parent」與「自動完成 parent」是兩種不同的東西</h3>
 <div class="tbl-wrap"><table class="tbl">
@@ -326,7 +326,7 @@
 <tr><td>sub-task 全部完成就<strong>自動</strong>把 parent 轉到 Done</td><td><strong>Automation rule</strong>：trigger 用 work item transitioned，條件檢查「所有 sub-task 都是 Done」，action 轉換 parent</td><td>TMP／CMP 都可用；是<strong>事後自動做</strong>，不是<strong>事前擋住</strong></td></tr>
 <tr><td>把 sub-task 的日期彙總回 parent</td><td>Automation 對 sub-task 分支，取<strong>最早 start date</strong> 與<strong>最晚 due date</strong> 寫回 parent</td><td>兩個方向要用不同取法（min 與 max）；直接把「最後一筆」寫回去是最常見的錯誤</td></tr>
 </table></div>
-<div class="callout exam"><div class="t">關鍵字 → 答案</div>看到「prevent／can’t be completed until」→ <strong>Subtask Blocking Condition</strong>；看到「automatically close the parent when all subtasks…」→ <strong>automation rule</strong>。前者是 workflow condition，後者跟 workflow 無關。</div>
+<div class="callout exam"><div class="t">用關鍵字判斷該選哪一個</div>題目出現 prevent、can’t be completed until 這類「事前阻止」的字眼，答案是 <strong>Subtask Blocking Condition</strong>；出現 automatically close the parent when all subtasks… 這類「事後自動完成」的字眼，答案是 <strong>automation rule</strong>。前者做在 workflow 的 condition 上，後者跟 workflow 完全無關，是獨立的自動化規則。</div>
 </section>
 
 <!-- ============ Epic ============ -->
@@ -336,14 +336,14 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">功能</th><th>說明</th></tr>
 <tr><td>Parent 欄位</td><td>現行 Jira 用 <strong>Parent</strong> 欄位取代舊的 Epic Link；在 standard issue 上填 parent = 某 epic</td></tr>
-<tr><td>Backlog 的 Epic panel</td><td>依 epic 篩選 backlog、拖曳 issue 進 epic</td></tr>
+<tr><td>Backlog 的 Epic panel</td><td>backlog 左側的面板，可以用它篩選出某個 epic 的 issue，也可以把 issue 直接拖進某個 epic 裡</td></tr>
 <tr><td>Timeline／Roadmap</td><td>epic 是長條，child 在下面；可畫依賴線；<strong>沒有 parent 的 issue 不會出現在 Timeline</strong></td></tr>
-<tr><td>Epic report</td><td>某時點的完成／未完成／未估點清單</td></tr>
-<tr><td>Epic burndown</td><td>依 sprint 看進度，用近 3 sprint velocity 預測還要幾個 sprint</td></tr>
-<tr><td>Epic 顏色</td><td>卡片上的 epic 標籤色；card colors 也可 by epic</td></tr>
-<tr><td>Swimlanes by Epic</td><td>Board 依 epic 分泳道</td></tr>
+<tr><td>Epic report</td><td>列出某個時間點下，這個 epic 底下哪些 issue 已完成、哪些還沒完成、哪些根本還沒估點</td></tr>
+<tr><td>Epic burndown</td><td>以 sprint 為單位畫出 epic 的剩餘工作，並用最近 3 個 sprint 的 velocity 推估還需要幾個 sprint 才能收尾</td></tr>
+<tr><td>Epic 顏色</td><td>每個 epic 有自己的顏色，會顯示在 child 卡片上的小標籤；board 的 card colors 也可以設成依 epic 上色</td></tr>
+<tr><td>Swimlanes by Epic</td><td>把 board 的泳道改成依 epic 分組，一眼看出每個主題各自卡在哪</td></tr>
 <tr><td>跨 project</td><td>CMP 的 epic 可以有<strong>別的 project</strong> 的 standard issue 當 child</td></tr>
-<tr><td>完成</td><td>Epic 有自己的狀態；把 epic 標成 Done 不會自動關 child</td></tr>
+<tr><td>完成</td><td>Epic 有自己的一套狀態，而且<strong>把 epic 標成 Done 並不會連帶把底下的 child 一起關掉</strong>，兩者各走各的；想要連動得自己寫 automation</td></tr>
 </table></div>
 </section>
 
@@ -352,16 +352,16 @@
 <div class="section-label">推薦題練習</div>
 <h2>先想「要新 type？用哪一層？」再看解答</h2>
 <div class="quiz">
-<details class="q"><summary>QA 團隊回報的缺陷需要「Steps to reproduce」「Severity」兩個必填欄位，並且要多一個「Verified」狀態才能關閉。</summary><div class="a"><div class="tag">解答</div><strong>新建 issue type「Bug」（或沿用 Bug）並配專用 screen 與專用 workflow</strong>——流程與欄位都不同；請 Jira admin 改 issue type screen scheme、field configuration scheme、workflow scheme。</div></details>
-<details class="q"><summary>PM 想把「行動版」「網頁版」的工作分開看報表，但流程和欄位完全相同。</summary><div class="a"><div class="tag">解答</div><strong>不要新 type</strong>；用 Component（Mobile／Web）或 label，報表用 Pie chart by component。</div></details>
-<details class="q"><summary>一個 Story 要前端、後端、QA 三個人分別做，PM 想在 sprint 內追蹤各自進度。</summary><div class="a"><div class="tag">解答</div><strong>Sub-task</strong>；同一 Story 下三個 sub-task 各自指派；story points 仍算在 Story 上。</div></details>
-<details class="q"><summary>「會員系統改版」預計橫跨四個 sprint，主管想看還要幾個 sprint 才做完。</summary><div class="a"><div class="tag">解答</div><strong>Epic</strong>；把四個 sprint 的 story 都掛在該 epic 下，看 <strong>Epic burndown</strong>（需 story points 估點、Scrum board）。</div></details>
-<details class="q"><summary>團隊想停用 sub-task，但按 Disable 失敗。</summary><div class="a"><div class="tag">解答</div>站台上還有既存 sub-task；先搜 <code>issuetype in subtaskIssueTypes()</code>，bulk move／convert 成 standard，再停用。</div></details>
-<details class="q"><summary>Sub-task 還沒做完，工程師就把 Story 拉到 Done，PM 想阻止。</summary><div class="a"><div class="tag">解答</div>在 workflow 的 Done transition 加 <strong>Subtask Blocking Condition</strong>（需 Jira admin，除非 workflow 為該 project 專用）。</div></details>
-<details class="q"><summary>主管把 200 個 sub-task 掛在同一張 Task 下，抱怨 time tracking 不準。</summary><div class="a"><div class="tag">解答</div>超過 <strong>500 child</strong> 顯示上限（或正在逼近），sub-task 不再納入 parent 時間追蹤；拆成多個 parent。</div></details>
-<details class="q"><summary>團隊在 Kanban board 上把 epic 也當卡片拖，問為什麼 epic 不會進 sprint。</summary><div class="a"><div class="tag">解答</div>Epic 是容器層，不是 sprint 的單位；要進 sprint 的是它底下的 standard issue。</div></details>
-<details class="q"><summary>客戶服務團隊要「Refund」和「Complaint」兩種請求，Refund 需要主管核准步驟。</summary><div class="a"><div class="tag">解答</div>兩種 request type／issue type，Refund 配含 Approval 步驟的 workflow——流程不同就該分 type。</div></details>
-<details class="q"><summary>想讓「文件撰寫」這類工作在 velocity 裡不被計算，但仍要追蹤。</summary><div class="a"><div class="tag">解答</div><strong>Sub-task</strong>（story points 不計 velocity），或另建 type 但在 board filter／estimation 上排除；官方模型下最直接是 sub-task。</div></details>
+<details class="q"><summary>QA 團隊回報的缺陷需要「Steps to reproduce」「Severity」兩個必填欄位，並且要多一個「Verified」狀態才能關閉。</summary><div class="a"><div class="tag">解答</div>應該<strong>新建一個 issue type「Bug」（或直接沿用內建的 Bug），並替它配一份專用的 screen 與專用的 workflow</strong>。判斷依據很明確：這類工作既需要<strong>不同的必填欄位</strong>（Steps to reproduce、Severity），又需要<strong>不同的流程</strong>（多一個 Verified 狀態），兩個條件都踩到了，就值得獨立成一個 type。實際要動的是三份 scheme，而且都得請 Jira admin 出手：issue type screen scheme（決定這個 type 用哪張畫面）、field configuration scheme（決定哪些欄位必填）、workflow scheme（決定它走哪一套流程）。</div></details>
+<details class="q"><summary>PM 想把「行動版」「網頁版」的工作分開看報表，但流程和欄位完全相同。</summary><div class="a"><div class="tag">解答</div><strong>不要為此新建 issue type</strong>。關鍵在題目那句「流程和欄位完全相同」——既然兩者走一樣的 workflow、填一樣的欄位，它們的差別只是<strong>分類</strong>，而分類該用 Component（建 Mobile 與 Web 兩個）或 label 來做。報表需求也解得掉：用 Pie chart 這類 gadget 依 component 分群即可。為了純分類而增生 issue type，會讓站台的 scheme 愈來愈難維護，是實務上常見的壞味道。</div></details>
+<details class="q"><summary>一個 Story 要前端、後端、QA 三個人分別做，PM 想在 sprint 內追蹤各自進度。</summary><div class="a"><div class="tag">解答</div>用 <strong>sub-task</strong>。在同一張 Story 底下開三個 sub-task，分別指派給前端、後端、QA，PM 就能在 sprint 內看到各自的進度。要提醒團隊的是：<strong>story points 仍然估在 Story 上</strong>，不要分散到 sub-task 去填，因為 sub-task 的點數不計入 burndown 與 velocity，填了反而讓人誤以為有算到。</div></details>
+<details class="q"><summary>「會員系統改版」預計橫跨四個 sprint，主管想看還要幾個 sprint 才做完。</summary><div class="a"><div class="tag">解答</div>用一個 <strong>epic</strong> 來裝。把橫跨四個 sprint 的 story 全部掛在這個 epic 底下，主管要的「還要幾個 sprint」就看 <strong>Epic burndown</strong>——它會用最近 3 個 sprint 的 velocity 推估剩餘工作還要幾個 sprint 消化得完。前提有兩個：底下的 story 要有 story points 估點，而且必須是 Scrum board（Kanban 沒有 sprint，也就沒有 Epic burndown 可看）。</div></details>
+<details class="q"><summary>團隊想停用 sub-task，但按 Disable 失敗。</summary><div class="a"><div class="tag">解答</div>原因是站台上還存在著 sub-task，Jira 不允許在有資料的情況下把功能關掉，否則那些 issue 會變成孤兒。正確順序是<strong>先清資料，再關功能</strong>：用 JQL 把所有 sub-task 搜出來（<code>hierarchyLevel = -1</code>，舊版寫法是 <code>issuetype in subtaskIssueTypes()</code>），用 bulk move 或 Move 逐一 convert 成 standard type，全部清空之後才按得動 Disable。也別忘了這是<strong>全站</strong>設定，關掉會影響站台上每一個 project。</div></details>
+<details class="q"><summary>Sub-task 還沒做完，工程師就把 Story 拉到 Done，PM 想阻止。</summary><div class="a"><div class="tag">解答</div>在 workflow 通往 Done 的那個 transition 上加一個 <strong>Subtask Blocking Condition</strong>，勾選「所有 sub-task 必須到 Done」。這是 condition，效果是 sub-task 沒做完時，<strong>Done 這個按鈕根本不會出現</strong>，工程師想拉也拉不了。要注意兩件事：改 workflow 通常要 Jira admin（除非這份 workflow 是該 project 專用的，project admin 才動得了），而且這個 condition <strong>只有 CMP 有</strong>，TMP 的 workflow 編輯器沒這一項，得改用 automation 達到近似效果。</div></details>
+<details class="q"><summary>主管把 200 個 sub-task 掛在同一張 Task 下，抱怨 time tracking 不準。</summary><div class="a"><div class="tag">解答</div>問題出在 child 數量。一個 parent 底下的 child 顯示上限是 <strong>500</strong> 個，一旦超過（或正在逼近），parent 頁面上不但列不出完整的 child 清單，<strong>sub-task 的工時也不再被納入 parent 的 time tracking 彙總</strong>，所以主管看到的數字才會失準。官方的建議是把工作重新拆成多個 parent，而不是硬塞在同一張 issue 底下。</div></details>
+<details class="q"><summary>團隊在 Kanban board 上把 epic 也當卡片拖，問為什麼 epic 不會進 sprint。</summary><div class="a"><div class="tag">解答</div>因為 epic 是<strong>容器</strong>，不是 sprint 規劃的單位。真正被放進 sprint、被估點、被燃盡的是它底下的 standard issue（Story、Task、Bug）。epic 在 board 上也不會以卡片形式出現，它出現的位置是 backlog 的 Epic panel 與 Timeline 上的長條；團隊如果一直想拖 epic，通常表示他們把 epic 當成一張大 story 在用，該重新拆一次。</div></details>
+<details class="q"><summary>客戶服務團隊要「Refund」和「Complaint」兩種請求，Refund 需要主管核准步驟。</summary><div class="a"><div class="tag">解答</div>建立<strong>兩種</strong> request type／issue type，並且讓 Refund 走一套<strong>含 Approval 步驟</strong>的 workflow。判斷準則還是那一條：<strong>流程不同就該分 type</strong>。Refund 多了一個主管核准的關卡，Complaint 沒有，兩者的 workflow 本質上不一樣，硬塞在同一個 type 裡只能靠人工約束，既不可靠也做不出乾淨的報表。</div></details>
+<details class="q"><summary>想讓「文件撰寫」這類工作在 velocity 裡不被計算，但仍要追蹤。</summary><div class="a"><div class="tag">解答</div>最直接的做法是把它做成 <strong>sub-task</strong>：sub-task 照樣可以被指派、被追蹤、被記錄工時，但它的 story points <strong>不會</strong>計入 velocity，剛好符合「要追蹤但不要算進去」的需求。另一條路是另外建一個 issue type，再從 board 的 filter 或 estimation 設定把它排除，但那要多維護一份設定；在官方的階層模型下，sub-task 是最省事也最不容易出錯的答案。</div></details>
 </div>
 </section>
 
@@ -371,13 +371,13 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Epic 可以直接掛 sub-task」</td><td>不行，epic 的 child 只能是 standard</td></tr>
-<tr><td>「Sub-task 可以單獨拉進另一個 sprint」</td><td>不行，跟 parent</td></tr>
-<tr><td>「Sub-task 的 story points 也算 velocity」</td><td>不算，只算 parent</td></tr>
-<tr><td>「Sub-task 開關是 project 層設定」</td><td>全站設定</td></tr>
-<tr><td>「Project admin 可以建新 issue type」</td><td>CMP 不行，Jira admin 才行（TMP 可以）</td></tr>
-<tr><td>「想分類就建新 issue type」</td><td>只是分類用 component／label／custom field</td></tr>
-<tr><td>「Subtask Blocking Condition 是 validator」</td><td>是 condition，會直接隱藏轉換按鈕</td></tr>
+<tr><td>「Epic 可以直接掛 sub-task」</td><td>依標準階層不行，epic 的 child 只能是 standard 層的 issue，sub-task 得再掛在 standard 底下（CMP 用 Add parent 的例外見上方說明）</td></tr>
+<tr><td>「Sub-task 可以單獨拉進另一個 sprint」</td><td>不行，sub-task 沒有自己的 sprint 欄位可以獨立設定，它永遠跟著 parent 走</td></tr>
+<tr><td>「Sub-task 的 story points 也算 velocity」</td><td>不算。velocity 與 burndown 只計算 standard 層（也就是 parent）的點數，sub-task 填了也不會被加進去</td></tr>
+<tr><td>「Sub-task 開關是 project 層設定」</td><td>那是<strong>全站</strong>設定（⚙ → Issues → Sub-tasks），一關就是所有 project 都沒有 sub-task，不能只關某一個 project</td></tr>
+<tr><td>「Project admin 可以建新 issue type」</td><td>在 CMP 不行，issue type 是全站物件，只有 Jira admin 建得了並加進 scheme；TMP 則相反，project admin 自己就能建</td></tr>
+<tr><td>「想分類就建新 issue type」</td><td>如果只是想做分類，用 component、label 或 custom field 就好。新建 issue type 的門檻應該是「它需要不同的 workflow 或不同的欄位」，否則只會讓 scheme 愈養愈亂</td></tr>
+<tr><td>「Subtask Blocking Condition 是 validator」</td><td>它是 condition，會直接把轉換按鈕藏起來；validator 是按下去之後才擋，兩者時機不同</td></tr>
 <tr><td>「Initiative 是 Jira 內建的第四層」</td><td>標準階層只有 epic／standard／sub-task；更高層要 Premium 的 Plans。把 epic 取名叫 Initiative <strong>不會</strong>多出一層</td></tr>
 <tr><td>「站台上有這個 issue type，我的 project 就用得到」</td><td>三項都要成立：該 type 在 project 的 <strong>issue type scheme</strong> 裡、對應 <strong>screen</strong> 上有你要填的欄位、你有該 project 的 <strong>Create Issues</strong> 權限</td></tr>
 <tr><td>「Sub-task 什麼都繼承 parent」</td><td>只繼承 project、issue security level 與 sprint；fix versions／components／assignee 都不繼承</td></tr>

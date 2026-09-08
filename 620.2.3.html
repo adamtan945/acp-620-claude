@@ -301,21 +301,21 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>Jira admin 在 workflow 加了「In Review」，但 board 上進 review 的 issue 全部消失。</summary><div class="a"><div class="tag">解答</div>新 status 在 Unmapped statuses；到 Board settings → Columns 把 In Review 拖進 In Progress 欄（或建新欄）。</div></details>
-<details class="q"><summary>Complete sprint 時，Cancelled 的 issue 被帶到下一個 sprint。</summary><div class="a"><div class="tag">解答</div>Cancelled 不在最右欄；把它對到 Done 欄，Jira 只把最右欄視為完成。</div></details>
-<details class="q"><summary>Board admin 刪掉了「Review」欄，工程師問 issue 是不是被刪了。</summary><div class="a"><div class="tag">解答</div>沒有；status 回到 Unmapped，issue 只是不在 board 上。重新對應即可。</div></details>
-<details class="q"><summary>Board admin 把 Done 欄拖到中間、把「QA」欄放到最右。</summary><div class="a"><div class="tag">解答</div>現在只有 QA 欄的 issue 算完成；Done 的 issue 變成進行中，burndown 與 sprint 完成判定都會錯。最右欄永遠是完成欄。</div></details>
-<details class="q"><summary>Project admin 想在 board 上直接加一個 status，Columns 頁沒有 Add status。</summary><div class="a"><div class="tag">解答</div>要 simplified workflow：board filter 只含一個 project 且 workflow 專屬。不符合就請 Jira admin 在 workflow editor 加。</div></details>
-<details class="q"><summary>In Progress 設了 max 3，但團隊還是能拖第 4 張進去。</summary><div class="a"><div class="tag">解答</div>Constraints 只是視覺提醒（欄頭變紅），不會阻擋拖曳。</div></details>
-<details class="q"><summary>用 quick filter 只看自己的 issue，In Progress 只有 2 張，欄頭卻是紅的。</summary><div class="a"><div class="tag">解答</div>Constraints 算整欄總數，不管 quick filter 隱藏了幾張。</div></details>
-<details class="q"><summary>Scrum 團隊開了 constraints，sub-task 一多欄頭就紅。</summary><div class="a"><div class="tag">解答</div>改用「Issue count, excluding sub-tasks」，只算 story。</div></details>
-<details class="q"><summary>誰能改一個 board 的 columns？</summary><div class="a"><div class="tag">解答</div>該 board location 的 project admin，或 board 的 board admin。</div></details>
-<details class="q"><summary>Simplified workflow 下想刪掉「Blocked」status，按鈕是灰的。</summary><div class="a"><div class="tag">解答</div>還有 issue 在 Blocked，或你不是 project admin；先把 issue 轉走。若別的 workflow 也用 Blocked，刪除只會從本 workflow 移除。</div></details>
-<details class="q"><summary>Jira admin 建了自訂 status「Waiting」，board 的 Unmapped 面板卻沒有它。</summary><div class="a"><div class="tag">解答</div>Status 沒被放進 board 所涵蓋 project 的 workflow；只有 workflow 真的用到的 status 才會出現。</div></details>
-<details class="q"><summary>Kanban board 設了「隱藏 2 週前完成的工作」，卻出現一張半年前就 Closed 的卡。</summary><div class="a"><div class="tag">解答</div>有人編輯過那張 issue，<strong>完成計時器被重設</strong>（官方點名 Description 等欄位編輯）；等區間再次經過就會消失。</div></details>
-<details class="q"><summary>某 status 的 category 是 Done，但在 Kanban board 被對到中間的欄位。它會被 Hide completed work 隱藏嗎？</summary><div class="a"><div class="tag">解答</div><strong>會</strong>。Kanban 用 <strong>status category</strong> 判定完成，與對到哪一欄無關；這點跟 Scrum 只認最右欄不同。</div></details>
-<details class="q"><summary>選項寫「Hide completed work 可以設 5 週」。</summary><div class="a"><div class="tag">解答</div>錯。官方只有 <strong>1 週、2 週、4 週或不隱藏</strong>。</div></details>
-<details class="q"><summary>TMP 團隊想限制只有特定角色能把 issue 移到 Done。</summary><div class="a"><div class="tag">解答</div>Space settings → Work types → Edit workflow → 該 transition → Rules → <strong>Restrict who can move a work item</strong>；需要 Administrator role／Administer spaces。注意：日後移除規則綁定的 role，團隊會卡住無法轉換。</div></details>
+<details class="q"><summary>Jira admin 在 workflow 加了「In Review」，但 board 上進 review 的 issue 全部消失。</summary><div class="a"><div class="tag">解答</div>因為新建的 status 一開始是<strong>沒有對應到任何 column</strong> 的，它躺在 Board settings → Columns 頁面的 <strong>Unmapped statuses</strong> 面板裡。board 只顯示「status 有對到某一欄」的 issue，所以一旦有人把 issue 轉到 In Review，那張卡就從 board 上消失了。要強調的是 <strong>issue 完全沒有被刪除</strong>，用 JQL 或直接開 issue key 都找得到。解法是到 Columns 頁把 In Review 從 Unmapped 拖進 In Progress 欄（或另外建一個新欄），卡片就會回來。</div></details>
+<details class="q"><summary>Complete sprint 時，Cancelled 的 issue 被帶到下一個 sprint。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Cancelled 這個 status 沒有被對應到最右邊那一欄</strong>。Scrum 判斷「這張 issue 完成了沒」的唯一依據，是它落在<strong>最右欄</strong>，跟 status 叫什麼名字、屬於哪個 category 都沒有關係。所以在 Jira 眼中，Cancelled 的 issue 只是還沒做完，完成 sprint 時當然會被帶到下一個 sprint。解法是到 Board settings → Columns 把 Cancelled 拖進最右邊的 Done 欄。</div></details>
+<details class="q"><summary>Board admin 刪掉了「Review」欄，工程師問 issue 是不是被刪了。</summary><div class="a"><div class="tag">解答</div><strong>沒有被刪。</strong>刪除一個 column 只會把它裡面的 status <strong>退回 Unmapped statuses 面板</strong>，issue 本身、它的 status、歷史紀錄都原封不動，只是暫時不顯示在 board 上而已；用 JQL 搜尋或直接開 issue key 都還在。只要把那些 status 重新對應到某一欄，卡片就會回到 board 上。這也是為什麼刪 column 是一個相對安全、可還原的操作。</div></details>
+<details class="q"><summary>Board admin 把 Done 欄拖到中間、把「QA」欄放到最右。</summary><div class="a"><div class="tag">解答</div>這個動作的後果比看起來嚴重。<strong>column 的位置決定 status 的類別</strong>，最右邊那一欄永遠代表「完成」，跟欄位叫什麼名字無關。所以搬動之後，只有 QA 欄裡的 issue 才算完成，原本 Done 欄裡那些真正做完的 issue <strong>反而被降級成進行中</strong>；連帶 burndown 曲線、sprint 的完成判定、velocity 全都會算錯。要記住這句話：<strong>最右欄才是完成欄，Done 只是個名字</strong>。</div></details>
+<details class="q"><summary>Project admin 想在 board 上直接加一個 status，Columns 頁沒有 Add status。</summary><div class="a"><div class="tag">解答</div>因為「在 board 上直接加 status」這個能力，只有在 project 使用 <strong>simplified workflow</strong> 時才會出現。它的條件很嚴格：board 的 filter <strong>只能包含一個 project</strong>、該 project 的<strong>所有 issue type 共用同一個 workflow</strong>、這個 workflow 只用到 Atlassian 內建的 post function／validator／condition、而且每個 status 至少有一條出去的 transition。四個條件缺一個，Add status 按鈕就不會出現。不符合的話，就得請 Jira admin 到 workflow editor 裡加。</div></details>
+<details class="q"><summary>In Progress 設了 max 3，但團隊還是能拖第 4 張進去。</summary><div class="a"><div class="tag">解答</div>因為 <strong>column constraints 只是視覺提醒，不具備強制力</strong>。超過上限時，欄位標題會變成紅色（低於下限則是黃色），但 Jira <strong>不會阻止你把第 4 張卡拖進去</strong>。這是刻意的設計——WIP 限制是團隊自律的工具，不是系統的鎖。想真正擋住轉換，得靠 workflow 的 condition 或 validator，那是另一回事。</div></details>
+<details class="q"><summary>用 quick filter 只看自己的 issue，In Progress 只有 2 張，欄頭卻是紅的。</summary><div class="a"><div class="tag">解答</div>因為 <strong>constraints 計算的是整欄的實際總數</strong>，跟你眼前看到幾張卡片無關。quick filter 只是暫時把不符合條件的卡片藏起來，它們仍然待在那一欄裡、仍然被計入。所以會出現「畫面上只有 2 張、欄頭卻是紅的」這種看似矛盾的情況。想看真實數量，把 quick filter 關掉即可。</div></details>
+<details class="q"><summary>Scrum 團隊開了 constraints，sub-task 一多欄頭就紅。</summary><div class="a"><div class="tag">解答</div>把 constraint 的計算方式從 <strong>Issue count</strong> 改成 <strong>Issue count, excluding sub-tasks</strong>。Scrum 團隊在意的 WIP 是「同時進行幾張 story」，而不是「畫面上有幾張卡」；一張 story 底下拆五個 sub-task 是很正常的事，用預設的計算方式當然一下就爆表。這個選項就在 Board settings → Columns 的 Column constraints 下拉裡。</div></details>
+<details class="q"><summary>誰能改一個 board 的 columns？</summary><div class="a"><div class="tag">解答</div>兩種人可以：<strong>該 board 的 location 所在 project 的 project admin</strong>，以及被列在 Board settings → Administrators 裡的 <strong>board admin</strong>（Jira admin 因為權限涵蓋一切，當然也可以）。要注意的是<strong>其他 project 的 admin 沒有這個權限</strong>——跨 project board 上，來源 project 的 admin 並不會因此取得管理權。</div></details>
+<details class="q"><summary>Simplified workflow 下想刪掉「Blocked」status，按鈕是灰的。</summary><div class="a"><div class="tag">解答</div>有兩個可能。第一，<strong>還有 issue 停在 Blocked 這個 status</strong>——官方規定要刪除 status，該 status 底下必須沒有任何 issue，先用 JQL 找出來轉走即可。第二，<strong>你不是 project admin</strong>，simplified workflow 的 status 增刪只有 project admin 做得到。另外補充一個容易誤解的行為：如果站台上<strong>別的 workflow 也在用 Blocked</strong>，那麼這個刪除動作只是把它從<strong>目前這個 workflow</strong> 移除，status 物件本身還存在。</div></details>
+<details class="q"><summary>Jira admin 建了自訂 status「Waiting」，board 的 Unmapped 面板卻沒有它。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Unmapped statuses 面板只列出「board filter 涵蓋的 project，其 workflow 真的有用到」的 status</strong>。Jira admin 在站台上建立一個 status，只是產生了一個物件；除非有人把它加進某個 workflow、而那個 workflow 又被這個 project 使用，否則 board 根本不知道它的存在。解法是請 Jira admin 先把 Waiting 加進對應的 workflow，它才會出現在 Unmapped 面板供你對應。</div></details>
+<details class="q"><summary>Kanban board 設了「隱藏 2 週前完成的工作」，卻出現一張半年前就 Closed 的卡。</summary><div class="a"><div class="tag">解答</div>因為<strong>有人編輯過那張 issue，讓完成計時器被重設了</strong>。Hide completed work 的計時起點不是「它什麼時候變成 Done」，而是「它最後一次被更新是什麼時候」——官方 KB 特別點名連改一下 Description 這種無關緊要的編輯都會重設。所以一張半年前就 Closed 的卡，只要昨天有人補了一句說明，它今天就會重新出現在 board 上，要等 2 週的區間再次經過才會消失。</div></details>
+<details class="q"><summary>某 status 的 category 是 Done，但在 Kanban board 被對到中間的欄位。它會被 Hide completed work 隱藏嗎？</summary><div class="a"><div class="tag">解答</div><strong>會被隱藏。</strong>這是 Scrum 與 Kanban 最容易混淆的一組規則：<strong>Kanban board 是用 status category 判定完成的</strong>，官方原文明講「當 issue 到達 Done 類別的 status，Kanban board 就視它為完成，<strong>不管那個 status 被對應到哪一欄</strong>」。而 <strong>Scrum 完全相反，只認最右欄</strong>。所以同一張 issue，在 Scrum 的完成 sprint 判定與 Kanban 的隱藏機制底下，可能出現完全不同的行為。</div></details>
+<details class="q"><summary>選項寫「Hide completed work 可以設 5 週」。</summary><div class="a"><div class="tag">解答</div><strong>錯的。</strong>官方文件列出的選項只有四個：<strong>1 週、2 週、4 週，以及完全不隱藏</strong>，沒有 3 週、5 週或自訂天數這種東西。考題很喜歡用一個「看起來很合理的數字」來設陷阱，這幾個硬性選項值得直接記起來。</div></details>
+<details class="q"><summary>TMP 團隊想限制只有特定角色能把 issue 移到 Done。</summary><div class="a"><div class="tag">解答</div>TMP 沒有 CMP 那套 workflow scheme 與 condition，取而代之的是 <strong>transition rules</strong>。路徑是 Space settings → Work types → 選一個 work type → Edit workflow → 點該 transition → Rules，加上 <strong>Restrict who can move a work item</strong> 這條規則。操作者需要 <strong>Administrator role</strong> 或 <strong>Administer spaces</strong> 權限。有一個官方特別提醒的坑：<strong>如果日後把規則所綁定的那個 role 刪掉，團隊就會卡在這個 transition 動彈不得</strong>，所以調整 role 之前記得先檢查有沒有 rule 依賴它。</div></details>
 </div>
 </section>
 
@@ -325,17 +325,17 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Column 就是 status」（CMP）</td><td>兩個獨立物件，靠對應連接；TMP 才是一體兩面</td></tr>
-<tr><td>「刪 column 會刪 issue」</td><td>只把 status 退回 Unmapped，issue 還在</td></tr>
-<tr><td>「加 column 就會出現新 status」</td><td>只有 simplified workflow 會；一般 workflow 只是空欄</td></tr>
-<tr><td>「叫 Done 的欄就是完成欄」</td><td>是<strong>最右</strong>的欄才是，跟名字無關</td></tr>
-<tr><td>「Constraints 會擋住超量」</td><td>只變色，不阻擋</td></tr>
-<tr><td>「Quick filter 隱藏的不算 constraint」</td><td>照算</td></tr>
-<tr><td>「Project admin 隨時能加 status」</td><td>要 simplified workflow；否則 Jira admin</td></tr>
-<tr><td>「改欄名會改 status 名」</td><td>不會，兩者分開</td></tr>
-<tr><td>「Kanban 也是最右欄才算完成」</td><td>Kanban 用 <strong>status category</strong>；最右欄是 <strong>Scrum</strong> 的規則</td></tr>
-<tr><td>「完成超過設定區間就一定看不到」</td><td>任何<strong>欄位編輯都會重設計時器</strong>，卡片會重新出現</td></tr>
-<tr><td>「一個 status 可以同時對到兩欄」</td><td>不行，同一塊 board 上一個 status 只能對到一欄</td></tr>
+<tr><td>「Column 就是 status」（CMP）</td><td>在 CMP，column 與 status 是<strong>兩個獨立的物件</strong>，中間靠對應關係連起來，一欄可以裝好幾個 status；只有 TMP 才是「column 就是 status」的一體兩面</td></tr>
+<tr><td>「刪 column 會刪 issue」</td><td>不會。刪 column 只是把裡面的 status 退回 Unmapped 面板，issue、status、歷史紀錄全都還在，只是暫時不顯示在 board 上</td></tr>
+<tr><td>「加 column 就會出現新 status」</td><td>只有使用 simplified workflow 的 project 會同時建一個同名 status；一般 workflow 底下加 column 就只是多一個空欄，還得自己把既有 status 拖進去</td></tr>
+<tr><td>「叫 Done 的欄就是完成欄」</td><td>不對。決定完成的是<strong>最右邊那一欄的位置</strong>，跟它叫不叫 Done 完全無關；把 Done 欄拖到中間，它裡面的 issue 就不再算完成了</td></tr>
+<tr><td>「Constraints 會擋住超量」</td><td>不會。超過上限只會讓欄位標題變紅（低於下限變黃），Jira 不會阻止你把卡片拖進去，它是提醒而不是鎖</td></tr>
+<tr><td>「Quick filter 隱藏的不算 constraint」</td><td>照算。constraints 算的是整欄的實際總數，quick filter 只是把卡片藏起來，被藏的仍然計入</td></tr>
+<tr><td>「Project admin 隨時能加 status」</td><td>不是。只有在 project 使用 simplified workflow（四個條件全部符合）時，Columns 頁才會出現 Add status；否則就得請 Jira admin 到 workflow editor 加</td></tr>
+<tr><td>「改欄名會改 status 名」</td><td>不會。column 與 status 是分開的物件，改欄名只是改 board 上的顯示文字，status 名稱不受影響（simplified workflow 也一樣）</td></tr>
+<tr><td>「Kanban 也是最右欄才算完成」</td><td>不是。Kanban 的完成判定看的是 <strong>status category</strong>（只要落在 Done 類別就算完成，不管對到哪一欄）；<strong>只認最右欄</strong>是 Scrum 的規則</td></tr>
+<tr><td>「完成超過設定區間就一定看不到」</td><td>不一定。<strong>任何欄位的編輯都會重設那個計時器</strong>，連改一下 Description 都算；被編輯過的卡片會重新出現在 board 上，直到區間再次經過</td></tr>
+<tr><td>「一個 status 可以同時對到兩欄」</td><td>不行。在同一塊 board 上，一個 status 只能對應到一個 column；反過來則沒有限制，一個 column 可以裝很多個 status</td></tr>
 </table></div>
 </section>
 
@@ -344,7 +344,7 @@
 <div class="section-label">實作（30 分鐘）</div>
 <h2>把三句話做出來</h2>
 <ol>
-<li>請 Jira admin 在 LAB 的 workflow 加「In Review」與「Cancelled」；回 board 觀察這兩個 status 的 issue消失，到 Columns 看 Unmapped 面板。</li>
+<li>請 Jira admin 在 LAB 的 workflow 加「In Review」與「Cancelled」；回 board 觀察這兩個 status 的 issue 消失，到 Columns 看 Unmapped 面板。</li>
 <li>把 In Review 拖進 In Progress 欄、Cancelled 拖進 Done 欄；建一個 sprint 含一張 Cancelled 的 issue，Complete sprint 確認它算完成；再把 Cancelled 拖到中間欄重做一次，看它被帶到下一個 sprint。</li>
 <li>把 Done 欄拖到中間，看 burndown 變化，再拖回去。</li>
 <li>開 constraints（excluding sub-tasks），In Progress 設 max 2，拖第 3 張進去看欄頭變紅；用 quick filter 隱藏一張，確認仍紅。</li>

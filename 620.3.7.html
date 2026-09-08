@@ -197,7 +197,7 @@
 <h2>連到 issue 以外的東西：web link、Confluence page、smart link</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:24%">連結種類</th><th>怎麼加</th><th>特性</th></tr>
-<tr><td>Web link</td><td>Add → Web link，貼 URL 並給標題</td><td>純外部連結；也算在 issue link 權限（Link Issues）之下</td></tr>
+<tr><td>Web link</td><td>Add → Web link，貼 URL 並給標題</td><td>純粹指向外部網址的連結，沒有方向也查不出關係；不過它一樣受 <strong>Link Issues</strong> 權限管轄</td></tr>
 <tr><td>Confluence page</td><td>Add → Page → Link page（parent 層 issue 如 epic 才有「Related work」入口；一般 issue 直接貼 Confluence 網址）</td><td>前提：Jira 站台已與 Confluence 連結（同一站台或 application link）。CMP 才有 epic 的 Link page；一張 issue 最多 <strong>2,000</strong> 個連結（web、Confluence、外部 issue 合計）</td></tr>
 <tr><td>Smart link</td><td>在 Description／留言貼上 Google Drive、Dropbox、Figma、Confluence 等網址</td><td>自動展開成卡片並<strong>永遠指向最新版</strong>；也可貼在 Attachments 區當「連結的檔案」</td></tr>
 <tr><td>Issue link（對照）</td><td>Add → Linked work item</td><td>有方向（outward／inward）、可用 JQL 查、進 Related work 統計</td></tr>
@@ -288,17 +288,17 @@
 <details class="q"><summary>PM 有 Edit All Worklogs，卻按不到 Log work。缺什麼？</summary><div class="a"><div class="tag">解答</div>缺 <strong>Work On Issues</strong>。Edit All Worklogs 只讓他修改別人<strong>已存在</strong>的工時紀錄，不是新增工時的替代權限。</div></details>
 <details class="q"><summary>TMP 團隊想讓「有人留言」時通知 reporter，並把通知信的寄件地址換成團隊信箱。做得到嗎？</summary><div class="a"><div class="tag">解答</div>做得到。Project settings → Notifications 可設定事件與收件角色（含 reporter），並可設定通知的寄件地址。注意設定通知<strong>不會</strong>讓收件人取得該 issue 的存取權。</div></details>
 <details class="q"><summary>工程師有 Link Issues 權限，但所有 issue 的 Add 選單裡都沒有「Linked work item」。</summary><div class="a"><div class="tag">解答</div>全域 Issue linking 被停用（關卡①）。請 Jira admin 到 ⚙ → Issues → Issue linking → Activate。</div></details>
-<details class="q"><summary>MOB-10 顯示「blocks MOB-22」，MOB-22 上會顯示什麼？</summary><div class="a"><div class="tag">解答</div>「is blocked by MOB-10」——同一條連結的 inward 描述。</div></details>
-<details class="q"><summary>使用者在 A project 連結了 B project 的 issue，但同事只在 A 看到一半的資訊。</summary><div class="a"><div class="tag">解答</div>同事在 B project 沒有 Link Issues（或 Browse）權限；跨 project 連結兩邊都要有權限。</div></details>
+<details class="q"><summary>MOB-10 顯示「blocks MOB-22」，MOB-22 上會顯示什麼？</summary><div class="a"><div class="tag">解答</div>會顯示「<strong>is blocked by MOB-10</strong>」。因為每一種 link type 都由三個字串組成：type 的名稱（Blocks）、<strong>outward 描述</strong>（blocks，從發起端看出去）與 <strong>inward 描述</strong>（is blocked by，從另一端看回來）。你只建立了<strong>一條</strong>連結，Jira 在兩端各用適合的方向敘述呈現它，不是兩條各自獨立的關係。理解這一點也才看得懂自訂 link type 為什麼要同時填 outward 與 inward 兩個描述。</div></details>
+<details class="q"><summary>使用者在 A project 連結了 B project 的 issue，但同事只在 A 看到一半的資訊。</summary><div class="a"><div class="tag">解答</div>因為同事在 <strong>B project 缺少權限</strong>（Browse Projects，或 Link Issues）。跨 project 的連結遵循官方那條通則：<strong>兩邊的 project 都要有權限，才看得到完整的連結資訊</strong>。實際的畫面表現是他在 A 看得到「有這麼一條連結」，但對面那張 issue 的標題、狀態等細節顯示不出來，看起來就像資訊只有一半。解法是補上他在 B 的權限，或確認這是刻意的資訊隔離。</div></details>
 <details class="q"><summary>建立 issue 時填不到 Original estimate，但既有 issue 可以 Log work。</summary><div class="a"><div class="tag">解答</div>關卡③：Time Tracking 欄位沒放在 create screen。Log work 能用代表全域與 Work On Issues 都沒問題。</div></details>
 <details class="q"><summary>PM 想把 Confluence 的規格頁掛到 epic，讓 Release page 的 Related work 看得到。</summary><div class="a"><div class="tag">解答</div>Epic → Add → Page → Link page（需 Jira 已連接 Confluence；CMP）。</div></details>
-<details class="q"><summary>@ 某位同事時找不到他，但他確實有 Jira 帳號。</summary><div class="a"><div class="tag">解答</div>自己沒有 Browse users and groups 全域權限，只看得到同 project 有 Browse 的人；或該同事沒有這個 project 的 Browse Projects。</div></details>
-<details class="q"><summary>Scrum master 想把整個團隊加為某張 issue 的 watcher。需要什麼？</summary><div class="a"><div class="tag">解答</div>Manage Watchers 權限；看清單需 View Voters and Watchers。</div></details>
-<details class="q"><summary>附件上傳被拒，訊息說檔案太大。誰能改？</summary><div class="a"><div class="tag">解答</div>Jira admin（Administer Jira）在 ⚙ → System → Attachments 調整單檔上限；方案容量（Free 2 GB／Standard 250 GB／Premium 無限）是另一層限制。</div></details>
-<details class="q"><summary>設計師想刪掉工程師誤傳的附件。</summary><div class="a"><div class="tag">解答</div>需要 Delete All Attachments；Delete Own 只能刪自己的。</div></details>
-<details class="q"><summary>commit 訊息寫了「mob-10 fix」，issue 上卻沒有開發資訊。</summary><div class="a"><div class="tag">解答</div>Key 必須大寫 MOB-10。其他可能：站台未連接 Bitbucket、使用者沒有 View Development Tools（面板整個不顯示）。</div></details>
-<details class="q"><summary>Smart commit 寫了 <code>MOB-10 #time 2h</code> 但沒記到工時。</summary><div class="a"><div class="tag">解答</div>依序查：commit email 沒對到剛好一個 Jira 帳號；該帳號沒有 Work On Issues；Time tracking 欄位被 field configuration 隱藏；key 不是大寫或指令跨行。</div></details>
-<details class="q"><summary>「web link」和「issue link」該怎麼選？</summary><div class="a"><div class="tag">解答</div>要表達 issue 間的關係（阻擋、重複、因果）用 issue link，有方向且可 JQL；指向外部文件或網頁用 web link／smart link。</div></details>
+<details class="q"><summary>@ 某位同事時找不到他，但他確實有 Jira 帳號。</summary><div class="a"><div class="tag">解答</div>有兩個可能，要分開查。第一（最常見）：<strong>你自己缺少全域權限 Browse users and groups</strong>，這時候 @ 的候選名單會被限縮成「跟我在同一個 project、而且有 Browse Projects 的人」。第二：<strong>那位同事沒有這個 project 的 Browse Projects</strong>，他本來就進不來，自然也不該被提及。要注意這通常<strong>不是設定錯誤</strong>——官方明講限制 Browse users and groups 是控制使用者名單外流的常見手法，尤其在有外部協作者的站台，所以要先確認公司政策再提出調整。</div></details>
+<details class="q"><summary>Scrum master 想把整個團隊加為某張 issue 的 watcher。需要什麼？</summary><div class="a"><div class="tag">解答</div>需要 <strong>Manage Watchers</strong> 權限——幫「別人」加或移除 watcher 是這個權限管的，替自己按 Watch 則任何人都可以。另外還有一個獨立的權限 <strong>View Voters and Watchers</strong>，決定他看不看得到目前的 watcher 名單與票數。兩者要分開記：<strong>Manage 是動別人的訂閱，View 是看清單</strong>。最後補一句實務上的重點：<strong>把人加成 watcher 不會給他任何存取權</strong>，如果他本來就沒有 Browse Projects，收到通知也打不開那張 issue。</div></details>
+<details class="q"><summary>附件上傳被拒，訊息說檔案太大。誰能改？</summary><div class="a"><div class="tag">解答</div>只有 <strong>Jira admin</strong>（Administer Jira）能改，路徑是 ⚙ → System → <strong>Attachments</strong>，可以調整單檔大小上限（管理頁的值是預設 1 GB、最大 2 GB）。project admin 沒有這個權限。要注意這裡其實有<strong>兩層不同的限制</strong>：一層是剛才說的<strong>單一檔案大小</strong>，另一層是<strong>整個站台的儲存容量</strong>（Free 每個 app 2 GB、Standard 250 GB、Premium 無上限），後者連 Jira admin 也調不了，只能升級方案。看到上傳失敗時，先確認訊息說的是哪一種。</div></details>
+<details class="q"><summary>設計師想刪掉工程師誤傳的附件。</summary><div class="a"><div class="tag">解答</div>需要 <strong>Delete All Attachments</strong> 權限。附件相關的三個權限是各自獨立的：<strong>Create Attachments</strong>（上傳）、<strong>Delete Own Attachments</strong>（只能刪自己傳的）、<strong>Delete All Attachments</strong>（可以刪任何人傳的）。設計師能上傳、也能刪自己的檔案，都不代表她刪得掉工程師的。實務上比較安全的做法是請工程師自己刪，或請 project admin 處理，不必為了單一事件擴大權限。</div></details>
+<details class="q"><summary>commit 訊息寫了「mob-10 fix」，issue 上卻沒有開發資訊。</summary><div class="a"><div class="tag">解答</div>最直接的原因是 <strong>issue key 必須全部大寫</strong>——寫成 <code>mob-10</code> Jira 認不出來，正確寫法是 <code>MOB-10</code>（格式是兩個以上大寫字母＋連字號＋數字）。如果 key 沒寫錯還是看不到，往下查兩件事：<strong>站台有沒有真的連接 Bitbucket</strong>（沒連當然收不到資料），以及<strong>這位使用者有沒有 View Development Tools 權限</strong>（缺了的話整個開發面板都不會顯示，不是只有這一筆看不到）。</div></details>
+<details class="q"><summary>Smart commit 寫了 <code>MOB-10 #time 2h</code> 但沒記到工時。</summary><div class="a"><div class="tag">解答</div>照這個順序查。<strong>第一，commit 的作者 email 必須對應到「剛好一個」Jira 使用者</strong>——這是官方列的第一個原因，對不到人或對到多個帳號，smart commit 一律不執行。<strong>第二，那個帳號要有 Work On Issues 權限</strong>（記工時的權限），smart commit 是「以那個人的身分」執行的，權限不會因為走 commit 就放寬。<strong>第三，Time tracking 欄位可能被 field configuration 隱藏了</strong>。<strong>第四，語法問題</strong>：key 沒大寫、指令跨行、transition 名稱含空白沒改成連字號（要寫 <code>#start-review</code>）。另外官方還提到一種情況：transition 有必填欄位沒填時也會失敗。</div></details>
+<details class="q"><summary>「web link」和「issue link」該怎麼選？</summary><div class="a"><div class="tag">解答</div>判斷準則是<strong>「連的對象是不是另一張 Jira issue」</strong>。要表達 <strong>issue 與 issue 之間的關係</strong>（阻擋、重複、複製、因果）就用 <strong>issue link</strong>：它有方向（outward／inward）、有 link type，而且<strong>可以用 JQL 查詢</strong>，也會進入 Related work 的統計。要指向 <strong>Jira 以外的東西</strong>（設計稿、外部文件、網頁）就用 <strong>web link</strong> 或 <strong>smart link</strong>：它們只是連結，沒有方向、查不出關係。一句話記法：<strong>要能被查詢與分析的關係用 issue link，只是給人點過去看的用 web link</strong>。</div></details>
 </div>
 </section>
 
@@ -308,18 +308,18 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:44%">誤解</th><th>事實</th></tr>
-<tr><td>「Link Issues 權限給了就能連結」</td><td>全域 Issue linking 要先啟用；跨 project 兩邊都要權限</td></tr>
-<tr><td>「Log work 是 Edit Issues 的一部分」</td><td>是獨立的 Work On Issues，在 Time tracking 群組</td></tr>
-<tr><td>「Original estimate 填不到是權限問題」</td><td>多半是 Time Tracking 欄位沒放在 screen（關卡③）</td></tr>
-<tr><td>「Project admin 可以改附件大小上限」</td><td>只有 Jira admin（⚙ → System → Attachments）</td></tr>
-<tr><td>「@ 提及看不到人是 project 權限」</td><td>是全域 Browse users and groups；沒有它只看得到同 project 的人</td></tr>
-<tr><td>「commit 訊息寫小寫 key 也能連」</td><td>只認大寫 key</td></tr>
-<tr><td>「開發面板看不到＝沒連 Bitbucket」</td><td>也可能是缺 View Development Tools</td></tr>
-<tr><td>「有 Work On Issues 就一定能記工時」</td><td>該 status 若有 <code>jira.permission.work.denied</code> property（值留空）就記不了</td></tr>
-<tr><td>「Edit All Worklogs 也能新增工時」</td><td>新增是 Work On Issues；All 只管維護他人既有紀錄</td></tr>
-<tr><td>「只有 CMP 能設通知」</td><td>TMP 在 Project settings → Notifications 可設事件、收件角色與寄件地址</td></tr>
-<tr><td>「能上傳附件就能刪別人的附件」</td><td>Delete Own／Delete All Attachments 是分開的權限</td></tr>
-<tr><td>「Web link 也能用 JQL 查關係」</td><td>只有 issue link 有方向與 link type 可查</td></tr>
+<tr><td>「Link Issues 權限給了就能連結」</td><td>不一定。站台的 <strong>Issue linking 全域開關</strong>要先是啟用狀態，關掉的話所有 project 的 Link 入口都會消失；跨 project 的連結還要兩邊 project 都有權限</td></tr>
+<tr><td>「Log work 是 Edit Issues 的一部分」</td><td>不是。記錄工時需要獨立的 <strong>Work On Issues</strong> 權限，它歸在 permission scheme 的 Time tracking 群組底下，跟 Edit Issues 無關</td></tr>
+<tr><td>「Original estimate 填不到是權限問題」</td><td>不一定。如果既有 issue 記得了工時，代表全域設定與權限都沒問題，問題多半出在<strong>第三道關卡</strong>——Time Tracking 欄位沒有被放到 create screen 上</td></tr>
+<tr><td>「Project admin 可以改附件大小上限」</td><td>不能。單檔大小上限在 ⚙ → System → Attachments，只有 Jira admin 改得動；站台的總容量則是方案決定的，連 Jira admin 也調不了</td></tr>
+<tr><td>「@ 提及看不到人是 project 權限」</td><td>不是。這是全域權限 <strong>Browse users and groups</strong> 在起作用；沒有它的人，@ 的候選名單只會列出「同 project 且有 Browse Projects」的人</td></tr>
+<tr><td>「commit 訊息寫小寫 key 也能連」</td><td>不行。Jira 只辨識<strong>全大寫</strong>的 issue key（兩個以上大寫字母＋連字號＋數字），寫成小寫完全不會被連結</td></tr>
+<tr><td>「開發面板看不到＝沒連 Bitbucket」</td><td>不一定。也可能是這位使用者缺少 <strong>View Development Tools</strong> 權限——缺了它整個開發面板都不會顯示，不是只有某一筆資料看不到</td></tr>
+<tr><td>「有 Work On Issues 就一定能記工時」</td><td>不一定。如果 issue 目前所在的 status 被設了 <code>jira.permission.work.denied</code> 這個 workflow property（值留空），該狀態就完全禁止記工時——這是 permission scheme 以外的限制，只有 Jira admin 改得動</td></tr>
+<tr><td>「Edit All Worklogs 也能新增工時」</td><td>不能。新增工時一律要 <strong>Work On Issues</strong>；Edit／Delete All Worklogs 管的是維護<strong>別人已經存在</strong>的紀錄，兩者不能互相取代</td></tr>
+<tr><td>「只有 CMP 能設通知」</td><td>不對。TMP 也可以在 Project settings → Notifications 設定事件、收件角色，甚至通知的寄件地址；只是它沒有 CMP 那種可跨 project 共用的 notification scheme</td></tr>
+<tr><td>「能上傳附件就能刪別人的附件」</td><td>不能。上傳是 Create Attachments，刪自己的是 Delete Own Attachments，刪別人的是 Delete All Attachments，三個權限完全獨立</td></tr>
+<tr><td>「Web link 也能用 JQL 查關係」</td><td>不行。只有 issue link 具備方向與 link type，查得出關係；web link 與 smart link 純粹是連結，JQL 查不到</td></tr>
 </table></div>
 </section>
 

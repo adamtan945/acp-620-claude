@@ -12,10 +12,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "瀏覽器與權限差異無關。",
-   "A": "Bulk change 只是全域入口，每一張 issue 仍要通過該 project 的 Browse 與對應操作權限；A 能、B 不能，差在 project 層授權。",
-   "B": "Sam 已能在 A 使用批次功能，全域權限不是缺口。",
-   "C": "Board 名稱不影響 issue 權限。"
+   "D": "這是權限設定的差異，跟瀏覽器或快取無關。",
+   "A": "正解。<strong>bulk change 需要兩層權限</strong>：全域的 Make bulk changes 只是「讓選單出現」的入口，實際執行時還要在<strong>每一個受影響的 project</strong> 具備對應權限。Sam 在 A 能用、在 B 不能，代表全域那層沒問題，缺口一定在 <strong>project B 的 Browse Projects 與 Edit Issues</strong>。跨 project 批次操作時更要注意——只要其中一個 project 缺權限，那批 issue 就會被跳過。",
+   "B": "Sam 已經能在 project A 使用批次功能，這證明<strong>全域權限完全正常</strong>，再授予一次不會有任何作用。",
+   "C": "board 的名稱跟 issue 的權限毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/",
@@ -43,10 +43,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "Assign Issues 是「執行指派的人」需要的權限，不是被指派者。",
-   "A": "管理 sprint，與指派無關。",
-   "B": "Assignable User 定義誰可以出現在 Assignee 欄位；Eva 沒有它就選不到她。",
-   "C": "這是分享查詢用的全域權限。"
+   "D": "這是最容易誤選的一個。<strong>Assign Issues 是「執行指派動作的人」需要的權限</strong>（去修改 Assignee 欄位），而題目問的是 Eva 本人——她要的是被動的 Assignable User。",
+   "A": "Manage Sprints 管的是 sprint 的建立、開始與結束，<strong>跟指派完全無關</strong>。",
+   "B": "正解。Jira 把「指派」拆成方向相反的兩個權限，這題問的是<strong>被指派者</strong>需要什麼——答案是 <strong>Assignable User</strong>：它定義了「誰可以出現在 Assignee 欄位的候選清單裡」。Eva 沒有這一項，別人打開下拉選單時根本找不到她。（順帶一提，TMP 沒有這個獨立權限，改用「有沒有 Work on issues 群組任一權限」來判定。）",
+   "C": "Share dashboards and filters 是分享查詢與儀表板用的全域權限，跟指派毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/work-item-permissions/"
@@ -72,10 +72,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Scheme 是共用物件，改一次六個 project 都變；而且 project admin 沒有編輯 scheme 的權限。",
-   "C": "只有 Jira admin 能改或複製 permission scheme；共用時先複製再指派是標準做法。",
-   "D": "Role 成員資格不等於 scheme 編輯權。",
-   "A": "Quick filter 只影響 board 顯示，與權限無關。"
+   "B": "這句話有兩個錯：<strong>project admin 根本沒有編輯 permission scheme 的權限</strong>；而且 scheme 是共用物件，<strong>改一次六個 project 全部都變</strong>，絕不會「只影響自己的 project」。",
+   "C": "正解。標準流程是：<strong>請 Jira admin 先評估這份 scheme 被哪些 project 共用</strong>，如果六個 project 的需求一致，就直接改；如果只有小美這個 project 需要，正確做法是<strong>複製一份 scheme、指派給本 project，再在副本上修改</strong>——這樣其他五個 project 完全不受影響。這個「共用就先複製」的模式在 CMP 到處都是（workflow、screen、field configuration 都一樣）。",
+   "D": "把自己加進某個 role，得到的是那個 role 的<strong>操作權限</strong>，跟「能不能編輯 scheme 這個設定物件」是完全不同的層級。",
+   "A": "quick filter 只影響 board 上顯示哪些卡片，<strong>跟權限完全是兩回事</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/what-are-permission-schemes-in-jira/",
@@ -102,10 +102,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "看得到 filter 但無結果，正是分享成功、資料權限不足的典型表現。",
-   "D": "Filter 分享只分享查詢；結果仍依對方對各 project 的 Browse Projects 與 issue security 過濾。",
-   "A": "搜尋不需要 Jira admin。",
-   "B": "狀態與可見性無關。"
+   "C": "正好相反：<strong>「filter 打得開、結果卻是空的」正是分享成功、但資料權限不足的典型表現</strong>。如果分享失敗，他連這個 filter 都找不到。",
+   "D": "正解。<strong>分享 filter 只分享了「這段查詢」，不會給對方任何資料存取權</strong>。查詢結果仍然會依照他自己對各 project 的 <strong>Browse Projects</strong> 權限與各張 issue 的 <strong>issue security level</strong> 逐筆過濾。所以要檢查的是他在那些 project 的權限，而不是重新分享一次。",
+   "A": "執行搜尋不需要 Administer Jira，任何使用者都能搜尋自己有權存取的資料。",
+   "B": "issue 的狀態跟可見性毫無關係——Done 的 issue 一樣要有權限才看得到。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/",
@@ -132,10 +132,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "權限即時依目前授權計算，沒有殘留。",
-   "A": "多條授權路徑是加總關係；移除一個 role 不會抵銷群組、Reporter、User custom field 等其他來源。",
-   "B": "與一般使用者能編輯的事實矛盾。",
-   "C": "Jira 沒有 deny 型權限。"
+   "D": "權限是<strong>即時依目前的授權狀態計算</strong>的，沒有任何殘留或快取延遲的問題。",
+   "A": "正解。Jira 的權限是<strong>多條授權路徑取聯集</strong>：同一個權限可能同時來自 project role、group、Reporter、Current assignee、User custom field value 等好幾個來源。<strong>移除其中一條，其他來源依然有效</strong>——最常見的就是他所屬的某個 group 也被授予了 Edit Issues。排查時要把所有授權路徑逐一列出來檢查，而不是只看 role。",
+   "B": "這與現實矛盾——一般使用者只要有 Edit Issues 就能編輯，不需要 site admin。",
+   "C": "<strong>Jira 沒有「拒絕型（deny）」的權限</strong>，所有權限都是「授予」，移除某個授權絕不會反而放行。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/how-permissions-interact-with-each-other/"
@@ -161,10 +161,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "這是常見誤解；只有在 Assign Issues「有配置」時，Assignee 才被它專屬接管。",
-   "B": "官方規則：更具體的權限未配置時，Edit Issues 可編輯該欄位；一旦配置了 Assign Issues，就只有拿到它的人能改 Assignee。",
-   "C": "與權限模型無關。",
-   "D": "Manage Sprints 只管 sprint。"
+   "A": "這是很常見的誤解。<strong>只有在 Assign Issues「有被配置給某些對象」的情況下，Assignee 欄位才會被它專屬接管</strong>；沒有配置時，這個欄位仍然歸比較籠統的 Edit Issues 管。",
+   "B": "正解。官方的「最具體者勝」規則是雙向的：<strong>當更具體的權限沒有被配置時，Edit Issues 就涵蓋該欄位</strong>；<strong>一旦 Jira admin 把 Assign Issues 明確配置出來，管轄權立刻轉移，從此只有拿到 Assign Issues 的人能改 Assignee</strong>。這也解釋了實務上常見的抱怨——「昨天還能改 assignee，今天突然不行了」，通常就是 admin 剛剛把 Assign Issues 加進 scheme。同樣的邏輯也適用於 Modify Reporter 與 Schedule Issues。",
+   "C": "跟是不是 Jira admin 無關，這是權限模型的運作方式。",
+   "D": "Manage Sprints 管的是 sprint 這個容器，跟能不能改 Assignee 毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/how-permissions-interact-with-each-other/"
@@ -191,10 +191,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Edit 不是搬入的條件。",
-   "C": "Move 到目的 project 等於在那裡建立一張 issue，官方明列需要目的 project 的 Create Issues。",
-   "D": "過度授權。",
-   "A": "沒有目的地權限會失敗。"
+   "B": "Edit Issues 是「修改既有 issue」的權限，<strong>不是搬入的條件</strong>。",
+   "C": "正解。<strong>Move 到目的地 project，本質上等於「在那裡建立一張 issue」</strong>，所以官方明列需要<strong>目的地 project 的 Create Issues 權限</strong>。這也體現了跨 project 動作的通則：<strong>兩邊的權限都要有</strong>。額外提醒一個容易忽略的後果：如果 Amy 在 WEB 沒有 Browse Projects，她搬成功之後就再也打不開那張 issue 了。",
+   "D": "Administer Projects 是管理整個 project 的權限，為了搬一張 issue 而要求這個是嚴重的過度授權。",
+   "A": "沒有目的地的權限，搬移一定會失敗——目的地 project 甚至不會出現在下拉清單裡。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/work-item-permissions/"
@@ -220,10 +220,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "方向相反：全域開關是功能是否存在，project 權限是誰能用。",
-   "D": "Issue linking、time tracking 這類全域開關關閉時，整個站台都沒有該功能，權限給了也無用。",
-   "A": "沒有這種折衷。",
-   "B": "Jira admin 也一樣沒有功能可用。"
+   "C": "方向完全相反。正確的層次關係是：<strong>全域開關決定「這個功能存不存在」，project 權限決定「誰可以使用它」</strong>——功能都不存在了，權限自然無從發揮。",
+   "D": "正解。<strong>Issue linking、time tracking、attachments 這類全域開關一旦關閉，整個站台都沒有該功能</strong>，permission scheme 給了 Link Issues 也沒有任何作用，issue 上根本不會出現 Link 的入口。所以排查「做不了某件事」時，<strong>要先問全域功能開了沒，再查權限</strong>——順序反過來會浪費很多時間。",
+   "A": "沒有這種折衷方案——功能被全域關閉時，<strong>連同 project 內的連結也一併消失</strong>。",
+   "B": "連 Jira admin 也一樣沒有這個功能可用。全域開關關閉的是<strong>功能本身</strong>，不是某些人的權限。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-issue-linking/",
@@ -250,10 +250,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Create Issues 是少數不以 Browse 為前提的權限。",
-   "A": "官方明列 Create Issues 可授予任何站台使用者且不需 Browse；沒有 Browse 就看不到 project 裡的 issue，包含自己建的。",
-   "B": "瀏覽仍需 Browse Projects。",
-   "C": "沒有這種限制。"
+   "D": "建立<strong>不會</strong>被拒絕。這正是本題的重點——Create Issues 不需要 Browse 當前提。",
+   "A": "正解。這是 Jira 權限模型裡最反直覺的一條：<strong>Create Issues 是少數不以 Browse Projects 為前提的權限</strong>，官方明列它可以授予任何站台使用者。所以確實會出現「<strong>建得出來，卻打不開自己剛建的那張</strong>」這種看似壞掉、其實完全正常的結果。這個設計有實際用途——例如讓全公司都能提報需求，但只有團隊看得到內容。要注意的是：<strong>Reporter 身分也不會自動帶來 Browse 權限</strong>，除非 scheme 另外把可見性授予 Reporter。",
+   "B": "瀏覽 issue 需要 <strong>Browse Projects</strong>，這一點對「自己建的」也不例外。",
+   "C": "沒有這種限制，他可以建立任何被允許的 issue type。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/work-item-permissions/",
@@ -280,10 +280,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "動態對象是逐 issue 判定，不是逐 project。",
-   "B": "Current assignee、Reporter、User custom field value 都依每張 issue 當下的值決定，所以同 project 內權限可以逐張不同。",
-   "C": "Transition Issues 可以授予動態對象。",
-   "D": "無關。"
+   "A": "動態對象是<strong>逐張 issue 判定</strong>的，不是「同一個 project 就一視同仁」。這正是本題要打破的直覺。",
+   "B": "正解。<strong>Current assignee、Reporter、User custom field value 這類動態對象，會依「每一張 issue 當下的欄位值」來判定</strong>。Amy 是 ACL-1 的 assignee，所以她對 ACL-1 有 Transition Issues；她不是 ACL-2 的 assignee，對 ACL-2 就沒有。<strong>同一個 project、同一份 scheme，權限卻可以逐張不同</strong>。排查時的重要提醒：<strong>不能用「這個 project 有一張成功」推論全部都會成功</strong>，要逐張看。",
+   "C": "Transition Issues <strong>可以</strong>授予動態對象，這正是 permission scheme 的 11 種授權對象的價值——它讓「只有被指派的人能推動流程」這種規則得以實現。",
+   "D": "跟 project admin 完全無關，補上這個身分也不會改變逐張判定的結果。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/grant-or-revoke-permissions-in-a-scheme/"
@@ -309,10 +309,10 @@
   ],
   "answer": "C",
   "explain": {
-   "A": "全域權限，決定 picker 與 @提及看得到誰。",
-   "B": "全域權限。",
-   "C": "Manage Sprints 是 permission scheme 裡的 project 權限。",
-   "D": "全域權限。"
+   "A": "<strong>Browse users and groups 是全域權限</strong>，它決定 @提及與 user picker 的候選名單看得到誰。",
+   "B": "<strong>Make bulk changes 是全域權限</strong>，它是批次操作選單出現的入口。",
+   "C": "正解。<strong>Manage Sprints 是寫在 permission scheme 裡的 project 權限</strong>，可以逐 project 授予不同對象。分辨方法很簡單：<strong>全域權限只有 8 個、只能授予群組、由 Jira admin 在站台層設定；project 權限則寫在 permission scheme 裡，可以給 role、group、user 或動態對象</strong>。",
+   "D": "<strong>Share dashboards and filters 是全域權限</strong>，缺了它連分享的選單都是空的。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/what-are-global-permissions-and-what-do-they-do/",
@@ -339,10 +339,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "Schedule Issues 控制 Due date 與 rank（拖曳排序）。",
-   "A": "Manage Sprints 管建立／開始／結束 sprint，不管 issue 排序。",
-   "B": "控制 issue security level。",
-   "C": "控制 Reporter 欄位。"
+   "D": "正解。Jira 把兩件事一起劃給了 <strong>Schedule Issues</strong>：<strong>修改 Due date</strong>，以及<strong>在 board 與 backlog 拖曳排序（rank）</strong>。很多人以為排序屬於 Edit Issues，其實它被獨立出來了——所以會出現「有 Edit Issues 卻拖不動卡片」這種狀況。",
+   "A": "Manage Sprints 管的是 sprint 這個容器（建立、開始、結束、改期間），<strong>它管不到 issue 的排序</strong>——這是最經典的組合題陷阱。",
+   "B": "Set Issue Security 控制的是「能不能在 issue 上設定 security level」，跟日期與排序無關。",
+   "C": "Modify Reporter 只控制 Reporter 這一個欄位。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/work-item-permissions/"
@@ -368,10 +368,10 @@
   ],
   "answer": "A",
   "explain": {
-   "B": "Components 是 project 內物件，跨 project 批次時該欄位不會出現。",
-   "C": "沒有 component 可選就沒有欄位。",
-   "D": "被 field configuration 隱藏的欄位不會出現在 bulk edit。",
-   "A": "沒有 Make bulk changes 根本進不了 bulk 畫面，不會是「有畫面但缺欄位」的原因。"
+   "B": "這<strong>是</strong>可能原因。Components 是<strong>各 project 私有的物件</strong>，跨 project 批次時 Jira 無法判斷該用哪個 project 的清單，所以這個欄位不會出現。同樣的限制也適用於 Fix versions 與 Affects versions。",
+   "C": "這<strong>是</strong>可能原因。如果目的 project 根本沒有建立任何 component，就沒有選項可選，欄位自然不會出現。",
+   "D": "這<strong>是</strong>可能原因。被 field configuration 隱藏的欄位，不但不會出現在 issue 畫面上，也不會出現在 bulk edit 的可改欄位清單裡。",
+   "A": "正解（本題問的是「<strong>不</strong>包含哪一項」）。<strong>沒有 Make bulk changes 的話，搜尋結果頁根本不會出現 Bulk change 選項，連進都進不去</strong>，不會出現「有畫面但缺某個欄位」這種情況。所以它不可能是本題的原因。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
@@ -397,10 +397,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "直接授予個人會套到所有用這份 scheme 的 project。",
-   "A": "Role 是佔位符：scheme 寫角色名，各 project 的 admin 自己填人，權限規則共用、人員各自獨立。",
-   "B": "過度授權。",
-   "C": "名稱與權限無關。"
+   "D": "<strong>在 scheme 裡直接指定個人是官方不建議的做法</strong>：這份 scheme 被兩個 project 共用，Amy 會在<strong>兩邊</strong>都能管 sprint；而且日後換人一定要請 Jira admin 改 scheme，一改又是兩邊一起變。",
+   "A": "正解。這正是 <strong>project role 存在的意義——它是一個「佔位符」</strong>：Jira admin 在共用的 scheme 裡只寫下「Manage Sprints 給 Scrum Master 這個 role」，至於每個 project 的 Scrum Master 是誰，交給各自的 project admin 在 People 頁填。<strong>權限規則共用，人員各自獨立</strong>，兩個 project 從此互不干擾，日後換人也不必驚動 Jira admin。",
+   "B": "把人加進 jira-administrators 等於給了他管理整個站台的權力，只為了讓他能管自己的 sprint——這是嚴重的過度授權。",
+   "C": "project 的名稱跟權限毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/how-to-use-space-roles/"
@@ -426,10 +426,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "Reporter 是 issue 層身分。",
-   "B": "Project role 是全站物件，由 Jira admin 在 Settings → System →（Security 區）Project roles／Space roles 建立，需要 Administer Jira。",
-   "C": "與角色管理無關。",
-   "D": "Project admin 只能把人填進既有 role，不能建新 role。"
+   "A": "Reporter 是 issue 層級的身分（誰開的單），跟建立 role 這種站台層級的動作毫無關係。",
+   "B": "正解。<strong>project role 是全站物件</strong>，由 <strong>Jira admin</strong> 在 ⚙ → System →（Security 區）Project roles（現行可能稱 Space roles）建立，需要 <strong>Administer Jira</strong> 權限。要記住這組分工：<strong>Jira admin 建立 role 並在 scheme 裡授權，project admin 只負責把人填進去</strong>。",
+   "C": "Assignable User 只是「可以被指派 issue」的權限，跟角色管理完全無關。",
+   "D": "<strong>project admin 只能把人填進既有的 role，不能建立新的 role</strong>。官方在「想要一個限縮權限的新角色」這個情境下的建議，正是請 Jira admin 建立。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/create-a-new-space-role/"
@@ -455,10 +455,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "不是快取問題。",
-   "C": "官方說明 default members 只在建立新 project 時套用；既有 project 要由 project admin 手動加。",
-   "D": "無關。",
-   "A": "Role 成員可以是個人或群組。"
+   "B": "不是快取問題，重新整理再多次也不會出現。",
+   "C": "正解。官方說明 <strong>default members 只在「建立新 project」時套用</strong>，它設定的是新 project 的初始成員名單，<strong>不會回頭補進既有的 project</strong>。這是很常見的誤解，也是考題愛問的點。既有的 project 只能由各自的 project admin 到 People 頁手動加（好消息是 group 可以整包加進去）。",
+   "D": "跟 issue 完全無關。",
+   "A": "role 的成員<strong>可以是個人也可以是群組</strong>，這個敘述本身就不正確。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/create-a-new-space-role/"
@@ -483,10 +483,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "太狹窄。",
-   "D": "Role 會被 notification scheme、issue security scheme、workflow condition、filter／dashboard 分享引用，移除成員會連帶影響。",
-   "A": "不會刪資料。",
-   "B": "Project 成員資格與全站產品存取是兩回事。"
+   "C": "這個答案太狹窄，完全低估了 role 的影響範圍。",
+   "D": "正解。<strong>同一個 role 會被好幾種設定引用</strong>：permission scheme（能做什麼）、notification scheme（收哪些通知）、issue security level（看得到哪些受限 issue）、workflow condition（能不能執行某個 transition），以及 filter 與 dashboard 的分享對象。所以把人從 role 移除，他可能不只是少了編輯按鈕，還會<strong>突然收不到通知、過不了某個 transition、或看不到原本看得到的 issue</strong>。這也是為什麼刪除 role 之前一定要先跑 View Usage。",
+   "A": "移除 role 成員<strong>不會刪除任何資料</strong>，他建立的 issue 完好無缺。",
+   "B": "<strong>project 的成員資格與站台的產品存取（app access）是兩個不同層級</strong>，把人從 role 移除不會影響他的 Jira 授權席次。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/how-to-use-space-roles/",
@@ -513,10 +513,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "Role 成員可以是個人或群組；群組成員資格是獨立來源，要請 Jira admin 處理群組。",
-   "B": "沒有這種規則。",
-   "C": "無關。",
-   "D": "無關。"
+   "A": "正解。<strong>role 的成員可以是個人，也可以是整個群組</strong>——這是兩條獨立的來源。把 Kevin 的<strong>個人</strong>指派移除，並不會影響他透過某個 group 取得的成員資格，所以 People 頁仍然顯示他在裡面。要真正移除，得<strong>請 Jira admin 把他從那個 group 拿掉</strong>（但那會影響所有使用該 group 的地方），或改變 role 的授權方式。這也是排查權限時最容易漏掉的路徑。",
+   "B": "沒有這種規則。Reporter 是 issue 層級的動態身分，跟 role 的成員資格無關。",
+   "C": "完全不需要刪除 project，那是災難性的過度反應。",
+   "D": "密碼跟權限計算毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/add-users-to-space-roles-in-your-space/"
@@ -542,10 +542,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "不是給人用的。",
-   "B": "App 透過這個 role 取得 project 權限；刪除或拿掉它的權限會讓整合失效。",
-   "C": "無關。",
-   "D": "刪除會讓 app 失去權限。"
+   "A": "這個 role <strong>不是給人使用的</strong>，它是保留給程式的。",
+   "B": "正解。<strong><code>atlassian-addons-project-access</code> 是 Atlassian 保留給 Marketplace app 與各種整合（Slack、Automation for Jira 等）使用的特殊 role</strong>——這些程式是「以這個角色的身分」在 project 裡執行動作的。所以 automation 規則失敗時，其中一個典型原因就是這個 role 在該 project 的 permission scheme 裡缺少對應權限。<strong>絕對不要刪除它，也不要拿掉它的權限</strong>，否則所有整合會一起失效。",
+   "C": "跟 Jira admin 沒有關係，它不是任何人的備用角色。",
+   "D": "完全沒有廢棄，<strong>刪除它會讓所有 app 與整合失去在該 project 動作的權限</strong>——常見的意外正是有人整理權限時覺得「這個角色沒人在裡面」而把它刪掉。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/how-to-use-space-roles/"
@@ -570,10 +570,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "官方說明把人加進 Administrators role 與加進其他 role 是同一個流程，project admin 可做。",
-   "C": "Administer Projects 通常授予 Administrators role，填人即可。",
-   "D": "不需要改 scheme。",
-   "A": "那會讓他成為 Jira admin，過度授權。"
+   "B": "這個說法不正確。官方明講<strong>把人加進 Administrators role，跟加進其他任何 role 是同一個流程</strong>，project admin 自己就能做。",
+   "C": "正解。到 <strong>Project settings → People</strong> 把阿宏加進 <strong>Administrators</strong> role 即可——因為 permission scheme 通常把 <strong>Administer Projects</strong> 這個權限授予了 Administrators role，人一填進去就生效。這也提醒一件事：<strong>正因為 project admin 可以自由調整 role 成員（包含把人加成 admin），Administer Projects 這個權限本身就該謹慎授予</strong>。",
+   "D": "完全不需要動 scheme。scheme 定義的是「哪個 role 有哪些權限」，而這裡要做的只是「把人填進既有的 role」。",
+   "A": "把人加進 <code>jira-administrators</code> 會讓他成為<strong>整個站台的 Jira admin</strong>，能改所有 project 的 scheme——為了讓他管一個 project 而給這種權力，是嚴重的過度授權。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/add-users-to-space-roles-in-your-space/"
@@ -598,10 +598,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "各 project 不同人是 role 的典型場景。",
-   "D": "全站一致、由 org/site admin 集中維護的名單適合用 group。",
-   "A": "單一 project 用 role 更省事。",
-   "B": "Project admin 只能維護 role 成員，不能改 group。"
+   "C": "「每個 project 需要不同的人」正是 <strong>role 的典型場景</strong>，這個選項描述的是 role 而不是 group。",
+   "D": "正解。判斷準則是：<strong>全站都是同一批人、而且希望集中維護，就用 group</strong>（成員由 org／site admin 統一管理，新人入職加進群組就一次涵蓋所有 project）；<strong>各 project 人不同、需要下放給 PM 自己換人，才用 role</strong>。實務上還有一招兩全其美——<strong>把 group 放進某個 role</strong>，平常靠 group 自動涵蓋，日後某個 project 需要例外時再調整 role 成員。",
+   "A": "只有一個 project 需要時，<strong>用 role 反而更省事</strong>——project admin 自己就能維護名單，不必請 org admin 動群組。",
+   "B": "想讓 project admin 自己維護名單，正是<strong>選 role</strong> 的理由；group 的成員只有 org／site admin 能改。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/how-to-use-space-roles/"
@@ -626,10 +626,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "改名不能避免引用失效。",
-   "A": "Role usage 頁列出使用該 role 的 project 與 scheme；刪除會讓這些引用失效。",
-   "B": "無關。",
-   "C": "刪除會影響 permission、notification、issue security 等引用。"
+   "D": "改名<strong>不能避免引用失效</strong>——而且改名之後，引用它的設定看起來還在，實際上更難察覺問題。",
+   "A": "正解。官方提供了 <strong>View project role usage</strong>（⚙ → System → Project roles → View Usage）這個入口，它會列出<strong>使用這個 role 的 permission scheme、email notification scheme、work item security level 與 workflow condition</strong>。因為同一個 role 可能被這麼多種設定引用，<strong>刪除之前一定要先查清楚</strong>，否則會造成通知失效、transition 卡住、受限 issue 看不到等連鎖問題——而且這些症狀出現時，往往很難聯想到是刪 role 造成的。",
+   "B": "issue 的狀態跟 role 的刪除毫無關係。",
+   "C": "這正好是最危險的想法。<strong>刪除 role 會讓所有引用它的 permission、notification、issue security 與 workflow condition 設定失效</strong>，影響遠遠不只是一個名稱。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/view-space-role-usage/"
@@ -654,10 +654,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "方向相反。",
-   "B": "TMP 的 role 由 project admin 建、勾權限；CMP 的 role 由 Jira admin 建、在 scheme 裡被授權。",
-   "C": "模型不同。",
-   "D": "TMP 有 Administrator／Member／Viewer 與自訂 role。"
+   "A": "方向剛好相反：<strong>CMP 的 role 才是全站物件，TMP 的 role 只存在於該 project</strong>。",
+   "B": "正解。兩者的模型完全不同：<strong>TMP 的 role 由 project admin 自己建立，並且直接在 role 上勾選一組權限，這個 role 只存在於該 project</strong>；<strong>CMP 的 role 則是 Jira admin 建立的全站「佔位符」，它本身不帶任何權限，權限是由 permission scheme 賦予的</strong>，各 project 只負責填人。一句話記法：<strong>TMP 的 role 自帶權限，CMP 的 role 只是名字</strong>。",
+   "C": "兩者的模型差異很大，不能混為一談——這正是考題喜歡對照的地方。",
+   "D": "TMP 有 role，而且有三個內建的（Administrator／Member／Viewer），還可以用 Duplicate 建立自訂 role。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/next-gen-permissions/",
@@ -684,10 +684,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "把影響版與修復版反過來。",
-   "A": "Affects 記「哪個版本有問題」，Fix 記「修在哪個版本」，release 內容看 Fix Version。",
-   "B": "Label 不會讓 issue 進入版本的 release。",
-   "C": "兩個欄位都可以多選。"
+   "D": "把兩個欄位的意義反過來了：問題發生在 1.0（Affects），修復釋出在 1.1（Fix）。",
+   "A": "正解。兩個欄位的分工是：<strong>Affects Version 記錄「哪個版本有這個問題」</strong>（可以多選，因為好幾個舊版可能都有），<strong>Fix Version 記錄「這個工作會在哪一版釋出」</strong>。而<strong>只有 Fix Version 會把 issue 納入該版本的 release 範圍</strong>，release page、Version report 與 Release burndown 看的都是它。記法：<strong>Affects 是「哪裡壞了」，Fix 是「哪一版修好出貨」</strong>。",
+   "B": "label 只是一串沒有屬性的文字，<strong>不會讓 issue 進入任何版本的 release 範圍</strong>，release page 上找不到它，報表也算不到。",
+   "C": "這個敘述不正確——<strong>兩個版本欄位都可以多選</strong>，一個 bug 影響三個舊版、修在兩個版本都寫得出來。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/"
@@ -713,10 +713,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "Release 是版本狀態，不改 issue 狀態；未解決 issue 在 release 對話框可選擇忽略或移到另一個版本。",
-   "C": "這是正常行為。",
-   "D": "不需要。",
-   "A": "與狀態無關。"
+   "B": "正解。<strong>Release 改變的是「版本」的狀態，不會去改任何 issue 的狀態</strong>——這是兩個不同層級的東西。Jira 在你按下 Release 時<strong>會偵測到未解決的 issue 並跳出對話框</strong>，讓你選擇「忽略」或「移到另一個版本」。實務上的正確選擇通常是<strong>移到下一個版本</strong>，這樣 v1.0 的內容才與實際交付一致，Version report 也不會失真。",
+   "C": "這是<strong>正常且刻意</strong>的設計行為——Jira 不會擋住你發佈一個有未完成工作的版本，它只會問你怎麼處理。",
+   "D": "完全不需要刪除任何 issue，那會損失資料。把它移到下一個版本即可。",
+   "A": "跟 Affects Versions 完全無關，那個欄位不影響 release 的內容判定。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/",
@@ -743,10 +743,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Timeline（roadmap）只顯示單一 project。",
-   "C": "跨 project 規劃是 Plans 的範圍，需要 Premium 以上方案。",
-   "D": "無關。",
-   "A": "無關。"
+   "B": "<strong>Timeline（roadmap）只能顯示單一 project</strong>，這是硬性限制，沒有任何設定可以打開讓它涵蓋四個 project。",
+   "C": "正解。<strong>跨多個 project 的長期規劃與依賴管理，是 Plans（前身 Advanced Roadmaps）的守備範圍，需要 Premium 或 Enterprise 方案</strong>。Plans 才具備跨 board／跨 project 建立計畫、容量規劃、情境模擬與依賴視圖的能力。三個層級要一起記：<strong>單一 project 用 Timeline（免費）、跨 project 用 Plans（Premium）、企業級 portfolio 用 Jira Align（另一個產品）</strong>。",
+   "D": "顏色是純視覺設定，解決不了範圍限制。",
+   "A": "把 status 改名跟跨 project 規劃毫無關係，這只是換個顯示文字。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/what-is-the-roadmap/"
@@ -772,10 +772,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "混淆比例與數量。",
-   "D": "Release burndown／version report 用不同顏色標出 scope change，正是為了讓這種情況透明。",
-   "A": "沒有這種推論。",
-   "B": "隱藏會扭曲資訊。"
+   "C": "這是混淆了「比例」與「數量」：<strong>完成的 10 點一點都沒有少</strong>，只是分母變大了。",
+   "D": "正解。<strong>完成比例從 10/20（50%）掉到 10/30（33%），但已完成的工作沒有消失</strong>——變的是分母。而且 <strong>Release burndown 與 Version report 會用不同的顏色標示出「scope added」的部分</strong>（Epic／Release burndown 用深藍段，Burnup 則是紅線往上跳），正是為了讓這種範圍膨脹一目了然，而不是把它藏起來。",
+   "A": "velocity 是依<strong>過去幾個 sprint 的實際完成量</strong>計算的，不會因為某個版本的 scope 增加就歸零。",
+   "B": "隱藏新加的工作會<strong>扭曲資訊、誤導決策</strong>——報表存在的目的正是要讓範圍變動被看見，讓利害關係人知道交付日期為何往後推。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-release-burndown-report/"
@@ -800,10 +800,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "破壞資料。",
-   "A": "Archive 讓版本從下拉與報表隱藏、不可再指派，資料保留且可還原。",
-   "B": "無關。",
-   "C": "日期不影響是否顯示。"
+   "D": "刪除 issue 是破壞資料的行為，而且題目要的正好相反——他要<strong>保留</strong>歷史資料。",
+   "A": "正解。<strong>Archive（封存）版本</strong>正好符合這兩個需求：版本會<strong>從 Fix version 的下拉選單與報表中隱藏、不能再被指派新的 issue</strong>，但<strong>資料完整保留，隨時可以 Unarchive 還原</strong>。這跟 Delete 是完全不同的操作——後者會強迫你處理底下 issue 的版本值。",
+   "B": "permission scheme 跟版本管理毫無關係。",
+   "C": "release date 只是一個日期欄位，<strong>清空它不會讓版本從下拉選單消失</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/"
@@ -828,10 +828,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "來源版本會消失。",
-   "B": "Merge 把來源版本的 work item 移到目標版本，來源版本隨之消失（官方步驟：選要併入的版本 → 選目標 → Merge）。官方頁未提供還原步驟，實務上視為不可逆，操作前先確認。",
-   "C": "沒有這種限制。",
-   "D": "Merge 搬的是 issue 的版本歸屬。"
+   "A": "來源版本<strong>會消失</strong>，issue 不會同時屬於兩個版本。",
+   "B": "正解。Merge 的行為是：<strong>把來源版本（v1.1）底下所有 issue 的 Fix Version 改成目標版本（v2.0），然後移除來源版本</strong>。官方的操作步驟是選要併入的版本 → 選目標 → Merge。要特別注意<strong>官方頁面沒有提供任何還原步驟，實務上要當成不可逆的操作</strong>——併錯方向只能一張張手動改回去，所以動手前先確認清楚。它的好處是省下逐張編輯 Fix Version 的工夫。",
+   "C": "沒有這種限制，Unreleased 的版本一樣可以合併。",
+   "D": "Merge 搬動的是<strong>issue 的版本歸屬</strong>，不是只複製一個名稱。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/"
@@ -856,10 +856,10 @@
   ],
   "answer": "C",
   "explain": {
-   "D": "沒有連接開發工具就沒有 PR／build 資料。",
-   "A": "沒有此權限看不到開發資訊。",
-   "B": "warnings 是可開關的功能。",
-   "C": "Warnings 是在 release 前提醒風險用的，不需要版本已 Released。"
+   "D": "這<strong>是</strong>前提之一。沒有連接 Bitbucket、GitHub 這類開發工具，Jira 根本收不到 PR 與 build 的資料，也就無從產生警示。",
+   "A": "這<strong>是</strong>前提之一。沒有 <strong>View Development Tools</strong> 權限的人，看不到任何開發資訊，warnings 自然也不會出現——這也是「同事看不到 warnings、我卻看得到」最常見的原因。",
+   "B": "這<strong>是</strong>前提之一。warnings 是可以開關的功能（在 Work items 區的 ••• 裡由 project admin 設定），被關掉就不會顯示。",
+   "C": "正解（本題問的是「<strong>不是</strong>前提」的那一項）。<strong>warnings 存在的目的正是在 release「之前」提醒你有風險</strong>——還有未合併的 PR、未 review 的 commit、失敗的 build。要是非得等版本 Released 才顯示，這個功能就毫無意義了。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/use-the-release-page-to-check-the-progress-of-a-version/"
@@ -885,10 +885,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "Affects versions 目前僅 CMP 有。",
-   "D": "官方功能請求截至 2026-09 仍為 Gathering Interest；TMP 只有 Fix versions。",
-   "A": "TMP 開 Releases 後有 Fix versions。",
-   "B": "Fix versions 在 TMP 可用。"
+   "C": "這正是本題要打破的推論：<strong>有 Releases 不代表兩個版本欄位都有</strong>。",
+   "D": "正解。<strong>TMP 開啟 Releases 之後只提供 Fix versions，沒有 Affects versions</strong>。官方的功能請求 <strong>JRACLOUD-85690（Affects Version/s in team-managed projects）截至 2026-09 查核時仍是 Gathering Interest、尚未實作</strong>。這裡要提醒一個常見的錯誤補救方式：<strong>自己新增一個同名的文字 custom field 是沒有用的</strong>——它不具備系統版本欄位的語意與關聯，不會進入 release 範圍，Version report 也認不得它。",
+   "A": "TMP 在 Features 裡開啟 Releases 之後，<strong>是有 Fix versions 欄位可用的</strong>。",
+   "B": "不必轉成 CMP——<strong>Fix versions 在 TMP 就可以用</strong>，只要先開啟 Releases 功能。"
   },
   "sources": [
    "https://jira.atlassian.com/browse/JRACLOUD-85690",
@@ -915,10 +915,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "Timeline 以 epic → child 階層呈現；沒有 parent 的 issue 在階層檢視下不會出現。現行 Timeline 若關閉 Show inline hierarchy 會改為平面清單，可包含它們。",
-   "B": "Assignee 不影響顯示。",
-   "C": "版本不是顯示條件。",
-   "D": "Timeline 顯示各狀態。"
+   "A": "正解。Timeline 預設以 <strong>epic → child 的階層方式</strong>呈現（Show inline hierarchy 開啟），在這個模式下 <strong>child 必須縮排在自己的 parent 底下，所以沒有 parent 的 issue 沒有位置可以放、不會顯示</strong>；sub-task 也同樣不會出現。解法有兩個：把它掛到某個 epic 底下，或是<strong>關閉 Show inline hierarchy 切換成平面清單</strong>（官方原文說這時會顯示沒有 parent 的工作）。答題時記得預設是開啟的。",
+   "B": "assignee 是不是空的<strong>完全不影響</strong> Timeline 的顯示。",
+   "C": "版本（Fix Version）不是 Timeline 的顯示條件，沒填一樣看得到。",
+   "D": "Timeline 會顯示<strong>各種狀態</strong>的工作，不是只有 Done。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/what-is-the-roadmap/",
@@ -945,10 +945,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "Browse 只能看。",
-   "B": "Versions 屬 project 設定，由 Administer Projects 管；現行另有細分的 Manage Versions 權限。",
-   "C": "不需要 Jira admin。",
-   "D": "Sprint 與 version 是不同物件。"
+   "A": "Browse Projects 只能看，<strong>建立與管理 version 需要更高的權限</strong>。",
+   "B": "正解。versions 屬於 project 層級的設定，由 <strong>Administer Projects</strong> 管理；官方的 Manage versions 頁另外列出了細分的 <strong>Manage Versions</strong> 權限。實務上 project admin 就能建立、發布、封存、合併與刪除版本，<strong>不需要 Jira admin</strong>。（另外提醒：TMP 要先在 Features 開啟 Releases 才有這個功能。）",
+   "C": "不需要 Administer Jira——這是 project 層級的工作，project admin 自己就能做。",
+   "D": "Manage Sprints 管的是 sprint，<strong>sprint 與 version 是兩個完全不同的物件</strong>：sprint 屬於 board、是時間框架；version 屬於 project、是交付的包裹。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/",
@@ -975,10 +975,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "不會刪 issue。",
-   "C": "刪除對話框讓你選擇把 Fix／Affects 版本值換成另一個版本或移除。",
-   "D": "可以刪，但要處理 issue 的版本值。",
-   "A": "Archive 是另一個動作。"
+   "B": "<strong>絕對不會刪除 issue</strong>。刪除 version 只是移除這個「包裹」的定義，裡面的工作完好無缺。",
+   "C": "正解。Jira 會跳出對話框，要求你決定<strong>那些 issue 的 Fix／Affects 版本值該怎麼處理——換成另一個版本，還是直接移除版本關聯（欄位變空白）</strong>。這道提問是刻意的保護機制，避免資料悄悄斷掉。順帶對照 Merge：<strong>Merge 是把 issue 全部搬到目標版本，Delete 則讓你選擇搬走或斷開</strong>。",
+   "D": "<strong>可以刪除</strong>，只是必須先回答上面那個問題。Jira 不會因為版本底下有 issue 就拒絕。",
+   "A": "Archive 是另一個獨立的動作，Jira <strong>不會</strong>在你按 Delete 時自作主張改成封存。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/"
@@ -1003,10 +1003,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "Component 有 lead 與 default assignee，是唯一能自動指派的分類方式。",
-   "B": "Category 是分類 project，不是 issue。",
-   "C": "不是結構化資料。",
-   "D": "無關。"
+   "A": "正解。<strong>component 是唯一能做到自動指派的分類方式</strong>：每個 component 可以指定 <strong>Component lead</strong> 並把 <strong>Default assignee</strong> 設成 Component lead，新 issue 一掛上該 component、Assignee 留 Automatic，就會自動指派給對應的負責人。label 與 custom field 都沒有這個能力（要另外寫 automation）。前提是這必須是 <strong>company-managed project</strong>。",
+   "B": "<strong>project category 分類的是「project」，不是「issue」</strong>——它讓你在專案目錄裡把相似的 project 分群，跟 issue 的模組歸屬完全是兩回事。",
+   "C": "在 Summary 加前綴不是結構化資料：<strong>無法可靠地篩選與統計</strong>（打錯字就漏了），更不可能自動指派。",
+   "D": "dashboard 的標題只是顯示文字。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/organize-work-with-components/"
@@ -1032,10 +1032,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "Label 任何人都能新建，無法限制拼字。",
-   "B": "Select list 由 Jira admin 定義選項，跨 project 一致、可報表。",
-   "C": "過度設計。",
-   "D": "不可搜尋統計。"
+   "A": "<strong>label 任何有 Edit Issues 的人打字就能新建，完全無法限制拼字</strong>——最後一定會長出 Gold、gold、GOLD 三種寫法，報表被拆散。",
+   "B": "正解。<strong>select list 型別的 custom field 由 Jira admin 定義固定選項</strong>，使用者只能從清單挑，所以不會有拼字問題；而且它是全站物件，<strong>跨 project 一致、報表也能可靠地分群統計</strong>。這正是官方點名「選項型欄位勝過 label」的理由。",
+   "C": "為了兩個等級而建兩個 project 是嚴重的過度設計，會讓 backlog 被切開、設定與權限都要維護兩套。",
+   "D": "寫在 Description 裡的文字<strong>無法被結構化地搜尋與統計</strong>，做不出可靠的報表。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/custom-fields-types-in-company-managed-projects/"
@@ -1062,10 +1062,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Screen 不會改變 project 類型的能力。",
-   "C": "Components 是 CMP 專屬功能。",
-   "D": "Components 是 project 內物件。",
-   "A": "無關。"
+   "B": "screen 決定的是「issue 畫面上顯示哪些欄位」，<strong>它不會讓一個 project 型態獲得它本來沒有的功能</strong>。",
+   "C": "正解。<strong>components 是 company-managed project 專屬功能</strong>，官方原文明講它的範圍限定在建立它的那個 space，TMP 完全沒有這個東西。替代方案是用 <strong>label</strong>（全站共用、無管控）或由 project admin <strong>自建一個 select 欄位</strong>（選項受控，但只存在於該 project）。<strong>兩種替代方案都做不到自動指派</strong>，那部分只能靠 automation 補；如果自動指派是硬需求，正確答案其實是改用 CMP。",
+   "D": "<strong>component 是 project 內的物件</strong>，每個 project 各自建立、互不相通，不會全站一致。",
+   "A": "sprint 跟 components 毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/organize-work-with-components/"
@@ -1091,10 +1091,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "官方明列 custom field 建立後不能更改型別。",
-   "D": "正確做法。",
-   "A": "無關。",
-   "B": "無關。"
+   "C": "這個敘述是錯的——<strong>官方明列 custom field 一旦建立就不能更改型別</strong>，設定介面上根本沒有這個選項。",
+   "D": "正解。正確做法是走一套遷移流程：<strong>建立一個新的 Number 欄位 → 把它加進對應的 screen → 用 bulk edit 依舊欄位的值分批填進新欄位 → 確認報表與 JQL 都改用新欄位之後，再把舊的 text 欄位從 screen 隱藏</strong>（先別急著刪，保留一段時間以防需要核對）。這也是為什麼建立 custom field 前值得多想一下型別——事後補救的成本相當高。",
+   "A": "顏色跟欄位型別毫無關係。",
+   "B": "board 名稱跟欄位型別毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/custom-fields-types-in-company-managed-projects/"
@@ -1119,10 +1119,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Assignee 永遠單值。",
-   "A": "Components 是多值欄位。",
-   "B": "不會自動拆。",
-   "C": "沒有這種限制。"
+   "D": "<strong>Assignee 欄位永遠是單值</strong>，一張 issue 只能有一位負責人。",
+   "A": "正解。<strong>Components 是多值欄位，一張 issue 可以同時屬於好幾個模組</strong>；但 <strong>Assignee 永遠只有一個值</strong>。這正是「多 component 自動指派」需要一套優先序規則的原因——分類可以多值，指派卻只能挑一個人（先比 default assignee 類型優先序，同級再比 component 名稱字母序）。",
+   "B": "Jira <strong>不會</strong>因為選了兩個 component 就自動把 issue 拆成兩張。",
+   "C": "沒有這種限制，兩個 component 的 lead 可以完全不同——這正是自動指派需要優先序規則的原因。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/organize-work-with-components/"
@@ -1147,10 +1147,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "刪除選項會影響已有該值的 issue。",
-   "B": "Disable 只是讓選項不再出現在新的選取清單，既有 work item 上的值保留（欄位選項在 context 下管理）。",
-   "C": "改名會讓歷史值一起變。",
-   "D": "過度。"
+   "A": "<strong>刪除選項會影響已經填了該值的 issue</strong>，這正好違反題目「保留歷史值」的要求。",
+   "B": "正解。<strong>Disable 與 Delete 是兩個不同層次的操作</strong>：Disable 只是讓這個選項<strong>不再出現在新的選取清單裡</strong>，<strong>既有 issue 上的值完整保留、JQL 也還查得到</strong>；Delete 才是移除選項的定義。退役舊代碼時就該用 Disable。但要提醒一件事：<strong>停用不代表已經批次清掉歷史值</strong>，舊 issue 上那個值還在，做報表時仍會出現。",
+   "C": "改名會讓<strong>所有歷史 issue 上顯示的值一起改變</strong>，等於竄改了歷史紀錄。",
+   "D": "刪除整個欄位是嚴重的過度反應，會連帶失去所有其他選項的資料。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/edit-a-custom-fields-options/",
@@ -1177,10 +1177,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Component 屬於單一 project。",
-   "C": "跨 project 要一致分類應改用 labels 或全站 custom field。",
-   "D": "Lead 不影響歸屬。",
-   "A": "不同 project 可以同名。"
+   "B": "<strong>component 不是全站物件</strong>，它屬於單一 project——這是它與 label 最大的差別。",
+   "C": "正解。<strong>component 是 project 內的物件，同名也是兩個完全獨立的東西</strong>：各有自己的 ID、lead 與 default assignee，值不互通、報表也不會合併。這跟「兩個 TMP 有同名 custom field」「兩個 project 有同名 version」是完全一樣的道理。<strong>要做跨 project 一致的分類，該用 label 或全站的 custom field</strong>。",
+   "D": "lead 是誰完全不影響 component 的歸屬——就算兩個同名 component 的 lead 是同一個人，它們仍然是兩個物件。",
+   "A": "不同 project <strong>可以</strong>有同名的 component，Jira 完全允許。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/organize-work-with-components/"
@@ -1206,10 +1206,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "單人。",
-   "D": "多人 user picker。",
-   "A": "選群組不是選人。",
-   "B": "純文字。"
+   "C": "User picker 的 <strong>single user</strong> 版本只能選一個人。",
+   "D": "正解。<strong>User picker (multiple users)</strong> 就是為了在同一張 issue 選多個人而設計的。順帶記兩個相關重點：user picker 型的欄位<strong>可以用 context 的 Edit User Filtering 限定候選範圍</strong>（例如只顯示某個 group 或 project role 的人），而且它<strong>可以當作 permission scheme 的授權對象</strong>（User custom field value），做出「這張 issue 各自指定的審核者才能 resolve」這種動態授權。",
+   "A": "Group picker 選的是<strong>群組</strong>，不是個別的人，而且 single 版本只能選一個群組。",
+   "B": "Short text 是純文字欄位，打進去的名字<strong>只是字串</strong>，不是結構化的使用者資料，無法用來授權或篩選。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/custom-fields-types-in-company-managed-projects/"
@@ -1234,10 +1234,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Label 沒有順序語意。",
-   "A": "Jira Cloud 現行已提供 priority scheme。",
-   "B": "Component 是分類不是優先級。",
-   "C": "這是舊說法，現行已有。"
+   "D": "label 只是一串文字，<strong>沒有先後順序的語意</strong>，也無法拿來排序。",
+   "A": "正解。<strong>Jira Cloud 現行已經提供 priority scheme</strong>：可以定義不同的 priority 集合，指派給不同的 project，並設定各自的預設值；多個 project 也能共用同一份 scheme，沒有指定的 project 則使用內含全站所有 priority 的預設 scheme。入口在 ⚙ → Work items → Priorities／Priority schemes（需要 Jira app admin）。要注意它處理的是 <strong>Priority 這個系統欄位的選項</strong>，不等於新增一個 custom field。",
+   "B": "component 是用來分類「工作屬於哪個模組」的，<strong>沒有優先順序的語意</strong>。",
+   "C": "這是<strong>過時的說法</strong>。舊資料常說 Jira Cloud 沒有 priority scheme，但官方現行文件已經提供這個功能——這也是本教材特別標注的更新點之一。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/manage-priority-schemes/"
@@ -1262,10 +1262,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "Label 是全站共用、任何人打字即建，無空白、區分大小寫。",
-   "C": "任何人都能建。",
-   "D": "Label 全站共用。",
-   "A": "只有 component 有 default assignee。"
+   "B": "正解。這三條規則要一起記：<strong>label 不能包含空白</strong>（要用連字號或底線代替）、<strong>大小寫不同就是不同的 label</strong>（<code>UX</code> 與 <code>ux</code> 是兩個），而且<strong>它是全站共用的</strong>——不同 project 打同一個字就是同一個 label，這正是它適合做跨 project 標記的原因，也是它容易失控的原因。",
+   "C": "<strong>任何有 Edit Issues 權限的人打字就能建立新的 label</strong>，完全沒有審核，這正是它難以管控的根源。",
+   "D": "<strong>label 是全站共用的</strong>，不是 project 內物件——這一點跟 component 剛好相反。",
+   "A": "<strong>只有 component 有 default assignee</strong>。label 沒有任何屬性可以設定。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/update-an-issues-details/"
@@ -1290,10 +1290,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "不同物件。",
-   "C": "Context default value 由 Jira admin 設；component default assignee 由 project admin 設，分別控制不同行為。",
-   "D": "不會同步。",
-   "A": "Context 由 Jira admin 管。"
+   "B": "兩者是完全不同的物件與行為，只是中文都用了「預設」兩個字，很容易混淆。",
+   "C": "正解。兩者只是名稱相似，行為完全不同：<strong>context 的 default value 是「建立 issue 時自動預先填入這個欄位的值」</strong>（使用者仍可改）；<strong>component 的 default assignee 則是「Assignee 留 Automatic 時，這張 issue 該指派給誰」的規則</strong>。而且 <strong>custom field 沒有 component lead 那一套內建的指派規則</strong>——雖然它可以拿來當 automation 的判斷條件。",
+   "D": "兩者<strong>完全不會互相同步</strong>，各自獨立設定。",
+   "A": "兩者的設定者不同：<strong>custom field 的 context 由 Jira admin 管理</strong>（它是全站物件的設定），<strong>component 的 default assignee 則由 project admin 設定</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/custom-fields-types-in-company-managed-projects/",
@@ -1320,10 +1320,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Lead 是誰不重要，重要的是 component 的 default assignee 設定；設 Project default 就回到 project 層。",
-   "A": "Project default 是 Unassigned，所以結果是 Unassigned。",
-   "B": "沒有這種預設。",
-   "C": "Assignee 單值。"
+   "D": "這是最容易誤選的一個——看到 component 有 lead 就直覺認為會指派給他。<strong>lead 只是一個欄位，要它生效必須把 default assignee 設成「Component lead」</strong>；這裡設的是 Project default，所以 Amy 不會被指派。",
+   "A": "正解。關鍵在於<strong>要看的是 component 的「default assignee 設定」，而不是它的 lead 是誰</strong>。Payments 雖然有 lead（Amy），但它的 default assignee 明確設成了 <strong>Project default</strong>，意思是「我不做決定，回去用 project 的設定」——而 project 的設定是 Unassigned，所以結果就是 Unassigned（前提是站台的 Allow unassigned issues 是開啟的）。",
+   "B": "Jira <strong>沒有「預設指派給建立者」</strong>這種規則。",
+   "C": "<strong>Assignee 永遠是單值</strong>，不可能兩個人共同持有。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/who-does-the-automatic-assignee-option-assign-an-issue-to/",
@@ -1350,10 +1350,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "字母順序只在「同類型」平手時才用；不同類型先比優先序。",
-   "B": "優先序 Component lead > Project lead > Unassigned > Project default。",
-   "C": "選取順序不是依據。",
-   "D": "無關。"
+   "A": "這是最常見的誤解。<strong>字母順序只在「default assignee 類型相同、分不出高下」時才用得上</strong>；類型不同時要先比優先序，根本輪不到比字母。",
+   "B": "正解。判斷分兩步：<strong>第一步比 default assignee 的類型優先序——Component lead（1）＞ Project lead（2）＞ Unassigned（3）＞ Project default（4）</strong>。Zebra 是 Component lead（第 1 級），Alpha 是 Project default（第 4 級），<strong>Zebra 直接勝出</strong>，不必比字母序。所以答案是 Zebra 的 component lead（前提是他有 Assignable User 權限）。",
+   "C": "選取的先後順序<strong>不是任何判定依據</strong>。",
+   "D": "Reporter 跟自動指派的決策鏈毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/"
@@ -1379,10 +1379,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "比的是 component 名稱。",
-   "C": "官方 KB：同類型平手時依 component 名稱字母順序。",
-   "D": "沒有這種規則。",
-   "A": "那是 automation 的 balanced workload。"
+   "B": "比較的是 <strong>component 的名稱</strong>，不是 lead 的姓名——這是很容易記反的一組。",
+   "C": "正解。官方 KB 明訂：<strong>當多個 component 的 default assignee 類型相同、分不出優先序時，依「component 名稱」的字母順序取第一個</strong>。所以要記牢兩件事：<strong>比的是 component 名稱（不是 lead 的名字、不是建立順序），而且這是第二關——第一關永遠是先比 default assignee 的類型優先序</strong>。（附帶一提，這一項官方 KB 與部分第三方題庫說法不同，教材以官方 KB 為準，站台實測項目另列在 SITE-VERIFY 清單。）",
+   "D": "完全沒有這種規則。",
+   "A": "依工作量分派是 <strong>automation 的 Balanced workload</strong> 才有的能力，<strong>component 的自動指派完全不看工作量</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/"
@@ -1408,10 +1408,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "History 顯示誰在何時改了欄位；若是 automation 做的，audit log 會有紀錄。",
-   "A": "無助於找原因。",
-   "B": "不對症。",
-   "C": "不合理。"
+   "D": "正解。<strong>第一步永遠是開 issue 的 History</strong>，它會顯示「誰在什麼時間把 assignee 從 Amy 改成 Ben」。這一步的價值在於<strong>分辨是「一開始就指錯」還是「後來被改掉」</strong>——你是手動選的 Amy，代表初始指派完全正確，幾秒後的變更是<strong>另一個獨立事件</strong>。第二步再去比對同時段的 <strong>automation audit log</strong>，找出是哪一條規則（也可能是 workflow 的 post function）動的手。",
+   "A": "刪除帳號是極端且不可逆的操作，<strong>對找出原因毫無幫助</strong>。",
+   "B": "改 component 名稱是在動「字母序」那條規則，但<strong>手動指派根本沒有走 component 決策鏈</strong>（決策鏈只在 Assignee 留 Automatic 時才啟動），完全不對症。",
+   "C": "這不是合理的排查手段。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/"
@@ -1437,10 +1437,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "只在 Assignee 為空時才指派，保留人工選擇。",
-   "B": "正好覆蓋人工指派。",
-   "C": "不影響 assignee。",
-   "D": "無關。"
+   "A": "正解。在 Assign issue 這個 action 之前加一個 <strong>Issue fields condition：Assignee is empty</strong>，規則就只會在「沒有人被指派」時才動作，<strong>完整保留建立者手動選擇的結果</strong>。這是撰寫 automation 的一個重要習慣——<strong>讓規則具備冪等性、只在該做的時候才做</strong>，而不是無條件覆蓋。",
+   "B": "「先清空再指派」正好是<strong>最糟的做法</strong>：它保證每次都會覆蓋掉人工指派，完全違反題目要求。",
+   "C": "把人設成 watcher 只是讓他收到通知，<strong>完全不影響 Assignee 欄位</strong>。",
+   "D": "版本日期跟指派毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-conditions/",
@@ -1467,10 +1467,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "考試版官方文件：只有兩種。",
-   "B": "要指派其他人就先換 project lead，或用 component／automation。",
-   "C": "沒有 Reporter 選項。",
-   "D": "Component lead 是 component 層的設定。"
+   "A": "這是最常見的誤解——<strong>它不是一個可以自由挑人的 user picker</strong>。",
+   "B": "正解。官方文件明訂 Details 頁的 Default assignee <strong>只有兩個選項：Unassigned 或 Project lead（現行稱 Space owner）</strong>。想讓新 issue 預設指派給其他人，有三條路：<strong>把那個人改設為 project lead</strong>、<strong>用 component 的 default assignee</strong>（可以依模組分流），或<strong>寫一條 automation</strong>（最彈性）。",
+   "C": "下拉裡<strong>沒有 Reporter 這個選項</strong>。（不過 automation 倒是可以做到「指派給 reporter」。）",
+   "D": "Component lead 是 <strong>component 層級</strong>的設定選項（在 Project settings → Components 裡），不會出現在 project 的 Details 頁。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/"
@@ -1495,10 +1495,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Lead 缺席不會移除 Unassigned。",
-   "C": "全站設定 Allow unassigned issues 關閉時，任何地方都不能選 Unassigned。",
-   "D": "TMP 也能選 Unassigned。",
-   "A": "無關。"
+   "B": "就算 project 目前沒有指定 lead，<strong>也不會讓 Unassigned 這個選項消失</strong>——兩者是獨立的選項。",
+   "C": "正解。<strong>站台層級的開關「Allow unassigned issues」（⚙ → System → General configuration）被關閉時，整個站台都不允許存在沒有 assignee 的 issue</strong>，所以任何地方的 Unassigned 選項都會消失——不只 project 的 Details 頁，component 的 default assignee 也一樣。這個開關只有 <strong>Jira admin</strong> 能改，而且影響全站。",
+   "D": "TMP 也可以選 Unassigned，這跟 project 的類型無關。",
+   "A": "Reporter 的權限跟這個下拉選單的內容毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/"
@@ -1523,10 +1523,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "沒有 Assignable User 的人不能成為 assignee。",
-   "D": "官方 KB 說明被指派者必須可被指派；至於改指派給誰，官方未逐一保證，不要背固定 fallback。",
-   "A": "Jira 不會自動改權限。",
-   "B": "Issue 仍會建立。"
+   "C": "<strong>沒有 Assignable User 權限的人，在任何情況下都不能成為 assignee</strong>，Jira 不會強制指派。",
+   "D": "正解。官方 KB 明確說明<strong>被指派者必須具備 Assignable User 權限</strong>，否則 Jira 無法把 issue 指派給他（KB 原文舉的例子正是「Jupiter 雖然是 Component Lead，但她沒有 Assignable user 權限，所以 Jira 無法指派」）。<strong>正確的處理是補上這個權限</strong>。至於他被跳過之後系統改指派給誰，官方並未逐一列出所有混合情境的 fallback，所以<strong>不要背一套固定的 fallback 順序</strong>——教材把它列為需要站台實測的項目。",
+   "A": "Jira <strong>不會自動幫任何人補上權限</strong>，權限一律要由管理員明確授予。",
+   "B": "issue <strong>照常會被建立</strong>，只是 assignee 欄位不會填上阿宏。"
   },
   "sources": [
    "https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/"
@@ -1552,10 +1552,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Components 依分類指派，不會輪流。",
-   "A": "Automation 提供 round robin、balanced workload 等指派方式。",
-   "B": "Project lead 只能一人。",
-   "C": "不會指派。"
+   "D": "component 的自動指派是<strong>依分類（掛哪個 component）決定指派給誰</strong>，它指向的永遠是同一個固定的人，<strong>做不出輪流的效果</strong>。",
+   "A": "正解。<strong>automation 的 Assign issue action 內建了 Round robin（依序輪流）與 Balanced workload（指給手上未完成 issue 最少的人）</strong>，正好對應「輪流」這個需求，還可以排除特定人或限定群組。選擇建議：工作大小相近就用 Round robin，工作大小差異大就用 Balanced workload。",
+   "B": "<strong>project lead 只能有一個人</strong>，三個人設不進去；而且 lead 也不會輪流。",
+   "C": "設成 Unassigned 是「不指派任何人」，跟輪流指派完全相反。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/"
@@ -1581,10 +1581,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "兩處文件描述不同。",
-   "B": "這是 A 教材查證後的界線；不要假設兩個入口行為一致。",
-   "C": "沒有這種規則。",
-   "D": "取決於設定。"
+   "A": "兩處的官方文件描述並不相同，不能假設一致——這正是本題的重點。",
+   "B": "正解。這是一組同名但行為不同的陷阱：<strong>automation 的 Assign work item action 裡的「Automatic」，官方文件描述為「指派給 project 的 default assignee」</strong>；而<strong>建立 issue 表單上 Assignee 欄位的「Automatic」，走的是完整的 component → project default 決策鏈</strong>。實務上常見的災情就是團隊以為 automation 會照 component 分流，結果全部落到 project lead 身上。<strong>排查時要看實際的 action 設定與 audit log，不要憑名稱假設兩個入口行為一致</strong>；要按 component 分流就加條件搭配指定人或欄位複製。",
+   "C": "沒有這種規則，指派給 reporter 要另外用「從欄位複製」的方式設定。",
+   "D": "表單的 Automatic 結果取決於 component 與 project 的設定，<strong>不一定是 Unassigned</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/",
@@ -1611,10 +1611,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "Layout 的 Hide when empty 區：空值時收合，有值才顯示。",
-   "B": "無法解釋。",
-   "C": "無法解釋。",
-   "D": "沒有這種自動行為。"
+   "A": "正解。issue layout 的 <strong>Context fields 區有一條「Hide when empty」分隔線</strong>：放在它下方的欄位，<strong>沒有值時會被收進「Show x more fields」摺疊區，一旦填了值就自動升到 Details 區顯示出來</strong>。這個設計讓不常用的欄位平常不佔版面，有資料時又不會被埋起來。所以「同一份 layout 底下不同 issue 的欄位排列不太一樣」是正常的，不是設定錯亂。",
+   "B": "刪除又還原不會造成這種「填了值才出現」的行為。",
+   "C": "使用者的帳號狀態跟欄位顯示邏輯無關。",
+   "D": "Jira <strong>不會自動新增 scheme</strong>，這不是系統會做的事。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/"
@@ -1640,10 +1640,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "建立畫面的欄位由 Create screen 決定（screen scheme 對 operation 分別設定）。",
-   "C": "無關。",
-   "D": "無關。",
-   "A": "無關。"
+   "B": "正解。<strong>screen scheme 會針對三種 operation（Create、Edit、View）分別指定要用哪一張 screen</strong>，所以完全可能出現「檢視畫面有這個欄位、建立畫面卻沒有」的情況——那代表這個欄位被加進了 View screen，卻沒有加進 Create screen。要修得請 Jira admin 把欄位補到 Create screen 上。這也是「建立時填不到 Original estimate，既有 issue 卻能 Log work」那類問題的成因。",
+   "C": "project 的圖示跟欄位毫無關係。",
+   "D": "watcher 名單跟欄位顯示無關。",
+   "A": "sprint goal 跟欄位顯示毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/"
@@ -1669,10 +1669,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Layout 不影響 API 與搜尋。",
-   "C": "要限制誰能看，得靠權限模型。",
-   "D": "改名不限制存取。",
-   "A": "篩選不是授權。"
+   "B": "<strong>layout 完全不影響 API 與搜尋</strong>——資料照樣讀得到、JQL 照樣查得到。",
+   "C": "正解。這是一個重要的安全觀念：<strong>issue layout 只是「呈現層」，不是權限邊界</strong>。把欄位拖到 Hidden 只是讓它不顯示在這個 project 的 issue 畫面上，<strong>資料完好、JQL 查得到、API 讀得到、報表也算得到</strong>。真的要限制誰能看到機密資料，得用<strong>權限模型</strong>——issue security level（控制整張 issue 的可見度）或 field configuration（在更底層隱藏欄位，連 JQL 都認不得）。",
+   "D": "改名字對存取控制毫無作用。",
+   "A": "quick filter 只是篩選畫面上顯示哪些卡片，<strong>它完全不是授權機制</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/"
@@ -1698,10 +1698,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "Layout 是針對 screen 設定；共用同一個 View screen 的 issue type 會一起生效。",
-   "A": "Layout 是 per project／per screen。",
-   "B": "錯誤。",
-   "C": "無關。"
+   "D": "正解。<strong>issue layout 是掛在 screen 上的，不是掛在 issue type 上</strong>——當 Task 與 Sub-task 共用同一個 View screen 時，改動當然會同時反映在兩者身上。所以動手之前要先確認<strong>你正在調整的是哪一張 screen、它涵蓋了哪些 issue type</strong>。真的需要分開，得請 Jira admin 複製一份 screen 與 screen scheme 給其中一種專用。改完之後養成用另一個共用同 screen 的 type 開一張 issue 驗證的習慣。",
+   "A": "layout 是 <strong>per project、per screen</strong> 的設定，不會全站永遠共用。",
+   "B": "sub-task 當然有欄位，這個敘述本身就錯了。",
+   "C": "跟權限毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/"
@@ -1727,10 +1727,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "欄位在 layout 上 ≠ 能改；Assignee 受 Assign Issues 控制，被指派者要有 Assignable User。",
-   "B": "無關。",
-   "C": "位置不影響權限。",
-   "D": "無關。"
+   "A": "正解。要分兩個方向查：<strong>操作者本身有沒有 Assign Issues 權限</strong>（沒有的話欄位會是唯讀的），以及<strong>他想指派的那個人有沒有 Assignable User 權限</strong>（沒有的話那個人不會出現在候選清單裡）。這題的核心觀念是：<strong>欄位出現在 layout 上，不代表使用者有權修改它</strong>——layout 決定「顯不顯示」，permission scheme 決定「能不能改」。同一組邏輯也適用於 Reporter（Modify Reporter）與 Due date（Schedule Issues）。",
+   "B": "背景圖跟權限毫無關係。",
+   "C": "欄位放在畫面的哪個位置<strong>完全不影響權限</strong>。",
+   "D": "有沒有收藏（watch）這張 issue 跟能不能編輯無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/work-item-permissions/",
@@ -1757,10 +1757,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "未共用時 project admin 可改。",
-   "B": "官方限制：screen 被其他 project 共用時只有 Jira admin 能改。",
-   "C": "無關。",
-   "D": "CMP 也能改。"
+   "A": "這句話太絕對了——<strong>screen 沒有被共用時，project admin 是可以自由調整 layout 的</strong>。",
+   "B": "正解。Jira 為了避免一個 project 的調整波及其他 project，<strong>當 screen 被多個 project 共用時，會把 layout 鎖住，只有 Jira admin 能改</strong>。解法是請 Jira admin <strong>複製一份 screen 與 screen scheme 給這個 project 專用</strong>，脫離共用之後就解鎖了。這個模式在 CMP 反覆出現——<strong>只要物件是共用的，權限就會被拉高到 Jira admin</strong>，workflow 與 field configuration 也是同樣的道理。",
+   "C": "issue 的狀態跟能不能改 layout 毫無關係。",
+   "D": "CMP 也能改 layout（只要 screen 沒被共用）；TMP 則是連欄位本身都能自己建。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/"
@@ -1786,10 +1786,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "Description fields（左側 rich text）、Context fields（右側 Details／More fields）、Hidden（不顯示）。",
-   "D": "那是欄位不是區域。",
-   "A": "那是 screen operation。",
-   "B": "不是官方分類。"
+   "C": "正解。issue layout 分成三個可設定的區域：<strong>Description fields</strong>（左側的多行 rich text 區，放 Description、Environment 等）、<strong>Context fields</strong>（右側，內部又分成永遠顯示的 Details 與空值收合的 More fields）、以及 <strong>Hidden fields</strong>（不顯示，但資料仍在）。另外還有一個 <strong>Pinned fields</strong>，但它是<strong>每位使用者自己的偏好</strong>，不屬於 project 的 layout。",
+   "D": "這些是具體的欄位或功能區塊，不是 layout 的區域分類。",
+   "A": "Create、Edit、View 是 <strong>screen 的三種 operation</strong>（決定各種操作用哪一張畫面），不是 layout 的區域。",
+   "B": "這不是官方的分類方式。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/"
@@ -1814,10 +1814,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "官方明列 tab 是 Jira admin 的事。",
-   "D": "正確。",
-   "A": "與 board 無關。",
-   "B": "Tab 是 CMP screen 的功能。"
+   "C": "這正是本題要澄清的誤解——project admin <strong>不能</strong>建立 tab。",
+   "D": "正解。官方明列：<strong>建立與編輯 field tab 是 Jira admin 的權責</strong>（因為 tab 屬於 screen 這個全站物件），而且更容易被忽略的是——<strong>連「在 tab 內重新排列欄位」project admin 也做不到</strong>。project admin 能做的只有在 Description／Context／Hidden 三個區域之間拖曳欄位、移動分隔線。",
+   "A": "field tab 跟 board 完全無關，board admin 管的是 board 的設定。",
+   "B": "tab 是 <strong>CMP 的 screen 功能</strong>；TMP 沒有 screen 這種物件。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/"
@@ -1843,10 +1843,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "受 screen 限制。",
-   "A": "官方：複製到使用相同 screen 的 project；之後各自獨立，不會同步。",
-   "B": "不會同步。",
-   "C": "Project admin 自己可複製。"
+   "D": "<strong>受 screen 限制</strong>，不能複製到任何 project——目標 project 必須使用相同的 screen。",
+   "A": "正解。layout 頁提供的 <strong>Copy to other projects</strong> 功能有一個硬性前提：<strong>只能複製到使用「相同 screen」的 project</strong>。而且要注意複製是<strong>一次性的動作，之後兩邊各自獨立、不會持續同步</strong>——來源 project 日後再調整 layout，目標 project 不會跟著變。",
+   "B": "layout <strong>不會自動全站同步</strong>，它是各 project 各自的設定。",
+   "C": "不必請 Jira admin 重做，<strong>project admin 自己就能使用複製功能</strong>（前提是 screen 沒被共用而鎖住）。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/"
@@ -1872,10 +1872,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "與權限無關。",
-   "B": "考綱時代是 board 設定分頁；現行文件把路徑改到 Screens，權限仍是 Administer Projects。",
-   "C": "個人只能 pin 欄位。",
-   "D": "無關。"
+   "A": "permission scheme 決定的是「誰能做什麼」，<strong>不決定畫面上顯示哪些欄位</strong>。",
+   "B": "正解。這一項有<strong>新舊兩個版本</strong>要一起記：<strong>考綱時代（2023 V2）它是 board settings 底下的一個分頁</strong>，由 project admin 設定；<strong>現行官方文件則把設定路徑改到 Project settings → Screens →（該 issue type 的 scheme）→ View issue screen</strong>。<strong>兩個版本所需的權限都是 Administer Projects</strong>。考試若問「board 設定裡的 issue detail view 由誰管」，答 project admin／board admin 即可；實務操作時要走現行的 screen 路徑。另外提醒：欄位要先在該 issue type 的 screen 上、而且沒有被 field configuration 隱藏。",
+   "C": "一般使用者<strong>只能 pin（釘選）欄位</strong>，那是個人偏好；共用的顯示設定要有管理權限才能改。",
+   "D": "quick filter 是篩選卡片的工具，跟詳細面板顯示哪些欄位完全無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-the-issue-detail-view/"
@@ -1900,10 +1900,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Link 不會自動改變 workflow 行為。",
-   "A": "要阻擋轉換要靠 condition／validator 或 automation。",
-   "B": "無關。",
-   "C": "無關。"
+   "D": "<strong>link 不會自動變成任何 workflow 元件</strong>，兩者是完全獨立的機制。",
+   "A": "正解。<strong>issue link 純粹是一種「關聯的敘述」，它本身沒有任何強制力</strong>——Jira 不會因為 A blocks B 就阻止 B 被開始或完成。要真的擋住，得另外設定：CMP 用 <strong>workflow 的 condition 或 validator</strong>，或是用 <strong>automation</strong> 在條件不符時把 issue 轉回去。這是實務上常見的誤解，團隊以為建了連結就有約束力，結果流程照樣被跳過。",
+   "B": "附件跟 link 的行為毫無關係。",
+   "C": "assignee 是不是同一個人不影響 link 的行為。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/link-an-issue/"
@@ -1928,10 +1928,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "記工時要 Work On Issues；欄位還要在 screen／layout 上才有入口。",
-   "C": "無關。",
-   "D": "無關。",
-   "A": "無關。"
+   "B": "正解。要查的是兩個不同層次：<strong>① 權限——記錄工時需要獨立的 Work On Issues 權限</strong>（它歸在 permission scheme 的 Time tracking 群組，<strong>Edit Issues 不涵蓋它</strong>）；<strong>② 欄位——Time Tracking 欄位要真的在該 issue type 的 screen 上</strong>，欄位不在畫面上就沒有入口。順帶一提還有第三種可能：目前的 status 被設了 <code>jira.permission.work.denied</code> 這個 workflow property。",
+   "C": "component 名稱跟工時毫無關係。",
+   "D": "複製 issue 不會解決任何權限或欄位問題。",
+   "A": "改 Description 跟記工時毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/time-tracking-permissions/",
@@ -1958,10 +1958,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Remaining 可手動改。",
-   "C": "3h 已花 + 7h 剩餘 = 目前預估總量 10h。",
-   "D": "不需要換單位。",
-   "A": "已花仍是 3h。"
+   "B": "這個公式是錯的。<strong>Remaining estimate 是可以手動調整的獨立欄位</strong>，它代表「以現在的認知，還要花多久」，不是「原估減已花」的算術結果。",
+   "C": "正解。<strong>Remaining estimate 是目前重新評估的剩餘量，可以獨立填寫</strong>。所以 3h（已花）＋ 7h（剩餘）＝ <strong>目前預估總投入 10h</strong>，比原估的 8h 多了 2h——這正是它要傳達的資訊：這張工作被低估了。實務上要提醒團隊：<strong>不要為了讓數字好看，硬把 Remaining 填成 5h 來湊平原估</strong>，那會讓 burndown 失去預警價值。",
+   "D": "跟估算單位無關，story points 與 time tracking 是兩套並行的資料。",
+   "A": "已花的時間仍然是 <strong>3h</strong>，這個數字不會因為 Remaining 填多少而改變。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-time-tracking/"
@@ -1987,10 +1987,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "各產品各自授權。",
-   "D": "Smart link 只是連結，權限仍由 Confluence 決定。",
-   "A": "Watcher 是通知。",
-   "B": "顏色不是權限。"
+   "C": "這是很常見的誤解。<strong>Jira 與 Confluence 是兩個獨立的產品，各自有自己的權限體系</strong>，在 Jira 有權限不代表在 Confluence 也有。",
+   "D": "正解。<strong>不論是 Confluence page link、web link 還是 smart link，它們都只是「連結」</strong>——能不能打開那個頁面，完全由 <strong>Confluence 自己的空間與頁面權限</strong>決定。所以分享 issue 給同事之後，還要另外確認他有沒有那個 Confluence 頁面的存取權。這也是跨產品協作時最常被忽略的一環。",
+   "A": "watcher 只是<strong>接收通知</strong>的名單，完全不授予任何存取權——這一點在 Jira 內部也一樣（沒有 Browse 權限的 watcher 收到通知也打不開 issue）。",
+   "B": "連結的顏色跟權限毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/link-an-issue/"
@@ -2015,10 +2015,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "Issue key 是關聯依據；也可放在 PR 標題。",
-   "B": "無法辨識。",
-   "C": "無關。",
-   "D": "看開發面板需要 View Development Tools，不需要 admin。"
+   "A": "正解。<strong>issue key 就是 Jira 與 Bitbucket 之間唯一的膠水</strong>：把 key 放進 <strong>commit message、branch 名稱或 PR 標題</strong>，Jira 就能自動把這些開發資訊關聯到對應的 issue 上。格式要求是<strong>全大寫</strong>（兩個以上大寫字母＋連字號＋數字，例如 <code>MOB-12</code>），寫成小寫完全不會被辨識。",
+   "B": "只寫「done」<strong>沒有任何可辨識的資訊</strong>，Jira 無從知道這筆 commit 屬於哪張 issue。",
+   "C": "avatar 是純視覺設定，跟關聯機制毫無關係。",
+   "D": "看開發面板需要的是 <strong>View Development Tools</strong> 這個 project 權限，<strong>不需要 Jira admin</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/use-jira-cloud-with-bitbucket/"
@@ -2044,10 +2044,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "Workflow status property 可在特定狀態禁止記工時（值留空即可）。",
-   "C": "沒有 Browse 連 issue 都打不開。",
-   "D": "無關。",
-   "A": "無關。"
+   "B": "正解。這是 permission scheme <strong>之外</strong>的第三種限制：<strong>workflow 可以在特定的 status 上設定 <code>jira.permission.work.denied</code> 這個 property（值留空即代表全面禁止），讓該狀態不能記錄工時</strong>。官方文件提到它常被加在 Epic 的狀態上（避免有人把工時記在容器層）。同系列的還有 <code>jira.permission.edit.denied</code>、<code>jira.permission.comment.denied</code>、<code>jira.permission.attach.denied</code>。這些只有 <strong>Jira admin</strong> 能設定，而且不會出現在 permission scheme 裡，排查時很容易漏掉。",
+   "C": "如果沒有 Browse Projects，他連這張 issue 都打不開，不會走到「想記工時卻失敗」這一步。",
+   "D": "附件大小跟記工時無關。",
+   "A": "Fix Version 跟能不能記工時毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/use-workflow-properties/"
@@ -2073,10 +2073,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Outward 顯示在建立連結的那一端。",
-   "C": "另一端顯示 inward 描述。",
-   "D": "名稱不是顯示文字。",
-   "A": "那是內建 Relates。"
+   "B": "「causes」是 <strong>outward 描述</strong>，它顯示在<strong>發起連結的那一端</strong>（也就是 A 上面）。",
+   "C": "正解。每一種 link type 由三個字串組成：<strong>type 名稱（Problem/Incident）、outward 描述（causes）、inward 描述（is caused by）</strong>。你只建立了<strong>一條</strong>連結，Jira 在兩端各用適合的方向敘述來呈現它——<strong>A 上顯示「causes B」，B 上顯示「is caused by A」</strong>。理解這一點也才看得懂為什麼自訂 link type 要同時填兩個描述。",
+   "D": "type 的<strong>名稱</strong>只是管理介面上的分類標籤，<strong>不會顯示在 issue 上</strong>；issue 上顯示的是 outward／inward 描述。",
+   "A": "「relates to」是內建的 <strong>Relates</strong> link type 的描述，跟自訂的 Problem/Incident 無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-issue-linking/"
@@ -2102,10 +2102,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "10 MB 是舊敘述。",
-   "D": "管理頁的單檔上限可調；也要有 Create Attachments 權限。",
-   "A": "沒有 Browse 連 issue 都打不開，不會只是上傳失敗。",
-   "B": "CMP、TMP 都有附件。"
+   "C": "<strong>10 MB 是舊版文件的敘述</strong>，現行以管理頁為權威來源。",
+   "D": "正解。<strong>單檔大小上限由 Jira admin 在 ⚙ → System → Attachments（Configure file attachments）設定，現行預設是 1 GB、最大可設到 2 GB</strong>，但管理員可能刻意把它調低。要提醒的是這裡其實有<strong>兩層不同的限制</strong>：一層是單檔大小，另一層是<strong>整個站台的儲存容量</strong>（Free 每個 app 2 GB、Standard 250 GB、Premium 無上限），後者連 Jira admin 也調不了。另外也要確認使用者有 <strong>Create Attachments</strong> 權限。",
+   "A": "如果沒有 Browse Projects，他連這張 issue 都打不開，不會走到上傳這一步。",
+   "B": "<strong>CMP 與 TMP 都有附件功能</strong>，這個敘述不正確。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-file-attachments/"
@@ -2131,10 +2131,10 @@
   ],
   "answer": "A",
   "explain": {
-   "B": "Smart commit 靠 email 對應使用者。",
-   "C": "執行時以該使用者權限檢查。",
-   "D": "有必填欄位的 transition 無法透過 smart commit 完成。",
-   "A": "Issue key 本來就必須大寫；這不是失效原因。"
+   "B": "這<strong>是</strong>官方列出的第一個原因：<strong>commit 的作者 email 必須對應到「剛好一個」Jira 使用者</strong>，對不到人或對到多個帳號，smart commit 一律不執行。",
+   "C": "這<strong>是</strong>原因之一。smart commit 是「以那個使用者的身分」執行的，<strong>權限不會因為走 commit 這條路而放寬</strong>——要記工時就得有 Work On Issues，要轉狀態就得有 Transition Issues。",
+   "D": "這<strong>是</strong>官方列出的原因：<strong>transition 若有必填欄位（或 validator），smart commit 無法完成它</strong>，因為 commit message 裡沒辦法提供那些欄位的值。",
+   "A": "正解（本題問的是「<strong>不是</strong>常見原因」的那一項）。<strong>issue key 本來就必須全大寫</strong>——用大寫是正確的寫法，當然不會是失效的原因。反過來說，<strong>寫成小寫（mob-12）才會失效</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/process-issues-with-smart-commits/"
@@ -2159,10 +2159,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "新增靠 Work On Issues。",
-   "B": "Edit All／Own Worklogs 只管既有紀錄。",
-   "C": "無關。",
-   "D": "無關。"
+   "A": "<strong>新增工時紀錄靠的是 Work On Issues</strong>，這是最常見的混淆。",
+   "B": "正解。工時相關的權限要分成三類記：<strong>新增（Add）＝ Work On Issues；修改別人既有的紀錄 ＝ Edit All Worklogs；刪除別人的紀錄 ＝ Delete All Worklogs</strong>（另有對應的 Own 版本只管自己的）。所以<strong>擁有「All」的權限不代表就能新增工時</strong>——會出現「改得了別人的舊紀錄，自己卻加不了新的」這種狀況。排錯時先問清楚：<strong>是誰的紀錄、要做的是新增、修改還是刪除</strong>，再去對權限。",
+   "C": "刪除 issue 是 Delete Issues 權限，跟工時無關。",
+   "D": "看開發面板是 View Development Tools，跟工時無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/time-tracking-permissions/"
@@ -2187,10 +2187,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "兩個條件缺一不可。",
-   "D": "Browse 只能看 issue 本體。",
-   "A": "不需要 admin。",
-   "B": "與 assignee 無關。"
+   "C": "正解。<strong>兩個條件缺一不可</strong>：<strong>① 站台已經連接了開發工具</strong>（Bitbucket、GitHub、GitLab、Jenkins 等，沒連接就沒有資料來源）；<strong>② 這位使用者擁有 View Development Tools 這個 project 權限</strong>（缺了它整個面板都不會顯示，不是只有部分資料看不到）。這也是「同事看不到 release warnings、我卻看得到」最常見的原因。",
+   "D": "Browse Projects 只讓他看得到 issue 本體，<strong>開發資訊需要額外的權限</strong>。",
+   "A": "<strong>不需要 Jira admin</strong>，這是一個一般的 project 權限。",
+   "B": "跟他是不是 assignee 完全無關。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/use-jira-cloud-with-bitbucket/",
@@ -2217,10 +2217,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "Watcher 會收到該 work item 的通知；幫別人加 watcher 需要 Manage Watchers。前提是這位主管本身要有該 space 的 Browse 權限、並通過 work item security level——官方明訂通知只寄給看得到該 work item 的人，否則加了 watcher 也收不到。",
-   "A": "會改變 issue 語意。",
-   "B": "過度。",
-   "C": "無關。"
+   "D": "正解。<strong>把他加為 watcher</strong> 就會收到這張 issue 的更新通知；替別人加 watcher 需要 <strong>Manage Watchers</strong> 權限（替自己按 Watch 則人人都可以）。但有一個關鍵前提常被忽略：<strong>這位主管本身必須有該 project 的 Browse Projects 權限、並且通過 issue security level 的檢查</strong>——官方明訂通知只會寄給看得到那張 issue 的人，<strong>加了 watcher 也不會授予任何存取權</strong>。所以如果他根本沒有權限，正確做法是先解決權限，而不是硬加 watcher。",
+   "A": "把人設成 reporter 會<strong>竄改 issue 的語意</strong>（reporter 代表「誰提報的」），為了通知而改這個欄位是錯誤的做法。",
+   "B": "搬移 issue 是嚴重的過度反應，會改變 issue key 與所屬設定。",
+   "C": "priority 跟通知對象毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/watch-share-and-comment-on-an-issue/",

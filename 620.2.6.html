@@ -138,10 +138,10 @@
 </div>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:32%">需求</th><th>最合適</th><th>為什麼不是其他</th></tr>
-<tr><td>一眼看出每個人手上有幾張</td><td><strong>Swimlanes by Assignees</strong></td><td>card color by assignee 也行，但人多顏色就分不清；分組能直接數</td></tr>
-<tr><td>把 Blocker 拉到最上面優先處理</td><td><strong>Swimlanes by Queries</strong>（預設 Expedite）</td><td>上色不會改變位置</td></tr>
-<tr><td>Bug 一律紅色、其餘不變</td><td><strong>Card colors by Issue type</strong>（或 Queries）</td><td>分組會多一條 lane，不需要</td></tr>
-<tr><td>卡片直接顯示 due date 與 story points</td><td><strong>Card layout</strong></td><td>其他兩者不顯示欄位值</td></tr>
+<tr><td>一眼看出每個人手上有幾張</td><td><strong>Swimlanes by Assignees</strong></td><td>card color by assignee 也做得到，但人一多顏色就難以分辨；分成泳道可以直接數每一列有幾張，一眼看出誰負擔過重</td></tr>
+<tr><td>把 Blocker 拉到最上面優先處理</td><td><strong>Swimlanes by Queries</strong>（預設 Expedite）</td><td>上色只改變卡片的外觀，<strong>不會改變它在 board 上的位置</strong>；要讓工作浮到最上面必須用分組（swimlane）</td></tr>
+<tr><td>Bug 一律紅色、其餘不變</td><td><strong>Card colors by Issue type</strong>（或 Queries）</td><td>用 swimlane 會多出一整條橫列，改變了版面結構；這個需求只是想標示出來，用上色就夠了</td></tr>
+<tr><td>卡片直接顯示 due date 與 story points</td><td><strong>Card layout</strong></td><td>swimlane 與 card color 都只能分組或上色，<strong>沒辦法把欄位的值顯示在卡片上</strong>；要顯示數值只有 card layout 做得到</td></tr>
 <tr><td>Sub-task 跟著 parent 排</td><td><strong>Swimlanes by Stories</strong></td><td>—</td></tr>
 <tr><td>跨 project board 想分 project 看</td><td><strong>Swimlanes by Projects</strong></td><td>—</td></tr>
 </table></div>
@@ -155,10 +155,10 @@
 <tr><th style="width:20%">Base swimlanes on</th><th>行為</th></tr>
 <tr><td><strong>Queries</strong></td><td>每條 lane 一段 JQL；issue 進<strong>由上而下第一條符合</strong>的 lane；都不符合進 <strong>Everything Else</strong>（刪不掉、永遠在最下）。預設有一條 Expedite：<code>priority = Blocker</code>。lane 內的 <code>ORDER BY</code> 被忽略，一律照 rank</td></tr>
 <tr><td>Stories</td><td>每個 parent 一條 lane，其 sub-task 在底下；<strong>沒有 sub-task 的 issue</strong> 集中在所有 lane 下方</td></tr>
-<tr><td>Assignees</td><td>每人一條；Unassigned 可設在最上或最下</td></tr>
+<tr><td>Assignees</td><td>每一位被指派工作的人各佔一條 lane；未指派的 issue 會集中在 Unassigned 這條，可以選擇把它放在最上或最下</td></tr>
 <tr><td>Epics</td><td>依 parent epic 分；沒 epic 的在下方；<strong>epic 不在 board filter 內時它的 lane 不會出現</strong>（KB 常見問題）</td></tr>
-<tr><td>Projects</td><td>跨 project board 用</td></tr>
-<tr><td>No swimlanes</td><td>取消橫向分組</td></tr>
+<tr><td>Projects</td><td>專為跨 project board 設計，每個來源 project 各佔一條 lane</td></tr>
+<tr><td>No swimlanes</td><td>完全取消橫向分組，卡片回到單純的 column 排列</td></tr>
 </table></div>
 <p style="margin-top:.75rem">自己試：三條 query 用 ▲▼ 換順序，看同一張 issue 跑到哪條 lane。</p>
 <div id="s226-lab" class="card">
@@ -181,9 +181,9 @@
 <h2>四種上色依據，Queries 一樣是「第一個符合」</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">Colors based on</th><th>規則</th></tr>
-<tr><td>Issue types</td><td>每種 type 一色；預設 Bug 紅、Task 藍…可自訂</td></tr>
+<tr><td>Issue types</td><td>每一種 issue type 各給一個顏色，預設是 Bug 紅、Task 藍等等，顏色可以自己調</td></tr>
 <tr><td>Priorities</td><td>用全站 priority 設定的顏色（Jira admin 在 ⚙ → Issues → Priorities 定義）</td></tr>
-<tr><td>Assignees</td><td>Jira 自動分配顏色給被指派的人</td></tr>
+<tr><td>Assignees</td><td>Jira 會自動替每一位被指派工作的人分配一個顏色，人數一多就容易分不清誰是誰</td></tr>
 <tr><td><strong>Queries</strong></td><td>每條 JQL 一色；<strong>依第一個符合的 query 上色</strong>；都不符合＝<strong>灰色</strong>。官方例：<code>due <= "24h"</code>、<code>reporter = "Jane"</code>、<code>duedate > endOfMonth()</code></td></tr>
 <tr><td>None</td><td>不上色</td></tr>
 </table></div>
@@ -262,16 +262,16 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>Scrum master 想讓 Blocker 永遠在 board 最上面，其他不變。</summary><div class="a"><div class="tag">解答</div>Swimlanes by Queries，保留預設 Expedite（<code>priority = Blocker</code>）在最上；其餘落到 Everything Else。</div></details>
-<details class="q"><summary>Query swimlane 有「Bugs」（type = Bug）在第一條、「Expedite」在第二條，一張 Blocker 的 Bug 會在哪？</summary><div class="a"><div class="tag">解答</div>Bugs lane——由上到下第一個符合的 query 贏。</div></details>
-<details class="q"><summary>Swimlane query 裡寫了 <code>ORDER BY duedate</code>，lane 內卻沒照 due date 排。</summary><div class="a"><div class="tag">解答</div>正常，swimlane 的 ORDER BY 被忽略，lane 內一律照 rank。</div></details>
-<details class="q"><summary>Card colors by Queries 設了兩條，一張 issue 兩條都符合，會是什麼顏色？都不符合呢？</summary><div class="a"><div class="tag">解答</div>第一條 query 的顏色；都不符合是灰色。</div></details>
-<details class="q"><summary>PM 想在卡片上看到 Story points、Due date、Fix version、Labels 四個欄位。</summary><div class="a"><div class="tag">解答</div>Card layout 最多加 3 個，得取捨；Scrum 可讓 backlog 與 active sprint 各放不同的 3 個。</div></details>
-<details class="q"><summary>團隊週末不上班，burndown 每到週一都顯示「落後」。</summary><div class="a"><div class="tag">解答</div>Working days 沒把週六日拿掉；設好後 guideline 會在週末走平。</div></details>
-<details class="q"><summary>設了 working days 之後，Cumulative flow diagram 還是算週末。</summary><div class="a"><div class="tag">解答</div>正常，CFD 不在受影響清單（burndown、sprint／epic／version report、control chart、Sprint Health／Burndown gadget）。</div></details>
-<details class="q"><summary>兩個時區的團隊共用一張 board，sprint 起訖看起來差一天。</summary><div class="a"><div class="tag">解答</div>Working days 的 timezone 是每張 board 一組；分兩張 board 各自設，或統一用一個時區並告知。</div></details>
-<details class="q"><summary>卡片右下出現四個紅點是什麼意思？</summary><div class="a"><div class="tag">解答</div>Days in column：issue 在同一欄超過 20 天（含搬回來累計）。</div></details>
-<details class="q"><summary>Swimlanes by Epics 時，某個 epic 的 child 都在 board 上但 lane 沒出現。</summary><div class="a"><div class="tag">解答</div>該 epic 本身不在 board filter 內（例如屬於另一個 project）。把 epic 的 project 加進 filter，或改用其他 swimlane 依據。</div></details>
+<details class="q"><summary>Scrum master 想讓 Blocker 永遠在 board 最上面，其他不變。</summary><div class="a"><div class="tag">解答</div>用 <strong>Swimlanes by Queries</strong>，而且直接沿用內建的那條 <strong>Expedite</strong>（它的 JQL 就是 <code>priority = Blocker</code>），把它留在清單最上面即可。其他不符合的 issue 會自動落進 <strong>Everything Else</strong> 這條 lane，畫面上其餘部分完全不變。這題也順便釐清一個常見誤解：<strong>swimlane 只做分組，不會過濾掉任何 issue</strong>，所以不用擔心其他工作會消失。</div></details>
+<details class="q"><summary>Query swimlane 有「Bugs」（type = Bug）在第一條、「Expedite」在第二條，一張 Blocker 的 Bug 會在哪？</summary><div class="a"><div class="tag">解答</div>會出現在 <strong>Bugs</strong> 這條 lane。規則是<strong>由上而下比對，第一個符合的 query 就贏</strong>，比中之後就不再往下看了。這張 issue 同時符合 Bugs（type = Bug）與 Expedite（priority = Blocker），但因為 Bugs 排在第一條，它就被歸到那裡。想讓它進 Expedite，只要把 Expedite 拖到 Bugs 上面，或是把 Bugs 的 JQL 改成 <code>type = Bug AND priority != Blocker</code> 排除掉。</div></details>
+<details class="q"><summary>Swimlane query 裡寫了 <code>ORDER BY duedate</code>，lane 內卻沒照 due date 排。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常行為</strong>：swimlane 的 JQL 只被拿來判斷「這張 issue 屬不屬於這條 lane」，其中的 <code>ORDER BY</code> 會被<strong>直接忽略</strong>；lane 內部的排序一律照 board 的 rank。想改變順序，只能在 board 上手動拖曳（會改變 rank），或是回頭改 board filter 的 ORDER BY——但那會影響整張 board。</div></details>
+<details class="q"><summary>Card colors by Queries 設了兩條，一張 issue 兩條都符合，會是什麼顏色？都不符合呢？</summary><div class="a"><div class="tag">解答</div>套用<strong>第一條符合的 query 的顏色</strong>——跟 swimlane 一樣是由上而下比對，比中就停。如果一張 issue <strong>兩條都不符合</strong>，它會顯示成<strong>灰色</strong>（也就是沒有指定顏色的預設值）。所以設計 card color 規則時，順序很重要：把最需要被一眼看到的條件（例如快到期）排在最上面。</div></details>
+<details class="q"><summary>PM 想在卡片上看到 Story points、Due date、Fix version、Labels 四個欄位。</summary><div class="a"><div class="tag">解答</div>辦不到四個——<strong>card layout 最多只能額外加 3 個欄位</strong>（Summary、issue key、type、priority、assignee 頭像是本來就有的，不佔額度）。所以必須取捨，例如放 Story points、Due date、Labels，把 Fix version 留給 backlog 檢視。這裡有個實用技巧：<strong>Scrum board 可以替 Backlog 與 Active sprints 各設一組不同的欄位</strong>，規劃時看估點、執行時看到期日，等於變相多了幾個位置。Kanban board 就只有一組。</div></details>
+<details class="q"><summary>團隊週末不上班，burndown 每到週一都顯示「落後」。</summary><div class="a"><div class="tag">解答</div>因為這張 board 的 <strong>Working days 還沒有把週六、週日排除</strong>。burndown 的 guideline 預設是每天都該有進度，週末當然被畫成落後。到 ••• → Configure board → <strong>Working days</strong> 把週六日取消勾選（順便把國定假日加進 non-working days），guideline 就會在這些日子<strong>走平</strong>，週一的曲線也就回到正常位置。要留意這是<strong>每張 board 各自的設定</strong>，不是全站設定。</div></details>
+<details class="q"><summary>設了 working days 之後，Cumulative flow diagram 還是算週末。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常的</strong>，因為 <strong>CFD（Cumulative flow diagram）不在受 working days 影響的報表清單裡</strong>。官方列出會跳過非工作日的是：burndown chart、sprint report、epic report、version report、control chart，以及 Sprint Health 與 Burndown 這兩個 gadget。CFD 呈現的是各狀態隨時間的堆疊面積，它按照<strong>日曆日</strong>連續畫，所以週末那兩天會是平的一段——那是真實情況，不是設定沒生效。</div></details>
+<details class="q"><summary>兩個時區的團隊共用一張 board，sprint 起訖看起來差一天。</summary><div class="a"><div class="tag">解答</div>因為 <strong>working days 裡的時區設定是「每張 board 一組」</strong>，一張 board 只能有一個時區，兩地的人看到的起訖自然會差一天。務實的解法有兩個：<strong>各自建一張 board</strong>（用同一份 filter 即可，兩張 board 各設自己的時區），或是<strong>全隊統一採用一個時區</strong>並事先講清楚，讓大家知道「開始日以總部時間為準」。這個設定錯誤也是「burndown 的 guideline 看起來怪怪的」最常見的原因之一。</div></details>
+<details class="q"><summary>卡片右下出現四個紅點是什麼意思？</summary><div class="a"><div class="tag">解答</div>那是 <strong>Days in column</strong> 的指示器，代表這張 issue 已經在同一欄卡了<strong>20 天以上</strong>（四個點且全紅是最高級距）。點的顏色與數量會隨停留時間增加，用意是讓長期卡住的工作自己浮出來。有一個容易忽略的細節：<strong>如果 issue 被搬走又搬回同一欄，天數是累計的</strong>，不會重新從零開始算。這個開關預設 <strong>Kanban 是開的、Scrum 是關的</strong>。</div></details>
+<details class="q"><summary>Swimlanes by Epics 時，某個 epic 的 child 都在 board 上但 lane 沒出現。</summary><div class="a"><div class="tag">解答</div>因為 <strong>epic 本身沒有落在 board filter 的範圍內</strong>——最典型的情況是這個 epic 屬於另一個 project（CMP 的 epic 可以收別的 project 的 issue 當 child）。swimlane by Epics 是拿 epic 當 lane 的標題，epic 進不了 board 的母體，lane 自然畫不出來，它的 child 就散落在下方那一區。解法是把 epic 所在的 project 也加進 board filter，或者乾脆改用別的 swimlane 依據。</div></details>
 </div>
 </section>
 
@@ -281,13 +281,13 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「swimlane 會過濾 issue」</td><td>只分組，不過濾；不符合任何 query 的進 Everything Else</td></tr>
-<tr><td>「Everything Else 可以刪」</td><td>刪不掉，永遠在最下</td></tr>
-<tr><td>「card layout 想加幾個欄位都行」</td><td>最多 3 個</td></tr>
-<tr><td>「working days 是全站設定」</td><td>每張 board 各自設</td></tr>
-<tr><td>「working days 影響所有報表」</td><td>CFD、velocity 等照日曆日</td></tr>
-<tr><td>「card color 的 query 都符合會混色」</td><td>第一個符合的顏色</td></tr>
-<tr><td>「card cover 在 Board settings 裡」</td><td>在卡片 ••• 與 View settings，屬檢視偏好</td></tr>
+<tr><td>「swimlane 會過濾 issue」</td><td>不會。swimlane 只是把卡片<strong>橫向分組</strong>，一張都不會被濾掉；不符合任何 query 的 issue 會被收進最下面的 Everything Else</td></tr>
+<tr><td>「Everything Else 可以刪」</td><td>刪不掉。Everything Else 是系統保留的 lane，永遠固定在最下面，用來收所有不符合任何 query 的 issue</td></tr>
+<tr><td>「card layout 想加幾個欄位都行」</td><td>最多只能額外加 <strong>3 個</strong>欄位；Scrum board 可以替 Backlog 與 Active sprints 各設一組，等於變相多幾個位置</td></tr>
+<tr><td>「working days 是全站設定」</td><td>不是。working days 是<strong>每一張 board 各自的設定</strong>，包含時區在內；跨時區的團隊常因此看到 sprint 起訖差一天</td></tr>
+<tr><td>「working days 影響所有報表」</td><td>不是全部。會跳過非工作日的是 burndown、sprint／epic／version report、control chart 與兩個 gadget；<strong>CFD 與 velocity 仍照日曆日計算</strong></td></tr>
+<tr><td>「card color 的 query 都符合會混色」</td><td>不會混色。跟 swimlane 一樣由上而下比對，套用<strong>第一個符合</strong>的 query 顏色；全部都不符合則顯示灰色</td></tr>
+<tr><td>「card cover 在 Board settings 裡」</td><td>不在。card cover 是在卡片自己的 ••• → Select cover 設定，整張 board 的開關則在 View settings，屬於檢視偏好而非 board 設定</td></tr>
 </table></div>
 </section>
 

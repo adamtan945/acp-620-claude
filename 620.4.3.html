@@ -190,13 +190,13 @@
 </div>
 <div class="tbl-wrap" style="margin-top:1rem"><table class="tbl">
 <tr><th style="width:26%">Status</th><th>意思</th><th style="width:34%">先查</th></tr>
-<tr><td><span class="yes">Success</span></td><td>全部 action 完成</td><td>若結果仍不對，看是不是改到別張 issue（{{issue}} vs {{triggerIssue}}）</td></tr>
-<tr><td>No actions performed</td><td>觸發了，但 condition 不符或 JQL 沒結果</td><td>condition；JQL 以 actor 權限執行</td></tr>
-<tr><td><span class="no">Some errors</span></td><td>部分 action 失敗，其餘完成</td><td>展開錯誤訊息：permission、欄位、smart value</td></tr>
-<tr><td><span class="no">Failure</span></td><td>整條失敗</td><td>同上；web request 回錯也算</td></tr>
-<tr><td>Loop</td><td>rule 互相觸發達 10 次被中止</td><td>Allow rule trigger、condition</td></tr>
-<tr><td>Throttled</td><td>超過處理時間或並行上限被暫停</td><td>trigger 太寬、分支太多、外部呼叫太慢</td></tr>
-<tr><td>Config change</td><td>rule 被修改的紀錄</td><td>誰改了什麼</td></tr>
+<tr><td><span class="yes">Success</span></td><td>所有 action 都順利執行完畢，沒有任何一步報錯</td><td>若結果仍不對，看是不是改到別張 issue（{{issue}} vs {{triggerIssue}}）</td></tr>
+<tr><td>No actions performed</td><td>rule 確實被觸發了，但因為某個 condition 判定不符（或 JQL 查不到結果），所以後面的 action 全部跳過——這是正常結束，不是失敗</td><td>先看 condition 的判定；如果用的是 JQL，記得它<strong>以 actor 的權限執行</strong>，actor 看不到的 issue 一律判定不符</td></tr>
+<tr><td><span class="no">Some errors</span></td><td>有些 action 執行成功、有些失敗；rule 沒有中斷，所以資料可能處於「改了一半」的狀態，要展開細節逐步確認</td><td>展開錯誤訊息：permission、欄位、smart value</td></tr>
+<tr><td><span class="no">Failure</span></td><td>整條 rule 執行失敗，沒有任何動作生效</td><td>同上；web request 回錯也算</td></tr>
+<tr><td>Loop</td><td>偵測到規則之間互相觸發形成迴圈，連鎖達到 10 次時被系統強制中止，以免耗盡站台的自動化資源</td><td>檢查 Allow rule trigger 是否有必要開著，以及能不能加一個 condition 讓規則在條件已滿足時停下來（讓規則具備冪等性）</td></tr>
+<tr><td>Throttled</td><td>超過了處理時間或同時執行數的服務上限，執行被暫時擋下；<strong>這個狀態不計入每月用量</strong></td><td>常見原因是 trigger 設得太寬（每次更新都跑）、分支數量太多，或是 Send web request 等外部呼叫回應太慢，這些都會吃掉處理時間額度</td></tr>
+<tr><td>Config change</td><td>這不是執行紀錄，而是「有人修改了這條 rule」的異動紀錄，可以用來追查是誰在什麼時候改了什麼</td><td>查看是誰在什麼時候修改了這條 rule，排查「昨天還好好的」這類問題時很有用</td></tr>
 <tr><td colspan="3" class="kicker">狀態名稱依官方 audit log 與用量計算頁；計入用量的狀態為 SUCCESS、NO_ACTIONS_PERFORMED、SOME_ERRORS、ABORTED、NO_MATCH，THROTTLED 不計。</td></tr>
 </table></div>
 </section>
@@ -245,17 +245,17 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>Rule 在 audit log 顯示「Some errors」，展開寫「actor does not have permission to transition」。actor 是 Automation for Jira。</summary><div class="a"><div class="tag">解答</div>該 project 的 permission scheme 裡，<code>atlassian-addons-project-access</code> role 缺 Transition Issues；請 Jira admin 補，或把 actor 改成有權限的人。</div></details>
-<details class="q"><summary>同一條 rule 在 CMP 正常，在一個 Private 的 TMP 就失敗。</summary><div class="a"><div class="tag">解答</div>TMP Private／Limited 下 actor 沒被加進 project；把 actor 加進 project（給足夠 role）或改成 Open。</div></details>
-<details class="q"><summary>Rule 從沒在 audit log 出現過紀錄。</summary><div class="a"><div class="tag">解答</div>根本沒觸發：rule 停用、scope 不含此 project、trigger 不符（例如用 Issue updated 抓 assign）、或由別的 rule 觸發但 Allow rule trigger 沒開。</div></details>
-<details class="q"><summary>Audit log 每次都是「No actions performed」，沒有錯誤。</summary><div class="a"><div class="tag">解答</div>Condition 不符。若是 JQL condition，記得它以 actor 權限執行——actor 看不到的 issue 就不符。</div></details>
-<details class="q"><summary>Rule A：Priority 改變就加 label；Rule B：label 改變就把 Priority 調高。兩條都開了 Allow rule trigger，結果狀態變 LOOP。</summary><div class="a"><div class="tag">解答</div>互相觸發達 10 次被中止。在其中一條加 condition（例如 label 已存在就不動）或關掉 Allow rule trigger。</div></details>
-<details class="q"><summary>Project admin 想把 rule actor 改成主管，下拉選單裡只有自己和 Automation for Jira。</summary><div class="a"><div class="tag">解答</div>設計如此：project admin 只能選這兩個；要設別人請 Jira admin。</div></details>
-<details class="q"><summary>Scheduled rule 上週還在跑，這週發現被停用了，沒人動過。</summary><div class="a"><div class="tag">解答</div>Scheduled trigger 連續失敗 10 次會自動停用；看 audit log 找失敗原因再重新啟用。</div></details>
-<details class="q"><summary>Branch for sub-tasks 裡用 <code>{{issue.parent.summary}}</code> 想拿 Story 的 summary，有時是空的。</summary><div class="a"><div class="tag">解答</div>在 branch 裡直接用 <code>{{triggerIssue.summary}}</code> 更可靠；分支平行執行，不要依賴其他分支寫入的值。</div></details>
-<details class="q"><summary>Edit issue 設定 custom field「Severity」失敗，錯誤說欄位不可用。</summary><div class="a"><div class="tag">解答</div>該欄位不在此 issue type 的 screen（或 context）上；請 Jira admin 加到 screen，或用進階 JSON 但仍需欄位可用。</div></details>
-<details class="q"><summary>Rule 執行成功，但改到的是 parent 而不是觸發的 sub-task。</summary><div class="a"><div class="tag">解答</div>可能在 branch for parent 之後的 action 仍寫在 branch 內，或用了 <code>{{issue.parent}}</code>；核對每個 action 在 branch 內還是外，以及 {{issue}}／{{triggerIssue}}。</div></details>
-<details class="q"><summary>想知道某 custom field 的 smart value 名稱。</summary><div class="a"><div class="tag">解答</div>Manual trigger ＋ Log action 寫 <code>{{issue.欄位名稱}}</code> 觸發後看 audit log；或用 <code>{{#debug}}</code>。</div></details>
+<details class="q"><summary>Rule 在 audit log 顯示「Some errors」，展開寫「actor does not have permission to transition」。actor 是 Automation for Jira。</summary><div class="a"><div class="tag">解答</div>問題出在 <strong><code>atlassian-addons-project-access</code> 這個 role 沒有 Transition Issues 權限</strong>。關鍵觀念是：<strong>Automation for Jira 這個系統使用者，是透過 <code>atlassian-addons-project-access</code> role 取得 project 權限的</strong>——它不是萬能的系統帳號，一樣受 permission scheme 管轄。所以只要有人在整理權限時把這個 role 的某項權限拿掉（或誤以為「這個 role 沒人在裡面」而刪掉它），相關的 automation 就會開始失敗。解法有兩個：請 Jira admin 在該 project 的 permission scheme 把 Transition Issues 補給這個 role，或是把 rule 的 actor 改成一位確實有權限的真人。</div></details>
+<details class="q"><summary>同一條 rule 在 CMP 正常，在一個 Private 的 TMP 就失敗。</summary><div class="a"><div class="tag">解答</div>因為 <strong>TMP 沒有 permission scheme，權限完全靠「有沒有被加進這個 project 並拿到 role」決定</strong>。當 TMP 設成 Private（或 Limited）時，沒有被明確加入的人就沒有權限——而 actor（Automation for Jira 或某位使用者）正是沒被加進去的那一個。CMP 那邊之所以正常，是因為 permission scheme 已經把權限給了 <code>atlassian-addons-project-access</code> role。解法是<strong>把 actor 加進這個 TMP 並給予足夠的 role</strong>，或（在資安允許的前提下）把 access level 改成 Open。這是官方 KB 專門立了一篇來說明的常見狀況。</div></details>
+<details class="q"><summary>Rule 從沒在 audit log 出現過紀錄。</summary><div class="a"><div class="tag">解答</div><strong>audit log 完全沒有紀錄，代表 rule 根本沒有被觸發</strong>——這是排查的第一個分岔點，跟「跑了但失敗」要走完全不同的方向。依序檢查四件事：① <strong>rule 是不是被停用了</strong>（或 Scheduled rule 連續失敗 10 次被系統自動停用）；② <strong>scope 有沒有涵蓋這個 project</strong>；③ <strong>trigger 選錯</strong>（最典型的是用 Issue updated 想抓指派變更，但它不含 Assign、Link、Log work）；④ <strong>變更是由另一條 rule 造成的，而這條沒開 Allow rule trigger</strong>。四項都排除還是沒紀錄，才需要懷疑是產品面的問題。</div></details>
+<details class="q"><summary>Audit log 每次都是「No actions performed」，沒有錯誤。</summary><div class="a"><div class="tag">解答</div><strong>「No actions performed」不是錯誤</strong>，它代表 rule 有正常被觸發、也正常執行完畢，只是<strong>某個 condition 判定為不符</strong>，所以後面的 action 全部跳過。查的方向是 condition 而不是權限。有一個很容易忽略的陷阱：如果用的是 <strong>JQL condition</strong>（或 Scheduled trigger 的 JQL、Lookup issues），它們都是<strong>以 actor 的權限執行</strong>的——actor 看不到的 issue，對這段 JQL 而言就等於不存在，於是永遠判定不符。這時要檢查的是 actor 的權限，而不是 JQL 寫錯。</div></details>
+<details class="q"><summary>Rule A：Priority 改變就加 label；Rule B：label 改變就把 Priority 調高。兩條都開了 Allow rule trigger，結果狀態變 LOOP。</summary><div class="a"><div class="tag">解答</div>因為兩條 rule <strong>互相觸發形成了無限迴圈</strong>：A 改 Priority → 觸發 B 加 label → 又觸發 A…… Jira 偵測到連鎖達到 <strong>10 次</strong>就會把執行標記為 <strong>LOOP</strong> 並強制中止，避免耗盡整個站台的自動化資源。修法有三種，由好到壞排序：<strong>① 在其中一條加上 condition 讓它有機會停下來</strong>（例如「label 已經存在就不做」，這是最正確的做法，讓規則具備冪等性）；② <strong>關掉其中一條的 Allow rule trigger</strong>；③ 重新檢視這兩條規則是不是本來就該合併成一條。</div></details>
+<details class="q"><summary>Project admin 想把 rule actor 改成主管，下拉選單裡只有自己和 Automation for Jira。</summary><div class="a"><div class="tag">解答</div><strong>這是刻意的設計，不是 bug。</strong>project admin 能選的 actor 只有<strong>自己</strong>與系統使用者 <strong>Automation for Jira</strong> 兩個，理由很直接——否則任何 project admin 都能建一條「以老闆的身分」執行的規則，等於繞過權限體系冒用他人身分。要把 actor 設成主管，必須請 <strong>Jira admin</strong> 操作，而且<strong>主管本人得有該 project 的對應權限</strong>，否則 rule 一樣會失敗。另外提醒一個編輯上的限制：<strong>如果一條 rule 目前的 actor 是別人，project admin 得先把它改回自己或 Automation for Jira，才能編輯這條 rule</strong>。</div></details>
+<details class="q"><summary>Scheduled rule 上週還在跑，這週發現被停用了，沒人動過。</summary><div class="a"><div class="tag">解答</div>最可能的答案是 <strong>Scheduled trigger 連續失敗 10 次，被系統自動停用了</strong>。這是保護機制，避免一條壞掉的排程規則持續消耗資源。正確處理順序是：<strong>先看 audit log 找出那 10 次為什麼失敗</strong>（常見的是 JQL 語法因欄位被刪而失效、actor 權限被調整、或目標欄位不在 screen 上），<strong>把根因修掉之後再重新啟用</strong>——直接啟用不修原因，很快又會被停用一次。順帶一提，rule 的 owner 在失敗時會收到錯誤通知信，所以這種事通常不該拖到「這週才發現」。</div></details>
+<details class="q"><summary>Branch for sub-tasks 裡用 <code>{{issue.parent.summary}}</code> 想拿 Story 的 summary，有時是空的。</summary><div class="a"><div class="tag">解答</div>在 branch for sub-tasks 裡面，<code>{{issue}}</code> 指的是「這一輪的 sub-task」，所以 <code>{{issue.parent.summary}}</code> 是繞了一圈去讀 parent；<strong>直接寫 <code>{{triggerIssue.summary}}</code> 才可靠</strong>——它在任何位置都穩定指向觸發 rule 的那張 issue，不必經過階層查詢。另外要記住兩個相關的觀念：<strong>分支是平行執行的，順序不保證</strong>，所以不要指望讀到其他分支剛寫入的值；而且 <code>{{issue}}</code> 是<strong>觸發當下的快照</strong>，rule 執行過程中被改掉的欄位不會自動更新，需要新值就要先插入 <strong>Re-fetch issue data</strong>。</div></details>
+<details class="q"><summary>Edit issue 設定 custom field「Severity」失敗，錯誤說欄位不可用。</summary><div class="a"><div class="tag">解答</div>因為<strong>這個欄位沒有出現在該 issue type 所使用的 screen 上</strong>（也可能是 custom field 的 context 沒有涵蓋這個 project 或 issue type）。automation 不能寫入「這張 issue 上根本不存在」的欄位，這一點跟人工編輯的限制是一致的。這是 Edit issue 失敗最常見的原因，而且很容易誤判成權限問題。解法是請 Jira admin <strong>把欄位加進對應的 screen、並確認 context 涵蓋這個 project</strong>。要注意就算改用進階的 JSON 寫法也繞不過去——欄位必須真的可用才行。</div></details>
+<details class="q"><summary>Rule 執行成功，但改到的是 parent 而不是觸發的 sub-task。</summary><div class="a"><div class="tag">解答</div>這是<strong>作用範圍搞錯</strong>的典型症狀，rule 本身沒有壞。要核對兩件事：<strong>第一，逐一確認每個 action 是放在 branch 裡面還是外面</strong>——如果它被縮排在 branch for parent 底下，那它作用的對象就是 parent，不是觸發的 sub-task。<strong>第二，檢查 action 裡用的 smart value</strong>，是不是寫成了 <code>{{issue.parent}}</code>。修法是把該 action 拖到 branch 外面，或把 smart value 改成 <code>{{triggerIssue}}</code>。排查時把 audit log 的每一步對照 issue 的 History，很快就能看出是哪一步寫錯了對象。</div></details>
+<details class="q"><summary>想知道某 custom field 的 smart value 名稱。</summary><div class="a"><div class="tag">解答</div>用官方推薦的安全做法：<strong>把 trigger 暫時改成 Manual trigger，加一個 Log action 寫上 <code>{{issue.欄位名稱}}</code>，在一張測試 issue 上手動按一次，再到 audit log 讀輸出</strong>。這樣做完全不會修改任何資料，也不必等真實事件發生。另一個更省事的技巧是 <code>{{#debug}}…{{/}}</code>：把要觀察的 smart value 包起來，它會<strong>照常參與運算，同時把值印進 audit log</strong>，連額外的 Log action 步驟都不用加。</div></details>
 </div>
 </section>
 
@@ -265,13 +265,13 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Rule 是系統跑的，不受 permission scheme 限制」</td><td>以 actor 身分執行；Automation for Jira 透過 atlassian-addons-project-access role 拿權限</td></tr>
-<tr><td>「Owner 收到錯誤信，所以 owner 沒權限」</td><td>Owner 只收通知；權限看 actor</td></tr>
-<tr><td>「No actions performed 是錯誤」</td><td>是 condition 不符的正常結果</td></tr>
-<tr><td>「一條 rule 改了欄位，另一條 rule 自然會接著跑」</td><td>預設不會；要開 Allow rule trigger</td></tr>
-<tr><td>「Audit log 永久保存」</td><td>90 天</td></tr>
-<tr><td>「Project admin 可以把 actor 設成任何人」</td><td>只能自己或 Automation for Jira</td></tr>
-<tr><td>「Lookup issues 會拿到全部結果」</td><td>只取前 100</td></tr>
+<tr><td>「Rule 是系統跑的，不受 permission scheme 限制」</td><td>不對。rule 是<strong>以 actor 的身分</strong>執行的，一樣受 permission scheme 管轄；系統使用者 Automation for Jira 是透過 <code>atlassian-addons-project-access</code> 這個 role 取得權限的</td></tr>
+<tr><td>「Owner 收到錯誤信，所以 owner 沒權限」</td><td>沒有關係。owner 只是「建立這條 rule、出錯時收信」的人；真正需要權限的是 <strong>actor</strong>，兩者可以是不同人</td></tr>
+<tr><td>「No actions performed 是錯誤」</td><td>不是錯誤。它代表 rule 正常觸發並執行完畢，只是 condition 判定不符所以沒有動作；要查的是 condition，不是權限</td></tr>
+<tr><td>「一條 rule 改了欄位，另一條 rule 自然會接著跑」</td><td>預設不會。要讓「別的 rule 造成的變更」能觸發自己，必須在 rule details 打開 <strong>Allow rule trigger</strong>；開了之後要小心互相觸發形成 LOOP</td></tr>
+<tr><td>「Audit log 永久保存」</td><td>不是。audit log 只保留 <strong>90 天</strong>，之後自動刪除且無法復原；需要長期追溯的紀錄要自己另外匯出</td></tr>
+<tr><td>「Project admin 可以把 actor 設成任何人」</td><td>不能。project admin 只能把 actor 設成<strong>自己</strong>或 <strong>Automation for Jira</strong>；要設成其他人必須由 Jira admin 操作，而且那個人得有對應的 project 權限</td></tr>
+<tr><td>「Lookup issues 會拿到全部結果」</td><td>不會。Lookup issues <strong>最多只取前 100 筆</strong>；需要處理更多 issue 請改用 branch 搭配 JQL（單次執行的相關 issue 上限是 5,000）</td></tr>
 </table></div>
 </section>
 

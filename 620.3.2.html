@@ -169,8 +169,8 @@
 <div class="tbl-wrap" style="margin-top:1.4rem"><table class="tbl">
 <tr><th style="width:26%">規則</th><th>內容</th></tr>
 <tr><td>需要的身分</td><td><strong>Project admin</strong>（有 Administer Projects）；Jira admin 也可以</td></tr>
-<tr><td>能加誰</td><td>已在 Atlassian 站台的 user 或 group；搜不到 → 請 admin 先邀請進站台</td></tr>
-<tr><td>外部協作者</td><td>請 admin 邀請為 <strong>guest</strong>，再放進 role</td></tr>
+<tr><td>能加誰</td><td>只能加<strong>已經在這個 Atlassian 站台上有帳號</strong>的 user 或 group（group 可以整包加進同一個 role）。如果搜尋不到某個人，代表他還沒被邀請進站台，要先請 admin 處理</td></tr>
+<tr><td>外部協作者</td><td>請 admin 把他邀請為 <strong>guest</strong>（只能存取指定的單一 project、不佔正式授權席次），之後就能像一般成員一樣放進 role</td></tr>
 <tr><td>加進 Administrators</td><td>同一個流程；project admin 可以把別人加成 admin（官方原句：same process for the Administrators role）</td></tr>
 <tr><td>想給「只能看自己被指派的 issue」這種限縮權限</td><td>官方明講：<strong>請 Jira admin 建一個新的 role</strong>——project admin 建不了 role</td></tr>
 <tr><td>Free 方案</td><td>沒有 permission scheme、project role、issue security；這一節整個不適用</td></tr>
@@ -240,11 +240,11 @@
 <h2>Role、group、還是欄位對象？</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:24%">需求</th><th style="width:22%">選</th><th>理由</th></tr>
-<tr><td>各 project 的人不同，PM 要能自己換人</td><td class="yes">Project role</td><td>下放給 project admin；不必改 scheme</td></tr>
-<tr><td>全站同一批人（所有 project 的 QA 都是同一組）</td><td>Group</td><td>由 org／site admin 集中維護；可放進 role 兼得兩者</td></tr>
+<tr><td>各 project 的人不同，PM 要能自己換人</td><td class="yes">Project role</td><td>把換人的權力下放給最清楚狀況的 project admin，日後調整完全不必動到 scheme，也不會影響其他 project</td></tr>
+<tr><td>全站同一批人（所有 project 的 QA 都是同一組）</td><td>Group</td><td>成員由 org／site admin 集中維護，新人入職加進群組就一次涵蓋所有 project；也可以把 group 放進某個 role，兼得集中管理與局部例外的彈性</td></tr>
 <tr><td>每張 issue 各自的人</td><td>Reporter／Current assignee／User picker 欄位</td><td>官方：Assignee、Reporter、任何 User select 或 Group 欄位裡的人都可直接授權</td></tr>
 <tr><td>只有一個人、永遠不變</td><td>Single user（不建議）</td><td>scheme 共用時會在所有 project 生效，換人要 Jira admin</td></tr>
-<tr><td>整合工具要能建 issue</td><td>atlassian-addons-project-access</td><td>官方指定的 app 用 role</td></tr>
+<tr><td>整合工具要能建 issue</td><td>atlassian-addons-project-access</td><td>這是 Atlassian 指定給 app 與整合使用的內建 role，只要在 scheme 裡授予它需要的權限即可，不要刪除它</td></tr>
 </table></div>
 <div class="callout warn"><div class="t">Role 與 access level 的差別（TMP）</div>這一節是 CMP 的 role。TMP 的 role 是 project admin 自己建、自己勾權限，且加人時還會疊加 access level 給的 Member／Viewer；見 <a href="620.1.2.html#access">620.1.2</a>。考題若混著問，先看題目是哪種 project。</div>
 </section>
@@ -254,16 +254,16 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>新來的 Scrum master 要能開始 sprint。Scheme 把 Manage Sprints 給了 role「Lead Developer」。誰、在哪裡處理？</summary><div class="a"><div class="tag">解答</div>Project admin 在 Project settings → People 把他加進 Lead Developer；不需要 Jira admin。</div></details>
-<details class="q"><summary>PM 想讓實習生「只能看自己被指派的 issue」，現有 role 都太寬。PM 能自己建一個新 role 嗎？</summary><div class="a"><div class="tag">解答</div>不能。官方明說要請 Jira admin 建新 role（並在 scheme 用 Current assignee 或新 role 授權）。</div></details>
-<details class="q"><summary>Jira admin 在 scheme 直接把 Manage Sprints 給了「小美」這個人。三個月後小美離職，後果？</summary><div class="a"><div class="tag">解答</div>所有共用該 scheme 的 project 同時失去能管 sprint 的人，而且換人要 Jira admin 改 scheme。應改成給 role，各 project 自己填。</div></details>
-<details class="q"><summary>Jira admin 把 group「qa-team」設為 role「QA」的 default member，舊的 10 個 project 卻沒有變化。</summary><div class="a"><div class="tag">解答</div>Default members 只套用到之後新建的 project；舊的要各 project admin 手動加。</div></details>
-<details class="q"><summary>Slack 整合建不了 issue，權限錯誤。Project admin 該查什麼？</summary><div class="a"><div class="tag">解答</div>scheme 的 Create Issues 是否包含 atlassian-addons-project-access；若被拿掉要請 Jira admin 補回。</div></details>
-<details class="q"><summary>外包 Kevin 沒有 Atlassian 帳號，PM 在 People 頁搜不到他。</summary><div class="a"><div class="tag">解答</div>先請 admin 邀請 Kevin（建議為 guest），再放進 role。</div></details>
-<details class="q"><summary>把小傑加進 role「Developers」後，他同時收到了這個 project 的通知，也能在 issue security level「內部」看到 issue。為什麼一次生效？</summary><div class="a"><div class="tag">解答</div>Role 同時被 permission scheme、notification scheme、issue security level 引用；加人時五種用途一起生效。</div></details>
-<details class="q"><summary>Project admin 想把自己加進 Administrators 以外的 role「Release Manager」，可以嗎？</summary><div class="a"><div class="tag">解答</div>可以；People 頁對任何 role 都是同一流程，一個人可以有多個 role。</div></details>
-<details class="q"><summary>公司要求「所有 project 的 Browse Projects 都給同一個群組 all-staff」，用 role 還是 group？</summary><div class="a"><div class="tag">解答</div>Group（全站一致）；也可以把 group 放進一個 role 以便日後例外處理。</div></details>
-<details class="q"><summary>Free 方案的 project admin 想調整 role 成員，找不到 People 頁的 role 選項。</summary><div class="a"><div class="tag">解答</div>Free 沒有 permission scheme 與 project role，這一節的功能在 Free 不存在。</div></details>
+<details class="q"><summary>新來的 Scrum master 要能開始 sprint。Scheme 把 Manage Sprints 給了 role「Lead Developer」。誰、在哪裡處理？</summary><div class="a"><div class="tag">解答</div>由<strong>該 project 的 project admin</strong> 到 <strong>Project settings → People</strong>，把這位 Scrum master 加進 Lead Developer 這個 role 即可，<strong>完全不需要驚動 Jira admin</strong>。這正是 role 這個設計要達成的效果：Jira admin 在 scheme 裡只寫下「Manage Sprints 給 Lead Developer」這條規則，至於每個 project 的 Lead Developer 是誰，交給最清楚狀況的 project admin 自己決定。</div></details>
+<details class="q"><summary>PM 想讓實習生「只能看自己被指派的 issue」，現有 role 都太寬。PM 能自己建一個新 role 嗎？</summary><div class="a"><div class="tag">解答</div><strong>不能。</strong>建立 project role 是站台層級的動作（⚙ → System → Security → Project roles），只有 Jira admin 做得到；project admin 的權限止於「把人填進既有的 role」。官方在這個情境下的建議就是<strong>請 Jira admin 建一個新的 role</strong>，再於 permission scheme 裡替它設定合適的權限。另外提供一個更省事的思路：這個需求本質上是「只看自己被指派的」，permission scheme 可以直接授權給 <strong>Current assignee</strong> 這種動態對象，不見得非要新建 role。</div></details>
+<details class="q"><summary>Jira admin 在 scheme 直接把 Manage Sprints 給了「小美」這個人。三個月後小美離職，後果？</summary><div class="a"><div class="tag">解答</div>後果有兩層。第一，<strong>所有共用這份 scheme 的 project 會同時失去能管 sprint 的人</strong>——因為權限是綁在「小美」這個帳號上，不是綁在角色上。第二，<strong>要換人就得請 Jira admin 改 scheme</strong>，而且一改就是全部 project 一起變，沒辦法只換其中一個。這正是官方不建議在 scheme 裡直接指定個人的原因。正確做法是把權限給一個 <strong>role</strong>，讓各 project 的 admin 自己填人：換人只是改 membership，兩分鐘的事，也不會波及別人。</div></details>
+<details class="q"><summary>Jira admin 把 group「qa-team」設為 role「QA」的 default member，舊的 10 個 project 卻沒有變化。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Manage Default Members 只會套用到「之後新建立」的 project</strong>，它設定的是新 project 的初始成員，<strong>不會回頭補進既有的 project</strong>。這是很常見的誤解，也是考題愛問的點。舊的那 10 個 project 只能請各自的 project admin 到 People 頁手動把 qa-team 加進 QA role（好消息是 group 可以整包加，不必一個一個點）。</div></details>
+<details class="q"><summary>Slack 整合建不了 issue，權限錯誤。Project admin 該查什麼？</summary><div class="a"><div class="tag">解答</div>要查的是 permission scheme 裡的 <strong>Create Issues 有沒有包含 <code>atlassian-addons-project-access</code> 這個 role</strong>。這是 Atlassian 保留給 Marketplace app 與各種整合（Slack、automation 等）使用的特殊 role，app 是「以這個角色的身分」在 Jira 裡動作的。常見的意外是有人在整理權限時覺得「這個角色沒人在裡面，刪掉吧」——結果所有整合全部失效。<strong>不要刪除它，也不要拿掉它的權限</strong>；被拿掉了就請 Jira admin 補回去。</div></details>
+<details class="q"><summary>外包 Kevin 沒有 Atlassian 帳號，PM 在 People 頁搜不到他。</summary><div class="a"><div class="tag">解答</div>因為 People 頁的搜尋只找得到<strong>已經在這個 Atlassian 站台上有帳號的人</strong>。要先請 admin 把 Kevin 邀請進站台，之後才搜尋得到、才能放進 role。對外包或客戶這類外部協作者，建議邀請成 <strong>guest</strong>：guest 只能存取被指定的那一個 project，而且不佔用正式的授權席次，成本與風險都比較低。</div></details>
+<details class="q"><summary>把小傑加進 role「Developers」後，他同時收到了這個 project 的通知，也能在 issue security level「內部」看到 issue。為什麼一次生效？</summary><div class="a"><div class="tag">解答</div>因為 <strong>同一個 role 可以同時被好幾種設定引用</strong>，而它們共用同一份成員名單。官方列出 role 的五個用途：permission scheme（能做什麼）、notification scheme（收哪些通知）、issue security level（看得到哪些受限 issue）、workflow condition（能不能執行某個 transition），以及 filter 與 dashboard 的分享對象。所以把一個人加進 role，這五個面向會<strong>同時</strong>生效。反過來說也一樣——把人從 role 移除，他可能不只是少了編輯按鈕，還會突然收不到通知、過不了某個 transition。這就是為什麼<strong>刪 role 之前一定要先 View Usage</strong>。</div></details>
+<details class="q"><summary>Project admin 想把自己加進 Administrators 以外的 role「Release Manager」，可以嗎？</summary><div class="a"><div class="tag">解答</div><strong>可以。</strong>People 頁對所有 role 都是同一套流程，沒有哪個 role 特別受保護（連把別人加進 Administrators 也是同一個流程，官方原文明講）。而且<strong>一個人可以同時持有多個 role</strong>，權限取聯集。這裡順便提醒一個安全上的常識：正因為 project admin 可以自由調整 role 成員，包含把人加成 Administrators，所以 Administer Projects 這個權限本身就該謹慎授予。</div></details>
+<details class="q"><summary>公司要求「所有 project 的 Browse Projects 都給同一個群組 all-staff」，用 role 還是 group？</summary><div class="a"><div class="tag">解答</div>用 <strong>group</strong>。判斷準則很簡單：<strong>全站都是同一批人、而且希望集中維護，就用 group</strong>（成員由 org／site admin 統一管理，新人入職加進群組，所有 project 一次到位）；<strong>各 project 人不同、需要讓 PM 自己換人，才用 role</strong>。實務上還有一招兩全其美：把 group 放進某個 role，再把權限給那個 role——平常靠 group 自動涵蓋所有人，日後某個 project 需要例外時，該 project 的 admin 直接調整 role 成員就好，不必回頭改 scheme。</div></details>
+<details class="q"><summary>Free 方案的 project admin 想調整 role 成員，找不到 People 頁的 role 選項。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Free 方案根本沒有 permission scheme、project role 與 issue security</strong> 這些功能，不是藏起來或需要另外開啟，而是不存在。這一整節的內容在 Free 站台完全不適用。Free 方案的存取控制手段只剩 TMP 的三個 access level（Open／Limited／Private），要用到 role 這套模型至少要 Standard 以上。</div></details>
 </div>
 </section>
 
@@ -273,12 +273,12 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Project admin 可以建 role」</td><td>只能填成員；建 role 是 Jira admin（⚙ → System → Security 區的 Project roles，現行稱 Space roles）</td></tr>
-<tr><td>「Role 的成員全站一致」</td><td>role 名稱全站共用，成員各 project 獨立</td></tr>
-<tr><td>「Default members 會套到既有 project」</td><td>只套到之後新建的</td></tr>
-<tr><td>「atlassian-addons-project-access 沒用可以刪」</td><td>app 與整合靠它動作</td></tr>
-<tr><td>「Role 只用在權限」</td><td>還有 notification、issue security、workflow condition、filter／dashboard 分享</td></tr>
-<tr><td>「加人要 Jira admin」</td><td>Administer Projects 就夠</td></tr>
+<tr><td>「Project admin 可以建 role」</td><td>不能。project admin 只能把人填進<strong>既有的</strong> role；建立新 role 是站台層級的動作，要 Jira admin 到 ⚙ → System → Security 區的 Project roles（現行稱 Space roles）操作</td></tr>
+<tr><td>「Role 的成員全站一致」</td><td>不是。<strong>role 的名稱是全站共用的物件，但成員是各 project 各自獨立的</strong>——這正是同一份 scheme 能掛給 20 個 project 卻各有不同人選的原因</td></tr>
+<tr><td>「Default members 會套到既有 project」</td><td>不會。default members 只套用到<strong>之後新建立</strong>的 project，既有的 project 要各自的 admin 手動加</td></tr>
+<tr><td>「atlassian-addons-project-access 沒用可以刪」</td><td>絕對不要刪。Marketplace app 與各種整合（Slack、automation）都是以這個 role 的身分在 Jira 裡動作的，刪掉或拿掉它的權限會讓整合全面失效</td></tr>
+<tr><td>「Role 只用在權限」</td><td>不只。role 還會被 notification scheme（誰收通知）、issue security level（誰看得到受限 issue）、workflow condition（誰能執行 transition），以及 filter 與 dashboard 的分享設定引用</td></tr>
+<tr><td>「加人要 Jira admin」</td><td>不用。有 <strong>Administer Projects</strong> 的 project admin 自己就能在 People 頁加人、換人，這正是 role 把權限管理下放的用意</td></tr>
 <tr><td>「role 沒人用了就可以直接刪」</td><td>先 View Usage：permission scheme、notification scheme、issue security level、workflow condition 都可能引用它</td></tr></table></div>
 </section>
 

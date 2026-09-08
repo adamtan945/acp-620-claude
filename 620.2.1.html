@@ -237,16 +237,16 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>行銷團隊每天有新需求進來，沒有固定發布週期，主管想知道一張需求平均多久做完。</summary><div class="a"><div class="tag">解答</div><strong>Kanban</strong>：連續流、看 control chart 的 cycle time。</div></details>
-<details class="q"><summary>開發團隊兩週一次 planning，PM 要用歷史數據預測下個 release 能做多少。</summary><div class="a"><div class="tag">解答</div><strong>Scrum</strong>：sprint ＋ 估點 ＋ velocity。</div></details>
-<details class="q"><summary>維運團隊用 Kanban，但 backlog 累積 300 多張，第一欄捲不完，PM 想用 Epic panel 分組排序。</summary><div class="a"><div class="tag">解答</div><strong>Kanban with backlog</strong>：把 Backlog status 拖進 Kanban backlog 面板。</div></details>
-<details class="q"><summary>Scrum board 建好了，成員說 board 上一張卡都沒有。</summary><div class="a"><div class="tag">解答</div>Sprint 還沒開始；Scrum 的 board 只顯示 active sprint 的 issue，先到 Backlog 建 sprint 並 Start。</div></details>
-<details class="q"><summary>CMP 的 Kanban board，Done 欄已經堆了兩個月的卡片。</summary><div class="a"><div class="tag">解答</div>Kanban 靠 <strong>Release</strong> 清 Done（sub-filter 預設排除已 release 的 fixVersion）；把完成的 issue 指到版本並 Release。</div></details>
-<details class="q"><summary>TMP 的 Kanban，成員問為什麼上週 Done 的卡片自己不見了。</summary><div class="a"><div class="tag">解答</div>TMP 沒 sprint 時 Done 的 issue <strong>14 天</strong>自動清掉；用 See all Done issues 找回。</div></details>
-<details class="q"><summary>開了 Kanban backlog，但 Backlog 畫面的 Backlog 段永遠是空的。</summary><div class="a"><div class="tag">解答</div>可見規則：issue 的 status 要對到 backlog 欄<strong>或下一欄</strong>；檢查 columns 對應，至少要有一個 status 對到 board 的第一欄（Selected for Development）之外的欄位。</div></details>
-<details class="q"><summary>Project admin 想把現有的 Kanban board 改成 Scrum。</summary><div class="a"><div class="tag">解答</div>做不到，類型不能互轉；用同一份 filter 再建一個 Scrum board。</div></details>
-<details class="q"><summary>TMP 團隊想要第二個 board 看不同切面。</summary><div class="a"><div class="tag">解答</div>TMP 不能直接加 board；建 saved filter，再用「Board from an existing Saved Filter」建。</div></details>
-<details class="q"><summary>誰能把 Kanban backlog 開起來？</summary><div class="a"><div class="tag">解答</div>Jira admin 或該 board 的 board admin（在 Board settings → Columns 拖 status 進 Kanban backlog 面板）。</div></details>
+<details class="q"><summary>行銷團隊每天有新需求進來，沒有固定發布週期，主管想知道一張需求平均多久做完。</summary><div class="a"><div class="tag">解答</div>選 <strong>Kanban</strong>。題目有兩個訊號：工作「每天都有新的進來」代表這是連續流，不是固定週期承諾一批；「沒有固定發布週期」則排除了 Scrum。主管想知道的「一張需求平均多久做完」就是 <strong>cycle time</strong>，看 Kanban 的 <strong>control chart</strong> 正好；Scrum 的 velocity 回答的是「一個 sprint 能做多少」，跟這題問的不是同一件事。</div></details>
+<details class="q"><summary>開發團隊兩週一次 planning，PM 要用歷史數據預測下個 release 能做多少。</summary><div class="a"><div class="tag">解答</div>選 <strong>Scrum</strong>。「兩週一次 planning」就是固定的 sprint 週期；「用歷史數據預測下個 release 能做多少」則指向 <strong>velocity</strong>——它是過去幾個 sprint 完成的 story points 平均值，正是用來推估未來產能的指標。要讓 velocity 有意義，前提是團隊有在<strong>估點</strong>，而估點與 sprint 都是 Scrum board 才完整支援的。</div></details>
+<details class="q"><summary>維運團隊用 Kanban，但 backlog 累積 300 多張，第一欄捲不完，PM 想用 Epic panel 分組排序。</summary><div class="a"><div class="tag">解答</div>選 <strong>Kanban with backlog</strong>。注意這不是第三種 board 類型，而是<strong>在 Kanban board 上把 Kanban backlog 打開</strong>：到 Board settings → Columns，把代表 backlog 的那個 status 拖進「Kanban backlog」面板。打開之後 backlog 會離開 board、變成一個獨立畫面，可以在裡面排 rank、用 Epic panel 分組，board 上就只剩真正在進行中的工作，正好解決「第一欄捲不完」的問題。這一步需要 board admin 或 project admin。</div></details>
+<details class="q"><summary>Scrum board 建好了，成員說 board 上一張卡都沒有。</summary><div class="a"><div class="tag">解答</div>因為 <strong>sprint 還沒開始</strong>。Scrum board 的設計是<strong>只顯示 active sprint 裡的 issue</strong>，沒有任何 sprint 在跑的時候，board 本來就是一片空白——這不是 filter 設錯，也不是權限問題。做法是到 Backlog 畫面建立一個 sprint、把要做的 issue 拉進去，然後按 <strong>Start sprint</strong>，卡片才會出現在 board 上。</div></details>
+<details class="q"><summary>CMP 的 Kanban board，Done 欄已經堆了兩個月的卡片。</summary><div class="a"><div class="tag">解答</div>CMP 的 Kanban 是靠 <strong>發佈 release</strong> 來清 Done 的，不像 TMP 會自動清。原理是 board 的 <strong>sub-filter</strong> 預設會排除「fixVersion 已經被 release」的 issue，所以只要把完成的 issue 指定一個版本、然後把該版本 Release 掉，它們就會自動從 board 上消失。另一個手段是調整 <strong>Hide completed work</strong>（可選 1、2、4 週或不隱藏），讓 board 只留最近幾週完成的卡片。</div></details>
+<details class="q"><summary>TMP 的 Kanban，成員問為什麼上週 Done 的卡片自己不見了。</summary><div class="a"><div class="tag">解答</div>這是 TMP 的<strong>正常行為</strong>：沒有啟用 Sprints 的 TMP，issue 被移到 Done 之後 <strong>14 天</strong>會自動從 board 上清掉，好讓 board 保持乾淨。要強調的是這只是「從 board 上移除」，<strong>資料完全沒有被刪除</strong>；用 Done 欄的 <strong>See all Done work items</strong>，或直接用 JQL 搜尋，都還找得回來。</div></details>
+<details class="q"><summary>開了 Kanban backlog，但 Backlog 畫面的 Backlog 段永遠是空的。</summary><div class="a"><div class="tag">解答</div>問題出在 <strong>status 與 column 的對應</strong>。Kanban backlog 的可見規則是：issue 必須符合 board filter，<strong>而且</strong> status 要對應到 backlog 那一欄（或它的下一欄），才會出現在 Backlog 畫面上。如果站台上所有的 status 都被塞進 board 的第一欄，那就沒有任何 issue 落在 backlog 欄裡，Backlog 段自然永遠是空的。到 Board settings → Columns 檢查對應關係，把該屬於 backlog 的 status 拖到正確的欄位就好。</div></details>
+<details class="q"><summary>Project admin 想把現有的 Kanban board 改成 Scrum。</summary><div class="a"><div class="tag">解答</div><strong>做不到</strong>，board 建立時決定的類型就固定了，Board settings 裡沒有任何「切換類型」的選項。正確做法是<strong>用同一份 filter 再建一個 Scrum board</strong>——因為 board 的本質只是「一份 filter 加上一組 column 對應」，兩個 board 指向同一份 filter 就會看到同一批 issue，只是呈現方式與節奏不同。舊的 Kanban board 可以留著，也可以之後刪掉。</div></details>
+<details class="q"><summary>TMP 團隊想要第二個 board 看不同切面。</summary><div class="a"><div class="tag">解答</div>因為<strong>一個 TMP 只能有一個內建的 board</strong>，沒有「再建一個」的入口。唯一的辦法是繞路：先建一個 saved filter（例如只撈某個 component 或某個 label 的 issue），再用 <strong>Board from an existing Saved Filter</strong> 建出第二個 board。要注意這個 board 是掛在 filter 上的，<strong>所有能存取該 filter 的人都看得到它</strong>，所以 filter 的分享範圍要一併考慮。</div></details>
+<details class="q"><summary>誰能把 Kanban backlog 開起來？</summary><div class="a"><div class="tag">解答</div>能開的是<strong>該 board 的 board admin，或 board 所在 project 的 project admin</strong>（Jira admin 當然也可以）。路徑是 Board ••• → Board settings → Columns，把一個既有的 status 拖進「Kanban backlog」面板；沒有合適的 status 就先 Add status 建一個再拖。開啟之後，所有使用這個 board 的人才會看到 Backlog 畫面。</div></details>
 </div>
 </section>
 
@@ -256,16 +256,16 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Board 屬於某個 project」</td><td>Board 屬於一份 <strong>filter</strong>；location 只是它掛在哪裡</td></tr>
-<tr><td>「Scrum board 隨時看得到所有 issue」</td><td>只看 active sprint；sprint 開始前是空的</td></tr>
-<tr><td>「Kanban 的 Done 會自動消失」</td><td>CMP 要 Release；只有 TMP（無 sprint）才 14 天自動清</td></tr>
-<tr><td>「Kanban with backlog 是另一種 board 類型」</td><td>就是 Kanban board 開了 Kanban backlog；仍是 Kanban</td></tr>
-<tr><td>「Kanban board 不能估點」</td><td>可以設 estimation，只是通常不用；報表以 control chart／CFD 為主</td></tr>
-<tr><td>「一個 board 可以顯示無限多 issue」</td><td>上限 5,000</td></tr>
-<tr><td>「Board 可以從 Kanban 切成 Scrum」</td><td>不能互轉，用同一份 filter 重建（產品行為，官方頁未明寫）</td></tr>
+<tr><td>「Board 屬於某個 project」</td><td>board 真正綁定的是一份 <strong>filter</strong>，filter 撈到什麼它就顯示什麼；board 的 location 只是決定它掛在哪個 project 的側欄底下方便找，跟內容無關</td></tr>
+<tr><td>「Scrum board 隨時看得到所有 issue」</td><td>Scrum board 只顯示<strong>目前進行中的 sprint</strong> 裡的 issue；沒有 sprint 在跑時 board 是空的，其他 issue 都待在 Backlog 畫面</td></tr>
+<tr><td>「Kanban 的 Done 會自動消失」</td><td>要看是哪一種 project。CMP 的 Kanban 得靠<strong>發佈 release</strong>（或調 Hide completed work）才會清掉；<strong>只有未啟用 Sprints 的 TMP</strong> 才有 14 天自動清除的行為</td></tr>
+<tr><td>「Kanban with backlog 是另一種 board 類型」</td><td>它本質上就是一個開啟了 Kanban backlog 的 Kanban board，類型仍然是 Kanban；建立 board 時也沒有這個選項可以選</td></tr>
+<tr><td>「Kanban board 不能估點」</td><td>可以估。Kanban board 一樣有 estimation 設定，只是實務上多半不估點，改看流動效率，所以主要報表是 control chart 與 cumulative flow diagram</td></tr>
+<tr><td>「一個 board 可以顯示無限多 issue」</td><td>一個 board 最多顯示 <strong>5,000</strong> 個 issue，超過的部分不會出現；真的撞到上限就要縮小 filter 範圍</td></tr>
+<tr><td>「Board 可以從 Kanban 切成 Scrum」</td><td>不能互轉，Board settings 裡沒有切換類型的選項；只能用同一份 filter 另外建一個（這是產品行為，官方頁面沒有明寫）</td></tr>
 <tr><td>「Parallel sprints 是 CMP 專屬」</td><td>CMP、TMP 都支援；只有<strong>啟用路徑</strong>不同（CMP 走 Jira configuration，需 Administer Jira）</td></tr>
-<tr><td>「TMP 隨時都能手動 Clear Done」</td><td>啟用 Sprints 後<strong>不能</strong>手動清；且只有 space admin 與 Jira admin 能清</td></tr>
-<tr><td>「清 Done 只清完成的卡」</td><td>清 parent 時<strong>連未完成的 sub-task 一起</strong>從 board 清掉</td></tr>
+<tr><td>「TMP 隨時都能手動 Clear Done」</td><td>不是。一旦啟用了 Sprints，手動清除的選項就會消失，改成靠完成 sprint 來清；而且就算沒啟用 Sprints，也只有 space admin 與 Jira admin 清得動</td></tr>
+<tr><td>「清 Done 只清完成的卡」</td><td>不是。清除 parent 時，它底下的 sub-task <strong>不管完成沒完成都會一起</strong>從 board 上被清掉；不過這只是從 board 移除，資料還在，用 See all Done work items 找得回來</td></tr>
 </table></div>
 </section>
 

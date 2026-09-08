@@ -104,7 +104,7 @@
 <tr><td><strong>Avatar／Icon</strong></td><td>側欄與 project 列表的圖示</td><td>Project admin</td><td>無副作用</td></tr>
 <tr><td><strong>Project lead／owner</strong></td><td>通常就是 project admin；也是 Default assignee 的候選</td><td>Project admin</td><td>人員異動要換；影響「Project lead」型的權限與通知</td></tr>
 <tr><td><strong>Default assignee</strong></td><td>新 issue 沒指定 assignee 時給誰；Open project 讓全站丟需求時特別有用，lead 會收到通知</td><td>Project admin</td><td><strong>只能選 Unassigned 或 Project lead</strong>；想指定別人要先換 lead</td></tr>
-<tr><td>Background、Card covers</td><td>視覺客製</td><td>Project admin</td><td>無副作用</td></tr>
+<tr><td>Background、Card covers</td><td>純粹是外觀客製，讓 project 在視覺上比較好辨識</td><td>Project admin</td><td>無副作用</td></tr>
 </table></div>
 <div class="callout warn"><div class="t">兩個常被弄錯的限制</div>
 <ul style="margin:0">
@@ -152,12 +152,12 @@
 <h3>改 key 之前要想到的（官方清單）</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:30%">項目</th><th>官方說法</th></tr>
-<tr><td>先備份</td><td>做重大變更前先備份站台</td></tr>
+<tr><td>先備份</td><td>官方建議在做這類重大變更之前先備份整個站台，萬一結果不如預期還有退路</td></tr>
 <tr><td>舊 key 不能再用</td><td>舊 key 只有在<strong>刪掉原 project</strong>（或刪掉 previous key）後才能給新 project</td></tr>
-<tr><td>Confluence macro</td><td>繼續運作，快取可能延遲一下</td></tr>
+<tr><td>Confluence macro</td><td>Confluence 上引用 Jira issue 的 macro 會繼續正常運作，只是快取可能讓畫面延遲一小段時間才更新</td></tr>
 <tr><td>舊連結</td><td>靠 <strong>alias</strong> 繼續運作：描述裡的 <code>EXAMPLE-1</code> 不會被改寫成 <code>DEMO-1</code>，但點下去會到 DEMO-1</td></tr>
 <tr><td>要通知使用者</td><td>建議更新 board filter、dashboard filter gadget、全域 JQL 為新 key（雖然舊的仍能動）</td></tr>
-<tr><td>key 規則</td><td>至少 2 字元、大寫字母開頭、只含大寫字母與數字</td></tr>
+<tr><td>key 規則</td><td>新的 key 一樣要遵守規則：至少 2 個字元、以大寫字母開頭、只包含大寫字母與數字</td></tr>
 </table></div>
 <div class="callout warn"><div class="t">證據界線：改 key 要什麼權限，兩篇官方寫得不一樣</div>
 <ul style="margin:0">
@@ -263,16 +263,16 @@
 <tr><td>Restore</td><td><strong>Administer Jira</strong></td><td>⚙ → Projects → Trash → ••• → Restore；legacy 的無效 epic-link 關係不會被恢復</td></tr>
 <tr><td>Delete permanently</td><td><strong>Administer Jira</strong></td><td>⚙ → Projects → Trash → ••• → Delete permanently；<strong>必須先在 trash 裡</strong>，不能直接刪</td></tr>
 <tr><td>Trash 期間</td><td>—</td><td>issue、components、attachments、versions 一起進 trash；issue 從基本／進階搜尋消失，直連可讀不可編；project 從目錄消失；admin 可看到誰、何時丟的、何時會被永久刪</td></tr>
-<tr><td>不受影響</td><td>—</td><td>schemes、workflows、issue types、共用設定</td></tr>
+<tr><td>不受影響</td><td>—</td><td>scheme、workflow、issue type 以及與其他 project 共用的設定都不受影響，它們是站台層級的物件，不會跟著 project 進 trash</td></tr>
 </table></div>
 <h3 style="margin-top:24px">Trash 與 Archive 不是同一件事</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:16%">面向</th><th style="width:42%">Trash</th><th>Archive（封存）</th></tr>
-<tr><td>方案</td><td>所有方案都有</td><td><strong>只有 Premium／Enterprise</strong> 能封存；之後降到 Standard 仍可存取與還原已封存的 project，但<strong>不能再封存新的</strong></td></tr>
+<tr><td>方案</td><td>所有方案都有，Free 也不例外</td><td><strong>只有 Premium／Enterprise</strong> 能封存；之後降到 Standard 仍可存取與還原已封存的 project，但<strong>不能再封存新的</strong></td></tr>
 <tr><td>誰能做</td><td>Move to trash：Administer Jira <strong>或</strong>該 project 的 Administer Projects；Restore／永久刪除：<strong>Administer Jira</strong></td><td>Jira／site admin 可封存與還原 <strong>CMP 與 TMP</strong>；project admin <strong>只能封存 TMP</strong></td></tr>
-<tr><td>期限</td><td>60 天後永久刪除</td><td><strong>沒有期限</strong>，不會被自動刪除</td></tr>
+<tr><td>期限</td><td>60 天後自動永久刪除；期限內有 Administer Jira 的人也可以提早手動刪掉</td><td><strong>沒有期限</strong>，不會被自動刪除</td></tr>
 <tr><td>一起被處理的資料</td><td>issue、components、attachments、versions</td><td>同樣是 issue、components、attachments、versions；<strong>不影響</strong> scheme、workflow、issue type 與跟別的 project 共用的設定</td></tr>
-<tr><td>還看得到嗎</td><td>搜尋看不到；直連可讀不可編</td><td>一樣搜尋看不到、<strong>直連可讀不可編</strong>；封存前就有權限的人仍可透過 <strong>API</strong> 讀到 project 細節，要真的擋掉必須<strong>封存前先改權限</strong></td></tr>
+<tr><td>還看得到嗎</td><td>搜尋看不到；拿到直接連結的人可以讀，但不能編輯</td><td>一樣搜尋看不到、<strong>直連可讀不可編</strong>；封存前就有權限的人仍可透過 <strong>API</strong> 讀到 project 細節，要真的擋掉必須<strong>封存前先改權限</strong></td></tr>
 </table></div>
 <div class="callout warn"><div class="t">兩個容易被考的細節</div>
 <ul style="margin:0">
@@ -301,17 +301,17 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>Project admin 小美想把 project key 從 MOB 改成 APP，Details 頁的 key 欄位是灰的。為什麼？</summary><div class="a"><div class="tag">解答</div>改 key 需要 org／site／Jira admin；project admin 改不了。</div></details>
-<details class="q"><summary>Key 改成 APP 後，同事留言裡的 MOB-12 連結還能點嗎？</summary><div class="a"><div class="tag">解答</div>能。舊 key 存為 previous key，alias 會導向 APP-12；連結文字不會被改寫。</div></details>
-<details class="q"><summary>改 key 之後，Jira admin 還應該提醒團隊做什麼？</summary><div class="a"><div class="tag">解答</div>更新 board filter、dashboard filter gadget、全域 JQL 為新 key，並在改之前備份站台。</div></details>
-<details class="q"><summary>公司想把舊 key MOB 拿給一個全新的 project 用，該怎麼做、有什麼風險？</summary><div class="a"><div class="tag">解答</div>在原 project 的 Details → Previous keys 刪除 MOB（需 org／site／Jira admin）。風險：所有還在用 MOB 的連結、board filter、gadget、JQL 都會失效，要先通知使用者。</div></details>
-<details class="q"><summary>Default assignee 想設成 QA 小傑，但下拉只有 Unassigned 和小美。怎麼辦？</summary><div class="a"><div class="tag">解答</div>Default assignee 只能是 Unassigned 或 Project lead；把 Project lead 改成小傑再選。</div></details>
-<details class="q"><summary>想把 6 個 project 的 issue 放在同一個 dashboard 看，且不想一個一個列 project key。</summary><div class="a"><div class="tag">解答</div>請 Jira admin 建 category，各 project 指派後用 <code>category = "X"</code> 的 filter 餵 gadget。</div></details>
-<details class="q"><summary>PM 想用 category 做「母 project 底下有子 project」的結構。</summary><div class="a"><div class="tag">解答</div>做不到，官方明講 category 不能做階層；它只是標籤。跨 project 的階層要用 Plans 或跨 project epic。</div></details>
+<details class="q"><summary>Project admin 小美想把 project key 從 MOB 改成 APP，Details 頁的 key 欄位是灰的。為什麼？</summary><div class="a"><div class="tag">解答</div>因為<strong>改 project key 需要 org、site 或 Jira admin 等級的權限</strong>，一般的 project admin 沒有這個資格，所以欄位會呈現灰色不可編輯。這個設計是刻意的：key 是每張 issue 編號的前綴，改動會牽動全站的連結、filter 與 JQL，所以 Atlassian 把它收在站台管理員手上。小美要做的是把需求交給 Jira admin，而不是在 project settings 裡找別的入口。</div></details>
+<details class="q"><summary>Key 改成 APP 後，同事留言裡的 MOB-12 連結還能點嗎？</summary><div class="a"><div class="tag">解答</div><strong>能點，而且會正確導向。</strong>Jira 在改 key 時會把舊的 MOB 自動存進 <strong>Previous keys</strong>，並建立一個 alias（別名）；任何人點到 MOB-12 都會被導向 APP-12。要注意的是<strong>連結上的文字不會被改寫</strong>——留言裡看到的仍然是「MOB-12」這幾個字，只是點下去會到新的地方，所以團隊初期會有一段時間新舊 key 混著出現，這是正常的。</div></details>
+<details class="q"><summary>改 key 之後，Jira admin 還應該提醒團隊做什麼？</summary><div class="a"><div class="tag">解答</div>雖然舊 key 靠 alias 仍然能動，官方還是建議把 <strong>board filter、dashboard 的 filter gadget、以及各種全域 JQL 查詢</strong>都更新成新的 key，讓設定與現況一致，避免日後有人看到舊 key 一頭霧水。另外在動手改之前應該<strong>先備份站台</strong>——這是官方對所有重大變更的一貫建議。</div></details>
+<details class="q"><summary>公司想把舊 key MOB 拿給一個全新的 project 用，該怎麼做、有什麼風險？</summary><div class="a"><div class="tag">解答</div>做法是到原 project 的 <strong>Details → Previous keys</strong> 把 MOB 這筆刪掉（一樣需要 org／site／Jira admin），舊 key 釋放出來之後才能給新 project 使用。<strong>風險相當高</strong>：一旦刪除，支撐舊連結的 alias 就消失了，所有還在引用 MOB 的連結、board filter、dashboard gadget 與 JQL 全部會失效，而且無法自動修復。所以標準做法是<strong>先公告、先確認沒有人還在用舊 key，再刪</strong>。</div></details>
+<details class="q"><summary>Default assignee 想設成 QA 小傑，但下拉只有 Unassigned 和小美。怎麼辦？</summary><div class="a"><div class="tag">解答</div>因為 <strong>Default assignee 不是一個可以自由挑人的 user picker</strong>，它的下拉永遠只有兩個選項：Unassigned，或是這個 project 的 <strong>Project lead（owner）</strong>。所以看到「只有 Unassigned 和小美」是正常的——小美就是現任 lead。想讓新 issue 預設指派給小傑，唯一的路是<strong>先把 Project lead 改成小傑</strong>，下拉裡才會出現他。順帶一提，如果連 Unassigned 都選不到，那是站台的 ⚙ → General configuration 把「Allow unassigned issues」關掉了。</div></details>
+<details class="q"><summary>想把 6 個 project 的 issue 放在同一個 dashboard 看，且不想一個一個列 project key。</summary><div class="a"><div class="tag">解答</div>用 <strong>project category</strong>。先請 Jira admin 到 ⚙ → Projects → Project categories 建一個分類，再到每個 project 的 Project settings → Details 把它指派上去；之後用 JQL <code>category = "X"</code> 建一個 saved filter，拿這個 filter 去餵 dashboard gadget 就好。這樣做的好處是<strong>之後增減 project 不必回頭改 filter</strong>——新 project 只要指派同一個 category 就自動被納入，比手動列出六個 project key 好維護得多。</div></details>
+<details class="q"><summary>PM 想用 category 做「母 project 底下有子 project」的結構。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>官方文件明講 category <strong>不支援階層</strong>，它本質上只是貼在 project 上的一個標籤，用來在目錄裡篩選與分群，沒有母子關係的概念。真的需要跨 project 的階層，有兩條路：用 Premium 方案的 <strong>Plans</strong>（可以在 epic 之上再疊層級），或是利用 CMP 的 epic 可以收別的 project 的 issue 當 child 這個特性，做出跨 project 的工作階層。</div></details>
 <details class="q"><summary>Project admin 想把自己的 project 丟進 trash，需要找 Jira admin 嗎？之後想還原呢？</summary><div class="a"><div class="tag">解答</div>丟進 trash 不用：官方寫 Administer Jira <strong>或</strong> Administer Projects 都可以。但 <strong>Restore 與 Delete permanently 只有 Administer Jira</strong>，這時才要找 Jira admin。</div></details>
-<details class="q"><summary>Project 進 trash 後，有人用 JQL 搜還找得到裡面的 issue 嗎？拿到直連呢？</summary><div class="a"><div class="tag">解答</div>搜尋找不到；直連可以開來看，但不能編輯。60 天內 Jira admin 可還原。</div></details>
-<details class="q"><summary>Jira admin 想直接永久刪除一個 project，找不到 Delete 按鈕。</summary><div class="a"><div class="tag">解答</div>必須先 Move to trash，再到 ⚙ → Projects → Trash 裡 Delete permanently。</div></details>
-<details class="q"><summary>Project admin 想讓 Releases tab 出現在 project 導覽上，但找不到。</summary><div class="a"><div class="tag">解答</div>導覽項目取決於開啟的 features：TMP 去 Project settings → Features 開 Releases；CMP 需要 project 有 versions（Releases 對應 versions）。導覽本身 project／board admin 就能加、排、移除。</div></details>
+<details class="q"><summary>Project 進 trash 後，有人用 JQL 搜還找得到裡面的 issue 嗎？拿到直連呢？</summary><div class="a"><div class="tag">解答</div><strong>搜尋找不到</strong>——不論基本搜尋還是 JQL 進階搜尋，trash 裡的 issue 都不會出現在結果中，project 也會從目錄消失。但如果有人手上握有<strong>直接連結</strong>，還是打得開來看，只是<strong>不能編輯</strong>。這 60 天內 Jira admin 可以隨時把整個 project 還原回來，附帶的 issue、components、attachments、versions 都會一起回來。</div></details>
+<details class="q"><summary>Jira admin 想直接永久刪除一個 project，找不到 Delete 按鈕。</summary><div class="a"><div class="tag">解答</div>因為 Jira <strong>不提供一步到位的永久刪除</strong>，一定要走兩段：先 Move to trash，再到 ⚙ → Projects → <strong>Trash</strong> 找到那個 project，從 ••• 選 <strong>Delete permanently</strong>。這個設計是為了給誤刪一個緩衝。反過來說也要提醒：東西進了 trash <strong>不代表 60 天內一定安全</strong>，任何有 Administer Jira 的人都能在期限內提前永久刪除。</div></details>
+<details class="q"><summary>Project admin 想讓 Releases tab 出現在 project 導覽上，但找不到。</summary><div class="a"><div class="tag">解答</div>要記住 sidebar／導覽是<strong>呈現層</strong>，它上面有什麼，取決於底層開了哪些 features，而不是導覽本身壞掉。TMP 的做法是到 <strong>Project settings → Features</strong> 把 Releases 打開；CMP 則要確認這個 project 真的有 versions（導覽上的 Releases 對應的就是 versions 功能）。底層條件滿足之後，導覽的增減、排序、改名、設 default，<strong>project admin 或 board admin 自己就能做</strong>，不必找 Jira admin。</div></details>
 </div>
 </section>
 
@@ -321,21 +321,21 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「改 key 會讓舊連結全部失效」</td><td>不會；previous key 的 alias 會導向。刪 previous key 才會失效</td></tr>
-<tr><td>「Project admin 可以改 key」</td><td>只有 org／site／Jira admin</td></tr>
+<tr><td>「改 key 會讓舊連結全部失效」</td><td>不會。舊 key 會被存成 previous key，靠 alias 把舊連結導向新的 issue；真正會讓連結失效的是之後把 previous key 刪掉</td></tr>
+<tr><td>「Project admin 可以改 key」</td><td>改 key 需要 org、site 或 Jira admin；project admin 看到的是灰色不可編輯的欄位</td></tr>
 <tr><td>「Default assignee 可以指定任何成員」</td><td>只有 Unassigned 或 Project lead／owner（官方原句 the default assignee can only be either Unassigned, or the Space owner，2026-09-08）</td></tr>
-<tr><td>「Project admin 可以建 category」</td><td>Jira admin 才能建；project 只能挑</td></tr>
-<tr><td>「Category 可以做 parent project」</td><td>不能做階層</td></tr>
+<tr><td>「Project admin 可以建 category」</td><td>category 是站台層級的物件，只有 Jira admin 建得出來；project 這邊只能從既有清單裡挑一個來指派</td></tr>
+<tr><td>「Category 可以做 parent project」</td><td>官方明確說 category 不支援階層，它只是分群用的標籤；要階層得用 Plans 或跨 project 的 epic</td></tr>
 <tr><td>「Project admin 丟了 project 也能自己還原」</td><td>丟 trash：Administer Jira 或 Administer Projects 都可；Restore／Delete permanently 只有 Administer Jira</td></tr>
-<tr><td>「Trash 裡的 issue 完全看不到」</td><td>搜尋看不到，直連可看不可編</td></tr>
-<tr><td>「Trash 會連 scheme 一起清掉」</td><td>schemes、workflows、issue types 不受影響</td></tr>
-<tr><td>「Software project 可以改成 Business project」</td><td>不能直接轉，建新 project 搬 issue</td></tr>
+<tr><td>「Trash 裡的 issue 完全看不到」</td><td>搜尋（含 JQL）看不到，但拿到直接連結的人仍打得開來讀，只是不能編輯</td></tr>
+<tr><td>「Trash 會連 scheme 一起清掉」</td><td>不會。scheme、workflow、issue type 這些站台層級的設定完全不受影響，被丟進 trash 的只有 project 與它的 issue、components、attachments、versions</td></tr>
+<tr><td>「Software project 可以改成 Business project」</td><td>不能直接轉換，Jira 沒有這個按鈕；只能建一個新的 Business project，再把 issue 用 bulk move 搬過去</td></tr>
 <tr><td>「Archive 和 Trash 差不多」</td><td>Archive 沒有期限、要 Premium／Enterprise；Trash 60 天後永久刪除，所有方案都有</td></tr>
-<tr><td>「進了 trash 的 project，60 天內一定救得回來」</td><td>有 Administer Jira 的人可以隨時提早 Delete permanently</td></tr>
+<tr><td>「進了 trash 的 project，60 天內一定救得回來」</td><td>不一定。60 天只是自動刪除的上限，期限內任何持有 Administer Jira 的人都可以直接執行 Delete permanently，一旦刪掉就救不回來</td></tr>
 <tr><td>「Project admin 可以封存任何 project」</td><td>project admin <strong>只能封存 TMP</strong>；CMP 要 Jira／site admin</td></tr>
 <tr><td>「封存後別人就完全存取不到了」</td><td>封存前有權限的人仍可透過 API 讀到細節；要擋掉必須封存前先改權限</td></tr>
 <tr><td>「navigation 上的 tab 都能移除」</td><td>List 與 Apps 不能移除，而且一定要留一個 default tab</td></tr>
-<tr><td>「加 shortcut 時填網域就好」</td><td>要完整 URI（含 <code>https://</code>）</td></tr>
+<tr><td>「加 shortcut 時填網域就好」</td><td>不行，必須填完整的 URI（含 <code>https://</code>）；只填網域或相對路徑不會生效</td></tr>
 </table></div>
 </section>
 

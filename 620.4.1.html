@@ -172,10 +172,10 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:18%">操作</th><th>能做什麼</th><th style="width:36%">注意</th></tr>
 <tr><td><strong>Edit</strong></td><td>一次改 assignee、due date、priority、components、labels、custom field…</td><td class="no">不能改：Summary、Description、Environment、Attachments、Project、Resolution、time tracking 欄位、Import Id、Read-only text 類 custom field</td></tr>
-<tr><td><strong>Move</strong></td><td>搬到另一個 project 或改 issue type</td><td>workflow 不同要對應 status、補必填欄位；<strong>CMP → TMP 會掉 components 與 versions</strong></td></tr>
-<tr><td><strong>Transition</strong></td><td>一批 issue 走同一個 transition</td><td>要填該 transition 的必填欄位（例如 Resolution）；只有共用 workflow 的 issue 能一起轉</td></tr>
-<tr><td><strong>Delete</strong></td><td>一次刪除</td><td>不可逆；一般建議用 Done 類狀態或 archive 取代</td></tr>
-<tr><td><strong>Watch／Stop watching</strong></td><td>批次加入或退出關注</td><td>—</td></tr>
+<tr><td><strong>Move</strong></td><td>把整批 issue 搬到另一個 project，或是一次改變它們的 issue type</td><td>workflow 不同要對應 status、補必填欄位；<strong>CMP → TMP 會掉 components 與 versions</strong></td></tr>
+<tr><td><strong>Transition</strong></td><td>讓一整批 issue 一起走同一個 transition，例如整批關單</td><td>要填該 transition 的必填欄位（例如 Resolution）；只有共用 workflow 的 issue 能一起轉</td></tr>
+<tr><td><strong>Delete</strong></td><td>一次刪除選取的所有 issue，包含它們的留言與附件</td><td><strong>不可逆</strong>，刪掉就救不回來；官方通常建議改用 Done 類狀態或 archive，保留資料以備日後查核</td></tr>
+<tr><td><strong>Watch／Stop watching</strong></td><td>一次把自己加入或移出這批 issue 的 watcher 名單</td><td>—</td></tr>
 </table></div>
 <div class="callout warn"><div class="t">考題最愛的兩個數字與一個清單</div><strong>1,000</strong>（上限）、<strong>兩層權限</strong>（Make bulk changes ＋ project 權限）、以及「Resolution 不能 bulk edit，要走 bulk transition」。</div>
 </section>
@@ -271,16 +271,16 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>PM 想把 sprint 結束時 200 張未完成的 issue 一次改成 priority = Low，並且不想寄出 200 封通知。</summary><div class="a"><div class="tag">解答</div><strong>Bulk change → Edit</strong>，第 4 步取消「Send mail for this update」。需要 Make bulk changes ＋ 該 project 的 Edit Issues。</div></details>
-<details class="q"><summary>使用者有 Make bulk changes 全域權限，但在某個 project 的搜尋結果裡看不到 Bulk change 選項。</summary><div class="a"><div class="tag">解答</div>缺第二層：該 project 的對應權限（例如 Edit Issues）。兩層都要。</div></details>
-<details class="q"><summary>想用 bulk edit 把 300 張 issue 的 Resolution 設成 Won't Do。</summary><div class="a"><div class="tag">解答</div>Resolution 不能 bulk edit；改用 <strong>bulk transition</strong> 走一個會要求 Resolution 的 transition。</div></details>
-<details class="q"><summary>每次 issue 轉到 Done，都要把 Resolution 設成 Done；團隊不想依賴任何人記得做。</summary><div class="a"><div class="tag">解答</div><strong>Post function</strong>（Update Issue Field → Resolution）掛在 Done transition；需要 Jira admin。同步且必然執行，比 automation 更適合。</div></details>
-<details class="q"><summary>Jira admin 在 Done transition 想把「Fire Generic Event」移到最前面，讓 app 早一點收到事件。</summary><div class="a"><div class="tag">解答</div>不可以。五個必要 post function 順序固定、不可刪改；改了會讓 automation 與 Marketplace app 行為異常。</div></details>
-<details class="q"><summary>主管要每週一 09:00 收到「逾期且未指派」的 issue 清單 email，不需要改任何欄位。</summary><div class="a"><div class="tag">解答</div><strong>Filter subscription</strong>：存 filter（`duedate < now() AND assignee is EMPTY AND resolution is EMPTY`），New subscription 排每週一。</div></details>
-<details class="q"><summary>承上，要寄給整個 `pm-team` 群組，但建立訂閱時找不到群組選項。</summary><div class="a"><div class="tag">解答</div>缺全域權限 <strong>Manage group filter subscriptions</strong>，請 Jira admin 授予。</div></details>
-<details class="q"><summary>Issue 建立時，若 component 是 Backend 就自動加三個固定 sub-task 並指派給 lead。</summary><div class="a"><div class="tag">解答</div><strong>Automation rule</strong>：Issue created → Issue fields condition（component = Backend）→ Create sub-tasks ×3 → Assign。有條件、要建相關 issue，其他手段做不到。</div></details>
-<details class="q"><summary>Project admin 想建一條「跨三個 project」的 rule。</summary><div class="a"><div class="tag">解答</div>Multi-project／global rule 需要 <strong>Administer Jira</strong>；project admin 只能建自己 project 的 rule，請 Jira admin 在 Global automation 建。</div></details>
-<details class="q"><summary>需求是「issue 進 In Progress 時，把它的 Confluence 需求頁狀態同步改成 In development」——Jira 內建手段做得到嗎？</summary><div class="a"><div class="tag">解答</div>Automation 可用 Send web request 或 Confluence 動作嘗試；若牽涉 Confluence 頁面屬性等內建動作不支援的操作，才考慮 Marketplace app。考題邏輯：先排除四種內建手段，再選 app。</div></details>
+<details class="q"><summary>PM 想把 sprint 結束時 200 張未完成的 issue 一次改成 priority = Low，並且不想寄出 200 封通知。</summary><div class="a"><div class="tag">解答</div>用 <strong>Bulk change → Edit</strong>：把 200 張搜出來，一次改 priority，並在精靈的第 4 步<strong>取消勾選「Send mail for this update」</strong>——這正是 bulk change 相較 automation 的一個優勢，它讓你明確決定要不要送通知。需要的權限有兩層：全域的 <strong>Make bulk changes</strong>，加上該 project 的 <strong>Edit Issues</strong>。另外記得一次上限是 <strong>1,000 張</strong>，200 張在範圍內。</div></details>
+<details class="q"><summary>使用者有 Make bulk changes 全域權限，但在某個 project 的搜尋結果裡看不到 Bulk change 選項。</summary><div class="a"><div class="tag">解答</div>因為 bulk change 需要<strong>兩層權限，缺一不可</strong>：第一層是全域的 <strong>Make bulk changes</strong>（決定選單出不出現的入口），第二層是<strong>每一個受影響 project 中對應該操作的權限</strong>——要 bulk edit 就得有 Edit Issues、要 bulk move 就得有 Move Issues、要 bulk transition 就得有 Transition Issues、要 bulk delete 就得有 Delete Issues。他現在缺的是第二層。跨 project 的批次操作更要注意，<strong>每一個 project 都要有</strong>，少一個就會被擋。</div></details>
+<details class="q"><summary>想用 bulk edit 把 300 張 issue 的 Resolution 設成 Won't Do。</summary><div class="a"><div class="tag">解答</div><strong>辦不到</strong>，因為 <strong>Resolution 不在 bulk edit 可改的欄位清單裡</strong>（同樣不能 bulk edit 的還有 Summary、Description、Environment、Attachments、Project 與 time tracking 欄位）。這是刻意的設計——Resolution 應該由流程來設定，而不是被人隨手改掉。正確做法是改用 <strong>bulk transition</strong>：挑一個會要求填 Resolution 的 transition（例如通往 Done 的那條），在精靈裡把 Resolution 設成 Won't Do，整批走過去。順帶記一組對照：<strong>要改 Resolution 走 bulk transition，要換 project 走 bulk move</strong>。</div></details>
+<details class="q"><summary>每次 issue 轉到 Done，都要把 Resolution 設成 Done；團隊不想依賴任何人記得做。</summary><div class="a"><div class="tag">解答</div>用 <strong>workflow post function</strong>：在通往 Done 的那個 transition 上加一個 <strong>Update Issue Field → Resolution = Done</strong>。要請 Jira admin 處理（workflow 是全站物件），改完還要 publish workflow。為什麼這裡比 automation 適合？因為 post function 是<strong>同步執行、而且必然執行</strong>——它是 transition 動作的一部分，不會有延遲，也不受執行上限或 actor 權限影響。automation 是非同步的，可能有幾秒延遲，還可能因為額度或權限而沒跑。<strong>凡是「每次轉換都必須發生、且要立即生效」的事，優先考慮 post function</strong>。順帶一提，記得在 Reopen 的 transition 加一個清除 Resolution 的 post function，否則重開的 issue 會帶著舊的結案值。</div></details>
+<details class="q"><summary>Jira admin 在 Done transition 想把「Fire Generic Event」移到最前面，讓 app 早一點收到事件。</summary><div class="a"><div class="tag">解答</div><strong>不可以。</strong>每個 transition 上都有五個系統必備的 post function，它們的<strong>順序是固定的，既不能刪除也不能重新排列</strong>：先更新 issue 的欄位、再建立變更歷史、再把變更寫入資料庫、重新索引，最後才 Fire Generic Event 通知所有監聽者。這個順序是有道理的——事件必須在資料真正寫入且索引完成之後才發出，否則 automation 規則或 Marketplace app 收到通知時去讀 issue，可能讀到還沒更新的舊資料。自訂的 post function 只能插在這五個之間的允許位置。</div></details>
+<details class="q"><summary>主管要每週一 09:00 收到「逾期且未指派」的 issue 清單 email，不需要改任何欄位。</summary><div class="a"><div class="tag">解答</div>用 <strong>filter subscription</strong>。步驟是：先把查詢存成 filter（例如 <code>duedate &lt; now() AND assignee is EMPTY AND resolution is EMPTY</code>），再到 Filter → Details → <strong>New subscription</strong>，收件人選主管、排程設每週一 09:00。選它而不選 automation 的理由就在題目那句「<strong>不需要改任何欄位</strong>」——filter subscription 是純粹的通知手段，不會動到任何資料。還有一個貼心的特性：<strong>信件內容會以「收件人自己的權限」執行 filter</strong>，所以不會意外把他無權查看的 issue 寄給他。</div></details>
+<details class="q"><summary>承上，要寄給整個 `pm-team` 群組，但建立訂閱時找不到群組選項。</summary><div class="a"><div class="tag">解答</div>因為缺少全域權限 <strong>Manage group filter subscriptions</strong>。訂閱寄給<strong>自己</strong>不需要特別權限，但要寄給一整個<strong>群組</strong>就需要這一項，這是為了避免任何人都能對全公司發送定期信件。它是全域權限，只有 Jira admin 能授予，而且<strong>只能授予群組</strong>（全域權限都是如此）。順帶提醒另一個相關的全域權限：把 filter 分享給別人需要 <strong>Share dashboards and filters</strong>，兩者常一起被誤認。</div></details>
+<details class="q"><summary>Issue 建立時，若 component 是 Backend 就自動加三個固定 sub-task 並指派給 lead。</summary><div class="a"><div class="tag">解答</div>用 <strong>automation rule</strong>：trigger 選 <code>Issue created</code>，加一個 <code>Issue fields condition</code> 判斷 component 是不是 Backend，成立就執行三次 <code>Create sub-task</code>，再 <code>Assign issue</code>。為什麼其他手段都不行？<strong>bulk change</strong> 要人手發動，不會自己跑；<strong>post function</strong> 只在 transition 時觸發，而建立 issue 不是 transition，而且它沒有條件分支；<strong>filter subscription</strong> 只寄信、不改資料。這題涵蓋了 automation 的三個獨門能力：<strong>事件觸發、條件判斷、建立相關 issue</strong>。</div></details>
+<details class="q"><summary>Project admin 想建一條「跨三個 project」的 rule。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>project admin 只能在 Project settings → Automation 建立<strong>單一 project 範圍</strong>的規則；一旦規則要橫跨多個 project（multi-project rule）或全站生效（global rule），就需要 <strong>Administer Jira</strong> 權限，得由 Jira admin 在 Global automation 建立。這個限制的道理很直接——跨 project 的規則會影響別人的資料，不該由單一 project 的管理者決定。務實的做法是：把需求（觸發、條件、動作）寫清楚後開單給 Jira admin，或者退而求其次，在三個 project 各建一條相同的規則（但日後維護會很痛苦）。</div></details>
+<details class="q"><summary>需求是「issue 進 In Progress 時，把它的 Confluence 需求頁狀態同步改成 In development」——Jira 內建手段做得到嗎？</summary><div class="a"><div class="tag">解答</div><strong>先嘗試 automation</strong>：它有內建的 Confluence 相關動作，也可以用 <strong>Send web request</strong> 呼叫 Confluence 的 API。只有當需求牽涉到內建動作真的不支援的操作（例如某些頁面屬性的細部控制），才輪到 Marketplace app。這題想建立的是<strong>考試的作答邏輯</strong>：app 永遠是「排除法之後的最後選項」——先問 bulk change、post function、filter subscription、automation 這四種內建手段能不能做，四種都不行才選 app。考題不會考特定 app 的名稱或功能。</div></details>
 </div>
 </section>
 
@@ -290,12 +290,12 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「有 Make bulk changes 就能 bulk 任何操作」</td><td>還要每個 project 對應的權限（Edit／Move／Transition／Delete Issues）</td></tr>
+<tr><td>「有 Make bulk changes 就能 bulk 任何操作」</td><td>不行。它只是入口，實際執行時還要在<strong>每一個受影響的 project</strong> 具備對應權限：bulk edit 要 Edit Issues、move 要 Move Issues、transition 要 Transition Issues、delete 要 Delete Issues</td></tr>
 <tr><td>「Bulk edit 可以改 Summary 或 Resolution」</td><td>Summary、Description、Environment、Attachments、Project、Resolution、time tracking 都不能；Resolution 走 bulk transition，Project 走 bulk move</td></tr>
 <tr><td>「Post function 只有 Jira admin 看得到，跟 project admin 無關」</td><td>Project admin 要懂它的效果（例如 Resolution 為什麼自動被設），才能判斷需求該找 Jira admin 還是自己用 automation</td></tr>
-<tr><td>「Filter subscription 可以順便改欄位」</td><td>只寄 email；要改欄位用 automation Scheduled trigger</td></tr>
-<tr><td>「Automation 是萬能的，一律用它」</td><td>每次 transition 都要做、且要同步保證的事，post function 更可靠；一次性的事用 bulk change 更省</td></tr>
-<tr><td>「Project admin 可以建 global rule」</td><td>只能建自己 project 的 rule；global／multi-project 要 Administer Jira</td></tr>
+<tr><td>「Filter subscription 可以順便改欄位」</td><td>不行。filter subscription 是純粹的通知手段，只會按排程寄出清單，一個欄位都不會動；需要定時修改資料請改用 automation 的 Scheduled trigger</td></tr>
+<tr><td>「Automation 是萬能的，一律用它」</td><td>不是。<strong>每次 transition 都必須發生、而且要立即生效</strong>的事情，post function 更可靠（同步、必然執行、不受額度限制）；<strong>只做一次</strong>的清理用 bulk change 更省事，留一條永久規則反而是負擔</td></tr>
+<tr><td>「Project admin 可以建 global rule」</td><td>不能。project admin 只能建立範圍限於自己 project 的規則；global 或 multi-project 規則需要 <strong>Administer Jira</strong>，得由 Jira admin 建立</td></tr>
 </table></div>
 <div class="callout warn"><div class="t">選型反例：一次性清理不要留成永久 Scheduled rule</div>
 「把 300 張舊卡補上 label」是<strong>一次性</strong>需求，做成每天跑的 Scheduled rule 會長期吃用量、而且未來新卡也會被改到。正確做法是<strong>分批 Bulk change，做完就結束</strong>。反過來，「每次建立 Bug 都要指派」是持續性需求，用 bulk change 只會補一次、之後的新卡不會處理。

@@ -12,10 +12,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "Scrum 直接支援 sprint 規劃、承諾與交付檢視（Velocity、Sprint report）。",
-   "B": "Done 欄只是完成狀態的欄位，不提供 sprint 節奏與逐期比較。",
-   "C": "名稱不會帶來 sprint 功能。",
-   "D": "Labels 只分類工作，不建立交付節奏。"
+   "A": "正解。「每兩週固定規劃一批」就是 sprint 的定義，「比較每期的交付量」則指向 <strong>Velocity chart</strong>——它以每個 sprint 兩根柱子對照承諾量與完成量，正是用來逐期比較的工具。這些功能（sprint 規劃、Sprint report、Velocity）都是 <strong>Scrum board 專屬</strong>，Kanban 沒有。",
+   "B": "每一種 board 都有 Done 欄，它只代表「完成」這個狀態，<strong>不會帶來固定週期的節奏，也不提供逐期比較的報表</strong>。Kanban 能看的是 cycle time 與流動效率。",
+   "C": "project 的名稱純粹是顯示用的文字，不會讓任何功能出現或消失。",
+   "D": "label 只能替工作貼分類標籤，<strong>建立不了交付節奏</strong>，也產生不了 velocity 這種以 sprint 為單位的統計。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-software-board/",
@@ -42,10 +42,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "拆容器增加管理成本，仍沒有分開 ready 與待評估。",
-   "A": "錯。多開 project 只增加管理成本，仍然沒有把「待評估」與「可執行」的工作分開。",
-   "B": "Kanban 保留持續流動，Kanban backlog 把待評估工作移到獨立畫面，執行板只留 ready 的工作。",
-   "C": "刪除會失去需求，不是管理待辦的方法。"
+   "D": "每人一個 project 會讓管理成本暴增（各自的權限、設定、報表），而且<strong>仍然沒有把「待評估」與「可執行」的工作分開</strong>，根本沒解決題目的問題。",
+   "A": "Scrum 適合的是「固定週期承諾一批工作」，而題目說的是<strong>每天不定量接件</strong>——這是連續流，硬套 sprint 節奏只會讓團隊每兩週重排一次計畫，卻仍然被臨時工作打斷。「工作很多」不是選 Scrum 的理由。",
+   "B": "正解。兩個需求各自對應到一個設計：<strong>Kanban</strong> 保留持續流動的工作方式，而<strong>開啟 Kanban backlog</strong> 則把「待評估」的工作移到一個獨立的 Backlog 畫面，讓執行板上只留下已經 ready 的工作。這正好解決「待評估清單很長且把執行板塞滿」的問題，而且不需要改變團隊既有的工作節奏。",
+   "C": "刪除等於丟掉需求，那些工作並沒有消失，只是不再被追蹤——這不是管理待辦的方法，而是掩蓋問題。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-software-board/",
@@ -72,10 +72,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "同一 issue 的狀態異動會同時反映在所有符合條件的 board。",
-   "D": "多塊 board 可並存。",
-   "A": "Board 只是視圖，不會複製 issue。",
-   "B": "建立 board 不等於建立 workflow。"
+   "C": "正解。因為<strong>board 的內容完全由 saved filter 決定</strong>，兩塊 board 讀同一份 filter，看到的自然是同一批 issue。所以在其中一塊 board 上把卡片拖到下一欄（等於改了 status），另一塊 board 重新整理後也會看到同樣的變化——它們是同一份資料的兩個視窗。",
+   "D": "多塊 board 可以並存，這正是 CMP 的優勢之一（TMP 才只有一塊）。原本的 board 完全不受影響。",
+   "A": "board 只是一個<strong>視圖</strong>，它不擁有資料、也不會複製任何 issue；兩塊 board 看到的是同一批 issue 的兩種呈現方式。",
+   "B": "建立 board 與建立 workflow 是完全不同的兩件事。board 是 filter 加上 column 對應，它不會產生任何新的流程物件。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-a-board/",
@@ -101,10 +101,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "Scrum 的 active sprints 視圖只顯示進行中 sprint 的工作；沒開始 sprint 就是空的。",
-   "A": "看板不需要 Jira admin。",
-   "B": "未估點不會讓 issue 從 board 消失。",
-   "C": "換 key 不影響 sprint 狀態。"
+   "D": "正解。Scrum board 的 active sprints 視圖<strong>只顯示目前進行中 sprint 裡的工作</strong>；如果沒有任何 sprint 被 Start，board 本來就是一片空白，工作全都待在 backlog。要檢查兩件事：有沒有 active sprint，以及工作有沒有被拉進那個 sprint。",
+   "A": "看 board 只需要 Browse Projects 權限，跟是不是 Jira admin 毫無關係。",
+   "B": "沒有估點的 issue 照樣會顯示在 board 上，估點只影響報表的數字，<strong>不會讓卡片消失</strong>。",
+   "C": "更換 project key 不會影響 sprint 的狀態，也不會讓 board 變空白（舊 key 還有 alias 可以導向）。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-a-board/",
@@ -131,10 +131,10 @@
   ],
   "answer": "A",
   "explain": {
-   "B": "Kanban backlog 不會建立 sprint 節奏。",
-   "C": "仍是原本的 issue，只是換個地方顯示。",
-   "D": "完成仍由 workflow 與最右欄決定。",
-   "A": "Kanban backlog 讓執行板聚焦，並保留可排序的待辦區。"
+   "B": "Kanban backlog <strong>不會建立任何 sprint 節奏</strong>——它只是多一個規劃用的畫面，board 仍然是連續流的 Kanban，沒有兩週週期這回事。",
+   "C": "backlog 裡的仍然是<strong>原本那些 issue</strong>，資料完全沒有分離，只是換一個地方顯示而已。任何時候用 JQL 都搜得到它們。",
+   "D": "完成與否仍然由 workflow 的 status 與 board 的欄位對應決定，沒有任何東西會「自動完成」。",
+   "A": "正解。Kanban backlog 的作用是<strong>把待處理的工作整理到一個獨立於執行板的區域</strong>：執行板上只留下真正在流動的工作，backlog 畫面則可以排 rank、用 Epic panel 分組來做規劃。開啟方式是到 Board settings → Columns，把一個 status 拖進 Kanban backlog 面板。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/",
@@ -160,10 +160,10 @@
   ],
   "answer": "B",
   "explain": {
-   "C": "有上限，且超過會影響效能與顯示。",
-   "D": "500 是單一 parent 的 child 顯示上限，不是 board。",
-   "A": "1,000 是 bulk change 的一次上限。",
-   "B": "官方文件：board 最多顯示 5,000 個 issue，超過要縮小 filter 範圍。"
+   "C": "是有上限的，而且超過之後不只是效能問題，卡片會直接顯示不完整。",
+   "D": "500 是<strong>單一 parent 底下 child 的顯示上限</strong>（超過之後 parent 頁面列不出完整清單，time tracking 也不再納入 sub-task），跟 board 的上限是兩回事。",
+   "A": "1,000 是 <strong>bulk change 一次能處理的 issue 上限</strong>，不是 board 的顯示上限——這兩個數字很容易混淆。",
+   "B": "正解。官方文件說明<strong>一個 board 最多顯示 5,000 個 issue</strong>，超過的部分不會出現，而且會影響效能。真的逼近上限時，正確做法是縮小 board filter 的範圍（例如排除已完成很久的工作），而不是硬撐。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-software-board/"
@@ -188,10 +188,10 @@
   ],
   "answer": "C",
   "explain": {
-   "D": "過度且會遺失歷史。",
-   "A": "管理方式與 board 類型無關，且 TMP 反而只有一個 board。",
-   "B": "Board settings 沒有 Scrum／Kanban 的切換選項，board 類型在建立時決定。",
-   "C": "CMP 允許多個 board，直接為同一 project 建 Scrum board，資料不動。"
+   "D": "刪除 project 重建會遺失所有歷史資料，是嚴重的過度反應——這個需求根本不需要動到 project。",
+   "A": "管理方式（CMP／TMP）與 board 類型（Scrum／Kanban）是兩個獨立的維度，轉成 TMP 不會讓 board 變成 Scrum；<strong>而且 TMP 只能有一塊 board，選擇反而更少</strong>。何況兩者之間沒有一鍵轉換。",
+   "B": "Board settings 裡<strong>沒有</strong>切換 board 類型的選項——board 的類型在建立當下就決定了，之後改不了。",
+   "C": "正解。<strong>CMP 允許一個 project 底下有多個 board</strong>，所以最省事的做法就是用同一份 filter（或另存一份）在同一個 project 再建一個 Scrum board。既有的 issue 一張都不用動，兩塊 board 看的是同一批資料，只是節奏與呈現不同；舊的 Kanban board 可以留著也可以之後刪掉。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-a-board/",
@@ -217,10 +217,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "不是重新整理觸發。",
-   "D": "官方：Done 的 work item 14 天後自動清除；project admin 或 Jira admin 可手動 Clear Done work items。",
-   "A": "Release 清 Done 是 CMP Kanban sub-filter 的機制，不是 TMP 的。",
-   "B": "會自動清除。"
+   "C": "跟重新整理畫面無關，它是依照時間自動觸發的。",
+   "D": "正解。官方說明：TMP 的 Done work item 在移入 Done 欄 <strong>14 天後會自動被清除</strong>（從 board 上移除，資料不會刪除）；<strong>project admin 或 Jira admin 也可以隨時手動執行 Clear Done work items</strong> 提前清掉。要注意這只適用於<strong>沒有啟用 Sprints</strong> 的 TMP。",
+   "A": "靠 Release 版本來清 Done，是 <strong>CMP Kanban 的 sub-filter 機制</strong>（預設只顯示未發佈的版本），不是 TMP 的行為。",
+   "B": "會消失。TMP 有自動清除機制，所以 Done 欄不會無限累積。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/"
@@ -247,10 +247,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "官方明寫 Sprints 啟用時無法手動清除。",
-   "A": "sprint 完成時 Done 的工作從 board 清除，且不回 backlog。",
-   "B": "完成的工作不回 backlog。",
-   "C": "Sprints 啟用時連 Jira admin 也不能用手動清除。"
+   "D": "正好相反，官方明寫在 Sprints 啟用的情況下無法手動清除。手動 Clear Done work items 只存在於未啟用 Sprints 的 TMP。",
+   "A": "正解。官方明寫：<strong>啟用 Sprints 之後就無法手動清除 Done 工作</strong>，取而代之的是靠「完成 sprint」這個動作——sprint 結束時，落在最右欄的工作會被清出 board，而且<strong>不會回到 backlog</strong>（未完成的才會回去或轉到下一個 sprint）。",
+   "B": "完成的工作<strong>不會</strong>回到 backlog；會回 backlog 的是 sprint 結束時仍未完成的那些。",
+   "C": "啟用 Sprints 之後，<strong>連 Jira admin 也沒有手動清除的選項</strong>——這個功能整個消失，不是權限問題。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/"
@@ -277,10 +277,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "錯。官方明寫 parent 被清除時，其 sub-task 也一併清除，不會留在 board 上。",
-   "B": "不論 sub-task 狀態都跟著 parent 一起從 board 清除。",
-   "C": "不會被拒絕。",
-   "D": "不會改變 issue type。"
+   "A": "官方明寫 parent 被清除時 sub-task 會一併被清除，<strong>不會留在 board 上</strong>。",
+   "B": "正解。官方原句：<strong>當一個 parent work item 被清除時，它的 subtask 也會一併被清除，不論每個 subtask 各自是什麼狀態</strong>。所以未完成的 sub-task 也會從 board 上消失——這常讓團隊以為工作不見了。要強調的是<strong>這只是從 board 移除，資料完全沒有被刪除</strong>，用 Done 欄的 See all Done work items 或 JQL 都找得回來。",
+   "C": "Jira 不會因為底下有未完成的 sub-task 就拒絕清除，它會直接連帶清掉——這正是需要事先知道的行為。",
+   "D": "清除動作<strong>完全不會改變 issue type</strong>，sub-task 仍然是 sub-task，只是不顯示在 board 上。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/get-started-with-team-managed-projects/"
@@ -307,10 +307,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "官方沒有按 sprint／團隊拆分的功能。",
-   "C": "Velocity chart 是 board-specific；官方提醒 parallel sprints 假設各團隊估算方式一致。",
-   "D": "不會停用。",
-   "A": "Velocity 以 board 為單位。"
+   "B": "官方<strong>沒有提供</strong>按團隊或按 sprint 自動拆分 velocity 的功能。想分開看，只能讓兩個團隊各自使用自己的 board（各自的 filter）。",
+   "C": "正解。<strong>Velocity chart 是 board-specific 的</strong>——它統計的是整塊 board 的數字，不會自動按團隊拆開。官方還特別提醒：使用 parallel sprints 時<strong>假設各團隊的估算方式是一致的</strong>，如果兩組團隊的點數尺度不同，把它們加總比較是沒有意義的。",
+   "D": "啟用 parallel sprints 不會停用任何報表，Velocity 照常運作，只是數字混合了兩個團隊。",
+   "A": "Velocity chart 是<strong>以 board 為單位</strong>統計的，不會因為同時有兩個 active sprint 就產生兩張圖。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-sprints-in-company-managed-projects/",
@@ -337,10 +337,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "Complete Sprint 對未完成工作只提供 Backlog、任一既有的 future sprint、或新建 sprint 三個去處，不包含其他 active sprint。",
-   "D": "官方 Complete a sprint：未完成工作只能送到 backlog／future sprint／新 sprint，要進另一個 active sprint 得先經 backlog 再拖入。",
-   "A": "不是官方流程；且 bulk 仍需 Schedule 等權限。",
-   "B": "不一定要建新 sprint。"
+   "C": "Complete Sprint 對未完成工作提供的去處只有三個：<strong>Backlog、任一既有的 future sprint、或新建一個 sprint</strong>，<strong>不包含其他正在進行中的 active sprint</strong>。這正是本題的陷阱。",
+   "D": "正解。依官方 Complete a sprint 的說明，未完成的工作只能送到 backlog、future sprint 或新 sprint。所以要把它放進<strong>另一個 active sprint</strong>，必須分兩步走：<strong>先退回 backlog，再從 backlog 拖進那個 active sprint</strong>。這也對應到 parallel sprints 那一節的規則——不能在兩個 active sprint 之間直接互拖。",
+   "A": "這不是官方提供的流程。而且 bulk change 修改 sprint 欄位一樣需要對應的權限（Schedule Issues 等），並不會比較省事。",
+   "B": "不一定要新建 sprint——未完成的工作也可以送回 backlog 或放進一個既有的 future sprint。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-sprints-in-company-managed-projects/",
@@ -367,10 +367,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Location 只決定 board 掛在哪裡，不是資料來源。",
-   "A": "filter 決定候選，使用者的 Browse 與 issue security 決定實際看得到哪些。",
-   "B": "建 board 不會搬 issue。",
-   "C": "Swimlane 只是呈現分組。"
+   "D": "這是最容易誤選的一個。<strong>location 只決定這塊 board 掛在哪個 project 的側欄底下方便找</strong>，跟它顯示哪些資料完全無關——資料來源永遠是 filter。",
+   "A": "正解。board 的內容是<strong>兩道門</strong>共同決定的：<strong>filter 決定候選範圍</strong>（這裡是 WEBLAB 與 APILAB 兩個 project 的 issue），<strong>每位使用者自己的 Browse Projects 權限與 issue security 再決定他實際看得到哪幾張</strong>。所以同一塊 board，不同人看到的卡片數可能不一樣，這是正常的。",
+   "B": "建立 board <strong>不會搬動任何 issue</strong>。board 只是一個讀取資料的視窗，issue 仍然待在自己原本的 project 裡。",
+   "C": "swimlane 只負責把已經在 board 上的卡片<strong>橫向分組</strong>，它不會決定哪些 issue 進得來，也不會過濾掉任何東西。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/",
@@ -397,10 +397,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "顏色不授權。",
-   "A": "名稱不改權限。",
-   "B": "看得到 board ≠ 看得到每個 project 的 issue；先查缺少的 project 的 Browse 與 issue security。",
-   "C": "破壞資料且不解決權限。"
+   "D": "card colors 只是替卡片上色的呈現設定，<strong>不會授予任何人存取權限</strong>。",
+   "A": "board 的名稱純粹是顯示文字，改名不會改變任何人的權限。",
+   "B": "正解。這題考的是「兩道門」的分工：他打得開 board，代表<strong>第一道門（filter 分享）已經通過</strong>；看不到 APILAB 的卡片，問題就在<strong>第二道門</strong>——他缺少 APILAB 的 <strong>Browse Projects</strong> 權限，或是那些 issue 被 <strong>issue security level</strong> 擋住了。優先檢查這兩項。",
+   "C": "刪除 project 會摧毀資料，而且完全沒有解決權限問題——這是最不該做的選項。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/",
@@ -428,10 +428,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "另存新 filter 可保留其他 board 的既有範圍。",
-   "D": "會同時波及依賴同一 filter 的所有 board、gadget 與訂閱。",
-   "A": "Location 不改查詢。",
-   "B": "搬資料過度且可能改配置。"
+   "C": "正解。正確做法是<strong>用 Save as 另存一份新的 filter，改好 JQL 之後，把目標 board 的 filter 換成新的那一份</strong>。這樣其他兩塊 board 仍然指向原本的 filter，範圍完全不受影響，兩邊從此脫鉤。",
+   "D": "直接改原 filter 的 JQL，會<strong>同時波及所有依賴這份 filter 的 board、dashboard gadget 與 filter 訂閱</strong>——另外兩個團隊會突然發現自己的 board 少了一堆卡片，卻不知道發生什麼事。",
+   "A": "location 只決定 board 掛在哪裡，<strong>完全不影響它讀取的查詢</strong>，搬走 location 資料範圍一點也不會變。",
+   "B": "把 issue 搬到另一個 project 是動到真實資料的重大操作，可能連帶改變它們適用的 scheme 與設定——為了調整一塊 board 的顯示範圍而搬資料，是嚴重的殺雞用牛刀。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-filters/",
@@ -458,10 +458,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "一個 column 可對應多個 status，保留原流程並統一呈現。",
-   "A": "刪 status 會動到 workflow，不是必要步驟。",
-   "B": "複製資料會分歧。",
-   "C": "顏色不能合併欄位。"
+   "D": "正解。<strong>一個 column 可以對應多個 status</strong>，這正是 CMP 中 column 與 status 分離設計的價值所在：把 Developing 與 Implementing 兩個 status 都拖進同一個「In Progress」欄，兩個 project 各自保留原本的 workflow 與用語，board 上卻能統一呈現。這是跨 project board 最常用的技巧。",
+   "A": "刪除 status 會動到 workflow（要 Jira admin），還會影響那些 issue 的歷史與流程，<strong>完全沒有必要</strong>——board 本來就支援多對一的映射。",
+   "B": "為了顯示而複製資料，會造成兩份資料各自更新、互相分歧，是資料治理上的大忌。",
+   "C": "卡片顏色只是視覺標示，<strong>不能把兩個欄位合併成一個</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -487,10 +487,10 @@
   ],
   "answer": "A",
   "explain": {
-   "B": "Board 不會共享或轉換 workflow。",
-   "C": "Scrum 或 Kanban 都可以。",
-   "D": "不需要轉換管理方式。",
-   "A": "官方提供 Create a board based on filters 這條路徑；TMP 本身只有一塊內建 board，額外的走 saved filter。"
+   "B": "board 只是視圖，<strong>不會讓兩個 project 共用或轉換 workflow</strong>。各 project 的 workflow 仍然各自獨立，board 上只是把不同的 status 對應到同樣的欄位而已。",
+   "C": "Scrum 或 Kanban <strong>都可以</strong>用 saved filter 建立，board 類型與這件事無關。",
+   "D": "不需要把 project 轉成 company-managed。TMP 雖然不能在 project 內部再加 board，但走 saved filter 這條路完全行得通。",
+   "A": "正解。官方提供 <strong>Create a board based on filters</strong> 這條路徑：先存一份涵蓋多個 project 的 saved filter，再用它建立新 board。<strong>來源 project 的管理方式完全不需要改變</strong>——TMP 本身只有一塊內建 board，但透過 saved filter 建的額外 board 不受這個限制。要注意的是這塊 board 的可見度跟著 filter 的分享設定走。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/"
@@ -516,10 +516,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "官方：board 對「能存取該 filter 的使用者」可見；filter 沒分享，別人連 board 都看不到。",
-   "C": "若沒有 app access 連 Jira 都進不去，題意是能登入。",
-   "D": "board 類型與可見度無關。",
-   "A": "Location 在個人 profile 仍可被看到（若 filter 有分享）。"
+   "B": "正解。官方原句：新 board 會<strong>對所有能存取你所選 filter 的使用者可見</strong>。換句話說 <strong>board 沒有自己的分享設定，可見度完全跟著 filter 走</strong>；filter 若是 private，別人連 board 的存在都察覺不到，這正好對應題目「連 board 都找不到」的症狀。",
+   "C": "沒有 Jira app access 的人根本進不了 Jira，不會出現「打開後看到空白」的情境；題目已經隱含他能正常登入使用。",
+   "D": "board 是 Scrum 還是 Kanban，跟誰看得到它完全沒有關係。",
+   "A": "board 的 location 設在個人 profile 並不會讓別人看不到它——<strong>只要 filter 有分享，別人一樣搜尋得到、打得開</strong>。location 只影響它出現在哪裡比較好找。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/",
@@ -546,10 +546,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "不需要 Jira admin。",
-   "C": "分享 filter／dashboard 需要全域權限 Share dashboards and filters。",
-   "D": "Manage Sprints 管 sprint，不管分享。",
-   "A": "Board admin 不能替 filter owner 分享。"
+   "B": "不需要 Administer Jira。分享 filter 是一般使用者層級的動作，只要有對應的全域權限即可。",
+   "C": "正解。分享 filter 與 dashboard 需要全域權限 <strong>Share dashboards and filters</strong>。它由 Jira admin 授予，而且跟所有全域權限一樣<strong>只能授予群組</strong>。缺了它的人建得出 filter，但分享的選單會是空的。",
+   "D": "Manage Sprints 管的是 sprint 的建立、開始與結束，跟分享完全無關。",
+   "A": "board admin 管的是 board 本身的設定（columns、swimlanes 等），<strong>他沒有權力代替 filter owner 去分享那份 filter</strong>——這是兩個不同層級的物件。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/",
@@ -576,10 +576,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "原 board 不受影響。",
-   "C": "官方：副本使用同一個 saved filter，不會自動複製 filter。",
-   "D": "官方頁明寫複製者成為副本的 administrator；官方未列出完整 Administrators 名單，不要推論「只有」複製者。",
-   "A": "board admin 或 location 的 project admin 也可。"
+   "B": "複製是新增一塊 board，<strong>原本那塊完全不受影響</strong>，照常運作。",
+   "C": "這正是最常被誤解的地方——官方明寫<strong>副本使用的是「同一份」saved filter，不會自動幫你複製出一份新的</strong>。所以改副本的 JQL 等於改原 board。",
+   "D": "正解。官方 Copy an existing board 頁寫了兩件事：<strong>副本沿用同一份 work item filter</strong>，而且<strong>執行複製的人會成為新 board 的 administrator</strong>。要留意官方<strong>沒有</strong>交代原本的管理員名單會不會一起帶過去，所以不要推論成「只有複製者」——這是教材刻意保留的證據界線，實機比對 Board settings → Administrators 才算數。",
+   "A": "不限 Jira admin。<strong>board admin 或該 board location 所在 project 的 project admin</strong> 都可以執行複製。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/copy-an-existing-board/"
@@ -604,10 +604,10 @@
   ],
   "answer": "A",
   "explain": {
-   "C": "不需要 Jira admin。",
-   "D": "Schedule 管排序與 due date，不管開始 sprint。",
-   "A": "官方原文：sprint 若含多個 board 的工作，更新該 sprint 需要「所有 space 的 Manage sprints」權限。",
-   "B": "官方權限清單裡沒有這個名稱的獨立權限。"
+   "C": "不需要 Administer Jira。這是 project 層級的權限問題，補齊 Manage Sprints 即可。",
+   "D": "Schedule Issues 管的是 due date 與 backlog／board 的拖曳排序，<strong>它管不到「開始 sprint」這個動作</strong>——那是 Manage Sprints 的範圍。（反過來說，把 issue 拖進 sprint 才是 Schedule Issues 管的。）",
+   "A": "正解。官方原文：當一個 sprint 包含<strong>多個 board／project</strong> 的工作時，要更新這個 sprint 必須擁有<strong>所有相關 space 的 Manage sprints 權限</strong>，缺任何一個都會被擋。這是跨 project Scrum board 最常見的卡關點——解法是請 Jira admin 在缺的那個 project 的 permission scheme 裡把 Manage Sprints 補上。",
+   "B": "官方的權限清單裡<strong>沒有</strong>叫做 Create and Reorder Sprints 的獨立權限。CMP 的清單上只有一項 <strong>Manage sprints</strong>，它涵蓋建立、開始、完成與調整。這是把「操作描述」誤當成「權限名稱」的典型陷阱。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/",
@@ -634,10 +634,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "與方案無關。",
-   "A": "單一 project 且符合條件時 project admin 可在 board 上加 status。",
-   "B": "官方四條件之一：board filter 只包含單一 project。其餘條件：該 project 所有 issue type 共用同一 workflow、只用內建 post function／validator／condition、每個 status 至少一條出去的 transition。",
-   "C": "跨 project board 當然有 column。"
+   "D": "跟方案完全無關，這是功能條件的限制。",
+   "A": "這個說法不完全正確——當 project 符合 simplified workflow 的條件時，<strong>project admin 是可以在 board 的 Columns 頁直接新增 status 的</strong>，不必每次都找 Jira admin。",
+   "B": "正解。simplified workflow 有四個必要條件，而<strong>「board 的 filter 只包含一個 project」正是其中之一</strong>，跨 project board 直接違反這一條。另外三個條件是：該 project 的所有 issue type 共用同一個 workflow、這個 workflow 只使用 Atlassian 內建的 post function／validator／condition、每個 status 至少有一條出去的 transition。四個缺一個，Add status 按鈕就不會出現。",
+   "C": "跨 project board 當然有 column，而且正是靠 column 把不同 project 的 status 對應在一起，這個敘述本身就不成立。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/use-the-simplified-workflow/",
@@ -663,10 +663,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "同名但不同 project 的 version 是兩個獨立物件；篩選時要各自指定。",
-   "D": "不會自動合併。",
-   "A": "不會只顯示一個。",
-   "B": "Version 屬於各自 project。"
+   "C": "正解。<strong>同名但分屬不同 project 的 version 是兩個完全獨立的物件</strong>，各有自己的 ID、日期與發佈狀態。所以在跨 project board 上做版本相關的篩選或發佈時，必須<strong>各自指定、各自 release</strong>，不能當成一個來處理。",
+   "D": "Jira <strong>不會</strong>自動合併同名的 version，也沒有提供這種功能。",
+   "A": "兩個 version 都會出現，不會只顯示其中一個。",
+   "B": "version 是<strong>屬於各自 project</strong> 的物件，名字一樣不代表是同一個東西——這跟「兩個 TMP 有同名 custom field」的道理完全一樣。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/"
@@ -692,10 +692,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "不會自動搬。",
-   "D": "官方：location 掛在停用的 user／project 上會失聯，要重新指定。",
-   "A": "不會刪除。",
-   "B": "不會自動轉移。"
+   "C": "不會自動搬到 project——location 就是停在那個已停用的帳號上，形成「孤兒 board」。",
+   "D": "正解。官方說明：board 的 location 若掛在<strong>已停用的使用者或已停用的 project</strong> 上，這塊 board 就會失聯、一般人再也找不到入口。解法是由 <strong>board admin 或 project admin</strong> 到 Board settings → General 把 Location 重新指定到一個有效的 project（或自己的 profile）。這也是人員離職交接時很容易漏掉的一項。",
+   "A": "board <strong>不會被自動刪除</strong>，它仍然存在，只是失去了一個有效的入口。",
+   "B": "Jira <strong>不會</strong>自動把 board 轉移給任何人，需要有人手動處理。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/change-the-location-of-a-board/"
@@ -721,10 +721,10 @@
   ],
   "answer": "A",
   "explain": {
-   "C": "Column 不決定 project。",
-   "D": "刪 column 不會刪 issue 或 status。",
-   "A": "官方：status 回到 Unmapped statuses 面板，這些 status 的 issue 不會出現在 board。",
-   "B": "不會自動完成。"
+   "C": "column 只是 board 上的呈現單位，<strong>跟 issue 屬於哪個 project 毫無關係</strong>。",
+   "D": "這是最需要澄清的誤解：<strong>刪 column 既不會刪 issue，也不會刪 status</strong>，它是一個相對安全、隨時可還原的操作。",
+   "A": "正解。官方說明：刪除 column 之後，原本對應到它的 <strong>status 會退回 Unmapped statuses 面板</strong>，而這些 status 的 issue 就<strong>不再顯示在 board 上</strong>。要強調的是資料完全沒有損失——issue、status、歷史紀錄全在，用 JQL 或直接開連結都找得到，只要把 status 重新對應到某一欄，卡片就會回來。",
+   "B": "status 完全不會被改變，更不會自動變成 Done。刪 column 只影響「顯示在哪裡」，不影響 issue 的實際狀態。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -750,10 +750,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "多對一映射是原生用法。",
-   "C": "複製 board 不解決映射。",
-   "D": "不必為呈現改造 workflow。",
-   "A": "支援多 status 對一欄，不需刪除。"
+   "B": "正解。<strong>把兩個 status 都拖進同一個 column</strong> 就是官方設計的用法。這正是 CMP 中 column 與 status 分離的價值：<strong>workflow 可以維持精細（多個狀態），board 卻能保持簡潔（少數幾欄）</strong>。跨 project board 更是非靠它不可。",
+   "C": "複製 board 只是多一塊視圖，兩塊 board 的映射問題依然存在，什麼也沒解決。",
+   "D": "為了「畫面上看起來合併」而去改造 workflow，是本末倒置——顯示的問題就在顯示層解決。",
+   "A": "完全不必刪。board <strong>原生就支援一欄對應多個 status</strong>，刪除 status 反而會動到 workflow、影響歷史紀錄，是不必要的破壞。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -778,10 +778,10 @@
   ],
   "answer": "C",
   "explain": {
-   "D": "名稱不足以證明完成。",
-   "A": "顏色來自其他設定。",
-   "B": "負責人不決定完成。",
-   "C": "Scrum board 以最右 column 作為完成依據；名字叫 Done 但不在最右欄不算完成。"
+   "D": "名稱只是給人看的文字。這正是本題的陷阱——很多人看到「Done」就直覺認定它算完成。",
+   "A": "卡片的顏色來自 card colors 設定（依 issue type、priority、assignee 或 JQL），<strong>跟完成判定毫無關係</strong>。",
+   "B": "負責人是誰不影響工作完成與否的判定。",
+   "C": "正解。<strong>Scrum board 判定完成的唯一依據是「issue 落在最右邊那一欄」</strong>，跟 status 叫什麼名字無關。所以一個名叫 Done 卻被對應在倒數第二欄的 status，在完成 sprint 時會被視為<strong>未完成</strong>並帶到下一個 sprint。（順帶對照：Kanban 的 Hide completed work 剛好相反，它看的是 status category。）"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/",
@@ -808,10 +808,10 @@
   ],
   "answer": "D",
   "explain": {
-   "A": "這是設計行為。",
-   "B": "與 filter 無關。",
-   "C": "能移入代表權限正常。",
-   "D": "超過上限欄頭變紅提醒，不是 validator 或禁止規則。"
+   "A": "這完全是設計行為，不是故障。",
+   "B": "跟 filter 沒有任何關係。filter 決定的是哪些 issue 出現在 board 上，不管欄位上限。",
+   "C": "能夠成功把卡片移進去，正好證明<strong>權限是正常的</strong>——如果缺 Transition Issues，動作會直接被擋下來。",
+   "D": "正解。<strong>column constraint 只是視覺警示，沒有強制力</strong>：超過上限時欄位標題會變紅（低於下限則變黃），但 Jira 完全不會阻止你把第四張卡拖進去。這是刻意的設計——WIP 限制是團隊自律的工具，不是系統的鎖。真的要擋住轉換，得靠 workflow 的 condition 或 validator。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -836,10 +836,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "顏色不建立 transition。",
-   "A": "映射只決定顯示位置；能否拖進去取決於 workflow transition 存在、condition 通過與 Transition Issues 權限。",
-   "B": "工作日只影響報表。",
-   "C": "卡片欄位只是資訊。"
+   "D": "顏色純粹是視覺標示，<strong>不會建立任何 transition</strong>。",
+   "A": "正解。這題考的是<strong>「顯示」與「移動」是兩件事</strong>：column 映射只決定 issue 出現在哪一欄，但能不能把卡片拖過去，取決於三個條件——<strong>workflow 裡存在一條通往該 status 的 transition</strong>、<strong>那條 transition 的 condition 通過</strong>（例如沒有被 Subtask Blocking Condition 擋住）、以及使用者<strong>擁有 Transition Issues 權限</strong>。少任何一個，卡片就拖不動。",
+   "B": "working days 只影響報表的天數計算（burndown、control chart 等），跟能不能拖卡片毫無關係。",
+   "C": "card layout 的欄位只是讓卡片顯示更多資訊，不會改變任何流程限制。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -865,10 +865,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "名稱不影響。",
-   "A": "不是快取問題。",
-   "B": "官方：只有相關 project workflow 實際使用的 status 才會出現；沒放進 workflow 的 status 不會列出。",
-   "C": "看得到 Columns 頁就有權限。"
+   "D": "status 名稱有沒有空白不影響它會不會出現在 Unmapped 面板。",
+   "A": "這不是快取問題，重新整理再多次也不會出現。",
+   "B": "正解。官方說明：<strong>Unmapped statuses 面板只列出「board filter 涵蓋的 project，其 workflow 實際使用到」的 status</strong>。Jira admin 建立一個 status，只是產生了一個物件；除非有人把它加進某個 workflow、而那個 workflow 又被這個 project 使用，否則 board 根本不知道它存在。解法是請 Jira admin 先把 Waiting 加進對應的 workflow。",
+   "C": "能夠打開 Columns 設定頁，就代表已經具備管理這塊 board 的權限，不是權限問題。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -894,10 +894,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "官方 KB 原文：可設 1 week、2 weeks、4 weeks，或 removed completely（完全不隱藏）。",
-   "D": "沒有 3 週、5 週。",
-   "A": "不能自訂天數。",
-   "B": "14 天自動清除是 TMP 的規則，不是 CMP 的 Hide completed work。"
+   "C": "正解。官方 KB 原文列出的選項是：<strong>1 week、2 weeks、4 weeks，或是完全不隱藏</strong>，就這四個。值得直接背下來，因為考題常拿「3 週」「5 週」這種看起來很合理的數字來設陷阱。",
+   "D": "沒有 3 週也沒有 5 週這兩個選項。",
+   "A": "<strong>不能自訂天數</strong>，這是一個固定選項的下拉選單，不是輸入框。",
+   "B": "14 天自動清除是 <strong>TMP（未啟用 Sprints）</strong>的規則，跟 CMP Kanban 的 Hide completed work 是完全不同的兩個機制，考題很愛把它們混在一起。"
   },
   "sources": [
    "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/"
@@ -923,10 +923,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "官方 KB：Kanban 以 Done status category 判斷完成，隱藏的計時受最後更新影響，編輯後重新計算。",
-   "A": "sub-filter 沒動。",
-   "B": "排序不影響顯示與否。",
-   "C": "狀態沒變。"
+   "D": "正解。官方 KB 說明了兩個關鍵行為：<strong>Kanban 是用 Done status category 判定完成的</strong>（跟對應到哪一欄無關），而<strong>隱藏的計時是以「最後更新時間」起算的，任何欄位的編輯都會把計時器重設</strong>——連改一下 Description 這種無關緊要的動作都算。所以一張半年前就完成的 issue，只要昨天有人補了一句說明，今天就會重新出現在 board 上，要等設定的區間再次經過才會消失。",
+   "A": "題目沒有任何人動過 sub-filter，而且 sub-filter 管的是「已發佈版本的 issue 要不要隱藏」，跟這個現象無關。",
+   "B": "排序只改變卡片<strong>出現的先後順序</strong>，不會決定它出不出現。",
+   "C": "issue 的 status 完全沒有變動，它仍然是完成狀態——這正是讓人困惑的地方：明明沒重開，卻又冒出來了。"
   },
   "sources": [
    "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/"
@@ -952,10 +952,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Kanban 的隱藏規則不是看欄位位置。",
-   "A": "官方 KB：Kanban Hide completed work 以 Done category 判斷；Scrum 以最右 column 判斷 sprint 完成。",
-   "B": "Scrum 看最右欄。",
-   "C": "兩者都不是以 resolution 為準。"
+   "D": "只有 Scrum 看最右欄；<strong>Kanban 的隱藏規則跟欄位位置無關</strong>，看的是 category。",
+   "A": "正解。這兩個判定機制不一樣，是很容易混淆的一組對照。官方 KB：<strong>Kanban 的 Hide completed work 以「status 屬不屬於 Done category」判斷</strong>，跟它被對應到哪一欄無關；而 <strong>Scrum 完成 sprint 時只認「issue 有沒有落在最右欄」</strong>。所以同一張 issue 在兩種 board 上可能有不同表現。",
+   "B": "Scrum 看的是<strong>最右欄的位置</strong>，不是 status category。一個屬於 Done category 但被放在中間欄的 status，在 Scrum 完成 sprint 時仍算未完成。",
+   "C": "兩者都不是以 resolution 判定。resolution 是另一個獨立的欄位，它會影響 JQL 查詢與部分報表，但 board 的完成判定不看它。"
   },
   "sources": [
    "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/",
@@ -983,10 +983,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "順序無關。",
-   "A": "有 issue 時不能刪。",
-   "B": "官方：status 無 issue 才可刪；共用的 status 只從這個 workflow 移除，不會全站刪除。",
-   "C": "simplified workflow 下 project admin 可操作。"
+   "D": "沒有這種先後順序的要求。真正的前提是「該 status 底下沒有 issue」。",
+   "A": "不是隨時可刪。<strong>只要該 status 底下還有任何 issue，刪除按鈕就是灰的</strong>——Jira 不允許讓 issue 變成沒有狀態的孤兒。",
+   "B": "正解。官方列出的條件是：<strong>該 status 底下沒有任何 issue 才能刪除</strong>（先用 JQL 找出來把它們轉走）。還有一個容易誤解的行為要一起記：<strong>如果站台上別的 workflow 也在使用這個 status，刪除動作只是把它從「目前這個 workflow」移除，status 物件本身不會從全站消失</strong>。",
+   "C": "題目已經指明是 simplified workflow 的情境——在這個條件下 <strong>project admin 自己就能新增與刪除 status</strong>，不必找 Jira admin。這正是 simplified workflow 的價值。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/use-the-simplified-workflow/",
@@ -1013,10 +1013,10 @@
   ],
   "answer": "C",
   "explain": {
-   "D": "Kanban、Scrum 都一樣。",
-   "A": "不是權限問題。",
-   "B": "不支援重複映射。",
-   "C": "官方：每個 status 只能對應到一個 column。"
+   "D": "Kanban 與 Scrum 的規則完全一樣，沒有差別。",
+   "A": "這不是權限問題，而是產品的結構限制——連 Jira admin 也做不到。",
+   "B": "Jira <strong>不支援</strong>把同一個 status 重複映射到多個 column，設定介面上也不會讓你這樣拖。",
+   "C": "正解。官方規定：<strong>在同一塊 board 上，一個 status 只能對應到一個 column</strong>。反過來則沒有限制——<strong>一個 column 可以裝很多個 status</strong>，這正是把細緻的 workflow 收斂成簡潔 board 的方法。記法：<strong>多對一可以，一對多不行</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -1041,10 +1041,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "不是全部同欄。",
-   "D": "官方 Configure columns 頁的預設映射表；simplified workflow 則是 To Do／In Progress／Done 一對一。",
-   "A": "預設會映射。",
-   "B": "不是字母序。"
+   "C": "不會全部塞進同一欄，那樣 board 就失去意義了。",
+   "D": "正解。官方 Configure columns 頁列出的預設映射表就是：<strong>Open 與 Reopened → To Do；In Progress → In Progress；Resolved 與 Closed → Done</strong>。如果 project 用的是 simplified workflow，則是 To Do／In Progress／Done 三個 status 一對一對應到三個同名欄位。要注意官方也提醒：<strong>自訂的 status 不在這張預設表裡，建好 board 之後要自己檢查並拖進適當的欄位</strong>。",
+   "A": "預設<strong>會</strong>建立映射，不會全部丟在 Unmapped 讓你自己拖。真正需要手動處理的是後來新增的自訂 status。",
+   "B": "映射依據的是 status 的<strong>語意類別</strong>，不是名稱的字母順序。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -1070,10 +1070,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "錯。官方寫每個 transition 可加多條，且 Restrict 類另有分組上限。",
-   "A": "對。官方 Add or remove workflow rules 頁明列每個 transition 上限：10 組 Restrict transition rules（每組 50 條）、50 條 Validate details、50 條 Perform actions，並提醒移除 rule 所綁的 role 會讓團隊無法移動工作。",
-   "B": "錯。需要的是 space 的 Administrator role 與 Administer spaces 權限，不是 Jira admin。",
-   "C": "錯。官方頁未把可選對象限縮成單一使用者；實際可選清單以站台畫面為準。"
+   "D": "每個 transition <strong>可以加多條 rule</strong>，而且 Restrict 類還另有分組上限（10 組、每組 50 條），遠不只 1 條。",
+   "A": "正解。官方 Add or remove workflow rules 頁明列每個 transition 的上限：<strong>最多 10 組 Restrict transition rules（每組 50 條）、50 條 Validate details、50 條 Perform actions</strong>。另外官方特別提醒一個實務陷阱：<strong>如果把 rule 所綁定的那個 role 移除掉，團隊就會卡在這個 transition 動不了</strong>——所以調整 role 之前要先檢查有沒有 rule 依賴它。",
+   "B": "不需要 Jira admin。在 TMP，設定 workflow rule 需要的是<strong>該 space 的 Administrator role</strong> 或 <strong>Administer spaces</strong> 權限，project admin 自己就能做——這正是 TMP 把設定權下放的特性。",
+   "C": "官方頁面<strong>並沒有</strong>把可選對象限縮成單一使用者。實際下拉能選哪些對象（指定使用者、role、group、特定權限）以站台畫面為準——這是教材刻意保留的證據界線，不要照舊教材的斷言作答。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/add-or-remove-workflow-rules-in-team-managed-projects/"
@@ -1099,10 +1099,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "會改變其他使用者的資料範圍。",
-   "A": "Quick filter 暫時聚焦、可隨時取消，不影響他人。",
-   "B": "Location 不是篩選。",
-   "C": "刪除不是視圖管理。"
+   "D": "改 board 共用的 base filter 會<strong>改變所有使用者的資料範圍</strong>，也會波及其他共用同一份 filter 的 board。為了開會五分鐘的方便而動到共用設定，是典型的錯誤操作。",
+   "A": "正解。<strong>quick filter 是「臨時聚焦」的正確工具</strong>：一鍵開、一鍵關，勾選狀態只存在自己的瀏覽器裡，<strong>完全不會影響其他人看到的畫面</strong>。內建的 Only My Issues 就是為這個情境準備的。",
+   "B": "location 只決定 board 掛在哪裡好找，<strong>它完全不是篩選工具</strong>。",
+   "C": "為了自己看得清楚而刪別人的工作，是破壞資料——視圖的問題永遠在視圖層解決。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/"
@@ -1127,10 +1127,10 @@
   ],
   "answer": "B",
   "explain": {
-   "C": "Filter 不搬工作。",
-   "D": "Quick filter 是在 board filter 結果上再篩。",
-   "A": "不能擴充 base filter 的範圍。",
-   "B": "兩個互斥條件無交集。"
+   "C": "filter 只是查詢條件，<strong>不會搬動任何 issue</strong>。",
+   "D": "quick filter 的作用是在 board filter 的<strong>結果之上再篩一次</strong>，永遠不會把新的 project 合併進來。",
+   "A": "quick filter <strong>沒有能力擴充 base filter 的範圍</strong>——三層過濾是一個只能往下收窄的漏斗。",
+   "B": "正解。三層過濾的規則是層層取交集：base filter 只給出 WEBLAB 的 issue，quick filter 再要求 <code>project = APILAB</code>，<strong>兩個條件互斥、沒有交集，結果就是空白</strong>。這也是實務上「勾了 quick filter 之後 board 整個空掉」最常見的原因——條件寫到了 board filter 範圍之外。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/",
@@ -1157,10 +1157,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "單一 quick filter 用 IN 表達聯集。",
-   "D": "多個 quick filter 同時啟用是 AND，互斥的類型條件會變空。",
-   "A": "篩負責人不是類型。",
-   "B": "排序不表達條件。"
+   "C": "正解。<strong>用一個 quick filter 搭配 <code>IN</code> 來表達聯集</strong>：<code>issuetype in (Bug, Task)</code>。因為 IN 等同於「多個等於用 OR 串起來」，正好符合「Bug 或 Task」的需求。",
+   "D": "這是本題最重要的陷阱：<strong>同時啟用多個 quick filter 之間是 AND 而不是 OR</strong>。同時勾選「Bug」與「Task」等於要求「既是 Bug 又是 Task」，兩者互斥，結果會是空白。要 OR 就必須把 OR（或 IN）寫在同一句 JQL 裡。",
+   "A": "這是篩選<strong>負責人</strong>，跟 issue 的類型完全無關，答非所問。",
+   "B": "ORDER BY 是排序子句，<strong>不表達任何篩選條件</strong>；而且 quick filter 裡寫 ORDER BY 是無效的，排序永遠由 board filter 決定。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/"
@@ -1187,10 +1187,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "Resolution 與發版是不同資料。",
-   "C": "與版本無關。",
-   "D": "對。現行官方 KB 描述預設 Kanban sub-filter 會移除「Fix version 已 Released」的工作；保留未發版與無版本的寫法就是 fixVersion in unreleasedVersions() OR fixVersion is EMPTY。",
-   "A": "只挑有版本的，沒判斷是否發版。"
+   "B": "resolution（解決結果）與 fixVersion（在哪一版釋出）是兩個不同的欄位，<strong>issue 已解決不代表它所屬的版本已發佈</strong>，兩者不能互換。",
+   "C": "assignee 跟版本完全無關。",
+   "D": "正解。這正是 Kanban board 的<strong>預設 sub-filter</strong>：<code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code>。它的兩段分別對應題目的兩個需求——<strong>前半段保留「版本尚未發佈」的工作</strong>（等於排除已 release 的），<strong>後半段保留「根本沒填版本」的工作</strong>。這也是為什麼 CMP Kanban 一發佈版本，Done 欄的卡片就會自動消失。",
+   "A": "這只挑出「有填版本」的 issue，<strong>完全沒有判斷該版本發佈了沒</strong>，方向不對；而且它會把沒有版本的工作全部排除掉，與題目要求相反。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/",
@@ -1218,10 +1218,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "重新整理不授予編輯權。",
-   "A": "另存後指定 board 使用新 filter，原 filter 不動。",
-   "B": "與 filter 編輯權無關。",
-   "C": "工作日不處理 filter。"
+   "D": "重新整理不會授予任何權限，這只是白費力氣。",
+   "A": "正解。這是最安全也最標準的做法：<strong>用 Save as 另存一份自己擁有的新 filter，改好 JQL 之後到 Board settings → General 把 board 指過去</strong>。原本那份 filter 完全不動，其他共用它的 board 與 gadget 也不受影響。要記住 <strong>board admin 不等於 filter editor</strong>，這兩個是不同物件的權限。",
+   "B": "變更 issue type 是動到真實資料的重大操作，跟「沒有 filter 編輯權」這個問題毫無關係。",
+   "C": "working days 只影響報表的天數計算，處理不了 filter 的問題。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-filters/",
@@ -1248,10 +1248,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "拖曳排序需要 Rank 排序。",
-   "B": "quick filter 不依賴 Rank。",
-   "C": "sub-task 歸組依賴 Rank。",
-   "D": "從 Kanban backlog 拖進 board 也依賴 Rank。"
+   "A": "拖曳排序<strong>正是需要 Rank</strong> 的功能——Jira 靠 Rank 這個欄位記住人工排序的結果，沒有它就沒有地方可以儲存新順序。",
+   "B": "正解。<strong>quick filter 純粹是加上額外的篩選條件，跟排序機制無關</strong>，所以就算 filter 沒有 ORDER BY Rank，quick filter 照樣能用。這題要建立的是「Rank 到底影響哪些功能」的清單：<strong>會失效的是拖曳排序、建立與規劃 sprint、sub-task 歸到 parent 底下、從 Kanban backlog 拖進 board；不受影響的是篩選、顯示、報表</strong>。",
+   "C": "sub-task 歸在 parent 底下顯示<strong>依賴 Rank</strong>，少了它 sub-task 會散落各處。",
+   "D": "從 Kanban backlog 把工作拖進 board <strong>也依賴 Rank</strong>，同樣會失效。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/",
@@ -1277,10 +1277,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "不是個人設定。",
-   "C": "Add Rank 會在 saved filter 加上 ORDER BY Rank；共用該 filter 的 board 都受影響。",
-   "D": "filter 是共用的。",
-   "A": "是修改原 filter，不是新建。"
+   "B": "這不是個人偏好設定，它動到的是共用的 saved filter 物件，<strong>所有人都會受影響</strong>。",
+   "C": "正解。<strong>Add Rank 會直接在 saved filter 的 JQL 結尾加上 <code>ORDER BY Rank ASC</code></strong>，而 filter 是共用物件——所以<strong>其他使用同一份 filter 的 board 也會跟著改變排序</strong>。還有一個更深的影響要知道：<strong>Rank 是全站共用的排序資料</strong>，你在這塊 board 上重排，另一塊以 Rank 排序的 board 也會看到新順序，不是每塊 board 各留一份優先順序。動正式的共用 filter 之前，建議先另存一份測試。",
+   "D": "影響範圍不只目前這塊 board，因為 filter 是共用的。",
+   "A": "Add Rank 是<strong>就地修改現有的 filter</strong>，不會另外建立一份新的。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/"
@@ -1306,10 +1306,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "不是預設。",
-   "C": "不是預設。",
-   "D": "對。官方：Only My Issues 與 Recently Updated 只出現在 company-managed space；Assignee／Epic／Label／Work type 那組篩選則兩種 project 都有。",
-   "A": "不是預設。"
+   "B": "Unassigned 與 Overdue 也不是預設，同樣要自己建立。",
+   "C": "Current Sprint 與 Backlog 不是 quick filter，它們是 board 的不同畫面。",
+   "D": "正解。Jira 預設提供的兩個 quick filter 是 <strong>Only My Issues</strong>（<code>assignee = currentUser()</code>）與 <strong>Recently Updated</strong>（<code>updatedDate >= -1d</code>），而且它們<strong>只出現在 company-managed space</strong>。兩個都可以自由編輯或刪除。（另外那組 Assignee／Epic／Label／Work type 的下拉篩選則是兩種 project 都有的，不要跟 quick filter 搞混。）",
+   "A": "Bugs 與 Tasks 不是預設的 quick filter，那是常見的自訂範例。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/",
@@ -1336,10 +1336,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "不會刪除。",
-   "A": "對。官方 KB（Cloud）：board filter／sub-filter 的 JQL 若引用了被 field configuration 隱藏的欄位，該 issue type 的工作就不會顯示在 board 上。",
-   "B": "與權限無關。",
-   "C": "沒有版本的工作在預設 sub-filter 下是保留的。"
+   "D": "隱藏欄位<strong>絕對不會刪除任何 issue</strong>，資料完好，用 JQL 或直接連結都找得到。",
+   "A": "正解。官方 KB 說明了這個機制：<strong>如果 board filter 或 sub-filter 的 JQL 引用了某個被 field configuration 隱藏的欄位，那個 issue type 的工作就不會顯示在 board 上</strong>。具體來說，欄位被隱藏之後對 JQL 而言等於「不存在」——它既不符合 <code>fixVersion in unreleasedVersions()</code>，也不符合 <code>fixVersion is EMPTY</code>，於是被預設 sub-filter 整組排除。修法是把欄位設回可見並重建索引，或是清空 sub-filter。",
+   "B": "隱藏欄位是<strong>顯示層</strong>的設定，跟 Browse Projects 這種存取權限完全無關。",
+   "C": "正好相反——預設 sub-filter 的 <code>OR fixVersion is EMPTY</code> 那一段，就是<strong>刻意保留</strong>沒有版本的工作。這題的狀況是欄位被隱藏後連 EMPTY 都判定不成立。"
   },
   "sources": [
    "https://support.atlassian.com/jira/kb/specific-issue-type-is-not-visible-on-the-board-for-the-jira-kanban-project/",
@@ -1367,10 +1367,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "官方沒有這樣說。",
-   "A": "官方也沒有逐報表保證。",
-   "B": "這是證據界線：sub-filter 頁只說「可能不同」，CFD／Velocity 頁以 board filter 為範圍。",
-   "C": "Kanban 沒有 Burndown。"
+   "D": "官方也沒有說「完全沒有影響」——它明講可能會不同，只是沒有逐項說明。",
+   "A": "官方<strong>沒有</strong>保證所有報表都套用 sub-filter，也沒有逐一列出每個報表的行為，所以不能這樣斷言。",
+   "B": "正解。這是教材刻意保留的<strong>證據界線</strong>：官方的 sub-filter 說明只講到「它可能讓 Reports 顯示不同的資料」，<strong>並未逐一交代每一張報表的行為</strong>；而 CFD 與 Velocity chart 的官方頁面則明確說它們是 board-specific、以 <strong>board 的 saved filter</strong> 定義基礎範圍。遇到這類題目，選「照官方講過的說」而不是選一個聽起來乾脆的絕對答案。",
+   "C": "Kanban board 根本沒有 Burndown 這張報表（那是 Scrum 的），這個選項本身就不成立。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/",
@@ -1399,10 +1399,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "不同。",
-   "C": "換 filter 不動原 filter；Edit Filter Query 改的是共用 filter 本身。",
-   "D": "board admin 就能換。",
-   "A": "Edit 是就地修改。"
+   "B": "這兩個動作差很多，而且風險等級完全不同，絕不能混為一談。",
+   "C": "正解。<strong>換一個 Saved Filter</strong>：只是讓這塊 board 改去讀另一份既有的 filter，<strong>原本那份 filter 一點都沒動</strong>，其他使用它的 board 完全不受影響。<strong>Edit Filter Query</strong>：修改的是<strong>目前這份 filter 本身</strong>，所有共用它的 board、dashboard gadget 與訂閱都會同時改變。實務建議是：沒有把握時一律走「Save as 另存 → 換 filter」這條安全路線。",
+   "D": "換 filter 是 board 層級的設定，<strong>board admin 就能做</strong>，不需要 Jira admin。（反倒是 Edit Filter Query 需要那份 filter 的編輯權。）",
+   "A": "Edit Filter Query 是<strong>就地修改現有 filter 的 JQL</strong>，不會建立新的 filter。想要新的一份得自己用 Save as。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-filters/"
@@ -1428,10 +1428,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "三層都是 AND，只有同時通過的 C 留下。",
-   "A": "C 同時符合三層。",
-   "B": "三層是逐層縮小。",
-   "C": "quick filter 再排除 B。"
+   "D": "正解。三層之間都是 <strong>AND</strong>（取交集），逐層計算：<strong>base filter 給出 {A,B,C} → sub-filter 保留 {B,C} → quick filter 保留 {A,C}</strong>，三者的交集只剩下 <strong>C</strong>。這題就是三層漏斗的算術驗收：能分別說出每一層各排除了哪一張，才算真的懂了。",
+   "A": "不是空集合——C 這一張同時通過了三層條件。",
+   "B": "三層過濾是<strong>逐層縮小</strong>的漏斗，不可能全部保留。",
+   "C": "這只算到第二層（sub-filter 之後剩 B、C），忘了第三層的 quick filter 會再把 B 排除掉。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/",
@@ -1458,10 +1458,10 @@
   ],
   "answer": "A",
   "explain": {
-   "B": "Rank 是全站欄位。",
-   "C": "JQL 中 Rank 欄位名稱大小寫敏感。",
-   "D": "Rank 不能做數值比較。",
-   "A": "官方 Enable ranking 頁：Rank 只用於排序，且應維持單一 global context。"
+   "B": "Rank 是<strong>全站共用的欄位</strong>，不是每塊 board 各存一份。這也是為什麼在一塊 board 上重排，另一塊以 Rank 排序的 board 也會看到新順序。",
+   "C": "在 JQL 中 <strong>Rank 這個欄位名稱是大小寫敏感的</strong>，寫錯大小寫會找不到欄位。",
+   "D": "<strong>不能做數值比較</strong>。Rank 儲存的是相對位置而非數字，寫 <code>Rank &gt; 5</code> 是無效的語法。",
+   "A": "正解。官方 Enable ranking 頁的兩個重點：<strong>站台上只應該存在一個 global context 的 Rank 欄位</strong>（有多個會讓排序錯亂），而且 <strong>Rank 在 JQL 中只能用於 <code>ORDER BY</code></strong>，因為它記錄的是「相對順序」而不是一個可比較的數值。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/"
@@ -1487,10 +1487,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "Points 不是時間單位。",
-   "A": "估算尺度與時間資料要分開解讀。",
-   "B": "board 類型不建立換算率。",
-   "C": "顏色沒有單位含義。"
+   "D": "points 不是時間單位，兩者永遠不會相等。實務上有些團隊會統計「平均一點大約幾小時」當參考，但那是團隊自己的經驗值，不是 Jira 的規則。",
+   "A": "正解。<strong>story points 與時間是兩種不同的尺度，沒有固定換算率</strong>。story points 衡量的是相對的複雜度、工作量與不確定性，時間則是實際耗用的小時數；同樣 5 點的工作，不同人、不同情況花的時間都不同。這也是為什麼 board 的 estimation 設定把「用什麼估」與「用什麼追蹤進度」拆成兩個獨立的旋鈕——它們可以並存，但不會互相換算。",
+   "B": "board 的類型（Scrum 或 Kanban）<strong>不會建立任何換算率</strong>。",
+   "C": "卡片顏色只是視覺標示，跟估算單位毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
@@ -1515,10 +1515,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "既有 worklog 不會被刪。",
-   "A": "不是全站 time tracking 設定。",
-   "B": "None = 不另選獨立的 tracking 方法，burndown 用 statistic 算。",
-   "C": "sprint 不受影響。"
+   "D": "既有的 worklog 完全不會被刪除，它們只是不再被 burndown 拿來當進度依據。",
+   "A": "這個設定是 <strong>board 層級</strong>的，跟站台的 time tracking 全域開關完全是兩回事。選了 None 之後，使用者照樣可以在 issue 上 Log work。",
+   "B": "正解。Time tracking 選 <strong>None</strong> 的意思是「<strong>不另外選一種追蹤方法</strong>」，於是 burndown 直接沿用 <strong>estimation statistic</strong>（例如 story points）當縱軸——issue 進到最右欄被視為完成時，曲線才一次往下掉那幾點。反過來選 Remaining estimate and time spent 的話，縱軸會換成剩餘時間，每次 log work 就往下掉一些。",
+   "C": "這個設定跟 sprint 的存廢毫無關係，sprint 照常運作。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
@@ -1543,10 +1543,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "4h 只是已花時間。",
-   "C": "4 + 8 = 12h，是目前的預測。",
-   "D": "6 是原估減已花，不是目前 remaining。",
-   "A": "原始估算不是上限。"
+   "B": "4h 只是<strong>已經花掉的時間（time spent）</strong>，它回答不了「總共會花多少」這個問題。",
+   "C": "正解。目前對總投入的預測 ＝ <strong>已花（4h）＋ 剩餘（8h）＝ 12h</strong>。而原估是 10h，所以這張 issue 目前預測會超支 2 小時——這正是 time tracking 面板要傳達的資訊。要提醒一個實務上的壞習慣：<strong>不要為了讓數字好看，硬把 Remaining 填成 6h</strong>；remaining 應該反映最新的真實預測，而不是拿來湊平原估。",
+   "D": "6h 是「原估 10 減去已花 4」的算術結果，但那只是<strong>假設原估完全準確</strong>時的推論。實際的 remaining 是使用者自己填的 8h，要以它為準。",
+   "A": "原估（Original estimate）記錄的是<strong>當初的預測</strong>，它不會隨進度改變，也<strong>不是成本上限</strong>——實際超支是很常見的事，Jira 只是如實呈現。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
@@ -1572,10 +1572,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "刪 sprint 不是比較方法。",
-   "D": "換 statistic 會造成 velocity 歷史斷層，要先確認兩期量測意義相同。",
-   "A": "尺度不同。",
-   "B": "沒有通用轉換率。"
+   "C": "刪掉舊 sprint 只會讓歷史消失，既不能解決比較的問題，還損失了資料。",
+   "D": "正解。更換 estimation statistic 的代價是：<strong>報表會即時用「目前設定的欄位」重算歷史，舊 sprint 的 issue 沒填新欄位就會變成 0，造成 velocity 的歷史斷層</strong>。所以正確做法是重新確認欄位、單位與報表的尺度，明確告訴團隊「這條線的前後段量的不是同一件事」，並接受斷層。官方的建議很直接——<strong>statistic 一旦選定就不要再換</strong>。",
+   "A": "story points 與時間是<strong>兩種不同的尺度</strong>，直接把兩段歷史畫在一起比較是沒有意義的，會得出錯誤的結論。",
+   "B": "<strong>沒有任何通用的換算率</strong>可以把 points 乘上一個係數變成小時，Jira 也不會幫你換算。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/",
@@ -1602,10 +1602,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "名稱無關。",
-   "A": "欄位顯示與可編輯性有自己的配置鏈（context → screen → layout → 權限）。",
-   "B": "WIP 只管欄位提醒。",
-   "C": "Dashboard 不補欄位。"
+   "D": "board 的名稱純粹是顯示文字。",
+   "A": "正解。欄位能不能填，有一整條配置鏈要逐段檢查：<strong>custom field 的 context 有沒有涵蓋這個 project 與 issue type → 欄位有沒有被加進該 issue type 的 screen → project 的 issue layout 有沒有把它藏起來 → 使用者有沒有 Edit Issues 權限</strong>。board 的 estimation 設定只決定「報表要用哪個欄位算」，它<strong>不會自動把欄位放到畫面上</strong>——這是兩件獨立的事。",
+   "B": "WIP limit 只是欄位上方的數量提醒，跟欄位顯示毫無關係。",
+   "C": "dashboard 是呈現資料的地方，<strong>不會替 issue 補上缺少的欄位</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
@@ -1631,10 +1631,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "沒選就不會用 story points。",
-   "A": "沒選就不會用時間。",
-   "B": "對。官方原句：If you don’t select an estimation statistic, work will be measured by the “work item count”。",
-   "C": "仍會顯示。"
+   "D": "沒有選擇的情況下不會用 story points——那需要明確設定。",
+   "A": "沒有選擇任何 statistic 時，系統<strong>不會</strong>自作主張改用時間估算。",
+   "B": "正解。官方原句：<strong>如果你沒有選擇 estimation statistic，工作量會以「work item count」（issue 張數）來衡量</strong>。也就是說 burndown 與 velocity 照常運作，只是每一張 issue 都算 1，不管大小。這種模式適合工作顆粒度相當平均的團隊，缺點是失去對「大小」的敏感度。",
+   "C": "burndown <strong>仍然會顯示</strong>，只是縱軸的單位換成張數。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/",
@@ -1661,10 +1661,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "time tracking 模式下 sub-task 工時會計入。",
-   "C": "官方：sub-task 的 remaining estimate 捲上 parent。",
-   "D": "不是獨立計。",
-   "A": "此模式不用 points。"
+   "B": "正好相反：<strong>切換到 time tracking 模式的最大差別，就是 sub-task 的工時開始被計入</strong>。（不被計入的永遠是 sub-task 的 story points。）",
+   "C": "正解。官方說明：在 Remaining estimate and time spent 模式下，<strong>sub-task 的 remaining estimate 會捲上（roll-up）parent</strong>，parent 顯示的是所有 sub-task 剩餘時間的總和，burndown 也是以此計算。這也帶來一個附帶效果：<strong>sprint 進行中新增 sub-task，圖上會看得到 scope change</strong>（紅線往上跳），而在 None 模式下則看不出來。",
+   "D": "sub-task <strong>不會</strong>以獨立項目的身分被計入，它的數字是彙總到 parent 身上的。",
+   "A": "這個模式下 burndown 的縱軸已經換成<strong>剩餘時間</strong>，不再使用 story points。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/",
@@ -1691,10 +1691,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "這是固定規則。",
-   "C": "sub-task 的 story points 不計入。",
-   "D": "只算 parent 的 5 點；sub-task 的估點永遠不計入 burndown／velocity。",
-   "A": "不會只算 sub-task。"
+   "B": "這不是由 board 設定決定的可變行為，而是<strong>一條固定規則</strong>：估點統計永遠只看 standard 層。",
+   "C": "8 是把 5 與 3 相加的直覺答案，但 <strong>sub-task 的 story points 不會被加總上去</strong>。",
+   "D": "正解。答案是 <strong>5</strong>，只算 parent 的估點。官方在 Velocity chart 的說明頁直接寫了「Estimates from sub-tasks are not included」——<strong>sub-task 的 story points 永遠不計入 burndown 與 velocity</strong>，就算填了也一樣。這也是為什麼實務上建議<strong>估點只估在 story 這一層</strong>，免得團隊誤以為有算到。",
+   "A": "不會只算 sub-task，這個方向完全相反。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/",
@@ -1721,10 +1721,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "是原因之一（完成狀態沒對到最右欄）。",
-   "A": "card layout 只影響卡片顯示，不影響 burndown。",
-   "B": "是原因之一。",
-   "C": "是原因之一。"
+   "D": "這<strong>是</strong>官方列出的原因：完成的 status 沒有對應到最右欄，Jira 就不認為那些工作完成了。",
+   "A": "正解（本題問的是「哪一個<strong>不是</strong>原因」）。<strong>card layout 只決定卡片正面顯示哪些欄位，純粹是視覺設定，跟 burndown 怎麼計算完全無關</strong>。burndown 讀的是 issue 的欄位值本身，不管那個欄位有沒有出現在卡片上。",
+   "B": "這<strong>是</strong>官方列出的原因，而且是最常見的一個：sprint 開始當下 board 上沒有 issue、或 issue 都沒估點，起始總量為 0，guideline 自然畫不出來。",
+   "C": "這<strong>是</strong>官方列出的原因：sprint 的開始時間被設成過去，或使用者的時區與站台不一致，都會讓 guideline 異常。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
@@ -1751,10 +1751,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "官方：velocity 以 board 設定的 estimation statistic 為單位。",
-   "C": "不是逐張決定。",
-   "D": "是 board 層設定。",
-   "A": "velocity 永遠用 statistic，不受 time tracking 影響。"
+   "B": "正解。官方明訂 <strong>velocity chart 以 board 設定的 estimation statistic 為單位</strong>（story points、issue count 或時間估算）。所以要改變 velocity 的單位，只能去改 Board settings → Estimation，而不是動 time tracking。",
+   "C": "不是逐張 issue 決定的。整塊 board 統一使用一種 statistic，這也是為什麼跨 project board 上兩個團隊必須先講好同一套估點尺度。",
+   "D": "這是 <strong>board 層級</strong>的設定，不是站台的全域設定；同一個 project 的兩塊 board 甚至可以各用不同的 statistic。",
+   "A": "<strong>velocity 永遠使用 estimation statistic</strong>，完全不受 time tracking 設定影響——後者只改變 burndown 追蹤進度的方式。這是兩個旋鈕最重要的分工。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/",
@@ -1781,10 +1781,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "不是天然同一欄位。",
-   "C": "官方：TMP 用 Story point estimate，CMP 用 Story Points；混用時要驗證。",
-   "D": "TMP 可用。",
-   "A": "CMP 可用。"
+   "B": "這正是最危險的誤解——它們<strong>不是</strong>同一個欄位，跨 board 或搬移 issue 時數值不會自動對應過去。",
+   "C": "正解。官方文件裡兩者的名稱就不同：<strong>TMP 用的是「Story point estimate」，CMP 用的是「Story Points」，這是兩個不同的欄位</strong>。所以把 issue 從 TMP 搬到 CMP（或做跨 board 報表）之前，一定要先確認數值有沒有帶過去，不要假設會自動對應——這也是 TMP 遷移到 CMP 時 story points 會遺失的原因之一。",
+   "D": "TMP 也可以用 story points，只是要先到 Project settings → Features 把 Estimation 打開（預設是關閉的）。",
+   "A": "CMP 當然可以用 story points，它的欄位名稱叫 <strong>Story Points</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
@@ -1810,10 +1810,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "與 workflow 無關。",
-   "C": "沒有強制一致。",
-   "D": "官方：estimation 是 board 層設定。",
-   "A": "不是 project 層。"
+   "B": "跟 workflow 完全無關，workflow 管的是狀態流轉。",
+   "C": "<strong>沒有任何強制一致的機制</strong>——這正是需要留意的地方。",
+   "D": "正解。官方明訂 <strong>estimation 是 board 層級的設定</strong>，所以同一個 project 的兩塊 board 可以一塊用 Story points、另一塊用 Issue count。這帶來一個實務上的陷阱：<strong>兩塊 board 的 velocity 尺度不同，數字不能互相比較</strong>，看報表前要先確認自己在看哪一塊 board 的設定。",
+   "A": "不是 project 層的設定，所以同一個 project 底下的兩塊 board 可以各行其是。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-estimation-and-tracking/"
@@ -1839,10 +1839,10 @@
   ],
   "answer": "A",
   "explain": {
-   "B": "Rank 不能取代分組。",
-   "C": "Security 控制可讀，不是分類。",
-   "D": "日曆不分來源。",
-   "A": "一個 project 一條泳道。"
+   "B": "Rank 是用來記錄手動排序的欄位，<strong>它沒有分組的功能</strong>。",
+   "C": "issue security 控制的是「誰看得到哪些 issue」，屬於權限範疇，<strong>跟畫面怎麼分區完全無關</strong>。",
+   "D": "working days 只影響報表的天數計算，跟卡片來自哪個 project 毫無關係。",
+   "A": "正解。<strong>Swimlanes 的分組方式裡有一個 Projects 選項，就是專為跨 project board 設計的</strong>——每個來源 project 各佔一條泳道，一眼就能分辨工作來自哪裡。想要更彈性的分組（例如依團隊或依 label）也可以改用 Queries 自己寫 JQL。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/"
@@ -1867,10 +1867,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "官方：第一個符合的 query 決定顏色，具體規則放前面。",
-   "C": "選了 Queries 就依 query。",
-   "D": "不是最後匹配。",
-   "A": "順序有意義。"
+   "B": "正解。card colors 的 Queries 模式跟 swimlane 一樣，<strong>由上而下逐條比對，套用第一個符合的 query 的顏色</strong>，比中之後就不再往下看。所以設計規則時要把<strong>最需要被一眼看到的條件排在最上面</strong>（例如「快到期」應該排在「是 Bug」之前）。順帶一提，如果一張卡<strong>所有 query 都不符合，它會顯示成灰色</strong>。",
+   "C": "既然已經選擇了 Queries 模式，上色就完全依 query 判定，不會回頭去用 priority 的顏色。",
+   "D": "是第一個符合的，不是最後一個。",
+   "A": "順序是有意義的，Jira 不會隨機挑選。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
@@ -1895,10 +1895,10 @@
   ],
   "answer": "C",
   "explain": {
-   "D": "不只一個。",
-   "A": "刻意有限。",
-   "B": "不會全部列出。",
-   "C": "官方：最多 3 個額外欄位，backlog 與 board 可分開設定。"
+   "D": "不只一個，是三個。",
+   "A": "是<strong>刻意設有上限</strong>的——卡片空間有限，塞太多欄位會讓 board 難以閱讀。",
+   "B": "不會把所有 custom field 都列出來，那樣卡片會變成一張表格。",
+   "C": "正解。官方規定 card layout <strong>最多只能額外加 3 個欄位</strong>（Summary、issue key、type、priority、assignee 頭像是本來就有的，不佔額度）。有一個實用技巧：<strong>Scrum board 可以替 Backlog 與 Active sprints 各設一組不同的 3 個欄位</strong>，規劃時看估點、執行時看到期日，等於變相多了幾個位置；Kanban board 則只有一組。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
@@ -1923,10 +1923,10 @@
   ],
   "answer": "D",
   "explain": {
-   "A": "不是登入控制。",
-   "B": "不是 transition 限制。",
-   "C": "不刪資料。",
-   "D": "working days 影響 Burndown、Sprint／Epic／Version report、Control chart 與相關 gadget 的計算。"
+   "A": "跟登入完全無關，這只是報表的日曆設定。",
+   "B": "<strong>不會限制任何操作</strong>——週末照樣可以移動 issue、更新狀態，只是這些日子不列入報表的天數計算。",
+   "C": "<strong>不會刪除任何資料</strong>，週末記錄的工時完好保留。",
+   "D": "正解。working days 的作用是讓相關報表與 gadget 在計算天數時<strong>略過週末與指定的假日</strong>。受影響的清單要記起來：<strong>Burndown、Sprint／Epic／Version report、Control chart，以及 Sprint Health 與 Burndown 這兩個 gadget</strong>。最直接的好處是 burndown 的 guideline 會在非工作日走平，團隊不會因為週末沒進度而被畫成落後。另外要注意這是<strong>每塊 board 各自的設定</strong>，包含時區在內。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/"
@@ -1951,10 +1951,10 @@
   ],
   "answer": "A",
   "explain": {
-   "C": "空白不證明被刪。",
-   "D": "顯示欄位不會產生資料。",
-   "A": "從資料與 configuration 查。",
-   "B": "名稱無關。"
+   "C": "卡片上空白<strong>完全不能證明資料被刪</strong>——最常見的原因就是那張 issue 本來就沒填這個欄位。開 issue 詳細頁看一眼就知道了。",
+   "D": "再加更多欄位只會讓卡片更擠，<strong>不會讓原本沒有的資料冒出來</strong>。",
+   "A": "正解。要從兩個方向查：<strong>第一，那張 issue 的這個欄位到底有沒有值</strong>（很可能真的是空的）；<strong>第二，這個欄位的配置</strong>——custom field 的 context 有沒有涵蓋這個 project 與 issue type、欄位有沒有被 field configuration 隱藏。card layout 只負責「把值秀出來」，它<strong>不會憑空產生資料</strong>。",
+   "B": "project 名稱跟欄位值毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
@@ -1980,10 +1980,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "不是預設。",
-   "A": "Everything Else 是刪不掉的最後一條，不是第一條。",
-   "B": "預設 Expedite 用 priority = Blocker。",
-   "C": "不是預設。"
+   "D": "「Mine」也不是預設泳道。（Only My Issues 是預設的 <strong>quick filter</strong>，不是 swimlane，兩者不要混淆。）",
+   "A": "Everything Else 是<strong>刪不掉、永遠固定在最下面</strong>的收尾泳道，不是第一條。",
+   "B": "正解。選擇 Queries 模式時，Jira 預設就給一條 <strong>Expedite</strong> 泳道，它的 JQL 是 <code>priority = Blocker</code>，用意是把最緊急的工作固定拉到 board 最上方。這條泳道可以修改也可以刪除。",
+   "C": "「Bugs」不是預設的泳道，那是常見的自訂範例。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/"
@@ -2009,10 +2009,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "固定在最下。",
-   "C": "官方：Everything Else 是 catch-all。",
-   "D": "Scrum、Kanban 都有。",
-   "A": "刪不掉。"
+   "B": "位置固定在最下面，<strong>不能拖到別的位置</strong>。",
+   "C": "正解。<strong>Everything Else 是一條 catch-all（收尾）泳道</strong>：所有不符合任何一條 query 的卡片都會落到這裡，所以它<strong>刪不掉、也永遠固定在最下方</strong>。它的存在保證了一件重要的事——<strong>swimlane 只做分組，不會讓任何卡片消失</strong>。",
+   "D": "Scrum 與 Kanban board 都有，不分類型。",
+   "A": "刪不掉。它是系統保留的泳道，設定介面上不會提供刪除選項。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/"
@@ -2037,10 +2037,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "錯。不是只算最後一次進入的天數。",
-   "C": "錯。不是只算第一次。",
-   "D": "對。官方原文：工作若曾回到同一欄，指示器顯示它在該欄的「累計」天數，例子正是 2＋1＝3 天。",
-   "A": "錯。移出不會歸零，回來會累加。"
+   "B": "不是只算最後一次進入之後的天數。",
+   "C": "也不是只算第一次待的那 2 天。",
+   "D": "正解。官方原文說明：如果一張工作曾經<strong>回到同一個欄位</strong>，指示器顯示的是它在該欄的<strong>累計</strong>天數，官方舉的例子正好是 2＋1＝<strong>3 天</strong>。這個設計是刻意的——它要凸顯的是「這張卡在這個階段總共耗掉多少時間」，來回擺盪的工作反而更值得被看見。順帶記一下：這個指示器 <strong>Kanban 預設開啟、Scrum 預設關閉</strong>。",
+   "A": "移出該欄<strong>不會歸零</strong>。這是本題最容易誤選的答案，直覺上會以為計時重新開始。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
@@ -2065,10 +2065,10 @@
   ],
   "answer": "A",
   "explain": {
-   "C": "受影響。",
-   "D": "受影響。",
-   "A": "官方受影響清單不含 CFD；CFD 按日曆日。",
-   "B": "受影響。"
+   "C": "Burndown <strong>會</strong>受影響，guideline 會在非工作日走平。",
+   "D": "Control chart <strong>會</strong>受影響，它甚至有一個獨立的 Non-working days 開關可以排除週末假日。",
+   "A": "正解（本題問的是「不受影響」的那一個）。官方受 working days 影響的清單裡<strong>沒有 CFD</strong>——<strong>Cumulative flow diagram 一律按日曆日連續計算</strong>，所以週末那兩天在圖上會是平的一段，那是真實情況而不是設定沒生效。",
+   "B": "Version report <strong>會</strong>受影響，這也是它的預測日期會隨 working days 設定改變的原因。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/"
@@ -2094,10 +2094,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "swimlane 是分組不是顏色。",
-   "A": "做得到。",
-   "B": "Queries 方法可用任何 JQL，包括 status。",
-   "C": "不需動 workflow。"
+   "D": "swimlane 做的是<strong>分組</strong>（改變卡片的位置），card color 做的是<strong>上色</strong>（改變外觀），兩者用途不同不能互相取代。不過兩者可以同時使用。",
+   "A": "做得到，只是不能用下拉直選，要繞一下。",
+   "B": "正解。<strong>Card colors 選 Queries 模式，就可以用任何一段 JQL 來決定顏色</strong>，包含 <code>status = \"In Review\"</code>。這題的價值在於建立一個通則：<strong>只要下拉選單裡沒有你要的依據，就改用 Queries 自己寫</strong>——swimlane 也是同樣的道理。記得多條 query 時是「第一個符合的勝出」，順序要排好。",
+   "C": "完全不需要動 workflow。這只是顯示需求，改 workflow 是動到流程本身，風險與影響範圍都大得多。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/customize-cards/"
@@ -2123,10 +2123,10 @@
   ],
   "answer": "C",
   "explain": {
-   "D": "Administer Projects 即可。",
-   "A": "這是 CMP board 的設定。",
-   "B": "Summary 不可移除。",
-   "C": "官方：Summary、Description 永遠顯示；其他欄位可增減。"
+   "D": "有 <strong>Administer Projects</strong> 權限的 project admin 就能調整，不必是 Jira admin。",
+   "A": "這是 <strong>CMP board</strong> 的設定。（補充一個現行變化：官方文件已把設定路徑指向 Project settings → Screens 的 View issue screen，但考試仍以 board 設定的說法作答。）",
+   "B": "Summary 是 issue 最基本的識別資訊，<strong>不可移除</strong>。",
+   "C": "正解。官方規定 <strong>Summary 與 Description 永遠顯示、不可移除</strong>；其餘欄位分成兩類——Status、Priority、Reporter、Assignee、建立與更新日期、留言、附件這些是「永遠顯示但可調整」，而 Estimate、Component、Labels、versions、Parent、Issue links、Subtasks 則是<strong>條件顯示</strong>（有值或有相關設定時才出現）。可調整的部分由 project admin 設定。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-the-issue-detail-view/"
@@ -2151,10 +2151,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "官方原文：work items that have no sub-tasks appearing below。",
-   "A": "不是最上面。",
-   "B": "Scrum 也支援。",
-   "C": "那是 Swimlanes by Epics。"
+   "D": "正解。Swimlanes by Stories 的規則是：<strong>每一個有 sub-task 的 parent 各佔一條泳道，它的 sub-task 顯示在底下</strong>；官方原句說明<strong>沒有 sub-task 的工作會集中顯示在所有泳道的下方</strong>。這個模式很適合用來看「每張 story 內部的分工進度」。",
+   "A": "沒有 sub-task 的工作是排在<strong>下方</strong>，不是最上面。",
+   "B": "Scrum 與 Kanban <strong>都支援</strong>這種泳道模式。",
+   "C": "每個 epic 一條泳道那是 <strong>Swimlanes by Epics</strong>，是另一個選項。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/"
@@ -2180,10 +2180,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "會造成重複。",
-   "A": "已排除權限與 base filter，接著查 sub-filter、status 映射、是否在 active sprint／Kanban backlog。",
-   "B": "過度授權不定位原因。",
-   "C": "無關。"
+   "D": "重新建立會造成資料重複，原本那張 issue 也不會因此消失。",
+   "A": "正解。題目已經幫你排除了兩個層次——<strong>使用者打得開 issue（權限沒問題），base filter 也搜得到（母體有包含）</strong>。所以接下來要查的是剩下的三件事：<strong>Kanban 的 sub-filter 是不是把它濾掉了、它的 status 有沒有對應到某一欄（unmapped 的不顯示）、以及目前的視圖對不對</strong>（Scrum board 只顯示 active sprint，工作可能還在 backlog；或它落在 Kanban backlog 那一欄）。按這個順序查，幾乎所有「卡片不見了」都能定位。",
+   "B": "給 Jira admin 是過度授權，而且<strong>完全沒有定位問題的原因</strong>——就算他變成管理員，卡片一樣不會出現。",
+   "C": "刪除 project 與這個問題毫無關係，而且是災難性的操作。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/",
@@ -2209,10 +2209,10 @@
   ],
   "answer": "B",
   "explain": {
-   "C": "顏色不是排序欄。",
-   "D": "依建立時間。",
-   "A": "依優先級，不是自由順序。",
-   "B": "Rank 排序才支援拖曳與相關排程功能。"
+   "C": "card color 是視覺設定，<strong>根本不是排序欄位</strong>。",
+   "D": "依建立時間排序同樣是系統決定的固定順序，一樣拖不動。",
+   "A": "依 priority 排序是<strong>系統決定的固定順序</strong>，使用者無法手動調整某一張的位置，拖曳會直接彈回。",
+   "B": "正解。<strong>只有 <code>ORDER BY Rank ASC</code> 才支援拖曳排序</strong>，因為 Jira 是靠 Rank 這個特殊欄位記住人工排序的結果；換成任何其他排序依據，都沒有地方可以儲存新順序。而且 Rank 影響的不只排序——<strong>建立與規劃 sprint、sub-task 歸到 parent 底下、從 Kanban backlog 拖進 board 也都依賴它</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/"
@@ -2237,10 +2237,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "查詢的存取與資料的存取分開。",
-   "D": "分享不是授權。",
-   "A": "board 可見不繞過 issue security。",
-   "B": "無關。"
+   "C": "正解。<strong>「能存取這份查詢」與「能讀到查詢結果裡的資料」是兩件分開的事</strong>。分享 filter 只給了對方使用這段 JQL 的權利；實際回傳哪些 issue，仍然由他自己對<strong>每一個 project 的 Browse Projects 權限</strong>與各張 issue 的 <strong>issue security level</strong> 決定。所以「看得到 filter、結果卻是空的」是完全正常的現象。",
+   "D": "<strong>分享不等於授權</strong>——這是本題的核心觀念，也是實務上最常見的誤解。",
+   "A": "board 可見<strong>不會繞過 issue security</strong>，也不會補上 Browse Projects。可見度與資料存取是兩層獨立的檢查。",
+   "B": "working days 只影響報表的天數計算，跟這題毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/",
@@ -2267,10 +2267,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "語言無關。",
-   "D": "多個 quick filter 是 AND；要「任一類型」用單一 IN／OR 的 quick filter。",
-   "A": "關掉 filter 就恢復。",
-   "B": "與 workflow 無關。"
+   "C": "瀏覽器的語言設定不影響任何查詢邏輯。",
+   "D": "正解。<strong>同時啟用多個 quick filter 之間是 AND（取交集）</strong>，所以同時勾「Bugs」與「Tasks」等於要求「既是 Bug 又是 Task」——兩個條件互斥，交集當然是空的。要表達「任一種類型」，必須做成<strong>一個</strong> quick filter，把 OR 或 IN 寫在同一句 JQL 裡：<code>issuetype in (Bug, Task)</code>。",
+   "A": "資料完全沒有被刪除，<strong>把 quick filter 取消勾選，卡片就會全部回來</strong>。",
+   "B": "跟 workflow 毫無關係，workflow 管的是狀態流轉。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/"
@@ -2296,10 +2296,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "會修改共用 filter。",
-   "A": "先評估 filter 的相依關係。",
-   "B": "Rank 是排序。",
-   "C": "不會建 project。"
+   "D": "影響範圍不只自己——它改的是共用的 filter 物件，不是個人偏好設定。",
+   "A": "正解。<strong>Add Rank 修改的是 saved filter 本身</strong>（在 JQL 結尾加上 ORDER BY Rank），而 filter 是共用物件，所以<strong>其他使用同一份 filter 的 board 也會跟著改變排序</strong>。還有一個更深的影響：<strong>Rank 是全站共用的排序資料</strong>，你在這塊 board 上重排，另一塊以 Rank 排序的 board 也會看到新順序。動正式的共用 filter 前，建議先另存一份測試 filter 驗證。",
+   "B": "Rank 是排序機制，<strong>跟卡片顏色毫無關係</strong>。",
+   "C": "不會建立任何 project。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/enable-ranking/"
@@ -2325,10 +2325,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "官方順序：Board filter → Status 對應 → Backlog feature／Kanban backlog → sub-filter → 是否在 active sprint。",
-   "C": "工作日只影響報表。",
-   "D": "卡片欄位不影響顯示。",
-   "A": "不是第一步。"
+   "B": "正解。官方的排查順序是由外而內：<strong>① board filter 有沒有包含它（母體）→ ② status 有沒有對應到某一欄（unmapped 的不顯示）→ ③ Backlog feature 與 Kanban backlog 的設定 → ④ Kanban 的 sub-filter → ⑤ Scrum 的話它在不在 active sprint</strong>。從最外層的母體查起最有效率，因為不在母體裡的話，後面所有設定都救不回來。",
+   "C": "working days 只影響報表的天數計算，跟卡片顯示與否完全無關。",
+   "D": "card layout 決定卡片上「顯示哪些欄位」，<strong>不決定卡片本身出不出現</strong>。",
+   "A": "權限問題確實要查，但<strong>不是第一步</strong>；而且要查的是 Browse Projects，不是 Jira admin。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/"
@@ -2354,10 +2354,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "工作日不影響顯示。",
-   "C": "Done 清理靠 Release＋sub-filter 或 Hide completed work（1／2／4 週）。",
-   "D": "Rank 影響拖曳，不影響 Done 堆積。",
-   "A": "quick filter 是暫時篩選。"
+   "B": "working days 只影響報表計算，跟 Done 欄堆積毫無關係。",
+   "C": "正解。CMP Kanban 清 Done 有兩個機制，兩個都可能出問題：<strong>① 靠發佈 release</strong>——預設 sub-filter <code>fixVersion in unreleasedVersions() OR fixVersion is EMPTY</code> 會把已發佈版本的 issue 藏起來，所以沒有人在用 version、或 sub-filter 被清空，Done 就會一直堆；<strong>② Hide completed work</strong>——如果被設成「不隱藏」，完成的卡片也會一直留著。兩個都檢查一遍就能定位。",
+   "D": "Rank 影響的是能不能拖曳排序，<strong>跟 Done 欄會不會被清理無關</strong>。",
+   "A": "quick filter 是使用者臨時的檢視工具，<strong>它不負責清理 board</strong>，而且勾選狀態是個人的。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/",
@@ -2385,10 +2385,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "語意不同。",
-   "D": "「最近一週」≠「本曆週」；Hide completed work 以最後更新起算滾動期間。",
-   "A": "board admin 就能改 sub-filter。",
-   "B": "無關 Rank。"
+   "C": "語意差很多，這正是本題的重點。",
+   "D": "正解。兩者的時間定義完全不同：<strong>Hide completed work 選 1 週，是「滾動的最近 7 天」</strong>，而且計時起點是 <strong>issue 的最後更新時間</strong>——任何欄位的編輯都會把計時重設，讓早就完成的卡片重新出現。<strong>而 <code>resolved &gt;= startOfWeek()</code> 是「本曆週」</strong>，從這週的第一天算起，到了下週一整批就一起消失，跟有沒有人編輯完全無關。想要穩定的週報視圖用後者，想要「最近完成的都還看得到」用前者。",
+   "A": "sub-filter 是 board 層級的設定，<strong>board admin 或 project admin 就能改</strong>，不需要 Jira admin。",
+   "B": "兩者都跟 Rank 沒有關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira/kb/kanban-board-shows-or-hides-completed-work-unexpectedly-in-jira-cloud/",
@@ -2415,10 +2415,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "不需要。",
-   "A": "官方：重新排序（Rank）需要 Schedule Issues；Manage Sprints 只管 sprint 本身。",
-   "B": "無關。",
-   "C": "board admin 不授予 issue 權限。"
+   "D": "完全不需要 Administer Jira，補上 project 層的 Schedule Issues 就解決了。",
+   "A": "正解。這是 620 最典型的組合題。<strong>Manage Sprints 管的是「sprint 這個容器」</strong>（建立、開始、結束、改期間與目標）；而在 backlog 拖曳排序，本質上是<strong>修改那些 issue 的 Rank 欄位</strong>，需要的是 <strong>Schedule Issues</strong>（Jira 把 due date 與 rank 都劃給它）搭配 <strong>Edit Issues</strong>。記住這句話：<strong>能管 sprint ≠ 能改 sprint 裡的每一張 issue</strong>。",
+   "B": "Browse users and groups 是全域權限，影響的是 @提及與 user picker 看得到誰，跟排序無關。",
+   "C": "board admin 管的是 board 的設定（columns、swimlanes、quick filters），<strong>它不授予任何 issue 層級的權限</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/",
@@ -2446,10 +2446,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "是設計行為。",
-   "B": "對。官方 Rank a work item：sub-task 只能在同一 parent 的兄弟之間排序，且 parent 移動時 sub-task 跟著移動——它不是可獨立規劃進 sprint 的項目。",
-   "C": "與 Rank 無關。",
-   "D": "不是欄位問題。"
+   "A": "這是<strong>設計行為</strong>，不是缺陷。",
+   "B": "正解。官方在 Rank a work item 與 Scrum backlog 的說明中都寫明：<strong>sub-task 只能在同一個 parent 底下的兄弟之間排序，而且 parent 移動時 sub-task 跟著移動</strong>——它<strong>不是一個可以獨立規劃進 sprint 的項目</strong>。官方對 backlog 顯示條件的敘述裡也直接列了一條「the work item isn’t a subtask」。這個設計是刻意的：sub-task 是 parent 的一部分，把它們拆到不同 sprint 在邏輯上說不通。",
+   "C": "跟 Rank 沒有關係——就算 filter 有 ORDER BY Rank，sub-task 一樣不會出現在 backlog 供你獨立規劃。",
+   "D": "不是欄位被隱藏的問題，而是產品的階層設計。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/rank-an-issue/"
@@ -2475,10 +2475,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "非 owner 不能編輯別人的 filter。",
-   "C": "官方：Jira admin 可在 Manage filters 變更 owner。",
-   "D": "不必重建。",
-   "A": "不會自動轉。"
+   "B": "<strong>board admin 不等於 filter editor</strong>，非 owner（也非被加為 editor 的人）不能編輯別人的 filter。",
+   "C": "正解。<strong>Jira admin 可以在 Manage filters 頁面變更任何 filter 的 owner</strong>，把它轉給現任的負責人，之後團隊就能正常編輯。這是處理「owner 離職」最正規的做法。（另一條退路是自己 Save as 另存一份新 filter 再把 board 指過去，但那樣會失去原 filter 的所有分享設定。）",
+   "D": "完全不必重建 board——board 沒有壞，只是它讀的那份 filter 沒人有權編輯而已。",
+   "A": "Jira <strong>不會</strong>自動把離職者的 filter 轉給任何人，它會一直掛在那個已停用的帳號底下——這是離職交接很容易漏掉的一項。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/manage-filters/"
@@ -2504,10 +2504,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "Timeline 也有，但題目問 board。",
-   "C": "epic 不以卡片出現。",
-   "D": "epic 在 backlog 側邊的 Epic panel，用來篩選與拖曳歸屬。",
-   "A": "不是隱藏。"
+   "B": "Timeline 上確實也看得到 epic（畫成長條），但題目問的是 board 與 backlog 的呈現。",
+   "C": "開啟 Epics panel 時，<strong>epic 不會以卡片形式出現在 board 的欄位裡</strong>——這正是很多人以為「epic 不見了」的原因。",
+   "D": "正解。Epics panel 開啟時，<strong>epic 會集中呈現在 backlog 左側的 Epic panel 裡</strong>，用途是依 epic 篩選 backlog、以及把 issue 拖進某個 epic 來設定歸屬。它<strong>不會以卡片形式出現在 board 上</strong>。想讓 epic 變成一般卡片，把 Epics panel 關掉即可。",
+   "A": "epic 沒有被隱藏，它只是<strong>換了一個位置</strong>顯示。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/customize-your-view-of-the-board-and-backlog/"
@@ -2533,10 +2533,10 @@
   ],
   "answer": "A",
   "explain": {
-   "B": "不是同步問題。",
-   "C": "不是快取。",
-   "D": "不一定。",
-   "A": "currentUser() 依登入者變動；共用 board 不該把它寫進 board filter，應放 quick filter。"
+   "B": "board 沒有「同步」這個機制，它每次都是即時查詢。",
+   "C": "重新整理不會改變結果，因為兩個人的登入身分本來就不同。",
+   "D": "權限差異確實也可能造成看到的卡片不同，但題目已經明白指出 filter 裡有 <code>currentUser()</code>，那才是這裡的直接原因。",
+   "A": "正解。<strong><code>currentUser()</code> 這個函數會依「目前登入的人」動態回傳不同的值</strong>，所以同一塊 board 每個人看到的結果本來就不一樣——這是 filter 的設計，不是故障。實務上的正確做法是：<strong>共用 board 的 base filter 不要寫 <code>currentUser()</code></strong>，把它放進 <strong>quick filter</strong>（例如內建的 Only My Issues），讓每個人自己決定要不要收斂到自己的工作。順帶一提，這個函數也<strong>不能用在要分享給匿名使用者的 filter</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/configure-quick-filters/",

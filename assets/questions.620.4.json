@@ -12,10 +12,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "Filter subscription 依排程寄出查詢結果，正好是「定期通知、不改資料」。",
-   "B": "Bulk Move 會搬動資料，不符合需求。",
-   "C": "刪除資料與需求相反。",
-   "D": "可行但不是自動化。"
+   "A": "正解。<strong>filter subscription 依排程把查詢結果寄成 email，而且完全不會修改任何資料</strong>，正好對應題目的兩個條件。做法是先把查詢存成 saved filter，再到 Filter → Details → New subscription 設定收件人與排程（每日／每週／每月或 cron）。附帶一個好處：<strong>信件內容是以「收件人自己的權限」執行 filter 的</strong>，不會意外把他無權查看的 issue 寄出去。",
+   "B": "Bulk Move 會實際<strong>搬動 issue 到另一個 project</strong>，是重大的資料變更，完全不符合「不需要修改任何資料」的要求。",
+   "C": "刪除資料跟需求完全相反。",
+   "D": "手動匯出 CSV 確實做得到，但<strong>那不是自動化</strong>——每週都要有人記得做，正是這個需求想避免的事。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/save-your-search-as-a-filter/"
@@ -41,10 +41,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "全域權限只開啟「批次操作」這個入口。",
-   "B": "官方：bulk change 需要 Make bulk changes 全域權限，並且對每張 issue 具備該操作的 project 權限。",
-   "C": "Key 不是權限。",
-   "D": "Administer Jira 不是 bulk change 的條件。"
+   "A": "<strong>全域權限只開啟「批次操作」這個入口</strong>，它不會讓你獲得任何 project 的資料操作權。",
+   "B": "正解。官方明訂 bulk change 需要<strong>兩層權限</strong>：全域的 <strong>Make bulk changes</strong>（決定選單出不出現），加上<strong>每一個受影響 project 中對應該操作的權限</strong>——bulk edit 要 Edit Issues、bulk move 要 Move Issues（外加目的地的 Create Issues）、bulk transition 要 Transition Issues、bulk delete 要 Delete Issues。跨 project 批次時<strong>每一個 project 都要有</strong>，缺一個那批 issue 就會被跳過。",
+   "C": "知道 issue key 只代表找得到它，<strong>跟有沒有權限完全是兩回事</strong>。",
+   "D": "<strong>Administer Jira 不是 bulk change 的條件</strong>，一般使用者拿到兩層權限就能執行。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/",
@@ -71,10 +71,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "官方：Resolution 不能 bulk edit，需透過 transition（transition screen 或 post function）設定。",
-   "D": "破壞設定且無效。",
-   "A": "Summary 不是 Resolution。",
-   "B": "上限與欄位可編輯性無關。"
+   "C": "正解。<strong>Resolution 不在 bulk edit 可改的欄位清單裡</strong>（這是刻意的設計——Resolution 應該由流程來設定，而不是被人隨手改掉）。正確做法是改用 <strong>Bulk Transition</strong>：挑一個會設定 Resolution 的 transition（透過它的 transition screen 或 post function），讓整批 issue 走過去。順帶記一組對照：<strong>要改 Resolution 走 bulk transition，要換 project 走 bulk move</strong>。",
+   "D": "把欄位刪掉再加回來會影響所有既有資料，而且<strong>完全無法解決問題</strong>——Resolution 本來就不能 bulk edit。",
+   "A": "Summary 是標題文字，<strong>跟 Resolution 這個結案欄位完全是兩回事</strong>。",
+   "B": "1,000 張的上限跟「某個欄位能不能編輯」毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/",
@@ -101,10 +101,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "Validator 在使用者按下 transition 後檢查輸入，失敗則擋住轉換並顯示錯誤。",
-   "A": "Post function 在轉換完成後執行，不能擋。",
-   "B": "Condition 決定按鈕是否顯示，不檢查輸入。",
-   "C": "與 workflow 無關。"
+   "D": "正解。<strong>validator 的執行時機正是「使用者按下 transition、送出表單之後」</strong>，它檢查輸入的欄位是否有效（例如必填有沒有填），不通過就<strong>擋住轉換並顯示錯誤訊息</strong>。三者的分工要一起記：<strong>condition 事前隱藏按鈕、validator 送出時檢查並擋下、post function 成功之後才做事</strong>。考題最愛把 condition 與 validator 互換。",
+   "A": "<strong>post function 是在轉換「完成之後」才執行的</strong>，它負責做事（設欄位、發事件），<strong>沒有能力擋下轉換</strong>。",
+   "B": "<strong>condition 決定的是「這個轉換按鈕要不要顯示」</strong>，它在使用者動作之前就生效，<strong>但它不檢查使用者輸入的內容</strong>。",
+   "C": "filter subscription 是排程寄信的功能，跟 workflow 毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/"
@@ -130,10 +130,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "這是預期行為；要「每次新建都加」得用 automation（Issue created → Edit issue）或 post function。",
-   "B": "沒有依據。",
-   "C": "Gadget 不會修改資料。",
-   "D": "隱藏欄位會讓 bulk edit 失敗，不會影響新 issue。"
+   "A": "正解。<strong>bulk change 是對「當下選定的那一批 issue」執行的一次性操作</strong>，它不會留下任何規則，當然也不會影響之後新建的 issue。要達成「每次新建都自動加上」的效果，得改用<strong>持續生效的機制</strong>：automation 規則（Issue created → Edit issue 加 label）或 workflow 的 post function。這題要建立的是選型直覺——<strong>一次性的清理用 bulk change，持續性的規則用 automation</strong>。",
+   "B": "沒有任何依據支持這個推論，而且權限被撤銷的話會是「無法執行」而不是「新 issue 沒有 label」。",
+   "C": "gadget 只負責呈現資料，<strong>不會修改任何 issue</strong>。",
+   "D": "如果 Label 欄位被隱藏，當初的 bulk edit 就會失敗了；而且欄位隱藏不會造成「舊的有、新的沒有」這種現象。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/",
@@ -160,10 +160,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "官方 What are global permissions：「Manage group filter subscriptions — Users with this permission can create and delete group filter subscriptions.」而 Share dashboards and filters 一項也載明分享對象仍須「have permission to view it」，因此訂閱不會繞過資料權限。",
-   "C": "擁有者可以建立給自己的訂閱，但群組訂閱另需 Manage group filter subscriptions；且收件者看得到多少仍受 Browse Projects 與 issue security 限制。",
-   "D": "Administer Jira 不是建立訂閱的條件，群組訂閱有自己的全域權限。",
-   "A": "Make bulk changes 管的是批次編輯／搬移／刪除，與訂閱無關。"
+   "B": "正解。官方 What are global permissions 明列：<strong>擁有 Manage group filter subscriptions 權限的使用者，才能建立與刪除「群組」的 filter 訂閱</strong>（寄給自己則不需要這一項）。同時要記住另一半：<strong>訂閱不會繞過資料權限</strong>——官方在 Share dashboards and filters 也載明分享對象仍須有檢視權限，所以<strong>每位組員收到的信裡，只會有他自己有權看到的 issue</strong>，內容可能人人不同。",
+   "C": "身為 filter 的擁有者，確實可以建立<strong>給自己</strong>的訂閱，但<strong>群組訂閱另外需要 Manage group filter subscriptions</strong>；而且收件者看得到多少，仍受各自的 Browse Projects 與 issue security 限制，不會看到「完整結果」。",
+   "D": "<strong>Administer Jira 不是建立訂閱的條件</strong>，群組訂閱有自己專屬的全域權限。",
+   "A": "Make bulk changes 管的是批次編輯、搬移與刪除，<strong>跟訂閱毫無關係</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/what-are-global-permissions-and-what-do-they-do/",
@@ -190,10 +190,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "共用 workflow 改一次影響所有引用的 project；post function 由 Jira admin 設定，且應先驗證。",
-   "D": "五個必要 post function 不可刪除。",
-   "A": "改 column 名稱不會設定 Resolution。",
-   "B": "不是自動化。"
+   "C": "正解。這個做法有三個關鍵點：<strong>① 用 Update Issue Field 這個 post function 在 Done transition 上自動設定 Resolution</strong>（post function 是同步且必然執行的，比 automation 更適合「每次轉換都必須發生」的事）；<strong>② workflow 是全站物件，改一次會影響所有引用它的 project</strong>，所以要先確認影響範圍；<strong>③ 應該先在測試用的 workflow 上驗證，確認無誤再發布</strong>。另外別忘了在 Reopen 的 transition 加一個清除 Resolution 的 post function。",
+   "D": "<strong>每個 transition 上的五個系統必要 post function 順序固定、不可刪除也不可重排</strong>——它們負責更新欄位、寫歷史、存資料庫、重建索引、發送事件，順序被破壞會讓 automation 與 app 讀到不完整的資料。",
+   "A": "改 board 上 column 的名稱<strong>完全不會設定 Resolution</strong>，那只是顯示文字。",
+   "B": "靠每個人記得手動填，正是這個需求想消除的問題——<strong>只要有人忘記，資料就不一致</strong>，而且報表會受影響。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/"
@@ -220,10 +220,10 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "Priority 可以 bulk edit。",
-   "C": "Labels 可以 bulk edit（可加入或取代）。",
-   "D": "官方 Edit multiple work items 的 Unavailable operations：Attachments、Summary、Description、Environment、Project、Resolution 與 Time Tracking 欄位不能 bulk edit。",
-   "A": "Fix Version 可以 bulk edit（限同一 project）。"
+   "B": "<strong>Priority 可以 bulk edit</strong>，這是最常見的批次操作之一。",
+   "C": "<strong>Labels 可以 bulk edit</strong>，而且提供「加入」與「取代」兩種模式，記得選對以免洗掉既有標籤。",
+   "D": "正解。官方 Edit multiple work items 頁的 <strong>Unavailable operations</strong> 明列不能 bulk edit 的欄位：<strong>Attachments、Summary、Description、Environment、Project、Resolution，以及 time tracking 相關欄位</strong>。其中兩個有替代路徑值得記：<strong>Resolution 走 bulk transition，Project 走 bulk move</strong>。",
+   "A": "<strong>Fix Version 可以 bulk edit</strong>，但有條件——這批 issue 必須屬於同一個 project（因為 version 是 project 私有物件）。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
@@ -249,10 +249,10 @@
   ],
   "answer": "A",
   "explain": {
-   "C": "100 太少。官方 Edit multiple work items：「You can only edit 1000 work items at once.」",
-   "D": "500 太少，官方明列的一次上限是 1,000 張。",
-   "A": "官方：一次 bulk operation 最多 1,000 張；超過要分批。",
-   "B": "有上限；官方明列一次最多 1,000 張，超過要分批。"
+   "C": "太少了。100 這個數字容易跟 <strong>Lookup issues 的 100 筆上限</strong>混淆——那是 automation 的限制，不是 bulk change。",
+   "D": "太少了。500 是<strong>單一 parent 底下 child 的顯示上限</strong>，跟 bulk change 無關。",
+   "A": "正解。官方 Edit multiple work items 明訂：<strong>一次 bulk operation 最多處理 1,000 張 issue</strong>（原句是 You can only edit 1000 work items at once），超過就得分批進行。這個數字值得直接記起來，考題常拿它跟其他上限混在一起問。",
+   "B": "是有上限的，官方明列一次最多 1,000 張。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
@@ -278,10 +278,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "數量與可刪性都錯。",
-   "B": "官方 advanced workflows：Set issue status、Add comment、Update change history、Re-index、Fire event 五個必要 post function，不可刪除或移動。",
-   "C": "不可刪除。",
-   "D": "有五個。"
+   "A": "數量與可刪性都錯：是 5 個，而且不可刪除。",
+   "B": "正解。官方在 advanced workflows 列出每個 transition 上的<strong>五個必要 post function</strong>：<strong>Set issue status（更新狀態）、Add comment（若有填寫則加入留言）、Update change history（寫入變更歷史）、Re-index（重建索引）、Fire event（發送事件）</strong>。它們<strong>既不可刪除也不可重新排序</strong>，只能在其間的允許位置插入自訂的 post function。這個順序是有道理的——<strong>事件必須在資料真正寫入且索引完成之後才發出</strong>，否則 automation 或 app 收到通知去讀 issue 時，可能讀到還沒更新的舊資料。",
+   "C": "數量對了，但<strong>不可刪除</strong>這點寫反了——它們既不能刪也不能重排。",
+   "D": "每個 transition 都有這五個，它們是系統運作的基礎。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/"
@@ -307,10 +307,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "Post function 在 transition 當下同步執行，不占 automation 用量；適合每次轉換都要做的事。",
-   "D": "排程掃描有延遲又浪費配額。",
-   "A": "一次性操作。",
-   "B": "只會寄信。"
+   "C": "正解。題目給的三個條件（<strong>同步、可靠、不受 automation 配額影響</strong>）正好完整描述了 post function 的特性：它是 <strong>transition 動作的一部分，在轉換當下同步執行</strong>，沒有延遲；它<strong>必然執行</strong>，不會因為額度用完或 actor 權限不足而失敗；而且<strong>完全不佔用 automation 的用量</strong>。所以「每次轉換都必須發生、而且要立即生效」的事情，優先考慮 post function。代價是要請 Jira admin 改 workflow，而且共用的 workflow 改動會影響其他 project。",
+   "D": "每分鐘排程掃描是最糟的做法：<strong>有延遲（最多慢一分鐘）、大量浪費 automation 配額</strong>，而且掃描期間的中間狀態可能被漏掉。",
+   "A": "bulk change 是<strong>人工發動的一次性操作</strong>，不會在每次轉換時自動執行。",
+   "B": "filter subscription 只會按排程<strong>寄出清單</strong>，一個欄位都不會改。"
   },
   "sources": [
    "https://support.atlassian.com/jira-cloud-administration/docs/configure-advanced-issue-workflows/",
@@ -337,10 +337,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "官方提供此選項以避免通知轟炸。",
-   "A": "與速度無關。",
-   "B": "不能繞過權限。",
-   "C": "History 照常記錄。"
+   "D": "正解。官方提供這個選項的目的正是<strong>避免通知轟炸</strong>：一次改 200 張 issue，如果每一張都寄信給它的 watcher 與 assignee，收件匣會被灌爆，重要的通知反而被淹沒。這也是 bulk change 相較 automation 的一個優勢——<strong>它讓你明確決定這批變更要不要送通知</strong>。",
+   "A": "跟執行速度沒有關係。",
+   "B": "<strong>絕對不能繞過權限</strong>——通知與權限是兩件完全獨立的事。",
+   "C": "<strong>變更歷史照常記錄</strong>，取消通知不影響 issue 的 History。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
@@ -366,10 +366,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "TMP 沒有 components，versions 也不是同一物件。",
-   "A": "官方 Edit multiple work items：「Work item component and version Information isn’t retained when you move work items from company-managed to team-managed projects. Once you move the work items, this information is permanently removed.」搬到不同 workflow 時還要對應 status。",
-   "B": "搬移需要目的地 Create Issues。",
-   "C": "批次搬移仍需 Make bulk changes ＋ Move Issues。"
+   "D": "這正是本題的重點——<strong>components 與 versions 不會帶過去，而且是永久移除</strong>。",
+   "A": "正解。官方 Edit multiple work items 明文：<strong>從 company-managed 搬到 team-managed 時，issue 的 component 與 version 資訊不會被保留，搬移之後這些資訊會被永久移除</strong>——因為 TMP 根本沒有 components，version 也不是同一個物件。另外還有一個必要的步驟：<strong>兩邊 workflow 不同時，要在搬移精靈裡把來源的 status 一一對應到目的地的 status</strong>，否則 issue 會落在錯誤的狀態。搬移前務必先確認這些資料是否需要另外備份。",
+   "B": "<strong>搬移一定需要目的地的 Create Issues 權限</strong>——搬入的本質就是在那裡建立。",
+   "C": "批次搬移<strong>仍然需要 Make bulk changes 全域權限，外加來源的 Move Issues 與目的地的 Create Issues</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/jira-software-cloud/docs/edit-multiple-issues-at-the-same-time/"
@@ -395,10 +395,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "一次性操作。",
-   "A": "Post function 綁在 transition，建立事件雖有 Create transition，但 Slack 通知等外部動作是 automation 的強項。",
-   "B": "Issue created → condition → Assign issue ＋ Send Slack message，事件驅動且能跨系統。",
-   "C": "只能寄查詢結果。"
+   "D": "bulk change 是人工發動的一次性操作，<strong>不會在每次建立 issue 時自動跑</strong>。",
+   "A": "post function 綁在 <strong>transition</strong> 上，而「建立 issue」在概念上雖有 Create transition，但這個需求還包含<strong>依 component 判斷</strong>與<strong>發送 Slack 通知</strong>——條件分支與跨系統動作都是 automation 的強項，post function 做起來相當彆扭。",
+   "B": "正解。這個需求同時用到 automation 的三個獨門能力：<strong>事件觸發（Issue created）、條件判斷（依 component 分流）、以及跨系統動作（Send Slack message）</strong>。組法是 <code>Issue created</code> → <code>Issue fields condition</code> 判斷 component → <code>Assign issue</code> ＋ <code>Send Slack message</code>。其他三種手段沒有一個能同時滿足這三件事。",
+   "C": "filter subscription 只能按排程寄出查詢結果，<strong>不會修改任何 issue，也不能依條件分流</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/create-and-edit-jira-automation-rules/",
@@ -425,10 +425,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "事件驅動最精確；用 Issue fields condition 限定 Bug。",
-   "B": "排程掃描浪費配額且語意不同。",
-   "C": "是刪除事件。",
-   "D": "建立不是轉換。"
+   "A": "正解。<strong>事件驅動的 trigger 最精確也最省資源</strong>：用 <code>Issue created</code> 在 issue 一建立就觸發，再加一個 <code>Issue fields condition</code> 限定 issue type = Bug 即可。要提醒一個官方列出的例外——<strong>CSV 匯入建立的 issue 不會觸發這個 trigger</strong>，大量匯入資料時別指望自動化會跟著跑。",
+   "B": "每分鐘排程掃全站有三個問題：<strong>有延遲、大量浪費 automation 配額，而且語意不同</strong>（排程掃的是「目前符合條件的」，不是「剛剛新建的」，同一張 issue 會被重複處理）。",
+   "C": "Issue deleted 是刪除事件，跟建立完全相反。",
+   "D": "<strong>建立 issue 不是一次 transition</strong>，用 Issue transitioned 抓不到新建事件。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/",
@@ -455,10 +455,10 @@
   ],
   "answer": "B",
   "explain": {
-   "A": "Condition 不改變執行對象。",
-   "B": "官方：branch（For sub-tasks）才會把後續 action 的 {{issue}} 切換成每個 sub-task。",
-   "C": "欄位種類不影響上下文。",
-   "D": "與建立者無關。"
+   "A": "condition <strong>不會改變 rule 的執行對象</strong>，這是本題要澄清的核心誤解。",
+   "B": "正解。要分清楚兩種元件的職責：<strong>condition 只做「檢查」——判斷條件成不成立，決定要不要繼續往下走，它完全不改變 rule 目前作用的對象</strong>；<strong>branch 才是「切換對象」——For sub-tasks 分支會把後續 action 裡的 <code>{{issue}}</code> 逐一切換成每一個 sub-task</strong>。所以想修改 sub-task，一定要開 branch。（順帶一提，Related issues condition 的好處是：只想「檢查」相關 issue 而不想改它們時，不必為此開一個分支。）",
+   "C": "欄位的種類完全不影響執行的上下文。",
+   "D": "跟 rule 由誰建立毫無關係。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-conditions/",
@@ -485,10 +485,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "Branch 內 {{issue}} 是當前處理的相關 issue。",
-   "D": "要取觸發的那張用 {{triggerIssue}}。",
-   "A": "數量要用 list 的 size。",
-   "B": "Parent 要用 {{issue.parent}}。"
+   "C": "正解。<strong>在 branch 內部，<code>{{issue}}</code> 指的是「這一輪正在處理的那一張相關 issue」</strong>——因為 branch 會對每個 sub-task 各跑一次後續的 action，每一輪的 <code>{{issue}}</code> 都不同。這正是 branch 的運作方式。要在任何位置都穩定指向觸發 rule 的那一張，請用 <code>{{triggerIssue}}</code>。",
+   "D": "這個說法只在 branch <strong>外面</strong>成立；<strong>一旦進入 branch，<code>{{issue}}</code> 就被換掉了</strong>。這是最容易寫錯的一組 smart value。",
+   "A": "要取得數量得用 list 的 <code>.size</code>（例如 <code>{{triggerIssue.subtasks.size}}</code>），不是 <code>{{issue.key}}</code>。",
+   "B": "要取得 parent 要明確寫 <code>{{issue.parent}}</code>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/",
@@ -515,10 +515,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "官方 Edit issue fields：多值欄位可選擇 add／remove，保留原集合。",
-   "A": "替換會丟掉原 label。",
-   "B": "清空後再寫入等同替換。",
-   "C": "Comment 不改欄位。"
+   "D": "正解。官方在 Edit issue fields 說明：<strong>多值欄位（Labels、Components、Fix versions 等）可以透過該欄位的 ••• 選單切換成「Add／remove values」模式，明確指定要新增或移除哪些值，保留原本的集合</strong>。要記住 <strong>Edit issue 對多值欄位的預設行為是「整組取代」</strong>，不改成 add 模式就會覆蓋——而且 issue 歷史雖有紀錄，要一張張還原非常痛苦。",
+   "A": "<strong>直接替換會把原本的 label 全部洗掉</strong>，這正是實務上最常造成資料損失的自動化錯誤。",
+   "B": "先清空再寫入的效果<strong>等同於替換</strong>，一樣會丟掉原有的 label。",
+   "C": "Comment 只是加一則留言，<strong>完全不會修改 Labels 欄位</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/edit-issue-fields-with-jira-automation/"
@@ -544,10 +544,10 @@
   ],
   "answer": "A",
   "explain": {
-   "D": "要對新建 issue 操作，需進 For most recently created issue branch 或用 {{createdIssue}}。",
-   "A": "主路徑的上下文仍是 trigger issue。",
-   "B": "不是隨機。",
-   "C": "只作用在當前上下文。"
+   "D": "這是最直覺但錯誤的答案——<strong>建立不等於切換對象</strong>，要切換必須明確用 branch 或 smart value。",
+   "A": "正解。<strong>建立新 issue 並不會把 rule 的作用對象切換過去</strong>，主路徑的上下文自始至終都是<strong>觸發 rule 的那一張 issue</strong>，所以留言會加在它身上。要對新建的 issue 動作，有兩種寫法：<strong>加一個 branch 選 For most recently created issue（或 All created issues）</strong>，或是<strong>直接在 action 裡用 smart value <code>{{createdIssue}}</code> 指名它</strong>。",
+   "B": "執行對象是確定的，不會隨機。",
+   "C": "action 一次<strong>只作用在當前的上下文</strong>，不會兩張都改。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/",
@@ -575,10 +575,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "Log action 會把內容寫進 audit log，可安全觀察 smart value 結果。",
-   "C": "造成不必要通知。",
-   "D": "破壞資料。",
-   "A": "無法觀察字串輸出。"
+   "B": "正解。<strong>Log action 會把指定的文字寫進 audit log</strong>，可以安全地觀察 smart value 實際輸出了什麼，<strong>完全不會修改任何資料、也不會發出任何通知</strong>。官方推薦的除錯組合是 <strong>Manual trigger ＋ Log action</strong>：把 trigger 暫時改成手動，在一張測試 issue 上按一下，再去 audit log 讀結果。另一個更省事的技巧是把值包在 <code>{{#debug}}…{{/}}</code> 裡，它會照常參與運算並同時印進 log。",
+   "C": "寄信給全公司會造成大量無謂的通知，是非常糟糕的除錯方式。",
+   "D": "Delete issue 會破壞資料，絕不能拿來測試。",
+   "A": "Transition issue 會實際改變 issue 的狀態，<strong>而且看不到 smart value 的字串輸出</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/debug-an-automation-rule/",
@@ -605,10 +605,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "官方未提供依 key 排序的保證；branch 對多筆 issue 是平行執行。",
-   "C": "官方 branches：多個 issue 的 branch 平行執行，順序不保證；不要在分支間依賴彼此結果。",
-   "D": "branch 與主路徑的完成順序不保證，不能假設分支一定先跑完。",
-   "A": "官方未提供依建立時間排序的保證；順序不可依賴。"
+   "B": "官方<strong>沒有</strong>提供依 issue key 排序的保證。",
+   "C": "正解。官方在 branches 的說明中明訂：<strong>對多筆 issue 的 branch 是平行執行的，完成順序不保證</strong>。實務上的三個推論要記住：<strong>① 不要在分支之間依賴彼此寫入的結果</strong>（分支 A 改的值，分支 B 不一定讀得到）；<strong>② 不要假設分支一定在主路徑的下一步之前全部結束</strong>；<strong>③ 需要彙總資訊時，把它算在 branch 外面</strong>（例如用 <code>{{triggerIssue.subtasks.size}}</code>）。",
+   "D": "branch 與主路徑的完成順序<strong>同樣不保證</strong>，不能假設分支一定先跑完。",
+   "A": "官方<strong>沒有</strong>提供依建立時間排序的保證，順序不可依賴。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/"
@@ -634,10 +634,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "官方 rule actor：rule 以 actor 的權限執行；owner 是負責人與通知對象。",
-   "A": "可以不同。",
-   "B": "擁有規則不等於資料授權。",
-   "C": "相反。"
+   "D": "正解。兩者的分工是：<strong>Owner 是「誰負責維護這條規則」——規則出錯時收 email 的人，而且可以批次轉移</strong>；<strong>Actor 是「rule 執行變更時所使用的身分」——rule 是以 actor 的權限執行的，issue 歷史紀錄上顯示的也是 actor</strong>，而且只能逐條修改。所以 rule 因為權限失敗時，<strong>要檢查的是 actor 的權限，不是 owner 的</strong>。另外記住：project admin 只能把 actor 設成自己或 Automation for Jira。",
+   "A": "兩者<strong>可以是不同人</strong>，這正是本題要區分的重點。",
+   "B": "<strong>擁有一條規則不等於獲得任何資料授權</strong>——owner 不會因此取得 project 權限。",
+   "C": "說反了：接收錯誤通知的是 <strong>owner</strong>，不是 actor。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/what-is-a-rule-actor/",
@@ -664,10 +664,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "編輯欄位屬於 issue updated。",
-   "B": "官方 triggers：Issue updated 不含 assign、link、log work；這些各有專屬 trigger（Issue assigned、Issue linked、Work logged）。",
-   "C": "有專屬 Issue linked trigger。",
-   "D": "有專屬 Work logged trigger。"
+   "A": "正解。<strong>編輯一般欄位（例如 Summary）確實會觸發 Issue updated</strong>。但更重要的是記住它<strong>不包含</strong>的三種操作，那才是考點。",
+   "B": "官方明列 <strong>Issue updated 不包含指派（assign）</strong>——它有專屬的 <code>Issue assigned</code> trigger。這是最常見的踩雷點：用 Issue updated 想抓 assignee 變更，結果永遠不觸發。",
+   "C": "官方明列 <strong>Issue updated 不包含建立連結（link）</strong>——它有專屬的 <code>Issue linked</code> trigger。",
+   "D": "官方明列 <strong>Issue updated 不包含記錄工時（log work）</strong>——它有專屬的 <code>Work logged</code> trigger。（實務建議：與其用 Issue updated 這種涵蓋範圍模糊的 trigger，不如用 <code>Field value changed</code> 指定要監看的欄位，既精準又省執行次數。）"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/"
@@ -693,10 +693,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "If／else block 可在同一條 rule 內做分支，最多兩層巢狀。",
-   "C": "可行但重複維護兩條 rule。",
-   "D": "User condition 判斷使用者，不是 priority。",
-   "A": "Advanced compare 只能判斷，不能分支。"
+   "B": "正解。<strong>If／else block 可以在同一條 rule 內做條件分流</strong>：if 分支放「指派給 lead」，else 分支放「round robin」，兩條路徑各自執行不同的 action。它最多支援兩層巢狀。這比拆成兩條 rule 好維護——邏輯集中在一處，日後修改不會漏改其中一條。",
+   "C": "拆成兩條 rule 技術上可行，但<strong>要維護兩份幾乎相同的邏輯</strong>，而且兩條的條件必須互斥，否則會重複執行；在同一條 rule 內用 if／else 更清楚。",
+   "D": "User condition 判斷的是<strong>使用者</strong>（例如觸發者是不是某個 group 的成員），跟 priority 的值無關。",
+   "A": "Advanced compare condition 只能做<strong>判斷</strong>（成立就往下、不成立就停），<strong>沒有分支到兩條不同路徑的能力</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-conditions/"
@@ -722,10 +722,10 @@
   ],
   "answer": "C",
   "explain": {
-   "B": "Branch 內 {{issue}} 會變成相關 issue。",
-   "C": "{{triggerIssue}} 永遠指向觸發 rule 的那張。",
-   "D": "是最近建立的 issue。",
-   "A": "不是有效的頂層 smart value；parent 要寫 {{issue.parent}}。"
+   "B": "這是本題的陷阱：<strong>在 branch 內部，<code>{{issue}}</code> 會被換成當前迭代的那張相關 issue</strong>，不再指向觸發的 issue。",
+   "C": "正解。<strong><code>{{triggerIssue}}</code> 永遠指向觸發這條 rule 的那一張 issue，不論你身在 branch 內或外</strong>。這是撰寫含 branch 的規則時最重要的一個習慣——<strong>凡是要引用觸發 issue 的地方，一律寫 <code>{{triggerIssue}}</code>，不要賭 <code>{{issue}}</code> 當下指向誰</strong>。",
+   "D": "<code>{{createdIssue}}</code> 指的是本次 rule 執行中<strong>最近建立的那張新 issue</strong>，跟觸發的 issue 是兩回事。",
+   "A": "<code>{{parent}}</code> 不是有效的頂層 smart value，要取得 parent 得寫 <code>{{issue.parent}}</code>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-smart-values-issues/"
@@ -751,10 +751,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "Project settings 只能建單一 project 的 rule。",
-   "D": "官方 permissions：跨 project／global scope 的 rule 需要 Administer Jira。",
-   "A": "需要 Jira admin。",
-   "B": "不需要 Atlassian。"
+   "C": "<strong>Project settings → Automation 只能建立範圍限於「這一個 project」的規則</strong>，沒有跨 project 的選項。",
+   "D": "正解。官方的權限規定是：<strong>單一 project 的 rule 由 project admin 建立</strong>（CMP 需 Administer Projects ＋ Browse Projects，TMP 需 Administrator role）；<strong>multi-project 與 global scope 的 rule 需要 Administer Jira，由 Jira admin 在 ⚙ → System → Global automation 建立</strong>。道理很直接——跨 project 的規則會影響別人的資料，不該由單一 project 的管理者決定。務實做法是把觸發、條件、動作寫清楚後開單給 Jira admin。",
+   "A": "不是任何人都能建。<strong>global rule 需要 Administer Jira</strong>。",
+   "B": "完全不需要 Atlassian 支援介入，Jira admin 自己就能建。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/",
@@ -781,10 +781,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "官方 triggers：Scheduled 可設定 cron 與 JQL，對結果逐筆執行。",
-   "B": "可重複排程。",
-   "C": "Scheduled 的 JQL 本身就提供 issue 上下文；Lookup 用於彙總。",
-   "D": "可以修改。"
+   "A": "正解。官方在 triggers 說明：<strong>Scheduled trigger 可以設定 cron 排程並附帶一段 JQL，勾選「對每個結果執行」之後，就會對查詢到的每一張 issue 各跑一次後續的 action</strong>。有兩個實務重點：<strong>① 別忘了勾「對每個結果執行」</strong>（不勾的話 rule 只會整體跑一次）；<strong>② JQL 是以 actor 的權限執行的</strong>，actor 看不到的 issue 不會被處理。另外提醒 <strong>Scheduled rule 連續失敗 10 次會被自動停用</strong>。",
+   "B": "Scheduled trigger 就是為了<strong>重複執行</strong>而設計的，可以設定間隔或 cron 運算式。",
+   "C": "<strong>Scheduled 的 JQL 本身就提供了 issue 上下文</strong>，不需要再加 Lookup issues；後者是用來<strong>額外查一批 issue 做彙總</strong>的（而且最多只取 100 筆）。",
+   "D": "當然可以修改 issue，這正是它最常見的用途。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/"
@@ -810,10 +810,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "官方 branches：For parent／epic 分支會把上下文切到 parent，之後的 Edit 才會改到 parent。",
-   "C": "方向相反。",
-   "D": "主路徑的 Edit 只會改觸發 issue 本身。",
-   "A": "Condition 不改對象。"
+   "B": "正解。官方在 branches 說明：<strong>For parent（或 For epic）分支會把後續 action 的上下文切換到 parent 身上</strong>，所以要在分支<strong>內部</strong>接一個 Edit issue，才會改到 epic 的 Due date。這也提醒一個對照——如果 Edit issue 被放在 branch <strong>外面</strong>，改到的會是觸發的那張 issue。",
+   "C": "For sub-tasks 的方向剛好相反，它是往下走到子項目。",
+   "D": "主路徑上的 Edit issue <strong>只會修改觸發的 issue 本身</strong>；在欄位裡寫 <code>{{issue.parent.duedate}}</code> 只是「讀取」parent 的值，並不會把修改寫到 parent 身上——<strong>讀取與寫入的對象是兩回事</strong>。",
+   "A": "condition 只做檢查，<strong>不會改變 rule 作用的對象</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/",
@@ -840,10 +840,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "官方 rule actor：rule 以 actor 身分執行，包含 JQL 查詢；actor 缺 Browse Projects 就查不到。",
-   "B": "可以用。",
-   "C": "無關。",
-   "D": "Owner 只影響通知。"
+   "A": "正解。這是 automation 排查中最容易忽略的一組差異：<strong>你在編輯畫面按 Validate 是用「你自己的權限」執行的，但 rule 實際跑起來是用「actor 的權限」</strong>。如果 actor（預設是 Automation for Jira）缺少那些 project 的 <strong>Browse Projects</strong> 權限，同一段 JQL 就查不到任何 issue——而且不會報錯，只會顯示沒有符合的結果。要檢查 <code>atlassian-addons-project-access</code> 這個 role 在該 project 有沒有足夠權限。同樣的邏輯也適用於 JQL condition 與 Lookup issues。",
+   "B": "JQL <strong>可以</strong>用在 automation（Scheduled trigger、JQL condition、Lookup issues、JQL branch 都用得到）。",
+   "C": "dashboard 的分享跟 automation 執行毫無關係。",
+   "D": "owner 只影響「出錯時誰收信」，<strong>不影響執行結果</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/what-is-a-rule-actor/",
@@ -870,10 +870,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "audit log 沒紀錄代表根本沒觸發；官方 debug 頁建議先確認啟用、trigger 與 scope。",
-   "C": "無關。",
-   "D": "失去設定又沒診斷。",
-   "A": "有紀錄但失敗才需看 actor。"
+   "B": "正解。<strong>audit log 完全沒有紀錄，代表 rule 根本沒有被觸發</strong>——這是排查的第一個分岔點，跟「跑了但失敗」要走完全不同的方向。官方 debug 頁建議依序確認三件事：<strong>① rule 是不是 Enabled</strong>（也可能是 Scheduled rule 連續失敗 10 次被自動停用）；<strong>② trigger 選對了嗎</strong>（最典型的是用 Issue updated 想抓指派變更，但它不含 assign／link／log work）；<strong>③ scope 有沒有涵蓋這個 project</strong>。另外還要看變更是不是由另一條 rule 造成的（那需要開 Allow rule trigger）。",
+   "C": "亂改欄位不會定位問題，還可能造成資料混亂。",
+   "D": "刪掉重建會失去所有設定，而且<strong>如果原因是 trigger 選錯，重建一次還是一樣不會跑</strong>。",
+   "A": "換 actor 是「有紀錄但失敗」時才要做的事；<strong>現在連紀錄都沒有，代表根本沒觸發，換 actor 沒有意義</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/debug-an-automation-rule/",
@@ -900,10 +900,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "NO_ACTIONS_PERFORMED 是官方列出的執行狀態之一（How is your automation usage calculated：「NO_ACTIONS_PERFORMED：The step ran but didn’t result in a change.」），代表被觸發但沒有造成變更，通常是 condition 擋下來；要對照需求判斷是否為預期的排除。",
-   "D": "不是故障。",
-   "A": "移除 condition 可能讓不該改的 issue 被改。",
-   "B": "權限問題會顯示錯誤，不是此狀態。"
+   "C": "正解。<strong>NO_ACTIONS_PERFORMED 是官方列出的正常執行狀態之一</strong>（官方定義：這個步驟有執行，但沒有造成任何變更），代表 <strong>rule 確實被觸發、也正常跑完，只是某個 condition 判定不符，所以後面的 action 全部跳過</strong>。它<strong>不是錯誤</strong>。看到這個狀態要做的是對照需求判斷：這是不是我原本就想排除的情況？如果不是，再去檢查 condition 的邏輯（若用的是 JQL condition，記得它以 actor 權限執行）。",
+   "D": "完全不是故障，這是設計中的正常狀態。",
+   "A": "這是危險的做法——<strong>condition 存在是有理由的，移除它可能讓不該被修改的 issue 全部被改到</strong>。要先確認這個排除是不是預期行為。",
+   "B": "權限問題會顯示為 <strong>Some errors 或 Failure</strong>，並附上錯誤訊息，不會是這個狀態。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/what-is-the-automation-audit-log/",
@@ -930,10 +930,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "JQL 不是 scope 授權。",
-   "D": "官方 permissions／branches：跨 project 操作需 scope 涵蓋目標 project，且 actor 需該 project 權限。",
-   "A": "Link 不會授權。",
-   "B": "Branch 也受 scope 限制。"
+   "C": "<strong>JQL 只是查詢條件，不是授權</strong>。寫得出來不代表跑得動。",
+   "D": "正解。跨 project 操作要同時滿足兩個條件：<strong>① rule 的 scope 必須涵蓋目標 project</strong>——單一 project rule 只能動自己 project 的資料，要動 OPS 就得改成 multi-project 或 global rule，<strong>而那需要 Jira admin 在 Global automation 建立</strong>；<strong>② actor 必須具備 OPS 的對應權限</strong>。兩者缺一不可，只加 JQL 條件完全沒用。",
+   "A": "<strong>link 只是一種關聯敘述，它不會授予 rule 任何跨 project 的權限</strong>。",
+   "B": "<strong>branch 一樣受 scope 限制</strong>——分支能不能走到 OPS 的 issue，前提是這條 rule 的 scope 涵蓋 OPS。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/",
@@ -960,10 +960,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "官方 actions：Re-fetch issue data 會重新載入 issue 快照，讓後續 smart value 拿到最新值。",
-   "B": "沒有處理快照來源。",
-   "C": "Owner 與資料無關。",
-   "D": "與 rule 無關。"
+   "A": "正解。官方說明 <strong><code>{{issue}}</code> 在整條 rule 執行期間是「觸發當下的快照」，不會自動更新</strong>——所以你在中途用 Edit issue 改了某個欄位，後續的 smart value 讀到的仍是舊值。解法是<strong>在需要新值的那一步「之前」插入 Re-fetch issue data 這個 action</strong>，它會重新載入 issue，讓之後的 smart value 拿到最新資料。把「需要最新值的步驟放在 re-fetch 之後」變成肌肉記憶，可以省掉很多除錯時間。",
+   "B": "加 Delay <strong>完全沒有處理問題的根源</strong>——快照不會因為等久一點就自己更新。",
+   "C": "owner 只影響通知，跟資料讀取毫無關係。",
+   "D": "bulk change 是人工的一次性操作，跟這條 rule 內部的資料流無關。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/"
@@ -989,10 +989,10 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "指派需要「操作者能指派」與「被指派者可被指派」兩件事，缺一不可。",
-   "C": "無關。",
-   "D": "建立者不是執行身分。",
-   "A": "Trigger user 不是 actor（除非設定 run as）。"
+   "B": "正解。指派這件事需要<strong>兩個方向的能力同時成立</strong>：<strong>① actor 要有 Assign Issues 權限</strong>（它才能去修改 Assignee 欄位）；<strong>② 目標使用者要有 Assignable User 權限</strong>（他才可以被填進那個欄位）。缺任何一個，Assign issue action 都會失敗。這跟人工指派的規則完全一致，automation 不會放寬。",
+   "C": "跟 owner 的名字或 project 顏色毫無關係。",
+   "D": "issue 的建立者不是 rule 的執行身分，權限檢查跟他無關。",
+   "A": "trigger user（觸發事件的人）<strong>不等於 actor</strong>——除非規則刻意設定成以觸發者身分執行，否則權限檢查看的是 actor。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/",
@@ -1019,10 +1019,10 @@
   ],
   "answer": "C",
   "explain": {
-   "C": "官方 rule details：預設 rule 不會被其他 rule 觸發，需在 B 開啟 Allow rule trigger；同時注意迴圈風險。",
-   "D": "過度授權。",
-   "A": "增加負載且無效。",
-   "B": "不解決問題。"
+   "C": "正解。官方在 rule details 說明：<strong>預設情況下，rule 不會被「其他 rule 造成的變更」觸發</strong>——這是刻意的安全設計，避免規則之間意外連鎖。要讓 B 能被 A 的變更觸發，必須到 <strong>rule B 的 details 打開「Allow rule trigger」</strong>。打開之後要留意兩件事：<strong>A 改 B、B 又改回 A 這種互相觸發會形成迴圈</strong>（連續 10 次會被判 LOOP 並中止），而且<strong>每一次連鎖觸發都會消耗執行次數</strong>。所以最好同時加上適當的 condition 讓規則能停下來。",
+   "D": "把所有使用者改成 admin 是嚴重的過度授權，而且這根本不是權限問題。",
+   "A": "把排程改成每秒只會大量消耗配額，<strong>完全不解決問題</strong>。",
+   "B": "刪除 rule A 等於放棄它的功能，不是解法。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/"
@@ -1048,10 +1048,10 @@
   ],
   "answer": "D",
   "explain": {
-   "C": "忽略了上限。",
-   "D": "官方 service limits：Lookup issues 最多 100 筆。",
-   "A": "SUCCESS 只表示 action 執行，不證明資料完整。",
-   "B": "Scope 不改變上限。"
+   "C": "這個答案忽略了上限的存在，正是本題的陷阱。",
+   "D": "正解。官方 service limits 明訂 <strong>Lookup issues 最多只回傳 100 筆</strong>。所以看到剛好 100 這個數字時要特別警覺——<strong>很可能是被截斷了，真實總數更多</strong>。要統計全站數量，應該縮小 JQL 範圍分批查，或改用其他方式（例如 dashboard gadget）。順帶對照另外兩個數字：<strong>單次執行處理的相關 issue 上限是 5,000，bulk change 一次上限是 1,000</strong>。",
+   "A": "<strong>SUCCESS 只代表 action 順利執行完畢，不保證資料是完整的</strong>——它不會告訴你有沒有被上限截斷。",
+   "B": "rule 的 scope 決定它能作用在哪些 project，<strong>不會改變 Lookup issues 的筆數上限</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/"
@@ -1077,10 +1077,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "官方 Automation service limits 表列「Daily processing time：60 min per 12 hrs」，超過即被 throttle；How is your automation usage calculated 也載明「THROTTLED runs where no step actually executes」不計入用量。",
-   "B": "權限錯誤有不同訊息。",
-   "C": "語法錯誤在儲存時就會擋。",
-   "D": "停用的 rule 不會有執行紀錄。"
+   "A": "正解。官方 Automation service limits 表列 <strong>Daily processing time：每 12 小時 60 分鐘</strong>，超過就會被 <strong>throttle（暫時擋下）</strong>。常見的成因是 trigger 設得太寬（每次更新都跑）、分支數量太多，或是 Send web request 等外部呼叫回應太慢，這些都會吃掉處理時間額度。有一個附帶重點值得記：<strong>THROTTLED 的執行不計入每月用量</strong>（因為實際上沒有任何步驟被執行）。",
+   "B": "權限問題會顯示 <strong>Some errors 或 Failure</strong> 並附上明確的錯誤訊息。",
+   "C": "JQL 語法錯誤在<strong>儲存規則時</strong>就會被擋下來，不會等到執行才報 THROTTLED。",
+   "D": "<strong>被停用的 rule 根本不會產生任何執行紀錄</strong>。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/",
@@ -1107,10 +1107,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "3 次不是官方數字；官方 triggers 頁明列連續失敗 10 次。",
-   "A": "5 次不是官方數字；官方明列 10 次。",
-   "B": "官方 service limits：Scheduled trigger 連續失敗 10 次會自動停用 rule，owner 收到通知。",
-   "C": "會自動停用。"
+   "D": "3 次不是官方的數字，官方明列的是 10 次。",
+   "A": "5 次不是官方的數字。",
+   "B": "正解。官方 service limits 明訂：<strong>Scheduled trigger 連續失敗 10 次之後，Jira 會自動停用這條 rule，並通知 owner</strong>。這是保護機制，避免一條壞掉的排程規則持續消耗資源。所以看到「上週還在跑、這週卻被停用了」，正確的處理順序是<strong>先看 audit log 找出那 10 次為什麼失敗、把根因修掉，再重新啟用</strong>——直接啟用不修原因，很快又會被停用。",
+   "C": "<strong>會</strong>自動停用，這正是本題的重點。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/"
@@ -1136,10 +1136,10 @@
   ],
   "answer": "C",
   "explain": {
-   "A": "7 天太短；官方 audit log 頁明列保留 90 天。",
-   "B": "30 天太短；官方明列保留 90 天，逾期自動刪除且無法復原。",
-   "C": "官方 audit log：保留 90 天。",
-   "D": "不是永久。"
+   "A": "7 天太短，不是官方數字。",
+   "B": "30 天太短，不是官方數字。",
+   "C": "正解。官方明訂 <strong>automation 的 audit log 保留 90 天，逾期會自動刪除且無法復原</strong>。這個限制有實務意義：<strong>需要長期追溯的紀錄（例如稽核用途）必須自己另外匯出保存</strong>，不能指望 Jira 幫你留著。另外要區分——這是 automation 的 audit log，跟 issue 本身的 History 是兩回事，後者會一直保留。",
+   "D": "不是永久保存。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/what-is-the-automation-audit-log/"
@@ -1165,10 +1165,10 @@
   ],
   "answer": "D",
   "explain": {
-   "D": "官方 service limits：rule 之間連續觸發超過上限（10 次）會被判定迴圈並停止，audit log 顯示 LOOP。",
-   "A": "有保護機制。",
-   "B": "開啟 Allow rule trigger 後可以互相觸發。",
-   "C": "不會鎖定帳號。"
+   "D": "正解。官方 service limits 說明：<strong>rule 之間連續觸發達到上限（10 次）時，Jira 會判定為迴圈並自動停止該次執行，audit log 顯示 LOOP</strong>。修法有三種，由好到壞排序：<strong>① 在其中一條加 condition 讓它有機會停下來</strong>（例如「label 已存在就不做」，讓規則具備冪等性，這是最正確的做法）；<strong>② 關掉其中一條的 Allow rule trigger</strong>；<strong>③ 重新檢視這兩條規則是不是本來就該合併成一條</strong>。",
+   "A": "<strong>有保護機制</strong>，不會無限執行下去——否則單一個錯誤設定就能拖垮整個站台的自動化資源。",
+   "B": "rule <strong>可以</strong>觸發 rule，只要目標 rule 打開了 Allow rule trigger。",
+   "C": "<strong>不會鎖定任何帳號</strong>，被停止的是那次執行。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/",
@@ -1195,10 +1195,10 @@
   ],
   "answer": "A",
   "explain": {
-   "A": "2023 考綱時代：single-project rule 不限量、multi-project／global 計入每月執行次數；官方現行 how is my usage calculated 已改為依步驟計算、org 共用。作答時以題目情境判斷版本。",
-   "B": "單一 project rule 在現行模型也計入步驟。",
-   "C": "Standard 就能建 multi-project rule（需 Jira admin）。",
-   "D": "權限問題會顯示錯誤而非配額。"
+   "A": "正解。這是<strong>考試版與現行版並存</strong>的一題，兩個模型都要知道。<strong>考試版（2023 考綱時代）</strong>：以「rule 執行次數／月」計算，<strong>單一 project 的 rule 不限量，只有 multi-project 與 global rule 計入每月配額</strong>——這正好解釋了題目描述的現象。<strong>現行版（2025 起）</strong>：官方已改成<strong>以「步驟」計算</strong>（trigger／condition／action／branch 各算一步），整個 organization 共用一個池，單一 project 的 rule 也一樣計入。作答時依題目情境判斷是哪一版。",
+   "B": "在<strong>現行模型</strong>下，單一 project 的 rule 也會計入步驟用量，不是無限的。",
+   "C": "<strong>Standard 方案就能建 multi-project rule</strong>（需要 Jira admin 在 Global automation 建立），不需要 Premium。",
+   "D": "權限問題會顯示明確的錯誤訊息，而不是整批規則停跑到下個計費日。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/how-is-my-usage-calculated/",
@@ -1225,10 +1225,10 @@
   ],
   "answer": "B",
   "explain": {
-   "D": "太少。",
-   "A": "舊文件與部分題庫寫 64。",
-   "B": "官方 Automation service limits 的 Summary 表列「Steps per flow：65」（進階 flow 為 500）；conditions、branches、actions 都計入，If／else 內的元件也算。",
-   "C": "有上限。"
+   "D": "50 不是官方數字，太少了。",
+   "A": "64 是<strong>舊文件與部分第三方題庫</strong>的說法，官方現行數字不是這個。",
+   "B": "正解。官方 Automation service limits 的 Summary 表列 <strong>Steps per flow：65</strong>（進階 flow 則是 500）。要注意計算方式：<strong>condition、branch、action 都算進去，If／else block 內部的元件也一併計入</strong>。規則長到接近上限時，通常代表它做了太多事，應該考慮拆成幾條各司其職的規則——除了避開上限，也比較好維護與除錯。",
+   "C": "<strong>有上限</strong>，而且相當容易在複雜規則裡撞到。"
   },
   "sources": [
    "https://support.atlassian.com/cloud-automation/docs/automation-service-limits/",

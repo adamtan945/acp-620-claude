@@ -125,11 +125,11 @@
 
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">區域</th><th>放什麼</th><th style="width:34%">行為</th></tr>
-<tr><td>Description fields</td><td>多行 rich text：Description、Environment、自訂 Paragraph</td><td>最顯眼；可放文字、程式碼、圖片、表格</td></tr>
-<tr><td>Context fields · Details</td><td>Assignee、Reporter、Priority、Labels、自訂 select／user picker</td><td>永遠顯示，即使空值</td></tr>
-<tr><td>Context fields · More fields</td><td>偶爾才填的欄位</td><td>空值時收在「Show x more fields」；填了值自動升到 Details</td></tr>
-<tr><td>Pinned fields</td><td>使用者自己釘的 context 欄位</td><td><strong>個人設定</strong>，不是 layout；每個人不同</td></tr>
-<tr><td>Hidden fields</td><td>不想在這個 project 顯示的欄位</td><td>畫面不顯示；欄位仍存在 screen，資料保留，JQL 仍搜得到</td></tr>
+<tr><td>Description fields</td><td>多行 rich text：Description、Environment、自訂 Paragraph</td><td>版面上最顯眼的一區，可以放文字、程式碼區塊、圖片與表格，適合需要大量說明的內容</td></tr>
+<tr><td>Context fields · Details</td><td>Assignee、Reporter、Priority、Labels、自訂 select／user picker</td><td>永遠顯示在右側，就算沒有填值也會佔位；適合每張 issue 都該看到的關鍵欄位</td></tr>
+<tr><td>Context fields · More fields</td><td>偶爾才填的欄位</td><td>沒有值時收在「Show x more fields」的摺疊區裡，<strong>一旦填了值就自動升到 Details</strong> 顯示，兼顧清爽與不漏資訊</td></tr>
+<tr><td>Pinned fields</td><td>使用者自己釘的 context 欄位</td><td>這是<strong>每位使用者自己的偏好設定</strong>，不屬於 project 的 layout，你釘的欄位別人看不到</td></tr>
+<tr><td>Hidden fields</td><td>不想在這個 project 顯示的欄位</td><td>在這個 project 的 issue 畫面上不顯示，但<strong>欄位仍在 screen 上、既有資料完整保留</strong>，JQL 與報表照樣讀得到</td></tr>
 </table></div>
 </section>
 
@@ -193,12 +193,12 @@
 <p>Layout 決定欄位<strong>顯不顯示</strong>；permission scheme 決定使用者<strong>能不能改</strong>。三個欄位有專屬權限，Edit Issues 管不到它們：</p>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:24%">欄位</th><th style="width:30%">需要的權限</th><th>沒權限時的表現</th></tr>
-<tr><td>Assignee</td><td><strong>Assign Issues</strong></td><td>欄位顯示但無法點選編輯；自己也不能把 issue 改給別人</td></tr>
-<tr><td>Reporter</td><td><strong>Modify Reporter</strong></td><td>欄位顯示為唯讀</td></tr>
-<tr><td>Due date（以及 board／backlog 的 rank）</td><td><strong>Schedule Issues</strong></td><td>不能改 due date、不能拖曳排序</td></tr>
-<tr><td>其他一般欄位（Summary、Description、Priority、Labels、自訂欄位…）</td><td>Edit Issues</td><td>整張 issue 唯讀</td></tr>
-<tr><td>Time tracking（Original estimate、Log work）</td><td>Work On Issues（＋ Edit Issues 改估算）</td><td>沒有 Log work 選項</td></tr>
-<tr><td>Security Level</td><td>Set Issue Security</td><td>欄位不出現在可編輯項目</td></tr>
+<tr><td>Assignee</td><td><strong>Assign Issues</strong></td><td>欄位看得到但點不動，呈現唯讀狀態；連把 issue 轉給別人也做不到</td></tr>
+<tr><td>Reporter</td><td><strong>Modify Reporter</strong></td><td>欄位照常顯示，但呈現唯讀狀態，改不了開單人</td></tr>
+<tr><td>Due date（以及 board／backlog 的 rank）</td><td><strong>Schedule Issues</strong></td><td>Due date 改不動，而且在 board 與 backlog 上拖曳卡片時會彈回原位</td></tr>
+<tr><td>其他一般欄位（Summary、Description、Priority、Labels、自訂欄位…）</td><td>Edit Issues</td><td>整張 issue 的一般欄位都變成唯讀，只能看不能改</td></tr>
+<tr><td>Time tracking（Original estimate、Log work）</td><td>Work On Issues（＋ Edit Issues 改估算）</td><td>issue 上不會出現 Log work 的選項，記不了工時</td></tr>
+<tr><td>Security Level</td><td>Set Issue Security</td><td>Security Level 不會出現在可編輯的欄位清單裡，沒辦法調整這張 issue 的可見範圍</td></tr>
 </table></div>
 <div class="callout exam"><div class="t">考題長相</div>「使用者回報 Due date 欄位是灰的改不了，但 Description 可以改」→ 不是 layout，是缺 <strong>Schedule Issues</strong>。「Assignee 欄位整個不見」→ 才是 layout（被拖到 Hidden）或 screen 上沒有。</div>
 </section>
@@ -244,17 +244,17 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>TMP 的 admin 想讓 Bug 的「重現步驟」一定要填，於是把它拖到最上面。使用者仍可以留空送出。為什麼？</summary><div class="a"><div class="tag">解答</div>排序只是呈現。要強制填寫得在 Project settings → Issue types（Work types）為該欄位勾 <strong>Required</strong>；若只是想給範本，那是「預設內容」，使用者仍可改。三件事互相獨立。</div></details>
-<details class="q"><summary>Project admin 改了 Task 的 layout，結果 Sub-task 的畫面也跟著變。哪裡出問題？</summary><div class="a"><div class="tag">解答</div>沒出問題。兩個 issue type 共用同一個 <strong>View screen</strong> 時，layout 會以同一組 types 一起生效。要分開就請 Jira admin 給其中一種專用 screen。</div></details>
-<details class="q"><summary>Project admin 想在 issue 上加一個新的「Customer」下拉欄位，Configure 畫面找不到。原因？</summary><div class="a"><div class="tag">解答</div>欄位不存在或不在 screen 上；建欄位、加進 screen 是 Jira admin 的事。Layout 只能排 screen 上已有的欄位。</div></details>
-<details class="q"><summary>Project admin 打開 Configure，所有欄位都拖不動。最可能原因？</summary><div class="a"><div class="tag">解答</div>該 project 的 screen 被其他 project 共用。請 Jira admin 複製 screen／screen scheme 專用。</div></details>
-<details class="q"><summary>Fix versions 放在分隔線下方，某張 issue 卻顯示在 Details。為什麼？</summary><div class="a"><div class="tag">解答</div>Hide when empty：一旦有值就自動升到 Details；空值時才收進 More fields。</div></details>
-<details class="q"><summary>使用者能改 Summary、Description，但 Assignee 灰掉。缺什麼？</summary><div class="a"><div class="tag">解答</div>Assign Issues 權限。Edit Issues 不涵蓋 Assignee。</div></details>
-<details class="q"><summary>使用者說「Due date 欄位完全不見了」，另一位說「看得到但改不了」。分別是什麼問題？</summary><div class="a"><div class="tag">解答</div>前者是 layout（拖到 Hidden）或 screen 沒有此欄位；後者是缺 Schedule Issues 權限。</div></details>
-<details class="q"><summary>兩個 project 用同一份 screen，PM 想讓 B project 的 layout 跟 A 一樣。最快做法？</summary><div class="a"><div class="tag">解答</div>在 A 的 layout 用「複製到其他 project」，前提就是相同 screen。</div></details>
-<details class="q"><summary>PM 想讓自己的 issue 畫面把「Sprint」放最上面，但不想影響同事。</summary><div class="a"><div class="tag">解答</div>用 Pinned fields（個人設定），不要改 layout。</div></details>
-<details class="q"><summary>把「Story points」拖到 Hidden 後，JQL 還搜得到嗎？舊資料還在嗎？</summary><div class="a"><div class="tag">解答</div>都在。Hidden 只影響 issue 畫面顯示，欄位仍在 screen、資料保留。</div></details>
-<details class="q"><summary>TMP 的 project admin 想新增欄位，需要找 Jira admin 嗎？</summary><div class="a"><div class="tag">解答</div>不需要。TMP 在 Project settings → Issue types 直接建欄位、拖曳，沒有 screen scheme（現行 transition 的 Request input 規則可掛畫面，但那不是欄位管理）。</div></details>
+<details class="q"><summary>TMP 的 admin 想讓 Bug 的「重現步驟」一定要填，於是把它拖到最上面。使用者仍可以留空送出。為什麼？</summary><div class="a"><div class="tag">解答</div>因為<strong>排序只是決定欄位顯示的位置，跟必不必填毫無關係</strong>。TMP 底下有三件常被混為一談的事要分清楚：<strong>Required</strong>（在 Project settings → Issue types 為該欄位勾選，沒填就送不出去）、<strong>預設內容／預設值</strong>（建立 issue 時自動帶入的起始資料，例如「重現步驟」的範本，但<strong>使用者仍然可以整段刪掉</strong>）、<strong>排序</strong>（純粹是呈現位置）。這位 admin 真正要做的是勾 <strong>Required</strong>；如果他要的是給同事一個填寫範本，那該設的是預設內容——但那擋不住有人清空它。</div></details>
+<details class="q"><summary>Project admin 改了 Task 的 layout，結果 Sub-task 的畫面也跟著變。哪裡出問題？</summary><div class="a"><div class="tag">解答</div><strong>沒有出問題，這是預期行為。</strong>issue layout 是掛在 <strong>screen</strong> 上的，不是掛在 issue type 上；當 Task 與 Sub-task 共用同一個 View screen 時，改動當然會同時反映在兩者身上。所以動手之前要先弄清楚<strong>你正在調整的是哪一個 screen、它涵蓋了哪些 issue type</strong>。如果確實需要兩者分開，得請 Jira admin 複製一份 screen 與 screen scheme，讓其中一種 issue type 專用。改完之後，養成用另一個共用同 screen 的 type 開一張 issue 驗證的習慣。</div></details>
+<details class="q"><summary>Project admin 想在 issue 上加一個新的「Customer」下拉欄位，Configure 畫面找不到。原因？</summary><div class="a"><div class="tag">解答</div>因為<strong>這個欄位還不存在，或是存在但沒有被加進這個 project 所使用的 screen</strong>。這裡有一條界線要記牢：<strong>layout 只能替「已經在 screen 上的欄位」安排位置，不能無中生有</strong>。建立 custom field、把欄位加進 screen，兩件事都是站台層級的動作，屬於 Jira admin。所以 project admin 的正確動作是開單請 Jira admin 建立欄位並加到對應的 screen，之後才輪到自己在 Configure 畫面決定它放哪一區。</div></details>
+<details class="q"><summary>Project admin 打開 Configure，所有欄位都拖不動。最可能原因？</summary><div class="a"><div class="tag">解答</div>最可能是<strong>這個 project 使用的 screen 同時也被別的 project 使用</strong>。Jira 為了避免一個 project 的調整波及其他 project，會在這種情況下把 layout 鎖住，project admin 拖不動任何東西。解法是請 Jira admin <strong>複製一份 screen 與 screen scheme 給這個 project 專用</strong>，脫離共用之後就解鎖了。這個模式在 CMP 反覆出現——<strong>只要物件是共用的，權限就會被拉高到 Jira admin</strong>，workflow、field configuration 也都是同樣的邏輯。</div></details>
+<details class="q"><summary>Fix versions 放在分隔線下方，某張 issue 卻顯示在 Details。為什麼？</summary><div class="a"><div class="tag">解答</div>因為分隔線的意思是「<strong>空值時才隱藏</strong>」（Hide when empty），不是「永遠不顯示」。放在分隔線下方的欄位，<strong>沒有值時會被收進「Show x more fields」裡</strong>，一旦被填了值就會<strong>自動升到 Details 區顯示出來</strong>。這個設計相當貼心——不常用的欄位平常不佔版面，真的有資料時又不會被埋起來。所以看到「同一份 layout 底下不同 issue 的欄位排列不太一樣」，通常就是這個機制在運作，不是設定錯亂。</div></details>
+<details class="q"><summary>使用者能改 Summary、Description，但 Assignee 灰掉。缺什麼？</summary><div class="a"><div class="tag">解答</div>缺的是 <strong>Assign Issues</strong> 權限。Jira 把三個欄位從 Edit Issues 裡獨立出來，各自需要專屬權限：<strong>Assignee 要 Assign Issues、Reporter 要 Modify Reporter、Due date（連同 board 的拖曳排序）要 Schedule Issues</strong>。所以「其他欄位都能改、就這幾個灰掉」是很典型的症狀。要特別區分兩種狀況：<strong>欄位灰掉（顯示但不能編輯）＝權限問題；欄位整個不見＝layout 或 screen 問題</strong>，兩者要找的人不一樣。</div></details>
+<details class="q"><summary>使用者說「Due date 欄位完全不見了」，另一位說「看得到但改不了」。分別是什麼問題？</summary><div class="a"><div class="tag">解答</div>這兩個是完全不同層次的問題，也是本節最核心的辨別題。<strong>「欄位完全不見」是顯示層的問題</strong>——可能是 project admin 把它拖到了 Hidden 區，也可能是這個欄位根本不在該 issue type 的 screen 上（後者要找 Jira admin）。<strong>「看得到但改不了」則是權限問題</strong>——Due date 需要 <strong>Schedule Issues</strong>，而不是 Edit Issues。記住這條判斷法則：<strong>Layout 決定「顯不顯示」，permission scheme 決定「能不能改」</strong>，先看症狀屬於哪一邊，再決定去改設定還是去要權限。</div></details>
+<details class="q"><summary>兩個 project 用同一份 screen，PM 想讓 B project 的 layout 跟 A 一樣。最快做法？</summary><div class="a"><div class="tag">解答</div>在 A 的 layout 設定頁使用<strong>「Copy to other projects」（複製到其他 project）</strong>功能，直接把整份排版套過去，不必手動重排一次。這個功能有一個硬性前提：<strong>只能複製到使用相同 screen 的 project</strong>——這也正是題目特別交代「兩個 project 用同一份 screen」的原因。如果兩邊 screen 不同，這個選項就用不了，只能請 Jira admin 先調整 screen 設定。</div></details>
+<details class="q"><summary>PM 想讓自己的 issue 畫面把「Sprint」放最上面，但不想影響同事。</summary><div class="a"><div class="tag">解答</div>用 <strong>Pinned fields（釘選欄位）</strong>。它是<strong>每個使用者自己的偏好設定</strong>，把 Sprint 釘在最上面只會影響 PM 自己的畫面，同事完全不受影響，而且任何使用者都能用，不需要任何管理權限。相對地，<strong>layout 是整個 project 共用的設定</strong>，改了所有人都會看到。這題想建立的判斷是：<strong>個人偏好用 pinned，團隊共識才動 layout</strong>。</div></details>
+<details class="q"><summary>把「Story points」拖到 Hidden 後，JQL 還搜得到嗎？舊資料還在嗎？</summary><div class="a"><div class="tag">解答</div><strong>兩個都還在。</strong>把欄位拖到 Hidden 只影響<strong>這個 project 的 issue 詳細畫面要不要顯示它</strong>，欄位本身仍然掛在 screen 上，既有的資料一筆都不會消失，<strong>JQL 照樣搜尋得到、報表照樣算得到</strong>。這一點與 field configuration 的 hidden 效果不同（後者會讓 JQL 認為欄位不存在，還記得 620.2.4 那個 Kanban board 上 Task 全部消失的陷阱嗎），兩者不要混淆。</div></details>
+<details class="q"><summary>TMP 的 project admin 想新增欄位，需要找 Jira admin 嗎？</summary><div class="a"><div class="tag">解答</div><strong>不需要。</strong>這正是 TMP 與 CMP 最大的差異之一：TMP 的欄位是長在 project 裡的，project admin 到 <strong>Project settings → Issue types</strong> 選一個 type，就能直接建立新欄位、拖曳排序、設定必填，全程不必找 Jira admin。代價是這些欄位<strong>只存在於這個 project</strong>，別的 project 用不到，也沒有 screen 與 screen scheme 這種可共用的物件。（補充一個現行變化：TMP 的 transition 可以用 Request input 規則掛一個輸入畫面，但那是流程控制，不是欄位管理，兩者別混為一談。）</div></details>
 </div>
 </section>
 
@@ -264,15 +264,15 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:44%">誤解</th><th>事實</th></tr>
-<tr><td>「Project admin 可以在 layout 建新欄位」</td><td>只能排 screen 上已有的；建欄位、加進 screen 是 Jira admin</td></tr>
-<tr><td>「Layout 可以跨 project 共用」</td><td>per-project；只能複製到相同 screen 的 project</td></tr>
-<tr><td>「Hidden 會刪掉欄位資料」</td><td>只是不顯示，資料與 JQL 都還在</td></tr>
-<tr><td>「Edit Issues 就能改所有欄位」</td><td>Assignee、Reporter、Due date／rank 各有專屬權限</td></tr>
-<tr><td>「Pinned fields 是 layout 的一部分」</td><td>是個人設定，每個人不同</td></tr>
-<tr><td>「TMP 把欄位往上排就會變成必填」</td><td>Required、預設內容、排序是三件事；排序只是呈現</td></tr>
-<tr><td>「有 Manage work item layouts 就能建欄位」</td><td>只能排既有欄位，且受 screen 未共用等限制；不是全站欄位管理權</td></tr>
-<tr><td>「改 Task 的 layout 不會影響 Sub-task」</td><td>共用同一個 View screen 時可能一起生效</td></tr>
-<tr><td>「分隔線下方的欄位永遠不顯示」</td><td>空值才收起，填值就升到 Details</td></tr>
+<tr><td>「Project admin 可以在 layout 建新欄位」</td><td>不能。layout 只能替 <strong>screen 上已經有的欄位</strong>安排位置；建立 custom field、把欄位加進 screen 都是 Jira admin 的權責（TMP 則沒有這個限制）</td></tr>
+<tr><td>「Layout 可以跨 project 共用」</td><td>不行。layout 是各 project 各自的設定；唯一的捷徑是「Copy to other projects」，而且<strong>只能複製到使用相同 screen 的 project</strong></td></tr>
+<tr><td>「Hidden 會刪掉欄位資料」</td><td>不會。Hidden 只是讓欄位不顯示在這個 project 的 issue 畫面上，欄位仍在 screen、資料完整保留，JQL 與報表照樣讀得到</td></tr>
+<tr><td>「Edit Issues 就能改所有欄位」</td><td>不能。<strong>Assignee 要 Assign Issues、Reporter 要 Modify Reporter、Due date 與拖曳排序要 Schedule Issues</strong>，這三個欄位被獨立出來，Edit Issues 管不到</td></tr>
+<tr><td>「Pinned fields 是 layout 的一部分」</td><td>不是。Pinned fields 是<strong>每個使用者自己的偏好</strong>，任何人都能設，只影響自己的畫面，跟 project 的 layout 是兩回事</td></tr>
+<tr><td>「TMP 把欄位往上排就會變成必填」</td><td>不會。Required（必填）、預設內容（帶入的起始值，可被改掉）、排序（呈現位置）是三件互相獨立的事；<strong>只有勾 Required 才會強制填寫</strong></td></tr>
+<tr><td>「有 Manage work item layouts 就能建欄位」</td><td>不能。這個細分權限只讓人<strong>排列既有欄位</strong>，一樣受「screen 未被其他 project 共用」的限制，<strong>不等於取得全站的 custom field 管理權</strong></td></tr>
+<tr><td>「改 Task 的 layout 不會影響 Sub-task」</td><td>不一定。layout 是掛在 screen 上的，兩個 issue type <strong>共用同一個 View screen</strong> 時，改動會一起生效；要分開得請 Jira admin 給專用 screen</td></tr>
+<tr><td>「分隔線下方的欄位永遠不顯示」</td><td>不是。分隔線的意思是「空值時隱藏」，欄位一旦被填了值就會<strong>自動升到 Details 區</strong>顯示出來</td></tr>
 </table></div>
 </section>
 

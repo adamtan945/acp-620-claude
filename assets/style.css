@@ -140,7 +140,7 @@ li{margin:.25rem 0}
 
 /* ---------- tables ---------- */
 .tbl{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.94rem}
-.tbl th,.tbl td{padding:.7rem .9rem;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+.tbl th,.tbl td{padding:.7rem .9rem;border-bottom:1px solid var(--line);vertical-align:top;text-align:left;overflow-wrap:anywhere}
 .tbl th{background:var(--bg-2);font-weight:700;font-size:.8rem;letter-spacing:.03em;color:var(--ink-2)}
 .tbl tr:last-child td{border-bottom:0}
 .tbl td.c,.tbl th.c{text-align:center;white-space:nowrap}
@@ -334,6 +334,7 @@ li{margin:.25rem 0}
 .qexp li.right{background:var(--green-soft);color:var(--green)}
 .qexp li.wrong{background:var(--rose-soft);color:var(--rose)}
 .qsrc{font-size:.78rem;color:var(--ink-3);margin-top:.3rem;word-break:break-all}
+.card p,.card li,.callout,.q .a,li{overflow-wrap:anywhere}
 .qbank{margin-top:.5rem}
 .exam-top{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;position:sticky;top:3.6rem;z-index:4}
 .exam-timer{font-family:var(--mono);font-size:1.4rem;font-weight:700;letter-spacing:.02em;margin-left:auto}

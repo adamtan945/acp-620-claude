@@ -167,14 +167,14 @@
 <h2>Triggers：常考的十幾個</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:26%">Trigger</th><th>什麼時候跑</th><th style="width:34%">陷阱</th></tr>
-<tr><td>Issue created</td><td>建立時</td><td>CSV import 不會觸發</td></tr>
-<tr><td>Issue transitioned</td><td>從 A 狀態到 B 狀態（可只指定 To 或 From）</td><td>要「狀態改變」用這個，不要用 Issue updated</td></tr>
+<tr><td>Issue created</td><td>建立時</td><td>要注意 <strong>CSV 匯入建立的 issue 不會觸發</strong>這個 trigger，大量匯入資料時別指望自動化會跟著跑</td></tr>
+<tr><td>Issue transitioned</td><td>從 A 狀態到 B 狀態（可只指定 To 或 From）</td><td>凡是「狀態改變時要做什麼」都用這個，不要用 Issue updated；可以只指定 To（轉到某狀態）、只指定 From，或兩者都指定</td></tr>
 <tr><td>Issue updated</td><td>欄位被改</td><td class="no"><strong>不含</strong> Link、Assign、Log work 造成的更新——這三個有各自的 trigger</td></tr>
 <tr><td>Field value changed</td><td>指定欄位改變（可限 added／deleted、可 regex）</td><td>比 Issue updated 精準，也省執行次數</td></tr>
-<tr><td>Issue commented</td><td>新留言</td><td>編輯既有留言不觸發；可區分一般留言／transition 留言</td></tr>
+<tr><td>Issue commented</td><td>新留言</td><td><strong>編輯既有留言不會觸發</strong>，只有新增留言才算；設定裡可以區分一般留言與 transition 時附帶的留言</td></tr>
 <tr><td>Issue assigned／linked／moved／deleted</td><td>各自事件</td><td>—</td></tr>
-<tr><td><strong>Scheduled</strong></td><td>固定間隔或 cron；可附 JQL，對每個結果跑</td><td>連續失敗 <strong>10 次自動停用</strong>；JQL 以 actor 權限執行</td></tr>
-<tr><td><strong>Manual trigger</strong></td><td>使用者在 issue 上按</td><td>可限制哪些 group／role 看得到；可要求輸入；測 smart value 最方便</td></tr>
+<tr><td><strong>Scheduled</strong></td><td>固定間隔或 cron；可附 JQL，對每個結果跑</td><td>兩個重點：<strong>連續失敗 10 次會被自動停用</strong>（所以要留意 owner 收到的錯誤信）；附帶的 JQL 是<strong>以 actor 的權限</strong>執行，actor 看不到的 issue 就不會被處理</td></tr>
+<tr><td><strong>Manual trigger</strong></td><td>使用者在 issue 上按</td><td>可以限制哪些 group 或 role 才看得到這個按鈕，也可以要求使用者按下時先填入資料；<strong>拿來測試 smart value 最方便</strong>，搭配 Log action 就能安全地印出任何值</td></tr>
 <tr><td>Sprint／Version 事件</td><td>sprint started／completed、version released…</td><td>—</td></tr>
 <tr><td>DevOps 事件</td><td>branch created、PR merged、build failed、deployment successful…</td><td>需連接 Bitbucket／GitHub 等</td></tr>
 <tr><td>Incoming webhook</td><td>外部系統 POST 到專屬 URL</td><td>用 secret 驗證；可帶 issue key 或 JSON</td></tr>
@@ -246,12 +246,12 @@
 </div>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:30%">Branch 類型</th><th>對誰跑</th></tr>
-<tr><td>Sub-tasks／Parent／Epic（parent）／Stories（children）</td><td>階層上的相關 issue</td></tr>
-<tr><td>Linked issues</td><td>可限 link type</td></tr>
-<tr><td>JQL</td><td>符合 JQL 的 issue（受 actor 權限與數量上限影響）</td></tr>
-<tr><td>Current issue</td><td>對觸發 issue 本身再開一段（用來做 if／else 以外的分段）</td></tr>
+<tr><td>Sub-tasks／Parent／Epic（parent）／Stories（children）</td><td>對 issue 階層上的相關項目逐一執行，例如把 action 套用到每一個 sub-task，或往上套用到 parent</td></tr>
+<tr><td>Linked issues</td><td>對所有被連結的 issue 逐一執行，可以指定只處理某一種 link type（例如只處理 blocks）</td></tr>
+<tr><td>JQL</td><td>對符合一段 JQL 的 issue 逐一執行；要注意 JQL 是以 <strong>actor 的權限</strong>執行的，而且單次執行處理的相關 issue 有數量上限</td></tr>
+<tr><td>Current issue</td><td>對觸發的 issue 自己再開一個分支區塊，通常用來把一連串步驟分段整理，或做 if／else 以外的流程切分</td></tr>
 <tr><td><strong>Most recently created issue／All created issues</strong></td><td>Create／Clone 之後才有；不進 branch，後面的 action 仍作用在<strong>觸發 issue</strong> 上</td></tr>
-<tr><td>Advanced（smart value）</td><td>對一個 list 逐項跑，例如 <code>{{triggerIssue.comments}}</code> 或 webhook 的 JSON 陣列</td></tr>
+<tr><td>Advanced（smart value）</td><td>對任何一個 list 型別的 smart value 逐項執行，例如把每一則留言（<code>{{triggerIssue.comments}}</code>）或 webhook 傳進來的 JSON 陣列各處理一次</td></tr>
 <tr><td>Branch at the same time</td><td>Premium／Enterprise：多段互不相依的步驟同時跑</td></tr>
 </table></div>
 <div class="callout warn"><div class="t">兩個常考行為</div>① 分支<strong>平行</strong>、順序不保證，分支 A 改的值不要指望分支 B 讀得到。② 每次執行最多處理 <strong>5,000</strong> 個相關 issue；Lookup issues 只取前 100。</div>
@@ -296,17 +296,17 @@ Smart value 用 <strong>dot notation 包在雙大括號</strong>裡（<code>{{ob
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>Story 轉到 Done 時，它底下所有 sub-task 也要自動 Done。</summary><div class="a"><div class="tag">解答</div>Trigger: Issue transitioned（To: Done）→ Branch: for sub-tasks → Action: Transition issue（Done）。不用 condition；若只想在特定 issue type 才做，加 Issue fields condition。</div></details>
-<details class="q"><summary>承上，PM 希望在 Story 上留言「已自動關閉 N 個 sub-task」。留言該放哪、N 怎麼寫？</summary><div class="a"><div class="tag">解答</div>留言 action 放在 branch <strong>外面</strong>（否則每個 sub-task 各留一次），用 <code>{{triggerIssue.subtasks.size}}</code>；在 branch 外 <code>{{issue}}</code> 也等於觸發的 Story。</div></details>
-<details class="q"><summary>需求：新 Bug 建立時，若 priority 是 Highest 就指派給值班工程師並通知 Slack。</summary><div class="a"><div class="tag">解答</div>Issue created → Issue fields condition（Issue type = Bug AND Priority = Highest；或兩個 condition）→ Assign issue → Send Slack message。</div></details>
-<details class="q"><summary>想在 issue 加 label「reviewed」，但既有的其他 label 都被清掉了。</summary><div class="a"><div class="tag">解答</div>Edit issue 預設整組取代；Labels 要用 ••• → <strong>Add／remove values</strong>。</div></details>
-<details class="q"><summary>Rule 用 Create issue 建了一張新 issue，接著的 Comment action 卻留在原本的 issue 上。</summary><div class="a"><div class="tag">解答</div>後續 action 仍作用在觸發 issue；要對新 issue 動作得用 branch「Most recently created issue」，或在 action 裡用 <code>{{createdIssue}}</code>。</div></details>
-<details class="q"><summary>每天早上 8 點，把逾期且未指派的 issue 全部加 label「overdue」。</summary><div class="a"><div class="tag">解答</div>Scheduled trigger（cron 每天 08:00）＋ JQL <code>duedate < now() AND assignee is EMPTY AND resolution is EMPTY</code>，勾「對每個結果執行」→ Edit issue（Labels add）。注意 JQL 以 actor 權限執行。</div></details>
-<details class="q"><summary>想用 Issue updated 抓「assignee 改變」，卻從來沒觸發。</summary><div class="a"><div class="tag">解答</div>Issue updated 不含 Assign、Link、Log work；改用 <strong>Issue assigned</strong> 或 Field value changed（Assignee）。</div></details>
-<details class="q"><summary>Rule A 改了 Priority，Rule B 的 trigger 是 Field value changed（Priority），但 B 沒跑。</summary><div class="a"><div class="tag">解答</div>B 的 rule details 要打開 <strong>Allow rule trigger</strong>。開了之後注意 A、B 互相觸發會被判 LOOP。</div></details>
-<details class="q"><summary>Project admin 想把 rule 的 actor 改成部門主管，讓歷史紀錄顯示主管做的。</summary><div class="a"><div class="tag">解答</div>Project admin 只能選<strong>自己或 Automation for Jira</strong>；要設成別人得請 Jira admin。而且該主管必須有對應 project 權限。</div></details>
-<details class="q"><summary>Comment 裡想寫「由 {{initiator.displayName}} 於 {{now}} 觸發」，日期格式要 2026-09-08。</summary><div class="a"><div class="tag">解答</div><code>{{now.format("yyyy-MM-dd")}}</code>；不確定值時先用 Manual trigger ＋ Log action 看 audit log。</div></details>
-<details class="q"><summary>Balanced workload 和 Round robin 差在哪？</summary><div class="a"><div class="tag">解答</div>Balanced workload 指派給候選人中<strong>未完成 issue 最少</strong>的人；Round robin 依序輪流，不看工作量。</div></details>
+<details class="q"><summary>Story 轉到 Done 時，它底下所有 sub-task 也要自動 Done。</summary><div class="a"><div class="tag">解答</div>組法是：<strong>Trigger</strong> 選 <code>Issue transitioned</code>（To 設成 Done）→ <strong>Branch</strong> 選 for sub-tasks → <strong>Action</strong> 用 <code>Transition issue</code> 轉到 Done。關鍵在<strong>為什麼需要 branch</strong>：action 預設只作用在觸發的那一張 issue 上，要對「一群相關的 issue」各做一次，就必須先開一個分支把範圍切換過去。這題不需要 condition；但如果只想在 Story 這個 type 上生效、Task 不要，就在 branch 之前加一個 <code>Issue fields condition</code> 判斷 issue type。</div></details>
+<details class="q"><summary>承上，PM 希望在 Story 上留言「已自動關閉 N 個 sub-task」。留言該放哪、N 怎麼寫？</summary><div class="a"><div class="tag">解答</div>留言的 action 必須放在 <strong>branch 外面</strong>——放在裡面的話，分支會對每一個 sub-task 各跑一次，結果是留了 N 則重複的留言，而且留在 sub-task 上而不是 Story 上。數量用 <code>{{triggerIssue.subtasks.size}}</code>。這裡也順便釐清一個高頻考點：<strong>在 branch 裡面，<code>{{issue}}</code> 指的是「這一輪的 sub-task」；在 branch 外面，<code>{{issue}}</code> 才等於觸發的那張 Story</strong>。想在任何位置都穩定指向觸發的 issue，就用 <code>{{triggerIssue}}</code>，它不受分支影響。</div></details>
+<details class="q"><summary>需求：新 Bug 建立時，若 priority 是 Highest 就指派給值班工程師並通知 Slack。</summary><div class="a"><div class="tag">解答</div>組法是：<strong>Trigger</strong> 用 <code>Issue created</code> → <strong>Condition</strong> 用 <code>Issue fields condition</code> 檢查 Issue type = Bug 且 Priority = Highest（也可以拆成兩個 condition 串著，效果相同，rule 裡的多個 condition 之間是 AND）→ <strong>Action</strong> 先 <code>Assign issue</code> 指派給值班工程師，再 <code>Send Slack message</code>。官方特別建議<strong>優先使用 Issue fields condition 而不是自己寫 smart value 比較</strong>，因為它不用處理格式與空值，出錯機率低得多。</div></details>
+<details class="q"><summary>想在 issue 加 label「reviewed」，但既有的其他 label 都被清掉了。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Edit issue 對多選欄位的預設行為是「整組取代」</strong>，你填進去的值會覆蓋掉原本的整個清單，不是附加上去。要保留既有的 label，必須在該欄位的 ••• 選單改用 <strong>Add／remove values</strong> 模式，明確告訴 Jira「我只是要新增這一個」。這個陷阱在 Labels、Components、Fix versions 這些多選欄位上都會出現，是實務上最容易造成資料損失的自動化錯誤之一——而且 issue 歷史雖然留有紀錄，但要一張張還原非常痛苦。</div></details>
+<details class="q"><summary>Rule 用 Create issue 建了一張新 issue，接著的 Comment action 卻留在原本的 issue 上。</summary><div class="a"><div class="tag">解答</div>因為<strong>建立新 issue 並不會把 rule 的「當前對象」切換過去</strong>，後面的 action 預設仍然作用在觸發的那張 issue 上。要對新建的 issue 動作有兩種寫法：一是加一個 branch 選 <strong>Most recently created issue</strong>（或 All created issues，如果建了好幾張），把範圍切換過去；二是不開分支，直接在 action 的欄位裡用 smart value <code>{{createdIssue}}</code> 指名它。這個「範圍不會自動跟著移動」的觀念，跟前面 branch 的道理是同一個。</div></details>
+<details class="q"><summary>每天早上 8 點，把逾期且未指派的 issue 全部加 label「overdue」。</summary><div class="a"><div class="tag">解答</div>用 <strong>Scheduled trigger</strong>：設定 cron 每天 08:00 執行，附上 JQL <code>duedate &lt; now() AND assignee is EMPTY AND resolution is EMPTY</code>，並且<strong>勾選「對每個結果執行」</strong>（不勾的話 rule 只會跑一次，而不是對每張 issue 各跑一次，這是很常見的錯誤）。動作用 <code>Edit issue</code> 加 label，記得選 <strong>Add／remove values</strong> 模式以免洗掉既有 label。兩個要注意的地方：<strong>JQL 是以 actor 的權限執行的</strong>，actor 看不到的 issue 就不會被處理；另外 <strong>Scheduled rule 連續失敗 10 次會被自動停用</strong>。</div></details>
+<details class="q"><summary>想用 Issue updated 抓「assignee 改變」，卻從來沒觸發。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Issue updated 這個 trigger 並不涵蓋三種操作：Assign（指派）、Link（建立連結）與 Log work（記錄工時）</strong>——這三件事各自有專屬的 trigger。改用 <code>Issue assigned</code>，或是用更精準的 <code>Field value changed</code> 指定 Assignee 欄位。實務上也建議優先選 Field value changed 而不是 Issue updated：它只在你關心的欄位真的變動時才觸發，<strong>既精準又省執行次數</strong>（automation 的用量是有上限的）。</div></details>
+<details class="q"><summary>Rule A 改了 Priority，Rule B 的 trigger 是 Field value changed（Priority），但 B 沒跑。</summary><div class="a"><div class="tag">解答</div>因為 Rule B 的設定裡 <strong>Allow rule trigger 預設是關閉的</strong>——這個開關決定「別的 rule 造成的變更，能不能觸發我」。預設關閉是刻意的安全設計，避免規則之間意外連鎖。到 Rule B 的 rule details 把它打開就會生效。打開之後要小心兩件事：<strong>A 改 B、B 又改回 A 這種互相觸發會形成迴圈</strong>，Jira 偵測到連續 10 次就會把執行標記為 LOOP 並中止；另外每一次連鎖觸發都會消耗執行次數。「rule 明明沒錯卻沒跑」的排查，第一個就該看這個開關。</div></details>
+<details class="q"><summary>Project admin 想把 rule 的 actor 改成部門主管，讓歷史紀錄顯示主管做的。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>project admin 能選的 actor 只有兩個：<strong>自己</strong>，或是系統使用者 <strong>Automation for Jira</strong>；要把 actor 設成其他人，必須由 Jira admin 操作。這個限制是為了防止有人藉由 automation「冒用」他人身分做事。另外還有一個前提常被忽略：<strong>被設為 actor 的那個人必須真的具備該 project 的操作權限</strong>，否則 rule 執行時會因為權限不足而失敗。順帶區分一組容易混淆的概念：<strong>actor 是「以誰的身分執行」（會顯示在 issue 歷史紀錄上），owner 是「誰建立了這條 rule」（出錯時收信的人）</strong>，兩者可以是不同人。</div></details>
+<details class="q"><summary>Comment 裡想寫「由 {{initiator.displayName}} 於 {{now}} 觸發」，日期格式要 2026-09-08。</summary><div class="a"><div class="tag">解答</div>寫成 <code>{{now.format("yyyy-MM-dd")}}</code>——<code>{{now}}</code> 直接輸出會帶著時間與時區，用 <code>.format()</code> 才能指定格式。這裡也介紹官方推薦的除錯法：<strong>不確定某個 smart value 會輸出什麼時，先用 Manual trigger 加上 Log action 試</strong>，把要測的值寫進 log，在 issue 上手動觸發一次，再到 audit log 看實際輸出。這樣做完全不會動到任何資料，比直接寫進 Comment 或 Edit 安全得多。</div></details>
+<details class="q"><summary>Balanced workload 和 Round robin 差在哪？</summary><div class="a"><div class="tag">解答</div>差別在<strong>要不要看目前的工作量</strong>。<strong>Balanced workload</strong> 會比較候選名單中每個人手上<strong>未完成 issue 的數量</strong>，指派給最少的那一位，所以負擔會自然趨於平均；<strong>Round robin</strong> 則單純依名單順序輪流，不管對方手上已經積了多少工作。實務上的選擇：工作大小相近、希望絕對公平就用 Round robin；工作大小差異大、有人可能卡在大案子上，用 Balanced workload 比較合理。兩者都可以排除特定人或限定群組。</div></details>
 </div>
 </section>
 
@@ -316,13 +316,13 @@ Smart value 用 <strong>dot notation 包在雙大括號</strong>裡（<code>{{ob
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Condition 不符會顯示錯誤」</td><td>是 No actions performed，不是 failure</td></tr>
-<tr><td>「Branch 裡的 {{issue}} 是觸發的那張」</td><td>是這一輪的相關 issue；觸發的用 {{triggerIssue}}</td></tr>
-<tr><td>「分支會依序執行」</td><td>平行且順序不保證</td></tr>
-<tr><td>「Create issue 之後的 action 會作用在新 issue」</td><td>仍在觸發 issue；要 branch 或 {{createdIssue}}</td></tr>
-<tr><td>「Edit issue 加 label 會保留舊的」</td><td>預設整組取代；用 Add／remove values</td></tr>
-<tr><td>「Issue updated 什麼改變都抓」</td><td>不含 Assign、Link、Log work</td></tr>
-<tr><td>「一條 rule 可以有多個 trigger」</td><td>只能一個；要多事件用 Multiple issue events trigger</td></tr>
+<tr><td>「Condition 不符會顯示錯誤」</td><td>不會。condition 不符時，audit log 顯示的是 <strong>No actions performed</strong>（正常結束，只是沒事情可做），不是錯誤。所以看到「rule 有跑、沒報錯、也沒動作」，第一個要檢查的就是 condition</td></tr>
+<tr><td>「Branch 裡的 {{issue}} 是觸發的那張」</td><td>不是。在 branch 內部，<code>{{issue}}</code> 指的是<strong>這一輪正在處理的相關 issue</strong>；要穩定指向觸發 rule 的那一張，任何位置都用 <code>{{triggerIssue}}</code></td></tr>
+<tr><td>「分支會依序執行」</td><td>不會。分支是<strong>平行執行的，順序不保證</strong>；所以分支 A 寫進去的值，不要指望分支 B 讀得到</td></tr>
+<tr><td>「Create issue 之後的 action 會作用在新 issue」</td><td>不會。建立新 issue 不會切換 rule 的作用對象，後續 action 仍然作用在觸發的 issue 上；要對新的那張動作，得用 branch「Most recently created issue」或 smart value <code>{{createdIssue}}</code></td></tr>
+<tr><td>「Edit issue 加 label 會保留舊的」</td><td>不會。Edit issue 對多選欄位<strong>預設是整組取代</strong>，會洗掉既有的值；要附加請改用該欄位的 <strong>Add／remove values</strong> 模式</td></tr>
+<tr><td>「Issue updated 什麼改變都抓」</td><td>不會。Issue updated <strong>不包含</strong>指派（Assign）、建立連結（Link）與記錄工時（Log work）這三種變更，它們各自有專屬的 trigger</td></tr>
+<tr><td>「一條 rule 可以有多個 trigger」</td><td>不行。一條 rule 只能有一個 trigger；需要涵蓋多種事件時，改用 <strong>Multiple issue events</strong> 這個 trigger 一次勾選多個事件</td></tr>
 </table></div>
 </section>
 

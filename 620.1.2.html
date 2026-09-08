@@ -76,7 +76,7 @@
 <div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.1 Project Creation（13%）/ 620.1.2</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
 <div class="eyebrow">620.1.2 · Create and configure team-managed projects</div>
 <h1>建立與設定 team-managed project</h1>
-<p class="lead">三條 bullet：怎麼建、存取與權限怎麼運作、怎麼加人。官方四個有效連結加上 hub 子頁「Create and edit team-managed projects」全部讀完，建立流程的細節都在那頁。</p>
+<p class="lead">這一節要回答三個問題：team-managed project（以下簡稱 TMP）怎麼建、建好之後存取與權限是怎麼運作的、以及怎麼把人加進來。官方在考綱列的四個有效連結，加上 hub 底下的子頁「Create and edit team-managed projects」，我都讀完了；建立流程真正的細節其實藏在那個子頁裡，而不是在 hub 頁上。</p>
 <div class="term">術語：考試用 project／issue；現行產品為 space／work item。本教材沿用考試用語。</div>
 
 <section id="goal">
@@ -84,9 +84,9 @@
 <h2>三條 bullet</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:44%">官方 bullet</th><th>考點</th></tr>
-<tr><td>Understand how to create team-managed projects</td><td>誰能建（全域權限）、建立步驟、key 規則、details 能改什麼、board 與 workflow 綁在一起的行為</td></tr>
-<tr><td>Understand team-managed project access and permissions</td><td>access level ∪ role 的加總、三個內建 role 的權限表、三個權限包、與 CMP 權限名稱對照</td></tr>
-<tr><td>Understand how to add users to team-managed projects</td><td>兩個入口、只能加站台上已有的人、guest、多重 role、移除的兩個陷阱</td></tr>
+<tr><td>Understand how to create team-managed projects</td><td>誰有資格建立（靠一個全域權限）、實際的建立步驟、project key 的命名規則、Details 頁面上哪些欄位改得動，以及 board 和 workflow 綁在一起會產生什麼行為</td></tr>
+<tr><td>Understand team-managed project access and permissions</td><td>access level 和指派的 role 是<strong>相加</strong>而不是覆蓋、三個內建 role 各自能做什麼、建自訂 role 時可以整包勾的三組權限，以及這些權限在 CMP 那邊叫什麼名字</td></tr>
+<tr><td>Understand how to add users to team-managed projects</td><td>加人有兩個入口、只能加已經在站台上有帳號的人、外部人員要用 guest 的身分、一個人可以同時持有多個 role，以及把人移除時常踩的兩個陷阱</td></tr>
 </table></div>
 </section>
 
@@ -121,7 +121,7 @@
 </div>
 <div class="grid-2" style="margin-top:22px">
 <div class="callout warn" style="margin:0"><div class="t">Project name 全站唯一，且 Jira admin 永遠看得到</div>即使 project 是 Private。官方建議敏感專案用<strong>代號</strong>（codename）當名稱。</div>
-<div class="callout" style="margin:0"><div class="t">Key 規則</div>至少 2 字元、<strong>大寫字母開頭</strong>、只能大寫字母與數字。</div>
+<div class="callout" style="margin:0"><div class="t">Key 規則</div>project key 至少要 2 個字元，必須<strong>以大寫字母開頭</strong>，而且整串只能由大寫字母和數字組成，不接受小寫、空白或符號。這個 key 會變成每張 issue 編號的前綴（例如 <code>DP-14</code>），所以取的時候盡量短而好認。</div>
 </div>
 
 <h3>Details 頁能改什麼</h3>
@@ -132,7 +132,7 @@
 <tr><td>Key</td><td>改後最多 <strong>10 分鐘</strong>才在 board 反映；舊 key 進 Previous keys，可刪但刪了舊連結就失效，建議保留</td></tr>
 <tr><td>Category</td><td><strong>Jira admin 建</strong>，project admin 只能挑；用於 JQL、filter、report</td></tr>
 <tr><td>Project owner</td><td>通常就是 project admin；人員異動時換</td></tr>
-<tr><td>Default assignee</td><td>新 issue 預設指派給誰；Open project 讓全站丟需求時特別有用。<strong>改不了時</strong>→ 檢查 ⚙ General configuration 的「Allow unassigned issues」</td></tr>
+<tr><td>Default assignee</td><td>決定新建的 issue 預設要指派給誰。當 project 設成 Open、全站的人都可能來丟需求時，這一項特別有用，可以避免一堆沒人認領的 issue。<strong>如果這個欄位改不動</strong>，多半是站台層的設定卡住了：到 ⚙ → General configuration 檢查「Allow unassigned issues」是否被關掉</td></tr>
 </table></div>
 
 <h3>Work types：TMP 自己管，但有兩個硬限制</h3>
@@ -181,23 +181,23 @@
 
 <div class="grid-2" style="margin-top:18px">
 <div class="card"><div class="eyebrow" style="color:var(--teal)">TMP：column ＝ status</div>
-<ul style="font-size:14px;margin-top:8px"><li>建 column「Review」→ 同時生成 status「Review」</li><li>改 column 名稱 → status 跟著改名</li><li>刪 column → status 一起刪，issue 要指定搬去哪</li></ul></div>
+<ul style="font-size:14px;margin-top:8px"><li>在 board 上建一個叫「Review」的 column，Jira 會<strong>同時</strong>幫你生出一個同名的 status「Review」</li><li>把 column 改名，對應的 status 也會跟著改名，兩邊永遠一致</li><li>刪掉 column，那個 status 也會一起被刪；如果欄裡還有 issue，Jira 會要你先指定把它們搬到哪一欄</li></ul></div>
 <div class="card"><div class="eyebrow">CMP：column 與 status 分開</div>
-<ul style="font-size:14px;margin-top:8px"><li>status 在 workflow（Jira admin）</li><li>column 在 board settings（board admin）</li><li>一欄可對多個 status；未對應的 status 不出現在 board</li></ul></div>
+<ul style="font-size:14px;margin-top:8px"><li>status 定義在 workflow 裡，要改得找 Jira admin</li><li>column 定義在 board settings 裡，board admin 就能改</li><li>一個 column 可以對應好幾個 status；反過來說，沒有被任何 column 對應到的 status，issue 走到那裡就會從 board 上消失</li></ul></div>
 </div>
 
 <h3>必記規則</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">規則</th><th>內容</th></tr>
-<tr><td>位置決定類別</td><td>最左欄 ＝ To do 類別；最右欄 ＝ Done 類別；中間全是 In progress</td></tr>
-<tr><td>最右欄 ＝ resolved</td><td>進最右欄的 issue 打勾、視為完成</td></tr>
+<tr><td>位置決定類別</td><td>column 的位置直接決定 status 的類別：最左邊那一欄屬於 To do、最右邊那一欄屬於 Done，夾在中間的全部算 In progress。你搬動 column 的順序，類別就跟著換</td></tr>
+<tr><td>最右欄 ＝ resolved</td><td>issue 一被拖進最右邊那一欄，就會被標上完成的勾勾並視為已解決，報表與 backlog 也是照這個判定</td></tr>
 <tr><td>永遠要有 Done</td><td>不能刪掉最後一個 Done column；刪含 issue 的 Done 欄，接收的欄會<strong>繼承 Done 狀態</strong></td></tr>
 <tr><td>Sprints 開著時</td><td>board 在 sprint 開始前是<strong>空的</strong>；<strong>不能在 board 上直接建 issue</strong>，只能在 backlog 建再拉進 sprint；sprint 結束時 Done 的 issue 清掉、<strong>不回 backlog</strong></td></tr>
 <tr><td>Sprints 關著（Kanban 式）</td><td>Done 的 issue <strong>14 天後自動清掉</strong>；可手動清（僅 project admin／Jira admin）；清 parent 時 sub-task 一起清，不管 sub-task 狀態</td></tr>
-<tr><td>Column limit</td><td>Kanban 式可設每欄上限（••• → Set column limit）</td></tr>
+<tr><td>Column limit</td><td>沒有開 Sprints 的 Kanban 式 board 可以替每一欄設卡片數量上限（欄位標題的 ••• → Set column limit），超過時該欄會變色提醒，用來控制同時進行的工作量</td></tr>
 <tr><td>Status categories</td><td>To do／In progress／Done 三類，多個 status 可歸同一類（例：Backlog、Waiting for approval 都是 To do）</td></tr>
 </table></div>
-<div class="callout exam"><div class="t">考題</div>「TMP 開了 Sprints，成員說 board 上看不到任何 issue」→ 還沒開始 sprint。「TMP Kanban 的 Done issue 兩週後不見了」→ 正常，14 天自動清除，可用 See all Done issues 找回。</div>
+<div class="callout exam"><div class="t">考題</div>看到「TMP 開了 Sprints，成員說 board 上看不到任何 issue」，答案是<strong>還沒有開始任何一個 sprint</strong>——sprint 沒開始，board 本來就是空的，issue 都待在 backlog。看到「TMP Kanban 的 Done issue 兩週後不見了」，這是<strong>正常行為</strong>，系統每 14 天會自動清一次；資料沒有消失，用 See all Done issues 就找得回來。</div>
 </section>
 
 <!-- ============ Bullet 2 ============ -->
@@ -280,7 +280,7 @@
 <h2>考題會混著問</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:24%">TMP 權限</th><th style="width:36%">對應的 CMP 權限</th><th>差異</th></tr>
-<tr><td>Transition any issue</td><td>Transition ＋ <strong>Resolve ＋ Close</strong> 三合一</td><td>TMP 一個權限做完關閉流程</td></tr>
+<tr><td>Transition any issue</td><td>Transition ＋ <strong>Resolve ＋ Close</strong> 三合一</td><td>CMP 要三個權限才做得完的關閉流程，TMP 用一個權限就涵蓋了，所以在 TMP 沒辦法「只讓某人轉狀態但不讓他關單」</td></tr>
 <tr><td>Edit any due date</td><td>Schedule Issues</td><td>—</td></tr>
 <tr><td>Log work on any issue</td><td>Work On Issues</td><td>—</td></tr>
 <tr><td>Edit reporters</td><td>Modify Reporter</td><td>—</td></tr>
@@ -288,7 +288,7 @@
 <tr><td>Move any issue</td><td>Move Issues</td><td>同樣需要目的地 project 的 Create 權限</td></tr>
 <tr><td>Link any issue</td><td>Link Issues</td><td>同樣要在目標 project 也有 Link 權限才看得到連結</td></tr>
 </table></div>
-<div class="callout exam"><div class="t">高頻考點</div>「Assignable User」在 TMP 被簡化掉了，不能單獨控制「誰可以被指派」。</div>
+<div class="callout exam"><div class="t">高頻考點</div>CMP 有一個獨立的 Assignable User 權限，可以精準控制「誰可以被指派 issue」；這個權限在 TMP 被簡化掉了，所以你<strong>沒辦法單獨控制誰能被指派</strong>。TMP 的規則是：只要某個 role 勾了「Work on issues」那一組裡的<strong>任何一項</strong>權限，持有該 role 的人就會出現在 Assignee 的候選清單裡。</div>
 
 <h3>需要 app access 的權限</h3>
 <p>Viewer 可以給<strong>任何站台註冊使用者</strong>，不需要 Jira 授權席次。但 Member／Administrator 的多數權限<strong>需要 Jira app access</strong>——沒有席次的人即使給了 Member，功能也用不全。席次只有 <strong>site admin</strong> 能給。</p>
@@ -304,9 +304,9 @@
 <tr><td>看某 role 的權限</td><td>Project settings → Access → Manage roles → 點 role</td></tr>
 <tr><td>建自訂 role</td><td>Manage roles → Create role → 名稱、描述、勾權限</td></tr>
 <tr><td>複製 role</td><td>Manage roles → Duplicate（內建 role 不能改，<strong>要客製就複製</strong>）</td></tr>
-<tr><td>編輯 role</td><td>改了<strong>套用到所有持有該 role 的人</strong></td></tr>
+<tr><td>編輯 role</td><td>改動會立刻<strong>套用到所有持有這個 role 的人</strong>，不是只影響之後才加入的人，所以調整前先確認有誰在裡面</td></tr>
 <tr><td>刪 role</td><td>內建三個<strong>不能刪</strong>；刪自訂 role 會影響 <strong>notifications</strong> 與 <strong>issue type restrictions</strong>；<strong>刪 role 不會把人移出 project</strong></td></tr>
-<tr><td>Free 方案</td><td>不能編輯 permissions／roles</td></tr>
+<tr><td>Free 方案</td><td>Free 方案不能編輯 permissions 與 roles，只能沿用內建的三個 role；但 access level 還是可以切換</td></tr>
 </table></div>
 </section>
 
@@ -335,12 +335,12 @@
 
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">規則</th><th>內容</th></tr>
-<tr><td>能加誰</td><td><strong>只能加已加入 Atlassian 站台的人</strong>；搜不到 → 請 Jira admin 先邀請進站台</td></tr>
+<tr><td>能加誰</td><td><strong>只能加已經在這個 Atlassian 站台裡有帳號的人</strong>。如果在搜尋框裡打了名字卻找不到人，代表他還沒被邀請進站台，要先請 Jira admin 邀請，之後才加得進 project</td></tr>
 <tr><td>外部協作者</td><td>請 admin 邀請為 <strong>guest</strong>（限單一 project、不佔正式席次）</td></tr>
 <tr><td>可加群組</td><td>可以，整個 group 拿同一個 role</td></tr>
 <tr><td>多重 role</td><td>一個人或 group 可同時有多個 role</td></tr>
 <tr><td>疊加原則</td><td>Access 頁指派的 role <strong>不覆蓋</strong> access level 給的 role，是<strong>加上去</strong></td></tr>
-<tr><td>Role 的兩種用途（官方）</td><td>① 給 access level 沒給的權限 ② 讓核心成員即使 access level 之後改變也<strong>保有穩定權限</strong></td></tr>
+<tr><td>Role 的兩種用途（官方）</td><td>官方講了兩個：第一，補上 access level 沒有給到的權限；第二，讓核心成員即使日後 project 的 access level 被調整，也還<strong>保有穩定的權限</strong>不會被降級</td></tr>
 </table></div>
 <p style="margin-top:12px">第二個用途值得記：把核心團隊明確加為 Member，之後就算 project 從 Open 改成 Limited，他們仍是 Member；沒被明確加的人則降成 Viewer。</p>
 
@@ -366,8 +366,8 @@
 </ol>
 </div>
 <div class="grid-2" style="margin-top:14px">
-<div class="callout warn" style="margin:0"><div class="t">阿芳說她看得到 issue 但拖不動、改不了</div>檢查 site admin 有沒有給她 Jira app access。</div>
-<div class="callout warn" style="margin:0"><div class="t">Kevin 可以被指派 issue，但小林沒給他 Work on 的權限</div>檢查是否勾了 Work on 群組裡任一項（例如 Log work）；TMP 只要有其中一項就可被指派。</div>
+<div class="callout warn" style="margin:0"><div class="t">阿芳說她看得到 issue 但拖不動、改不了</div>這是典型的授權席次問題，不是 role 設錯。檢查 site admin 有沒有給她 Jira app access——沒有席次的人就算掛著 Member，也只能看不能動。</div>
+<div class="callout warn" style="margin:0"><div class="t">Kevin 可以被指派 issue，但小林沒給他 Work on 的權限</div>回頭檢查那個自訂 role 是不是勾到了「Work on issues」群組裡的任何一項（例如看似無害的 Log work）。TMP 沒有獨立的 Assignable User 權限，只要勾中其中一項，這個人就會出現在指派清單裡。</div>
 </div>
 </section>
 
@@ -376,19 +376,19 @@
 <div class="section-label">自測</div>
 <h2>13 題</h2>
 <div class="quiz">
-<details class="q"><summary>使用者說「我沒有 Create project 按鈕」，TMP 的情況下該查什麼？</summary><div class="a"><div class="tag">解答</div>全域權限 Create team-managed projects 是否被 Jira admin 從其群組移除。</div></details>
-<details class="q"><summary>TMP 的 key 規則有哪三條？改 key 後多久生效？</summary><div class="a"><div class="tag">解答</div>≥2 字元、大寫字母開頭、只含大寫字母與數字；最多 10 分鐘。</div></details>
-<details class="q"><summary>Private project 的名稱，Jira admin 看得到嗎？官方建議？</summary><div class="a"><div class="tag">解答</div>看得到（Jira admin 永遠看得到所有 project 名稱）；敏感專案用代號。</div></details>
-<details class="q"><summary>Sprints 開著時，能在 board 上直接建 issue 嗎？</summary><div class="a"><div class="tag">解答</div>不能，只能在 backlog 建再拉進 sprint。</div></details>
-<details class="q"><summary>Kanban 式 TMP 的 Done issue 多久清一次？誰能手動清？</summary><div class="a"><div class="tag">解答</div>14 天自動；project admin 與 Jira admin 可手動（Sprints 開著時不能手動清）。</div></details>
-<details class="q"><summary>被加入 TMP 時自動獲得哪三項權限？</summary><div class="a"><div class="tag">解答</div>Browse project、View project、View issues。</div></details>
-<details class="q"><summary>Member 有沒有 Manage sprints？有沒有 Edit reporters？</summary><div class="a"><div class="tag">解答</div>有 Manage sprints；沒有 Edit reporters（那是 Admin）。</div></details>
-<details class="q"><summary>TMP 的 Transition any issue 對應 CMP 哪三個權限？</summary><div class="a"><div class="tag">解答</div>Transition Issues、Resolve Issues、Close Issues。</div></details>
-<details class="q"><summary>TMP 怎麼決定誰可以被指派？</summary><div class="a"><div class="tag">解答</div>任何 role 只要有「Work on issues」群組中任一權限，其成員即可被指派；沒有獨立的 Assignable User。</div></details>
-<details class="q"><summary>內建的 Viewer／Member／Administrator 能編輯嗎？能刪嗎？</summary><div class="a"><div class="tag">解答</div>不能編輯、不能刪除；要客製就 Duplicate。</div></details>
-<details class="q"><summary>刪除自訂 role 會影響哪兩件事？會把人移出 project 嗎？</summary><div class="a"><div class="tag">解答</div>Notifications、issue type restrictions；不會移出人。</div></details>
-<details class="q"><summary>加人時找不到某位同事，原因？外部人員怎麼辦？</summary><div class="a"><div class="tag">解答</div>他還沒被邀請進 Atlassian 站台，請 Jira admin 邀請；外部人員請 admin 邀為 guest。</div></details>
-<details class="q"><summary>Open project 裡明確把某人加為 Viewer，他能編輯 issue 嗎？</summary><div class="a"><div class="tag">解答</div>能——Open 給全站 Member，指派的 Viewer 只是疊加，不會降權。要限制先改成 Limited。</div></details>
+<details class="q"><summary>使用者說「我沒有 Create project 按鈕」，TMP 的情況下該查什麼？</summary><div class="a"><div class="tag">解答</div>先查全域權限 <strong>Create team-managed projects</strong> 有沒有被 Jira admin 從他所屬的群組移除。這是一個站台層級的全域權限，不是 project 裡的設定，所以就算他在別的 project 是 admin 也沒用。Jira admin 常會為了控管 project 數量而收回這個權限，收回之後使用者的 Projects 選單裡就不會出現 Create project 這個按鈕——不是壞掉，是被關掉了。</div></details>
+<details class="q"><summary>TMP 的 key 規則有哪三條？改 key 後多久生效？</summary><div class="a"><div class="tag">解答</div>三條規則是：<strong>至少 2 個字元</strong>、<strong>必須以大寫字母開頭</strong>、<strong>只能包含大寫字母與數字</strong>。改完 key 之後，board 上要<strong>最多 10 分鐘</strong>才會反映新的 key，這段時間看到舊 key 是正常的。另外舊 key 會被收進 Previous keys 清單，雖然可以刪掉，但刪了以後所有引用舊 key 的連結就會失效，建議留著。</div></details>
+<details class="q"><summary>Private project 的名稱，Jira admin 看得到嗎？官方建議？</summary><div class="a"><div class="tag">解答</div>看得到。Private 擋的是一般使用者，不是站台管理員——<strong>Jira admin 永遠看得到站台上所有 project 的名稱，也進得了它的 project settings</strong>。所以如果專案名稱本身就是機密（例如「Acme 併購案」），把 project 設成 Private 並不能保護它。官方的建議是直接用<strong>代號</strong>（codename）當 project 名稱，讓名字本身不洩漏資訊。</div></details>
+<details class="q"><summary>Sprints 開著時，能在 board 上直接建 issue 嗎？</summary><div class="a"><div class="tag">解答</div>不能。開了 Sprints 之後，board 只顯示「目前進行中的 sprint」裡的 issue，所以它不提供在 board 上直接建立 issue 的入口。正確流程是<strong>先在 backlog 建立 issue，再把它拉進 sprint</strong>。這也是為什麼第一個 sprint 還沒開始時，board 看起來完全空白——不是資料掉了，是還沒有任何 sprint 在跑。</div></details>
+<details class="q"><summary>Kanban 式 TMP 的 Done issue 多久清一次？誰能手動清？</summary><div class="a"><div class="tag">解答</div>系統每 <strong>14 天</strong>自動清一次，把 Done 的 issue 從 board 上移走。想提前清，<strong>project admin 與 Jira admin</strong> 可以手動執行。要注意這只有在 Sprints <strong>關閉</strong>（也就是跑 Kanban 式）時才適用；開了 Sprints 的 board 是靠結束 sprint 來清，沒有手動清除這個選項。被清掉的 issue 只是不顯示在 board 上，資料還在，用 See all Done issues 就找得回來。</div></details>
+<details class="q"><summary>被加入 TMP 時自動獲得哪三項權限？</summary><div class="a"><div class="tag">解答</div><strong>Browse project、View project、View issues</strong> 這三項。只要被加進 TMP，不管給的是哪一個 role，這三項都自動具備。所以 TMP 不會出現「人加進來了卻看不到這個 project」的狀況——那是 CMP 才有的問題，因為 CMP 的 Browse Projects 權限可能根本沒給那個 role。</div></details>
+<details class="q"><summary>Member 有沒有 Manage sprints？有沒有 Edit reporters？</summary><div class="a"><div class="tag">解答</div>Member <strong>有</strong> Manage sprints，<strong>沒有</strong> Edit reporters（改 reporter 是 Administrator 才能做的）。這題考的是一個容易搞混的地方：Manage sprints、Edit any due date、Access development tools 這三項雖然被官方歸在「Manage issues」這個權限群組底下，但 Member 就已經具備了，不必是 Administrator。剩下那些真正屬於管理層級的（刪別人的東西、改 reporter、管 watchers）才是 Administrator 專屬。</div></details>
+<details class="q"><summary>TMP 的 Transition any issue 對應 CMP 哪三個權限？</summary><div class="a"><div class="tag">解答</div>對應 CMP 的 <strong>Transition Issues、Resolve Issues、Close Issues</strong> 三個權限。TMP 把它們合併成一項，好處是設定簡單，代價是失去顆粒度——在 CMP 你可以讓某個 role 只能轉狀態卻不能關單，在 TMP 做不到，給了就是三件事一起給。</div></details>
+<details class="q"><summary>TMP 怎麼決定誰可以被指派？</summary><div class="a"><div class="tag">解答</div>TMP <strong>沒有</strong>像 CMP 那樣獨立的 Assignable User 權限。它的判定規則是：只要某個 role 勾了「Work on issues」這一組裡的<strong>任何一項</strong>權限（例如 Create issues、Log work、Edit any issue…），持有該 role 的人就會出現在 Assignee 下拉清單裡。這常讓人踩雷——你只是想讓外包廠商能記錄工時，結果他就變成可被指派的對象了。</div></details>
+<details class="q"><summary>內建的 Viewer／Member／Administrator 能編輯嗎？能刪嗎？</summary><div class="a"><div class="tag">解答</div>三個內建 role <strong>既不能編輯也不能刪除</strong>，Jira 要保證每個站台的 Viewer／Member／Administrator 意義一致。想要一個「像 Member 但不能管 sprint」的角色，做法是到 Manage roles 按 <strong>Duplicate</strong> 複製一份，再在複製出來的自訂 role 上調整勾選。</div></details>
+<details class="q"><summary>刪除自訂 role 會影響哪兩件事？會把人移出 project 嗎？</summary><div class="a"><div class="tag">解答</div>會影響兩件事：<strong>notifications</strong>（通知設定裡若指定通知這個 role，就會失效）與 <strong>issue type restrictions</strong>（限制某些 issue type 只有特定 role 能用的設定也會失效）。但<strong>不會</strong>把人踢出 project——人還在成員名單上，只是少了這個 role 帶來的權限。</div></details>
+<details class="q"><summary>加人時找不到某位同事，原因？外部人員怎麼辦？</summary><div class="a"><div class="tag">解答</div>原因是他<strong>還沒有這個 Atlassian 站台的帳號</strong>。Add people 的搜尋框只找得到站台上已存在的使用者，不能直接用 email 把外面的人拉進來，所以要先請 Jira admin 在使用者管理那邊邀請他進站台。如果對方是外部的協作者（廠商、客戶），請 admin 邀請成 <strong>guest</strong>：guest 只能存取被指定的那一個 project，也不佔用正式的授權席次。</div></details>
+<details class="q"><summary>Open project 裡明確把某人加為 Viewer，他能編輯 issue 嗎？</summary><div class="a"><div class="tag">解答</div><strong>能編輯</strong>，這是最常考的反直覺題。因為 access level 設成 Open 時，全站使用者已經自動拿到 Member；你另外指派的 Viewer 是<strong>疊加</strong>上去，不是覆蓋下來，兩者取聯集之後他仍然保有 Member 的全部能力。想真正把某個人限制成唯讀，順序要反過來：<strong>先把 project 的 access level 降成 Limited（或 Private）</strong>，再用 role 一項一項往上加。要限制先改成 Limited。</div></details>
 </div>
 
 </section>

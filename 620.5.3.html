@@ -97,16 +97,16 @@
 <p>入口：project 側欄 <strong>Reports</strong>（先看到 project insights）→ <strong>More reports</strong> 進傳統報表目錄。CMP 有多個 board 時，報表以<strong>目前顯示的 board</strong> 為準；insights 則是整個 project 的資料。</p>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:26%">報表</th><th class="c" style="width:10%">Scrum</th><th class="c" style="width:10%">Kanban</th><th>範圍</th><th>一句話</th></tr>
-<tr><td>Burndown Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>剩餘工作 vs 時間，達成 sprint goal 的可能性</td></tr>
-<tr><td>Burnup Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>scope 與完成量，抓 scope creep</td></tr>
-<tr><td>Sprint Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>完成／未完成／移除清單，回顧用</td></tr>
-<tr><td>Velocity Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>每個 sprint 承諾 vs 完成，估產能</td></tr>
-<tr><td>Epic Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>epic</td><td>某 epic 的完成／未完成／未估點</td></tr>
-<tr><td>Epic Burndown</td><td class="c yes">✓</td><td class="c dash">—</td><td>epic</td><td>依 sprint 看 epic 進度並預測還要幾個 sprint</td></tr>
-<tr><td>Release Burndown</td><td class="c yes">✓</td><td class="c dash">—</td><td>version</td><td>依 sprint 看版本進度</td></tr>
-<tr><td>Version Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>version</td><td>預測版本 release 日</td></tr>
-<tr><td>Control Chart</td><td class="c yes">✓</td><td class="c yes">✓</td><td>project／version／sprint</td><td>cycle time 與可預測性</td></tr>
-<tr><td>Cumulative Flow Diagram</td><td class="c yes">✓</td><td class="c yes">✓</td><td>任意期間</td><td>各狀態數量隨時間累積，抓瓶頸</td></tr>
+<tr><td>Burndown Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>以時間為橫軸畫出剩餘工作量，用來判斷這個 sprint 有沒有機會達成目標</td></tr>
+<tr><td>Burnup Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>同時畫出總範圍（紅線）與完成量（綠線），最適合用來抓出 sprint 中途被追加工作的情況</td></tr>
+<tr><td>Sprint Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>列出這個 sprint 完成了哪些、沒完成哪些、被移除哪些，是 retro 會議的主要素材</td></tr>
+<tr><td>Velocity Chart</td><td class="c yes">✓</td><td class="c dash">—</td><td>sprint</td><td>每個 sprint 用兩根柱子對照「開始時承諾的量」與「實際完成的量」，用來推估團隊的穩定產能</td></tr>
+<tr><td>Epic Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>epic</td><td>列出某個 epic 底下已完成、未完成與尚未估點的工作，看得出這個 epic 還剩多少</td></tr>
+<tr><td>Epic Burndown</td><td class="c yes">✓</td><td class="c dash">—</td><td>epic</td><td>以 sprint 為單位呈現 epic 的進度，並用最近三個 sprint 的 velocity 推估還需要幾個 sprint 才做得完</td></tr>
+<tr><td>Release Burndown</td><td class="c yes">✓</td><td class="c dash">—</td><td>version</td><td>跟 Epic burndown 的形式相同，但範圍換成一個 version，用來回答「這一版還要幾個 sprint」</td></tr>
+<tr><td>Version Report</td><td class="c yes">✓</td><td class="c dash">—</td><td>version</td><td>畫出版本的完成趨勢，並推估預計可以 release 的日期（附樂觀與悲觀區間）</td></tr>
+<tr><td>Control Chart</td><td class="c yes">✓</td><td class="c yes">✓</td><td>project／version／sprint</td><td>呈現每張 issue 的實際 cycle time 與其變異程度，用來評估團隊的流動效率與可預測性</td></tr>
+<tr><td>Cumulative Flow Diagram</td><td class="c yes">✓</td><td class="c yes">✓</td><td>任意期間</td><td>把各狀態的數量隨時間堆疊起來，哪個色帶持續變厚就代表哪裡是瓶頸</td></tr>
 </table></div>
 <div class="callout exam"><div class="t">記法</div>Kanban 只有 <strong>Control Chart 與 CFD</strong>（沒有 sprint 就沒有 sprint 類報表）。TMP 的報表另成一套（burnup、velocity、cumulative flow 等），Sprint report、Epic report、Epic burndown 是 CMP 專屬。</div>
 </section>
@@ -336,19 +336,19 @@ CFD 是<strong>堆疊面積圖</strong>，每條線是「累積上界」，某�
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>Kanban 團隊想知道「一張卡從開始做到完成平均要幾天」。</summary><div class="a"><div class="tag">解答</div>Control Chart，columns 選 In progress 到 Done 之間的狀態，看 rolling average。</div></details>
-<details class="q"><summary>Burnup 的紅線在 Day 5 突然往上，Day 8 又往上。</summary><div class="a"><div class="tag">解答</div>Sprint 中兩次加入工作（scope creep）。紅線是 work scope，綠線才是完成量。</div></details>
-<details class="q"><summary>Sprint report 裡某張 issue 前面有星號、估點寫 3 → 5。</summary><div class="a"><div class="tag">解答</div>星號＝sprint 開始後才加入；3 → 5＝sprint 中估點被改過。</div></details>
-<details class="q"><summary>Burndown 沒有灰色 guideline。</summary><div class="a"><div class="tag">解答</div>Sprint 開始時 board 上沒有任何 issue（先開 sprint 才拉 issue 進去）。</div></details>
-<details class="q"><summary>PM 給 sub-task 估了 story points，但 burndown 總量沒變。</summary><div class="a"><div class="tag">解答</div>正常：sub-task 的 story points 不計入 burndown／burnup／sprint report，只算 parent。</div></details>
-<details class="q"><summary>Epic burndown 預測還要 6 個 sprint，是怎麼算的？可信嗎？</summary><div class="a"><div class="tag">解答</div>剩餘 ÷ 近三個 sprint 的平均 velocity。若未估點的 issue 超過 30%，報表會警告預測不可信。</div></details>
-<details class="q"><summary>Epic burndown 某個 sprint 的柱子有一段深藍。</summary><div class="a"><div class="tag">解答</div>該 sprint 中加入的 scope（開工後才加進 epic 或被改估點的工作）。</div></details>
-<details class="q"><summary>CFD 上 In review 的色帶三週來越來越厚。</summary><div class="a"><div class="tag">解答</div>In review 是瓶頸：進來的比出去的多，卡在等 review。</div></details>
-<details class="q"><summary>Control chart 的藍帶最近變得很寬。</summary><div class="a"><div class="tag">解答</div>cycle time 變異變大、可預測性下降；找離群點看原因，必要時用 label 或 JQL 排除無效資料。</div></details>
-<details class="q"><summary>Control chart 的 rolling average 是「過去 7 天平均」嗎？</summary><div class="a"><div class="tag">解答</div>不是。它依 issue 數計算：每點取前後各 X 個 issue，X 是總數的 20%（最少 5，取奇數）。</div></details>
-<details class="q"><summary>想看某版本預計哪天能 release。</summary><div class="a"><div class="tag">解答</div>Version Report（或 Release Burndown 看還要幾個 sprint）；預測受 working days 影響。</div></details>
-<details class="q"><summary>CMP 有三個 board，開 Sprint report 卻看到別的 sprint。</summary><div class="a"><div class="tag">解答</div>報表以目前顯示的 board 為準，先切到正確的 board 再開報表。</div></details>
-<details class="q"><summary>跨五個 project 做容量規劃與情境模擬，該建議哪個工具？</summary><div class="a"><div class="tag">解答</div>Plans（Advanced Roadmaps，Premium）；企業級多站台 portfolio 才是 Jira Align；單一 project 用 Timeline 就夠。</div></details>
+<details class="q"><summary>Kanban 團隊想知道「一張卡從開始做到完成平均要幾天」。</summary><div class="a"><div class="tag">解答</div>用 <strong>Control Chart</strong>，在設定裡把 Columns 勾選成從 In progress 到 Done 之間的狀態，然後看那條藍色的 <strong>rolling average</strong> 線。它衡量的正是 <strong>cycle time</strong>（一張卡實際被處理花了多久）。這題也順便考了 Kanban 的報表範圍——<strong>Kanban board 只有 Control Chart 與 CFD 兩張報表</strong>，其他都是 sprint 相關的，沒有 sprint 就沒有那些圖。記得把 <strong>Non-working days</strong> 排除掉，否則週末會被算進等待時間。</div></details>
+<details class="q"><summary>Burnup 的紅線在 Day 5 突然往上，Day 8 又往上。</summary><div class="a"><div class="tag">解答</div>代表 sprint 進行中<strong>有兩次追加了工作</strong>，也就是典型的 scope creep。Burnup 有兩條線要分清楚：<strong>紅線是 work scope（這個 sprint 總共要做多少）</strong>，<strong>綠線才是 completed work（已經完成多少）</strong>。所以紅線往上跳絕對不是好消息——它表示目標被墊高了。判讀 Burnup 的訣竅是看兩條線會不會收斂：綠線追上紅線就是完成，紅線一直往上跑而綠線追不上，就是這個 sprint 註定做不完。</div></details>
+<details class="q"><summary>Sprint report 裡某張 issue 前面有星號、估點寫 3 → 5。</summary><div class="a"><div class="tag">解答</div><strong>星號（*）代表這張 issue 是 sprint 開始之後才被加進來的</strong>，也就是它不在原本的承諾範圍內。<strong>「3 → 5」則代表估點在 sprint 進行中被改過</strong>，從 3 點調成了 5 點。這兩個標記都是 retro 時很有價值的線索——它們把「這個 sprint 沒做完」的原因分成了兩類：是中途被塞了工作，還是原本就低估了。順帶記一個相關規則：<strong>Velocity Chart 的 Commitment 只計算 sprint 開始當下的量</strong>，這些後來加入或調高的都不算進 commitment，卻會算進 completed。</div></details>
+<details class="q"><summary>Burndown 沒有灰色 guideline。</summary><div class="a"><div class="tag">解答</div>因為 <strong>sprint 開始的當下，board 上沒有任何有估點的 issue</strong>——最常見的操作順序錯誤就是「先按 Start sprint，才把 issue 拉進去」。guideline 這條灰線的定義是「從 sprint 開始時的總量直線降到 0」，起始總量是 0 的話，這條線自然畫不出來。其他可能的原因還有：issue 全都沒填估點、sprint 的日期被設成過去、或使用者時區與站台不一致。正確做法是<strong>先把估好點的 issue 放進 sprint，再 Start</strong>。</div></details>
+<details class="q"><summary>PM 給 sub-task 估了 story points，但 burndown 總量沒變。</summary><div class="a"><div class="tag">解答</div>這是<strong>完全正常的行為</strong>，不是報表壞掉。<strong>sub-task 的 story points 不計入 burndown、burnup、sprint report 與 velocity</strong>，所有 sprint 類報表都只認 standard 層（也就是 parent）的估點——官方在 Velocity chart 的說明頁直接寫了「Estimates from sub-tasks are not included」。唯一的例外是：當 board 的 estimation 設定改成「Remaining estimate and time spent」時，<strong>sub-task 的工時（不是估點）會 roll-up 到 parent</strong>。所以實務建議是<strong>估點只估在 story 這一層</strong>，免得團隊誤以為有算到。</div></details>
+<details class="q"><summary>Epic burndown 預測還要 6 個 sprint，是怎麼算的？可信嗎？</summary><div class="a"><div class="tag">解答</div>算法是 <strong>剩餘工作量 ÷ 最近三個 sprint 的平均 velocity</strong>——例如還剩 12 點、最近三個 sprint 平均每個做 2 點，就推估還要 6 個 sprint。注意它<strong>只看最近三個</strong>，不是全部歷史，因為近期的表現比較能反映團隊現況。可不可信要看一個警訊：<strong>如果這個 epic 底下未估點的 issue 超過 30%，報表會主動警告，這時預測不可靠</strong>——因為分子（剩餘量）本身就是低估的。看到警告時，先讓團隊把估點補齊再談預測。</div></details>
+<details class="q"><summary>Epic burndown 某個 sprint 的柱子有一段深藍。</summary><div class="a"><div class="tag">解答</div>深藍色那一段代表<strong>該 sprint 期間新增的 scope</strong>，也就是 epic 開工之後才被加進來、或是加進來之後又被調高估點的工作。Epic burndown 的顏色要一起記：<strong>淺綠＝該 sprint 完成的量、淺藍＝原本估好的剩餘、深藍＝中途追加的 scope、灰＝預測的未來 sprint</strong>。判斷「原估」與「scope」的界線很單純：<strong>在 epic 開工前就估好的算 original estimate，開工後才進來的一律算 scope</strong>。深藍段一路長高，代表這個 epic 的範圍一直在膨脹，預測日期自然不斷往後推。</div></details>
+<details class="q"><summary>CFD 上 In review 的色帶三週來越來越厚。</summary><div class="a"><div class="tag">解答</div>代表 <strong>In review 是目前的瓶頸</strong>：流進這個狀態的工作比流出去的多，所以在那裡累積。CFD 的判讀原則就是這一條——<strong>哪個色帶持續變厚，哪裡就是瓶頸</strong>。接下來該做的是查流入與流出的原因（是不是 reviewer 人手不足？是不是 PR 太大？），而不是直接下結論說某個人偷懶，也不該把 WIP limit 調高來讓警示消失——那只是把問題藏起來。另外要注意一個讀圖細節：<strong>色帶的「厚度」才是該狀態的件數，累積線的「高度」是上界（含底下所有狀態的總和）</strong>，兩者不要看錯。</div></details>
+<details class="q"><summary>Control chart 的藍帶最近變得很寬。</summary><div class="a"><div class="tag">解答</div>藍帶代表<strong>標準差</strong>，也就是實際數值相對於 rolling average 的變異程度。它變寬代表 <strong>cycle time 的變異變大、團隊的可預測性下降</strong>——同樣一張卡，有時三天完成、有時拖三週，這種團隊很難承諾交期。處理方式是先<strong>找出離群的那幾個點</strong>看發生了什麼事（是不是卡在等外部回覆？是不是那張卡本來就該拆小？）。如果查出來是無效資料（例如某張 issue 忘了關、掛了三個月），可以用 label 或 JQL 把它排除掉再看一次。</div></details>
+<details class="q"><summary>Control chart 的 rolling average 是「過去 7 天平均」嗎？</summary><div class="a"><div class="tag">解答</div><strong>不是，它跟時間窗完全無關。</strong>rolling average 是<strong>依 issue 的數量</strong>計算的：每一個點取它自己加上前後各 X 個 issue 來平均，而 <strong>X 是目前顯示總數的 20%，最少 5 個，而且永遠取奇數</strong>。這樣設計的用意是讓單一離群點不會把整條線拉歪，也讓工作量忽多忽少的期間不會產生假訊號。考題很愛拿「過去 7 天平均」這種聽起來合理的說法來設陷阱。</div></details>
+<details class="q"><summary>想看某版本預計哪天能 release。</summary><div class="a"><div class="tag">解答</div>用 <strong>Version Report</strong>，它會畫出一條藍色的預測 release 日期線，兩側還有樂觀（平均速度 +10%）與悲觀（−10%）的灰帶。想改看「還要幾個 sprint」則用 <strong>Release Burndown</strong>。有幾個前提要記：<strong>Version report 必須先完成該版本估算工作的 10% 才算得出預測</strong>、它<strong>排除 sub-task</strong>、只在 CMP 的 Scrum board 上有，而且<strong>會受 board 的 working days 設定影響</strong>——沒排除週末的話預測日會偏樂觀。</div></details>
+<details class="q"><summary>CMP 有三個 board，開 Sprint report 卻看到別的 sprint。</summary><div class="a"><div class="tag">解答</div>因為<strong>報表是以「目前正在顯示的那個 board」為範圍計算的</strong>，不是以整個 project。CMP 可以有多個 board，每個 board 有自己的 filter 與 sprint，所以開報表之前<strong>要先切換到正確的 board</strong>。這裡也順便區分一個容易混淆的概念：側欄 Reports 一進去先看到的 <strong>project insights 是整個 project 的資料</strong>，要按 <strong>More reports</strong> 才會進到這些以 board 為範圍的傳統報表。</div></details>
+<details class="q"><summary>跨五個 project 做容量規劃與情境模擬，該建議哪個工具？</summary><div class="a"><div class="tag">解答</div>建議用 <strong>Plans</strong>（前身是 Advanced Roadmaps，需要 Jira <strong>Premium</strong> 或 Enterprise）。判斷的三個層級值得一起記：<strong>單一 project</strong> 的 epic 時程與依賴，用免費就有的 <strong>Timeline</strong>；<strong>跨多個 project 與團隊</strong>的規劃、容量管理與情境模擬，用 <strong>Plans</strong>；<strong>企業級的 portfolio、OKR 對齊、甚至橫跨多個 Jira 站台</strong>，才輪到 <strong>Jira Align</strong>（那是另一個獨立產品，給採用 SAFe、LeSS 這類框架的大型組織）。考試只會問「哪個問題該用哪個工具」，不會考操作細節。</div></details>
 </div>
 </section>
 
@@ -358,14 +358,14 @@ CFD 是<strong>堆疊面積圖</strong>，每條線是「累積上界」，某�
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Kanban 也有 burndown」</td><td>Kanban 只有 Control chart 與 CFD。</td></tr>
-<tr><td>「Burnup 紅線是完成量」</td><td>紅線是 scope，綠線才是完成。</td></tr>
-<tr><td>「Sub-task 估點會算進 sprint 報表」</td><td>不算（只有 time tracking 模式下的時間會 roll-up）。</td></tr>
-<tr><td>「Rolling average 是依時間窗算」</td><td>依 issue 數：20%、最少 5、奇數。</td></tr>
-<tr><td>「CFD 的帶厚度就是 WIP」</td><td>是當時在該狀態的累積數；官方提醒與傳統 WIP 概念不同，看「變厚」不是看絕對值。</td></tr>
-<tr><td>「Epic burndown 用全部歷史 velocity 預測」</td><td>用近三個 sprint。</td></tr>
-<tr><td>「Working days 影響所有報表」</td><td>影響 Burndown、Sprint／Epic／Version report、Control chart；CFD 按日曆日。</td></tr>
-<tr><td>「Advanced Roadmaps 是免費的 Timeline」</td><td>Timeline 免費但單一 project；Plans（Advanced Roadmaps）是 Premium 的跨 project 規劃。</td></tr>
+<tr><td>「Kanban 也有 burndown」</td><td>沒有。Kanban board <strong>只有 Control Chart 與 Cumulative Flow Diagram</strong> 兩張報表——沒有 sprint 就沒有 burndown、burnup、velocity 這些以 sprint 為單位的圖。</td></tr>
+<tr><td>「Burnup 紅線是完成量」</td><td>不是。Burnup 的<strong>紅線是 work scope（總共要做多少）</strong>，<strong>綠線才是 completed work（已完成多少）</strong>；紅線往上跳代表中途被追加了工作。</td></tr>
+<tr><td>「Sub-task 估點會算進 sprint 報表」</td><td>不算。所有 sprint 類報表與 velocity 都只認 parent 的估點；<strong>唯一的例外是 board 改用「Remaining estimate and time spent」時，sub-task 的工時（不是估點）會 roll-up 到 parent</strong>。</td></tr>
+<tr><td>「Rolling average 是依時間窗算」</td><td>不是。它<strong>依 issue 的數量</strong>計算：每一點取自己加前後各 X 個 issue 的平均，X 為顯示總數的 20%，最少 5 個，且永遠取奇數。</td></tr>
+<tr><td>「CFD 的帶厚度就是 WIP」</td><td>不完全是。CFD 呈現的是累積的 throughput，官方特別提醒它與傳統「同時進行中」的 WIP 數字不是同一回事；<strong>判讀時要看色帶有沒有「持續變厚」，而不是讀它的絕對值</strong>。</td></tr>
+<tr><td>「Epic burndown 用全部歷史 velocity 預測」</td><td>不是。Epic burndown 與 Release burndown 的預測都<strong>只採用最近三個 sprint</strong> 的完成量，因為近期表現比較能反映團隊現況。</td></tr>
+<tr><td>「Working days 影響所有報表」</td><td>不是全部。會跳過非工作日的是 Burndown、Sprint／Epic／Version report 與 Control chart；<strong>CFD 一律按日曆日計算</strong>，不受這個設定影響。</td></tr>
+<tr><td>「Advanced Roadmaps 是免費的 Timeline」</td><td>不是同一個東西。<strong>Timeline 免費，但只能看單一 project</strong>；<strong>Plans（前身 Advanced Roadmaps）是 Premium 以上才有的跨 project 規劃工具</strong>，還帶容量規劃與情境模擬。</td></tr>
 </table></div>
 </section>
 

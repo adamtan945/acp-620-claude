@@ -208,10 +208,10 @@
 <h2>RANK：一個子句，四個功能</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:36%">filter 有 <code>ORDER BY Rank ASC</code></th><th>沒有（或 ORDER BY 別的欄位）</th></tr>
-<tr><td class="yes">拖曳排序 backlog 與 board</td><td class="no">卡片拖不動</td></tr>
-<tr><td class="yes">Scrum 可建 sprint、把 issue 拉進 sprint</td><td class="no">無法規劃 sprint</td></tr>
-<tr><td class="yes">Sub-task 自動排在 parent 下</td><td class="no">sub-task 散開</td></tr>
-<tr><td class="yes">Kanban 從 backlog 拉進 board</td><td class="no">失效</td></tr>
+<tr><td class="yes">拖曳排序 backlog 與 board</td><td class="no">board 與 backlog 上的卡片都拖不動，Jira 沒有欄位可以記住新順序</td></tr>
+<tr><td class="yes">Scrum 可建 sprint、把 issue 拉進 sprint</td><td class="no">建不出 sprint，也沒辦法把 issue 拉進 sprint，等於整個 Scrum 規劃流程停擺</td></tr>
+<tr><td class="yes">Sub-task 自動排在 parent 下</td><td class="no">sub-task 不會跟在 parent 底下，而是散落在清單各處，很難閱讀</td></tr>
+<tr><td class="yes">Kanban 從 backlog 拉進 board</td><td class="no">沒辦法把 issue 從 backlog 拉進 board</td></tr>
 </table></div>
 <ul style="margin-top:.75rem">
 <li>修法：Board settings → General → <strong>Add Rank</strong>，Jira 自動改 filter。</li>
@@ -261,11 +261,11 @@ Hide completed work 設 1 week，是<strong>滾動的 7 天</strong>，而且受
 </div>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:40%">症狀</th><th>原因與修法</th></tr>
-<tr><td>同事找不到 board</td><td>filter 沒分享 → Filters 頁把 filter 分享給 project／group／role（viewer）</td></tr>
-<tr><td>同事看得到 board 但少了某個 project 的卡片</td><td>他沒有那個 project 的 Browse Projects</td></tr>
-<tr><td>我是 board admin 卻改不了 filter</td><td>board admin ≠ filter editor；請 owner 加 editor，或 Jira admin 改 owner</td></tr>
-<tr><td>filter owner 離職，board 沒人能改</td><td>Jira admin 在 Filters 管理頁改 owner</td></tr>
-<tr><td>Board 突然消失</td><td>location 掛的 project 或 user 被停用；board／project admin 重新指定 location</td></tr>
+<tr><td>同事找不到 board</td><td>多半是 filter 沒有分享出去。到 Filters 頁把該 filter 分享給對應的 project、group 或 role（給 viewer 權限即可）</td></tr>
+<tr><td>同事看得到 board 但少了某個 project 的卡片</td><td>他缺少那個 project 的 <strong>Browse Projects</strong> 權限。filter 只開第一道門，每張卡片還要看他對該 issue 所屬 project 有沒有瀏覽權</td></tr>
+<tr><td>我是 board admin 卻改不了 filter</td><td>因為 <strong>board admin 不等於 filter editor</strong>。請 filter owner 把你加為 editor，或請 Jira admin 出面（Jira admin 也能變更 filter 的 owner）</td></tr>
+<tr><td>filter owner 離職，board 沒人能改</td><td>請 Jira admin 到 Filters 的管理頁面把 owner 改成現任的人；這是離職交接時很容易漏掉的一項</td></tr>
+<tr><td>Board 突然消失</td><td>通常是 board 的 location 掛在已被停用的 project 或已離職的使用者身上。由 board admin 或 project admin 到 Board settings → General 重新指定一個有效的 location 即可</td></tr>
 <tr><td>使用者 A 看到的 board 內容跟 B 不同</td><td>filter 用了 <code>currentUser()</code>；或兩人 Browse Projects 不同；或各自勾了不同 quick filter</td></tr>
 </table></div>
 </section>
@@ -276,11 +276,11 @@ Hide completed work 設 1 week，是<strong>滾動的 7 天</strong>，而且受
 <h2>Stacked quick filters：AND，而且只能縮小</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:44%">症狀</th><th>解釋</th></tr>
-<tr><td>勾兩個 quick filter 結果比勾一個少</td><td>多選是 AND，正常</td></tr>
-<tr><td>想看「我的 OR Bug」</td><td>另外寫一個 quick filter 把 OR 寫在 JQL 裡</td></tr>
-<tr><td>勾了 quick filter 後 board 空白</td><td>條件與 board filter 沒交集（例如 quick filter 寫了不在 filter 內的 project）</td></tr>
-<tr><td>同事說他的 board 少很多卡片</td><td>他自己勾了 quick filter；quick filter 狀態是個人的</td></tr>
-<tr><td>quick filter 的 ORDER BY 沒作用</td><td>排序永遠由 board filter 決定</td></tr>
+<tr><td>勾兩個 quick filter 結果比勾一個少</td><td>這是正常的。多個 quick filter 之間是 AND，條件愈疊愈嚴格，結果當然愈少</td></tr>
+<tr><td>想看「我的 OR Bug」</td><td>不能靠同時勾兩個達成，要另外建一個 quick filter，把 OR 直接寫進同一句 JQL，例如 <code>assignee = currentUser() OR type = Bug</code></td></tr>
+<tr><td>勾了 quick filter 後 board 空白</td><td>代表這個 quick filter 的條件與 board filter 的結果<strong>沒有交集</strong>，最典型的是 quick filter 裡寫了一個根本不在 board filter 範圍內的 project</td></tr>
+<tr><td>同事說他的 board 少很多卡片</td><td>多半是他自己勾了某個 quick filter 忘了取消。quick filter 的勾選狀態存在<strong>各人的瀏覽器</strong>裡，你在自己畫面上看不出他勾了什麼</td></tr>
+<tr><td>quick filter 的 ORDER BY 沒作用</td><td>這是預期行為。quick filter 的 JQL 只用來判斷「留下哪些卡片」，排序永遠由 board filter 的 ORDER BY 決定</td></tr>
 </table></div>
 <h3>先把「管理 sprint」和「改 sprint 裡的工作」拆開</h3>
 <div class="tbl-wrap"><table class="tbl">
@@ -301,18 +301,18 @@ Hide completed work 設 1 week，是<strong>滾動的 7 天</strong>，而且受
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>使用者回報「MOB-88 搜尋得到，但 board 上沒有」。第一步檢查什麼？</summary><div class="a"><div class="tag">解答</div>它是否符合 board filter 的 JQL（Board settings → General）。符合的話下一步看 status 是否 unmapped。</div></details>
-<details class="q"><summary>Jira admin 把 filter 從 <code>project = A</code> 改成 <code>project in (A, B)</code>，B 的所有 issue 都沒出現。最可能原因？</summary><div class="a"><div class="tag">解答</div>B 的 workflow status 名稱不同，全部落在 Unmapped statuses；到 Columns 對應。</div></details>
-<details class="q"><summary>Sprint 結束時 Jira 說還有 3 張未完成，但團隊確認都 Cancelled 了。</summary><div class="a"><div class="tag">解答</div>Cancelled 沒對到最右欄；只有最右欄視為完成。</div></details>
-<details class="q"><summary>從 saved filter 建的 Scrum board 沒辦法建 sprint。</summary><div class="a"><div class="tag">解答</div>filter 沒有 <code>ORDER BY Rank ASC</code>；Board settings → General → Add Rank。</div></details>
-<details class="q"><summary>PM 想讓展示用 board 固定照 due date 排，且不希望別人拖動。</summary><div class="a"><div class="tag">解答</div>filter 用 <code>ORDER BY duedate</code>、不加 Rank——沒有 Rank 就拖不動，正好。</div></details>
-<details class="q"><summary>新同事有 project 的 Browse 權限，Boards 清單卻沒有團隊的 board。</summary><div class="a"><div class="tag">解答</div>底層 filter 沒分享給他。把 filter 分享給 project 或 group。</div></details>
-<details class="q"><summary>你是 board admin，想加一個 project 到 board，General 頁的 filter 是灰的。</summary><div class="a"><div class="tag">解答</div>你不是 filter 的 owner／editor。請 owner 加你為 editor 或請 Jira admin 處理。</div></details>
-<details class="q"><summary>Kanban board 上 Task 全部消失，Bug 正常，搜尋都找得到。</summary><div class="a"><div class="tag">解答</div>Task 的 Fix Version 欄位被 field configuration 隱藏，被 sub-filter 濾掉；設回可見並 re-index，或清空 sub-filter。</div></details>
-<details class="q"><summary>使用者勾了 Only My Issues 與 Recently Updated，說「我今天改的 issue 明明有，卻不見」。</summary><div class="a"><div class="tag">解答</div>AND：那張 issue 不是指派給他。取消 Only My Issues 就會出現。</div></details>
-<details class="q"><summary>Swimlanes by Epics 時某 epic 的 child 都在，epic lane 卻沒有。</summary><div class="a"><div class="tag">解答</div>epic 本身不在 board filter 內（在別的 project）。把 epic 的 project 加進 filter。</div></details>
-<details class="q"><summary>Kanban board 上看不到 epic 卡片。</summary><div class="a"><div class="tag">解答</div>Board settings → Columns 的 Epics panel 開著，epic 在 backlog 的面板裡而不是卡片。關掉即可。</div></details>
-<details class="q"><summary>兩位使用者看同一張 board，卡片數不同，filter 沒用 currentUser()。</summary><div class="a"><div class="tag">解答</div>其中一人勾了 quick filter（個人狀態），或兩人的 Browse Projects 不同（跨 project board）。</div></details>
+<details class="q"><summary>使用者回報「MOB-88 搜尋得到，但 board 上沒有」。第一步檢查什麼？</summary><div class="a"><div class="tag">解答</div>第一步永遠是<strong>檢查它符不符合 board filter 的 JQL</strong>（Board settings → General 就看得到查詢內容）。因為 filter 決定的是「母體」——不在母體裡，後面所有設定都救不回來。如果確認它有在 filter 範圍內，第二步才去看 <strong>status 有沒有對應到某一個 column</strong>（unmapped 的 status 不會顯示在 board 上）。第三、四步分別是 Kanban 的 sub-filter 與「Scrum 的 issue 不在 active sprint」。照這個順序查，幾乎所有「issue 不見了」都能定位。</div></details>
+<details class="q"><summary>Jira admin 把 filter 從 <code>project = A</code> 改成 <code>project in (A, B)</code>，B 的所有 issue 都沒出現。最可能原因？</summary><div class="a"><div class="tag">解答</div>最可能的原因是 <strong>B project 的 workflow 用的是另一套 status 名稱</strong>，這些 status 在這張 board 上從來沒有被對應過，因此全部躺在 <strong>Unmapped statuses</strong> 面板裡。母體有它們（filter 已經改好了），但沒有欄位可以放，board 自然一張也顯示不出來。到 Board settings → Columns 把 B 的 status 逐一拖進對應的欄位即可——記得把它代表結束的 status 拖到<strong>最右欄</strong>，否則之後完成 sprint 又會出事。<strong>擴大 filter 之後一定要回頭檢查 column mapping</strong>，這是跨 project board 的固定動作。</div></details>
+<details class="q"><summary>Sprint 結束時 Jira 說還有 3 張未完成，但團隊確認都 Cancelled 了。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Cancelled 這個 status 沒有被對應到最右欄</strong>。Scrum 判定完成的唯一依據是 issue 落在<strong>最右邊那一欄</strong>，跟 status 叫什麼、屬於哪個 category 都無關——所以在 Jira 眼中這 3 張仍是未完成，會被帶到下一個 sprint。到 Board settings → Columns 把 Cancelled 拖進最右欄就解決了。順帶一提，Kanban 的隱藏機制剛好相反，它看的是 status category。</div></details>
+<details class="q"><summary>從 saved filter 建的 Scrum board 沒辦法建 sprint。</summary><div class="a"><div class="tag">解答</div>因為這份 saved filter <strong>沒有以 <code>ORDER BY Rank ASC</code> 結尾</strong>。Rank 是 Jira 用來記住人工排序的特殊欄位，少了它不只是排序不同——<strong>拖曳、建立 sprint、把 issue 拉進 sprint、sub-task 歸到 parent 底下</strong>全都會失效。修法是到 Board settings → General 按 <strong>Add Rank</strong>，Jira 會自動幫 filter 補上這個子句。要注意這個動作改的是 <strong>saved filter 本身</strong>，其他共用同一份 filter 的 board 也會一起變。</div></details>
+<details class="q"><summary>PM 想讓展示用 board 固定照 due date 排，且不希望別人拖動。</summary><div class="a"><div class="tag">解答</div>把 filter 寫成 <code>ORDER BY duedate</code>，然後<strong>刻意不加 Rank</strong>。這是少數「沒有 Rank 反而是優點」的情境：沒有 Rank 就沒有拖曳功能，卡片會穩穩地照 due date 排，任何人都動不了順序，正好符合展示用途。這題想提醒的是——<strong>缺少 Rank 不一定是設定錯誤，也可能是刻意的</strong>；判斷前先問清楚這張 board 的用途。</div></details>
+<details class="q"><summary>新同事有 project 的 Browse 權限，Boards 清單卻沒有團隊的 board。</summary><div class="a"><div class="tag">解答</div>因為<strong>底層的 saved filter 沒有分享給他</strong>。board 沒有自己的分享設定，它的可見度完全跟著 filter 走；project 權限只決定「board 上他看得到哪些卡片」，決定不了「他找不找得到這張 board」。解法是到 Filters 找到那份 filter，把它分享給該 project、group 或 role。執行分享的人需要 <strong>Share dashboards and filters</strong> 全域權限。</div></details>
+<details class="q"><summary>你是 board admin，想加一個 project 到 board，General 頁的 filter 是灰的。</summary><div class="a"><div class="tag">解答</div>因為<strong>你不是這份 filter 的 owner 或 editor</strong>。<strong>board admin 管的是 board 的設定，跟 filter 的編輯權是兩回事</strong>——這是實務上最常被誤會的一組權限。三種解法：請 filter owner 把你加進 editors、請 Jira admin 協助（Jira admin 也能變更 filter 的 owner，這在原 owner 已離職時特別有用），或是用 <strong>Save as</strong> 另存一份自己的 filter 再把 board 指過去。最後這招最安全，因為完全不會動到別人共用的查詢。</div></details>
+<details class="q"><summary>Kanban board 上 Task 全部消失，Bug 正常，搜尋都找得到。</summary><div class="a"><div class="tag">解答</div>這是官方 KB 記載的經典陷阱：<strong>Task 這個 issue type 的 field configuration 把 Fix Version 設成了 hidden</strong>。欄位被隱藏之後，對 JQL 來說它「不存在」，因此既不符合 <code>fixVersion in unreleasedVersions()</code>，也不符合 <code>fixVersion is EMPTY</code>——而 Kanban 的預設 sub-filter 正是這兩個條件的聯集，於是整個 Task type 被濾光。Bug 沒事，是因為它的 field configuration 沒有隱藏這個欄位。修法：把 Fix Version 設回可見並重建索引（re-index），或是把 sub-filter 清空。</div></details>
+<details class="q"><summary>使用者勾了 Only My Issues 與 Recently Updated，說「我今天改的 issue 明明有，卻不見」。</summary><div class="a"><div class="tag">解答</div>因為<strong>多個 quick filter 之間是 AND 而不是 OR</strong>。他勾了兩個條件，那張 issue 必須<strong>同時</strong>「指派給他」而且「最近更新過」才會留下；它今天確實被更新了，但 <strong>assignee 不是他</strong>，所以被 Only My Issues 這一關擋掉。只要取消 Only My Issues 就會出現。想要「我的<strong>或</strong>最近更新」的效果，得另外做一個 quick filter，把 OR 寫在同一句 JQL 裡。</div></details>
+<details class="q"><summary>Swimlanes by Epics 時某 epic 的 child 都在，epic lane 卻沒有。</summary><div class="a"><div class="tag">解答</div>因為 <strong>epic 本身沒有落在 board filter 的母體內</strong>——最常見的情況是這個 epic 屬於另一個 project。swimlane by Epics 是用 epic 當 lane 的標題，epic 進不了母體，lane 就畫不出來，它底下的 child 會散落在下方那一區。解法是把 epic 所在的 project 也加進 board filter（記得接著檢查 column mapping），或是改用其他 swimlane 依據。</div></details>
+<details class="q"><summary>Kanban board 上看不到 epic 卡片。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Epics panel 是開啟的</strong>。這個設定開著時，epic 會集中呈現在 backlog 左側的面板裡供你分組與篩選，<strong>而不是以卡片形式出現在 board 上</strong>——這是設計行為，不是 bug，也不代表 epic 被過濾掉了。到 Board settings → Columns 把 Epics panel 關掉，epic 就會回到 board 上變成一般卡片。</div></details>
+<details class="q"><summary>兩位使用者看同一張 board，卡片數不同，filter 沒用 currentUser()。</summary><div class="a"><div class="tag">解答</div>有兩個可能，而且都很常見。第一，<strong>其中一人自己勾了 quick filter</strong>——quick filter 的勾選狀態記在<strong>各自的瀏覽器</strong>裡，是個人設定，別人看不到他勾了什麼。第二，如果這是跨 project board，<strong>兩人對來源 project 的 Browse Projects 權限不同</strong>，少了某個 project 權限的人就少看到那批卡片。排查時先請對方清掉所有 quick filter，若張數還是不同，再去比對權限。</div></details>
 </div>
 </section>
 
@@ -322,13 +322,13 @@ Hide completed work 設 1 week，是<strong>滾動的 7 天</strong>，而且受
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「issue 不在 board 就是 filter 寫錯」</td><td>更常見是 unmapped status、Kanban sub-filter、不在 active sprint</td></tr>
-<tr><td>「board 可以單獨分享」</td><td>沒有；分享的是 filter</td></tr>
-<tr><td>「board admin 可以改 filter」</td><td>要 filter editor</td></tr>
-<tr><td>「沒有 Rank 只是排序不同」</td><td>拖曳、sprint、sub-task 歸組全失效</td></tr>
-<tr><td>「Cancelled 放中間欄沒關係」</td><td>sprint 完不成、報表算未完成</td></tr>
-<tr><td>「quick filter 多選是 OR」</td><td>AND</td></tr>
-<tr><td>「Release 會刪掉 issue」</td><td>只是被 sub-filter 藏起來</td></tr>
+<tr><td>「issue 不在 board 就是 filter 寫錯」</td><td>不一定。filter 寫錯只是可能之一，實務上更常見的是 <strong>status 沒對應到 column</strong>、被 Kanban 的 sub-filter 濾掉，或是 Scrum board 上那張 issue 根本不在 active sprint 裡</td></tr>
+<tr><td>「board 可以單獨分享」</td><td>不行。board 沒有自己的分享設定，真正要分享的是<strong>底層那份 saved filter</strong>；把 board 網址貼給別人並不會給他存取權</td></tr>
+<tr><td>「board admin 可以改 filter」</td><td>不一定。改 filter 需要的是該 filter 的 owner 或 editor 身分，board admin 管的只是 board 本身的設定，兩者是不同層級的權限</td></tr>
+<tr><td>「沒有 Rank 只是排序不同」</td><td>不只是排序。少了 Rank，<strong>拖曳排序、建立 sprint、把 issue 拉進 sprint、sub-task 歸到 parent 底下</strong>全部都會失效</td></tr>
+<tr><td>「Cancelled 放中間欄沒關係」</td><td>很有關係。Scrum 只把<strong>最右欄</strong>視為完成，Cancelled 放在中間欄會導致完成 sprint 時被判定未完成、帶到下一個 sprint，burndown 也燒不完</td></tr>
+<tr><td>「quick filter 多選是 OR」</td><td>是 <strong>AND</strong>。勾愈多條件愈嚴格、卡片愈少；要 OR 的效果得把 OR 寫在同一個 quick filter 的 JQL 裡</td></tr>
+<tr><td>「Release 會刪掉 issue」</td><td>不會。Release 只是讓 issue 的 fixVersion 變成已發佈，於是被預設的 sub-filter 藏起來；issue 本身完好，JQL 搜尋照樣找得到</td></tr>
 </table></div>
 </section>
 

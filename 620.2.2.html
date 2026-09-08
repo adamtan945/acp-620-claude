@@ -114,9 +114,9 @@
 </div>
 <div class="callout"><div class="t">從模型推出的三條規則</div>
 <ul style="margin:0">
-<li>要跨 project → 先有一份包含多個 project 的 <strong>saved filter</strong>。</li>
+<li>想讓一個 board 看到多個 project，前提是先有一份 JQL 涵蓋這些 project 的 <strong>saved filter</strong>；沒有 filter 就沒有跨 project 的 board。</li>
 <li>Board 對<strong>所有能存取該 filter 的人</strong>可見（官方原句：This new board will be available to all users who have access to your chosen filter）。</li>
-<li>改 filter → 所有用這份 filter 的 board 一起變；board 本身沒有「自己的 issue 清單」。</li>
+<li>一旦改動 filter 的 JQL，<strong>所有使用這份 filter 的 board 會同時改變</strong>，因為 board 本身並不保存「自己的 issue 清單」，它每次都是即時去問 filter 要資料。</li>
 </ul></div>
 </section>
 
@@ -158,7 +158,7 @@
     <div class="issue"><div class="key">第二道門</div><div class="sum">Board 上他看得到哪些卡片？</div><div id="s222-cards" class="chips"></div><p id="s222-door2-why" class="kicker" style="margin:.5rem 0 0"></p></div>
   </div>
 </div>
-<div class="callout warn" style="margin-top:1rem"><div class="t">最常見的求助</div>「他有 Project A 的權限，為什麼看不到我的 board？」→ 第一道門：filter 沒分享給他。分享 filter（Filters → 該 filter → Edit → Viewers）不需要 Jira admin，但需要 <strong>Share dashboards and filters</strong> 全域權限。</div>
+<div class="callout warn" style="margin-top:1rem"><div class="t">最常見的求助</div>最常聽到的求助是「他明明有 Project A 的權限，為什麼看不到我的 board？」——問題出在<strong>第一道門</strong>：底層的 saved filter 沒有分享給他。要記得這是兩道獨立的門，filter 決定「看不看得到這個 board」，各 project 的 Browse Projects 才決定「board 上看得到哪些卡片」。分享 filter 的路徑是 Filters → 該 filter → Edit → Viewers，這件事不需要 Jira admin，但操作的人要有 <strong>Share dashboards and filters</strong> 這個全域權限。</div>
 </section>
 
 <!-- ============ Location ============ -->
@@ -170,7 +170,7 @@
 <tr><td>兩種位置</td><td>某個 <strong>project</strong>（在該 project 側欄顯示）或<strong>你的 profile</strong>（個人 board）。建 board 時就會問</td></tr>
 <tr><td>怎麼改</td><td>Board ••• → Board settings → General → <strong>Location</strong> 欄位 → 輸入 project 名稱或你的名字 → 立即生效</td></tr>
 <tr><td>位置失效時</td><td>掛在<strong>停用的 project 或被停用／刪除的 user</strong> 上，board 會找不到；<strong>project admin 或 board admin</strong> 要重新指定 location 才能再存取</td></tr>
-<tr><td>Location 影響什麼</td><td>只影響「在哪裡找得到它」與「哪個 project 的 admin 能管它」；<strong>不影響</strong> board 內容（那是 filter 的事）</td></tr>
+<tr><td>Location 影響什麼</td><td>只影響兩件事：這個 board 會出現在哪裡（哪個 project 的側欄，或誰的個人 profile），以及哪個 project 的 admin 有權管理它。它<strong>完全不影響 board 上顯示哪些 issue</strong>——那是 filter 決定的</td></tr>
 <tr><td>找 board</td><td><code>/</code> 快速搜尋（最近的 board 先出現）；加星後在 For you 依 starred 排序；project 側欄的 board 清單</td></tr>
 </table></div>
 </section>
@@ -209,9 +209,9 @@
 </div>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:26%">項目</th><th>官方明說的</th><th>官方<strong>沒有</strong>說的</th></tr>
-<tr><td>資料範圍</td><td><em>your new board will be based on the same work item filter as the original board</em>——副本用同一份 filter</td><td>沒有「自動複製出一份新 filter」這回事</td></tr>
+<tr><td>資料範圍</td><td><em>your new board will be based on the same work item filter as the original board</em>——副本用同一份 filter</td><td>官方沒有提到任何「自動複製出一份新 filter」的行為，所以不能假設副本會有自己獨立的 filter</td></tr>
 <tr><td>管理權</td><td><em>you'll be the administrator of your new board</em>——執行複製的人是副本的 administrator</td><td><strong>沒有列出完整 Administrators 名單</strong>：不能推論「只有複製者」，也不能斷言「原管理員全部保留」</td></tr>
-<tr><td>Filter 編輯權</td><td><em>you may not be able to edit the filter if it wasn't created by you</em>——filter 不是你建的就可能改不動</td><td>複製 board 不會連帶給你 filter 的編輯權</td></tr>
+<tr><td>Filter 編輯權</td><td><em>you may not be able to edit the filter if it wasn't created by you</em>——filter 不是你建的就可能改不動</td><td>官方沒有說複製 board 會連帶把 filter 的編輯權給你；board 的管理權與 filter 的編輯權是兩回事</td></tr>
 </table></div>
 <div class="callout warn"><div class="t">複製後的檢查清單</div>比對三件事：① 新舊 board 的 <strong>Saved Filter 是否同一個</strong>；② <strong>誰能編輯該 filter</strong>；③ Board settings → <strong>Administrators</strong> 的使用者與群組（複製前後各看一次）。沿用同一 filter 表示日後改查詢會同時波及兩個 board——<strong>Copy board 不等於 Copy filter</strong>。</div>
 <div class="callout exam"><div class="t">考題長相</div>「複製 board 後想讓副本只看 API 的工作」→ 另存新 filter 再指定給副本，不能直接改共用 filter（會動到原 board）。選項若寫「複製一定會產生新 filter」或「複製一律需要 Create Shared Objects 權限」，都超出官方原文。</div>
@@ -223,16 +223,16 @@
 <h2>哪些設定支援跨 project、哪些會打架</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">Board 設定</th><th style="width:14%" class="c">跨 project</th><th>要注意的事</th></tr>
-<tr><td>Filter</td><td class="c yes">✓</td><td>用 <code>project in (…)</code>；一定要 <code>ORDER BY Rank</code> 才能拖曳排序</td></tr>
+<tr><td>Filter</td><td class="c yes">✓</td><td>用 <code>project in (…)</code> 把多個 project 一次撈進來。JQL 結尾<strong>一定要加 <code>ORDER BY Rank</code></strong>，否則 board 上的卡片拖不動，因為 Jira 是靠 Rank 這個欄位記住手動排序的</td></tr>
 <tr><td>Columns ↔ statuses</td><td class="c yes">✓</td><td>Unmapped statuses 面板會列出<strong>所有</strong> project 的 workflow status；兩邊 workflow 不同時，要把每個 project 的「完成」status 都對到最右欄，否則那個 project 的 issue 永遠算未完成</td></tr>
-<tr><td>Swimlanes</td><td class="c yes">✓</td><td>有 <strong>Projects</strong> 這個選項，專為跨 project board 設計；也可用 Queries 自訂</td></tr>
-<tr><td>Quick filters</td><td class="c yes">✓</td><td>常見做法：每個 project 一個 quick filter（<code>project = A</code>）</td></tr>
+<tr><td>Swimlanes</td><td class="c yes">✓</td><td>Swimlanes 的分組方式裡有一個 <strong>Projects</strong> 選項，就是專為跨 project board 設計的，可以讓每個 project 各佔一條泳道；想要更彈性的分組也可以改用 Queries 自己寫 JQL</td></tr>
+<tr><td>Quick filters</td><td class="c yes">✓</td><td>常見做法是替每個來源 project 各建一個 quick filter（例如 <code>project = A</code>），讓成員一鍵就能把畫面收斂到自己團隊的工作</td></tr>
 <tr><td>Sprints（Scrum）</td><td class="c yes">✓ 但有代價</td><td>Sprint 會<strong>跨 project</strong>；官方（Manage Sprints 權限說明）：sprint 含多個 board／project 的工作時，要更新 sprint 需要<strong>所有</strong>相關 project 的 Manage Sprints 權限；同一張 issue 只能在一個 active sprint。<br><strong>權限名稱核對</strong>：官方 CMP 權限清單只有 <strong>Manage sprints</strong>（涵蓋建立、開始、完成、調整）；本次查閱<strong>未找到名為 <code>Create and Reorder Sprints</code> 的獨立權限</strong>，別把操作描述當成權限名</td></tr>
 <tr><td>Versions／Releases</td><td class="c no">✗</td><td>Version 屬於各自的 project：不能把 A 的 issue 指到 B 的版本；<strong>兩個 project 各有一個「秋季版」也是兩個不同的 version</strong>，要協調發版就各自管理</td></tr>
 <tr><td>Rank（重排）</td><td class="c yes">✓</td><td>官方：只有在 ranking 已啟用、且你對該 issue 具備 <strong>Schedule work item 與 Edit work item</strong> 兩個權限時才能排序。看得到 board、甚至是 board admin，<strong>都不等於</strong>能重排所有來源 project 的工作</td></tr>
-<tr><td>Estimation</td><td class="c yes">✓</td><td>整個 board 一種 statistic；兩個 project 的估點單位要一致，否則 velocity 沒意義</td></tr>
-<tr><td>Kanban sub-filter／Release</td><td class="c yes">✓</td><td>Release 是 project 層的 version；跨 project board 上要各自 release 各自的版本</td></tr>
-<tr><td>Card colors／layout、working days、detail view</td><td class="c yes">✓</td><td>都是 board 層設定，跨 project 沒問題</td></tr>
+<tr><td>Estimation</td><td class="c yes">✓</td><td>估算方式是<strong>整個 board 一種</strong>，不能一個 project 用 story points、另一個用小時。所以跨 project board 上的兩個團隊必須先講好同一套估點尺度，否則加總出來的 velocity 沒有任何意義</td></tr>
+<tr><td>Kanban sub-filter／Release</td><td class="c yes">✓</td><td>Release 動到的是 project 層的 version，而 version 不能跨 project 共用；所以在跨 project board 上清 Done，得由各個 project 各自發佈自己的版本</td></tr>
+<tr><td>Card colors／layout、working days、detail view</td><td class="c yes">✓</td><td>這幾項都是純粹的 board 層設定，跟 issue 屬於哪個 project 無關，跨 project 使用不會有任何問題</td></tr>
 <tr><td>Simplified workflow</td><td class="c no">✗</td><td>官方條件：board 的 filter 只含<strong>一個</strong> project、該 project <strong>所有 issue type 共用同一個 workflow</strong>、workflow 只用 Atlassian 內建的 post function／validator／condition、每個 status 至少一條出去的 transition；跨 project board 不能在 board 上加 status</td></tr>
 <tr><td>Board admin</td><td class="c yes">✓</td><td>Board settings 的 Administrators；project admin 只對 board <strong>location</strong> 所在的 project 有管理權，對另一個 project 的 admin 而言這個 board 不是他管的</td></tr>
 </table></div>
@@ -244,19 +244,19 @@
 <div class="section-label">情境練習</div>
 <h2>先自己判斷，再點開解答</h2>
 <div class="quiz">
-<details class="q"><summary>三個開發團隊各有 project，主管想在一個 board 看全部的 Bug。</summary><div class="a"><div class="tag">解答</div>建 saved filter <code>project in (A,B,C) AND issuetype = Bug ORDER BY Rank ASC</code>，用「Board from an existing Saved Filter」建 Kanban board，filter 分享給主管與團隊。</div></details>
-<details class="q"><summary>同事對 A、B 兩個 project 都有 Browse，但打開你給的 board 連結是空白或無權限。</summary><div class="a"><div class="tag">解答</div>底層 saved filter 沒分享給他；到 Filters 編輯分享（需 Share dashboards and filters 全域權限）。</div></details>
-<details class="q"><summary>Filter 分享給整個公司，但同事在 board 上只看得到 A 的卡片。</summary><div class="a"><div class="tag">解答</div>他沒有 B 的 Browse Projects；filter 分享只開第一道門，卡片可見性由各 project 權限決定。</div></details>
-<details class="q"><summary>TMP 團隊想要第二個 board 專看 component = API 的 issue。</summary><div class="a"><div class="tag">解答</div>TMP 沒有 component，先用 label 或欄位區分；存 filter 後用 saved filter 建 board（TMP 不能直接加 board）。</div></details>
-<details class="q"><summary>跨 project Scrum board，PM 按 Start sprint 被拒。</summary><div class="a"><div class="tag">解答</div>跨 project sprint 需要每個相關 project 的 Manage Sprints 權限；補齊另一個 project 的權限。</div></details>
-<details class="q"><summary>跨 project board 上，B project 的 issue 進了 Cancelled 卻一直算未完成。</summary><div class="a"><div class="tag">解答</div>B 的 Cancelled status 沒對到最右欄（或根本 unmapped）；到 Board settings → Columns 把它拖到 Done 欄。</div></details>
-<details class="q"><summary>Board 掛在已離職同事的 profile 上，現在沒人打得開。</summary><div class="a"><div class="tag">解答</div>Location 失效；project admin 或 board admin 到 Board settings → General → Location 改成某個 project。</div></details>
-<details class="q"><summary>想在跨 project 的 board 上直接按 + 加一個 column 兼 status。</summary><div class="a"><div class="tag">解答</div>做不到，simplified workflow 只支援單一 project 的 board；跨 project 要請 Jira admin 在各 workflow 加 status，再對到 column。</div></details>
-<details class="q"><summary>A project 的 admin 想改一個 location 在 B project 的跨 project board 的 columns。</summary><div class="a"><div class="tag">解答</div>他不是該 board location 的 project admin，也不是 board admin → 改不了；請 B 的 project admin 或把他加為 board administrator。</div></details>
-<details class="q"><summary>改了共用 filter 的 JQL，另一個團隊的 board 突然少了一半卡片。</summary><div class="a"><div class="tag">解答</div>正常：board 跟著 filter 走，同一份 filter 餵多個 board。要各自獨立就各存一份 filter。</div></details>
-<details class="q"><summary>複製了一個 board 給新團隊，改了副本的 filter 查詢後，原團隊說他們的 board 也變了。</summary><div class="a"><div class="tag">解答</div>Copy board 的副本<strong>沿用同一份 saved filter</strong>；要獨立範圍必須先 Save as 另存新 filter，再指定給副本。</div></details>
-<details class="q"><summary>題目選項寫「複製 board 後，原 board 的所有管理員都會保留在副本」。</summary><div class="a"><div class="tag">解答</div>官方只說<strong>複製者成為副本的 administrator</strong>，沒有列出完整名單；「只有複製者」與「全部保留」都不能當成絕對規則，實機比對 Board settings → Administrators 才算數。</div></details>
-<details class="q"><summary>成員在跨 project board 的 backlog 拖不動 API 團隊的卡片，但看得到、也是 board admin。</summary><div class="a"><div class="tag">解答</div>重排需要對該 issue 的 <strong>Schedule work item ＋ Edit work item</strong> 權限（且 ranking 已啟用）；board admin 不涵蓋來源 project 的 issue 權限。</div></details>
+<details class="q"><summary>三個開發團隊各有 project，主管想在一個 board 看全部的 Bug。</summary><div class="a"><div class="tag">解答</div>先建一份 saved filter：<code>project in (A,B,C) AND issuetype = Bug ORDER BY Rank ASC</code>（結尾的 ORDER BY Rank 不能省，否則卡片拖不動），再用 <strong>Board from an existing Saved Filter</strong> 建一個 Kanban board。最後別忘了<strong>把 filter 分享給主管與團隊</strong>——board 的可見性是跟著 filter 走的，沒分享出去，別人連 board 都打不開。</div></details>
+<details class="q"><summary>同事對 A、B 兩個 project 都有 Browse，但打開你給的 board 連結是空白或無權限。</summary><div class="a"><div class="tag">解答</div>因為<strong>底層的 saved filter 沒有分享給他</strong>。這是「第一道門」——能不能打開這個 board，取決於他有沒有存取該 filter 的權限，跟他對 project 有什麼權限無關。解法是到 Filters 找到那份 filter，編輯它的分享對象（Viewers）把他加進去；執行這個動作的人需要 <strong>Share dashboards and filters</strong> 全域權限，但不需要是 Jira admin。</div></details>
+<details class="q"><summary>Filter 分享給整個公司，但同事在 board 上只看得到 A 的卡片。</summary><div class="a"><div class="tag">解答</div>因為他<strong>沒有 B project 的 Browse Projects 權限</strong>。這題考的是兩道門的分工：filter 分享只打開<strong>第一道門</strong>（能不能看到這個 board），至於 board 上哪些卡片顯示得出來，是由他對<strong>每一個來源 project</strong> 各自的權限決定的。所以會出現「board 打得開、卡片只有一半」這種看似奇怪、其實完全合理的現象。</div></details>
+<details class="q"><summary>TMP 團隊想要第二個 board 專看 component = API 的 issue。</summary><div class="a"><div class="tag">解答</div>這題有兩個關卡。第一，<strong>TMP 根本沒有 component 這個功能</strong>，所以 <code>component = API</code> 這個條件寫不出來，要先改用 label 或自訂欄位來標記這批 issue。第二，<strong>TMP 不能直接在 project 裡再加一個 board</strong>，唯一的路是把條件存成 saved filter，再用「Board from an existing Saved Filter」建出第二個 board。</div></details>
+<details class="q"><summary>跨 project Scrum board，PM 按 Start sprint 被拒。</summary><div class="a"><div class="tag">解答</div>因為這個 sprint 裡含有<strong>多個 project 的 issue</strong>，而官方規定：要更新一個橫跨多個 board／project 的 sprint，操作者必須對<strong>所有</strong>相關 project 都具備 <strong>Manage Sprints</strong> 權限，缺一個就會被擋。解法是請 Jira admin 在缺的那個 project 的 permission scheme 裡，把 Manage Sprints 補給 PM 所屬的 role。</div></details>
+<details class="q"><summary>跨 project board 上，B project 的 issue 進了 Cancelled 卻一直算未完成。</summary><div class="a"><div class="tag">解答</div>因為 <strong>B project 的 Cancelled 這個 status 沒有被對應到 board 的最右欄</strong>（也可能根本躺在 Unmapped statuses 面板裡）。board 判定「完成」的依據是 issue 落在最右邊那一欄，而不是 status 的名字看起來像不像結束。跨 project board 特別容易踩到這個坑，因為兩個 project 的 workflow 往往不同。到 Board settings → Columns，把 B 的 Cancelled 拖進 Done 欄就解決了。</div></details>
+<details class="q"><summary>Board 掛在已離職同事的 profile 上，現在沒人打得開。</summary><div class="a"><div class="tag">解答</div>這是 <strong>location 失效</strong>：board 掛在一個已被停用或刪除的使用者 profile 上，等於它的家沒了，一般人再也找不到入口。解法是由 <strong>project admin 或 board admin</strong> 到 Board settings → General → Location，把位置改成某個現存的 project（或自己的 profile），board 就會重新出現在該 project 的側欄。同樣的狀況也會發生在 board 掛在已停用的 project 上。</div></details>
+<details class="q"><summary>想在跨 project 的 board 上直接按 + 加一個 column 兼 status。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>board 上那個「按 + 直接新增 column 並同時建立 status」的便利功能叫 <strong>simplified workflow</strong>，它有嚴格的啟用條件，其中一條就是 <strong>board 的 filter 只能包含一個 project</strong>。跨 project board 不符合條件，所以沒有這個按鈕。正確做法是請 Jira admin 到<strong>每一個</strong>來源 project 的 workflow 各自加上這個 status，再回到 Board settings → Columns 把它們對應到同一欄。</div></details>
+<details class="q"><summary>A project 的 admin 想改一個 location 在 B project 的跨 project board 的 columns。</summary><div class="a"><div class="tag">解答</div><strong>改不了。</strong>能管一個 board 的只有兩種人：該 board <strong>location 所在 project</strong> 的 project admin，以及被列在 Board settings → Administrators 裡的 board admin。這位 A 的 admin 兩者都不是——他對 A 的管理權不會延伸到掛在 B 底下的 board。解法有兩個：請 B 的 project admin 幫忙改，或是請對方把他加進這個 board 的 administrators 名單。</div></details>
+<details class="q"><summary>改了共用 filter 的 JQL，另一個團隊的 board 突然少了一半卡片。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常且必然</strong>的結果，不是 bug。board 並不保存自己的 issue 清單，它每次都是去問 filter；同一份 filter 同時餵養好幾個 board 時，改動 JQL 就會一次影響全部。想讓兩個團隊互不干擾，做法是<strong>各自存一份 filter</strong>（用 Save as 複製一份再修改），再把新的 filter 指給自己的 board。</div></details>
+<details class="q"><summary>複製了一個 board 給新團隊，改了副本的 filter 查詢後，原團隊說他們的 board 也變了。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Copy board 並不會複製 filter</strong>——官方原文寫得很清楚，副本是<strong>基於同一份 work item filter</strong> 建立的。所以你改的其實是兩個 board 共用的那份查詢，原團隊當然跟著遭殃。正確順序是：先把 filter 用 <strong>Save as</strong> 另存成一份新的，再到副本的 Board settings 把它指過去，兩個 board 才算真正脫鉤。記住這句話：<strong>Copy board ≠ Copy filter</strong>。</div></details>
+<details class="q"><summary>題目選項寫「複製 board 後，原 board 的所有管理員都會保留在副本」。</summary><div class="a"><div class="tag">解答</div>這個敘述<strong>超出了官方講過的範圍</strong>。官方只寫了一句「執行複製的人會成為新 board 的 administrator」，並<strong>沒有</strong>交代原本那份管理員名單會不會一起帶過去。所以「只有複製者」和「原管理員全部保留」兩種說法都不能當成定論——這是教材刻意保留的證據界線。實務上要確認，唯一可靠的方法是複製前後各看一次 Board settings → Administrators 做比對。</div></details>
+<details class="q"><summary>成員在跨 project board 的 backlog 拖不動 API 團隊的卡片，但看得到、也是 board admin。</summary><div class="a"><div class="tag">解答</div>因為<strong>拖曳排序（rank）需要對那張 issue 本身具備權限</strong>，官方列的條件是：ranking 功能已啟用，而且操作者同時擁有該 issue 的 <strong>Schedule work item</strong> 與 <strong>Edit work item</strong> 兩個權限。這位成員缺的是 API team 那個 project 的 issue 權限。要特別注意：<strong>board admin 管的是 board 的設定，不會給你任何來源 project 的 issue 權限</strong>，兩者是不同層級的東西。</div></details>
 </div>
 </section>
 
@@ -266,15 +266,15 @@
 <h2>考題喜歡設的誤解</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Board 分享 = 分享 board 連結」</td><td>要分享的是底層 saved filter</td></tr>
-<tr><td>「Filter 分享了，大家就看得到所有卡片」</td><td>還要各 project 的 Browse Projects</td></tr>
-<tr><td>「Board location 決定 board 內容」</td><td>Location 只決定放在哪、誰管；內容由 filter 決定</td></tr>
-<tr><td>「Sprint 是 project 的東西」</td><td>Sprint 屬於 board，可跨 project；權限要每個 project 都有</td></tr>
-<tr><td>「跨 project board 也能用 simplified workflow」</td><td>只支援單 project</td></tr>
-<tr><td>「TMP 可以在 project 裡再加 board」</td><td>只能用 saved filter 建</td></tr>
-<tr><td>「Copy board 會複製出一份新 filter」</td><td>副本用<strong>同一份</strong> filter；要獨立範圍得自己 Save as</td></tr>
+<tr><td>「Board 分享 = 分享 board 連結」</td><td>把 board 的網址貼給別人沒有用。真正要分享的是<strong>底層那份 saved filter</strong>，對方拿到 filter 的存取權，才打得開這個 board</td></tr>
+<tr><td>「Filter 分享了，大家就看得到所有卡片」</td><td>不會。filter 只打開第一道門，每張卡片還要看他對<strong>該 issue 所屬 project</strong> 有沒有 Browse Projects 權限，所以常出現「board 開得起來、卡片只看得到一半」</td></tr>
+<tr><td>「Board location 決定 board 內容」</td><td>不。location 只決定 board 放在哪裡找得到、哪個 project 的 admin 能管它；board 上顯示什麼，完全由 filter 決定</td></tr>
+<tr><td>「Sprint 是 project 的東西」</td><td>sprint 其實屬於 board，因此可以橫跨多個 project；代價是要更新這種 sprint 時，必須對每一個相關 project 都有 Manage Sprints 權限</td></tr>
+<tr><td>「跨 project board 也能用 simplified workflow」</td><td>不行。simplified workflow 的啟用條件之一就是 board 的 filter 只包含一個 project，跨 project board 不符合，所以沒有在 board 上直接加 status 的功能</td></tr>
+<tr><td>「TMP 可以在 project 裡再加 board」</td><td>不行。一個 TMP 只有一個內建 board，想要第二個只能先存一份 saved filter，再用它建立</td></tr>
+<tr><td>「Copy board 會複製出一份新 filter」</td><td>不會。副本沿用的是<strong>同一份</strong> filter，改了副本的查詢等於改了原 board；想要獨立範圍，得自己 Save as 另存一份新 filter 再指給副本</td></tr>
 <tr><td>「權限清單裡有 Create and Reorder Sprints」</td><td>官方清單是 <strong>Manage sprints</strong>；查閱未見該獨立權限名稱</td></tr>
-<tr><td>「兩個 project 的同名版本是同一個 version」</td><td>不是；version 屬於各自的 project</td></tr>
+<tr><td>「兩個 project 的同名版本是同一個 version」</td><td>不是。version 是屬於各自 project 的物件，兩個 project 各有一個「秋季版」也是兩個毫不相干的 version，發版要各自管理</td></tr>
 </table></div>
 </section>
 
