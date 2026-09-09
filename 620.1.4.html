@@ -100,7 +100,7 @@
 <tr><th style="width:14%">優先序</th><th style="width:26%">欄位</th><th>該記什麼</th></tr>
 <tr><td><strong class="yes">高</strong></td><td><strong>Key</strong></td><td>誰能改、誰能刪 previous key（兩者權限相同）、改了會不會壞、previous key 的作用——<strong>整個 620.1.4 最常考的一格</strong></td></tr>
 <tr><td><strong class="yes">高</strong></td><td><strong>Default assignee</strong></td><td><strong>只能 Unassigned 或 Project lead</strong>，不是任意 user picker；選不到 Unassigned 時去查全站的 Allow unassigned issues</td></tr>
-<tr><td>中</td><td>Category</td><td><strong>Jira admin 建、project 只能挑</strong>；不能做階層；JQL 用 <code>category = "X"</code></td></tr>
+<tr><td>中</td><td>Category</td><td><strong>Jira admin 建、project 只能挑</strong>；<strong>指派的權限 CMP／TMP 不同</strong>（見下）；不能做階層；JQL 用 <code>category = "X"</code></td></tr>
 <tr><td>中</td><td>Name</td><td>全站唯一；Jira admin 連 Private 的名稱都看得到，所以敏感專案用代號</td></tr>
 <tr><td>低</td><td>URL</td><td><strong>知道「只有 CMP 有」就夠</strong>，外加「它不是 project 網址、更不是站台網址」</td></tr>
 <tr><td class="no">最低</td><td><strong>Description</strong></td><td><strong>知道「只有 CMP 有、TMP 沒有」就夠了。</strong>它沒有任何權限或行為上的後果，官方也只有一句話帶過、連截圖都沒有——<strong>幾乎不可能單獨成為考題</strong>，最多是在「哪個欄位只有 CMP 有」這類題目裡當選項。<strong>不值得花時間去站台上找它顯示在哪。</strong></td></tr>
@@ -114,7 +114,7 @@
 <tr><td><strong>Key</strong></td><td>issue key 的前綴（<code>KEY-123</code>），是追蹤工作的基礎 ID</td><td><strong>CMP：只有 org／site／Jira admin</strong>，project admin 看到的是灰的欄位。<br><strong>TMP：project admin 自己就能改</strong>（<a href="#key">實機驗證 2026-09-09</a>）。<br><span class="kicker">考試作答一律用官方那句「only org, site, and Jira admins」。</span></td><td>見下一節；舊 key 自動存進 Previous keys，而<strong>刪掉 previous key 需要的權限與改 key 完全相同</strong></td></tr>
 <tr><td><strong>URL</strong></td><td>掛一個<strong>對外連結</strong>在這個 project 上，用途是把人導到相關的外部資源——常見的是這個團隊的 Confluence space、產品 roadmap、規格文件或 wiki。官方原句：<em>The space URL displays in the <strong>Spaces</strong> directory of your site.</em>——也就是它<strong>只出現在站台的 project（Spaces）目錄那一頁</strong>，在 project 內部的畫面與 issue 上都看不到它</td><td>Project admin</td><td><strong>只有 CMP 有</strong>這個欄位；TMP 的 Details 沒有 URL。<br>它<strong>不影響</strong> project 自己的網址（那是 key 決定的），也不是站台網址</td></tr>
 <tr><td><strong>Description</strong></td><td>給管理員看的摘要（顯示在 settings 的 Summary）</td><td>Project admin</td><td><strong>只有 CMP 有</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access（JSWCLOUD-17584「Ability to add a description on team-managed projects」2026-09-08 仍 Gathering Interest／Unresolved）</td></tr>
-<tr><td><strong>Category</strong></td><td>大型組織用來在目錄裡標記、篩選相似 project</td><td>Category 本身由 <strong>Jira admin 建</strong>；指派在 Project settings → Details（categories 頁未區分類型；details 頁對 CMP 寫「contact a Jira admin」，TMP 由 project admin 自己選）</td><td>可用於 JQL、filter、report；<strong>不能做階層</strong></td></tr>
+<tr><td><strong>Category</strong></td><td>大型組織用來在目錄裡標記、篩選相似 project</td><td>Category 本身一律由 <strong>Jira admin 建</strong>。指派給 project 則分兩種：<br><strong>CMP：只有 Jira admin</strong>（project admin 動不了）<br><strong>TMP：project admin 自己就能挑</strong><br><span class="kicker">（<a href="#category">實機驗證 2026-09-09</a>；與改 key 同一套分工）</span></td><td>可用於 JQL、filter、report；<strong>不能做階層</strong></td></tr>
 <tr><td><strong>Avatar／Icon</strong></td><td>側欄與 project 列表的圖示</td><td>Project admin</td><td>無副作用</td></tr>
 <tr><td><strong>Project lead／owner</strong></td><td>通常就是 project admin；也是 Default assignee 的候選</td><td>Project admin</td><td>人員異動要換；影響「Project lead」型的權限與通知</td></tr>
 <tr><td><strong>Default assignee</strong></td><td>新 issue 沒指定 assignee 時給誰；Open project 讓全站丟需求時特別有用，lead 會收到通知</td><td>Project admin</td><td><strong>只能選 Unassigned 或 Project lead</strong>；想指定別人要先換 lead</td></tr>
@@ -283,11 +283,20 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:26%">動作</th><th style="width:22%">誰</th><th>路徑</th></tr>
 <tr><td>建立 category</td><td><strong>Jira admin</strong></td><td>⚙ Settings → Projects → Project categories → 輸入名稱與描述 → Add</td></tr>
-<tr><td>指派給 project</td><td>TMP：project admin；CMP：details 頁寫「contact a Jira admin」（categories 頁的步驟則未區分）。考試作答：<strong>Jira admin 建、在 Project settings → Details 指派</strong></td><td>••• → Project settings → Details → Category 下拉 → Save details</td></tr>
+<tr><td>指派給 project</td><td><strong class="no">CMP：只有 Jira admin</strong><br><strong class="yes">TMP：project admin 就行</strong><br><span class="kicker">實測 2026-09-09；考試作答用 CMP 那半</span></td><td>••• → Project settings → Details → Category 下拉 → Save details</td></tr>
 <tr><td>刪除 category</td><td><strong>Jira admin</strong></td><td>⚙ Settings → Projects → Project categories → Delete（被指派的 project 變成無 category，project 本身不受影響）</td></tr>
 <tr><td>使用</td><td>任何人</td><td>JQL <code>category = "X"</code>、saved filter、dashboard gadget、Projects 目錄篩選</td></tr>
 </table></div>
-<div class="callout exam"><div class="t">考題長相</div>「想把 5 個 project 分成一組做 dashboard」→ category + <code>category = "X"</code>。「想用 category 做 parent／child project」→ 不行，官方明講 category 不能做階層；要階層用 Plans（Premium）或 epic 跨 project。</div>
+<div class="callout warn"><div class="t">誰能把 category 指派給 project：官方兩頁沒講清楚，實測定案</div>
+<ul style="margin:0">
+<li><strong>官方 <a href="https://support.atlassian.com/jira-cloud-administration/docs/add-assign-and-delete-project-categories/">Add, assign, and delete space categories</a></strong> 給的是通用步驟（Project settings → Details → 選 category），<strong>沒有區分 CMP 或 TMP</strong>。</li>
+<li><strong>官方 <a href="https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/">Edit a space's details</a></strong> 則對 company-managed 寫「要改 category 請找 Jira admin」。兩頁擺在一起看，很容易以為是文件寫得不一致。</li>
+<li class="yes"><strong>實機驗證（2026-09-09）</strong>：<strong>CMP 的 project admin 改不動 category，只有 Jira admin 能改；TMP 的 project admin 自己就能改。</strong>兩頁又是各自描述了自己那一半。</li>
+</ul>
+<p style="margin:8px 0 0">這條規則你不必單獨背——<strong>它和改 key、刪 previous key 是同一套分工</strong>：<strong>CMP 的 project 設定是站台層物件，動它就要 Jira admin；TMP 的設定長在 project 自己身上，project admin 全權。</strong></p>
+<p style="margin:8px 0 0"><strong>還有一個容易誤會的點：Jira admin 不必是那個 project 的成員或 project admin，也改得動它的 category。</strong>Administer Jira 是<strong>站台層</strong>的權限，涵蓋站台上每一個 project 的設定，不需要先「加入」那個 project。</p>
+<p style="margin:8px 0 0">但請和 <a href="620.1.2.html">620.1.2</a> 的另一個實測擺在一起記，兩者剛好構成完整的邊界：<strong>同一位 Jira admin 改得動 project 設定，卻加不了人進 project</strong>。因為改設定靠的是「settings 存取權」（Jira admin 有），加人靠的是「project 層的 Administrator role」（Jira admin 沒有）。<strong>能改設定 ≠ 是那個 project 的 admin。</strong></p></div>
+<div class="callout exam"><div class="t">考題長相</div>「想把 5 個 project 分成一組做 dashboard」→ category + <code>category = "X"</code>。「CMP 的 project admin 想改 category」→ 要找 Jira admin。「想用 category 做 parent／child project」→ 不行，官方明講 category 不能做階層；要階層用 Plans（Premium）或 epic 跨 project。</div>
 </section>
 
 <!-- ============ Trash ============ -->
@@ -365,7 +374,7 @@
 <details class="q"><summary>改 key 之後，Jira admin 還應該提醒團隊做什麼？</summary><div class="a"><div class="tag">解答</div>雖然舊 key 靠 alias 仍然能動，官方還是建議把 <strong>board filter、dashboard 的 filter gadget、以及各種全域 JQL 查詢</strong>都更新成新的 key，讓設定與現況一致，避免日後有人看到舊 key 一頭霧水。另外在動手改之前應該<strong>先備份站台</strong>——這是官方對所有重大變更的一貫建議。</div></details>
 <details class="q"><summary>公司想把舊 key MOB 拿給一個全新的 project 用，該怎麼做、有什麼風險？</summary><div class="a"><div class="tag">解答</div>做法是到原 project 的 <strong>Details → Previous keys</strong> 把 MOB 這筆刪掉，舊 key 釋放出來之後才能給新 project 使用。權限跟改 key 是同一套：<strong>CMP 要 org／site／Jira admin，TMP 的 project admin 自己就能刪</strong>（2026-09-09 實測），考題情境預設 CMP，所以標準答案是 org／site／Jira admin。<strong>風險相當高</strong>：一旦刪除，支撐舊連結的 alias 就消失了，所有還在引用 MOB 的連結、board filter、dashboard gadget 與 JQL 全部會失效，而且無法自動修復。所以標準做法是<strong>先公告、先確認沒有人還在用舊 key，再刪</strong>。</div></details>
 <details class="q"><summary>Default assignee 想設成 QA 小傑，但下拉只有 Unassigned 和小美。怎麼辦？</summary><div class="a"><div class="tag">解答</div>因為 <strong>Default assignee 不是一個可以自由挑人的 user picker</strong>，它的下拉永遠只有兩個選項：Unassigned，或是這個 project 的 <strong>Project lead（owner）</strong>。所以看到「只有 Unassigned 和小美」是正常的——小美就是現任 lead。想讓新 issue 預設指派給小傑，唯一的路是<strong>先把 Project lead 改成小傑</strong>，下拉裡才會出現他。順帶一提，如果連 Unassigned 都選不到，那是站台的 ⚙ → General configuration 把「Allow unassigned issues」關掉了。</div></details>
-<details class="q"><summary>想把 6 個 project 的 issue 放在同一個 dashboard 看，且不想一個一個列 project key。</summary><div class="a"><div class="tag">解答</div>用 <strong>project category</strong>。先請 Jira admin 到 ⚙ → Projects → Project categories 建一個分類，再到每個 project 的 Project settings → Details 把它指派上去；之後用 JQL <code>category = "X"</code> 建一個 saved filter，拿這個 filter 去餵 dashboard gadget 就好。這樣做的好處是<strong>之後增減 project 不必回頭改 filter</strong>——新 project 只要指派同一個 category 就自動被納入，比手動列出六個 project key 好維護得多。</div></details>
+<details class="q"><summary>想把 6 個 project 的 issue 放在同一個 dashboard 看，且不想一個一個列 project key。</summary><div class="a"><div class="tag">解答</div>用 <strong>project category</strong>。先請 Jira admin 到 ⚙ → Projects → Project categories 建一個分類，再到每個 project 的 Project settings → Details 把它指派上去——<strong>如果那些是 CMP，指派這一步也得由 Jira admin 做</strong>（他不必是各 project 的成員）；<strong>TMP 的話 project admin 自己挑就行</strong>。之後用 JQL <code>category = "X"</code> 建一個 saved filter，拿這個 filter 去餵 dashboard gadget 就好。這樣做的好處是<strong>之後增減 project 不必回頭改 filter</strong>——新 project 只要指派同一個 category 就自動被納入，比手動列出六個 project key 好維護得多。</div></details>
 <details class="q"><summary>PM 想用 category 做「母 project 底下有子 project」的結構。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>官方文件明講 category <strong>不支援階層</strong>，它本質上只是貼在 project 上的一個標籤，用來在目錄裡篩選與分群，沒有母子關係的概念。真的需要跨 project 的階層，有兩條路：用 Premium 方案的 <strong>Plans</strong>（可以在 epic 之上再疊層級），或是利用 CMP 的 epic 可以收別的 project 的 issue 當 child 這個特性，做出跨 project 的工作階層。</div></details>
 <details class="q"><summary>Project admin 想把自己的 project 丟進 trash，需要找 Jira admin 嗎？之後想還原呢？</summary><div class="a"><div class="tag">解答</div>丟進 trash 不用：官方寫 Administer Jira <strong>或</strong> Administer Projects 都可以。但 <strong>Restore 與 Delete permanently 只有 Administer Jira</strong>，這時才要找 Jira admin。</div></details>
 <details class="q"><summary>Project 進 trash 後，有人用 JQL 搜還找得到裡面的 issue 嗎？拿到直連呢？</summary><div class="a"><div class="tag">解答</div><strong>搜尋找不到</strong>——不論基本搜尋還是 JQL 進階搜尋，trash 裡的 issue 都不會出現在結果中，project 也會從目錄消失。但如果有人手上握有<strong>直接連結</strong>，還是打得開來看，只是<strong>不能編輯</strong>。這 60 天內 Jira admin 可以隨時把整個 project 還原回來，附帶的 issue、components、attachments、versions 都會一起回來。</div></details>
@@ -383,7 +392,8 @@
 <tr><td>「改 key 會讓舊連結全部失效」</td><td>不會。舊 key 會被存成 previous key，靠 alias 把舊連結導向新的 issue；真正會讓連結失效的是之後把 previous key 刪掉</td></tr>
 <tr><td>「Project admin 可以改 key」</td><td>改 key 需要 org、site 或 Jira admin；project admin 看到的是灰色不可編輯的欄位</td></tr>
 <tr><td>「Default assignee 可以指定任何成員」</td><td>只有 Unassigned 或 Project lead／owner（官方原句 the default assignee can only be either Unassigned, or the Space owner，2026-09-08）</td></tr>
-<tr><td>「Project admin 可以建 category」</td><td>category 是站台層級的物件，只有 Jira admin 建得出來；project 這邊只能從既有清單裡挑一個來指派</td></tr>
+<tr><td>「Project admin 可以建 category」</td><td>category 是站台層級的物件，只有 Jira admin 建得出來；project 這邊只能從既有清單裡挑一個來指派——而且<strong>CMP 連「挑」都要 Jira admin</strong>，只有 TMP 的 project admin 自己挑得動（2026-09-09 實測）</td></tr>
+<tr><td>「Jira admin 不是那個 project 的成員，就動不了它的設定」</td><td>動得了。Administer Jira 是<strong>站台層</strong>權限，涵蓋每一個 project 的設定，不必先加入。但別推過頭：<strong>他改得動設定，卻加不了人進 project</strong>（加人要 project 層的 Administrator role）</td></tr>
 <tr><td>「Category 可以做 parent project」</td><td>官方明確說 category 不支援階層，它只是分群用的標籤；要階層得用 Plans 或跨 project 的 epic</td></tr>
 <tr><td>「Project admin 丟了 project 也能自己還原」</td><td>丟 trash：Administer Jira 或 Administer Projects 都可；Restore／Delete permanently 只有 Administer Jira</td></tr>
 <tr><td>「Trash 裡的 issue 完全看不到」</td><td>搜尋（含 JQL）看不到，但拿到直接連結的人仍打得開來讀，只是不能編輯</td></tr>

@@ -1285,5 +1285,34 @@
   "difficulty": 3,
   "version_note": "CMP 需 org／site／Jira admin、TMP 的 project admin 即可，為 2026-09-09 實機驗證結果；考題情境預設為 CMP。",
   "origin": "new"
+ },
+ {
+  "id": "620.1.4-015",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "一位 company-managed project 的 project admin 想把自己的專案歸到「Platform」這個 category 底下，但 Project settings → Details 裡的 Category 下拉他動不了。同一時間，一位 Jira admin 明明不是這個專案的成員，卻改得動。最完整的解釋是？",
+  "options": [
+   "CMP 的 category 指派屬於站台層設定，只有 Jira admin 能做；而 Administer Jira 涵蓋站台上每一個 project 的設定，不需要先加入該 project",
+   "那個 category 已經被指派給其他 project，所以暫時鎖住",
+   "project admin 必須先被加進該 category 的成員清單才能指派",
+   "Jira admin 是因為同時具備 org admin 才改得動，一般 Jira admin 不行"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。官方 <em>Edit a space's details</em> 對 company-managed 寫的是「要改 category 請找 Jira admin」，而 categories 那頁只給通用步驟、未區分類型；<strong>2026-09-09 實測定案：CMP 只有 Jira admin 改得動，TMP 的 project admin 自己就能改</strong>。後半句同樣重要——<strong>Administer Jira 是站台層權限</strong>，涵蓋每一個 project 的設定，管理員不必先成為該 project 的成員。",
+   "B": "category 本來就設計成<strong>多個 project 共用同一個標籤</strong>，這正是它拿來做跨 project 搜尋與 dashboard 的用途，不會因為已被指派而鎖住。",
+   "C": "category <strong>沒有成員清單</strong>。它只是貼在 project 上的標籤，由 Jira admin 在 ⚙ → Projects → Project categories 建立與刪除，不含任何權限設定。",
+   "D": "不需要 org admin。<strong>Administer Jira 這個產品層權限本身就足夠</strong>；org admin 當然也做得到，但它不是必要條件。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/",
+   "https://support.atlassian.com/jira-cloud-administration/docs/add-assign-and-delete-project-categories/"
+  ],
+  "tags": [
+   "category"
+  ],
+  "difficulty": 3,
+  "version_note": "CMP 只有 Jira admin、TMP 的 project admin 即可，為 2026-09-09 實機驗證結果；官方兩頁各自只描述了一半。",
+  "origin": "new"
  }
 ]
