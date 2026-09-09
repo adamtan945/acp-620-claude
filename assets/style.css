@@ -146,6 +146,9 @@ li{margin:.25rem 0}
 .tbl td.c,.tbl th.c{text-align:center;white-space:nowrap}
 .tbl .yes{color:var(--green);font-weight:700}
 .tbl .no{color:var(--rose);font-weight:700}
+/* 表格外的正／反標記（callout、卡片內的 strong）也吃同一組色 */
+strong.yes,li.yes>strong:first-child{color:var(--green)}
+strong.no,li.no>strong:first-child{color:var(--rose)}
 .tbl .dash{color:var(--ink-3)}
 .tbl .hd{background:var(--brand-tint);font-weight:700;color:var(--brand-2)}
 .tbl-wrap{overflow-x:auto}

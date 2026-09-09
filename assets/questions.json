@@ -1042,7 +1042,7 @@
   ],
   "answer": "B",
   "explain": {
-   "B": "正解。官方 navigation 頁列出兩種擋住移除的情況：<strong>它是目前的 default tab</strong>（永遠必須保留一個 default，要先把 default 換成別的 tab 才移除得掉），或者<strong>它是 List 與 Apps 這類系統固定項目</strong>（本來就不可移除）。移除過的 tab 之後可以用導覽列的 + → Add to navigation 加回來。",
+   "B": "正解。官方 navigation 頁列出兩種擋住移除的情況：<strong>它是目前的 default tab</strong>（一個 space 永遠必須保留一個 default，要先把 default 換成別的 tab 才移除得掉），或者<strong>它是 List 與 Apps 這類系統固定項目</strong>。移除過的 tab 之後可以用導覽列的 + → Add to navigation 加回來。",
    "C": "navigation 是可以調整的——project admin 或 board admin 能設定預設、改名、排序、移除與還原。",
    "D": "調整 navigation 是 <strong>project admin 或 board admin</strong> 的能力，不必找 Jira admin。",
    "A": "跟資料量完全無關。tab 上有沒有內容不影響它能不能被移除。"
@@ -1055,7 +1055,7 @@
    "sidebar"
   ],
   "difficulty": 2,
-  "version_note": "",
+  "version_note": "官方原句：<em>Note that the List and Apps tabs can't be removed.</em>（2026-09-09 查核）。但 <strong>2026-09-09 實測：現行介面的 List tab 移得掉</strong>——尚不確定是文件未跟上改版，還是只在部分 project 類型成立。<strong>作答仍以官方原句為準</strong>，因為考題取材自官方文件。",
   "origin": "ported"
  },
  {
