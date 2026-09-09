@@ -2241,15 +2241,15 @@
   "stem": "一位擁有 Administer Jira 全域權限的管理員，不是某個 team-managed space 的成員。他想把自己加進那個 space。結果是？",
   "options": [
    "可以，Administer Jira 涵蓋所有 project 的一切操作",
-   "不行；加人需要該 space 的 Administrator role，要由 space admin 或 org admin 出手",
+   "不行；要由該 space 的 admin 或 org admin 把他加進去",
    "不行，任何人都不能把自己加進 space",
    "可以，只要他同時具備 user access admin"
   ],
   "answer": "B",
   "explain": {
-   "A": "這是最常見的誤解。官方對 Jira admin 的保證只有兩句，<strong>兩句都只講「看得到」與「進得去設定」</strong>：<em>always have access to your space's <strong>settings</strong></em>、以及 Private space 時 <em>only Jira admins and people you add to the space can <strong>see it</strong></em>。<strong>沒有一句賦予他該 space 的 Administrator role。</strong>",
-   "B": "正解。官方在 Add people 那頁把所需身分寫死成 <strong>Role: Administrator</strong>——那是<strong>該 space 內的角色</strong>，屬於 project 層。<strong>Administer Jira 是產品層的全域權限，不會自動換來每個 space 的 Administrator role</strong>。實機驗證（2026-09-09）也是如此：他加不了自己，但該 space 的 admin 可以把他加進去，org admin 也可以。這個設計是刻意的——<strong>可見性與操作權被分開</strong>，否則 space 層級的授權就形同虛設。",
-   "C": "說得太絕對。<strong>該 space 的 admin 與 org admin 都可以把人（含這位 Jira admin）加進去</strong>，只是他自己不行。",
+   "A": "這是最常見的誤解。官方對 Jira admin 的保證只有兩句，<strong>兩句都只講「看得到」與「進得去設定」</strong>：<em>always have access to your space's <strong>settings</strong></em>、以及 Private space 時 <em>only Jira admins and people you add to the space can <strong>see it</strong></em>。<strong>沒有一句賦予他該 space 的 Administrator role。</strong>他的權限範圍確實比一般人以為的寬（改得動 project 設定、加得了別人），但不是「一切操作」。",
+   "B": "正解。實機驗證（2026-09-09）：他<strong>加不了自己</strong>，要由該 space 的 admin 或 org admin 出手。官方在 Add people 那頁把所需身分寫死成 <strong>Role: Administrator</strong>——那是<strong>該 space 內的角色</strong>，屬於 project 層，<strong>Administer Jira 這個產品層的全域權限不會自動換來它</strong>。<strong>但要注意一個很細的差別：同一位 Jira admin 加得了「別人」進那個 space，只是加不了「自己」。</strong>官方沒有解釋這個差別，合理推測是防止管理員自我提權，但未經證實。",
+   "C": "說得太絕對。<strong>該 space 的 admin 與 org admin 都可以把人（含這位 Jira admin）加進去</strong>，這位 Jira admin 自己也加得了別人——不能自己加自己的，只有他本人這個對象。",
    "D": "<strong>user access admin 完全不碰 project 內部</strong>——它管的是組織層的產品存取（誰能使用 Jira、席次、群組）。多這個身分一點幫助也沒有。"
   },
   "sources": [
@@ -2258,7 +2258,7 @@
   ],
   "tags": [],
   "difficulty": 3,
-  "version_note": "",
+  "version_note": "實機驗證 2026-09-09：Jira admin 不在該 space 時，<strong>加得了別人、加不了自己</strong>。官方文件只寫 Add people 需要 <em>Role: Administrator</em>，未描述這個差別；考試作答以官方原句為準。",
   "origin": "new"
  },
  {

@@ -295,7 +295,7 @@
 </ul>
 <p style="margin:8px 0 0">這條規則你不必單獨背——<strong>它和改 key、刪 previous key 是同一套分工</strong>：<strong>CMP 的 project 設定是站台層物件，動它就要 Jira admin；TMP 的設定長在 project 自己身上，project admin 全權。</strong></p>
 <p style="margin:8px 0 0"><strong>還有一個容易誤會的點：Jira admin 不必是那個 project 的成員或 project admin，也改得動它的 category。</strong>Administer Jira 是<strong>站台層</strong>的權限，涵蓋站台上每一個 project 的設定，不需要先「加入」那個 project。</p>
-<p style="margin:8px 0 0">但請和 <a href="620.1.2.html">620.1.2</a> 的另一個實測擺在一起記，兩者剛好構成完整的邊界：<strong>同一位 Jira admin 改得動 project 設定，卻加不了人進 project</strong>。因為改設定靠的是「settings 存取權」（Jira admin 有），加人靠的是「project 層的 Administrator role」（Jira admin 沒有）。<strong>能改設定 ≠ 是那個 project 的 admin。</strong></p></div>
+<p style="margin:8px 0 0">但請和 <a href="620.1.2.html#access">620.1.2</a> 的另一個實測擺在一起記，界線才會完整：同一位 Jira admin <strong>改得動 project 設定、也加得了別人進 project</strong>，<strong class="no">唯獨加不了他自己</strong>。換句話說，Administer Jira 涵蓋的範圍比多數人以為的寬，<strong>卡住的點很窄、而且很特定</strong>——是「把自己變成成員」這一個動作。官方沒有解釋原因，合理推測是防止自我提權，但未經證實。</p></div>
 <div class="callout exam"><div class="t">考題長相</div>「想把 5 個 project 分成一組做 dashboard」→ category + <code>category = "X"</code>。「CMP 的 project admin 想改 category」→ 要找 Jira admin。「想用 category 做 parent／child project」→ 不行，官方明講 category 不能做階層；要階層用 Plans（Premium）或 epic 跨 project。</div>
 </section>
 
@@ -393,7 +393,7 @@
 <tr><td>「Project admin 可以改 key」</td><td>改 key 需要 org、site 或 Jira admin；project admin 看到的是灰色不可編輯的欄位</td></tr>
 <tr><td>「Default assignee 可以指定任何成員」</td><td>只有 Unassigned 或 Project lead／owner（官方原句 the default assignee can only be either Unassigned, or the Space owner，2026-09-08）</td></tr>
 <tr><td>「Project admin 可以建 category」</td><td>category 是站台層級的物件，只有 Jira admin 建得出來；project 這邊只能從既有清單裡挑一個來指派——而且<strong>CMP 連「挑」都要 Jira admin</strong>，只有 TMP 的 project admin 自己挑得動（2026-09-09 實測）</td></tr>
-<tr><td>「Jira admin 不是那個 project 的成員，就動不了它的設定」</td><td>動得了。Administer Jira 是<strong>站台層</strong>權限，涵蓋每一個 project 的設定，不必先加入。但別推過頭：<strong>他改得動設定，卻加不了人進 project</strong>（加人要 project 層的 Administrator role）</td></tr>
+<tr><td>「Jira admin 不是那個 project 的成員，就動不了它的設定」</td><td>動得了。Administer Jira 是<strong>站台層</strong>權限，涵蓋每一個 project 的設定，不必先加入；他甚至加得了別人進那個 project。<strong>唯一卡住的是「把自己加進去」</strong>（2026-09-09 實測）</td></tr>
 <tr><td>「Category 可以做 parent project」</td><td>官方明確說 category 不支援階層，它只是分群用的標籤；要階層得用 Plans 或跨 project 的 epic</td></tr>
 <tr><td>「Project admin 丟了 project 也能自己還原」</td><td>丟 trash：Administer Jira 或 Administer Projects 都可；Restore／Delete permanently 只有 Administer Jira</td></tr>
 <tr><td>「Trash 裡的 issue 完全看不到」</td><td>搜尋（含 JQL）看不到，但拿到直接連結的人仍打得開來讀，只是不能編輯</td></tr>
