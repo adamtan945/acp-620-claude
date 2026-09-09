@@ -94,9 +94,10 @@
 <div class="section-label">Project details</div>
 <h2>每個欄位是什麼、誰能改、改了影響誰</h2>
 <p>路徑：project 側欄 <strong>••• → Project settings → Details</strong> → 改完 <strong>Save details</strong>。</p>
+<div class="callout" style="margin:.6rem 0"><div class="t">先講清楚下表「最低權限」欄的讀法</div>寫 <strong>Project admin</strong> 的意思是「<strong>只要有 Administer Projects 就改得動</strong>」，<strong>不是「只有 project admin 才能改」</strong>——<strong>Jira admin（Administer Jira）自動涵蓋站台上每一個 project 的管理權，所以這些欄位他當然也改得了</strong>，site 與 org admin 同理。<br>整張表<strong>唯一真正排他的是 Key</strong>：那一列反過來，project admin 就是不行（CMP），必須由 org／site／Jira admin 出手。</div>
 <div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:15%">欄位</th><th style="width:31%">用途</th><th style="width:24%">誰能改</th><th>改了會怎樣</th></tr>
-<tr><td><strong>Name</strong></td><td>出現在搜尋、project 目錄、切換器</td><td>Project admin</td><td>站台上所有 filter 裡的 project 名稱<strong>自動更新</strong></td></tr>
+<tr><th style="width:15%">欄位</th><th style="width:31%">用途</th><th style="width:24%">最低需要的權限</th><th>改了會怎樣</th></tr>
+<tr><td><strong>Name</strong></td><td>出現在搜尋、project 目錄、切換器</td><td>Project admin<span class="kicker">（Jira admin 亦可）</span></td><td>站台上所有 filter 裡的 project 名稱<strong>自動更新</strong>。<br>另外要記得 <strong>project name 全站唯一</strong>，而且 <strong>Jira admin 永遠看得到所有 project 的名稱，連 Private 的也一樣</strong>——所以敏感專案官方建議用代號命名</td></tr>
 <tr><td><strong>Key</strong></td><td>issue key 的前綴（<code>KEY-123</code>），是追蹤工作的基礎 ID</td><td><strong>CMP：只有 org／site／Jira admin</strong>，project admin 看到的是灰的欄位。<br><strong>TMP：project admin 自己就能改</strong>（<a href="#key">實機驗證 2026-09-09</a>）。<br><span class="kicker">考試作答一律用官方那句「only org, site, and Jira admins」。</span></td><td>見下一節；舊 key 自動存進 Previous keys</td></tr>
 <tr><td><strong>URL</strong></td><td>掛一個<strong>對外連結</strong>在這個 project 上，用途是把人導到相關的外部資源——常見的是這個團隊的 Confluence space、產品 roadmap、規格文件或 wiki。官方原句：<em>The space URL displays in the <strong>Spaces</strong> directory of your site.</em>——也就是它<strong>只出現在站台的 project（Spaces）目錄那一頁</strong>，在 project 內部的畫面與 issue 上都看不到它</td><td>Project admin</td><td><strong>只有 CMP 有</strong>這個欄位；TMP 的 Details 沒有 URL。<br>它<strong>不影響</strong> project 自己的網址（那是 key 決定的），也不是站台網址</td></tr>
 <tr><td><strong>Description</strong></td><td>給管理員看的摘要（顯示在 settings 的 Summary）</td><td>Project admin</td><td><strong>只有 CMP 有</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access（JSWCLOUD-17584「Ability to add a description on team-managed projects」2026-09-08 仍 Gathering Interest／Unresolved）</td></tr>
