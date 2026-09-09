@@ -161,7 +161,16 @@
 <tr><td>建立 company-managed project、還原 trash 裡的 project</td><td class="c no">✗</td><td class="c yes">✓</td><td>需要 Administer Jira</td></tr>
 <tr><td>把自己加進一個他不在裡面的 space</td><td class="c no">✗</td><td class="c no">✗</td><td>兩個都不行——這需要<strong>該 space 的 Administrator role</strong>（或 org admin）</td></tr>
 </table></div>
-<p class="kicker" style="margin:.5rem 0 0">一個好記的比喻：<strong>user access admin 是發門禁卡的櫃檯</strong>（決定誰刷得進 Jira 這棟樓，但不管樓裡怎麼隔間）；<strong>Jira admin 是大樓的工務</strong>（決定隔間、動線與規則，但不發卡）；<strong>space admin 是某一間辦公室的主人</strong>（決定誰能進他那一間）；<strong>org admin 是這棟樓的持有人</strong>（三件事都能做，還能決定誰當前面那三種人）。<br>
+<p style="margin:.6rem 0 .3rem"><strong>最快的辨別法：看你人在哪一個網站。</strong></p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">入口</th><th style="width:30%">誰進得去</th><th>裡面管的是什麼</th></tr>
+<tr><td><strong>admin.atlassian.com</strong><span class="kicker">Atlassian Administration</span></td><td><strong>org admin</strong>、<strong>user access admin</strong>，以及舊制的 <strong>site admin</strong></td><td><strong>組織與使用者</strong>：邀請人、產品存取與席次、群組、網域、安全政策、訂閱與計費。<strong>Jira admin 進不來</strong>（官方：app admin can't access Atlassian Administration）</td></tr>
+<tr><td><strong>Jira 右上角 ⚙</strong><span class="kicker">Jira settings</span></td><td><strong>Jira admin</strong>（Administer Jira）</td><td><strong>Jira 這個產品的站台設定</strong>：Issues（custom field、screen、workflow、各種 scheme）、Projects、System、Apps</td></tr>
+<tr><td>Project settings</td><td>該 project 的 <strong>space admin</strong></td><td>這一個 project：成員與 role、components、versions、details、layout</td></tr>
+</table></div>
+<div class="callout warn" style="margin:.5rem 0"><div class="t">⚙ 選單裡其實混了兩種東西</div>齒輪選單看起來是一整片，但<strong>其中像 User management、Billing 這類項目只是「連到 admin.atlassian.com 的捷徑」</strong>——點下去會跳出 Jira。<strong>Jira admin 點得到那個連結，卻不一定進得去那個頁面</strong>，這是很多人以為「我是 Jira admin 卻被擋」的原因。真正屬於 Jira admin 的是 <strong>Issues／Projects／System／Apps</strong> 這幾塊。</div>
+<p class="kicker" style="margin:.5rem 0 0">還有兩個容易忽略的細節：<strong>① org admin 會自動取得組織底下所有站台的 site admin 角色，而且移不掉</strong>——這就是為什麼 org admin 幾乎什麼都做得了。<strong>② Jira 的管理權掛在「Jira Administration」這個項目上，不是掛在 Jira 產品本身</strong>；在 admin.atlassian.com 看某個人的權限時，<code>Jira</code> 那一列只代表他有沒有席次（User），要看他是不是 Jira admin 得看 <code>Jira Administration</code> 那一列。<br>
+一個好記的比喻：<strong>user access admin 是發門禁卡的櫃檯</strong>（決定誰刷得進 Jira 這棟樓，但不管樓裡怎麼隔間）；<strong>Jira admin 是大樓的工務</strong>（決定隔間、動線與規則，但不發卡）；<strong>space admin 是某一間辦公室的主人</strong>（決定誰能進他那一間）；<strong>org admin 是這棟樓的持有人</strong>（三件事都能做，還能決定誰當前面那三種人）。<br>
 <strong>實測佐證（2026-09-09）</strong>：一個同時具備 <strong>Jira admin ＋ user access admin</strong> 的帳號，若不在某個 space 裡，<strong>無法把自己加進該 space</strong>；但該 space 的 admin 可以把他加進去，<strong>org admin 也可以</strong>——因為加人需要的是<strong>最裡面那一層</strong>的角色。詳見 <a href="620.1.2.html#access">620.1.2</a>。</p></div>
 
 <p>回到全域權限本身：它只有 8 個，而且<strong>只能授予群組</strong>（不能給個人、不能給 project role）。Project admin 沒有任何一個全域權限的設定權，但其中 5 個會直接影響 project 成員的日常操作。</p>
