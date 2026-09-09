@@ -139,7 +139,19 @@
 <section id="global">
 <div class="section-label">Bullet 1</div>
 <h2>全域權限怎麼影響 project 裡的功能</h2>
-<p>全域權限只有 8 個，而且<strong>只能授予群組</strong>（不能給個人、不能給 project role）。Project admin 沒有任何一個全域權限的設定權，但其中 5 個會直接影響 project 成員的日常操作。</p>
+
+<div class="callout"><div class="t">先分清楚四種「管理員」——它們管的是完全不同的東西</div>
+<p style="margin:.3rem 0">這四個名字都有 admin，很容易被當成「大小不同的同一種權力」。實際上<strong>它們分屬三個不同的層次，職責幾乎不重疊</strong>，這也是排查權限問題時最常見的誤判來源。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%">角色</th><th style="width:12%">層次</th><th style="width:35%">管什麼</th><th>典型的「管不到」</th></tr>
+<tr><td><strong>Org admin</strong><span class="kicker">（組織管理員）</span></td><td>組織</td><td>整個組織：帳號、網域、安全政策、訂閱與計費，以及底下<strong>所有產品的完整管理權</strong></td><td>幾乎沒有——這是最高的一層</td></tr>
+<tr><td><strong>User access admin</strong><span class="kicker">（使用者存取管理員）</span></td><td>組織</td><td><strong>只管「誰能使用哪一個產品」</strong>——邀請使用者、給或收回產品存取（授權席次）、管理群組</td><td><strong>完全不碰任何 project 內部的事</strong>：它不會讓你多看到一張 issue，也不會讓你加得了任何 space 的成員</td></tr>
+<tr><td><strong>Jira admin</strong><span class="kicker">（Administer Jira 全域權限）</span></td><td>產品</td><td>Jira 的<strong>站台層設定</strong>：scheme、custom field、workflow、issue type、全域權限、trash 還原</td><td><strong>不自動擁有每個 space 的 Administrator role</strong>。官方只保證他「看得到 space、進得去 project settings」，<strong>加人進 space 這種 project 層的動作他做不到</strong></td></tr>
+<tr><td><strong>Space admin</strong><span class="kicker">（project admin／Administer Projects）</span></td><td>Project</td><td>這一個 project：成員與 role、components、versions、details、layout</td><td>改不了任何站台層物件（permission scheme、custom field、workflow…），也管不到別的 project</td></tr>
+</table></div>
+<p class="kicker" style="margin:.5rem 0 0"><strong>實測佐證（2026-09-09）</strong>：一個同時具備 <strong>Jira admin ＋ user access admin</strong> 的帳號，若不在某個 space 裡，<strong>無法把自己加進該 space</strong>；但該 space 的 admin 可以把他加進去，<strong>org admin 也可以</strong>。原因就在這張表——加人需要的是 <strong>project 層</strong>的 Administrator role，而那兩個身分一個屬於產品層、一個屬於組織層但只管產品存取。詳見 <a href="620.1.2.html#access">620.1.2</a>。</p></div>
+
+<p>回到全域權限本身：它只有 8 個，而且<strong>只能授予群組</strong>（不能給個人、不能給 project role）。Project admin 沒有任何一個全域權限的設定權，但其中 5 個會直接影響 project 成員的日常操作。</p>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:26%">全域權限</th><th>缺了會發生什麼（project 內的症狀）</th><th style="width:22%">誰能給</th></tr>
 <tr><td><strong>Browse users and groups</strong></td><td>@提及、User picker 只看得到「同一個 project 有 Browse Projects 的人」，找不到別的部門同事。官方特別說這是限制資訊外流的常用手法，不一定是錯</td><td>Jira admin（給群組）</td></tr>

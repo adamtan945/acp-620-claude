@@ -333,8 +333,18 @@
 <div class="cap">圖 3　兩個入口匯合到同一個「加人」對話框，之後流程相同。</div>
 </div>
 
+<div class="callout warn"><div class="t">「誰能加人」比你想的窄：Administer Jira 不夠</div>
+<p style="margin:.3rem 0">官方在 Add people 與 Manage access 兩頁都把所需身分寫死成 <strong>Role: Administrator（space admin）</strong>——那是<strong>這個 space 裡的角色</strong>，不是站台層的全域權限。<br>
+而官方對 Jira admin 的保證只有兩句，兩句都<strong>只講「看得到」與「進得去設定」</strong>，沒有一句說他擁有 space 的 Administrator role：</p>
+<ul style="margin:.3rem 0">
+<li><em>Jira administrators (anyone with the <strong>Administer Jira</strong> global permission) always have access to your space's <strong>settings</strong>.</em></li>
+<li>Private space：<em>only Jira admins and people you add to the space can <strong>see it</strong> in their space directory or its work items in search results.</em></li>
+</ul>
+<p style="margin:.3rem 0 0">所以會出現這個實測結果（2026-09-09 驗證）：<strong>一個 Jira admin 如果不在某個 space 裡，他無法把自己加進去</strong>；但<strong>該 space 的 admin 可以把他加進去，org admin 也可以</strong>。這不是 bug，是<strong>「可見性」與「操作權」被刻意分開</strong>——否則 space 層級的授權就形同虛設。</p></div>
+
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">規則</th><th>內容</th></tr>
+<tr><td>誰能加人</td><td><strong>該 space 的 Administrator role</strong>（官方寫 <em>Role: Administrator</em>）。<strong>光有 Administer Jira 全域權限不夠</strong>——Jira admin 進得去 settings、看得到內容，但沒有這個 space 的 Administrator role 就加不了人（連加自己也不行）。<strong>org admin 可以</strong>，因為那是組織層的最高權限</td></tr>
 <tr><td>能加誰</td><td><strong>只能加已經在這個 Atlassian 站台裡有帳號的人</strong>。如果在搜尋框裡打了名字卻找不到人，代表他還沒被邀請進站台，要先請 Jira admin 邀請，之後才加得進 project</td></tr>
 <tr><td>外部協作者</td><td>請 admin 邀請為 <strong>guest</strong>（限單一 project、不佔正式席次）</td></tr>
 <tr><td>可加群組</td><td>可以，整個 group 拿同一個 role</td></tr>
@@ -401,6 +411,7 @@
 <tr><th style="width:42%">誤解</th><th>事實</th></tr>
 <tr><td>「把人指派成 Viewer 就變唯讀」</td><td>Open 之下他仍是 Member；role 是疊加，不會降權</td></tr>
 <tr><td>「Private project 連 Jira admin 都看不到」</td><td>Jira admin 永遠看得到 project 名稱，也進得了 project settings；敏感專案要用代號命名</td></tr>
+<tr><td>「Jira admin 既然看得到，那他什麼都能做」</td><td>不對。官方只保證他<strong>看得到、進得去 settings</strong>；<strong>加人進 space 要的是該 space 的 Administrator role</strong>，Jira admin 沒有那個 role 就加不了（連加自己也不行）。可見性與操作權是分開的</td></tr>
 <tr><td>「加成 Member 就一定能編輯」</td><td>還要有 <strong>Jira app access</strong>（授權席次），否則只能看</td></tr>
 <tr><td>「刪掉自訂 role，那些人就離開 project 了」</td><td>不會；人還在，只是少了該 role 的權限，另會影響 notifications 與 issue type restrictions</td></tr>
 <tr><td>「TMP 可以指定誰能被指派」</td><td>沒有獨立的 Assignable User；有 Work on issues 群組任一項權限就可被指派</td></tr>
@@ -427,7 +438,7 @@
 <h3>「他為什麼不能做 X」的排查順序</h3>
 <ol>
 <li>他在<strong>站台上有帳號</strong>嗎？（Add people 搜不到人＝還沒被邀請進站台）</li>
-<li>他是不是 <strong>Jira admin</strong>？（是的話權限來自全域，不受 access level 影響）</li>
+<li>他是不是 <strong>Jira admin</strong>？<strong>但別把這一項想得太寬</strong>——Administer Jira 保證的是「<strong>看得到這個 space、進得去 project settings</strong>」，<strong>不等於自動取得該 space 的 Administrator role</strong>。所以 Jira admin 可能查得到設定卻做不了成員管理這類 project 層的動作（實測：Jira admin 加不了自己進 space，要 space admin 或 org admin 出手）</li>
 <li>project 的 <strong>access level</strong> 是什麼？（決定他的預設 role）</li>
 <li>他有沒有被<strong>明確指派 role</strong>？（記得是疊加，不是覆蓋）</li>
 <li>他是不是透過 <strong>group</strong> 拿到 role？（移除個人不會拿掉 group 給的）</li>
