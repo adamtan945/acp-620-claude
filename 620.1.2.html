@@ -129,7 +129,7 @@
 <tr><th style="width:20%">欄位</th><th>備註</th></tr>
 <tr><td>Icon</td><td>側欄與 project 列表顯示</td></tr>
 <tr><td>Name</td><td>搜尋、目錄、切換器都用它</td></tr>
-<tr><td>Key</td><td>改後最多 <strong>10 分鐘</strong>才在 board 反映；舊 key 進 Previous keys，可刪但刪了舊連結就失效，建議保留</td></tr>
+<tr><td>Key</td><td><strong>TMP 的 project admin 自己就能改</strong>（實機驗證 2026-09-09；CMP 則要 org／site／Jira admin，對照 <a href="620.1.4.html#key">620.1.4</a>）。改完最多要 <strong>10 分鐘</strong>才會反映在 board 上；舊 key 會自動進 Previous keys 當 alias，可以刪掉但刪了之後所有引用舊 key 的連結就失效，建議保留</td></tr>
 <tr><td>Category</td><td><strong>Jira admin 建</strong>，project admin 只能挑；用於 JQL、filter、report</td></tr>
 <tr><td>Project owner</td><td>通常就是 project admin；人員異動時換</td></tr>
 <tr><td>Default assignee</td><td>決定新建的 issue 預設要指派給誰。當 project 設成 Open、全站的人都可能來丟需求時，這一項特別有用，可以避免一堆沒人認領的 issue。<strong>如果這個欄位改不動</strong>，多半是站台層的設定卡住了：到 ⚙ → General configuration 檢查「Allow unassigned issues」是否被關掉</td></tr>

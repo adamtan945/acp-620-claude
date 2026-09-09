@@ -97,8 +97,8 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:15%">欄位</th><th style="width:31%">用途</th><th style="width:24%">誰能改</th><th>改了會怎樣</th></tr>
 <tr><td><strong>Name</strong></td><td>出現在搜尋、project 目錄、切換器</td><td>Project admin</td><td>站台上所有 filter 裡的 project 名稱<strong>自動更新</strong></td></tr>
-<tr><td><strong>Key</strong></td><td>issue key 的前綴（<code>KEY-123</code>），是追蹤工作的基礎 ID</td><td><strong>只有 org／site／Jira admin</strong>——<strong>project admin 改不了</strong>，欄位會是灰的。<a href="#key">兩篇官方說法不一致，見下方證據界線</a></td><td>見下一節；舊 key 自動存進 Previous keys</td></tr>
-<tr><td><strong>URL</strong></td><td>連到外部文件（Confluence space、roadmap）；顯示在 Projects 目錄</td><td>Project admin</td><td><strong>只有 CMP 有</strong>這個欄位</td></tr>
+<tr><td><strong>Key</strong></td><td>issue key 的前綴（<code>KEY-123</code>），是追蹤工作的基礎 ID</td><td><strong>CMP：只有 org／site／Jira admin</strong>，project admin 看到的是灰的欄位。<br><strong>TMP：project admin 自己就能改</strong>（<a href="#key">實機驗證 2026-09-09</a>）。<br><span class="kicker">考試作答一律用官方那句「only org, site, and Jira admins」。</span></td><td>見下一節；舊 key 自動存進 Previous keys</td></tr>
+<tr><td><strong>URL</strong></td><td>掛一個<strong>對外連結</strong>在這個 project 上，用途是把人導到相關的外部資源——常見的是這個團隊的 Confluence space、產品 roadmap、規格文件或 wiki。官方原句：<em>The space URL displays in the <strong>Spaces</strong> directory of your site.</em>——也就是它<strong>只出現在站台的 project（Spaces）目錄那一頁</strong>，在 project 內部的畫面與 issue 上都看不到它</td><td>Project admin</td><td><strong>只有 CMP 有</strong>這個欄位；TMP 的 Details 沒有 URL。<br>它<strong>不影響</strong> project 自己的網址（那是 key 決定的），也不是站台網址</td></tr>
 <tr><td><strong>Description</strong></td><td>給管理員看的摘要（顯示在 settings 的 Summary）</td><td>Project admin</td><td><strong>只有 CMP 有</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access（JSWCLOUD-17584「Ability to add a description on team-managed projects」2026-09-08 仍 Gathering Interest／Unresolved）</td></tr>
 <tr><td><strong>Category</strong></td><td>大型組織用來在目錄裡標記、篩選相似 project</td><td>Category 本身由 <strong>Jira admin 建</strong>；指派在 Project settings → Details（categories 頁未區分類型；details 頁對 CMP 寫「contact a Jira admin」，TMP 由 project admin 自己選）</td><td>可用於 JQL、filter、report；<strong>不能做階層</strong></td></tr>
 <tr><td><strong>Avatar／Icon</strong></td><td>側欄與 project 列表的圖示</td><td>Project admin</td><td>無副作用</td></tr>
@@ -111,6 +111,16 @@
 <li>Default assignee <strong>不是</strong>任意 user picker，只有 Unassigned／Project lead 兩個選項。若改不了，檢查 ⚙ General configuration 的「Allow unassigned issues」。</li>
 <li>Software ↔ Business project <strong>不能直接轉換</strong>；只能建新 project 再把 issue 搬過去。</li>
 </ul></div>
+
+<div class="callout"><div class="t">三個都跟「網址／識別」有關，但出現的地方完全不同</div>
+<p style="margin:.3rem 0">這三個欄位很容易混在一起，記法是<strong>各自問「填了之後，我在哪裡會看到它？」</strong></p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:16%">欄位</th><th style="width:34%">填的是什麼</th><th>填了之後在哪裡看得到</th></tr>
+<tr><td><strong>Key</strong></td><td>這個 project 自己的識別碼</td><td>無所不在——每張 issue 的編號前綴（<code>MOB-12</code>）、issue 的網址、JQL、board filter、Confluence 的 Jira macro 全都靠它。這也是為什麼改它要這麼謹慎</td></tr>
+<tr><td><strong>URL</strong></td><td>一個<strong>外部</strong>網址（Confluence space、roadmap、規格文件…）</td><td><strong>只在站台的 project（Spaces）目錄那一頁</strong>——就是你從左上角 Projects → View all projects 進去的那個清單。<strong>進到 project 內部之後就看不到它了</strong>，issue 上更不會出現。所以它的用途很單純：<strong>讓在專案目錄裡瀏覽的人，能一鍵跳到這個團隊的文件</strong></td></tr>
+<tr><td><strong>Description</strong></td><td>給管理員看的專案摘要</td><td>官方原句：<em>Administrators can view the description in the <strong>Summary</strong> section of your space’s settings.</em>——<strong>只出現在 Project settings 的 Summary 頁</strong>，一般成員在日常畫面上完全看不到。它是內部備註，不是給團隊看的公告</td></tr>
+</table></div>
+<p class="kicker" style="margin:.5rem 0 0">三個都<strong>只有 CMP 有 URL 與 Description</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access。<br>另外要分清楚：<strong>URL 欄位不會改變這個 project 的網址</strong>（那由 key 決定），<strong>更不是站台網址</strong>（站台網址要在 admin.atlassian.com 用 Update URL 改）。</p></div>
 </section>
 
 <!-- ============ Key change ============ -->
@@ -163,9 +173,10 @@
 <ul style="margin:0">
 <li><strong>Edit a space’s details</strong>（考綱連結那篇）原句：<em>Only organization, site, and Jira admins can edit a space key.</em>——講得非常死，而且<strong>沒有區分 company-managed 或 team-managed</strong>，等於一律排除 project admin。</li>
 <li><strong>Create, edit, and delete team-managed spaces</strong> 講同一件事時卻寫：<em>If you have space permissions, this is how to change the space’s key</em>——「space permissions」在 TMP 的語境裡就是 project admin（Administrator role／Administer spaces），並沒有把 key 拉出來另外限制。<span class="kicker">兩篇皆為 2026-09-09 查核。</span></li>
+<li class="yes"><strong>實機驗證定案（2026-09-09）</strong>：用「只有 project admin、沒有 Jira admin」的帳號實測，<strong>TMP 改得動 key，CMP 改不動</strong>。所以兩篇文件<strong>其實都沒寫錯，各自只描述了自己那一半</strong>——考綱那篇講的是 CMP 的行為，TMP 那篇講的是 TMP 的行為。</li>
 </ul>
 <p style="margin:8px 0 0"><strong>作答一律以考綱連結那篇為準：改 key ＝ 需要 org／site／Jira admin，project admin 做不到。</strong>考題最愛的長相就是「project admin 想改 key，卻發現欄位是灰的」，答案永遠是權限不足。</p>
-<p style="margin:8px 0 0">實務上則要保留彈性：<strong>如果你在 TMP 是 project admin 而 key 確實可編輯，那是產品目前的行為，不代表考題答案改變</strong>（Atlassian 常先改產品、文件慢半拍）。想確定自己站台的實際行為，用一個「只有 project admin、沒有 Jira admin」的帳號打開 Project settings → Details 看 Key 欄位是不是灰的即可，兩分鐘就能驗完——這一項已列進 <code>SITE-VERIFY.md</code> 的 A 級清單。</p>
+<p style="margin:8px 0 0">實務上則照實測走：<strong>TMP 的 project admin 自己改得動 key，CMP 的 project admin 只能開單請 Jira admin</strong>。這其實很符合兩種 project 的一貫分工——<strong>TMP 的設定長在 project 裡、project admin 全權；CMP 的設定是站台層物件、動它就要 Jira admin</strong>。key 只是又一個例子。</p>
 <p style="margin:8px 0 0">另外兩個順帶要記的：建立 project 時 <strong>key 是 Jira 自動產生的</strong>（你不必自己想），而<strong>建立者預設成為 project owner</strong>。</p></div>
 <div class="callout exam"><div class="t">考題長相</div>「Project admin 想改 key 卻找不到欄位可編輯」→ 改 key 需要 org／site／Jira admin。「改 key 後舊連結壞了嗎？」→ 沒壞，alias 會導向；「什麼情況會壞？」→ 刪除 previous key。</div>
 </section>
