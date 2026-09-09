@@ -221,26 +221,34 @@
 <ul style="font-size:.9rem"><li>CMP：項目對應 project 的 features；Releases 對應 versions、Components 對應 components</li><li>TMP：Project settings → <strong>Features</strong> 開關（Backlog、Sprints、Releases、Reports…），關掉就從 sidebar 消失</li><li><strong>Add shortcut</strong>：project admin 可加外部連結（例如 Confluence space）</li></ul></div>
 <div class="card"><div class="eyebrow" style="color:var(--teal)">現行（2026）</div>
 <p style="font-size:.94rem;margin-top:.5rem">Project 導覽改成頁面上方的<strong>橫向 tabs</strong>，概念相同、多了幾個可調項。</p>
-<ul style="font-size:.9rem"><li><strong>Project admin 或 board admin</strong> 可以：設預設 tab、改名、移除、還原、排序（拖曳或 More actions → Move tab left／right）</li><li>加 tab：導覽列的 <strong>+</strong> → Add to navigation</li><li>限制：<strong>永遠要有一個 default tab</strong>（因此 default tab 本身移不掉，要先把 default 換給別的 tab）。官方另外寫「List 與 Apps 不能移除」，但<strong class="no">2026-09-09 實測 List 移得掉</strong>，見下方證據界線</li><li>能出現哪些 tab 取決於：project 類型（software／business）、管理方式（CMP／TMP）、<strong>開啟的 features</strong></li><li>改動對<strong>所有</strong>有權進入 project 的人生效</li></ul></div>
+<ul style="font-size:.9rem"><li><strong>Project admin 或 board admin</strong> 可以：改名、移除、還原、排序（拖曳或 More actions → Move tab left／right）；<strong>Set as default 只在 TMP 出現</strong>（<a href="#sidebar-gap">2026-09-09 實測</a>，CMP 的選單裡沒有這一項）</li><li>加 tab：導覽列的 <strong>+</strong> → Add to navigation</li><li>限制：<strong>永遠要有一個 default tab</strong>（因此 default tab 本身移不掉，要先把 default 換給別的 tab）。官方另外寫「List 與 Apps 不能移除」，但<strong class="no">2026-09-09 實測 CMP／TMP 都移得掉 List</strong>，見下方證據界線</li><li>能出現哪些 tab 取決於：project 類型（software／business）、管理方式（CMP／TMP）、<strong>開啟的 features</strong></li><li>改動對<strong>所有</strong>有權進入 project 的人生效</li></ul></div>
 </div>
 
 <h3>Navigation tabs 能做的五件事（現行）</h3>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">動作</th><th style="width:26%">誰</th><th>規則／限制</th></tr>
-<tr><td>Set as default</td><td>Project admin 或 board admin</td><td>進 project 時預設打開的 tab；<strong>永遠要留一個 default</strong>，default tab 不能被移除</td></tr>
+<tr><td>Set as default</td><td>Project admin 或 board admin<br><strong class="no">實測只有 TMP 有這一項</strong></td><td>進 project 時預設打開的 tab；<strong>永遠要留一個 default</strong>，default tab 不能被移除。官方只說「哪些 view 能被設為 default 取決於 space 的類型、管理方式與開啟的 features」，<strong>沒有明講 CMP 根本沒有這個選項</strong>——這是 2026-09-09 實測發現的</td></tr>
 <tr><td>Rename</td><td>同上</td><td>只改顯示名稱，不影響底層 feature 是否開啟</td></tr>
 <tr><td>Move left／right</td><td>同上</td><td>拖曳或 More actions → Move tab left／right；改動對<strong>所有</strong>能進 project 的人生效</td></tr>
-<tr><td>Remove／還原</td><td>同上</td><td>移不掉的情況官方列了兩種：<strong>它是目前的 default tab</strong>，以及<strong>它是 List 或 Apps</strong>。前者一定成立，後者<strong class="no">實測與現行介面不符</strong>（見下方證據界線）。移除過的 tab 之後可用導覽列的 <strong>+</strong> → Add to navigation 加回來</td></tr>
+<tr><td>Remove／還原</td><td>同上</td><td>移不掉的情況官方列了兩種：<strong>它是目前的 default tab</strong>，以及<strong>它是 List 或 Apps</strong>。前者一定成立，後者<strong class="no">實測與現行介面不符</strong>——CMP／TMP 都移得掉 List（見下方證據界線）。移除過的 tab 之後可用導覽列的 <strong>+</strong> → Add to navigation 加回來</td></tr>
 <tr><td>加 shortcut（外部連結）</td><td>Project admin（部分站台設定另需 Jira admin）</td><td>要填<strong>完整 URI</strong>（含 <code>https://</code>）；只填網域或相對路徑不會生效</td></tr>
 </table></div>
-<div class="callout warn"><div class="t">證據界線：官方說 List tab 不能移除，實測卻移得掉</div>
+<div class="callout warn" id="sidebar-gap"><div class="t">證據界線：navigation 這一段有兩處官方寫法與現行介面對不上</div>
+<p style="margin:0 0 8px"><strong>① 官方說 List tab 不能移除，實測卻移得掉。</strong></p>
 <ul style="margin:0">
 <li><strong>官方原句</strong>（<a href="https://support.atlassian.com/jira-software-cloud/docs/manage-and-customize-the-project-navigation/">Manage and customize the space navigation</a>，2026-09-09 查核）：<em>Note that the List and Apps tabs can't be removed.</em>——沒有區分 project 類型。</li>
-<li class="no"><strong>實機驗證（2026-09-09）</strong>：Adam 在自己的 space 上<strong>成功把 List tab 移掉了</strong>，導覽列只剩 Summary、Timeline、Kanban board、Calendar、Forms、Development、Docs。</li>
-<li>目前<strong>還不確定</strong>這是「官方文件沒跟上介面改版」，還是「只在某些 project 類型或 features 組合下才不能移除」。<strong>Apps tab 是否真的移不掉，也還沒單獨驗過。</strong></li>
+<li class="no"><strong>實機驗證（2026-09-09）</strong>：<strong>CMP 與 TMP 各試一次，兩種都把 List tab 移掉了</strong>，導覽列只剩 Summary、Timeline、Kanban board、Calendar、Forms、Development、Docs。</li>
+<li>兩種 project 都移得掉，就<strong>排除了「只在某些類型成立」這個解釋</strong>，最合理的判斷是<strong>官方這句話已經沒跟上介面改版</strong>。（<strong>Apps tab 是否真的移不掉，還沒單獨驗過。</strong>）</li>
 </ul>
 <p style="margin:8px 0 0"><strong>作答一律以官方那句為準</strong>：題目問「哪些 tab 不能被移除」就選 <strong>List 與 Apps</strong>，另外加上「目前設為 default 的那一個」。考題取材自官方文件，不會拿現行介面的行為當答案。</p>
-<p style="margin:8px 0 0">實務上則以你眼前的畫面為準——<strong>移得掉就是移得掉</strong>，不要因為文件這麼寫就去懷疑自己或開 ticket。這也是很好的提醒：<strong>Atlassian 的介面改版速度比文件更新快</strong>，遇到「文件說不行、實際可以」時，先確認自己看的是不是同一個 project 類型，再考慮文件過期的可能。</p></div>
+<p style="margin:8px 0 0">實務上則以你眼前的畫面為準——<strong>移得掉就是移得掉</strong>，不要因為文件這麼寫就去懷疑自己或開 ticket。</p>
+<p style="margin:14px 0 8px"><strong>② Set as default 只有 TMP 有，CMP 的選單裡沒有這一項。</strong></p>
+<ul style="margin:0">
+<li><strong>官方說法</strong>：只寫了操作步驟（hover tab → More actions → Set as default），並補一句<em>available views that can be set as default depend on your space's type (business or software), space style (company-managed or team-managed), and which features are enabled</em>——講的是「<strong>哪些 view 可以被設為 default</strong>」會因類型而異。</li>
+<li class="no"><strong>實機驗證（2026-09-09）</strong>：CMP 的 tab 選單<strong>整個沒有 Set as default 這一項</strong>，只有 Rename、Move tab left／right、Remove；TMP 才有。也就是說差別不只是「可選的 view 變少」，而是<strong>功能本身不存在</strong>。</li>
+</ul>
+<p style="margin:8px 0 0">這一點又回到 TMP／CMP 的一貫分工：<strong>TMP 把設定放在 project 自己手上</strong>（連「進來先看哪一頁」都能自己決定），<strong>CMP 的呈現方式比較多是站台層決定好的</strong>。</p>
+<p style="margin:8px 0 0"><strong>共同的教訓：Atlassian 的介面改版速度比說明文件更新快。</strong>遇到「文件說可以、介面找不到」或「文件說不行、實際可以」，先確認自己看的是不是同一種 project 類型，再考慮文件過期——兩種可能都要記下查核日期，不要靜默選一邊。</p></div>
 <div class="callout"><div class="t">兩個年代共同的考點</div>sidebar／navigation 是「呈現層」：想讓 Releases 出現，先確認 project 有 versions（CMP）或 Releases feature 開著（TMP）；想讓某項目消失，是 project admin 的事，不用 Jira admin。</div>
 </section>
 
@@ -385,7 +393,8 @@
 <tr><td>「進了 trash 的 project，60 天內一定救得回來」</td><td>不一定。60 天只是自動刪除的上限，期限內任何持有 Administer Jira 的人都可以直接執行 Delete permanently，一旦刪掉就救不回來</td></tr>
 <tr><td>「Project admin 可以封存任何 project」</td><td>project admin <strong>只能封存 TMP</strong>；CMP 要 Jira／site admin</td></tr>
 <tr><td>「封存後別人就完全存取不到了」</td><td>封存前有權限的人仍可透過 API 讀到細節；要擋掉必須封存前先改權限</td></tr>
-<tr><td>「navigation 上的 tab 都能移除」</td><td>一定要留一個 default tab，所以 default 那一個移不掉；官方另稱 List 與 Apps 不能移除（<strong>作答用這句</strong>），但 2026-09-09 實測 List 移得掉，見 <a href="#sidebar">證據界線</a></td></tr>
+<tr><td>「Set as default 是每個 project 都有的功能」</td><td>2026-09-09 實測：<strong>只有 TMP 的 tab 選單有 Set as default</strong>，CMP 只有 Rename／Move tab left・right／Remove。官方只說「可被設為 default 的 view 因類型而異」，沒明講 CMP 沒有這個選項</td></tr>
+<tr><td>「navigation 上的 tab 都能移除」</td><td>一定要留一個 default tab，所以 default 那一個移不掉；官方另稱 List 與 Apps 不能移除（<strong>作答用這句</strong>），但 2026-09-09 在 CMP 與 TMP 各實測一次，List 都移得掉，見 <a href="#sidebar-gap">證據界線</a></td></tr>
 <tr><td>「加 shortcut 時填網域就好」</td><td>不行，必須填完整的 URI（含 <code>https://</code>）；只填網域或相對路徑不會生效</td></tr>
 </table></div>
 </section>

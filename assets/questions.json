@@ -1055,7 +1055,7 @@
    "sidebar"
   ],
   "difficulty": 2,
-  "version_note": "官方原句：<em>Note that the List and Apps tabs can't be removed.</em>（2026-09-09 查核）。但 <strong>2026-09-09 實測：現行介面的 List tab 移得掉</strong>——尚不確定是文件未跟上改版，還是只在部分 project 類型成立。<strong>作答仍以官方原句為準</strong>，因為考題取材自官方文件。",
+  "version_note": "官方原句：<em>Note that the List and Apps tabs can't be removed.</em>（2026-09-09 查核）。但 <strong>2026-09-09 實測：CMP 與 TMP 各試一次，List tab 都移得掉</strong>——兩種類型都成立，研判是官方文件沒跟上介面改版（Apps tab 未單獨驗證）。<strong>作答仍以官方原句為準</strong>，因為考題取材自官方文件。另外實測發現 <strong>Set as default 只有 TMP 的 tab 選單才有</strong>，CMP 沒有這一項。",
   "origin": "ported"
  },
  {
