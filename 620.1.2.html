@@ -345,8 +345,8 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">規則</th><th>內容</th></tr>
 <tr><td>誰能加人</td><td><strong>該 space 的 Administrator role</strong>（官方寫 <em>Role: Administrator</em>）。<strong>光有 Administer Jira 全域權限不夠</strong>——Jira admin 進得去 settings、看得到內容，但沒有這個 space 的 Administrator role 就加不了人（連加自己也不行）。<strong>org admin 可以</strong>，因為那是組織層的最高權限</td></tr>
-<tr><td>能加誰</td><td><strong>只能加已經在這個 Atlassian 站台裡有帳號的人</strong>。如果在搜尋框裡打了名字卻找不到人，代表他還沒被邀請進站台，要先請 Jira admin 邀請，之後才加得進 project</td></tr>
-<tr><td>外部協作者</td><td>請 admin 邀請為 <strong>guest</strong>（限單一 project、不佔正式席次）</td></tr>
+<tr><td>能加誰</td><td><strong>只能加已經在這個 Atlassian 站台裡有帳號的人</strong>。如果在搜尋框裡打了名字卻找不到人，代表他還沒被邀請進站台——要先請<strong>有使用者管理權的管理員</strong>（org admin、user access admin，或舊制的 site admin）邀請，之後才加得進 project。<span class="kicker"><strong>注意：光有 Administer Jira 的 Jira admin 邀請不了人</strong>，因為邀請動作在 Atlassian Administration（admin.atlassian.com），而 app admin 進不去那裡；只是實務上很多人身兼兩職，才會口語說「找 Jira admin」</span></td></tr>
+<tr><td>外部協作者</td><td>請<strong>有使用者管理權的管理員</strong>邀請為 <strong>guest</strong>（限單一 project、不佔正式席次），之後才能在 Access 頁把他加進來並指派 role</td></tr>
 <tr><td>可加群組</td><td>可以，整個 group 拿同一個 role</td></tr>
 <tr><td>多重 role</td><td>一個人或 group 可同時有多個 role</td></tr>
 <tr><td>疊加原則</td><td>Access 頁指派的 role <strong>不覆蓋</strong> access level 給的 role，是<strong>加上去</strong></td></tr>
@@ -397,7 +397,7 @@
 <details class="q"><summary>TMP 怎麼決定誰可以被指派？</summary><div class="a"><div class="tag">解答</div>TMP <strong>沒有</strong>像 CMP 那樣獨立的 Assignable User 權限。它的判定規則是：只要某個 role 勾了「Work on issues」這一組裡的<strong>任何一項</strong>權限（例如 Create issues、Log work、Edit any issue…），持有該 role 的人就會出現在 Assignee 下拉清單裡。這常讓人踩雷——你只是想讓外包廠商能記錄工時，結果他就變成可被指派的對象了。</div></details>
 <details class="q"><summary>內建的 Viewer／Member／Administrator 能編輯嗎？能刪嗎？</summary><div class="a"><div class="tag">解答</div>三個內建 role <strong>既不能編輯也不能刪除</strong>，Jira 要保證每個站台的 Viewer／Member／Administrator 意義一致。想要一個「像 Member 但不能管 sprint」的角色，做法是到 Manage roles 按 <strong>Duplicate</strong> 複製一份，再在複製出來的自訂 role 上調整勾選。</div></details>
 <details class="q"><summary>刪除自訂 role 會影響哪兩件事？會把人移出 project 嗎？</summary><div class="a"><div class="tag">解答</div>會影響兩件事：<strong>notifications</strong>（通知設定裡若指定通知這個 role，就會失效）與 <strong>issue type restrictions</strong>（限制某些 issue type 只有特定 role 能用的設定也會失效）。但<strong>不會</strong>把人踢出 project——人還在成員名單上，只是少了這個 role 帶來的權限。</div></details>
-<details class="q"><summary>加人時找不到某位同事，原因？外部人員怎麼辦？</summary><div class="a"><div class="tag">解答</div>原因是他<strong>還沒有這個 Atlassian 站台的帳號</strong>。Add people 的搜尋框只找得到站台上已存在的使用者，不能直接用 email 把外面的人拉進來，所以要先請 Jira admin 在使用者管理那邊邀請他進站台。如果對方是外部的協作者（廠商、客戶），請 admin 邀請成 <strong>guest</strong>：guest 只能存取被指定的那一個 project，也不佔用正式的授權席次。</div></details>
+<details class="q"><summary>加人時找不到某位同事，原因？外部人員怎麼辦？</summary><div class="a"><div class="tag">解答</div>原因是他<strong>還沒有這個 Atlassian 站台的帳號</strong>。Add people 的搜尋框只找得到站台上已存在的使用者，不能直接用 email 把外面的人拉進來。要先請<strong>有使用者管理權的管理員</strong>（org admin、user access admin，或舊制的 site admin）在 Atlassian Administration 邀請他，之後才搜尋得到。<strong>這裡有一個常被講錯的細節：光有 Administer Jira 的 Jira admin 其實邀請不了人</strong>——官方明講 app admin 無法存取 Atlassian Administration，而邀請使用者正是在那裡做的；只是實務上這些身分常由同一人兼任，才會口語說「找 Jira admin」。如果對方是外部的協作者（廠商、客戶），請他們邀請成 <strong>guest</strong>：guest 只能存取被指定的那一個 project，也不佔用正式的授權席次。</div></details>
 <details class="q"><summary>Open project 裡明確把某人加為 Viewer，他能編輯 issue 嗎？</summary><div class="a"><div class="tag">解答</div><strong>能編輯</strong>，這是最常考的反直覺題。因為 access level 設成 Open 時，全站使用者已經自動拿到 Member；你另外指派的 Viewer 是<strong>疊加</strong>上去，不是覆蓋下來，兩者取聯集之後他仍然保有 Member 的全部能力。想真正把某個人限制成唯讀，順序要反過來：<strong>先把 project 的 access level 降成 Limited（或 Private）</strong>，再用 role 一項一項往上加。要限制先改成 Limited。</div></details>
 </div>
 

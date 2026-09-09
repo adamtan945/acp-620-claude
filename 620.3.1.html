@@ -149,7 +149,20 @@
 <tr><td><strong>Jira admin</strong><span class="kicker">（Administer Jira 全域權限）</span></td><td>產品</td><td>Jira 的<strong>站台層設定</strong>：scheme、custom field、workflow、issue type、全域權限、trash 還原</td><td><strong>不自動擁有每個 space 的 Administrator role</strong>。官方只保證他「看得到 space、進得去 project settings」，<strong>加人進 space 這種 project 層的動作他做不到</strong></td></tr>
 <tr><td><strong>Space admin</strong><span class="kicker">（project admin／Administer Projects）</span></td><td>Project</td><td>這一個 project：成員與 role、components、versions、details、layout</td><td>改不了任何站台層物件（permission scheme、custom field、workflow…），也管不到別的 project</td></tr>
 </table></div>
-<p class="kicker" style="margin:.5rem 0 0"><strong>實測佐證（2026-09-09）</strong>：一個同時具備 <strong>Jira admin ＋ user access admin</strong> 的帳號，若不在某個 space 裡，<strong>無法把自己加進該 space</strong>；但該 space 的 admin 可以把他加進去，<strong>org admin 也可以</strong>。原因就在這張表——加人需要的是 <strong>project 層</strong>的 Administrator role，而那兩個身分一個屬於產品層、一個屬於組織層但只管產品存取。詳見 <a href="620.1.2.html#access">620.1.2</a>。</p></div>
+<p style="margin:.6rem 0 .3rem"><strong>最常被混為一談的是 user access admin 與 Jira admin</strong>，官方的分法其實只有一句話：<strong>app admin 管「設定」，user access admin 管「存取」</strong>。<br>
+<em>An app admin can manage settings for a specific app. <strong>They can't access Atlassian Administration.</strong></em>　／　<em>A user access admin's main responsibility is <strong>managing access</strong> to the app they administer.</em></p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:44%">具體動作</th><th class="c" style="width:14%">User access admin</th><th class="c" style="width:14%">Jira admin</th><th>說明</th></tr>
+<tr><td>邀請一位新同事進站台、給他 Jira 的授權席次</td><td class="c yes">✓</td><td class="c no">✗</td><td>這件事做在 <strong>Atlassian Administration（admin.atlassian.com）</strong>，而官方明講 app admin <strong>進不去那裡</strong></td></tr>
+<tr><td>收回某人的 Jira 存取、停用帳號</td><td class="c yes">✓</td><td class="c no">✗</td><td>同上，屬於使用者管理</td></tr>
+<tr><td>維護群組成員</td><td class="c yes">✓</td><td class="c no">✗</td><td>Jira admin 可以把 group 拿來用在 scheme 裡，但<strong>改群組裡有誰</strong>是使用者管理的事</td></tr>
+<tr><td>建 custom field、workflow、screen、各種 scheme</td><td class="c no">✗</td><td class="c yes">✓</td><td>這些是 Jira 的<strong>站台層設定</strong></td></tr>
+<tr><td>改 permission scheme、建 project role</td><td class="c no">✗</td><td class="c yes">✓</td><td>同上</td></tr>
+<tr><td>建立 company-managed project、還原 trash 裡的 project</td><td class="c no">✗</td><td class="c yes">✓</td><td>需要 Administer Jira</td></tr>
+<tr><td>把自己加進一個他不在裡面的 space</td><td class="c no">✗</td><td class="c no">✗</td><td>兩個都不行——這需要<strong>該 space 的 Administrator role</strong>（或 org admin）</td></tr>
+</table></div>
+<p class="kicker" style="margin:.5rem 0 0">一個好記的比喻：<strong>user access admin 是發門禁卡的櫃檯</strong>（決定誰刷得進 Jira 這棟樓，但不管樓裡怎麼隔間）；<strong>Jira admin 是大樓的工務</strong>（決定隔間、動線與規則，但不發卡）；<strong>space admin 是某一間辦公室的主人</strong>（決定誰能進他那一間）；<strong>org admin 是這棟樓的持有人</strong>（三件事都能做，還能決定誰當前面那三種人）。<br>
+<strong>實測佐證（2026-09-09）</strong>：一個同時具備 <strong>Jira admin ＋ user access admin</strong> 的帳號，若不在某個 space 裡，<strong>無法把自己加進該 space</strong>；但該 space 的 admin 可以把他加進去，<strong>org admin 也可以</strong>——因為加人需要的是<strong>最裡面那一層</strong>的角色。詳見 <a href="620.1.2.html#access">620.1.2</a>。</p></div>
 
 <p>回到全域權限本身：它只有 8 個，而且<strong>只能授予群組</strong>（不能給個人、不能給 project role）。Project admin 沒有任何一個全域權限的設定權，但其中 5 個會直接影響 project 成員的日常操作。</p>
 <div class="tbl-wrap"><table class="tbl">
