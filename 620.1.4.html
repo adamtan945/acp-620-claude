@@ -97,7 +97,7 @@
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:15%">欄位</th><th style="width:31%">用途</th><th style="width:24%">誰能改</th><th>改了會怎樣</th></tr>
 <tr><td><strong>Name</strong></td><td>出現在搜尋、project 目錄、切換器</td><td>Project admin</td><td>站台上所有 filter 裡的 project 名稱<strong>自動更新</strong></td></tr>
-<tr><td><strong>Key</strong></td><td>issue key 的前綴（<code>KEY-123</code>），是追蹤工作的基礎 ID</td><td><strong>只有 org／site／Jira admin</strong></td><td>見下一節；舊 key 自動存進 Previous keys</td></tr>
+<tr><td><strong>Key</strong></td><td>issue key 的前綴（<code>KEY-123</code>），是追蹤工作的基礎 ID</td><td><strong>只有 org／site／Jira admin</strong>——<strong>project admin 改不了</strong>，欄位會是灰的。<a href="#key">兩篇官方說法不一致，見下方證據界線</a></td><td>見下一節；舊 key 自動存進 Previous keys</td></tr>
 <tr><td><strong>URL</strong></td><td>連到外部文件（Confluence space、roadmap）；顯示在 Projects 目錄</td><td>Project admin</td><td><strong>只有 CMP 有</strong>這個欄位</td></tr>
 <tr><td><strong>Description</strong></td><td>給管理員看的摘要（顯示在 settings 的 Summary）</td><td>Project admin</td><td><strong>只有 CMP 有</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access（JSWCLOUD-17584「Ability to add a description on team-managed projects」2026-09-08 仍 Gathering Interest／Unresolved）</td></tr>
 <tr><td><strong>Category</strong></td><td>大型組織用來在目錄裡標記、篩選相似 project</td><td>Category 本身由 <strong>Jira admin 建</strong>；指派在 Project settings → Details（categories 頁未區分類型；details 頁對 CMP 寫「contact a Jira admin」，TMP 由 project admin 自己選）</td><td>可用於 JQL、filter、report；<strong>不能做階層</strong></td></tr>
@@ -161,10 +161,12 @@
 </table></div>
 <div class="callout warn"><div class="t">證據界線：改 key 要什麼權限，兩篇官方寫得不一樣</div>
 <ul style="margin:0">
-<li><strong>Edit a space’s details</strong>（考綱連結那篇）：改 key 需要 <strong>org／site／Jira admin</strong>。</li>
-<li><strong>TMP 的說明頁</strong>把 Details 的編輯歸在 project 層權限（role Administrator／Administer projects），沒有另外把 key 拉出來限制。</li>
+<li><strong>Edit a space’s details</strong>（考綱連結那篇）原句：<em>Only organization, site, and Jira admins can edit a space key.</em>——講得非常死，而且<strong>沒有區分 company-managed 或 team-managed</strong>，等於一律排除 project admin。</li>
+<li><strong>Create, edit, and delete team-managed spaces</strong> 講同一件事時卻寫：<em>If you have space permissions, this is how to change the space’s key</em>——「space permissions」在 TMP 的語境裡就是 project admin（Administrator role／Administer spaces），並沒有把 key 拉出來另外限制。<span class="kicker">兩篇皆為 2026-09-09 查核。</span></li>
 </ul>
-<p style="margin:8px 0 0">考試以<strong>考綱連結那篇</strong>為準：<strong>改 key ＝ 需要 Jira／site／org admin</strong>。實機上若你是 TMP 的 project admin 而 key 可編輯，不代表考題答案改變。另外，建立 project 時 key 是 Jira 自動產生的，建立者預設成為 project owner。</p></div>
+<p style="margin:8px 0 0"><strong>作答一律以考綱連結那篇為準：改 key ＝ 需要 org／site／Jira admin，project admin 做不到。</strong>考題最愛的長相就是「project admin 想改 key，卻發現欄位是灰的」，答案永遠是權限不足。</p>
+<p style="margin:8px 0 0">實務上則要保留彈性：<strong>如果你在 TMP 是 project admin 而 key 確實可編輯，那是產品目前的行為，不代表考題答案改變</strong>（Atlassian 常先改產品、文件慢半拍）。想確定自己站台的實際行為，用一個「只有 project admin、沒有 Jira admin」的帳號打開 Project settings → Details 看 Key 欄位是不是灰的即可，兩分鐘就能驗完——這一項已列進 <code>SITE-VERIFY.md</code> 的 A 級清單。</p>
+<p style="margin:8px 0 0">另外兩個順帶要記的：建立 project 時 <strong>key 是 Jira 自動產生的</strong>（你不必自己想），而<strong>建立者預設成為 project owner</strong>。</p></div>
 <div class="callout exam"><div class="t">考題長相</div>「Project admin 想改 key 卻找不到欄位可編輯」→ 改 key 需要 org／site／Jira admin。「改 key 後舊連結壞了嗎？」→ 沒壞，alias 會導向；「什麼情況會壞？」→ 刪除 previous key。</div>
 </section>
 
