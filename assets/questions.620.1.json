@@ -1232,5 +1232,32 @@
   "difficulty": 2,
   "version_note": "",
   "origin": "new"
+ },
+ {
+  "id": "620.1.4-013",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "一位只有 project admin、沒有 Jira admin 的使用者反映：他在 A 專案改得動 project key，在 B 專案卻是灰的。兩個專案的管理方式不同。最合理的解釋是？",
+  "options": [
+   "A 是 team-managed、B 是 company-managed；改 CMP 的 key 需要 org／site／Jira admin",
+   "A 的 key 比較短，所以不受限制",
+   "B 專案有未解決的 issue，所以 key 被鎖住",
+   "他在 A 專案剛好是 Jira admin"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。官方 <em>Edit a space's details</em> 寫的是 <strong>Only organization, site, and Jira admins can edit a space key.</strong>，而 team-managed 那篇卻寫「有 space permissions 就能改 key」。<strong>實機驗證（2026-09-09）：TMP 的 project admin 改得動，CMP 改不動</strong>——兩篇文件都沒寫錯，各自描述了自己那一半。這也符合兩種 project 的一貫分工：<strong>TMP 的設定長在 project 裡，CMP 的設定是站台層物件</strong>。",
+   "B": "key 的長度只受命名規則限制（至少 2 字元、大寫字母開頭、只含大寫字母與數字），<strong>跟能不能編輯完全無關</strong>。",
+   "C": "issue 的狀態不會鎖住 project key。<strong>改 key 本身是安全操作</strong>——舊 key 會存進 Previous keys 當 alias，舊連結不會斷。",
+   "D": "題目已明確指出他<strong>沒有 Jira admin</strong>；而且 Jira admin 是站台層級的全域權限，不會只在某一個 project 生效。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-edit-and-delete-team-managed-projects/"
+  ],
+  "tags": [],
+  "difficulty": 3,
+  "version_note": "考試作答以官方 Edit a space's details 那句為準（改 key ＝ org／site／Jira admin，考題情境幾乎都是 CMP）；TMP 可改是 2026-09-09 的實機驗證結果。",
+  "origin": "new"
  }
 ]

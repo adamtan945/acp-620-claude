@@ -94,6 +94,19 @@
 <div class="section-label">Project details</div>
 <h2>每個欄位是什麼、誰能改、改了影響誰</h2>
 <p>路徑：project 側欄 <strong>••• → Project settings → Details</strong> → 改完 <strong>Save details</strong>。</p>
+<div class="callout exam" style="margin:.6rem 0"><div class="t">這張表哪幾格真的會考——別平均用力</div>
+<p style="margin:.3rem 0">官方 bullet 雖然寫「<em>Understand each feature of project details</em>」，但考題偏好<strong>有權限差異或有實際後果</strong>的欄位。依此排優先序：</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:14%">優先序</th><th style="width:26%">欄位</th><th>該記什麼</th></tr>
+<tr><td><strong class="yes">高</strong></td><td><strong>Key</strong></td><td>誰能改、改了會不會壞、previous key 的作用——<strong>整個 620.1.4 最常考的一格</strong></td></tr>
+<tr><td><strong class="yes">高</strong></td><td><strong>Default assignee</strong></td><td><strong>只能 Unassigned 或 Project lead</strong>，不是任意 user picker；選不到 Unassigned 時去查全站的 Allow unassigned issues</td></tr>
+<tr><td>中</td><td>Category</td><td><strong>Jira admin 建、project 只能挑</strong>；不能做階層；JQL 用 <code>category = "X"</code></td></tr>
+<tr><td>中</td><td>Name</td><td>全站唯一；Jira admin 連 Private 的名稱都看得到，所以敏感專案用代號</td></tr>
+<tr><td>低</td><td>URL</td><td><strong>知道「只有 CMP 有」就夠</strong>，外加「它不是 project 網址、更不是站台網址」</td></tr>
+<tr><td class="no">最低</td><td><strong>Description</strong></td><td><strong>知道「只有 CMP 有、TMP 沒有」就夠了。</strong>它沒有任何權限或行為上的後果，官方也只有一句話帶過、連截圖都沒有——<strong>幾乎不可能單獨成為考題</strong>，最多是在「哪個欄位只有 CMP 有」這類題目裡當選項。<strong>不值得花時間去站台上找它顯示在哪。</strong></td></tr>
+</table></div>
+<p class="kicker" style="margin:.4rem 0 0">判斷通則：<strong>考題喜歡「誰能做／改了會怎樣／兩種 project 差在哪」，不喜歡「這個欄位長什麼樣子」。</strong>凡是沒有權限差異、也沒有連帶後果的欄位，知道它存在與屬於哪種 project 就好。</p></div>
+
 <div class="callout" style="margin:.6rem 0"><div class="t">先講清楚下表「最低權限」欄的讀法</div>寫 <strong>Project admin</strong> 的意思是「<strong>只要有 Administer Projects 就改得動</strong>」，<strong>不是「只有 project admin 才能改」</strong>——<strong>Jira admin（Administer Jira）自動涵蓋站台上每一個 project 的管理權，所以這些欄位他當然也改得了</strong>，site 與 org admin 同理。<br>整張表<strong>唯一真正排他的是 Key</strong>：那一列反過來，project admin 就是不行（CMP），必須由 org／site／Jira admin 出手。</div>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:15%">欄位</th><th style="width:31%">用途</th><th style="width:24%">最低需要的權限</th><th>改了會怎樣</th></tr>
@@ -119,7 +132,7 @@
 <tr><th style="width:16%">欄位</th><th style="width:34%">填的是什麼</th><th>填了之後在哪裡看得到</th></tr>
 <tr><td><strong>Key</strong></td><td>這個 project 自己的識別碼</td><td>無所不在——每張 issue 的編號前綴（<code>MOB-12</code>）、issue 的網址、JQL、board filter、Confluence 的 Jira macro 全都靠它。這也是為什麼改它要這麼謹慎</td></tr>
 <tr><td><strong>URL</strong></td><td>一個<strong>外部</strong>網址（Confluence space、roadmap、規格文件…）</td><td><strong>只在站台的 project（Spaces）目錄那一頁</strong>——就是你從左上角 Projects → View all projects 進去的那個清單。<strong>進到 project 內部之後就看不到它了</strong>，issue 上更不會出現。所以它的用途很單純：<strong>讓在專案目錄裡瀏覽的人，能一鍵跳到這個團隊的文件</strong></td></tr>
-<tr><td><strong>Description</strong></td><td>給管理員看的專案摘要</td><td>官方原句只有一句：<em>Administrators can view the description in the <strong>Summary</strong> section of your space’s settings.</em>——也就是<strong>在 Project settings 裡的 Summary 區塊</strong>，一般成員在日常畫面上完全看不到。它是<strong>內部備註，不是給團隊看的公告</strong>。<br><span class="kicker"><strong>別跟 project 側欄那個 Summary 搞混</strong>：側欄的 Summary 是儀表板式的專案總覽（近 7 天完成幾張、狀態與優先度圖表），跟 description 完全無關，在那裡找一輩子也找不到。</span></td></tr>
+<tr><td><strong>Description</strong></td><td>給管理員看的專案摘要</td><td>官方原句只有一句：<em>Administrators can view the description in the <strong>Summary</strong> section of your space’s settings.</em>——沒有附任何截圖或路徑。<br><strong class="no">⚠️ 2026-09-09 實際在站台上找過，找不到這個顯示位置。</strong><br><span class="kicker">兩件事要分清楚：官方說的是 <strong>Project settings 裡</strong>的 Summary，<strong>不是 project 側欄那個儀表板式的 Summary 頁</strong>（後者顯示近 7 天完成張數與狀態圖表，跟 description 無關）。但即使找對地方，目前也沒看到它。<strong>務實建議：不要把 Description 當成「會被誰看到」的欄位</strong>——需要讓團隊看到的說明放 Confluence，或用 URL 欄位指過去。</span></td></tr>
 </table></div>
 <p class="kicker" style="margin:.5rem 0 0"><strong>URL 與 Description 都只有 CMP 有</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access（想要 TMP 的 description，官方需求 <a href="https://jira.atlassian.com/browse/JSWCLOUD-17584">JSWCLOUD-17584</a> 至今仍是 Gathering Interest）。<br>另外要分清楚：<strong>URL 欄位不會改變這個 project 的網址</strong>（那由 key 決定），<strong>更不是站台網址</strong>（站台網址要在 admin.atlassian.com 用 Update URL 改）。</p>
 <div class="callout warn" style="margin:.6rem 0 0"><div class="t">找不到這兩個欄位的顯示位置？先確認三件事</div>

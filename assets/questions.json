@@ -1234,6 +1234,33 @@
   "origin": "new"
  },
  {
+  "id": "620.1.4-013",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "一位只有 project admin、沒有 Jira admin 的使用者反映：他在 A 專案改得動 project key，在 B 專案卻是灰的。兩個專案的管理方式不同。最合理的解釋是？",
+  "options": [
+   "A 是 team-managed、B 是 company-managed；改 CMP 的 key 需要 org／site／Jira admin",
+   "A 的 key 比較短，所以不受限制",
+   "B 專案有未解決的 issue，所以 key 被鎖住",
+   "他在 A 專案剛好是 Jira admin"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。官方 <em>Edit a space's details</em> 寫的是 <strong>Only organization, site, and Jira admins can edit a space key.</strong>，而 team-managed 那篇卻寫「有 space permissions 就能改 key」。<strong>實機驗證（2026-09-09）：TMP 的 project admin 改得動，CMP 改不動</strong>——兩篇文件都沒寫錯，各自描述了自己那一半。這也符合兩種 project 的一貫分工：<strong>TMP 的設定長在 project 裡，CMP 的設定是站台層物件</strong>。",
+   "B": "key 的長度只受命名規則限制（至少 2 字元、大寫字母開頭、只含大寫字母與數字），<strong>跟能不能編輯完全無關</strong>。",
+   "C": "issue 的狀態不會鎖住 project key。<strong>改 key 本身是安全操作</strong>——舊 key 會存進 Previous keys 當 alias，舊連結不會斷。",
+   "D": "題目已明確指出他<strong>沒有 Jira admin</strong>；而且 Jira admin 是站台層級的全域權限，不會只在某一個 project 生效。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/",
+   "https://support.atlassian.com/jira-software-cloud/docs/create-edit-and-delete-team-managed-projects/"
+  ],
+  "tags": [],
+  "difficulty": 3,
+  "version_note": "考試作答以官方 Edit a space's details 那句為準（改 key ＝ org／site／Jira admin，考題情境幾乎都是 CMP）；TMP 可改是 2026-09-09 的實機驗證結果。",
+  "origin": "new"
+ },
+ {
   "id": "620.2.1-001",
   "section": "620.2.1",
   "domain": "620.2",
@@ -4166,6 +4193,60 @@
    "components"
   ],
   "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.3.1-014",
+  "section": "620.3.1",
+  "domain": "620.3",
+  "stem": "一位擁有 Administer Jira 全域權限的管理員，不是某個 team-managed space 的成員。他想把自己加進那個 space。結果是？",
+  "options": [
+   "可以，Administer Jira 涵蓋所有 project 的一切操作",
+   "不行；加人需要該 space 的 Administrator role，要由 space admin 或 org admin 出手",
+   "不行，任何人都不能把自己加進 space",
+   "可以，只要他同時具備 user access admin"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "這是最常見的誤解。官方對 Jira admin 的保證只有兩句，<strong>兩句都只講「看得到」與「進得去設定」</strong>：<em>always have access to your space's <strong>settings</strong></em>、以及 Private space 時 <em>only Jira admins and people you add to the space can <strong>see it</strong></em>。<strong>沒有一句賦予他該 space 的 Administrator role。</strong>",
+   "B": "正解。官方在 Add people 那頁把所需身分寫死成 <strong>Role: Administrator</strong>——那是<strong>該 space 內的角色</strong>，屬於 project 層。<strong>Administer Jira 是產品層的全域權限，不會自動換來每個 space 的 Administrator role</strong>。實機驗證（2026-09-09）也是如此：他加不了自己，但該 space 的 admin 可以把他加進去，org admin 也可以。這個設計是刻意的——<strong>可見性與操作權被分開</strong>，否則 space 層級的授權就形同虛設。",
+   "C": "說得太絕對。<strong>該 space 的 admin 與 org admin 都可以把人（含這位 Jira admin）加進去</strong>，只是他自己不行。",
+   "D": "<strong>user access admin 完全不碰 project 內部</strong>——它管的是組織層的產品存取（誰能使用 Jira、席次、群組）。多這個身分一點幫助也沒有。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/add-people-to-team-managed-projects/",
+   "https://support.atlassian.com/jira-software-cloud/docs/manage-how-people-access-your-team-managed-project/"
+  ],
+  "tags": [],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.3.1-015",
+  "section": "620.3.1",
+  "domain": "620.3",
+  "stem": "Project admin 要新增一位公司新同事到自己的 project，但在 Add people 搜尋框裡找不到這個人。他應該去找誰？",
+  "options": [
+   "Jira admin，因為 Administer Jira 涵蓋使用者管理",
+   "board admin，由他在 board settings 新增使用者",
+   "有使用者管理權的管理員：org admin、user access admin，或舊制的 site admin",
+   "不用找人，直接輸入對方的 email 就能把他加進 project"
+  ],
+  "answer": "C",
+  "explain": {
+   "A": "這是很常被口語帶過、但嚴格說錯誤的一項。官方明講 <em>An app admin can manage settings for a specific app. <strong>They can't access Atlassian Administration.</strong></em>——而<strong>邀請使用者是在 admin.atlassian.com 做的</strong>，Jira admin 進不去那裡。實務上大家會說「找 Jira admin」，是因為這些身分常由同一人兼任。",
+   "B": "board admin 管的是 board 的設定（columns、swimlanes、quick filters），<strong>跟站台的使用者管理毫無關係</strong>。",
+   "C": "正解。<strong>把人邀請進 Atlassian 站台屬於組織層的使用者管理</strong>，要 <strong>org admin</strong>、<strong>user access admin</strong>（它的職責官方定義就是 managing access to the app they administer），或舊制的 <strong>site admin</strong>。對方在站台上有帳號之後，project admin 才搜尋得到並加進 project。若是外部廠商或客戶，請他們邀請成 <strong>guest</strong>——只能存取指定的那一個 project，也不佔正式授權席次。",
+   "D": "做不到。<strong>Add people 的搜尋框只找得到「已經在這個站台上有帳號」的人</strong>，不能直接用 email 把外面的人拉進來。"
+  },
+  "sources": [
+   "https://support.atlassian.com/user-management/docs/give-users-admin-permissions/",
+   "https://support.atlassian.com/jira-software-cloud/docs/add-people-to-team-managed-projects/"
+  ],
+  "tags": [],
+  "difficulty": 2,
   "version_note": "",
   "origin": "new"
  },
