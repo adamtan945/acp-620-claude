@@ -1261,6 +1261,32 @@
   "origin": "new"
  },
  {
+  "id": "620.1.4-014",
+  "section": "620.1.4",
+  "domain": "620.1",
+  "stem": "某 company-managed project 過去把 key 從 MOB 改成 APP，現在公司想把 MOB 這個 key 拿給一個全新的 project 使用。該 project 的 project admin 打算自己到 Details → Previous keys 把 MOB 刪掉。結果會是？",
+  "options": [
+   "他刪不掉，因為在 company-managed project 刪 previous key 和改 key 一樣需要 org／site／Jira admin",
+   "他刪得掉，因為 previous key 只是別名，刪除不算重大變更",
+   "他刪得掉，但刪除後 Jira 會自動把所有舊連結改寫成新的 key",
+   "他刪不掉，因為 previous key 在原 project 被刪除之前都無法移除"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。改 key 與刪 previous key 的權限<strong>是跟著 project 類型走，不是跟著動作走</strong>：在 <strong>CMP 兩個動作都要 org／site／Jira admin</strong>，在 <strong>TMP 則 project admin 自己都做得到</strong>（2026-09-09 實機驗證）。這符合兩種 project 的一貫分工——CMP 的 project 設定是站台層物件，TMP 的設定長在 project 自己身上。",
+   "B": "previous key 確實是靠 alias 讓舊連結繼續運作，但正因為如此，<strong>刪掉它反而是整個 key 主題裡唯一真正具破壞性的動作</strong>——所有還在引用舊 key 的連結、board filter、gadget 與 JQL 都會失效，因此權限並不寬鬆。",
+   "C": "Jira <strong>不會改寫任何既有文字</strong>。改 key 時留言裡的 <code>MOB-12</code> 字面就不會變，只是點下去會導向新 key；一旦 previous key 被刪，連導向都沒了，字面仍然停在舊 key。",
+   "D": "刪除整個 project 是釋放舊 key 的<strong>另一條路</strong>，不是刪 previous key 的前提條件。previous key 本身就可以單獨刪除，前提是權限足夠。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/"
+  ],
+  "tags": [],
+  "difficulty": 3,
+  "version_note": "CMP 需 org／site／Jira admin、TMP 的 project admin 即可，為 2026-09-09 實機驗證結果；考題情境預設為 CMP。",
+  "origin": "new"
+ },
+ {
   "id": "620.2.1-001",
   "section": "620.2.1",
   "domain": "620.2",
