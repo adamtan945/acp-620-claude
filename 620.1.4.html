@@ -119,9 +119,15 @@
 <tr><th style="width:16%">欄位</th><th style="width:34%">填的是什麼</th><th>填了之後在哪裡看得到</th></tr>
 <tr><td><strong>Key</strong></td><td>這個 project 自己的識別碼</td><td>無所不在——每張 issue 的編號前綴（<code>MOB-12</code>）、issue 的網址、JQL、board filter、Confluence 的 Jira macro 全都靠它。這也是為什麼改它要這麼謹慎</td></tr>
 <tr><td><strong>URL</strong></td><td>一個<strong>外部</strong>網址（Confluence space、roadmap、規格文件…）</td><td><strong>只在站台的 project（Spaces）目錄那一頁</strong>——就是你從左上角 Projects → View all projects 進去的那個清單。<strong>進到 project 內部之後就看不到它了</strong>，issue 上更不會出現。所以它的用途很單純：<strong>讓在專案目錄裡瀏覽的人，能一鍵跳到這個團隊的文件</strong></td></tr>
-<tr><td><strong>Description</strong></td><td>給管理員看的專案摘要</td><td>官方原句：<em>Administrators can view the description in the <strong>Summary</strong> section of your space’s settings.</em>——<strong>只出現在 Project settings 的 Summary 頁</strong>，一般成員在日常畫面上完全看不到。它是內部備註，不是給團隊看的公告</td></tr>
+<tr><td><strong>Description</strong></td><td>給管理員看的專案摘要</td><td>官方原句只有一句：<em>Administrators can view the description in the <strong>Summary</strong> section of your space’s settings.</em>——也就是<strong>在 Project settings 裡的 Summary 區塊</strong>，一般成員在日常畫面上完全看不到。它是<strong>內部備註，不是給團隊看的公告</strong>。<br><span class="kicker"><strong>別跟 project 側欄那個 Summary 搞混</strong>：側欄的 Summary 是儀表板式的專案總覽（近 7 天完成幾張、狀態與優先度圖表），跟 description 完全無關，在那裡找一輩子也找不到。</span></td></tr>
 </table></div>
-<p class="kicker" style="margin:.5rem 0 0">三個都<strong>只有 CMP 有 URL 與 Description</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access。<br>另外要分清楚：<strong>URL 欄位不會改變這個 project 的網址</strong>（那由 key 決定），<strong>更不是站台網址</strong>（站台網址要在 admin.atlassian.com 用 Update URL 改）。</p></div>
+<p class="kicker" style="margin:.5rem 0 0"><strong>URL 與 Description 都只有 CMP 有</strong>；TMP 的 Details 只有 Avatar、Name、Key、Category、Access（想要 TMP 的 description，官方需求 <a href="https://jira.atlassian.com/browse/JSWCLOUD-17584">JSWCLOUD-17584</a> 至今仍是 Gathering Interest）。<br>另外要分清楚：<strong>URL 欄位不會改變這個 project 的網址</strong>（那由 key 決定），<strong>更不是站台網址</strong>（站台網址要在 admin.atlassian.com 用 Update URL 改）。</p>
+<div class="callout warn" style="margin:.6rem 0 0"><div class="t">找不到這兩個欄位的顯示位置？先確認三件事</div>
+<ol style="margin:0">
+<li><strong>你在的是 CMP 嗎</strong>——TMP 根本沒有 URL 與 Description 這兩個欄位，Details 頁上不會出現。</li>
+<li><strong>你找的是正確的 Summary 嗎</strong>——官方指的是 <strong>Project settings 裡</strong>的 Summary，不是 project 側欄那個儀表板式的 Summary 頁。</li>
+<li><strong>官方對這兩個欄位的著墨都極少</strong>：URL 只寫了「顯示在 Spaces 目錄」，Description 只寫了「管理員可在 settings 的 Summary 看到」，都沒有附畫面。<strong>介面改版時這類低調欄位的位置很容易悄悄變動</strong>，遇到對不上時以站台實際畫面為準，不要硬套文件。</li>
+</ol></div></div>
 </section>
 
 <!-- ============ Key change ============ -->
