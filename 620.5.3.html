@@ -151,6 +151,87 @@
 <li>Y 軸用 board 的 estimation statistic；<strong>sub-task 的估算不計</strong>；平均線＝顯示的 sprint 的 completed 平均</li>
 </ul></div>
 </div>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 340" role="img" aria-label="Burndown chart 示意：灰色 guideline 直線降到 0，紅色實際剩餘線在 Day 5 往上跳，結束時還剩 12 點">
+  <defs><marker id="s253-arr-bd" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 繪圖區 x 80..820，y 40..280（原點 80,280）；X 軸 Day1..Day10 每格 74；Y 0..40 點，每點 6px -->
+  <line x1="80" y1="280" x2="820" y2="280" class="ln"/><line x1="80" y1="280" x2="80" y2="40" class="ln"/>
+  <text x="490" y="312" text-anchor="middle" class="s">Sprint 天數（Day 1 → Day 10）</text>
+  <text x="30" y="160" text-anchor="middle" class="s" transform="rotate(-90 30 160)">剩餘 story points</text>
+  <text x="70" y="284" text-anchor="end" class="s">0</text><text x="70" y="164" text-anchor="end" class="s">20</text><text x="70" y="44" text-anchor="end" class="s">40</text>
+  <!-- guideline：30 點 (80,100) 直線降到 0 (820,280) -->
+  <path d="M80,100 L820,280" class="ln" stroke-dasharray="6 5"/>
+  <!-- 實際剩餘：30,28,25,23,20 → Day5 加 8 → 28,26,22,18,15,12 -->
+  <path d="M80,100 H154 V112 H228 V130 H302 V142 H376 V160 H450 V112 H524 V124 H598 V148 H672 V172 H746 V190 H820 V208" stroke="var(--rose)" stroke-width="3" fill="none"/>
+  <rect x="470" y="46" width="230" height="30" rx="6" class="box rose"/><text x="585" y="66" text-anchor="middle" class="lbl b no">Day 5 加了 8 點 → 剩餘不降反升</text>
+  <path d="M470,61 H450 V100" class="ln" marker-end="url(#s253-arr-bd)"/>
+  <text x="838" y="212" class="lbl b no">剩 12 點</text>
+  <text x="838" y="228" class="s">沒燒完</text>
+  <text x="838" y="284" class="s">Guideline 0</text>
+  <text x="92" y="92" class="s">起始 30 點</text>
+  <text x="490" y="330" text-anchor="middle" class="s">紅線在灰線上方＝落後進度；紅線往上跳＝scope 增加或估點調高；sprint 開始時沒有 issue → 灰線畫不出來</text>
+</svg>
+<div class="cap">圖 1　Burndown 只有一條「剩餘」線，所以 scope 增加和做完工作會混在同一條線上——這正是 Burnup 要解決的問題（圖 4）。</div>
+</div>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 390" role="img" aria-label="Sprint report 示意：Completed、Not completed、Removed、Completed outside of this sprint 四個清單，星號與估點變更標記">
+  <!-- 左側報表 x 60..600；右側註解 x 630..930；每列高 26 -->
+  <text x="60" y="44" class="t">Sprint Report · Sprint 7</text>
+  <text x="600" y="44" text-anchor="end" class="s">Commitment 10 → Completed 8</text>
+  <rect x="60" y="60" width="540" height="26" rx="4" class="box green"/><text x="72" y="78" class="lbl b yes">Completed Issues（2）</text>
+  <text x="72" y="106" class="lbl">PROJ-12　登入頁改版</text><text x="588" y="106" text-anchor="end" class="lbl b">5</text>
+  <text x="72" y="132" class="lbl">PROJ-18 <tspan class="no" font-weight="700">*</tspan>　密碼重設信</text><text x="588" y="132" text-anchor="end" class="lbl b">3</text>
+  <rect x="60" y="150" width="540" height="26" rx="4" class="box amber"/><text x="72" y="168" class="lbl b">Issues Not Completed（1）</text>
+  <text x="72" y="196" class="lbl">PROJ-21　SSO 串接</text><text x="588" y="196" text-anchor="end" class="lbl b">3 → 3.5</text>
+  <rect x="60" y="214" width="540" height="26" rx="4" class="box rose"/><text x="72" y="232" class="lbl b no">Issues Removed From Sprint（1）</text>
+  <text x="72" y="260" class="lbl">PROJ-25　舊版瀏覽器相容</text><text x="588" y="260" text-anchor="end" class="lbl b">2</text>
+  <rect x="60" y="278" width="540" height="26" rx="4" class="box"/><text x="72" y="296" class="lbl b">Issues completed outside of this sprint（1）</text>
+  <text x="72" y="324" class="lbl">PROJ-09　API 文件更新</text><text x="588" y="324" text-anchor="end" class="lbl b">1</text>
+  <rect x="630" y="90" width="300" height="52" rx="6" class="box rose"/>
+  <text x="642" y="110" class="lbl b no">＊ 星號</text><text x="642" y="130" class="lbl">sprint 開始「之後」才加進來的</text>
+  <rect x="630" y="180" width="300" height="52" rx="6" class="box amber"/>
+  <text x="642" y="200" class="lbl b">3 → 3.5</text><text x="642" y="220" class="lbl">sprint 進行中估點被改過</text>
+  <rect x="630" y="244" width="300" height="52" rx="6" class="box"/>
+  <text x="642" y="264" class="lbl b">Removed</text><text x="642" y="284" class="lbl">中途被拉出 sprint，不算未完成</text>
+  <text x="490" y="372" text-anchor="middle" class="s">Commitment 10 ＝ 5＋3＋2（開始當下的三張）；Completed 8 ＝ 5＋3，PROJ-18 帶星號 → 不在 Commitment 裡，但算進 Completed</text>
+</svg>
+<div class="cap">圖 2　Sprint report 是 retro 的素材：星號和「3 → 3.5」把「沒做完」的原因分成兩類——中途被塞了工作，還是原本就低估。</div>
+</div>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 340" role="img" aria-label="Velocity chart 示意：五個 sprint 各兩根柱，Commitment 與 Completed，平均線 23 點">
+  <!-- 繪圖區 x 80..790，y 40..280；Y 0..40 點每點 6px；5 組，組中心 151,293,435,577,719；柱寬 44 -->
+  <line x1="80" y1="280" x2="790" y2="280" class="ln"/><line x1="80" y1="280" x2="80" y2="40" class="ln"/>
+  <!-- 平均線 (21+22+26+20+26)/5 = 23 → y 142，先畫讓柱子蓋在上面 -->
+  <path d="M80,142 H790" stroke="var(--ink-3)" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  <text x="70" y="284" text-anchor="end" class="s">0</text><text x="70" y="164" text-anchor="end" class="s">20</text><text x="70" y="44" text-anchor="end" class="s">40</text>
+  <text x="30" y="160" text-anchor="middle" class="s" transform="rotate(-90 30 160)">Story points</text>
+  <rect x="99" y="136" width="44" height="144" class="box brand"/><rect x="159" y="154" width="44" height="126" class="box green"/>
+  <text x="121" y="130" text-anchor="middle" class="s">24</text><rect x="170" y="137" width="22" height="14" fill="var(--card)"/><text x="181" y="148" text-anchor="middle" class="s">21</text>
+  <text x="151" y="300" text-anchor="middle" class="lbl">Sprint 3</text>
+  <rect x="241" y="112" width="44" height="168" class="box brand"/><rect x="301" y="148" width="44" height="132" class="box green"/>
+  <text x="263" y="106" text-anchor="middle" class="s">28</text><rect x="312" y="131" width="22" height="14" fill="var(--card)"/><text x="323" y="142" text-anchor="middle" class="s">22</text>
+  <text x="293" y="300" text-anchor="middle" class="lbl">Sprint 4</text>
+  <rect x="383" y="124" width="44" height="156" class="box brand"/><rect x="443" y="124" width="44" height="156" class="box green"/>
+  <text x="405" y="118" text-anchor="middle" class="s">26</text><text x="465" y="118" text-anchor="middle" class="s">26</text>
+  <text x="435" y="300" text-anchor="middle" class="lbl">Sprint 5</text>
+  <rect x="525" y="100" width="44" height="180" class="box brand"/><rect x="585" y="160" width="44" height="120" class="box green"/>
+  <text x="547" y="94" text-anchor="middle" class="s">30</text><rect x="596" y="143" width="22" height="14" fill="var(--card)"/><text x="607" y="154" text-anchor="middle" class="s">20</text>
+  <text x="577" y="300" text-anchor="middle" class="lbl">Sprint 6</text>
+  <rect x="667" y="148" width="44" height="132" class="box brand"/><rect x="727" y="124" width="44" height="156" class="box green"/>
+  <rect x="678" y="131" width="22" height="14" fill="var(--card)"/><text x="689" y="142" text-anchor="middle" class="s">22</text><text x="749" y="118" text-anchor="middle" class="s">26</text>
+  <text x="719" y="300" text-anchor="middle" class="lbl">Sprint 7</text>
+  <rect x="812" y="60" width="16" height="16" class="box brand"/><text x="836" y="73" class="lbl">Commitment</text>
+  <rect x="812" y="90" width="16" height="16" class="box green"/><text x="836" y="103" class="lbl">Completed</text>
+  <path d="M812,132 H840" stroke="var(--ink-3)" stroke-width="2" stroke-dasharray="6 5" fill="none"/><text x="848" y="136" class="lbl">平均 23</text>
+  <text x="812" y="200" class="s">Sprint 7：</text>
+  <text x="812" y="218" class="lbl b yes">Completed ＞</text>
+  <text x="812" y="236" class="lbl b yes">Commitment</text>
+  <text x="812" y="256" class="s">期間加入又做完，</text>
+  <text x="812" y="272" class="s">不是算錯</text>
+  <text x="490" y="330" text-anchor="middle" class="s">Commitment＝sprint 開始當下的總估算；開始後加入或調高的不算進 Commitment，但算進 Completed；下一個 sprint 拿平均 23 點來規劃</text>
+</svg>
+<div class="cap">圖 3　Velocity 拿 Completed 的平均當團隊產能。sub-task 的估點不計；Y 軸用 board 的 estimation statistic。</div>
+</div>
 </section>
 
 <!-- ============ Burnup ============ -->
@@ -179,7 +260,7 @@
   <text x="838" y="104" class="s">Guideline</text>
   <text x="490" y="330" text-anchor="middle" class="s">紅綠兩線的距離＝剩餘工作；兩線交會＝sprint 完成；紅線中途往上＝有人在 sprint 中加工作</text>
 </svg>
-<div class="cap">圖 1　Burnup 比 burndown 多的一件事：把「scope 變了」和「做完了多少」分開畫，所以能一眼看出 scope creep。sub-task 的點數同樣不計。</div>
+<div class="cap">圖 4　Burnup 比 burndown 多的一件事：把「scope 變了」和「做完了多少」分開畫，所以能一眼看出 scope creep。sub-task 的點數同樣不計。</div>
 </div>
 </section>
 
@@ -203,6 +284,127 @@
 <li>Release burndown 的預測用<strong>近三個 sprint 的完成量</strong>；<strong>scope change 不列入這個 velocity 計算，但列入總剩餘量</strong>；未估點超過 <strong>30%</strong> 時標紅，預測不可靠。（此 velocity 與 Velocity Chart 的定義不同。）</li>
 </ul>
 <div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-version-report/">Version report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-release-burndown-report/">Release burndown report</a>（2026-09-08 查核）</div></div>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 300" role="img" aria-label="Epic report 示意：一條進度條分成已完成、未完成、未估點三段，下方三欄列出對應 issue">
+  <text x="80" y="44" class="t">Epic Report · EPIC-100 使用者登入改版</text>
+  <text x="900" y="44" text-anchor="end" class="s">視角：Story points ▾</text>
+  <!-- 進度條 x 80..900 y 70..106：完成 18 點 (80..560)、未完成 10 點 (560..800)、未估點 3 張 (800..900) -->
+  <rect x="80" y="70" width="480" height="36" class="box green"/><text x="320" y="93" text-anchor="middle" class="lbl b yes">已完成 18 點</text>
+  <rect x="560" y="70" width="240" height="36" class="box brand"/><text x="680" y="93" text-anchor="middle" class="lbl b">未完成 10 點</text>
+  <rect x="800" y="70" width="100" height="36" class="box" stroke-dasharray="5 4"/><text x="850" y="93" text-anchor="middle" class="lbl muted">未估點 3 張</text>
+  <rect x="80" y="130" width="250" height="120" rx="8" class="box green"/>
+  <text x="96" y="152" class="lbl b yes">Completed（在最右欄）</text>
+  <text x="96" y="178" class="lbl">PROJ-12　登入頁改版　5</text>
+  <text x="96" y="200" class="lbl">PROJ-18　密碼重設信　3</text>
+  <text x="96" y="222" class="lbl">PROJ-30　雙因子驗證　10</text>
+  <rect x="365" y="130" width="250" height="120" rx="8" class="box brand"/>
+  <text x="381" y="152" class="lbl b">Incomplete</text>
+  <text x="381" y="178" class="lbl">PROJ-21　SSO 串接　3</text>
+  <text x="381" y="200" class="lbl">PROJ-33　登入紀錄頁　7</text>
+  <rect x="650" y="130" width="250" height="120" rx="8" class="box" stroke-dasharray="5 4"/>
+  <text x="666" y="152" class="lbl muted" font-weight="700">Unestimated</text>
+  <text x="666" y="178" class="lbl">PROJ-35　錯誤訊息文案　—</text>
+  <text x="666" y="200" class="lbl">PROJ-36　i18n 補翻　—</text>
+  <text x="666" y="222" class="lbl">PROJ-37　QA 回歸　—</text>
+  <text x="490" y="282" text-anchor="middle" class="s">Done 依 board 最右欄判定；未估點的 issue 不會出現在進度條的點數裡，只算張數——這批一多，進度百分比就失真</text>
+</svg>
+<div class="cap">圖 5　Epic report 回答「這個 epic 還剩多少」：完成／未完成／未估點三個清單，可切 story points 或 issue count 視角。CMP Scrum 專屬。</div>
+</div>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 360" role="img" aria-label="Epic burndown 示意：Sprint 4 到 7 的剩餘工作柱狀遞減，Sprint 6 柱頂有深藍色新增 scope，Sprint 8、9 為灰色預測">
+  <defs><marker id="s253-arr-eb" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
+  <!-- 繪圖區 x 80..800，y 50..280；Y 0..40 點每點 5.75；6 根柱寬 80：117,234,351,468,585,702 -->
+  <line x1="80" y1="280" x2="800" y2="280" class="ln"/><line x1="80" y1="280" x2="80" y2="50" class="ln"/>
+  <text x="70" y="284" text-anchor="end" class="s">0</text><text x="70" y="169" text-anchor="end" class="s">20</text><text x="70" y="54" text-anchor="end" class="s">40</text>
+  <text x="30" y="165" text-anchor="middle" class="s" transform="rotate(-90 30 165)">剩餘 story points</text>
+  <rect x="117" y="108" width="80" height="172" class="box brand"/>
+  <text x="157" y="102" text-anchor="middle" class="s">30</text>
+  <text x="157" y="300" text-anchor="middle" class="lbl">Sprint 4</text>
+  <rect x="234" y="142" width="80" height="138" class="box brand"/>
+  <text x="274" y="136" text-anchor="middle" class="s">24</text>
+  <text x="274" y="300" text-anchor="middle" class="lbl">Sprint 5</text>
+  <text x="274" y="318" text-anchor="middle" class="s yes">完成 6</text>
+  <!-- Sprint 6：剩 18 → y 177；期間加 4 點 scope（深藍段 y 177..200） -->
+  <rect x="351" y="200" width="80" height="80" class="box brand"/>
+  <rect x="351" y="177" width="80" height="23" fill="var(--brand)" stroke="var(--brand-2)" stroke-width="1.5"/>
+  <text x="391" y="171" text-anchor="middle" class="s">18</text>
+  <text x="391" y="300" text-anchor="middle" class="lbl">Sprint 6</text>
+  <text x="391" y="318" text-anchor="middle" class="s yes">完成 10、加 4</text>
+  <rect x="468" y="211" width="80" height="69" class="box brand"/>
+  <text x="508" y="205" text-anchor="middle" class="s">12</text>
+  <text x="508" y="300" text-anchor="middle" class="lbl">Sprint 7</text>
+  <text x="508" y="318" text-anchor="middle" class="s yes">完成 6</text>
+  <rect x="585" y="251" width="80" height="29" class="box" stroke-dasharray="5 4"/>
+  <text x="625" y="245" text-anchor="middle" class="s">≈5</text>
+  <text x="625" y="300" text-anchor="middle" class="lbl muted">Sprint 8</text>
+  <text x="625" y="318" text-anchor="middle" class="s">預測</text>
+  <rect x="702" y="270" width="80" height="10" class="box" stroke-dasharray="5 4"/>
+  <text x="742" y="264" text-anchor="middle" class="s">0</text>
+  <text x="742" y="300" text-anchor="middle" class="lbl muted">Sprint 9</text>
+  <text x="742" y="318" text-anchor="middle" class="s">預測完成</text>
+  <rect x="440" y="60" width="330" height="30" rx="6" class="box brand"/><text x="605" y="80" text-anchor="middle" class="lbl b">深藍段＝Sprint 6 期間新增的 scope（4 點）</text>
+  <path d="M440,75 H410 V177" class="ln" marker-end="url(#s253-arr-eb)"/>
+  <rect x="820" y="60" width="16" height="16" class="box brand"/><text x="844" y="73" class="lbl">原估剩餘</text>
+  <rect x="820" y="90" width="16" height="16" fill="var(--brand)" stroke="var(--brand-2)" stroke-width="1.5"/><text x="844" y="103" class="lbl">新增 scope</text>
+  <rect x="820" y="120" width="16" height="16" class="box" stroke-dasharray="5 4"/><text x="844" y="133" class="lbl">預測</text>
+  <text x="820" y="180" class="s">預測算法：</text>
+  <text x="820" y="198" class="lbl b">剩 12 ÷ 近三個</text>
+  <text x="820" y="216" class="lbl b">sprint 平均 7.3</text>
+  <text x="820" y="234" class="lbl b">≈ 還要 2 個</text>
+  <text x="440" y="346" text-anchor="middle" class="s">近三個 sprint 完成 6、10、6 → 平均 7.3；只看最近三個，不看全部歷史；未估點超過 30% 時報表會警告、預測不可信</text>
+</svg>
+<div class="cap">圖 6　Epic burndown 用「還要幾個 sprint」回答進度；深藍段是考題最愛問的——epic 開工後才加進來的工作一律算 scope。</div>
+</div>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 340" role="img" aria-label="Release burndown 示意：左側 version 剩餘工作柱狀與預測，右側 board columns 對應表顯示未對應到 column 的 status 完全不進報表">
+  <!-- 左：繪圖區 x 60..500，y 60..260；Y 0..40 每點 5；4 根柱寬 70：78,186,294,402 -->
+  <text x="60" y="40" class="t">Release Burndown · v2.0</text>
+  <line x1="60" y1="260" x2="500" y2="260" class="ln"/><line x1="60" y1="260" x2="60" y2="60" class="ln"/>
+  <rect x="78" y="100" width="70" height="160" class="box brand"/><text x="113" y="94" text-anchor="middle" class="s">32</text><text x="113" y="280" text-anchor="middle" class="lbl">Sprint 5</text>
+  <rect x="186" y="140" width="70" height="120" class="box brand"/><text x="221" y="134" text-anchor="middle" class="s">24</text><text x="221" y="280" text-anchor="middle" class="lbl">Sprint 6</text>
+  <rect x="294" y="180" width="70" height="80" class="box brand"/><text x="329" y="174" text-anchor="middle" class="s">16</text><text x="329" y="280" text-anchor="middle" class="lbl">Sprint 7</text>
+  <rect x="402" y="220" width="70" height="40" class="box" stroke-dasharray="5 4"/><text x="437" y="214" text-anchor="middle" class="s">8</text><text x="437" y="280" text-anchor="middle" class="lbl muted">Sprint 8 預測</text>
+  <text x="280" y="306" text-anchor="middle" class="s">形式與 Epic burndown 相同，範圍換成 version；一樣用近三個 sprint 預測</text>
+  <!-- 右：board columns 對應 x 560..940 -->
+  <text x="560" y="40" class="t">Board columns 對應（決定誰進報表）</text>
+  <rect x="560" y="60" width="120" height="34" rx="6" class="box"/><text x="620" y="82" text-anchor="middle" class="lbl b">To Do</text>
+  <text x="700" y="82" class="lbl">← Open、Reopened</text>
+  <rect x="560" y="106" width="120" height="34" rx="6" class="box brand"/><text x="620" y="128" text-anchor="middle" class="lbl b">In Progress</text>
+  <text x="700" y="128" class="lbl">← In Progress</text>
+  <rect x="560" y="152" width="120" height="34" rx="6" class="box green"/><text x="620" y="174" text-anchor="middle" class="lbl b yes">Done</text>
+  <text x="700" y="174" class="lbl">← Done、Closed</text>
+  <rect x="560" y="210" width="120" height="34" rx="6" class="box rose" stroke-dasharray="5 4"/><text x="620" y="232" text-anchor="middle" class="lbl b no">（沒有欄）</text>
+  <text x="700" y="232" class="lbl b no">← In Review</text>
+  <rect x="560" y="256" width="380" height="64" rx="6" class="box rose"/>
+  <text x="572" y="276" class="lbl b no">In Review 的卡「完全不列入」報表</text>
+  <text x="572" y="296" class="s">不進 sprint bar、不算 % unestimated、不算剩餘點數</text>
+  <text x="572" y="312" class="s">→「報表少了一批卡」先查 unmapped status</text>
+</svg>
+<div class="cap">圖 7　Release burndown 的獨有陷阱：status 沒有對應到任何 column 的工作就像不存在。這是「報表數字對不上 backlog」最常見的原因。</div>
+</div>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 340" role="img" aria-label="Version report 示意：剩餘工作趨勢線往下，延伸到 0 的交點是預測 release 日，兩側灰帶為樂觀與悲觀區間">
+  <!-- 繪圖區 x 80..860，y 40..280；實際線 (80,70)→(500,190)，預測虛線延伸到 (700,280)；灰帶 x 645..755 -->
+  <rect x="645" y="40" width="110" height="240" fill="var(--line-2)" opacity=".28"/>
+  <line x1="80" y1="280" x2="860" y2="280" class="ln"/><line x1="80" y1="280" x2="80" y2="40" class="ln"/>
+  <text x="470" y="312" text-anchor="middle" class="s">時間（依 board 的 working days 跳過非工作日）</text>
+  <text x="30" y="160" text-anchor="middle" class="s" transform="rotate(-90 30 160)">剩餘工作量</text>
+  <path d="M80,70 L500,190" stroke="var(--rose)" stroke-width="3" fill="none"/>
+  <text x="92" y="62" class="s">開始 · 版本總量</text>
+  <text x="500" y="178" text-anchor="middle" class="lbl b no">今天</text>
+  <line x1="500" y1="190" x2="500" y2="280" class="ln" stroke-dasharray="3 4"/>
+  <path d="M500,190 L700,280" stroke="var(--brand)" stroke-width="2.5" stroke-dasharray="7 5" fill="none"/>
+  <line x1="700" y1="40" x2="700" y2="280" stroke="var(--brand)" stroke-width="2.5"/>
+  <rect x="612" y="46" width="176" height="28" rx="6" class="box brand"/><text x="700" y="65" text-anchor="middle" class="lbl b">預測 release 日</text>
+  <text x="645" y="300" text-anchor="middle" class="s">樂觀</text><text x="645" y="314" text-anchor="middle" class="s">速度 +10%</text>
+  <text x="755" y="300" text-anchor="middle" class="s">悲觀</text><text x="755" y="314" text-anchor="middle" class="s">速度 −10%</text>
+  <rect x="80" y="220" width="330" height="50" rx="6" class="box amber"/>
+  <text x="92" y="240" class="lbl b">要先完成該版本估算工作的 10%</text>
+  <text x="92" y="260" class="s">才畫得出這條預測；排除 sub-task；只在 CMP Scrum</text>
+  <text x="470" y="332" text-anchor="middle" class="s">紅線＝實際剩餘；藍虛線＝照目前平均日進度延伸；藍實線＝剩餘歸零的那天；灰帶＝±10% 速度落在哪</text>
+</svg>
+<div class="cap">圖 8　Version report 回答「哪一天能 release」，Release burndown 回答「還要幾個 sprint」——同一件事的兩種問法，考題會用問句分辨。</div>
+</div>
 </section>
 
 <!-- ============ Control chart ============ -->
@@ -235,7 +437,7 @@
   <text x="838" y="184" class="s">標準差帶</text>
   <text x="490" y="330" text-anchor="middle" class="s">帶越窄＝越可預測；平均線往下＝流程變快；離群點要點開看原因（可用 label 排除）</text>
 </svg>
-<div class="cap">圖 2　Cycle time＝在所選狀態（columns）裡待了多久；Lead time＝從建立到完成。兩者都在這張圖上，用 columns 篩選切換。</div>
+<div class="cap">圖 9　Cycle time＝在所選狀態（columns）裡待了多久；Lead time＝從建立到完成。兩者都在這張圖上，用 columns 篩選切換。</div>
 </div>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:24%">元素</th><th>官方定義</th></tr>
@@ -276,7 +478,7 @@
   <path d="M650,82 V182" class="ln" stroke-dasharray="4 4"/>
   <text x="490" y="330" text-anchor="middle" class="s">帶的垂直厚度＝當時在該狀態的數量；某一帶隨時間變厚＝進得多出得少＝瓶頸</text>
 </svg>
-<div class="cap">圖 3　CFD 是<strong>累積</strong>圖：進過 To do 的數字不會因為往前走而減少，只有新進來才會增加。Done 帶的上升斜率＝throughput。</div>
+<div class="cap">圖 10　CFD 是<strong>累積</strong>圖：進過 To do 的數字不會因為往前走而減少，只有新進來才會增加。Done 帶的上升斜率＝throughput。</div>
 </div>
 <ul>
 <li>只含 board filter 內的 issue；顏色對應 board 的 columns。</li>
@@ -315,6 +517,46 @@ CFD 是<strong>堆疊面積圖</strong>，每條線是「累積上界」，某�
 <tr><td>Workload Pie Chart Report</td><td>依 assignee 的工作量比例</td></tr>
 </table></div>
 <p class="kicker" style="margin-top:.5rem">另有給 Confluence 用的 Change Log 與 Status Report；更多報表在 Marketplace。</p>
+<div class="figure">
+<svg class="dia" viewBox="0 0 980 290" role="img" aria-label="Issue analysis 報表的四種長相：Created vs Resolved 雙折線、Pie chart、Average age 柱狀、Time tracking 水平條">
+  <!-- 四格各 220 寬，x 起點 30, 270, 510, 750；每格內繪圖區 y 60..200 -->
+  <text x="140" y="40" text-anchor="middle" class="lbl b">Created vs Resolved</text>
+  <line x1="40" y1="200" x2="240" y2="200" class="ln"/><line x1="40" y1="200" x2="40" y2="60" class="ln"/>
+  <path d="M40,150 L90,120 L140,110 L190,80 L240,70" stroke="var(--rose)" stroke-width="2.5" fill="none"/>
+  <path d="M40,170 L90,160 L140,140 L190,135 L240,120" stroke="var(--green)" stroke-width="2.5" fill="none"/>
+  <text x="140" y="222" text-anchor="middle" class="s">紅＝建立、綠＝解決</text>
+  <text x="140" y="238" text-anchor="middle" class="s">紅一直高於綠 → backlog 在漲</text>
+  <text x="380" y="40" text-anchor="middle" class="lbl b">Pie Chart</text>
+  <!-- 圓心 (380,130) r 60；三塊：50% brand、30% green、20% amber -->
+  <path d="M380,130 L380,70 A60,60 0 1,1 380,190 Z" fill="var(--brand)" opacity=".8"/>
+  <path d="M380,130 L380,190 A60,60 0 0,1 322.9,111.5 Z" fill="var(--green)" opacity=".8"/>
+  <path d="M380,130 L322.9,111.5 A60,60 0 0,1 380,70 Z" fill="var(--amber)" opacity=".8"/>
+  <text x="380" y="222" text-anchor="middle" class="s">依一個欄位分組的比例</text>
+  <text x="380" y="238" text-anchor="middle" class="s">assignee／priority／component…</text>
+  <text x="620" y="40" text-anchor="middle" class="lbl b">Average Age</text>
+  <line x1="520" y1="200" x2="720" y2="200" class="ln"/><line x1="520" y1="200" x2="520" y2="60" class="ln"/>
+  <rect x="535" y="150" width="28" height="50" class="box brand"/>
+  <rect x="575" y="130" width="28" height="70" class="box brand"/>
+  <rect x="615" y="120" width="28" height="80" class="box brand"/>
+  <rect x="655" y="95" width="28" height="105" class="box brand"/>
+  <rect x="695" y="80" width="28" height="120" class="box brand"/>
+  <text x="620" y="222" text-anchor="middle" class="s">未解決 issue 的平均年齡</text>
+  <text x="620" y="238" text-anchor="middle" class="s">越長越高 → 老案子在堆</text>
+  <text x="860" y="40" text-anchor="middle" class="lbl b">Time Tracking</text>
+  <text x="760" y="82" class="s">PROJ-12</text>
+  <rect x="815" y="70" width="120" height="14" class="box"/><rect x="815" y="70" width="90" height="14" fill="var(--green)" opacity=".8"/>
+  <text x="760" y="118" class="s">PROJ-18</text>
+  <rect x="815" y="106" width="120" height="14" class="box"/><rect x="815" y="106" width="130" height="14" fill="var(--rose)" opacity=".8"/>
+  <text x="760" y="154" class="s">PROJ-21</text>
+  <rect x="815" y="142" width="120" height="14" class="box"/><rect x="815" y="142" width="50" height="14" fill="var(--green)" opacity=".8"/>
+  <text x="860" y="222" text-anchor="middle" class="s">依版本看估計 vs 實際</text>
+  <text x="860" y="238" text-anchor="middle" class="s">超出框＝超時</text>
+  <text x="860" y="254" text-anchor="middle" class="s">需 Jira admin 開 time tracking</text>
+  <text x="490" y="280" text-anchor="middle" class="s">其餘（Recently Created／Resolution Time／Workload 系列）都是這四種圖形的變體；考試只問「哪張看什麼」，不考判讀細節</text>
+</svg>
+<div class="cap">圖 11　Issue analysis 報表不綁 board，從 Reports → More reports 進；Single Level Group By 是表格不是圖，上限 1,000 筆。</div>
+</div>
+
 </section>
 
 <!-- ============ Scale ============ -->
