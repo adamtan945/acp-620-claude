@@ -159,6 +159,32 @@
 </section>
 
 <!-- ============ 英文題幹關鍵字（2026-09-24 新增） ============ -->
+<section id="workdays">
+<div class="section-label">Working days</div>
+<h2>改了 working days，哪些報表會跟著變</h2>
+<p>Working days 是<strong>每個 board 各自設定</strong>的（Board settings → Working days）。改了只影響這個 board 的報表與 gadget，其他 board 不受影響。官方清單一共是 <strong>5 張報表＋2 個 gadget</strong>，清單外的報表都不受影響。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th>會受影響</th><th>類型</th><th>調整後大致的變化</th></tr>
+<tr><td><strong>Burndown Chart</strong></td><td>報表</td><td>非工作日不要求進度，guideline 在那幾天是平的</td></tr>
+<tr><td><strong>Sprint Report</strong></td><td>報表</td><td>內含的 burndown 圖跟 Burndown Chart 一樣變化</td></tr>
+<tr><td><strong>Epic Report</strong></td><td>報表</td><td>時間軸與完成推估不計非工作日</td></tr>
+<tr><td><strong>Version Report</strong></td><td>報表</td><td>預測的 release 日期跳過非工作日</td></tr>
+<tr><td><strong>Control Chart</strong></td><td>報表</td><td>cycle time 可以排除非工作日，卡在週末的卡片不會被拉長</td></tr>
+<tr><td><strong>Sprint Health gadget</strong></td><td>gadget</td><td>Time elapsed（sprint 過了多少時間）以工作日計算</td></tr>
+<tr><td><strong>Burndown gadget</strong></td><td>gadget</td><td>跟 Burndown Chart 一樣</td></tr>
+</table></div>
+<div class="callout warn"><div class="t">證據界線</div>官方 working days 頁只列出受影響的清單，沒有逐張說明怎麼影響。上表「調整後大致的變化」是依各報表的說明整理的理解；考試考的是<strong>清單本身</strong>。</div>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th>設定項目</th><th>內容</th></tr>
+<tr><td>Standard working days</td><td>勾選團隊每週哪幾天上班（用來排除週末）</td></tr>
+<tr><td>Non-working days</td><td>用日期選擇器逐一加入國定假日或單次休假</td></tr>
+<tr><td>Timezone</td><td>選 Region 再選 Timezone，決定 board 用哪個時區計算</td></tr>
+<tr><td>誰能改</td><td><strong>board administrator</strong>，或這個 board 所在位置的 <strong>space（project）admin</strong></td></tr>
+</table></div>
+<div class="callout exam"><div class="t">考試記法</div><ul style="margin:.3rem 0 0"><li><strong>受影響</strong>：Burndown、Sprint、Epic、Version、Control，5 張報表，加上 Sprint Health、Burndown 兩個 gadget。Burndown 報表和 Burndown gadget 是兩個東西，兩個都受影響。</li><li><strong>最容易踩雷</strong>：Burnup、Epic burndown、Release burndown 名字很像，卻<strong>不在</strong>清單裡。</li><li><strong>最常拿來當「不受影響」的選項</strong>：Velocity（以 sprint 為單位）、CFD（按日曆日）；issue analysis 報表（Pie chart、Created vs resolved 等）也全部不受影響。</li></ul></div>
+<div class="kicker">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/">Configure working days</a>（2026-09-25 查核）</div>
+</section>
+
 <section id="keywords">
 <div class="section-label">讀題技巧</div>
 <h2>英文題幹關鍵字 → 報表</h2>
