@@ -165,7 +165,7 @@
 <section id="picker">
 <div class="section-label">互動</div>
 <h2>需求 → gadget 推薦器</h2>
-<p>選一個主管常問的問題，看該用哪個 gadget、要接什麼來源、設定時要注意什麼。</p>
+<p>選一個主管常問的問題，看該用哪個 gadget、要接什麼來源、設定時要注意什麼。右邊是那個 gadget 放在 dashboard 上的樣子。</p>
 <div id="s252-picker" class="card">
   <div class="chips" id="s252-needs"></div>
   <div id="s252-rec" style="margin-top:.9rem;padding:.9rem 1rem;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-s)"></div>
@@ -311,14 +311,37 @@
     ['目前 sprint 狀況','Sprint Health ＋ Sprint Burndown','board','來源是 board，不是 filter'],
     ['哪些版本快要 release','Road Map','project','設定期間，顯示版本進度'],
     ['卡在某狀態太久','Average Time in Status','filter 或 project','搭配 Average Number of Times in Status 看反覆退回'],
-    ['票數多又老的需求','Bubble Chart','saved filter','四個維度：例如 votes、age、priority、watchers']
+    ['票數多又老的需求','Bubble Chart','saved filter','四個維度：橫軸開了幾天、縱軸留言數、泡泡大小＝參與人數或票數、顏色＝熱度']
+  ];
+  /* 示意圖小工具：座標系 viewBox 0 0 320 200；繪圖區 x 36..300、y 20..160 */
+  const SV=(inner,label)=>`<svg class="dia" viewBox="0 0 320 200" role="img" aria-label="${label}" style="box-shadow:none">${inner}</svg>`;
+  const AX='<line x1="36" y1="160" x2="300" y2="160" class="ln"/><line x1="36" y1="160" x2="36" y2="20" class="ln"/>';
+  const T=(x,y,t,c='s',a='start')=>`<text x="${x}" y="${y}" text-anchor="${a}" class="${c}">${t}</text>`;
+  const R=(x,y,w,h,c)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" class="${c}"/>`;
+  const RF=(x,y,w,h,f,o=1)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="var(${f})" opacity="${o}"/>`;
+  const PL=(pts,col,w=2.5,dash='')=>`<polyline points="${pts}" fill="none" stroke="var(${col})" stroke-width="${w}"${dash?` stroke-dasharray="${dash}"`:''}/>`;
+  const bars=(vals,max,cls,x0=48,w=30,gap=18)=>vals.map((v,i)=>R(x0+i*(w+gap),160-v/max*130,w,v/max*130,cls)).join('');
+  const table=(rows,cols,y0=34,rh=24,al=null)=>rows.map((r,ri)=>{const y=y0+ri*rh;return (ri===0?R(14,y-16,292,22,'chipbox'):'')+r.map((c,ci)=>T(cols[ci],y,c,ri===0||ri===rows.length-1&&String(r[0]).startsWith('合計')?'lbl b':'lbl',al?al[ci]:(ci===0?'start':'end'))).join('');}).join('');
+  const pie=(cx,cy,r,parts)=>{let a=-Math.PI/2,s='';parts.forEach(([p,col])=>{const b=a+p*2*Math.PI,l=p>.5?1:0;s+=`<path d="M${cx},${cy} L${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)} A${r},${r} 0 ${l},1 ${(cx+r*Math.cos(b)).toFixed(1)},${(cy+r*Math.sin(b)).toFixed(1)} Z" fill="var(${col})" opacity=".8"/>`;a=b;});return s;};
+  const wrap=(text,svg,cap)=>`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;align-items:start"><div>${text}</div><figure style="margin:0">${svg}<figcaption class="kicker" style="margin-top:.35rem;text-align:center">${cap}</figcaption></figure></div>`;
+  const DRAW=[
+    ()=>SV(table([['Assignee','To Do','In Prog','Done','Total'],['Adam','2','1','4','7'],['Emma','1','1','4','6'],['Max','2','0','3','5'],['Ryan','1','0','6','7'],['合計','6','2','17','25']],[22,150,208,256,300]),'Two Dimensional 表格'),
+    ()=>SV(AX+'<polygon points="36,120 90,100 150,86 210,70 300,52 300,92 210,100 150,112 90,122 36,134" fill="var(--rose)" opacity=".16"/>'+PL('36,120 90,100 150,86 210,70 300,52','--rose')+PL('36,134 90,122 150,112 210,100 300,92','--green')+T(296,46,'Created','lbl b no','end')+T(296,124,'Resolved','lbl b yes','end')+T(168,184,'紅色區＝建立比解決多 → backlog 在漲','s','middle'),'Created vs Resolved 兩條線'),
+    ()=>SV(AX+bars([22,30,41,55,70],80,'box brand')+T(300,16,'平均天數','s','end')+T(168,184,'每期一根：未解決的平均放了幾天','s','middle'),'Average Age 長條'),
+    ()=>SV(pie(110,95,62,[[.44,'--rose'],[.36,'--brand'],[.20,'--green']])+R(200,52,12,12,'box rose')+T(218,62,'High 44%','lbl')+R(200,78,12,12,'box brand')+T(218,88,'Medium 36%','lbl')+R(200,104,12,12,'box green')+T(218,114,'Low 20%','lbl')+T(168,186,'Statistic Type：Priority（一次一個欄位）','s','middle'),'Pie Chart 依 priority'),
+    ()=>SV(table([['Key','Summary','P','Status'],['RPT-8','登入 API 回應慢','Highest','Done'],['RPT-17','報表排程寄送','High','In Prog'],['RPT-13','Safari 登入失敗','High','Done'],['RPT-26','大量資料效能','High','To Do'],['RPT-18','匯出時區錯誤','High','To Do']],[20,74,250,302],34,24,['start','start','end','end']),'Filter Results 清單'),
+    ()=>SV(T(18,30,'Assigned to Me','lbl b')+T(302,30,'觀看者＝Adam','s','end')+table([['Key','Summary','Status'],['RPT-17','報表排程寄送','In Prog'],['RPT-24','行動版報表','To Do'],['RPT-26','大量資料效能','To Do']],[20,74,302],58,24,['start','start','end'])+T(160,178,'不用設定來源，換人看就換內容','s','middle'),'Assigned to Me 清單'),
+    ()=>SV(RF(20,20,120,16,'--line-2',.9)+RF(140,20,90,16,'--brand',.75)+RF(230,20,70,16,'--green',.8)+T(20,56,'Time elapsed','s')+T(20,74,'29%','lbl b')+T(110,56,'Work complete','s')+T(110,74,'13%','lbl b')+T(210,56,'Scope change','s')+T(210,74,'+42%','lbl b no')+T(20,98,'Blockers','s')+T(20,116,'1','lbl b')+T(110,98,'Flagged','s')+T(110,116,'1','lbl b no')+'<line x1="36" y1="186" x2="300" y2="186" class="ln"/>'+PL('36,132 300,186','--ink-3',1.5,'5 4')+PL('36,132 90,132 90,124 150,124 150,140 200,140','--rose',2)+T(304,140,'Sprint Burndown','s','end'),'Sprint Health 加 Sprint Burndown'),
+    ()=>SV(T(18,30,'Road Map　Projects：RPT　Days：30','lbl b')+T(18,64,'v1.0　10/16 到期','lbl')+R(18,72,284,14,'box')+RF(18,72,196,14,'--green',.8)+T(302,64,'69%','lbl b','end')+T(18,112,'v2.0　12/18 到期','s')+T(18,132,'（超過 30 天，不會出現）','s')+T(160,178,'只列指定天數內要 release 的版本','s','middle'),'Road Map 版本進度'),
+    ()=>SV(AX+bars([32,51,74,18],80,'box amber',56,40,24)+T(76,176,'To Do','s','middle')+T(140,176,'In Prog','s','middle')+T(204,176,'In Review','s','middle')+T(268,176,'Done','s','middle')+T(204,78,'7.4 天','lbl b','middle')+T(300,16,'平均停留天數','s','end'),'Average Time in Status'),
+    ()=>SV(AX+'<circle cx="90" cy="120" r="10" fill="var(--green)" opacity=".6"/><circle cx="150" cy="95" r="16" fill="var(--amber)" opacity=".6"/><circle cx="240" cy="60" r="26" fill="var(--rose)" opacity=".65"/><circle cx="200" cy="130" r="8" fill="var(--green)" opacity=".6"/>'+T(168,184,'X＝開了幾天、Y＝留言數、大小＝參與人數或票數','s','middle')+T(240,64,'又熱又老','lbl b','middle'),'Bubble Chart'),
   ];
   const needs=$('#s252-needs'), rec=$('#s252-rec');
   NEEDS.forEach((n,i)=>{const b=document.createElement('button');b.className='btn ghost sm';b.textContent=n[0];b.dataset.i=i;b.addEventListener('click',()=>show(i,b));needs.appendChild(b);});
   function show(i,btn){
     $$('button',needs).forEach(x=>{x.classList.add('ghost')}); btn.classList.remove('ghost');
     const n=NEEDS[i];
-    rec.innerHTML=`<div class="kicker">需求</div><div style="font-weight:700;margin-bottom:.4rem">${n[0]}</div><div class="chips"><span class="chip brand">Gadget：${n[1]}</span><span class="chip teal">來源：${n[2]}</span></div><p style="margin:.6rem 0 0;font-size:.92rem">${n[3]}</p>`;
+    rec.innerHTML=wrap(`<div class="kicker">需求</div><div style="font-weight:700;margin-bottom:.4rem">${n[0]}</div><div class="chips"><span class="chip brand">Gadget：${n[1]}</span><span class="chip teal">來源：${n[2]}</span></div><p style="margin:.6rem 0 0;font-size:.92rem">${n[3]}</p>`, DRAW[i](), '示意圖：'+n[1]+' 在 dashboard 上的樣子');
     window.springPop&&window.springPop(rec);
   }
   show(0,$('button',needs));
