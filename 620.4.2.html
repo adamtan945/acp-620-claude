@@ -100,7 +100,7 @@
   <!-- Rule details 橫條 x=60 w=840 y=20 h=54；主鏈 y=120 h=70：Trigger x=60、Condition x=340、Action x=620，各 w=220；分支列 y=240：Branch x=60、Action x=340 -->
   <rect x="60" y="20" width="840" height="54" rx="10" class="box brand"/>
   <text x="80" y="42" class="lbl b">Rule details</text>
-  <text x="80" y="62" class="s">Name · Scope（單一／多個／全部 project）· Actor（以誰的身分執行）· Owner（收錯誤通知）· Allow rule trigger · Notify on error</text>
+  <text x="80" y="62" class="s">Name · Scope（單一／多個／類型／全部）· Actor（以誰的身分執行）· Owner（收錯誤通知）· Allow rule trigger · Notify on error</text>
 
   <rect x="60" y="120" width="220" height="70" rx="10" class="box teal"/>
   <text x="170" y="146" text-anchor="middle" class="lbl b">Trigger（必要，1 個）</text><text x="170" y="168" text-anchor="middle" class="s">什麼事件讓 rule 開始跑</text>
@@ -152,7 +152,7 @@
 <h2>五個設定，各管一件事</h2>
 <div class="tbl-wrap"><table class="tbl">
 <tr><th style="width:22%">設定</th><th>意思</th><th style="width:34%">考點</th></tr>
-<tr><td><strong>Scope</strong></td><td>rule 在哪些 project 生效：單一 project／多個 project／全部</td><td>Project admin 只能建<strong>單一 project</strong>；多個或全部要 <strong>Administer Jira</strong>，在 ⚙ → System → Global automation</td></tr>
+<tr><td><strong>Scope</strong></td><td>rule 在哪些 project 生效，共四種：<strong>Single project</strong>（一個）、<strong>Multiple projects</strong>（自選幾個）、<strong>Project type</strong>（某一類型的全部 project，例如所有 software 或所有 service project）、<strong>Global</strong>（站台上所有 project）</td><td>Project admin 只能建<strong>單一 project</strong>；其他三種都要 <strong>Administer Jira</strong>，在 ⚙ → System → Global automation。官方建議範圍越小越好：比較省執行額度，出錯也好查</td></tr>
 <tr><td><strong>Actor</strong></td><td>rule 執行時「以誰的身分」動作；預設是系統使用者 <strong>Automation for Jira</strong></td><td>Actor 要有 project 權限（透過 <code>atlassian-addons-project-access</code> role）。Project admin 只能把 actor 設成自己或 Automation for Jira；Jira admin 可設任何人。歷史紀錄顯示的是 actor</td></tr>
 <tr><td><strong>Owner</strong></td><td>建立 rule 的人；rule 出錯時<strong>收 email</strong></td><td>Owner ≠ actor；owner 可批次轉移，actor 只能逐條改</td></tr>
 <tr><td><strong>Allow rule trigger</strong></td><td>是否允許「別的 rule 造成的變更」觸發這條 rule</td><td>預設關。Rule A 改欄位 → Rule B 應該接著跑卻沒跑，第一個查這裡；開了要小心迴圈（10 次會被標 LOOP）</td></tr>
