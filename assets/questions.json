@@ -213,7 +213,7 @@
   "id": "620.1.1-008",
   "section": "620.1.1",
   "domain": "620.1",
-  "stem": "團隊要對外部承包商開放看板，但其中幾張 HR 相關 issue 只能內部看。哪種 project 才做得到？",
+  "stem": "團隊要對外部承包商開放board，但其中幾張 HR 相關 issue 只能內部看。哪種 project 才做得到？",
   "options": [
    "兩種都做不到，必須另開 project",
    "Team-managed，把 project 設成 Limited",
@@ -222,7 +222,7 @@
   ],
   "answer": "D",
   "explain": {
-   "B": "Limited 這個 access level 只影響「<strong>沒有被明確加入</strong>」的人的預設角色。承包商既然要看板，就一定會被加進來，加進來之後他看得到 project 裡的<strong>全部</strong> issue，包含 HR 那幾張。",
+   "B": "Limited 這個 access level 只影響「<strong>沒有被明確加入</strong>」的人的預設角色。承包商既然要board，就一定會被加進來，加進來之後他看得到 project 裡的<strong>全部</strong> issue，包含 HR 那幾張。",
    "C": "對 issue type 設 role 限制有兩個致命限制：<strong>只對之後新建的 issue 生效</strong>（既有的 HR issue 不受保護），而且無法用 Reporter、Assignee 這類動態對象授權，顆粒度遠遠不夠。",
    "D": "正解。<strong>issue security scheme 是 company-managed 專屬</strong>，它可以在同一個 project 裡對<strong>個別 issue</strong> 設定 security level，只有 level 裡的成員（role、group、Reporter、Current assignee 等）看得到；其他人連搜尋都搜不到那張 issue。這是唯一能做到「同一個 project 內部分隱藏」的機制。",
    "A": "CMP 在同一個 project 內就能達成，不需要把 HR 的 issue 拆到另一個 project 去。這個選項低估了 issue security 的能力。"
