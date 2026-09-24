@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>易錯觀念｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a><a href="traps.html" class="current">⚠️ 易錯觀念</a></nav>
+  <!--/NAV-->
+</aside>
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 易錯觀念</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">Common traps</div>
+<h1>易錯觀念：第三方題庫常見的錯誤答案</h1>
+<p class="lead">市面上的 ACP-620 練習題庫，答案鍵不一定正確。下面整理的是查證過程中發現、題庫最常答錯的觀念，每一條都對照官方文件或在測試站台實測過。依考綱章節排列，點章節標籤可以回到該節教材。</p>
+<div class="callout"><div class="t">怎麼用這一頁</div>練習題的答案跟這裡衝突時，以這裡附的官方出處為準；看完再回該節教材，把前後文補起來。查證日期 2026-09-24。</div>
+<nav class="toc" style="display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:1rem 0"><a href="#s620-1-1">620.1.1 選擇實作方式</a><a href="#s620-2-1">620.2.1 選 board 類型</a><a href="#s620-2-3">620.2.3 Columns 與 status</a><a href="#s620-2-4">620.2.4 Filter／sub-filter／quick filter</a><a href="#s620-3-1">620.3.1 專案權限</a><a href="#s620-3-2">620.3.2 Project roles</a><a href="#s620-3-3">620.3.3 Versions 與 roadmap</a><a href="#s620-3-4">620.3.4 Components／labels／fields</a><a href="#s620-3-5">620.3.5 自動指派</a><a href="#s620-4-2">620.4.2 Automation rule</a><a href="#s620-5-1">620.5.1 JQL</a></nav>
+<section id="s620-1-1"><div class="section-label"><a href="620.1.1.html">620.1.1</a></div><h2>選擇實作方式</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ Shared configuration 的來源 project 改設定後，新 project 可以選擇要不要接受。</td><td>✓ 共用的是同一份 scheme，來源改了會<strong>自動套用</strong>到所有共用的 project。官方：<em>If you change the configuration in one space, it affects all other spaces sharing that setup.</em><div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-new-project/">Create a new space</a></div></td></tr><tr><td class="no">✗ 用 shared configuration 建新 project 後，status 和 priority 還要手動設定。</td><td>✓ status 包含在 workflow scheme 裡、priority 也是 scheme，都會共用。要手動補的是 project 自己的資料：<strong>version、component、avatar</strong>。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-new-project/">Create a new space</a></div></td></tr><tr><td class="no">✗ 「每兩週分批交付」的團隊適合 Bug tracking 或 Kanban 範本。</td><td>✓ 固定週期交付＝sprint 節奏＝<strong>Scrum</strong>；持續交付、沒有固定週期才是 Kanban。<div class="kicker" style="margin-top:.3rem">出處：<a href="620.1.1.html">620.1.1 教材</a></div></td></tr></table></div></section><section id="s620-2-1"><div class="section-label"><a href="620.2.1.html">620.2.1</a></div><h2>選 board 類型</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ 完成 sprint 時，沒做完的 issue 會被刪除或封存。</td><td>✓ 未完成的 issue 由你選擇移到<strong>下一個（或新建的）sprint，或移回 backlog</strong>，不會被刪除也不會被封存。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-software-cloud/docs/complete-a-sprint/">Complete a sprint</a></div></td></tr><tr><td class="no">✗ Jira admin 一定要有 Manage Sprints 權限才能完成 sprint。</td><td>✓ 官方：<em>you must be a Jira Administrator or a user with the Manage Sprints permission</em>。Jira admin 不需要 Manage Sprints，但要看得到 project（Browse）；若還要搬未完成的 issue，另外需要 Schedule 與 Edit Issues。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-software-cloud/docs/complete-a-sprint/">Complete a sprint</a></div></td></tr></table></div></section><section id="s620-2-3"><div class="section-label"><a href="620.2.3.html">620.2.3</a></div><h2>Columns 與 status</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ workflow 移除 Resolved status 後，Created vs Resolved 報表要跟著改。</td><td>✓ 那張報表看的是 <strong>Resolution 欄位與 resolution date</strong>，跟 status 名稱無關。要改的是寫了 <code>status = Resolved</code> 的 <strong>saved filter</strong>，以及 board 的欄位對應。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/">Generate a report</a></div></td></tr></table></div></section><section id="s620-2-4"><div class="section-label"><a href="620.2.4.html">620.2.4</a></div><h2>Filter／sub-filter／quick filter</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ Kanban 的 sub-filter 不會影響報表。</td><td>✓ 官方 sub-filter 頁寫的是：<em>The sub-filter also allows you to show different data in Reports.</em> 第三方題庫常把它當成「只影響畫面、不影響報表」，碰到這類題目請留意題目想要的是哪一種說法。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-software-cloud/docs/add-a-sub-filter-to-a-company-managed-kanban-board/">Add a sub-filter</a></div></td></tr></table></div></section><section id="s620-3-1"><div class="section-label"><a href="620.3.1.html">620.3.1</a></div><h2>專案權限</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ 看得到 due date 需要 Schedule Issues。</td><td>✓ Schedule work items 是「<strong>修改</strong> due date 和排序」用的：<em>change a work item's Due date and change work item ranking</em>。只要看、要依 due date 建 filter，<strong>Browse Projects</strong> 就夠了。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-cloud-administration/docs/use-manage-sprints-permission-for-advanced-cases/">Work item permissions</a></div></td></tr><tr><td class="no">✗ 改 Fix versions 需要 Schedule Issues 或 Edit Issues 就夠。</td><td>✓ Fix version 由 <strong>Resolve work items</strong> 管：<em>update the Resolution field and view the Fix version field</em>。automation 的執行者要改 fix versions，缺的通常是它。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-cloud-administration/docs/use-manage-sprints-permission-for-advanced-cases/">Work item permissions</a></div></td></tr></table></div></section><section id="s620-3-2"><div class="section-label"><a href="620.3.2.html">620.3.2</a></div><h2>Project roles</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ 「由 project admin 管理成員」是適合用 group 的情境。</td><td>✓ 那是 <strong>project role</strong> 的特徵。group 由 <strong>site／org admin</strong> 管理，適合全站層級的權限、跨多個 project 的同一批人。<div class="kicker" style="margin-top:.3rem">出處：<a href="620.3.2.html">620.3.2 教材</a></div></td></tr></table></div></section><section id="s620-3-3"><div class="section-label"><a href="620.3.3.html">620.3.3</a></div><h2>Versions 與 roadmap</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ archive 一個 version 之後，它的 issue 會從 board 和 JQL 搜尋裡消失。</td><td>✓ 2026-09-24 實測：archive 後 <strong>issue 還在 board 上、JQL 也搜得到</strong>。真正的改變是<strong>不能再把 issue 指派給它</strong>（Jira 回「Cannot assign issue to versions … as they have been archived」），以及從下拉選單和 Version report 中隱藏。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/">Manage versions</a></div></td></tr><tr><td class="no">✗ version 只能在 Releases 頁建立。</td><td>✓ 有權限的人也能在 <strong>Fix versions、Affects versions 欄位</strong>直接建立新 version。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/">Manage versions</a></div></td></tr></table></div></section><section id="s620-3-4"><div class="section-label"><a href="620.3.4.html">620.3.4</a></div><h2>Components／labels／fields</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ Checkboxes 可以當「只能選一個值」的欄位。</td><td>✓ Checkboxes 可以<strong>複選</strong>。只能選一個又要有預設值、不同 project 選項不同，用 <strong>Radio Buttons</strong> 或 <strong>Select List (single choice)</strong> 加 context。<div class="kicker" style="margin-top:.3rem">出處：<a href="620.3.4.html">620.3.4 教材</a></div></td></tr><tr><td class="no">✗ 報表不能用 labels。</td><td>✓ Pie Chart 報表可以用 <strong>Labels 分組</strong>，dashboard 也有 Labels gadget。labels 真正的缺點是<strong>值容易不一致</strong>（任何人隨手打，會長出拼字變體）。<div class="kicker" style="margin-top:.3rem">出處：<a href="620.3.4.html">620.3.4 教材</a></div></td></tr></table></div></section><section id="s620-3-5"><div class="section-label"><a href="620.3.5.html">620.3.5</a></div><h2>自動指派</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ 多個 component 都是 Component lead 時，看哪個先建立（或隨機）。</td><td>✓ 先比類型優先序：<strong>Component lead ＞ Project lead ＞ Unassigned ＞ Project default</strong>；同一級再依 <strong>component 名稱字母序</strong>取第一個。例如 Database、Java、Server 都是 Component lead，會指派給 Database 的 lead。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/">Manage component&#x27;s default assignee（KB）</a></div></td></tr><tr><td class="no">✗ Unassigned 會壓過 Component lead。</td><td>✓ Unassigned 的優先級<strong>低於</strong> Component lead 和 Project lead，只比 Project default 高。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/">Manage component&#x27;s default assignee（KB）</a></div></td></tr><tr><td class="no">✗ bulk operation、project permissions 也算「自動指派」。</td><td>✓ bulk operation 是人工操作；permission 本身不會指派人。會自動指派的是：<strong>project default assignee、component default assignee、workflow post function、automation rule</strong>。<div class="kicker" style="margin-top:.3rem">出處：<a href="620.3.5.html">620.3.5 教材</a></div></td></tr><tr><td class="no">✗ 依 Radio Buttons 的值指派，可以用 component 的 default assignee。</td><td>✓ component default assignee 只對 <strong>Components 欄位</strong>生效（而且可複選）。依自訂欄位的值指派要用 <strong>automation rule</strong>。<div class="kicker" style="margin-top:.3rem">出處：<a href="620.3.5.html">620.3.5 教材</a></div></td></tr></table></div></section><section id="s620-4-2"><div class="section-label"><a href="620.4.2.html">620.4.2</a></div><h2>Automation rule</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ automation 的 scope 可以設成 issue type。</td><td>✓ scope 只有 <strong>Single／Multiple projects、Project type、Global（All projects）</strong>；現行文件另有 team 兩種。要限定 issue type，請在規則裡加 <strong>condition</strong>。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/">What are flow details and settings?</a></div></td></tr></table></div></section><section id="s620-5-1"><div class="section-label"><a href="620.5.1.html">620.5.1</a></div><h2>JQL</h2><div class="tbl-wrap"><table class="tbl"><tr><th style="width:38%">常見的錯誤說法</th><th>正確說法</th></tr><tr><td class="no">✗ <code>priority changed to High</code> 等於 <code>priority was High</code>。</td><td>✓ <code>changed to</code> 只抓得到「有變更成 High」的紀錄，<strong>建立時就是 High、從沒改過的 issue 會漏掉</strong>；<code>was High</code> 連初始值一起算。<div class="kicker" style="margin-top:.3rem">出處：<a href="https://support.atlassian.com/jira-software-cloud/docs/jql-operators/">JQL operators</a></div></td></tr></table></div></section>
+<div class="footer-nav"><a href="exam.html">← 模擬考</a><a href="index.html">回首頁 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
