@@ -8481,6 +8481,181 @@
   "origin": "new"
  },
  {
+  "id": "620.5.2-018",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Sprint 進行中，有人把一張「沒有估點」的 issue 加進 sprint。Sprint Health gadget 的 Scope change 百分比會怎樣？",
+  "options": [
+   "不變",
+   "上升",
+   "下降",
+   "變成 100%"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。Sprint Health 的 scope change 依 board 的 estimation statistic 計算；<strong>沒估點的 issue 加入或移出都不影響</strong>。",
+   "B": "要有估點才會讓 scope change 上升，例如 50 點的 sprint 加 5 點＝10%。",
+   "C": "移出有估點的 issue 才會影響，而且也是算進 scope change。",
+   "D": "不會有這種計算方式。"
+  },
+  "sources": [
+   "https://confluence.atlassian.com/agile064/jira-agile-user-s-guide/using-the-jira-agile-gadgets/using-the-sprint-health-gadget"
+  ],
+  "tags": [
+   "sprint-health",
+   "gadget"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-019",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "團隊用 story points 估點，但 dashboard 上的 Sprint Burndown gadget 縱軸顯示的卻是工時。最可能的原因是？",
+  "options": [
+   "board 的 Time tracking 設成 Remaining estimate and time spent",
+   "gadget 的來源選成 filter",
+   "dashboard 沒有分享給團隊",
+   "board 沒設 working days"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。Sprint Burndown gadget 的縱軸看 board 設定；<strong>Time tracking 設成 Remaining estimate and time spent 時會蓋過 estimation statistic</strong>。要看 story points，就把 Time tracking 設成 None。",
+   "B": "Sprint Burndown gadget 的來源是 board＋sprint，不是 filter。",
+   "C": "分享設定只影響誰看得到，不影響縱軸單位。",
+   "D": "working days 只影響非工作日，不影響單位。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira/kb/how-to-set-estimation-statistics-and-time-tracking-estimation-in-the-sprint-burndown-gadget/"
+  ],
+  "tags": [
+   "sprint-burndown",
+   "gadget"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-020",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "dashboard 要放一個 gadget，「不用設定來源」，自動列出「指派給正在看的人、而且目前進行中」的 issue。該選哪個？",
+  "options": [
+   "Assigned to Me",
+   "Issues in Progress",
+   "Filter Results",
+   "Two Dimensional Filter Statistics"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "Assigned to Me 列的是指派給我、<strong>所有還沒完成</strong>的 issue，不限於進行中。",
+   "B": "正解。Issues in Progress（Work items in Progress）只列指派給觀看者本人、<strong>進行中</strong>的 issue，不需要設定來源。",
+   "C": "Filter Results 要指定 filter，每個人看到的內容都一樣。",
+   "D": "Two Dimensional 是兩個欄位的交叉統計表。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "personal"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-021",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Road Map gadget 要設定哪兩項？",
+  "options": [
+   "Projects 與 Days",
+   "Board 與 Sprint",
+   "Filter 與 Statistic Type",
+   "Version 與 Assignee"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。選 <strong>Projects</strong>（可多選或 All）與 <strong>Days</strong>（未來幾天內），它就列出這段期間內要 release 的版本，以及各版本的完成進度。",
+   "B": "Board 與 Sprint 是 Sprint Health、Sprint Burndown、Days Remaining 這類 sprint gadget 的設定。",
+   "C": "Filter 與 Statistic Type 是 Pie Chart、Issue Statistics 的設定。",
+   "D": "沒有 gadget 用這組設定。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/",
+   "https://confluence.atlassian.com/jira061/jira-user-s-guide/customizing-the-dashboard/adding-the-road-map-gadget"
+  ],
+  "tags": [
+   "gadget",
+   "versions"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-022",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "下列哪個 dashboard gadget 會依 board 的 working days 設定跳過非工作日？",
+  "options": [
+   "Sprint Health",
+   "Created vs Resolved",
+   "Pie Chart",
+   "Average Age"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。官方 working days 頁的 gadget 清單只有 <strong>Sprint Health 與 Burndown gadget</strong>。",
+   "B": "Created vs Resolved 依期間統計建立與解決，不看 board 的設定。",
+   "C": "Pie Chart 是欄位比例，不涉及天數。",
+   "D": "Average Age 不看 board 的 working days。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/"
+  ],
+  "tags": [
+   "gadget",
+   "working-days"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.2-023",
+  "section": "620.5.2",
+  "domain": "620.5",
+  "stem": "Average Number of Times in Status 顯示某個狀態平均進入了 2.8 次。最合理的解讀是？",
+  "options": [
+   "工作在那個狀態常被退回重做",
+   "那個狀態平均停留 2.8 天",
+   "那個狀態平均有 2.8 張卡",
+   "那個狀態的 WIP limit 是 2.8"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。這個 gadget 算的是<strong>進入次數</strong>；明顯大於 1，代表 issue 在那裡來回好幾次，通常是被退回重做。",
+   "B": "停留天數要看 <strong>Average Time in Status</strong>，是另一個 gadget。",
+   "C": "張數是 Issue Statistics 或 Pie Chart 的範疇。",
+   "D": "WIP limit 是 board column 的設定，不是這個 gadget 的輸出。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/"
+  ],
+  "tags": [
+   "gadget",
+   "status"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
   "id": "620.5.3-001",
   "section": "620.5.3",
   "domain": "620.5",
@@ -9053,6 +9228,529 @@
    "reports"
   ],
   "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-021",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Darcy 想知道「某一張 issue，或一群 issue，在某個 workflow status 停留了多久」。該開哪張報表？",
+  "options": [
+   "Burndown Chart",
+   "Control Chart",
+   "Cumulative Flow Diagram",
+   "Average Age Report"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "Burndown 看的是 sprint 還剩多少工作，<strong>沒有單張 issue 的停留時間</strong>。",
+   "B": "正解。Control Chart 的 Columns 只勾那個狀態，就是在算 issue 在該狀態待了多久；<strong>圖上每個點是一張 issue</strong>，點下去就能看單張。",
+   "C": "CFD 看的是各狀態的<strong>數量</strong>隨時間怎麼累積，用來找瓶頸，看不到某一張卡待了多久。",
+   "D": "Average Age 看的是未解決 issue 從建立到現在的平均天數，<strong>不分狀態</strong>。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-control-chart/"
+  ],
+  "tags": [
+   "control-chart",
+   "time-in-status"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-022",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Darcy 要一份「圖加表」的報表，確認 backlog 有在更新：要看得到未解決 issue 的總數，以及這些 issue 平均已經放了幾天。該選哪張？",
+  "options": [
+   "Created vs Resolved Issues",
+   "Resolution Time Report",
+   "Average Age Report",
+   "Time Since Issues Report"
+  ],
+  "answer": "C",
+  "explain": {
+   "A": "Created vs Resolved 比較的是建立與解決的數量，<strong>沒有「平均放了幾天」</strong>。",
+   "B": "Resolution Time 看的是<strong>已解決</strong>的 issue 花多久解決，題目要的是<strong>未解決</strong>的。",
+   "C": "正解。Average Age 是長條圖加資料表，呈現<strong>未解決</strong> issue 的數量與平均年齡；官方說它用來看「backlog 有沒有保持更新」。",
+   "D": "Time Since 是依你選的日期欄位，統計每天有幾張被設定，跟「平均放多久」無關。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
+  ],
+  "tags": [
+   "issue-analysis",
+   "average-age"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-023",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Scrum board 開了 Remaining estimate and time spent。Bailey 在一張已經在 active sprint 裡的 issue 底下新增 sub-task，Jira 會怎麼處理？",
+  "options": [
+   "算 scope change，Burndown 上也會顯示",
+   "算 scope change，但 Burndown 不顯示",
+   "不算 scope change，但 Burndown 會顯示",
+   "不算 scope change，Burndown 也不顯示"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。官方的對照表：開了 Remaining estimate and time spent 時，sub-task 的時間會 roll-up 到 parent，所以<strong>既算 scope change，也畫在 Burndown 上</strong>。",
+   "B": "這是<strong>沒開</strong> Remaining estimate and time spent 時的行為：一樣算 scope change，但 Burndown 不會畫出這筆。",
+   "C": "中途加 sub-task <strong>一律算 scope change</strong>，不管 board 怎麼設定。",
+   "D": "同上，中途加入一定算 scope change。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
+  ],
+  "tags": [
+   "burndown",
+   "sub-task",
+   "scope-change"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-024",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "同樣是在 active sprint 的 issue 底下新增 sub-task，但這個 board 沒有開 Remaining estimate and time spent。結果是？",
+  "options": [
+   "算 scope change，Burndown 上也會顯示",
+   "算 scope change，但 Burndown 不顯示",
+   "不算 scope change，但 Burndown 會顯示",
+   "不算 scope change，Burndown 也不顯示"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "這是<strong>有開</strong> Remaining estimate and time spent 時的行為。",
+   "B": "正解。官方原文：沒開時 sub-task 一樣被視為 scope change，<strong>但 Burndown 不會標出這筆</strong>；時間估計則在 sub-task 與 parent 各自記錄。",
+   "C": "中途加 sub-task 一律算 scope change。",
+   "D": "中途加 sub-task 一律算 scope change。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-burndown-chart/"
+  ],
+  "tags": [
+   "burndown",
+   "sub-task",
+   "scope-change"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-025",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "CMP 的 Kanban board 上，下列哪張報表打得開？",
+  "options": [
+   "Burnup Chart",
+   "Velocity Chart",
+   "Control Chart",
+   "Sprint Report"
+  ],
+  "answer": "C",
+  "explain": {
+   "A": "Burnup 以 sprint 為單位，<strong>只有 Scrum board 有</strong>。",
+   "B": "Velocity 比較每個 sprint 的完成量，Kanban 沒有 sprint，所以沒有這張。",
+   "C": "正解。CMP 的 Kanban board 只有兩張報表：<strong>Control Chart 與 Cumulative Flow Diagram</strong>。",
+   "D": "Sprint Report 是 Scrum 專屬，拿來開 retro。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
+  ],
+  "tags": [
+   "kanban",
+   "board-type"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-026",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "TMP 軟體團隊的 Reports 分頁裡，下列哪張報表「看不到」？",
+  "options": [
+   "Burnup",
+   "Velocity",
+   "Cumulative flow diagram",
+   "Control Chart"
+  ],
+  "answer": "D",
+  "explain": {
+   "A": "TMP 有 Burnup（要開 Sprints 功能）。",
+   "B": "TMP 有 Velocity（要開 Sprints 功能）。",
+   "C": "TMP 有 CFD，而且不需要 Sprints 功能。",
+   "D": "正解。TMP 只有四張：Burnup、Sprint burndown、Velocity、CFD。<strong>Control Chart 只在 CMP</strong>，Epic 與 Version 系列也都沒有。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/enable-reports/"
+  ],
+  "tags": [
+   "tmp",
+   "board-type"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-027",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "TMP 團隊的 space admin 已經把 Reports 加進導覽列，卻找不到 Burnup 和 Velocity。最可能的原因是？",
+  "options": [
+   "沒有開 Sprints 功能",
+   "沒有開 time tracking",
+   "board 不是 Kanban",
+   "沒設 working days"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。官方說明：Burnup、Velocity、Sprint burndown <strong>都需要開 Sprints 功能</strong>；TMP 的報表資料不足時根本不會出現。",
+   "B": "time tracking 跟這兩張報表無關；TMP 的縱軸看的是 Estimation 功能，沒開就用張數。",
+   "C": "方向相反：這兩張是 sprint 類報表，要的是 sprints，不是 Kanban。",
+   "D": "working days 是 CMP board 的設定，而且不會讓報表消失。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/enable-reports/"
+  ],
+  "tags": [
+   "tmp",
+   "sprints"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-028",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "主管想知道「團隊跟不跟得上新進來的工作」：每一期新建立了多少，其中又已經解決了多少。哪張報表最直接？",
+  "options": [
+   "Created vs Resolved Issues",
+   "Recently Created Issues",
+   "Resolution Time Report",
+   "Pie Chart Report"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "Created vs Resolved 是兩條線比較同期建立與解決的總量，看 backlog 淨增減；<strong>不會拆出「這期建立的有幾張解決了」</strong>。",
+   "B": "正解。Recently Created 一期一根長條，<strong>綠色段＝其中已解決、紅色段＝還沒解決</strong>，官方用途就是看團隊跟不跟得上進件。",
+   "C": "Resolution Time 看已解決的平均花多久，沒有建立量。",
+   "D": "Pie Chart 是依欄位分組的比例，沒有時間軸。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
+  ],
+  "tags": [
+   "issue-analysis",
+   "recently-created"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-029",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Time Tracking Report 上方的兩條橫條中，Progress 比 Accuracy 長。代表什麼？",
+  "options": [
+   "工作比原估超前",
+   "工作跟原估一樣",
+   "工作比原估落後",
+   "報表資料還不夠"
+  ],
+  "answer": "C",
+  "explain": {
+   "A": "超前的樣子是反過來的：<strong>Accuracy 比 Progress 長</strong>，灰色段代表原本高估的時間。",
+   "B": "準時的樣子是兩條一樣長，Accuracy 條整條藍色。",
+   "C": "正解。官方說明：Progress 比 Accuracy 長＝<strong>落後原估</strong>，灰色段是落後的時間。另外記得這張報表要開 time tracking，而且<strong>一定要有 Fix Version</strong>。",
+   "D": "資料不足會直接沒有資料，不會畫出長短不同的兩條。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
+  ],
+  "tags": [
+   "issue-analysis",
+   "time-tracking"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-030",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "PM 想知道某個版本要完成之前，每個人手上還剩多少工時。該用哪張報表？",
+  "options": [
+   "User Workload Report",
+   "Version Workload Report",
+   "Workload Pie Chart Report",
+   "Version Report"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "User Workload 是以<strong>一個人</strong>為主角，跨 project 列他的工作量，不是以版本為主角。",
+   "B": "正解。Version Workload 以<strong>一個版本</strong>為主角，先列每人依 issue type 的彙總，再逐人列出，最後是未指派的。要開 time tracking。",
+   "C": "Workload Pie 是所有 assignee 的相對比例，沒有綁定版本。",
+   "D": "Version Report 是預測版本的 release 日，不是逐人的工時。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
+  ],
+  "tags": [
+   "issue-analysis",
+   "workload"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-031",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "團隊只填 story points、沒有用時間估計。Workload Pie Chart 卻一片空白，最可能的原因是？",
+  "options": [
+   "它依時間欄位計算，不看 story points",
+   "它只接受 filter，不接受 project",
+   "它只在 Scrum board 上開得出來",
+   "它一次最多只能顯示 1,000 筆"
+  ],
+  "answer": "A",
+  "explain": {
+   "A": "正解。Workload Pie 算的是<strong>剩餘工時</strong>，依賴 Original estimate、Time spent、Remaining 這些欄位，<strong>不看 story points</strong>；而且要開 time tracking。",
+   "B": "它 project 和 filter 都能用。",
+   "C": "Issue analysis 報表不綁 board 類型。",
+   "D": "1,000 筆上限是 Single Level Group By 與 Time Tracking Report 的限制。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/",
+   "https://support.atlassian.com/jira-software-cloud/docs/add-and-customize-gadgets/"
+  ],
+  "tags": [
+   "issue-analysis",
+   "workload"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-032",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Darcy 想把一個 filter 的搜尋結果依 Assignee 分組列出，並看到每一組的完成進度。該用哪張報表？",
+  "options": [
+   "Pie Chart Report",
+   "Single Level Group By Report",
+   "Time Since Issues Report",
+   "Created vs Resolved Issues"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "Pie Chart 只有比例圖，<strong>不列出 issue、也沒有每組進度</strong>。",
+   "B": "正解。Single Level Group By 是<strong>表格</strong>：每組標題旁有進度條，底下列出 issue；只能用 filter，最多顯示 1,000 筆。",
+   "C": "Time Since 是依日期欄位畫長條，沒有分組。",
+   "D": "Created vs Resolved 是兩條趨勢線，沒有分組。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/"
+  ],
+  "tags": [
+   "issue-analysis",
+   "group-by"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-033",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Epic Burndown 用「最近三個 sprint」預測還要幾個 sprint。目前進行中的 sprint 會被算進這三個嗎？",
+  "options": [
+   "一律會算進去",
+   "一律不會算進去",
+   "通常不算，除非已經做超過預測",
+   "只有 sprint 過半才算"
+  ],
+  "answer": "C",
+  "explain": {
+   "A": "官方說目前的 sprint 通常不算，所以不是一律。",
+   "B": "有例外，所以不是一律不算。",
+   "C": "正解。官方原文：目前 sprint 通常不計入；<strong>例外是它的完成量已經超過預測量</strong>，這時才拿它當三個之一，柱子也會改成綠／藍色。",
+   "D": "官方沒有「過半」這個條件。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-epic-burndown-report/"
+  ],
+  "tags": [
+   "epic-burndown",
+   "velocity"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-034",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "在 space 點 Reports，先打開的 Team overview 儀表板（space insights），資料範圍是？",
+  "options": [
+   "目前選的那個 board",
+   "整個 space",
+   "看的人自己的 issue",
+   "目前進行中的 sprint"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "這是<strong>傳統報表</strong>的範圍：Burndown、Velocity 這些要先確認選對 board。",
+   "B": "正解。官方說 space insights 用<strong>整個 space</strong> 的資料，不受選定的 board 或 board filter 限制。要看傳統報表得按 More reports；要跨多個 space 則改用 Jira dashboard。",
+   "C": "那是 Assigned to Me 這類 gadget 的邏輯。",
+   "D": "space insights 可以篩選，但範圍不只一個 sprint。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/",
+   "https://support.atlassian.com/jira-software-cloud/docs/what-are-space-insights/"
+  ],
+  "tags": [
+   "insights"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-035",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Board 上 Insights 的 Work items for attention，什麼情況會自動把 issue 標成 stuck？",
+  "options": [
+   "在同一狀態超過 7 天",
+   "超過該狀態的第 85 百分位",
+   "被別人加了 Flag",
+   "有 Blocked by 連結"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "官方沒有固定天數的規則。",
+   "B": "正解。issue 在目前狀態停留的時間<strong>超過第 85 百分位</strong>，就自動標為 stuck。",
+   "C": "被 flag 的會出現在 <strong>Flagged</strong> 分頁，那是另一類。",
+   "D": "有 Blocked by 連結的會出現在 <strong>Blocked</strong> 分頁。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/understand-insights-on-the-board-in-company-managed-projects/"
+  ],
+  "tags": [
+   "insights"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-036",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "下列哪一個「不能」當 CMP Velocity Chart 的 estimation statistic？",
+  "options": [
+   "Story points",
+   "Original time estimate",
+   "數字型自訂欄位",
+   "文字型自訂欄位"
+  ],
+  "answer": "D",
+  "explain": {
+   "A": "story points 是最常見的選擇。",
+   "B": "可以用 original time（分鐘、小時、天、週）。",
+   "C": "官方寫明<strong>任何數字型自訂欄位</strong>都可以。",
+   "D": "正解。estimation statistic 要能加總，文字欄位沒辦法。可用的是 story points、original time、issue count，或任何數字型欄位。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-velocity-chart/"
+  ],
+  "tags": [
+   "velocity",
+   "estimation"
+  ],
+  "difficulty": 2,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-037",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "Control Chart 上有幾個離群點，查了之後發現是人為錯誤（卡在 In Progress 卻早就不做了）。官方建議怎麼把它們排除？",
+  "options": [
+   "直接刪掉那幾張 issue",
+   "貼 label 再用 quick filter 排除",
+   "把 board filter 改掉",
+   "把 working days 改掉"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "刪 issue 會把紀錄一起毀掉，官方沒有這樣建議。",
+   "B": "正解。幫它們貼 label（例如 outlier），建一個 quick filter：<code>labels is EMPTY or labels not in (outlier)</code>，Control Chart 套用這個 quick filter 就好。",
+   "C": "改 board filter 會影響整個 board 上所有東西，範圍太大。",
+   "D": "working days 只影響非工作日怎麼算，排除不了特定 issue。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-control-chart/"
+  ],
+  "tags": [
+   "control-chart",
+   "outlier"
+  ],
+  "difficulty": 3,
+  "version_note": "",
+  "origin": "new"
+ },
+ {
+  "id": "620.5.3-038",
+  "section": "620.5.3",
+  "domain": "620.5",
+  "stem": "CFD 上目前 To Do＝5、In Progress＝2、Done＝1。這時把那張 Done 的卡拖回 To Do，CFD 會變成？",
+  "options": [
+   "To Do 6、In Progress 2、Done 0",
+   "To Do 5、In Progress 1、Done 0",
+   "To Do 5、In Progress 2、Done 1",
+   "To Do 6、In Progress 1、Done 0"
+  ],
+  "answer": "B",
+  "explain": {
+   "A": "To Do 不會加 1：沒有新卡進來。",
+   "B": "正解。這是官方原文的例子：Done 與 In Progress 各扣 1，<strong>To Do 維持 5</strong>。累積圖不是只升不降，卡片往回走時下游的數字會減少。",
+   "C": "卡片確實移動了，數字一定會變。",
+   "D": "To Do 不會加 1。"
+  },
+  "sources": [
+   "https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-cumulative-flow-diagram/"
+  ],
+  "tags": [
+   "cfd"
+  ],
+  "difficulty": 3,
   "version_note": "",
   "origin": "new"
  }

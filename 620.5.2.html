@@ -182,26 +182,38 @@
 <tr><td class="hd" rowspan="3">分佈</td><td>Pie Chart</td><td>filter／project</td><td>依<strong>單一</strong>欄位（status、priority、assignee…）畫出佔比的圓餅圖，適合回答「哪一類最多」</td></tr>
 <tr><td>Issue Statistics（Work item Statistics）</td><td>filter／project</td><td>依<strong>單一</strong>欄位分組後列出數量的表格，跟 Pie Chart 同樣是一維，只是以數字而非圖形呈現</td></tr>
 <tr><td>Two Dimensional Filter Statistics</td><td>filter</td><td>把<strong>兩個</strong>欄位交叉成一張表格（例如 Assignee × Status），是唯一能回答「每個人各狀態幾張」這種問題的內建 gadget</td></tr>
-<tr><td class="hd" rowspan="4">趨勢與時間</td><td>Created vs Resolved</td><td>filter／project</td><td>把一段期間內「新建立」與「已解決」的數量畫在一起，兩條線的落差就看得出 backlog 是越積越多還是正在消化</td></tr>
-<tr><td>Recently Created Issues</td><td>filter／project</td><td>建立速率的長條，含已解決比例</td></tr>
+<tr><td class="hd" rowspan="4">趨勢與時間</td><td>Created vs Resolved</td><td>filter／project</td><td>把一段期間內「新建立」與「已解決」的數量畫成兩條線，中間夾出<strong>紅色區（建立＞解決）</strong>或<strong>綠色區（解決＞建立）</strong>，看得出 backlog 是越積越多還是正在消化。可選逐期計數或<strong>累積（Cumulative）</strong>，也可以在圖上標出版本的 release 日</td></tr>
+<tr><td>Recently Created Issues</td><td>filter／project</td><td>一期一根長條＝那期新建立幾張；長條下段<strong>綠色＝其中已解決</strong>、上段<strong>紅色＝還沒解決</strong>。回答「團隊跟不跟得上新進來的量」</td></tr>
 <tr><td>Average Age</td><td>filter／project</td><td>用長條呈現目前未解決 issue 的平均「年齡」（從建立到現在幾天），數字持續上升代表舊案子沒人處理</td></tr>
-<tr><td>Resolution Time</td><td>filter／project</td><td>已解決 issue 的平均解決時間</td></tr>
+<tr><td>Resolution Time</td><td>filter／project</td><td>長條圖，<strong>已解決</strong> issue 平均花幾天解決；跟 Average Age（看<strong>未解決</strong>的放多久）是相反的兩面</td></tr>
 <tr><td class="hd" rowspan="2">狀態停留</td><td>Average Time in Status</td><td>filter／project</td><td>各狀態平均停留天數</td></tr>
 <tr><td>Average Number of Times in Status</td><td>filter／project</td><td>統計 issue 平均進入每個狀態幾次；某個狀態的次數明顯大於 1，通常代表工作在那裡反覆被退回，是流程有問題的訊號</td></tr>
 <tr><td class="hd" rowspan="3">個人</td><td>Assigned to Me</td><td>—</td><td>列出目前指派給觀看者本人、尚未完成的 issue，<strong>跨所有 project 且不需要設定來源</strong></td></tr>
 <tr><td>Issues in Progress（Work items in Progress）</td><td>—</td><td>我進行中的 issue</td></tr>
 <tr><td>Watched Issues／Voted Issues</td><td>—</td><td>我關注／投票的 issue</td></tr>
-<tr><td class="hd" rowspan="3">Sprint</td><td>Sprint Health</td><td>board</td><td>一張圖同時呈現目前 sprint 的進度、工作在成員之間的分配，以及 scope 有沒有中途被追加</td></tr>
-<tr><td>Sprint Burndown</td><td>board</td><td>目前 sprint 的燃盡曲線，跟 board 上的 burndown chart 是同一份資料</td></tr>
-<tr><td>Days Remaining in Sprint</td><td>board</td><td>單純顯示目前 sprint 還剩幾天，適合放在牆上的 wallboard 提醒團隊</td></tr>
-<tr><td class="hd" rowspan="2">版本與 project</td><td>Road Map</td><td>project</td><td>指定期間內要 release 的版本與進度</td></tr>
+<tr><td class="hd" rowspan="3">Sprint</td><td>Sprint Health</td><td>board</td><td>一條依 board column 上色的進度條，加上五個數字：<strong>Time elapsed</strong>（sprint 過了多久）、<strong>Work complete</strong>（依 board 的 estimation statistic 算完成百分比）、<strong>Scope change</strong>（開始後加入／移出的比例；沒估點的 issue 加進來不影響）、<strong>Blockers</strong>、<strong>Flagged</strong>。要選 board 與 sprint；<strong>吃 board 的 working days</strong></td></tr>
+<tr><td>Sprint Burndown</td><td>board</td><td>目前 sprint 的燃盡曲線，資料跟 board 上的 Burndown chart 相同；要選 board 與 sprint，<strong>吃 working days</strong>。縱軸看 board 設定：Time tracking 設成 <strong>Remaining estimate and time spent</strong> 時會<strong>蓋過</strong> estimation statistic，改用工時；想看 story points 要把 Time tracking 設成 None</td></tr>
+<tr><td>Days Remaining in Sprint</td><td>board</td><td>單純顯示目前 sprint 還剩幾天（舊版官方說明寫的是「剩幾個<strong>工作天</strong>」），適合放在牆上的 wallboard 提醒團隊；要選 board 與 sprint</td></tr>
+<tr><td class="hd" rowspan="2">版本與 project</td><td>Road Map</td><td>project</td><td>設定兩項：<strong>Projects</strong>（可多選或 All）與 <strong>Days</strong>（未來幾天內）。列出這段期間內要 release 的版本，以及每個版本的完成進度</td></tr>
 <tr><td>Projects（Spaces）</td><td>project</td><td>project 資訊與相關 filter 捷徑</td></tr>
-<tr><td class="hd" rowspan="4">其他</td><td>Bubble Chart</td><td>filter</td><td>用 X 軸、Y 軸、泡泡大小與顏色<strong>四個維度</strong>一次呈現，適合從一大堆 issue 裡撈出「又重要又拖很久」的那幾張</td></tr>
+<tr><td class="hd" rowspan="4">其他</td><td>Bubble Chart</td><td>filter</td><td>用 X 軸、Y 軸、泡泡大小與顏色<strong>四個維度</strong>一次呈現：預設橫軸是開了幾天、縱軸是留言數，泡泡大小可選<strong>參與人數或投票數</strong>，顏色表示熱度。適合從一大堆 issue 裡撈出「又熱門又拖很久」的那幾張</td></tr>
 <tr><td>Labels</td><td>project</td><td>列出這個 project 用過的所有 label，可以用來檢查標籤有沒有長出拼字變體</td></tr>
 <tr><td>Time Since Issues</td><td>filter／project</td><td>依某個日期欄位（created、updated、due、resolved、自訂）的活動長條</td></tr>
 <tr><td>Activity Stream、Introduction、Quick Links、Wallboard Spacer、Issue Calendar（需外掛）、Time to First Response、Service Project Report</td><td>各異</td><td>活動流、自訂文字、捷徑、排版空白、行事曆（外掛）、JSM 專用兩個</td></tr>
 </table></div>
-<p class="kicker" style="margin-top:.5rem">Marketplace 可加更多 gadget；也可用 XML descriptor 自製 gadget 當 plugin 安裝。</p>
+<p class="kicker" style="margin-top:.5rem">Marketplace 可加更多 gadget；也可用 XML descriptor 自製 gadget 當 plugin 安裝。內建 gadget 不能跨多個 Jira 站台，也不能把多個資料來源合成一張圖，這兩種需求要靠 Marketplace app。</p>
+<h3 style="margin-top:1.4rem">五組最容易搞混的 gadget</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:26%">這組</th><th>差在哪一點</th></tr>
+<tr><td>Pie Chart<br>Issue Statistics<br>Two Dimensional<br>Filter Results</td><td>前兩個都是<strong>一個欄位</strong>分組，Pie 畫圖、Issue Statistics 列數字表；Two Dimensional 是<strong>兩個欄位交叉</strong>的表；Filter Results <strong>不分組</strong>，直接列出 issue 清單</td></tr>
+<tr><td>Sprint Health<br>Sprint Burndown<br>Days Remaining</td><td>三個都要選 board＋sprint。Health 是<strong>一條進度條加五個數字</strong>（含 scope change、blockers、flagged）；Burndown 是<strong>一條曲線</strong>；Days Remaining 只有<strong>一個數字</strong></td></tr>
+<tr><td>Assigned to Me<br>Issues in Progress<br>Filter Results</td><td>前兩個<strong>不用設定來源</strong>，內容跟著「正在看 dashboard 的人」變：一個是指派給我、還沒完成的，一個是指派給我、<strong>進行中</strong>的。Filter Results 要指定 filter，每個人看到的都一樣</td></tr>
+<tr><td>Average Time in Status<br>Average Number of Times in Status</td><td>一個看<strong>停留多久</strong>，一個看<strong>進入幾次</strong>。次數明顯大於 1＝在那裡被反覆退回</td></tr>
+<tr><td>Average Age<br>Resolution Time</td><td>Average Age 看<strong>還沒解決</strong>的放了多久；Resolution Time 看<strong>已經解決</strong>的花了多久</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">gadget 與報表同名的時候</div>Pie Chart、Created vs Resolved、Recently Created、Resolution Time、Average Age、Time Since 這幾個，<strong>報表和 gadget 各有一份</strong>，顯示的資料相同。差別在位置：報表在 project 的 Reports → More reports，gadget 放在 dashboard，可以跟其他 gadget 並排、給一群人看。board 上的 Burndown chart 對應的 gadget 叫 <strong>Sprint Burndown</strong>。</div>
+<div class="callout warn"><div class="t">哪些 gadget 吃 board 的 working days</div>官方清單只有 <strong>Sprint Health</strong> 與 <strong>Burndown gadget</strong>（另外還有五張報表，見 620.5.3 的屬性矩陣）。</div>
+<div class="kicker">來源：<a href="https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/">Dashboard gadgets</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/">Configure working days</a>、<a href="https://support.atlassian.com/jira/kb/how-to-set-estimation-statistics-and-time-tracking-estimation-in-the-sprint-burndown-gadget/">Sprint Burndown gadget 的縱軸（KB）</a>、<a href="https://confluence.atlassian.com/agile064/jira-agile-user-s-guide/using-the-jira-agile-gadgets/using-the-sprint-health-gadget">Sprint Health gadget</a>、<a href="https://confluence.atlassian.com/jirasoftwareserver/gadgets-for-jira-applications-939939037.html">Gadgets for Jira applications</a>（2026-09-24 查核）</div>
 </section>
 
 <!-- ============ Quiz ============ -->

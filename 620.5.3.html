@@ -58,13 +58,18 @@
   <nav>
     <a href="#goal">這一節考什麼</a>
     <a href="#map">哪個 board 有哪些報表</a>
+    <a href="#matrix">屬性矩陣</a>
+    <a href="#keywords">英文關鍵字 → 報表</a>
     <a href="#picker">問題 → 報表 選擇器</a>
     <a href="#sprint">Sprint 三兄弟</a>
     <a href="#burnup">Burnup：scope creep</a>
     <a href="#epic">Epic、Version 報表</a>
     <a href="#control">Control chart</a>
     <a href="#cfd">Cumulative flow diagram</a>
-    <a href="#analysis">Issue analysis 報表</a>
+    <a href="#analysis">Issue analysis 11 張</a>
+    <a href="#tmp">TMP 的報表</a>
+    <a href="#insights">Insights</a>
+    <a href="#numbers">數字速記</a>
     <a href="#scale">Agile at scale</a>
     <a href="#quiz">情境練習</a>
     <a href="#traps">常見陷阱</a>
@@ -111,6 +116,78 @@
 <div class="callout exam"><div class="t">記法</div>Kanban 只有 <strong>Control Chart 與 CFD</strong>（沒有 sprint 就沒有 sprint 類報表）。TMP 的報表另成一套（burnup、velocity、cumulative flow 等），Sprint report、Epic report、Epic burndown 是 CMP 專屬。</div>
 </section>
 
+<!-- ============ 屬性矩陣（2026-09-24 新增，逐格對照官方報表頁） ============ -->
+<section id="matrix">
+<div class="section-label">考題最愛問</div>
+<h2>屬性矩陣：考題問「哪些報表會……」就看這張</h2>
+<p>考題很少問「這張報表拿來做什麼」，而是拿<strong>一個屬性</strong>問你<strong>哪幾張報表符合</strong>（常見 Select 2～4 answers）。點下面任一個屬性，符合的報表會亮起來；要背的就是每一欄往下掃的結果。「—」代表不符合，或官方沒有這樣寫。TMP 欄的 Burndown 指的是 TMP 的 Sprint burndown。</p>
+<div id="s253-mx-chips" style="display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0">
+<button type="button" class="chip" data-col="scrum" style="cursor:pointer">CMP Scrum</button>
+<button type="button" class="chip" data-col="kanban" style="cursor:pointer">CMP Kanban</button>
+<button type="button" class="chip" data-col="tmp" style="cursor:pointer">TMP</button>
+<button type="button" class="chip" data-col="wd" style="cursor:pointer">吃 working days</button>
+<button type="button" class="chip" data-col="sub" style="cursor:pointer">官方寫明 sub-task 不計</button>
+<button type="button" class="chip" data-col="scope" style="cursor:pointer">看得出 scope change</button>
+<button type="button" class="chip" data-col="pred" style="cursor:pointer">會預測未來</button>
+<button type="button" class="chip" data-col="unest" style="cursor:pointer">未估點 >30% 警告</button>
+<button type="button" class="chip" data-col="unmap" style="cursor:pointer">官方寫明 unmapped status 不計</button>
+</div>
+<div id="s253-mx-out" class="callout" style="margin:.4rem 0 .8rem">點一個屬性看結果。</div>
+<div class="tbl-wrap" style="overflow-x:auto"><table class="tbl" id="s253-mx" style="min-width:52rem">
+<tr><th style="min-width:10.5rem">報表</th><th style="min-width:6rem">範圍</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">CMP<br>Scrum</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">CMP<br>Kanban</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">TMP</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">working<br>days</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">sub-task<br>不計</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">scope<br>change</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">預測<br>未來</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">30%<br>警告</th><th class="c" style="white-space:normal;overflow-wrap:normal;word-break:keep-all;min-width:4.6rem;line-height:1.25">unmapped<br>不計</th></tr>
+<tr data-scrum="1" data-kanban="0" data-tmp="1" data-wd="1" data-sub="1" data-scope="2" data-pred="0" data-unest="0" data-unmap="0" data-name="Burndown Chart"><td style="white-space:nowrap"><strong>Burndown Chart</strong></td><td>sprint</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">◐</span><sup>1</sup></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td></tr>
+<tr data-scrum="1" data-kanban="0" data-tmp="1" data-wd="0" data-sub="1" data-scope="1" data-pred="0" data-unest="0" data-unmap="0" data-name="Burnup Chart"><td style="white-space:nowrap"><strong>Burnup Chart</strong></td><td>sprint</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td></tr>
+<tr data-scrum="1" data-kanban="0" data-tmp="2" data-wd="1" data-sub="1" data-scope="1" data-pred="0" data-unest="0" data-unmap="0" data-name="Sprint Report"><td style="white-space:nowrap"><strong>Sprint Report</strong></td><td>sprint</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">◐</span><sup>2</sup></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td></tr>
+<tr data-scrum="1" data-kanban="0" data-tmp="1" data-wd="0" data-sub="1" data-scope="2" data-pred="1" data-unest="0" data-unmap="0" data-name="Velocity Chart"><td style="white-space:nowrap"><strong>Velocity Chart</strong></td><td>多個 sprint</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">◐</span><sup>3</sup></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td></tr>
+<tr data-scrum="1" data-kanban="0" data-tmp="0" data-wd="1" data-sub="0" data-scope="0" data-pred="0" data-unest="2" data-unmap="0" data-name="Epic Report"><td style="white-space:nowrap"><strong>Epic Report</strong></td><td>epic</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">◐</span><sup>4</sup></td><td class="c"><span class="muted">—</span></td></tr>
+<tr data-scrum="1" data-kanban="0" data-tmp="0" data-wd="0" data-sub="0" data-scope="1" data-pred="1" data-unest="1" data-unmap="1" data-name="Epic Burndown"><td style="white-space:nowrap"><strong>Epic Burndown</strong></td><td>epic</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td></tr>
+<tr data-scrum="1" data-kanban="0" data-tmp="0" data-wd="0" data-sub="0" data-scope="1" data-pred="1" data-unest="1" data-unmap="1" data-name="Release Burndown"><td style="white-space:nowrap"><strong>Release Burndown</strong></td><td>version</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td></tr>
+<tr data-scrum="1" data-kanban="0" data-tmp="0" data-wd="1" data-sub="2" data-scope="1" data-pred="1" data-unest="0" data-unmap="0" data-name="Version Report"><td style="white-space:nowrap"><strong>Version Report</strong></td><td>version</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">◐</span><sup>5</sup></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td></tr>
+<tr data-scrum="1" data-kanban="1" data-tmp="0" data-wd="1" data-sub="0" data-scope="0" data-pred="0" data-unest="0" data-unmap="0" data-name="Control Chart"><td style="white-space:nowrap"><strong>Control Chart</strong></td><td>project／version／sprint</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td></tr>
+<tr data-scrum="1" data-kanban="1" data-tmp="1" data-wd="0" data-sub="0" data-scope="0" data-pred="0" data-unest="0" data-unmap="0" data-name="Cumulative Flow Diagram"><td style="white-space:nowrap"><strong>Cumulative Flow Diagram</strong></td><td>任意期間</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td><td class="c"><span class="muted">—</span></td></tr>
+</table></div>
+<ol class="kicker" style="margin-top:.5rem">
+<li value="1">Burndown：中途加 sub-task 一律算 scope change，但只有 board 開了 Remaining estimate and time spent 時才會畫在圖上</li>
+<li value="2">TMP 沒有叫 Sprint Report 的報表，但 TMP 的 Sprint burndown 下方附了同樣的清單（scope changes log、完成、未完成、sprint 外完成、被移出）</li>
+<li value="3">Velocity：Commitment 不含中途加入的量、Completed 含，所以看得出「承諾 vs 實際」的落差，但它不是專門標 scope change 的圖</li>
+<li value="4">Epic report 會把未估點的 issue 列成清單，但不像 Epic／Release burndown 那樣在 30% 時發警告</li>
+<li value="5">Version report 是直接排除 sub-task 類型的 issue，不只是不計估點</li>
+</ol>
+<div class="callout exam"><div class="t">三個一定要背的欄</div><ul style="margin:.3rem 0 0"><li><strong>吃 working days</strong>：官方清單只有 Burndown、Sprint Report、Epic Report、Version Report、Control Chart 五張報表，加上 <strong>Sprint Health</strong> 與 <strong>Burndown</strong> 兩個 gadget。Velocity 以 sprint 為單位、CFD 按日曆日，都不吃。</li><li><strong>只有 Scrum 才有</strong>：CMP 裡除了 Control Chart 和 CFD，其他八張全部是 Scrum 專屬。Kanban 只有這兩張。</li><li><strong>TMP 只有四張</strong>：Burnup、Sprint burndown、Velocity、CFD。沒有 Control Chart、Epic、Version 系列。</li></ul></div>
+<div class="kicker">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/">Generate a report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/">Configure working days</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/enable-reports/">Enable reports（TMP）</a>、各報表官方頁（2026-09-24 查核）</div>
+</section>
+
+<!-- ============ 英文題幹關鍵字（2026-09-24 新增） ============ -->
+<section id="keywords">
+<div class="section-label">讀題技巧</div>
+<h2>英文題幹關鍵字 → 報表</h2>
+<p>考題是英文的，而且大多是照官方說明改寫的。看到下面這些字眼，幾乎可以直接對到答案。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:52%">題幹出現</th><th>答案</th></tr>
+<tr><td>remaining work in the sprint、likelihood of achieving the sprint goal</td><td>Burndown Chart</td></tr>
+<tr><td>scope creep、work added during the sprint、completed vs total scope</td><td>Burnup Chart</td></tr>
+<tr><td>completed or pushed back to the backlog、retrospective、overcommitting</td><td>Sprint Report</td></tr>
+<tr><td>how much work per sprint、forecast / plan future sprints、capacity</td><td>Velocity Chart</td></tr>
+<tr><td>progress of an epic、incomplete and <strong>unestimated</strong> work</td><td>Epic Report</td></tr>
+<tr><td>how many <strong>sprints</strong> to complete an <strong>epic</strong></td><td>Epic Burndown</td></tr>
+<tr><td>how many <strong>sprints</strong> to release a <strong>version</strong></td><td>Release Burndown</td></tr>
+<tr><td>predicted / projected <strong>release date</strong>、optimistic／pessimistic</td><td>Version Report</td></tr>
+<tr><td>cycle time、lead time、variance、predictability、how long in a <strong>particular status</strong></td><td>Control Chart</td></tr>
+<tr><td>bottleneck、work in progress、flow、statuses over time</td><td>Cumulative Flow Diagram</td></tr>
+<tr><td>average age of <strong>unresolved</strong>、backlog kept up to date、chart <strong>and table</strong></td><td>Average Age Report</td></tr>
+<tr><td>time taken to <strong>resolve</strong></td><td>Resolution Time Report</td></tr>
+<tr><td>backlog <strong>growing or shrinking</strong>、created versus resolved</td><td>Created vs Resolved</td></tr>
+<tr><td><strong>keeping up with incoming</strong> work、rate of creation and how many resolved</td><td>Recently Created Issues</td></tr>
+<tr><td>a <strong>date field</strong> (created／updated／due) was set</td><td>Time Since Issues</td></tr>
+<tr><td>grouped by a field、breakdown at a glance</td><td>Pie Chart Report</td></tr>
+<tr><td>search results grouped by a field、<strong>status of each group</strong>、filter</td><td>Single Level Group By</td></tr>
+<tr><td><strong>relative workload</strong> for assignees</td><td>Workload Pie Chart</td></tr>
+<tr><td>work allocated to <strong>a user</strong></td><td>User Workload</td></tr>
+<tr><td>outstanding work <strong>per user</strong> before a <strong>version</strong> is complete</td><td>Version Workload</td></tr>
+<tr><td>original estimate vs actual、<strong>ahead of or behind</strong> schedule</td><td>Time Tracking Report</td></tr>
+</table></div>
+</section>
+
 <!-- ============ Picker ============ -->
 <section id="picker">
 <div class="section-label">互動</div>
@@ -132,8 +209,10 @@
 <li>X＝時間、Y＝board 設定的 <strong>estimation statistic</strong>（story points／issue count／時間）</li>
 <li><strong>灰線 guideline</strong>：從 sprint 開始的總量直線降到 0；<strong>sprint 開始時沒有 issue 就不會有 guideline</strong></li>
 <li>紅線＝實際剩餘；往上跳＝scope 增加或估點調高</li>
-<li><strong>sub-task 的 story points 不計</strong>，只算 parent；若 board 用 remaining estimate and time spent，sub-task 的時間會 roll-up 到 parent，且中途加 sub-task 會顯示為 scope change</li>
+<li><strong>sub-task 的 story points 不計</strong>，只算 parent</li>
+<li><strong>active sprint 中途加 sub-task，一律算 scope change</strong>；差別在 burndown 看不看得到：<br>・<strong>Remaining estimate and time spent 開</strong>：sub-task 的時間 roll-up 到 parent，scope change <strong>會</strong>畫在 burndown 上<br>・<strong>關</strong>：一樣算 scope change，但 burndown <strong>不會</strong>顯示這筆</li>
 <li>只含 board filter 內的 issue；最右欄＝Done</li>
+<li>報表上方的下拉可以切換 estimation statistic，Jira 會記住你的選擇</li>
 </ul></div>
 <div class="card"><div class="eyebrow">Sprint Report</div>
 <ul style="font-size:.9rem;margin-top:.5rem">
@@ -141,14 +220,19 @@
 <li><strong>星號 *</strong>＝sprint 開始後才加入的 issue</li>
 <li><strong>3 → 3.5</strong>＝sprint 中估點被改過</li>
 <li>圖：灰 guideline、紅實際、綠＝有記錄工時時的 time spent</li>
-<li>只有 CMP 有；retro 用</li>
+<li>只有 CMP 有；retro 用，也適合 sprint 中途檢查進度</li>
+<li>灰線在<strong>非工作日保持水平</strong>；紅線＝目前還沒解決的工作的總估算，加入或移出 sprint 都會反映在上面</li>
+<li>sprint 綁的是 <strong>board</strong>，不是 project：issue 搬到別的 space，sprint 資料不會跟著過去，報表可能對不上</li>
+<li>接了 Confluence 可以從 Linked pages 直接建 retrospective 頁</li>
 </ul></div>
 <div class="card"><div class="eyebrow">Velocity Chart</div>
 <ul style="font-size:.9rem;margin-top:.5rem">
 <li>每個 sprint 兩根柱：<strong>Commitment</strong>（開始時的量）vs <strong>Completed</strong></li>
 <li>拿近幾個 sprint 的 completed 平均當產能，用來規劃下一個 sprint 與做 epic／version 預測</li>
 <li>Commitment＝sprint 開始時的總估算；<strong>sprint 開始後加入的 issue 或改過的估點都不算進 commitment</strong>，但會算進 Completed</li>
-<li>Y 軸用 board 的 estimation statistic；<strong>sub-task 的估算不計</strong>；平均線＝顯示的 sprint 的 completed 平均</li>
+<li>Y 軸用 board 的 estimation statistic：story points、<strong>original time</strong>、issue count，或<strong>任何數字型自訂欄位</strong>；<strong>sub-task 的估算不計</strong></li>
+<li>黑色平均線＝畫面上所有 sprint 的 Completed 平均；sprint 越多預測越準</li>
+<li>只有用 Scrum 範本的 board 才打得開</li>
 </ul></div>
 </div>
 <div class="figure">
@@ -282,6 +366,11 @@
 <li>Version report <strong>要先完成該版本估算工作的 10%</strong> 才算得出預測；藍線是預測日，樂觀＝平均日速度 +10%、悲觀＝ −10%。</li>
 <li><strong>Release burndown：status 沒有對應到任何 column 的工作「完全不列入」</strong>——不進 sprint bar、不算進 % unestimated、也不算 remaining story points。「報表少了一批卡」先查 unmapped status。</li>
 <li>Release burndown 的預測用<strong>近三個 sprint 的完成量</strong>；<strong>scope change 不列入這個 velocity 計算，但列入總剩餘量</strong>；未估點超過 <strong>30%</strong> 時標紅，預測不可靠。（此 velocity 與 Velocity Chart 的定義不同。）</li>
+<li><strong>Epic burndown 也一樣</strong>：status 沒對應到 column 的 issue 完全不列入。</li>
+<li>「近三個 sprint」通常<strong>不含目前的 sprint</strong>；例外是目前 sprint 的完成量已經超過預測，才會把它算進去。</li>
+<li>圖上<strong>第一個 sprint</strong>＝epic／version 裡第一張離開 To Do 的 issue 所在的 sprint；<strong>最後一個</strong>＝全部完成的那個，或預測完成的那個。Release burndown 底部顯示的 Planned start／end date 只是參考，不決定畫哪幾個 sprint。</li>
+<li>sprint 以外發生的變動，會算在「變動日之前最晚開始的那個 sprint」。完成後又 reopen 的 issue，不會再出現在原本那個 sprint。</li>
+<li>Version report 的橫軸從版本的 <strong>Start Date</strong> 開始；沒設就從第一張 issue 被加進版本那天開始。預測用的是「從版本開始到現在」的<strong>平均每日</strong>速度。</li>
 </ul>
 <div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-the-version-report/">Version report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-release-burndown-report/">Release burndown report</a>（2026-09-08 查核）</div></div>
 <div class="figure">
@@ -446,6 +535,11 @@
 <tr><td>藍帶</td><td>標準差：實際值相對 rolling average 的變異量</td></tr>
 <tr><td>可調</td><td>Columns（要算哪些狀態）、Filters／Quick filters、Swimlanes、Timeframe、<strong>Non-working days</strong>（排除週末假日）</td></tr>
 <tr><td>用途</td><td>retro 看流程改善有沒有效、給利害關係人看、<strong>Kanban 團隊設定目標</strong>、找出無效離群點</td></tr>
+<tr><td>Cycle vs lead time</td><td>Cycle time＝實際在做的時間，<strong>reopen 後再做的時間也會加進去</strong>；Lead time＝從<strong>建立</strong>到完成。兩者差別只在 Columns 勾哪幾個狀態</td></tr>
+<tr><td>點的位置</td><td>橫向＝離開所勾選的<strong>最後一個狀態</strong>的時間；多張擠在一起會合成一個 cluster 點（高度取平均）；<strong>點一下可以看單張 issue</strong></td></tr>
+<tr><td>Y 軸刻度</td><td>最長經過時間 <strong>&lt; 30 天用線性</strong>、<strong>≥ 30 天改用立方根刻度</strong>，所以換 Timeframe 時刻度會變</td></tr>
+<tr><td>官方三個 quick filter 技巧</td><td>排除無效離群點：幫它們貼 label，quick filter 用 <code>labels is EMPTY or labels not in (outlier)</code>；排除分流掉的單：<code>resolution in (Fixed)</code>；只看已完成的：<code>status in (Resolved, Closed)</code></td></tr>
+<tr><td>哪裡有</td><td><strong>只有 CMP</strong>（Scrum 與 Kanban 都有）；TMP 沒有 Control Chart</td></tr>
 </table></div>
 </section>
 
@@ -483,8 +577,10 @@
 <ul>
 <li>只含 board filter 內的 issue；顏色對應 board 的 columns。</li>
 <li>Refine report 可加 filter；期間用下拉或拖曳下方 Overview。</li>
+<li><strong>卡片往回拖，數字會減少</strong>：官方例子是把一張卡從 Done 拖回 To Do，Done 和 In Progress 各扣 1，To Do 維持不變（因為沒有新卡進來）。所以「每條線只升不降」只在工作一路往前走時成立。</li>
+<li>健康的樣子：各色帶<strong>平均地一起往上長</strong>，只有 Done 帶持續變厚。</li>
 <li>官方提醒：CFD 看的是累積 throughput，不等於傳統「同時進行中」的 WIP 數字——判讀時分清「帶在變厚」和「整體在上升」。</li>
-<li>CFD 依<strong>日曆日</strong>，不受 working days 設定影響（Burndown、Sprint／Epic／Version report、Control chart 才受影響，見 620.2.6）。</li>
+<li>CFD 依<strong>日曆日</strong>，不受 working days 設定影響（官方清單：報表有 Burndown、Sprint report、Epic report、Version report、Control chart；gadget 有 <strong>Sprint Health</strong> 與 <strong>Burndown gadget</strong>。Velocity 以 sprint 為單位，也不受影響。見 620.2.6）。</li>
 </ul>
 <div class="callout exam"><div class="t">讀值練習：累積上界 ≠ 該欄當下的卡數</div>
 CFD 是<strong>堆疊面積圖</strong>，每條線是「累積上界」，某個狀態的實際件數要看<strong>色帶厚度</strong>（相鄰兩條線的差）。
@@ -501,62 +597,117 @@ CFD 是<strong>堆疊面積圖</strong>，每條線是「累積上界」，某�
 <!-- ============ Analysis ============ -->
 <section id="analysis">
 <div class="section-label">Issue analysis</div>
-<h2>非 board 的報表（Reports → More reports）</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:28%">報表</th><th>看什麼</th></tr>
-<tr><td>Average Age Report</td><td>未解決 issue 的平均年齡</td></tr>
-<tr><td>Created vs Resolved Issues</td><td>建立 vs 解決，backlog 漲跌</td></tr>
-<tr><td>Pie Chart Report</td><td>依欄位分組的比例</td></tr>
-<tr><td>Recently Created Issues</td><td>建立與解決速率</td></tr>
-<tr><td>Resolution Time Report</td><td>解決耗時</td></tr>
-<tr><td>Single Level Group By Report</td><td>filter 結果依一個欄位分組列出；<strong>上限 1,000 筆</strong></td></tr>
-<tr><td>Time Since Issues</td><td>依某日期欄位看活動</td></tr>
-<tr><td>Time Tracking Report</td><td>依版本看估計 vs 實際；<strong>需 Jira admin 啟用 time tracking</strong></td></tr>
-<tr><td>User Workload Report</td><td>每人手上的未完成工時</td></tr>
-<tr><td>Version Workload Report</td><td>某版本各人／各 issue 的剩餘工作</td></tr>
-<tr><td>Workload Pie Chart Report</td><td>依 assignee 的工作量比例</td></tr>
-</table></div>
-<p class="kicker" style="margin-top:.5rem">另有給 Confluence 用的 Change Log 與 Status Report；更多報表在 Marketplace。</p>
-<div class="figure">
-<svg class="dia" viewBox="0 0 980 290" role="img" aria-label="Issue analysis 報表的四種長相：Created vs Resolved 雙折線、Pie chart、Average age 柱狀、Time tracking 水平條">
-  <!-- 四格各 220 寬，x 起點 30, 270, 510, 750；每格內繪圖區 y 60..200 -->
-  <text x="140" y="40" text-anchor="middle" class="lbl b">Created vs Resolved</text>
-  <line x1="40" y1="200" x2="240" y2="200" class="ln"/><line x1="40" y1="200" x2="40" y2="60" class="ln"/>
-  <path d="M40,150 L90,120 L140,110 L190,80 L240,70" stroke="var(--rose)" stroke-width="2.5" fill="none"/>
-  <path d="M40,170 L90,160 L140,140 L190,135 L240,120" stroke="var(--green)" stroke-width="2.5" fill="none"/>
-  <text x="140" y="222" text-anchor="middle" class="s">紅＝建立、綠＝解決</text>
-  <text x="140" y="238" text-anchor="middle" class="s">紅一直高於綠 → backlog 在漲</text>
-  <text x="380" y="40" text-anchor="middle" class="lbl b">Pie Chart</text>
-  <!-- 圓心 (380,130) r 60；三塊：50% brand、30% green、20% amber -->
-  <path d="M380,130 L380,70 A60,60 0 1,1 380,190 Z" fill="var(--brand)" opacity=".8"/>
-  <path d="M380,130 L380,190 A60,60 0 0,1 322.9,111.5 Z" fill="var(--green)" opacity=".8"/>
-  <path d="M380,130 L322.9,111.5 A60,60 0 0,1 380,70 Z" fill="var(--amber)" opacity=".8"/>
-  <text x="380" y="222" text-anchor="middle" class="s">依一個欄位分組的比例</text>
-  <text x="380" y="238" text-anchor="middle" class="s">assignee／priority／component…</text>
-  <text x="620" y="40" text-anchor="middle" class="lbl b">Average Age</text>
-  <line x1="520" y1="200" x2="720" y2="200" class="ln"/><line x1="520" y1="200" x2="520" y2="60" class="ln"/>
-  <rect x="535" y="150" width="28" height="50" class="box brand"/>
-  <rect x="575" y="130" width="28" height="70" class="box brand"/>
-  <rect x="615" y="120" width="28" height="80" class="box brand"/>
-  <rect x="655" y="95" width="28" height="105" class="box brand"/>
-  <rect x="695" y="80" width="28" height="120" class="box brand"/>
-  <text x="620" y="222" text-anchor="middle" class="s">未解決 issue 的平均年齡</text>
-  <text x="620" y="238" text-anchor="middle" class="s">越長越高 → 老案子在堆</text>
-  <text x="860" y="40" text-anchor="middle" class="lbl b">Time Tracking</text>
-  <text x="760" y="82" class="s">PROJ-12</text>
-  <rect x="815" y="70" width="120" height="14" class="box"/><rect x="815" y="70" width="90" height="14" fill="var(--green)" opacity=".8"/>
-  <text x="760" y="118" class="s">PROJ-18</text>
-  <rect x="815" y="106" width="120" height="14" class="box"/><rect x="815" y="106" width="130" height="14" fill="var(--rose)" opacity=".8"/>
-  <text x="760" y="154" class="s">PROJ-21</text>
-  <rect x="815" y="142" width="120" height="14" class="box"/><rect x="815" y="142" width="50" height="14" fill="var(--green)" opacity=".8"/>
-  <text x="860" y="222" text-anchor="middle" class="s">依版本看估計 vs 實際</text>
-  <text x="860" y="238" text-anchor="middle" class="s">超出框＝超時</text>
-  <text x="860" y="254" text-anchor="middle" class="s">需 Jira admin 開 time tracking</text>
-  <text x="490" y="280" text-anchor="middle" class="s">其餘（Recently Created／Resolution Time／Workload 系列）都是這四種圖形的變體；考試只問「哪張看什麼」，不考判讀細節</text>
-</svg>
-<div class="cap">圖 11　Issue analysis 報表不綁 board，從 Reports → More reports 進；Single Level Group By 是表格不是圖，上限 1,000 筆。</div>
+<h2>非 board 的報表：11 張各長什麼樣子</h2>
+<p>這 11 張報表不綁 board，從 <strong>Reports → More reports</strong> 進去，來源選 project 或 filter。考題常用「畫面上有什麼」來出題，例如題幹寫「a chart <em>and a table</em>… unresolved… average age」，答案就是 Average Age。所以下面每張都畫出畫面的長相，<strong>粗體</strong>是用來分辨的線索。標 * 的 4 張要先開 time tracking。</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:.9rem;margin:1rem 0">
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Average Age Report</div><div style="font-weight:650;margin:.25rem 0 .5rem">未解決的 issue 平均已經放了幾天？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Average Age 長條逐期升高" style="box-shadow:none"><line x1="20" y1="120" x2="245" y2="120" class="ln"/><line x1="20" y1="120" x2="20" y2="14" class="ln"/><rect x="32" y="90" width="26" height="30" class="box brand"/><rect x="74" y="78" width="26" height="42" class="box brand"/><rect x="116" y="65" width="26" height="55" class="box brand"/><rect x="158" y="52" width="26" height="68" class="box brand"/><rect x="200" y="36" width="26" height="84" class="box brand"/><text x="240" y="30" text-anchor="end" class="s">天</text></svg><p style="font-size:.88rem;margin:.55rem 0 0"><strong>長條圖＋資料表</strong>；只算<strong>未解決</strong>的。長條一期比一期高＝舊案子堆著沒人處理，backlog 沒在更新</p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Resolution Time Report</div><div style="font-weight:650;margin:.25rem 0 .5rem">解決一張 issue 平均要花多久？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Resolution Time 長條逐期下降" style="box-shadow:none"><line x1="20" y1="120" x2="245" y2="120" class="ln"/><line x1="20" y1="120" x2="20" y2="14" class="ln"/><rect x="32" y="50" width="26" height="70" class="box green"/><rect x="74" y="68" width="26" height="52" class="box green"/><rect x="116" y="60" width="26" height="60" class="box green"/><rect x="158" y="80" width="26" height="40" class="box green"/><rect x="200" y="86" width="26" height="34" class="box green"/><text x="240" y="30" text-anchor="end" class="s">天</text></svg><p style="font-size:.88rem;margin:.55rem 0 0">長條圖，只算<strong>已解決</strong>的。跟 Average Age 剛好相反：一個看<strong>還沒解決</strong>、一個看<strong>已經解決</strong></p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Created vs Resolved</div><div style="font-weight:650;margin:.25rem 0 .5rem">backlog 在變多還是變少？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Created vs Resolved 兩條線，紅色區域代表建立多於解決" style="box-shadow:none"><line x1="20" y1="120" x2="245" y2="120" class="ln"/><line x1="20" y1="120" x2="20" y2="14" class="ln"/><polygon points="20,90 80,70 140,55 200,40 245,32 245,62 200,72 140,82 80,88 20,100" fill="var(--rose)" opacity=".18"/><path d="M20,90 L80,70 L140,55 L200,40 L245,32" stroke="var(--rose)" stroke-width="2.5" fill="none"/><path d="M20,100 L80,88 L140,82 L200,72 L245,62" stroke="var(--green)" stroke-width="2.5" fill="none"/><line x1="140" y1="14" x2="140" y2="120" stroke="var(--ink-3)" stroke-dasharray="3 3"/><text x="144" y="24" class="s">v2.0</text></svg><p style="font-size:.88rem;margin:.55rem 0 0">兩條線夾出<strong>紅色區（建立＞解決）</strong>或<strong>綠色區（解決＞建立）</strong>；可選 <strong>Cumulative Totals</strong>；可以標出版本的 release 日（虛線）</p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Recently Created Issues</div><div style="font-weight:650;margin:.25rem 0 .5rem">團隊跟得上新進來的量嗎？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Recently Created 每根長條下綠上紅" style="box-shadow:none"><line x1="20" y1="120" x2="245" y2="120" class="ln"/><line x1="20" y1="120" x2="20" y2="14" class="ln"/><rect x="32" y="60" width="26" height="12" fill="var(--rose)" opacity=".75"/><rect x="32" y="72" width="26" height="48" fill="var(--green)" opacity=".75"/><rect x="74" y="40" width="26" height="25" fill="var(--rose)" opacity=".75"/><rect x="74" y="65" width="26" height="55" fill="var(--green)" opacity=".75"/><rect x="116" y="50" width="26" height="30" fill="var(--rose)" opacity=".75"/><rect x="116" y="80" width="26" height="40" fill="var(--green)" opacity=".75"/><rect x="158" y="30" width="26" height="50" fill="var(--rose)" opacity=".75"/><rect x="158" y="80" width="26" height="40" fill="var(--green)" opacity=".75"/><rect x="200" y="45" width="26" height="55" fill="var(--rose)" opacity=".75"/><rect x="200" y="100" width="26" height="20" fill="var(--green)" opacity=".75"/></svg><p style="font-size:.88rem;margin:.55rem 0 0">每期一根長條＝<strong>那期新建立的張數</strong>；<strong>綠色段＝其中已解決、紅色段＝還沒解決</strong>。紅色段越來越長＝跟不上</p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Time Since Issues</div><div style="font-weight:650;margin:.25rem 0 .5rem">某個日期欄位在哪幾天被設定？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Time Since 依選定日期欄位畫長條" style="box-shadow:none"><line x1="20" y1="120" x2="245" y2="120" class="ln"/><line x1="20" y1="120" x2="20" y2="14" class="ln"/><rect x="32" y="100" width="26" height="20" class="box violet"/><rect x="74" y="85" width="26" height="35" class="box violet"/><rect x="116" y="30" width="26" height="90" class="box violet"/><rect x="158" y="80" width="26" height="40" class="box violet"/><rect x="200" y="92" width="26" height="28" class="box violet"/><rect x="140" y="6" width="104" height="20" rx="4" class="box"/><text x="148" y="20" class="s">Date Field：Due ▾</text></svg><p style="font-size:.88rem;margin:.55rem 0 0">先選<strong>一個日期欄位</strong>（Created、Updated、Due、Resolved 或自訂日期），畫出每天有幾張被設定；可選 Cumulative Totals</p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Pie Chart Report</div><div style="font-weight:650;margin:.25rem 0 .5rem">依某個欄位分，各佔多少？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Pie Chart 依單一欄位分組" style="box-shadow:none"><path d="M130,72 L130,18 A54,54 0 1,1 76.6,80 Z" fill="var(--brand)" opacity=".75"/><path d="M130,72 L76.6,80 A54,54 0 0,1 92,34 Z" fill="var(--green)" opacity=".75"/><path d="M130,72 L92,34 A54,54 0 0,1 130,18 Z" fill="var(--amber)" opacity=".85"/><text x="252" y="132" text-anchor="end" class="s">Statistic Type：Priority</text></svg><p style="font-size:.88rem;margin:.55rem 0 0">project 或 filter ＋ <strong>一個欄位（Statistic Type）</strong>，只能選值有限的欄位（status、priority、assignee…）</p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Single Level Group By</div><div style="font-weight:650;margin:.25rem 0 .5rem">filter 的結果按一個欄位分組，每組進度如何？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Single Level Group By 分組表格，每組有進度條" style="box-shadow:none"><rect x="14" y="8" width="232" height="20" class="chipbox"/><text x="20" y="22" class="lbl b" style="font-size:12px">Assignee：阿宏（5）</text><rect x="170" y="13" width="70" height="9" class="box"/><rect x="170" y="13" width="42" height="9" fill="var(--green)"/><text x="24" y="44" class="lbl" style="font-size:12px">PROJ-12　登入頁改版</text><text x="24" y="62" class="lbl" style="font-size:12px">PROJ-18　密碼重設信</text><rect x="14" y="74" width="232" height="20" class="chipbox"/><text x="20" y="88" class="lbl b" style="font-size:12px">Assignee：小傑（3）</text><rect x="170" y="79" width="70" height="9" class="box"/><rect x="170" y="79" width="18" height="9" fill="var(--green)"/><text x="24" y="110" class="lbl" style="font-size:12px">PROJ-21　SSO 串接</text></svg><p style="font-size:.88rem;margin:.55rem 0 0"><strong>是表格，不是圖</strong>；只能用 <strong>filter</strong>；每組標題旁有進度條、底下列出 issue。最多顯示 <strong>1,000 筆</strong></p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Workload Pie Chart *</div><div style="font-weight:650;margin:.25rem 0 .5rem">每個 assignee 的工作量佔多少比例？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Workload Pie Chart 依 assignee 分工作量" style="box-shadow:none"><path d="M130,72 L130,18 A54,54 0 1,1 76.6,80 Z" fill="var(--brand)" opacity=".75"/><path d="M130,72 L76.6,80 A54,54 0 0,1 92,34 Z" fill="var(--green)" opacity=".75"/><path d="M130,72 L92,34 A54,54 0 0,1 130,18 Z" fill="var(--rose)" opacity=".7"/><text x="252" y="132" text-anchor="end" class="s">Statistic：Assignee</text></svg><p style="font-size:.88rem;margin:.55rem 0 0">看起來跟 Pie Chart 一樣，但切的是<strong>剩餘工時</strong>，不是張數。要開 time tracking，靠 Original estimate／Time spent／Remaining 這些欄位，<strong>不看 story points</strong></p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">User Workload *</div><div style="font-weight:650;margin:.25rem 0 .5rem">某一個人手上還有多少工作？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="User Workload 表格：各 project 的未解決張數與剩餘工時" style="box-shadow:none"><rect x="14" y="5" width="234" height="19" class="chipbox"/><text x="20" y="18" text-anchor="start" class="lbl b" style="font-size:12px">Project</text><text x="176" y="18" text-anchor="end" class="lbl b" style="font-size:12px">未解決</text><text x="241" y="18" text-anchor="end" class="lbl b" style="font-size:12px">剩餘工時</text><text x="20" y="38" text-anchor="start" class="lbl" style="font-size:12px">PROJ</text><text x="176" y="38" text-anchor="end" class="lbl" style="font-size:12px">6</text><text x="241" y="38" text-anchor="end" class="lbl" style="font-size:12px">3d 4h</text><text x="20" y="58" text-anchor="start" class="lbl" style="font-size:12px">OPS</text><text x="176" y="58" text-anchor="end" class="lbl" style="font-size:12px">2</text><text x="241" y="58" text-anchor="end" class="lbl" style="font-size:12px">6h</text><text x="20" y="78" text-anchor="start" class="lbl b" style="font-size:12px">合計</text><text x="176" y="78" text-anchor="end" class="lbl b" style="font-size:12px">8</text><text x="241" y="78" text-anchor="end" class="lbl b" style="font-size:12px">4d 2h</text></svg><p style="font-size:.88rem;margin:.55rem 0 0">先選<strong>一個人</strong>；表格按 <strong>project</strong> 列出他的未解決張數與剩餘工時，最後一列是合計。可選要不要算未指派的 sub-task</p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Version Workload *</div><div style="font-weight:650;margin:.25rem 0 .5rem">這個版本完成前，每個人還剩多少？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Version Workload 表格：每人依 issue type 的剩餘工時" style="box-shadow:none"><rect x="14" y="5" width="234" height="19" class="chipbox"/><text x="20" y="18" text-anchor="start" class="lbl b" style="font-size:12px">Assignee</text><text x="146" y="18" text-anchor="end" class="lbl b" style="font-size:12px">Story</text><text x="196" y="18" text-anchor="end" class="lbl b" style="font-size:12px">Bug</text><text x="241" y="18" text-anchor="end" class="lbl b" style="font-size:12px">合計</text><text x="20" y="38" text-anchor="start" class="lbl" style="font-size:12px">阿宏</text><text x="146" y="38" text-anchor="end" class="lbl" style="font-size:12px">2d</text><text x="196" y="38" text-anchor="end" class="lbl" style="font-size:12px">4h</text><text x="241" y="38" text-anchor="end" class="lbl" style="font-size:12px">2d 4h</text><text x="20" y="58" text-anchor="start" class="lbl" style="font-size:12px">小傑</text><text x="146" y="58" text-anchor="end" class="lbl" style="font-size:12px">1d</text><text x="196" y="58" text-anchor="end" class="lbl" style="font-size:12px">—</text><text x="241" y="58" text-anchor="end" class="lbl" style="font-size:12px">1d</text><text x="20" y="78" text-anchor="start" class="lbl" style="font-size:12px">Unassigned</text><text x="146" y="78" text-anchor="end" class="lbl" style="font-size:12px">6h</text><text x="196" y="78" text-anchor="end" class="lbl" style="font-size:12px">—</text><text x="241" y="78" text-anchor="end" class="lbl" style="font-size:12px">6h</text></svg><p style="font-size:.88rem;margin:.55rem 0 0">先選<strong>一個版本</strong>（看 Fix Version）；先列每人依 issue type 的彙總，再逐人列出，最後是未指派的。可選是否顯示未估時的 issue</p></div>
+<div class="card" style="padding:1rem 1.1rem"><div class="eyebrow">Time Tracking Report *</div><div style="font-weight:650;margin:.25rem 0 .5rem">這個版本的估時準不準、超前還是落後？</div><svg class="dia" viewBox="0 0 260 140" role="img" aria-label="Time Tracking Report：Progress 與 Accuracy 兩條橫條加上工時表" style="box-shadow:none"><text x="16" y="18" class="s">Progress</text><rect x="72" y="8" width="170" height="13" fill="var(--green)" opacity=".75"/><rect x="190" y="8" width="52" height="13" fill="var(--amber)" opacity=".8"/><text x="16" y="38" class="s">Accuracy</text><rect x="72" y="28" width="130" height="13" fill="var(--brand)" opacity=".75"/><rect x="202" y="28" width="40" height="13" fill="var(--line-2)"/><rect x="14" y="53" width="234" height="19" class="chipbox"/><text x="20" y="66" text-anchor="start" class="lbl b" style="font-size:12px">Issue</text><text x="136" y="66" text-anchor="end" class="lbl b" style="font-size:12px">Orig.</text><text x="191" y="66" text-anchor="end" class="lbl b" style="font-size:12px">Remain</text><text x="241" y="66" text-anchor="end" class="lbl b" style="font-size:12px">Spent</text><text x="20" y="86" text-anchor="start" class="lbl" style="font-size:12px">PROJ-12</text><text x="136" y="86" text-anchor="end" class="lbl" style="font-size:12px">2d</text><text x="191" y="86" text-anchor="end" class="lbl" style="font-size:12px">4h</text><text x="241" y="86" text-anchor="end" class="lbl" style="font-size:12px">2d</text><text x="20" y="106" text-anchor="start" class="lbl" style="font-size:12px">PROJ-18</text><text x="136" y="106" text-anchor="end" class="lbl" style="font-size:12px">1d</text><text x="191" y="106" text-anchor="end" class="lbl" style="font-size:12px">0</text><text x="241" y="106" text-anchor="end" class="lbl" style="font-size:12px">1d 2h</text></svg><p style="font-size:.88rem;margin:.55rem 0 0">上方兩條橫條：<strong>Progress</strong>（綠＝完成、橘＝未完成）與 <strong>Accuracy</strong>（藍）。<strong>Progress 比 Accuracy 長＝落後</strong>，反之超前；表格有 Original、Remaining、Spent、Accuracy，<strong>Σ 欄</strong>含 sub-task。必須有 <strong>Fix Version</strong></p></div>
 </div>
+<h3 style="margin-top:1.4rem">四組最容易搞混的</h3>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:22%">這組</th><th>差在哪一點</th></tr>
+<tr><td>Average Age<br>vs Resolution Time</td><td>Average Age 看<strong>還沒解決</strong>的放了多久（backlog 有沒有在消化）；Resolution Time 看<strong>已經解決</strong>的花了多久（解決速度有沒有變快）</td></tr>
+<tr><td>Created vs Resolved<br>vs Recently Created</td><td>Created vs Resolved 是<strong>兩條線</strong>，比較同一段時間的建立量與解決量（backlog 淨變化）；Recently Created 是<strong>一期一根長條</strong>，追蹤「這期建立的卡，後來解決了幾張」（綠＝已解決、紅＝未解決）</td></tr>
+<tr><td>Pie Chart<br>vs Workload Pie<br>vs Single Level Group By</td><td>Pie Chart 算<strong>張數</strong>，任一個欄位都能切；Workload Pie 算<strong>剩餘工時</strong>、通常切 assignee、要開 time tracking；Single Level Group By 是<strong>表格</strong>、只吃 filter、可以看每組的進度</td></tr>
+<tr><td>User Workload<br>vs Version Workload<br>vs Time Tracking</td><td>User Workload 以<strong>一個人</strong>為主角（跨 project）；Version Workload 以<strong>一個版本</strong>為主角、依人拆開；Time Tracking 也以版本為主角，但看的是<strong>估得準不準</strong>（Original vs 實際）</td></tr>
+</table></div>
+<div class="callout exam"><div class="t">順帶一題：「看某個狀態待了多久」</div>題目問「一張或一群 issue 在<strong>某個 workflow status</strong> 停留多久」，答案是 <strong>Control Chart</strong>：Columns 只勾那個狀態，點圖上的一個點就是單張 issue。它<strong>不是</strong> CFD（CFD 看的是各狀態的數量變化，看不到單張卡）。如果題目問的是 dashboard gadget，對應的是 <strong>Average Time in Status</strong>。</div>
+<p class="kicker" style="margin-top:.5rem">接上 Confluence 後還有兩個：<strong>Change Log</strong>（Jira issue 清單，可靜態或自動更新）與 <strong>Status Report</strong>（用 Jira Chart macro，依 status、priority、component、work type 畫圓餅圖）。更多報表在 Marketplace；filter 結果也能匯出到 Excel 自己做圖。</p>
+<div class="kicker">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/generate-a-report/">Generate a report（General reports 段）</a>；畫面組成參考 Atlassian 官方 Jira 使用手冊各報表頁（<a href="https://confluence.atlassian.com/jira061/jira-user-s-guide/generating-reports/average-age-report">Average Age</a> 等 11 頁，2026-09-24 查核）</div>
+</section>
 
+<!-- ============ TMP 報表（2026-09-24 新增） ============ -->
+<section id="tmp">
+<div class="section-label">Team-managed</div>
+<h2>TMP 的報表：只有四張，而且要先開功能</h2>
+<p>TMP 的報表是另一套，張數少很多，前面講的 CMP 報表大部分在 TMP 都看不到。考題常用「TMP 團隊想看某張報表」來設陷阱。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:18%">TMP 報表</th><th>回答什麼</th><th style="width:30%">前提</th></tr>
+<tr><td>Burnup</td><td>這個 sprint 完成了多少，對照原本計畫的量；紅線（scope）往上就是 scope creep</td><td>要開 <strong>Sprints</strong> 功能</td></tr>
+<tr><td>Sprint burndown</td><td>sprint 還剩多少工作；圖下方附五張表：scope changes log、未完成、已完成、sprint 外完成、被移出</td><td>要開 <strong>Sprints</strong> 功能</td></tr>
+<tr><td>Velocity</td><td>每個 sprint 的 Commitment（灰）與 Completed（綠），加一條平均線</td><td>要開 <strong>Sprints</strong> 功能</td></tr>
+<tr><td>Cumulative flow diagram</td><td>各狀態的卡數隨時間累積，找瓶頸</td><td>不需要 Sprints；預設顯示整個 project 的完整期間，可用上方日期篩選只看一個 sprint</td></tr>
+</table></div>
+<div class="grid-2" style="margin-top:1rem">
+<div class="card"><div class="eyebrow">打開報表的步驟</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li>TMP 的 <strong>Reports 分頁預設可能不在導覽列</strong>，要由 <strong>space admin</strong> 用 Add to navigation（+）加進來</li>
+<li>資料不足的報表不會出現。例如沒開 Sprints 功能，Burnup 和 Velocity 就不會出現</li>
+</ul></div>
+<div class="card"><div class="eyebrow">縱軸用什麼算</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li>開了 <strong>Estimation</strong> 功能 → 用 story points</li>
+<li>沒開 → 用 <strong>issue 張數</strong>，每張卡權重相同</li>
+<li><strong>完全不用 sub-task 的資料</strong>，就算 sub-task 自己有估點也一樣</li>
+</ul></div>
+</div>
+<div class="callout warn"><div class="t">TMP 沒有的報表</div>Control Chart、Sprint Report（清單併在 Sprint burndown 裡）、Epic Report、Epic Burndown、Release Burndown、Version Report。題目問「TMP 團隊想看 cycle time 的離散程度」，答案不會是 Control Chart。可以考慮 CFD，或改用 CMP。</div>
+<div class="callout"><div class="t">官方兩頁說法不一致</div><em>Generate a report</em> 頁的 TMP 段落只列 Burnup 與 Velocity；<em>Enable reports</em> 頁則列出四張（加上 CFD 與 Sprint burndown）。本頁以列得較完整的 <em>Enable reports</em> 為準。</div>
+<div class="kicker">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/enable-reports/">Enable reports</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-burnup-report/">Burnup report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-sprint-burndown-report/">Sprint burndown report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-velocity-report/">Velocity report</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-is-the-cumulative-flow-diagram/">Cumulative flow diagram（TMP）</a>（2026-09-24 查核）</div>
+</section>
+
+<!-- ============ Insights（2026-09-24 新增） ============ -->
+<section id="insights">
+<div class="section-label">報表以外</div>
+<h2>Insights：board 上的小圖、backlog 的建議、space 的儀表板</h2>
+<p>「insights」在 Jira 裡指三種不同的東西。三種都不是傳統報表，但考題會把它們混進選項，所以要分得清楚。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:16%">在哪裡</th><th style="width:22%">Insight</th><th>它告訴你什麼</th></tr>
+<tr><td class="hd" rowspan="5">Board<br><span class="kicker">（按 Insights 按鈕）</span></td><td>Sprint progress</td><td>把 sprint 的工作依 status category 切成一條進度條（未開始／進行中／完成），可用 story points、張數或時間估計來算</td></tr>
+<tr><td>Sprint burndown</td><td>用百分比呈現剩餘量，灰線是參考進度；下方列出 sprint 開始後的 <strong>scope change</strong></td></tr>
+<tr><td>Work items for attention</td><td>三個分頁：<strong>Stuck</strong>（在目前狀態停留超過<strong>第 85 百分位</strong>就自動標為卡住）、<strong>Blocked</strong>（有 Blocked by 連結）、<strong>Flagged</strong>（被插旗）</td></tr>
+<tr><td>Time in status</td><td>顯示最耗時的<strong>前 5 個</strong>狀態與平均停留時間，用來找瓶頸</td></tr>
+<tr><td>Epic progress</td><td>這個 sprint 的工作分別推進了哪些 epic；也會提示有多少工作沒掛 epic</td></tr>
+<tr><td class="hd" rowspan="2">Backlog<br><span class="kicker">（CMP，排 sprint 用）</span></td><td>Sprint commitment</td><td>拿<strong>最近 5 個 sprint</strong> 的平均完成量，建議下個 sprint 該承諾的範圍；排超過會提醒你</td></tr>
+<tr><td>Work type breakdown</td><td>這個 sprint 裡各種 work type 佔多少，檢查是不是被 bug 和技術債塞滿</td></tr>
+<tr><td class="hd">Space insights<br><span class="kicker">（點 Reports 先看到的）</span></td><td>Team overview 等儀表板</td><td>可自訂的 widget 儀表板（Chart 有 7 種樣式、List、Smart Link、Activity stream）。<strong>範圍是整個 space，不受 board 或 board filter 限制</strong>。要看傳統報表得按 <strong>More reports</strong></td></tr>
+</table></div>
+<div class="grid-2" style="margin-top:1rem">
+<div class="card"><div class="eyebrow">Space insights 的規則</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li>一個 space <strong>最多 5 個</strong>儀表板</li>
+<li>有權限進 space 的人都能看、能篩選；<strong>只有 space admin</strong> 能建立、改名、編輯、刪除儀表板</li>
+<li>只能顯示<strong>一個 space</strong> 的資料；要跨 space 就改用 Jira dashboard（620.5.2）</li>
+<li>歷史資料：Standard 看得到 <strong>13 個月</strong>，Premium <strong>3 年</strong></li>
+</ul></div>
+<div class="card"><div class="eyebrow">兩種「cycle time」別搞混</div>
+<ul style="font-size:.92rem;margin-top:.5rem">
+<li><strong>Control Chart</strong>：依 board 的<strong>狀態</strong>計算，你勾哪幾個 column，就算卡片在那幾個 column 待了多久</li>
+<li><strong>Cycle time report</strong>（Reports → Overview）：從<strong>第一個 commit 到部署上 production</strong>。前提是接好 CI/CD 與原始碼工具、branch／commit／PR 裡要有 issue key，而且要有 <strong>View development tools</strong> 權限。只算 cycle time 少於 12 個月的 issue</li>
+</ul></div>
+</div>
+<div class="callout exam"><div class="t">考題長相</div>「傳統報表用哪個 board 的資料？」→ 目前選的那個 board。「Space insights 用哪些資料？」→ 整個 space。「要一張看多個 project 的總覽」→ 不是 space insights，要用 dashboard。</div>
+<div class="kicker">來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/understand-insights-on-the-board-in-company-managed-projects/">Board insights</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/understand-backlog-insights-in-company-managed-projects/">Backlog insights</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/what-are-space-insights/">Space insights</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/view-and-understand-your-cycle-time-report/">Cycle time report</a>（2026-09-24 查核）</div>
+</section>
+
+<!-- ============ 數字速記（2026-09-24 新增） ============ -->
+<section id="numbers">
+<div class="section-label">細節題</div>
+<h2>數字速記：考題最愛拿來當選項的數字</h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th style="width:14%">數字</th><th style="width:28%">出處</th><th>意思</th></tr>
+<tr><td><strong>3 個 sprint</strong></td><td>Epic burndown／Release burndown</td><td>用最近三個 sprint 的完成量預測還要幾個 sprint；目前 sprint 通常不算，除非它已經做超過預測量</td></tr>
+<tr><td><strong>5 個 sprint</strong></td><td>Sprint commitment（backlog insight）</td><td>用最近五個 sprint 的平均建議下次承諾範圍</td></tr>
+<tr><td><strong>30%</strong></td><td>Epic burndown／Release burndown</td><td>未估點的 issue 超過 30%，標籤變紅、預測不可信</td></tr>
+<tr><td><strong>10%</strong></td><td>Version report</td><td>版本的估算工作要先完成 10% 才算得出預測日</td></tr>
+<tr><td><strong>±10%</strong></td><td>Version report</td><td>樂觀＝平均日速度 +10%，悲觀＝−10%</td></tr>
+<tr><td><strong>20%、至少 5、奇數</strong></td><td>Control chart</td><td>rolling average 每個點取「自己加前後各幾張」一起平均；一起平均的張數＝顯示總數的 20%，<strong>一定是奇數、最少 5 張</strong>（例如 9 張＝自己加前後各 4 張）</td></tr>
+<tr><td><strong>30 天</strong></td><td>Control chart</td><td>最長經過時間小於 30 天用線性刻度，30 天以上改用立方根刻度（所以換期間時 Y 軸會變）</td></tr>
+<tr><td><strong>第 85 百分位</strong></td><td>Work items for attention</td><td>在目前狀態停留超過第 85 百分位，就自動標為 stuck</td></tr>
+<tr><td><strong>前 5 個</strong></td><td>Time in status insight</td><td>只顯示最耗時的五個狀態</td></tr>
+<tr><td><strong>1,000</strong></td><td>Single Level Group By／Time Tracking Report</td><td>前者最多顯示 1,000 筆；後者最多 1,000 筆 issue 加 1,000 筆 sub-task</td></tr>
+<tr><td><strong>5 個</strong></td><td>Space insights</td><td>一個 space 最多 5 個儀表板</td></tr>
+<tr><td><strong>13 個月／3 年</strong></td><td>Space insights</td><td>Standard 與 Premium 可看的歷史長度</td></tr>
+</table></div>
 </section>
 
 <!-- ============ Scale ============ -->
@@ -606,7 +757,12 @@ CFD 是<strong>堆疊面積圖</strong>，每條線是「累積上界」，某�
 <tr><td>「Rolling average 是依時間窗算」</td><td>不是。它<strong>依 issue 的數量</strong>計算：每一點取自己加前後各 X 個 issue 的平均，X 為顯示總數的 20%，最少 5 個，且永遠取奇數。</td></tr>
 <tr><td>「CFD 的帶厚度就是 WIP」</td><td>不完全是。CFD 呈現的是累積的 throughput，官方特別提醒它與傳統「同時進行中」的 WIP 數字不是同一回事；<strong>判讀時要看色帶有沒有「持續變厚」，而不是讀它的絕對值</strong>。</td></tr>
 <tr><td>「Epic burndown 用全部歷史 velocity 預測」</td><td>不是。Epic burndown 與 Release burndown 的預測都<strong>只採用最近三個 sprint</strong> 的完成量，因為近期表現比較能反映團隊現況。</td></tr>
-<tr><td>「Working days 影響所有報表」</td><td>不是全部。會跳過非工作日的是 Burndown、Sprint／Epic／Version report 與 Control chart；<strong>CFD 一律按日曆日計算</strong>，不受這個設定影響。</td></tr>
+<tr><td>「Working days 影響所有報表」</td><td>不是全部。官方清單只有報表 Burndown、Sprint report、Epic report、Version report、Control chart，加上 gadget <strong>Sprint Health</strong> 與 <strong>Burndown gadget</strong>。<strong>CFD 一律按日曆日計算</strong>；Velocity 以 sprint 為單位，也不受影響。</td></tr>
+<tr><td>「TMP 也有 Control Chart」</td><td>沒有。TMP 只有 Burnup、Sprint burndown、Velocity、CFD 四張；Control Chart、Sprint Report、Epic 與 Version 系列都只在 CMP。</td></tr>
+<tr><td>「CFD 的線只會往上」</td><td>工作一路往前走時才成立。卡片往回拖（例如 Done 拖回 To Do），下游狀態的數字會減少，To Do 則不變。</td></tr>
+<tr><td>「看某狀態待多久用 CFD」</td><td>CFD 只看各狀態的<strong>數量</strong>。要看單張或一群 issue 在某個狀態待多久，用 <strong>Control Chart</strong>（Columns 只勾那個狀態）。</td></tr>
+<tr><td>「Workload Pie 跟 Pie Chart 一樣算張數」</td><td>不一樣。Workload Pie 算的是<strong>剩餘工時</strong>，要開 time tracking，<strong>不看 story points</strong>；Pie Chart 才是算張數。</td></tr>
+<tr><td>「Reports 頁一打開的儀表板也只看目前 board」</td><td>那是 space insights，範圍是<strong>整個 space</strong>。只有按 More reports 進去的傳統報表才以目前 board 為準。</td></tr>
 <tr><td>「Advanced Roadmaps 是免費的 Timeline」</td><td>不是同一個東西。<strong>Timeline 免費，但只能看單一 project</strong>；<strong>Plans（前身 Advanced Roadmaps）是 Premium 以上才有的跨 project 規劃工具</strong>，還帶容量規劃與情境模擬。</td></tr>
 </table></div>
 </section>
@@ -676,6 +832,31 @@ CFD 是<strong>堆疊面積圖</strong>，每條線是「累積上界」，某�
     window.springPop&&window.springPop(ans);
   }
   show(0,$('button',qs));
+})();
+</script>
+<script>
+/* 620.5.3 屬性矩陣：點一個屬性，亮出符合的報表（id 一律 s253-mx 前綴） */
+(function(){
+  const box=document.getElementById('s253-mx-chips'), out=document.getElementById('s253-mx-out'), tbl=document.getElementById('s253-mx');
+  if(!box||!tbl) return;
+  const rows=Array.from(tbl.querySelectorAll('tr[data-name]'));
+  const chips=Array.from(box.querySelectorAll('button[data-col]'));
+  function pick(col){
+    chips.forEach(c=>c.classList.toggle('on', c.dataset.col===col));
+    const hit=[];
+    const part=[];
+    rows.forEach(r=>{
+      const v=r.dataset[col], on=v!=='0';
+      r.style.background=v==='1'?'var(--green-soft)':(v==='2'?'var(--amber-soft)':'');
+      r.style.opacity=on?'1':'.45';
+      if(v==='1') hit.push(r.dataset.name);
+      if(v==='2') part.push(r.dataset.name);
+    });
+    const lab=chips.find(c=>c.dataset.col===col).textContent;
+    out.innerHTML='<strong>'+lab+'</strong>：'+(hit.length?hit.join('、')+'（共 '+hit.length+' 張）':'沒有報表符合')+(part.length?'<br><span class="kicker">部分符合（看表格下方的註）：'+part.join('、')+'</span>':'');
+    if(window.springPop) window.springPop(out);
+  }
+  chips.forEach(c=>c.addEventListener('click',()=>pick(c.dataset.col)));
 })();
 </script>
 </body>
