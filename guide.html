@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>重點整理｜ACP-620 教材</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+.guide h2{margin-top:2.4rem}.guide h3{margin-top:1.6rem}
+.guide-pre{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-s);padding:.9rem 1rem;overflow-x:auto;font:13px/1.55 ui-monospace,Menlo,monospace;color:var(--ink-2)}
+.guide code{font:.88em ui-monospace,Menlo,monospace;background:var(--bg-2);border:1px solid var(--line);border-radius:.3rem;padding:0 .25rem}
+.guide-pre code{background:none;border:0;padding:0}
+.guide .fix{display:inline-block;font-size:.72rem;font-weight:700;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:.05rem .5rem;margin-left:.3rem;vertical-align:middle}
+.guide details.q{padding:.8rem 1rem}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
+  <!--NAV-->
+  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
+  <nav>
+    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
+    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
+    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
+    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
+  <nav>
+    <a href="620.2.1.html">620.2.1 選 board 類型</a>
+    <a href="620.2.2.html">620.2.2 跨 project board</a>
+    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
+    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
+    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
+    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
+    <a href="620.2.7.html">620.2.7 Board 排查</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
+  <nav>
+    <a href="620.3.1.html">620.3.1 專案權限</a>
+    <a href="620.3.2.html">620.3.2 Project roles</a>
+    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
+    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
+    <a href="620.3.5.html">620.3.5 自動指派</a>
+    <a href="620.3.6.html">620.3.6 Issue layout</a>
+    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
+  <nav>
+    <a href="620.4.1.html">620.4.1 自動化手段</a>
+    <a href="620.4.2.html">620.4.2 Automation rule</a>
+    <a href="620.4.3.html">620.4.3 排查 automation</a>
+  </nav></details>
+  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
+  <nav>
+    <a href="620.5.1.html">620.5.1 JQL</a>
+    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
+    <a href="620.5.3.html">620.5.3 Agile reports</a>
+  </nav></details>
+  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a><a href="traps.html">⚠️ 易錯觀念</a><a href="guide.html" class="current">📌 重點整理</a><a href="topics.html">📋 官方考綱</a></nav>
+  <!--/NAV-->
+</aside>
+<main>
+<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 重點整理</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
+<div class="eyebrow">Study guide</div>
+<h1>ACP-620 重點整理</h1>
+<p class="lead">把五個 domain 的核心觀念濃縮在一頁：比較表、流程圖、權限組合、排查速查、實作 Lab 與自測 20 題。適合考前快速複習；每個主題的完整說明與互動圖在各節教材裡。</p>
+<div class="callout"><div class="t">查證說明</div>本頁依官方考綱與教材內容整理；跟教材查證結果不同的地方已經改正，並標上 <span class="fix" style="display:inline-block;font-size:.72rem;font-weight:700;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:.05rem .5rem">查證修正</span>。</div>
+<nav class="toc" style="display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:1rem 0"><a href="#_1">全景：這張證照在考什麼</a><a href="#6201-project-creation13">620.1 Project Creation（13%）</a><a href="#6202-board-configuration29-domain">620.2 Board Configuration（29%，最大 domain）</a><a href="#6203-managing-projects25">620.3 Managing Projects（25%）</a><a href="#6204-automation14">620.4 Automation（14%）</a><a href="#6205-reporting19">620.5 Reporting（19%）</a><a href="#lab-jira-standard-30-free-permission-scheme-role-board">實作 Lab（建議 Jira Standard 30 天試用；Free 缺 permission scheme / role / 多 board）</a><a href="#20">自測 20 題</a><a href="#domain">精讀連結索引（依 domain）</a></nav>
+<div class="guide">
+<p>依據官方 Detailed Exam Topics（V2 / March 2023，2026-09-04 仍為現行版）與其 73 個精讀連結整理。
+考試規格（2026-09-04 官方認證頁）：63 題 / 180 分鐘 / 答對 38 題及格 / USD 249 / 效期 24 個月。
+Domain 比重：620.1 Project creation 13%、620.2 Board configuration 29%、620.3 Managing projects 25%、620.4 Automation 14%、620.5 Reporting 19%。</p>
+<p>術語：考試用 project / issue；現行產品已改為 space / work item。本指南沿用考試用語。</p>
+<hr />
+<h2 id="_1">全景：這張證照在考什麼</h2>
+<div class="tbl-wrap"><table class="tbl"><tr><th style="width:12%">Domain</th><th style="width:38%">Jira admin（不是你）</th><th>Project admin（你）</th></tr><tr><td>620.1</td><td>建 CMP、scheme、issue type</td><td>建 TMP、選 project type、改 project details</td></tr><tr><td>620.2</td><td>—</td><td>board：filter、columns、swimlanes、estimation…</td></tr><tr><td>620.3</td><td>global permissions、custom field、time tracking、issue linking</td><td>在 permission scheme 的 role 裡填人、versions、components、issue layout</td></tr><tr><td>620.4</td><td>global rules</td><td>project rules、bulk change</td></tr><tr><td>620.5</td><td>—</td><td>JQL、dashboards、reports</td></tr></table></div>
+<p><strong>考試的視角是 project admin</strong>：題目常問「你（project admin）能不能做 X？不能的話該找誰？」——答案往往是「這是 Jira admin 的設定，但你要懂它怎麼影響你的 project」。</p>
+<hr />
+<h2 id="6201-project-creation13">620.1 Project Creation（13%）</h2>
+<h3 id="11-project-typecmp-vs-tmp">1.1 選 project type：CMP vs TMP</h3>
+<div class="figure"><svg class="dia" viewBox="0 0 760 312" role="img" aria-label="CMP 與 TMP 的選擇流程"><defs><marker id="gd-arr1" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs><rect x="210" y="16" width="340" height="44" rx="8" class="box brand"/><text x="380.0" y="43.0" text-anchor="middle" class="lbl b">需要跨 project 共用 workflow／scheme？</text><path d="M210,38 H125 V116" class="ln" marker-end="url(#gd-arr1)"/><text x="150" y="30" class="lbl b yes">是</text><path d="M550,38 H600 V106" class="ln" marker-end="url(#gd-arr1)"/><text x="566" y="30" class="lbl b no">否</text><rect x="20" y="116" width="210" height="56" rx="8" class="box green"/><text x="125.0" y="141.0" text-anchor="middle" class="lbl b">Company-managed</text><text x="125.0" y="159.0" text-anchor="middle" class="s">Jira admin 建、管 scheme</text><rect x="430" y="106" width="310" height="44" rx="8" class="box teal"/><text x="585.0" y="133.0" text-anchor="middle" class="lbl b">團隊要自己全權管、快速起步？</text><path d="M510,150 V206" class="ln" marker-end="url(#gd-arr1)"/><text x="518" y="184" class="lbl b yes">是</text><path d="M680,150 V206" class="ln" marker-end="url(#gd-arr1)"/><text x="688" y="184" class="lbl b no">否</text><rect x="430" y="206" width="160" height="56" rx="8" class="box teal"/><text x="510.0" y="231.0" text-anchor="middle" class="lbl b">Team-managed</text><text x="510.0" y="249.0" text-anchor="middle" class="s">任何人可建</text><rect x="600" y="206" width="140" height="56" rx="8" class="box amber"/><text x="670.0" y="231.0" text-anchor="middle" class="lbl b">仍選 CMP</text><text x="670.0" y="249.0" text-anchor="middle" class="s">需要 CMP 功能</text><text x="380" y="298" text-anchor="middle" class="s">TMP 沒有 components、issue security、共用設定、多個 board；需要這些就選 CMP</text></svg><div class="cap">選 project type：先問要不要跨 project 共用設定，再問團隊要不要自己管。</div></div>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>面向</th>
+<th>Company-managed</th>
+<th>Team-managed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>誰建</td>
+<td>Jira admin（Administer Jira）</td>
+<td>任何人（Create team-managed projects 全域權限）</td>
+</tr>
+<tr>
+<td>設定</td>
+<td>scheme（workflow / issue type / field / screen / permission / notification）可共用</td>
+<td>每個 project 獨立，project admin 全權</td>
+</tr>
+<tr>
+<td>權限</td>
+<td>permission scheme，39 項細顆粒</td>
+<td>3 個內建 role + 自訂 role；Open / Limited / Private</td>
+</tr>
+<tr>
+<td>Board</td>
+<td>可多個 board、跨 project board</td>
+<td>一個 project 一個 board（要更多需用 saved filter 建）</td>
+</tr>
+<tr>
+<td>Components</td>
+<td>有</td>
+<td>無</td>
+</tr>
+<tr>
+<td>Issue security</td>
+<td>有</td>
+<td>無（用 issue type 限制 + Private 替代）</td>
+</tr>
+<tr>
+<td>匿名存取</td>
+<td>可（Browse Projects 給 Public）</td>
+<td>不可</td>
+</tr>
+<tr>
+<td>共用設定</td>
+<td>建 project 時可「share settings with existing project」</td>
+<td>不可</td>
+</tr>
+<tr>
+<td>Kanban 清 Done</td>
+<td>手動 Release 或 sub-filter</td>
+<td>自動每 14 天清除</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Template</strong>：Scrum / Kanban（另有 Bug tracking 等 business 類）。Scrum 有 sprint、backlog；Kanban 連續流。</p>
+<p><strong>共用設定的優缺點</strong>：建 CMP 時選「Share settings with an existing project」→ 用同一組 scheme。優點：一致、Jira admin 改一次全套生效；限制：任何一個 project 想改 workflow 就會影響所有共用者（改前要先 copy scheme）。</p>
+<h3 id="12-tmp">1.2 建立與設定 TMP</h3>
+<ul>
+<li>建立：Projects → Create project → Team-managed → 選 Scrum / Kanban template。</li>
+<li>可開關的 features：Backlog、Sprints、Estimation、Releases &amp; versions、Reports、On-call。</li>
+<li>注意：<strong>開了 Sprints，board 在 sprint 開始前是空的</strong>（issue 都在 backlog）。</li>
+<li>Board 必須永遠有一個 Done 狀態欄。</li>
+</ul>
+<p><strong>存取等級</strong>（必考）：</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>Access</th>
+<th>全站使用者自動拿到</th>
+<th>能做</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open</td>
+<td>Member</td>
+<td>看、建、編</td>
+</tr>
+<tr>
+<td>Limited</td>
+<td>Viewer</td>
+<td>看、留言；不能建、編</td>
+</tr>
+<tr>
+<td>Private</td>
+<td>無</td>
+<td>只有 Jira admin 與明確加入者；目錄與搜尋看不到</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>三個內建 role：<strong>Administrator</strong>（改設定、加 admin、管 feature、改 issue type、board rules）、<strong>Member</strong>（建、編、留言、轉狀態）、<strong>Viewer</strong>（只看、留言）。內建 role 不能改，只能複製成自訂 role。</li>
+<li>加人：Project settings → Access → Add people（可加 user 或 group）；也可從 Share 加。人可以同時有多個 role；<strong>指派的 role 疊加在 access level 之上</strong>。</li>
+<li>移除人只是移出 project，不是刪帳號。</li>
+<li>外部人員 → 請 admin 邀請為 guest。</li>
+<li>Free 方案不能改 permission / role。</li>
+</ul>
+<h3 id="13-cmp-issue-type">1.3 CMP 的 issue type 設計</h3>
+<div class="figure"><svg class="dia" viewBox="0 0 760 304" role="img" aria-label="Epic、standard、sub-task 三層階層"><rect x="300" y="16" width="160" height="50" rx="8" class="box violet"/><text x="380.0" y="38.0" text-anchor="middle" class="lbl b">Epic</text><text x="380.0" y="56.0" text-anchor="middle" class="s">parent 層</text><path d="M380,66 V84" class="ln"/><path d="M210,84 H550" class="ln"/><defs><marker id="gd-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs><path d="M210,84 V104" class="ln" marker-end="url(#gd-arr2)"/><path d="M380,84 V104" class="ln" marker-end="url(#gd-arr2)"/><path d="M550,84 V104" class="ln" marker-end="url(#gd-arr2)"/><rect x="130" y="104" width="160" height="50" rx="8" class="box brand"/><text x="210.0" y="126.0" text-anchor="middle" class="lbl b">Story</text><text x="210.0" y="144.0" text-anchor="middle" class="s">standard 層</text><rect x="300" y="104" width="160" height="50" rx="8" class="box brand"/><text x="380.0" y="126.0" text-anchor="middle" class="lbl b">Task</text><text x="380.0" y="144.0" text-anchor="middle" class="s">standard 層</text><rect x="470" y="104" width="160" height="50" rx="8" class="box brand"/><text x="550.0" y="126.0" text-anchor="middle" class="lbl b">Bug</text><text x="550.0" y="144.0" text-anchor="middle" class="s">standard 層</text><path d="M380,154 V190" class="ln" marker-end="url(#gd-arr2)"/><rect x="290" y="190" width="180" height="50" rx="8" class="box amber"/><text x="380.0" y="212.0" text-anchor="middle" class="lbl b">Sub-task</text><text x="380.0" y="230.0" text-anchor="middle" class="s">child 層，只能當 child</text><text x="380" y="270" text-anchor="middle" class="s">Premium 以上可以在 Epic 上方再加層級（例如 Initiative）</text><text x="380" y="290" text-anchor="middle" class="s">sub-task 的 story points 不計入 burndown／velocity，只算 parent</text></svg><div class="cap">CMP 預設三層：Epic → Story／Task／Bug → Sub-task。</div></div>
+<ul>
+<li>三層是預設；Premium 以上可加更多層級（Initiative 等）。</li>
+<li>Sub-task <strong>全站開關</strong>：⚙ → Issues → Sub-tasks；要停用得先把既有 sub-task 轉成 standard 類型。</li>
+<li>Sub-task blocking condition：workflow transition 上的 condition，父項要等 sub-task 到指定狀態才能轉。</li>
+<li>一個 parent 最多顯示 500 個 child；超過就看不到、且 sub-task 不再納入 time tracking 彙總。</li>
+<li>Sub-task 的 story points <strong>不計入</strong> burndown / velocity（只算 parent）。</li>
+<li>Issue type scheme 決定哪些 type 出現在哪個 project（Jira admin）。</li>
+</ul>
+<h3 id="14-project-details-sidebar">1.4 Project details 與 sidebar</h3>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>欄位</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>出現在搜尋、目錄、切換器</td>
+</tr>
+<tr>
+<td>Key</td>
+<td>改 key 是大事（見下）</td>
+</tr>
+<tr>
+<td>URL</td>
+<td>外部文件連結</td>
+</tr>
+<tr>
+<td>Avatar / Description</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Category</td>
+<td>由 <strong>Jira admin</strong> 建（⚙ → Projects → Project categories）；project admin 只能挑；<strong>不能做階層</strong>；可用於 JQL <code>category = "X"</code>、filters、reports</td>
+</tr>
+<tr>
+<td>Project lead</td>
+<td>通常是 admin</td>
+</tr>
+<tr>
+<td>Default assignee</td>
+<td><strong>只能選 Unassigned 或 Project lead</strong>；要指派別人就先換 lead</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>改 project key 前要想到</strong>：先備份；舊 key 除非刪 project 否則不能再用；舊連結透過 alias 仍有效；Confluence macro 仍可用（可能快取延遲）；<strong>board filter 與 dashboard 的 JQL 要更新</strong>；要通知使用者。</p>
+<p><strong>Trash</strong>：project 進垃圾桶 <strong>60 天</strong>後永久刪除；issue 從搜尋消失但直連仍可讀（不可編）；scheme / workflow 不受影響。丟進 trash 需 Administer Jira <strong>或</strong>該 project 的 Administer Projects（CMP、TMP 都一樣）；<strong>Restore／永久刪除只有 Administer Jira</strong>。</p>
+<hr />
+<h2 id="6202-board-configuration29-domain">620.2 Board Configuration（29%，最大 domain）</h2>
+<h3 id="21-board">2.1 三種 board</h3>
+<div class="tbl-wrap"><table class="tbl"><tr><th style="width:14%"></th><th>Scrum</th><th>Kanban</th><th>Kanban with backlog</th></tr><tr><td>節奏</td><td>sprint ＋ backlog</td><td>連續流，沒有 sprint</td><td>Kanban 加一個獨立的 backlog 畫面</td></tr><tr><td>重點</td><td>估點、velocity</td><td>WIP limit（column constraint）</td><td>把某個 status 放進 Kanban backlog 欄，這些 issue 不佔 board</td></tr><tr><td>主要報表</td><td>Burndown、Sprint report</td><td>Control chart、CFD</td><td>同 Kanban</td></tr><tr><td>清掉 Done</td><td>完成 sprint</td><td>CMP：Release 或 Hide completed；TMP：14 天自動清</td><td>同 Kanban</td></tr></table></div>
+<ul>
+<li>Board 是「戰術」視圖（未來一兩週）；Timeline 是長期規劃。</li>
+<li>Board 最多顯示 5,000 個 issue。</li>
+<li>選型題：要 sprint 節奏 → Scrum；持續交付 / 維運 → Kanban；Kanban 但 backlog 太長把 board 塞爆 → Kanban with backlog。</li>
+</ul>
+<h3 id="22-project-board">2.2 跨 project / 跨團隊 board</h3>
+<ul>
+<li>建 board 三種來源：(a) 新 project、(b) 既有 project（自動生成 filter <code>project = X ORDER BY Rank ASC</code>）、(c) <strong>saved filter</strong>（跨 project 唯一方法；TMP 要第二個 board 也走這條）。</li>
+<li>需要 Browse Projects 權限才能選該 project。</li>
+<li><strong>別人要看得到 board = 看得到底層 saved filter + 有相關 project 的 Browse Projects</strong>。filter 沒分享 → 只有 owner 看得到 board。</li>
+<li>Board 位置（location）：某個 project 或個人 profile；Board settings → General → Location 可改；掛在停用的 project / user 上會失聯，需重新指定。</li>
+<li>Board admin ≠ project admin：board settings 裡的 Administrators 欄位；board admin 可改 board 設定，project admin（該 location 的）也可。</li>
+<li>跨 project board 的隱含代價：各 project 的 workflow 狀態都要對到 columns、sprint 會跨 project、估算單位要一致。</li>
+</ul>
+<h3 id="23-columns-workflow-statuses">2.3 Columns ↔ workflow statuses</h3>
+<div class="figure"><svg class="dia" viewBox="0 0 760 314" role="img" aria-label="workflow status 對應到 board columns"><text x="140" y="30" text-anchor="middle" class="t">Workflow statuses</text><text x="590" y="30" text-anchor="middle" class="t">Board columns</text><defs><marker id="gd-arr4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs><rect x="40" y="50" width="200" height="36" rx="8" class="box brand"/><text x="140.0" y="73.0" text-anchor="middle" class="lbl b">Open、Reopened</text><rect x="40" y="96" width="200" height="36" rx="8" class="box brand"/><text x="140.0" y="119.0" text-anchor="middle" class="lbl b">In Progress</text><rect x="40" y="142" width="200" height="36" rx="8" class="box brand"/><text x="140.0" y="165.0" text-anchor="middle" class="lbl b">In Review</text><rect x="40" y="188" width="200" height="36" rx="8" class="box brand"/><text x="140.0" y="211.0" text-anchor="middle" class="lbl b">Resolved、Closed</text><rect x="40" y="234" width="200" height="36" rx="8" class="box rose"/><text x="140.0" y="257.0" text-anchor="middle" class="lbl b">Cancelled</text><rect x="460" y="50" width="260" height="36" rx="8" class="box "/><text x="590" y="73" text-anchor="middle" class="lbl b">To Do</text><rect x="460" y="96" width="260" height="82" rx="8" class="box teal"/><text x="590" y="132" text-anchor="middle" class="lbl b">In Progress</text><text x="590" y="152" text-anchor="middle" class="s">一欄可以放多個 status</text><rect x="460" y="188" width="260" height="36" rx="8" class="box green"/><text x="590" y="211" text-anchor="middle" class="lbl b">Done（最右欄）</text><rect x="460" y="234" width="260" height="36" rx="8" class="box rose" stroke-dasharray="5 4"/><text x="590" y="257" text-anchor="middle" class="lbl b no">未對應 → 不在 board 上</text><path d="M240,68 H460" class="ln" marker-end="url(#gd-arr4)"/><path d="M240,114 H460" class="ln" marker-end="url(#gd-arr4)"/><path d="M240,160 H460" class="ln" marker-end="url(#gd-arr4)"/><path d="M240,206 H460" class="ln" marker-end="url(#gd-arr4)"/><path d="M240,252 H460" class="ln" marker-end="url(#gd-arr4)"/><text x="380" y="300" text-anchor="middle" class="s">Scrum 與報表以最右欄判定完成；「issue 不見了」先查 status 有沒有對應到欄位</text></svg><div class="cap">每個 status 要對應到一欄；沒對應的 status，issue 就不會出現在 board 上。</div></div>
+<ul>
+<li>Scrum 與多數 agile 報表以<strong>最右欄</strong>判定 Done；Cancelled 這種也要放最右欄。Kanban 的 Hide completed work 則看 <strong>status category 是 Done</strong>，跟對到哪一欄無關。<span class="fix">查證修正</span></li>
+<li>未對應（unmapped）的 status → issue 不在 board 上。排查「issue 不見了」第一個看這裡。</li>
+<li>Simplified workflow：board admin 可直接在 board 加/刪 status（等同改 workflow），限該 project 專用 workflow。</li>
+<li>Column constraints：Issue count 或 Issue count excluding sub-tasks；min / max；超過 max 欄頭變紅、低於 min 變黃。是提醒，不會阻擋。</li>
+<li>Kanban backlog：把一個 status 拖進 Kanban backlog panel → 該 status 的 issue 進獨立 backlog 畫面。</li>
+</ul>
+<h3 id="24-filtersub-filterquick-filter">2.4 Filter、sub-filter、quick filter</h3>
+<div class="figure"><svg class="dia" viewBox="0 0 760 246" role="img" aria-label="board filter、sub-filter、quick filter 三層關係"><rect x="20" y="16" width="720" height="214" rx="10" class="box brand"/><text x="40" y="42" class="lbl b">Board filter（saved filter JQL）</text><text x="40" y="62" class="s">決定 board 的基本範圍；JQL 沒有 ORDER BY Rank 就不能拖曳排序</text><rect x="50" y="78" width="660" height="138" rx="10" class="box teal"/><text x="70" y="102" class="lbl b">Kanban sub-filter（只有 Kanban 有）</text><text x="70" y="122" class="s">預設 fixVersion in unreleasedVersions() OR fixVersion is EMPTY：版本 release 後，issue 就從 board 消失</text><rect x="80" y="140" width="600" height="60" rx="10" class="box amber"/><text x="100" y="164" class="lbl b">Quick filters</text><text x="100" y="184" class="s">看的人自己點開才生效；同時勾選多個是 AND（交集）</text></svg><div class="cap">三層由外往內一層一層縮小範圍；quick filter 只影響點的那個人。</div></div>
+<ul>
+<li>Board filter 改了 → board 內容立刻變；<strong>沒有 <code>ORDER BY Rank</code></strong> → 不能拖曳排序。</li>
+<li>Quick filter 預設兩個：Only My Issues（<code>assignee = currentUser()</code>）、Recently Updated（<code>updatedDate &gt;= -1d</code>）。多選是 <strong>AND</strong>。</li>
+<li>Sub-filter 可改，例如加 <code>AND status != Cancelled</code>。</li>
+<li>Filter 的分享權限決定誰看得到 board（見 2.2）。</li>
+<li>Filter 用到 <code>currentUser()</code> 時每個人看到的 board 不同。</li>
+</ul>
+<h3 id="25-estimation-time-tracking">2.5 Estimation 與 time tracking</h3>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>設定</th>
+<th>選項</th>
+<th>影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Estimation statistic</td>
+<td>Story points / Original time estimate / Issue count / 自訂數字欄位</td>
+<td>Burndown 縱軸、velocity 單位</td>
+</tr>
+<tr>
+<td>Time tracking</td>
+<td>None（用 statistic 追蹤）/ Remaining estimate and time spent</td>
+<td>選後者：burndown 用剩餘時間，且 sub-task 的工時計入</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Sub-task 的 story points 永遠不計；只有 parent 的算。</li>
+<li>改 estimation statistic 不會回溯改變歷史 sprint 的報表資料。</li>
+<li>TMP 要先在 features 開 Estimation，再選 story points 或 time。</li>
+</ul>
+<h3 id="26-swimlanes-card-colors-card-layout-working-days-detail-view">2.6 Swimlanes / card colors / card layout / working days / detail view</h3>
+<p><strong>Swimlanes</strong>（一次只能一種）</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>依據</th>
+<th>行為</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Queries</td>
+<td>JQL 分 lane，<strong>由上到下第一個符合者</strong>；預設 Expedite（<code>priority = Blocker</code>）與刪不掉的 Everything Else；ORDER BY 無效（一律 rank）</td>
+</tr>
+<tr>
+<td>Stories</td>
+<td>sub-task 掛在 parent 下</td>
+</tr>
+<tr>
+<td>Assignees</td>
+<td>每人一條；Unassigned 可設在最上或最下</td>
+</tr>
+<tr>
+<td>Epics</td>
+<td>依 parent epic</td>
+</tr>
+<tr>
+<td>Projects</td>
+<td>跨 project board 用</td>
+</tr>
+<tr>
+<td>None</td>
+<td>無泳道</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Card colors</strong>：Issue type / Priority / Assignee / Queries（第一個符合的 query 決定色，都不符合＝灰）/ None。</p>
+<p><strong>Card layout</strong>：最多再加 <strong>3 個欄位</strong>；Scrum 的 backlog 與 active sprint 可分開設。<strong>Days in column</strong>：灰點 → 紅點（5 天以上出現紅、20 天四紅點）；Scrum 預設關、Kanban 預設開。</p>
+<p><strong>Working days</strong>：時區、每週工作日、非工作日（假日）。影響 <strong>Burndown、Sprint report、Epic report、Version report、Control chart</strong>、Sprint Health / Burndown gadget。<strong>CFD 不受影響</strong>（它按日曆日）。</p>
+<p><strong>Issue detail view</strong>（board 右側面板）：project admin 設定顯示哪些欄位（Administer Projects）；Summary 永遠在。</p>
+<h3 id="27-troubleshooting">2.7 Troubleshooting 速查</h3>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>症狀</th>
+<th>依序檢查</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Issue 不在 board</td>
+<td>① board filter 是否包含它 ② status 是否對到 column ③ Kanban：是否在 Kanban backlog 狀態 ④ Kanban：sub-filter 是否排除（fixVersion 已 release）⑤ Scrum：是否在 active sprint</td>
+</tr>
+<tr>
+<td>不能拖曳排序</td>
+<td>filter 缺 <code>ORDER BY Rank</code></td>
+</tr>
+<tr>
+<td>同事看不到 board</td>
+<td>saved filter 沒分享給他 / 他沒有 Browse Projects</td>
+</tr>
+<tr>
+<td>勾了兩個 quick filter 結果變少</td>
+<td>多選是 AND，不是 OR</td>
+</tr>
+<tr>
+<td>改不了 board 設定</td>
+<td>你不是 board admin 也不是 location 的 project admin</td>
+</tr>
+<tr>
+<td>Done 的 issue 一直留在 Kanban</td>
+<td>沒有 Release 版本 / sub-filter 被改掉</td>
+</tr>
+<tr>
+<td>Burndown 沒有 guideline</td>
+<td>sprint 開始時沒有任何 issue</td>
+</tr>
+<tr>
+<td>報表算錯天數</td>
+<td>working days / 時區沒設</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="6203-managing-projects25">620.3 Managing Projects（25%）</h2>
+<h3 id="31-project-global">3.1 權限（project + global）</h3>
+<p>這裡只列 620 會考的重點，完整內容見 <a href="620.3.1.html">620.3.1 專案權限</a>：</p>
+<p><strong>Project admin 要懂的全域權限</strong></p>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>Global permission</th>
+<th>對 project 的影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Browse users and groups</td>
+<td>沒有它，@提及與 picker 只看得到同 project 有 Browse 的人</td>
+</tr>
+<tr>
+<td>Share dashboards and filters</td>
+<td>沒有它，filter / dashboard 只能自己用 → board 無法分享</td>
+</tr>
+<tr>
+<td>Make bulk changes</td>
+<td>沒有它，搜尋結果沒有 Bulk change 選項</td>
+</tr>
+<tr>
+<td>Create team-managed projects</td>
+<td>誰能自己開 TMP</td>
+</tr>
+<tr>
+<td>Administer Jira</td>
+<td>建 CMP、custom field、time tracking、issue linking 開關</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>權限組合</strong>（必考）</p>
+<div class="tbl-wrap"><table class="tbl"><tr><th style="width:26%">想做的事</th><th>需要的權限組合</th></tr><tr><td>任何事</td><td><strong>Browse Projects</strong> 是所有其他權限的前提</td></tr><tr><td>改一般欄位</td><td>Edit Issues；但 Assignee 要 Assign Issues、Reporter 要 Modify Reporter、Due date 與排序要 Schedule Issues，各自獨立</td></tr><tr><td>指派</td><td><strong>Assign Issues</strong>（能改 Assignee 欄位）≠ <strong>Assignable User</strong>（能被指派）</td></tr><tr><td>搬 issue</td><td>Move Issues ＋ 目的 project 的 Create Issues</td></tr><tr><td>連結 issue</td><td>Link Issues ＋ 全站已啟用 issue linking ＋ 兩邊 project 都要有權限</td></tr><tr><td>動 sprint 裡的 issue</td><td>Manage Sprints ＋ Edit／Schedule Issues</td></tr><tr><td>結案</td><td>Resolve、Close、Transition 常常三個一起</td></tr><tr><td>記工時</td><td>Work On Issues ＋ 全站啟用 time tracking ＋ 欄位在 screen 上</td></tr><tr><td>刪除</td><td>Delete Issues ≠ 刪留言／附件（各有自己的權限）</td></tr><tr><td>Administer Projects 能做</td><td>role 成員、versions、components、details、issue layout（screen 沒被共用時）</td></tr></table></div>
+<p><strong>Administer Projects 的邊界</strong>：可以做 role 成員、versions、components、details、layout；<strong>不能</strong>改 permission scheme、換 scheme、建 role、改 workflow（除非 workflow 未共用且用新編輯器）。</p>
+<h3 id="32-project-roles">3.2 Project roles</h3>
+<ul>
+<li>Project settings → People → Add people → 選 user 或 group → 選 role。</li>
+<li>CMP 預設 role：<strong>Administrators</strong>、<strong>atlassian-addons-project-access</strong>（給 Marketplace app 用，別動）；常見另建 Developers / Members / Viewers。</li>
+<li>Role 的意義：scheme 寫角色名，各 project 自己填人 → <strong>授權下放</strong>，不必找 Jira admin。</li>
+<li>Role vs Group：跨 project 同一批人 → group；各 project 不同人 → role；可把 group 放進 role。</li>
+<li>Role 也用在 notification scheme、issue security level、workflow condition、filter / dashboard 分享。</li>
+</ul>
+<h3 id="33-versionsreleasesroadmap">3.3 Versions、Releases、Roadmap</h3>
+<p><strong>Version 狀態</strong>：Unreleased（過了 release date 會顯示紅色）/ Released / Archived（從下拉與報表隱藏）。</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>動作</th>
+<th>效果 / 注意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Release</td>
+<td>若有未解決 issue，會問要「忽略」或「移到另一個 version」；Kanban board 的 sub-filter 會讓這批 issue 從 board 消失</td>
+</tr>
+<tr>
+<td>Unrelease</td>
+<td>回到 Unreleased</td>
+</tr>
+<tr>
+<td>Archive</td>
+<td>隱藏；不可再指派</td>
+</tr>
+<tr>
+<td>Merge</td>
+<td>把 A 併入 B，issue 的 Fix version 改成 B；A 消失</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>需選擇 issue 要改到哪個 version 或直接清空</td>
+</tr>
+<tr>
+<td>Edit / Reschedule</td>
+<td>改名、日期；拖曳排序</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>Fix version</strong>（修在哪個版本，決定 Release 內容）vs <strong>Affects version</strong>（哪個版本受影響，不會把 issue 放進版本）。</li>
+<li>需要 Administer Projects + Manage Versions 權限。</li>
+<li><strong>Release page / release hub</strong>：進度條（To do / In progress / Done）、<strong>Warnings</strong>（open PR、未 review、build 失敗——需要整合 dev tool 且有 View Development Tools）、<strong>Related work</strong>（連結設計稿、文件、部署等）、Approvals（可選）。</li>
+<li><strong>Roadmap / Timeline</strong>：單一 project 的 Gantt；顯示 epic 與其 child、依賴線、sprint、release；child 用 sprint 日期（Scrum）或 start/due date（Kanban）排；<strong>沒有 parent 的 issue 不會出現</strong>；跨 project 要 Premium 的 Plans。</li>
+<li>範圍變動反映在 Version report（預測 release 日）、Release burndown、Epic burndown 的「scope added」深藍段。</li>
+</ul>
+<h3 id="34-components-labels-custom-fields">3.4 分類方法：components / labels / custom fields</h3>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th></th>
+<th>Components</th>
+<th>Labels</th>
+<th>Custom field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>誰建</td>
+<td>Project admin（CMP only）</td>
+<td>任何人打字即建</td>
+<td>Jira admin</td>
+</tr>
+<tr>
+<td>範圍</td>
+<td>該 project</td>
+<td>全站共用</td>
+<td>可全站或限 context</td>
+</tr>
+<tr>
+<td>結構</td>
+<td>有 lead、可 default assignee</td>
+<td>無</td>
+<td>依型別（select、user、date…）</td>
+</tr>
+<tr>
+<td>適合</td>
+<td>產品模組、團隊分工、要自動指派</td>
+<td>輕量、臨時、跨 project 標記</td>
+<td>需要固定選項、報表、驗證</td>
+</tr>
+<tr>
+<td>風險</td>
+<td>TMP 沒有</td>
+<td>拼字混亂、無法控管</td>
+<td>需要 Jira admin；太多會拖慢</td>
+</tr>
+</tbody>
+</table></div>
+<p>Custom field 型別（考「哪種型別適合」）：Select list（single / multi / cascading）、Checkboxes、Radio、User picker（single / multi）、Group picker、Version picker、Project picker、Labels、Date / DateTime picker、Number、Short text（255 字）、Paragraph（rich text）、URL、Team、Formula；唯讀顯示型：Time in status、Days since last comment、Participants、Date of first response。</p>
+<h3 id="35">3.5 自動指派</h3>
+<div class="figure"><svg class="dia" viewBox="0 0 760 410" role="img" aria-label="Automatic 指派的判斷流程"><defs><marker id="gd-arr7" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs><rect x="230" y="16" width="300" height="40" rx="8" class="box brand"/><text x="380.0" y="41.0" text-anchor="middle" class="lbl b">建立時手動選了 Assignee？</text><path d="M530,36 H580" class="ln" marker-end="url(#gd-arr7)"/><text x="544" y="28" class="lbl b yes">是</text><rect x="580" y="16" width="160" height="40" rx="8" class="box green"/><text x="660.0" y="41.0" text-anchor="middle" class="lbl b">就是那個人</text><path d="M380,56 V96" class="ln" marker-end="url(#gd-arr7)"/><text x="388" y="82" class="lbl b no">否（Automatic）</text><rect x="150" y="96" width="460" height="40" rx="8" class="box brand"/><text x="380.0" y="121.0" text-anchor="middle" class="lbl b">issue 有 component，且它的 default assignee 不是 Project default？</text><path d="M250,136 V180" class="ln" marker-end="url(#gd-arr7)"/><text x="258" y="164" class="lbl b yes">是</text><path d="M530,136 V180" class="ln" marker-end="url(#gd-arr7)"/><text x="538" y="164" class="lbl b no">否</text><rect x="80" y="180" width="340" height="40" rx="8" class="box violet"/><text x="250.0" y="205.0" text-anchor="middle" class="lbl b">掛了幾個符合的 component？</text><rect x="440" y="180" width="300" height="56" rx="8" class="box teal"/><text x="590.0" y="205.0" text-anchor="middle" class="lbl b">用 project 的 Default assignee</text><text x="590.0" y="223.0" text-anchor="middle" class="s">Unassigned 或 Project lead</text><path d="M160,220 V262" class="ln" marker-end="url(#gd-arr7)"/><path d="M340,220 V262" class="ln" marker-end="url(#gd-arr7)"/><rect x="60" y="262" width="200" height="56" rx="8" class="box green"/><text x="160.0" y="287.0" text-anchor="middle" class="lbl b">一個</text><text x="160.0" y="305.0" text-anchor="middle" class="s">用它的 default assignee</text><rect x="280" y="262" width="200" height="56" rx="8" class="box green"/><text x="380.0" y="287.0" text-anchor="middle" class="lbl b">多個</text><text x="380.0" y="305.0" text-anchor="middle" class="s">先比優先序，同級看字母序</text><rect x="20" y="340" width="720" height="56" rx="8" class="box amber"/><text x="380" y="364" text-anchor="middle" class="lbl b">優先序：Component lead ＞ Project lead ＞ Unassigned ＞ Project default</text><text x="380" y="384" text-anchor="middle" class="s">被指派的人一定要有 Assignable User 權限，沒有就跳到下一個</text></svg><div class="cap">多個 component 時先比 default assignee 的類型優先序，同一級才看 component 名稱字母序。</div></div>
+<ul>
+<li>Component 的 default assignee 選項：Project default / Component lead / Project lead / Unassigned。</li>
+<li>優先序：Component lead &gt; Project lead &gt; Unassigned &gt; Project default；<strong>同一級</strong>才依 component 名稱字母序。<span class="fix">查證修正</span></li>
+<li><strong>被指派者必須有 Assignable User 權限</strong>，否則跳過往下一層。</li>
+<li>更複雜規則（輪流、平衡工作量、依欄位）→ 用 Automation 的 Assign issue action。</li>
+</ul>
+<h3 id="36-issue-field-layout">3.6 Issue field layout</h3>
+<div class="figure"><svg class="dia" viewBox="0 0 760 262" role="img" aria-label="issue layout 的三個區塊"><rect x="20" y="16" width="400" height="176" rx="10" class="box brand"/><text x="40" y="44" class="lbl b">Description fields</text><text x="40" y="72" class="s">左側（單欄時在上方）</text><text x="40" y="94" class="s">放最重要的 rich text 欄位</text><text x="40" y="116" class="s">有 tabs 時顯示在這裡</text><rect x="440" y="16" width="300" height="176" rx="10" class="box teal"/><text x="460" y="44" class="lbl b">Context fields</text><rect x="456" y="54" width="268" height="40" rx="6" class="box"/><text x="590" y="79" text-anchor="middle" class="lbl">Details（永遠顯示）</text><path d="M456,118 H724" stroke="var(--ink-3)" stroke-dasharray="5 4" fill="none"/><text x="590" y="112" text-anchor="middle" class="s">Hide when empty 分隔線</text><rect x="456" y="128" width="268" height="40" rx="6" class="box"/><text x="590" y="153" text-anchor="middle" class="lbl">More fields（有值才顯示）</text><rect x="20" y="208" width="720" height="40" rx="8" class="box rose" stroke-dasharray="5 4"/><text x="380" y="233" text-anchor="middle" class="lbl b no">Hidden fields：拖到這裡的欄位不會顯示</text></svg><div class="cap">Description、Context、Hidden 三區；Context 裡再用 Hide when empty 分隔線切成兩段。</div></div>
+<ul>
+<li>入口：issue 右上 ••• → Configure → Issue layout（或 Project settings → Issues → Layout）。</li>
+<li>Project admin 可設定，<strong>前提是 screen 沒有被其他 project 共用</strong>；哪些欄位「可用」由 screen 決定（Jira admin）；tab 只有 Jira admin 能改。</li>
+<li>Layout 可複製到使用相同 screen 的其他 project。</li>
+<li>使用者自己可 pin 欄位到最上。</li>
+<li>欄位與權限的關係：欄位在 layout 上不代表能改——Assignee 要 Assign Issues、Due date 要 Schedule Issues、Reporter 要 Modify Reporter。</li>
+</ul>
+<h3 id="37-issue">3.7 讓 issue 更豐富</h3>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>功能</th>
+<th>全域開關（Jira admin）</th>
+<th>Project 權限</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time tracking</td>
+<td>⚙ → Issues → Time tracking（每日工時、每週天數、格式、預設單位）</td>
+<td>Work On Issues；Edit/Delete own/all worklogs</td>
+<td>欄位要在 screen 上才能填 Original estimate</td>
+</tr>
+<tr>
+<td>Issue linking</td>
+<td>⚙ → Issues → Issue linking（Activate / Deactivate；link types：Blocks、Cloners、Duplicate、Relates；自訂需 name + outward + inward）</td>
+<td>Link Issues（跨 project 兩邊都要）</td>
+<td>已關閉的 issue 在下拉找不到，要打完整 key</td>
+</tr>
+<tr>
+<td>Web / Confluence link</td>
+<td>—</td>
+<td>Link Issues</td>
+<td>Smart links 顯示最新版</td>
+</tr>
+<tr>
+<td>@mention</td>
+<td>—</td>
+<td>Browse users and groups（全域）決定看得到誰</td>
+<td>被 @ 的人會收通知</td>
+</tr>
+<tr>
+<td>Watch</td>
+<td>—</td>
+<td>Manage Watchers（幫別人加）、View Voters and Watchers</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Attachments</td>
+<td>⚙ → Issues → Attachments（預設單檔 10MB 可調；檔名禁用 <code>\ / " % : $ ? *</code>）</td>
+<td>Create / Delete own / Delete all Attachments</td>
+<td>Free 2GB、Standard 250GB、Premium 無限</td>
+</tr>
+<tr>
+<td>Developer info</td>
+<td>連接 Bitbucket / GitHub</td>
+<td>View Development Tools</td>
+<td>Issue key 放在 branch 名、commit 訊息、PR 標題就會連起來；smart commits 可轉狀態、記工時</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="6204-automation14">620.4 Automation（14%）</h2>
+<h3 id="41">4.1 四種自動化手段怎麼選</h3>
+<div class="tbl-wrap"><table class="tbl"><tr><th style="width:55%">情境</th><th>用什麼</th></tr><tr><td>一次性改一堆 issue</td><td><strong>Bulk change</strong></td></tr><tr><td>每次轉換狀態就做某件事（同步、可靠）</td><td><strong>Workflow post function</strong>（Jira admin）</td></tr><tr><td>事件驅動、有條件分支、跨 issue 動作</td><td><strong>Automation rule</strong></td></tr><tr><td>以上都做不到（複雜計算、外部系統）</td><td><strong>Marketplace app</strong></td></tr></table></div>
+<p><strong>Bulk change</strong>
+- 需要 <strong>Make bulk changes（全域）+ 對應 project 權限</strong>（例如 bulk move 要 Move Issues）。
+- 上限 1,000 個 issue；四步：選 issue → 選操作 → 設定 → 確認。
+- 操作：Edit、Move、Transition、Delete、Watch / Stop watching。
+- 可取消勾選「Send mail for this update」避免通知轟炸。
+- <strong>不能</strong> bulk edit：Summary、Description、Attachments、Resolution（要走 transition）、time tracking 欄位。
+- Move 到 TMP 會丟失 component 與 version 資料；workflow 不同要對應 status。</p>
+<p><strong>Workflow post function</strong>
+- 每個 transition 有 5 個必要 post function（設狀態 → 加留言 → 寫歷史 → reindex → fire Generic Event），<strong>不可刪、不可排序</strong>，只能在中間插入。
+- 常用可選：Assign to current user / reporter / lead developer、Update issue field、Update custom field、Copy value from other field、Clear field、Trigger webhook。
+- 只有 Jira admin 能改（workflow 共用時）；順序有意義。</p>
+<h3 id="42-automation-rule">4.2 Automation rule 的解剖</h3>
+<div class="figure"><svg class="dia" viewBox="0 0 760 266" role="img" aria-label="automation rule 的結構"><defs><marker id="gd-arr10" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs><rect x="20" y="16" width="720" height="68" rx="10" class="box"/><text x="40" y="42" class="lbl b">Rule details</text><text x="40" y="64" class="s">Name ・ Scope ・ Actor（權限依 actor 計算）・ Owner（收錯誤通知）・ Allow rule trigger（預設關）</text><rect x="20" y="110" width="200" height="56" rx="8" class="box brand"/><text x="120.0" y="135.0" text-anchor="middle" class="lbl b">Trigger</text><text x="120.0" y="153.0" text-anchor="middle" class="s">什麼事件發生時跑</text><rect x="280" y="110" width="200" height="56" rx="8" class="box amber"/><text x="380.0" y="135.0" text-anchor="middle" class="lbl b">Condition（可多個）</text><text x="380.0" y="153.0" text-anchor="middle" class="s">符合才往下</text><rect x="540" y="110" width="200" height="56" rx="8" class="box green"/><text x="640.0" y="135.0" text-anchor="middle" class="lbl b">Action（可多個）</text><text x="640.0" y="153.0" text-anchor="middle" class="s">要做什麼</text><path d="M220,138 H280" class="ln" marker-end="url(#gd-arr10)"/><path d="M480,138 H540" class="ln" marker-end="url(#gd-arr10)"/><path d="M380,166 V196" class="ln" marker-end="url(#gd-arr10)"/><rect x="140" y="196" width="480" height="56" rx="8" class="box violet"/><text x="380.0" y="221.0" text-anchor="middle" class="lbl b">Branch</text><text x="380.0" y="239.0" text-anchor="middle" class="s">對相關 issue 再跑 condition／action；分支平行執行、順序不保證</text></svg><div class="cap">Rule details 決定範圍與身分；主體是 Trigger → Condition → Action，需要動到相關 issue 時用 Branch。</div></div>
+<ul>
+<li><strong>Project rule</strong>：project admin 在 Project settings → Automation 建；scope 限該 project。</li>
+<li><strong>Global / multi-project rule</strong>：需 Jira admin；⚙ → System → Global automation。</li>
+<li>Trigger 常考：Issue created、Issue transitioned、Field value changed、Issue commented、Scheduled（cron + JQL）、Manual、Sprint started / completed、Version released、Multiple issue events、Incoming webhook、DevOps（PR merged、Build failed…）。</li>
+<li>Condition 常考：<strong>Issue fields condition</strong>（首選，不用 smart value）、JQL condition、User condition（是誰 / 在哪個 group）、Related issues condition（parent / sub-task / linked 是否符合）、Advanced compare（smart value + regex）、<strong>If / else block</strong>（最多兩層巢狀）。</li>
+<li>Branch：For sub-tasks / parent / epic / linked issues / JQL / most recently created；<strong>分支平行執行，順序不保證</strong>，不能依賴分支間的變更。</li>
+<li>Action 常考：Edit issue（Add/remove values 保留既有 labels；多選欄位預設整組取代）、Transition、Assign（balanced workload / round robin / 指定 / smart value）、Create issue / sub-tasks、Clone、Comment、Send email、Lookup issues（≤100）、Create variable、Log action、Send web request。</li>
+<li><strong>Smart values</strong>：<code>{{issue.key}}</code>、<code>{{issue.summary}}</code>、<code>{{issue.assignee.displayName}}</code>、<code>{{issue.status.name}}</code>、<code>{{issue.fixVersions}}</code>、<code>{{issue.parent}}</code>、<code>{{triggerIssue}}</code>（觸發的那張，跟 branch 內的 <code>{{issue}}</code> 不同）、<code>{{createdIssue}}</code>、<code>{{now}}</code>、<code>{{now.plusDays(5)}}</code>、list 的 <code>.first</code> <code>.last</code> <code>.size</code> <code>.join(", ")</code>。</li>
+</ul>
+<h3 id="43-troubleshoot-automation">4.3 Troubleshoot automation</h3>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>症狀</th>
+<th>原因 / 查法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rule 沒跑</td>
+<td>看 <strong>Audit log</strong>；scope 不含該 project；trigger 事件不符（Issue updated 不含 assign / link / worklog）；rule 被另一條 rule 觸發但 <strong>Allow rule trigger</strong> 關著</td>
+</tr>
+<tr>
+<td>跑了但 action 失敗「no permission」</td>
+<td><strong>Actor 沒有該 project 權限</strong>（Automation for Jira user 也要在 permission scheme 裡）</td>
+</tr>
+<tr>
+<td>欄位改不了</td>
+<td>欄位不在 screen 上 / 需要 JSON 進階編輯</td>
+</tr>
+<tr>
+<td>Branch 結果不對</td>
+<td>分支平行；<code>{{issue}}</code> 在 branch 內指相關 issue，要用 <code>{{triggerIssue}}</code> 才是原本那張</td>
+</tr>
+<tr>
+<td>JQL condition 結果不同人不同</td>
+<td>JQL 以 actor 權限執行</td>
+</tr>
+<tr>
+<td>執行次數用完</td>
+<td>現行用量模型以「步驟」計（trigger／condition／action／branch 各算一步），整個 organization 共用一個額度池；THROTTLED 不計入。舊制「只有 global／multi-project 才計」已不適用 <span class="fix">查證修正</span></td>
+</tr>
+<tr>
+<td>迴圈</td>
+<td>Rule A 改欄位觸發 Rule B 再改回來；用 condition 擋或關 Allow rule trigger</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="6205-reporting19">620.5 Reporting（19%）</h2>
+<h3 id="51-jql">5.1 JQL</h3>
+<p><strong>結構</strong>：<code>field operator value [AND|OR|NOT ...] [ORDER BY field ASC|DESC]</code>；括號決定優先；<code>IN</code> 常可取代多個 OR。</p>
+<p><strong>Basic search 做不到的</strong>（要切 JQL）：OR、NOT、EMPTY、<code>!=</code> / <code>IS</code> / <code>&gt;</code> 等比較、以及沒指定 project 的 project 專屬欄位。</p>
+<p><strong>Operators</strong></p>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>類</th>
+<th>運算子</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相等</td>
+<td><code>=</code> <code>!=</code> <code>IN</code> <code>NOT IN</code></td>
+<td><code>!=</code> 不匹配空值；文字欄位不能用 <code>=</code></td>
+</tr>
+<tr>
+<td>比較</td>
+<td><code>&gt;</code> <code>&gt;=</code> <code>&lt;</code> <code>&lt;=</code></td>
+<td>只用於可排序欄位（日期、版本、數字）</td>
+</tr>
+<tr>
+<td>文字</td>
+<td><code>~</code> <code>!~</code></td>
+<td>Summary、Description、Environment、Comments、text 欄位；支援萬用字元與詞幹</td>
+</tr>
+<tr>
+<td>空值</td>
+<td><code>IS EMPTY</code> <code>IS NOT EMPTY</code>（= NULL）</td>
+<td>只有 IS / IS NOT 能配 EMPTY</td>
+</tr>
+<tr>
+<td>歷史</td>
+<td><code>WAS</code> <code>WAS IN</code> <code>WAS NOT</code> <code>CHANGED</code></td>
+<td>述詞：<code>AFTER</code> <code>BEFORE</code> <code>BY</code> <code>DURING</code> <code>ON</code> <code>FROM</code> <code>TO</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Functions</strong>（考試最常出的）</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>函數</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>currentUser()</code></td>
+<td>登入者；filter 分享後每人不同結果</td>
+</tr>
+<tr>
+<td><code>membersOf("group")</code></td>
+<td>群組成員</td>
+</tr>
+<tr>
+<td><code>openSprints()</code> <code>closedSprints()</code> <code>futureSprints()</code></td>
+<td><code>sprint in openSprints()</code></td>
+</tr>
+<tr>
+<td><code>startOfDay/Week/Month/Year()</code> <code>endOf…()</code> <code>now()</code></td>
+<td>可帶偏移 <code>startOfWeek(-1)</code>；也可直接 <code>created &gt;= -7d</code></td>
+</tr>
+<tr>
+<td><code>unreleasedVersions()</code> <code>releasedVersions()</code> <code>earliestUnreleasedVersion()</code> <code>latestReleasedVersion()</code></td>
+<td>Kanban sub-filter 就用它</td>
+</tr>
+<tr>
+<td><code>linkedIssues("KEY")</code> <code>linkedIssues("KEY","blocks")</code></td>
+<td>依連結</td>
+</tr>
+<tr>
+<td><code>parentEpic("KEY")</code> / <code>parent = KEY</code></td>
+<td>epic 下所有 child</td>
+</tr>
+<tr>
+<td><code>standardIssueTypes()</code> <code>subtaskIssueTypes()</code></td>
+<td><code>issuetype in subtaskIssueTypes()</code></td>
+</tr>
+<tr>
+<td><code>projectsLeadByUser()</code> <code>componentsLeadByUser()</code> <code>projectsWhereUserHasRole("role")</code></td>
+<td>依角色</td>
+</tr>
+<tr>
+<td><code>watchedIssues()</code> <code>votedIssues()</code></td>
+<td>我關注 / 投票</td>
+</tr>
+<tr>
+<td><code>issueHistory()</code> <code>lastLogin()</code> <code>currentLogin()</code></td>
+<td>個人歷史</td>
+</tr>
+<tr>
+<td><code>updatedBy(user, from, to)</code></td>
+<td>誰更新過（最小單位 1 天）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>常考寫法</strong>
+- 未指派或非我的：<code>assignee != currentUser() OR assignee is EMPTY</code>
+- 上週建立：<code>created &gt;= startOfWeek(-1) AND created &lt; startOfWeek()</code>
+- 曾經 In Progress 但現在不是：<code>status WAS "In Progress" AND status != "In Progress"</code>
+- 上個月由某人改成 Done：<code>status CHANGED TO Done BY jsmith DURING (startOfMonth(-1), endOfMonth(-1))</code>
+- 這個 sprint 的 bug：<code>sprint in openSprints() AND issuetype = Bug</code>
+- 分類：<code>category = "Platform"</code>
+- Text：<code>text ~ "login error"</code>、<code>summary ~ "login*"</code>
+- 排序永遠在最後：<code>ORDER BY priority DESC, created ASC</code></p>
+<h3 id="52-dashboards-gadgets">5.2 Dashboards 與 gadgets</h3>
+<ul>
+<li>任何人可建 dashboard；<strong>分享需要 Share dashboards and filters 全域權限</strong>；可分享給 user / group / project / project role / 整個組織 / public；viewers vs editors。</li>
+<li>Layout 可改欄數；Wallboard 模式；自動刷新間隔；複製 dashboard；刪除後 60 天內 Jira admin 可還原。</li>
+<li>System dashboard 由 Jira admin 管；只有加星的 dashboard 出現在側欄。</li>
+<li>Gadget 大多需要一個 <strong>saved filter 或 project</strong> 當資料來源，且觀看者要有該 filter 的檢視權限。</li>
+</ul>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>需求</th>
+<th>Gadget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>列出某 filter 的 issue</td>
+<td>Filter Results</td>
+</tr>
+<tr>
+<td>依一個欄位分佈</td>
+<td>Pie Chart、Issue Statistics（1D）</td>
+</tr>
+<tr>
+<td>依兩個欄位交叉表</td>
+<td>Two Dimensional Filter Statistics</td>
+</tr>
+<tr>
+<td>建立 vs 解決趨勢</td>
+<td>Created vs Resolved</td>
+</tr>
+<tr>
+<td>未解決 issue 平均年齡</td>
+<td>Average Age</td>
+</tr>
+<tr>
+<td>解決耗時</td>
+<td>Resolution Time</td>
+</tr>
+<tr>
+<td>我的工作</td>
+<td>Assigned to Me、Issues in Progress</td>
+</tr>
+<tr>
+<td>Sprint 狀況</td>
+<td>Sprint Health、Sprint Burndown、Days Remaining in Sprint</td>
+</tr>
+<tr>
+<td>即將 release 的版本</td>
+<td>Road Map</td>
+</tr>
+<tr>
+<td>最近活動</td>
+<td>Activity Stream</td>
+</tr>
+<tr>
+<td>四維度找重點</td>
+<td>Bubble Chart</td>
+</tr>
+<tr>
+<td>標籤總覽</td>
+<td>Labels</td>
+</tr>
+<tr>
+<td>依日期欄位看活動</td>
+<td>Time Since Issues、Recently Created</td>
+</tr>
+<tr>
+<td>狀態停留</td>
+<td>Average Time in Status、Average Number of Times in Status</td>
+</tr>
+<tr>
+<td>分隔排版</td>
+<td>Wallboard Spacer</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="53-agile-reports-issue-analysis-reports">5.3 Agile reports 與 issue analysis reports</h3>
+<div class="tbl-wrap"><table class="tbl">
+<thead>
+<tr>
+<th>報表</th>
+<th>Board</th>
+<th>看什麼</th>
+<th>讀法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Burndown</strong></td>
+<td>Scrum</td>
+<td>剩餘工作 vs 時間</td>
+<td>灰 guideline（開始時無 issue 則沒有）；紅線實際；sub-task 點數不計；scope 增加會往上跳</td>
+</tr>
+<tr>
+<td><strong>Burnup</strong></td>
+<td>Scrum / TMP</td>
+<td>scope（紅）vs 完成（綠）</td>
+<td><strong>紅線上升＝scope creep</strong>；紅綠交會＝完成</td>
+</tr>
+<tr>
+<td><strong>Sprint report</strong></td>
+<td>Scrum</td>
+<td>完成 / 未完成 / 移除 / 完成於 sprint 外</td>
+<td>「*」＝sprint 開始後加入；<code>3 → 3.5</code> 估點改變</td>
+</tr>
+<tr>
+<td><strong>Velocity</strong></td>
+<td>Scrum</td>
+<td>每 sprint 承諾 vs 完成</td>
+<td>取近幾個 sprint 平均預測產能</td>
+</tr>
+<tr>
+<td><strong>Epic report</strong></td>
+<td>Scrum</td>
+<td>某 epic 的完成 / 未完成 / 未估點清單</td>
+<td>某時點的組成</td>
+</tr>
+<tr>
+<td><strong>Epic burndown</strong></td>
+<td>Scrum, CMP</td>
+<td>依 sprint 看 epic 進度 + 預測還要幾個 sprint</td>
+<td>用近 3 sprint velocity；&gt;30% 未估點則預測不可靠；深藍＝scope added</td>
+</tr>
+<tr>
+<td><strong>Release / Version burndown</strong></td>
+<td>Scrum</td>
+<td>版本進度與預測 release 日</td>
+<td>同上邏輯</td>
+</tr>
+<tr>
+<td><strong>Version report</strong></td>
+<td>Scrum</td>
+<td>預測版本完成日</td>
+<td>受 working days 影響</td>
+</tr>
+<tr>
+<td><strong>Control chart</strong></td>
+<td>Scrum / Kanban</td>
+<td><strong>cycle time</strong>（開始到完成）；lead time 是建立到完成</td>
+<td>藍線 rolling average（以 issue 數為窗，取 20%、最少 5、奇數）；藍帶標準差＝可預測性；離群點要查</td>
+</tr>
+<tr>
+<td><strong>CFD</strong></td>
+<td>Scrum / Kanban</td>
+<td>各狀態累積數量隨時間</td>
+<td><strong>某色帶垂直變寬＝該欄瓶頸</strong>；帶寬是當時在該狀態的數量（官方提醒它不等於傳統的 WIP 數字）；按日曆日 <span class="fix">查證修正</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>Issue analysis（Reports → More reports）：Average Age、Created vs Resolved、Pie Chart、Recently Created、Resolution Time、Single Level Group By（上限 1,000）、Time Since Issues、Time Tracking（需 time tracking 開啟）、User Workload、Version Workload、Workload Pie Chart。</p>
+<h3 id="54-agile-at-scale">5.4 Agile at scale</h3>
+<ul>
+<li>跨 project 的 board（saved filter）＋ 共用 estimation 單位。</li>
+<li>Timeline 只看單一 project；跨 project 規劃要 <strong>Plans（Premium）</strong>。</li>
+<li>統一 scheme（CMP 共用設定）＋ project categories 分群 ＋ dashboard 用跨 project filter 彙總。</li>
+<li>Component / version 都是 project 內的，跨 project 追蹤靠 labels、custom field 或 Plans。</li>
+</ul>
+<hr />
+<h2 id="lab-jira-standard-30-free-permission-scheme-role-board">實作 Lab（建議 Jira Standard 30 天試用；Free 缺 permission scheme / role / 多 board）</h2>
+<p><strong>Lab A — Project creation（45 分）</strong>
+1. 建一個 CMP Scrum、一個 TMP Kanban；比較 Project settings 側欄差異。
+2. TMP：切 Open → Limited → Private，用第二帳號觀察；建自訂 role「Reviewer」只給留言。
+3. CMP：改 project key，觀察舊連結、board filter 是否還正常。
+4. 建 project category（需 Jira admin），在 JQL 用 <code>category =</code>。
+5. 把 TMP 丟進 trash 再還原：確認 project admin 能丟（CMP、TMP 都可以），但 Restore 只有 Jira admin 能做。<span class="fix">查證修正</span></p>
+<p><strong>Lab B — Board（90 分，最重要）</strong>
+1. 在 CMP 建第二個 Scrum board（從 saved filter），filter 不分享 → 用第二帳號看不到；分享後看得到。
+2. Columns：新增「Cancelled」status 不對應 column → issue 消失；把它放最右欄 → 回來且算完成。
+3. 設 column constraint max 3，塞 4 個看欄頭變紅。
+4. 建 Kanban board；Release 一個版本 → issue 消失；把 sub-filter 改掉再看。
+5. 拿掉 filter 的 <code>ORDER BY Rank</code> → 拖曳失效。
+6. Swimlane 選 Queries，加一條 <code>issuetype = Bug</code> 放在 Expedite 上面，觀察「第一個符合」。
+7. Card colors 選 Queries，兩條互相重疊的 query，看誰贏。
+8. Estimation 切 Story points ↔ Issue count，看 burndown 縱軸變化；給 sub-task 點數確認不計。
+9. Working days 拿掉週末，看 burndown 的 guideline 變形。
+10. 建兩個 quick filter 同時勾選，確認 AND。</p>
+<p><strong>Lab C — Managing projects（60 分）</strong>
+1. 建 versions v1.0、v1.1；v1.0 留一個未解決 issue 再 Release → 選移到 v1.1；Merge v1.1 到 v2.0。
+2. Components：Backend（lead=A，default=Component lead）、Alpha（lead=B）；同時掛兩個 component、Assignee 留 Automatic → 觀察 Alpha 的 B 被指派（字母順序）；拿掉 B 的 Assignable User 再試。
+3. Issue layout：把 Due date 拖到 Hide when empty 下方；拿掉某使用者的 Schedule Issues，確認他看得到卻改不了。
+4. 關閉全域 Issue linking → Link 按鈕消失；開回來新增 link type「Causes / is caused by」。
+5. 關閉 time tracking → Log work 消失；開回來、拿掉 Work On Issues 再試。</p>
+<p><strong>Lab D — Automation（45 分）</strong>
+1. Bulk change 20 個 issue 的 priority，取消 email；試 bulk edit Summary 確認不行。
+2. 在 workflow transition 加 post function「Assign to reporter」（需 Jira admin），觀察順序。
+3. Project rule：Issue transitioned to Done → branch for sub-tasks → transition to Done；用 audit log 看分支。
+4. 故意把 actor 換成沒權限的 user → 看 audit log 的 permission error。
+5. Rule A 改 label 觸發 Rule B；打開 Allow rule trigger 前後比較。</p>
+<p><strong>Lab E — Reporting（45 分）</strong>
+1. 寫 10 條上面「常考寫法」的 JQL 並存成 filter；用 <code>currentUser()</code> 分享給第二帳號看差異。
+2. 建 dashboard：Filter Results + Two Dimensional（Assignee × Status）+ Created vs Resolved；分享給 project role。
+3. 跑一個兩週 sprint（可手動改日期）：中途加 issue，看 Burnup 紅線上升、Sprint report 的星號。
+4. Kanban 跑幾個 issue，故意讓一個在 In Review 停 5 天，看 Control chart 離群點與 CFD 帶寬。</p>
+<hr />
+<h2 id="20">自測 20 題</h2>
+<ol>
+<li>團隊想自己管 workflow 不想找 Jira admin，但需要 components，選哪種 project？</li>
+<li>TMP 的 Limited 存取，全站使用者能建 issue 嗎？</li>
+<li>Project admin 能建 project category 嗎？</li>
+<li>誰能把 CMP 丟進 trash？trash 保留幾天？</li>
+<li>Kanban board 上 Done 的 issue 怎麼清掉？</li>
+<li>Issue 在 filter 裡但不在 board 上，最常見的兩個原因？</li>
+<li>為什麼同事看得到 project 卻看不到我的跨 project board？</li>
+<li>勾選兩個 quick filter，結果是聯集還是交集？</li>
+<li>Sub-task 的 story points 會算進 burndown 嗎？</li>
+<li>Working days 影響 CFD 嗎？</li>
+<li>Query swimlanes 一個 issue 符合兩條 query，進哪條？</li>
+<li>Default assignee 只能選哪兩種？</li>
+<li>兩個 component 的 lead 不同、Assignee 留 Automatic，誰被指派？</li>
+<li>Component lead 沒有哪個權限時會被跳過？</li>
+<li>Release 版本時有未解決 issue，Jira 給什麼選項？</li>
+<li>Project admin 什麼情況下不能改 issue layout？</li>
+<li>Bulk change 需要哪兩層權限？不能 bulk edit 哪些欄位？</li>
+<li>Automation rule 顯示「no permission」，先查什麼？</li>
+<li><code>status WAS "In Progress"</code> 和 <code>status CHANGED FROM "In Progress"</code> 差在哪？</li>
+<li>Burnup 的紅線上升代表什麼？Control chart 的藍帶代表什麼？</li>
+</ol>
+<details class="q">
+<summary>解答</summary>
+
+1. Company-managed（TMP 沒有 components）；請 Jira admin 建並給他們 Administrators role。
+2. 不能；Limited 給 Viewer，只能看與留言。
+3. 不能，只有 Jira admin；project admin 只能挑選。
+4. Administer Jira 或該 project 的 Administer Projects 都能丟；Restore／永久刪除只有 Administer Jira；60 天。
+5. Release 版本（sub-filter `fixVersion in unreleasedVersions() OR fixVersion is EMPTY` 讓它們消失）。
+6. status 沒對應到 column；Kanban 的 sub-filter 排除（已 release）。其次：在 Kanban backlog、不在 active sprint。
+7. 底層 saved filter 沒分享給他。
+8. 交集（AND）。
+9. 不會，只算 parent；但選 Remaining estimate and time spent 時 sub-task 工時計入。
+10. 不影響；影響 Burndown、Sprint / Epic / Version report、Control chart。
+11. 由上到下第一條符合的。
+12. Unassigned 或 Project lead。
+13. Component 名稱字母順序第一個的 lead。
+14. Assignable User。
+15. 忽略，或把未解決 issue 移到另一個 version。
+16. Screen 被其他 project 共用時。
+17. Make bulk changes（全域）+ 該操作的 project 權限；Summary、Description、Attachments、Resolution、time tracking 欄位。
+18. Rule 的 actor 是否在該 project 的 permission scheme 裡有對應權限；看 audit log。
+19. WAS：歷史上任一時刻是該值（含現在）；CHANGED FROM：曾經「從」該值變成別的值。
+20. Scope creep（sprint 中加入工作）；cycle time 相對 rolling average 的標準差，帶越窄越可預測。
+</details>
+
+<hr />
+<h2 id="domain">精讀連結索引（依 domain）</h2>
+<p>各小節的官方連結，見教材每一節頁尾的「來源」。本指南另外用到：
+- Manage components &amp; default assignee（KB）：<a href="https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/">https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/</a>
+- JQL functions（現行網址）：<a href="https://support.atlassian.com/jira-software-cloud/docs/jql-functions/">https://support.atlassian.com/jira-software-cloud/docs/jql-functions/</a>
+- Issue smart values：<a href="https://support.atlassian.com/cloud-automation/docs/jira-smart-values-issues/">https://support.atlassian.com/cloud-automation/docs/jira-smart-values-issues/</a>
+- Manage filters（分享權限）：<a href="https://support.atlassian.com/jira-software-cloud/docs/manage-filters/">https://support.atlassian.com/jira-software-cloud/docs/manage-filters/</a>
+- Add users to space roles：<a href="https://support.atlassian.com/jira-software-cloud/docs/add-users-to-space-roles-in-your-space/">https://support.atlassian.com/jira-software-cloud/docs/add-users-to-space-roles-in-your-space/</a>
+- 官方備考 collection：<a href="https://community.atlassian.com/learning/collection/cert-prep/managing-jira-projects-for-cloud-prep">https://community.atlassian.com/learning/collection/cert-prep/managing-jira-projects-for-cloud-prep</a></p>
+</div>
+<div class="footer-nav"><a href="traps.html">← 易錯觀念</a><a href="topics.html">官方考綱 →</a></div>
+</main>
+</div>
+<script src="assets/spring.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
