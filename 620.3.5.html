@@ -2,349 +2,81 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>620.3.5 設定與排查自動指派｜ACP-620 教材</title>
-<link rel="stylesheet" href="assets/style.css">
-<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>620.3.5 自動指派｜ACP-620 教材</title>
+<meta name="description" content="ACP-620 620.3.5：自動指派">
+<meta name="theme-color" content="#3452c8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233452c8'/%3E%3Ctext x='16' y='21' font-family='Arial' font-size='12' font-weight='700' text-anchor='middle' fill='white'%3E620%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css?v=1790343883">
+<script>try{var t=localStorage.getItem("acp620.theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body>
-<div class="shell">
-<aside class="sidebar">
-  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
-  <!--NAV-->
-  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
-  <nav>
-    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
-    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
-    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
-    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
-  <nav>
-    <a href="620.2.1.html">620.2.1 選 board 類型</a>
-    <a href="620.2.2.html">620.2.2 跨 project board</a>
-    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
-    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
-    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
-    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
-    <a href="620.2.7.html">620.2.7 Board 排查</a>
-  </nav></details>
-  <details class="navgrp" open><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
-  <nav>
-    <a href="620.3.1.html">620.3.1 專案權限</a>
-    <a href="620.3.2.html">620.3.2 Project roles</a>
-    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
-    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
-    <a href="620.3.5.html">620.3.5 自動指派</a>
-    <a href="620.3.6.html">620.3.6 Issue layout</a>
-    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
-  <nav>
-    <a href="620.4.1.html">620.4.1 自動化手段</a>
-    <a href="620.4.2.html">620.4.2 Automation rule</a>
-    <a href="620.4.3.html">620.4.3 排查 automation</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
-  <nav>
-    <a href="620.5.1.html">620.5.1 JQL</a>
-    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
-    <a href="620.5.3.html">620.5.3 Agile reports</a>
-  </nav></details>
-  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a><a href="traps.html">⚠️ 易錯觀念</a><a href="clarify.html">💡 觀念釐清</a><a href="guide.html">📌 重點整理</a><a href="topics.html">📋 官方考綱</a></nav>
-  <!--/NAV-->
-  <div class="group">本頁目錄</div>
-  <!--TOC-->
-  <nav>
-    <a href="#goal">這一節考什麼</a>
-    <a href="#model">決策流程</a>
-    <a href="#lab">互動：誰會被指派</a>
-    <a href="#settings">三個設定位置</a>
-    <a href="#automation">用 Automation 取代</a>
-    <a href="#troubleshoot">排查</a>
-    <a href="#quiz">情境練習</a>
-    <a href="#traps">常見陷阱</a>
-    <a href="#practice">實作</a>
-    <a href="#qbank">模擬題</a>
-  </nav>
-</aside>
-
-<main>
-<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.3 Managing Projects（25%）/ 620.3.5</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
-<div class="eyebrow">620.3.5 · Configure and troubleshoot automatic issue assignment (project default, components)</div>
-<h1>設定與排查自動指派：project default、components、automation</h1>
-<p class="lead">「Automatic」這個 Assignee 選項到底會把 issue 丟給誰？官方主頁只講了兩層（component → project default），多個 component 的優先順序藏在 KB 裡。這一節把三個設定位置、一條完整的決策鏈與排查步驟整理成一張圖與一個可以自己按的實驗。</p>
-<div class="term">術語：考試用 project／issue／project lead；現行產品為 space／work item／space owner。本教材沿用考試用語。</div>
-
-<section id="goal">
-<div class="section-label">這一節考什麼</div>
-<h2>兩條 bullet，翻成考題語言</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
-<tr><td>Understand how components, project default and automation rules can be used to auto-assign issues</td><td>「要讓某模組的 issue 自動給負責人，該設哪裡？」「project default 只能設誰？」「輪流指派要用什麼？」——<strong>三種手段各自的能力邊界</strong></td></tr>
-<tr><td>Understand auto-assignment behavior when there are multiple components</td><td>「issue 同時掛 Backend 與 Alpha 兩個 component，lead 不同，誰被指派？」「lead 沒有 Assignable User 會怎樣？」——<strong>優先序與字母序</strong></td></tr>
-</table></div>
-<div class="callout warn" id="weak-spots"><div class="t">練習題常錯的觀念</div>這一節在練習測驗中錯誤率偏高，先確認下面幾個觀念分得清楚，再往下讀：<a class="chip" href="clarify.html#managing">自動指派</a> </div>
-</section>
-
-<!-- ============ 決策流程 ============ -->
-<section id="model">
-<div class="section-label">核心模型</div>
-<h2>Automatic 的完整決策鏈</h2>
-<p>官方主頁的敘述只有兩句：有 component 帶 default assignee 就用它，沒有就用 project 的 default assignee。KB 補上了多 component 時的規則：<strong>依 default assignee 的「類型」分優先序，同一優先序再依 component 名稱字母序</strong>，而且被指派者一定要有 Assignable User 權限。</p>
-<div class="figure">
-<svg class="dia" viewBox="240 0 700 600" role="img" aria-label="Automatic 指派的決策流程">
-  <defs><marker id="s235-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- Q1 x=300 y=20 w=300 h=64；R1 x=680 y=28 w=200 h=48 -->
-  <rect x="300" y="20" width="300" height="64" rx="10" class="box q"/>
-  <text x="450" y="46" text-anchor="middle" class="lbl b">建立 issue 時手動選了 Assignee？</text><text x="450" y="68" text-anchor="middle" class="lbl">（沒有選 Automatic）</text>
-  <path d="M600,52 H680" class="ln" marker-end="url(#s235-arr)"/><text x="640" y="44" text-anchor="middle" class="tag yes">是</text>
-  <rect x="680" y="28" width="200" height="48" rx="10" class="box green"/><text x="780" y="57" text-anchor="middle" class="lbl b">就是那個人</text>
-  <path d="M450,84 V140" class="ln" marker-end="url(#s235-arr)"/><text x="466" y="116" class="tag no">否</text>
-  <!-- Q2 y=140；R2 x=680 y=144 w=200 h=56 -->
-  <rect x="300" y="140" width="300" height="64" rx="10" class="box q"/>
-  <text x="450" y="166" text-anchor="middle" class="lbl b">有 component 的 default assignee</text><text x="450" y="188" text-anchor="middle" class="lbl">不是「Project default」？</text>
-  <path d="M600,172 H680" class="ln" marker-end="url(#s235-arr)"/><text x="640" y="164" text-anchor="middle" class="tag no">否</text>
-  <rect x="680" y="144" width="200" height="56" rx="10" class="box brand"/><text x="780" y="167" text-anchor="middle" class="lbl b">Project default assignee</text><text x="780" y="187" text-anchor="middle" class="s">Unassigned 或 Project lead</text>
-  <path d="M450,204 V260" class="ln" marker-end="url(#s235-arr)"/><text x="466" y="236" class="tag yes">是</text>
-  <!-- Q3 y=260；R3 x=680 y=268 w=200 h=48 -->
-  <rect x="300" y="260" width="300" height="64" rx="10" class="box q"/>
-  <text x="450" y="286" text-anchor="middle" class="lbl b">掛了多個 component？</text><text x="450" y="308" text-anchor="middle" class="lbl">且 default assignee 不同</text>
-  <path d="M600,292 H680" class="ln" marker-end="url(#s235-arr)"/><text x="640" y="284" text-anchor="middle" class="tag no">否</text>
-  <rect x="680" y="268" width="200" height="48" rx="10" class="box teal"/><text x="780" y="297" text-anchor="middle" class="lbl b">該 component 的設定</text>
-  <path d="M450,324 V380" class="ln" marker-end="url(#s235-arr)"/><text x="466" y="356" class="tag yes">是</text>
-  <!-- Q4 y=380 h=84 -->
-  <rect x="300" y="380" width="300" height="100" rx="10" class="box violet"/>
-  <text x="450" y="404" text-anchor="middle" class="lbl b">依類型優先序挑一個 component</text>
-  <text x="450" y="426" text-anchor="middle" class="lbl">Component lead ＞ Project lead ＞</text>
-  <text x="450" y="446" text-anchor="middle" class="lbl">Unassigned ＞ Project default</text>
-  <text x="450" y="466" text-anchor="middle" class="s">同一級再依 component 名稱字母序</text>
-  <path d="M450,480 V520" class="ln" marker-end="url(#s235-arr)"/>
-  <!-- Final y=520 h=60 -->
-  <rect x="300" y="520" width="300" height="60" rx="10" class="box amber"/>
-  <text x="450" y="544" text-anchor="middle" class="lbl b">候選人要有 Assignable User 權限</text><text x="450" y="565" text-anchor="middle" class="s">沒有就跳過，往下一個候選人</text>
-</svg>
-<div class="cap">圖 1　主頁只有前三格；第四格的優先序與第五格的權限檢查來自 KB「Manage components default assignee」。</div>
+<a class="skip" href="#main">跳到主要內容</a>
+<div id="readbar" class="readbar" aria-hidden="true"></div>
+<div class="app">
+<nav id="nav" class="nav" aria-label="教材導覽">
+<a class="brand" href="index.html"><span class="logo">620</span><span><b>ACP-620</b><small>Managing Jira Projects for Cloud</small></span></a>
+<div class="count" id="nav-count">距離考試</div>
+<a class="it" href="index.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v8.5a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19.5z"/></svg><span>首頁・我的讀書計畫</span></a>
+<a class="it" href="exam.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg><span>模擬考與題庫</span></a>
+<a class="it" href="atlas.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg><span>報表與 gadget 圖鑑</span></a>
+<a class="it" href="traps.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg><span>易錯觀念</span></a>
+<a class="it" href="clarify.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>觀念釐清</span></a>
+<a class="it" href="guide.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>重點整理</span></a>
+<a class="it" href="topics.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a1.5 1.5 0 0 0-1.5 1.5v15A1.5 1.5 0 0 0 7 21h10a1.5 1.5 0 0 0 1.5-1.5V7.5z"/><path d="M14 3v4.5h4.5M9 12h6M9 16h6"/></svg><span>官方考綱</span></a>
+<div class="sep"></div>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.1 專案建立</span><span class="pct">13%</span></summary>
+<a class="it" href="620.1.1.html" data-sec="620.1.1"><span class="code">620.1.1</span><span>選擇實作方式</span></a>
+<a class="it" href="620.1.2.html" data-sec="620.1.2"><span class="code">620.1.2</span><span>建立與設定 TMP</span></a>
+<a class="it" href="620.1.3.html" data-sec="620.1.3"><span class="code">620.1.3</span><span>Issue type 設計</span></a>
+<a class="it" href="620.1.4.html" data-sec="620.1.4"><span class="code">620.1.4</span><span>專案設定與 trash</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.2 Board 設定</span><span class="pct">29%</span></summary>
+<a class="it" href="620.2.1.html" data-sec="620.2.1"><span class="code">620.2.1</span><span>選 board 類型</span></a>
+<a class="it" href="620.2.2.html" data-sec="620.2.2"><span class="code">620.2.2</span><span>跨 project board</span></a>
+<a class="it" href="620.2.3.html" data-sec="620.2.3"><span class="code">620.2.3</span><span>Columns 與 status</span></a>
+<a class="it" href="620.2.4.html" data-sec="620.2.4"><span class="code">620.2.4</span><span>Filter、sub-filter、quick filter</span></a>
+<a class="it" href="620.2.5.html" data-sec="620.2.5"><span class="code">620.2.5</span><span>Estimation 與 time tracking</span></a>
+<a class="it" href="620.2.6.html" data-sec="620.2.6"><span class="code">620.2.6</span><span>Swimlanes、卡片、工作日</span></a>
+<a class="it" href="620.2.7.html" data-sec="620.2.7"><span class="code">620.2.7</span><span>Board 排查</span></a>
+</details>
+<details class="grp" open><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.3 管理 project</span><span class="pct">25%</span></summary>
+<a class="it" href="620.3.1.html" data-sec="620.3.1"><span class="code">620.3.1</span><span>專案權限</span></a>
+<a class="it" href="620.3.2.html" data-sec="620.3.2"><span class="code">620.3.2</span><span>Project roles</span></a>
+<a class="it" href="620.3.3.html" data-sec="620.3.3"><span class="code">620.3.3</span><span>Versions 與 timeline</span></a>
+<a class="it" href="620.3.4.html" data-sec="620.3.4"><span class="code">620.3.4</span><span>Components、labels、fields</span></a>
+<a class="it" href="620.3.5.html" data-sec="620.3.5"><span class="code">620.3.5</span><span>自動指派</span></a>
+<a class="it" href="620.3.6.html" data-sec="620.3.6"><span class="code">620.3.6</span><span>Issue layout</span></a>
+<a class="it" href="620.3.7.html" data-sec="620.3.7"><span class="code">620.3.7</span><span>讓 issue 更豐富</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.4 自動化</span><span class="pct">14%</span></summary>
+<a class="it" href="620.4.1.html" data-sec="620.4.1"><span class="code">620.4.1</span><span>自動化手段</span></a>
+<a class="it" href="620.4.2.html" data-sec="620.4.2"><span class="code">620.4.2</span><span>Automation rule</span></a>
+<a class="it" href="620.4.3.html" data-sec="620.4.3"><span class="code">620.4.3</span><span>排查 automation</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.5 報表</span><span class="pct">19%</span></summary>
+<a class="it" href="620.5.1.html" data-sec="620.5.1"><span class="code">620.5.1</span><span>JQL</span></a>
+<a class="it" href="620.5.2.html" data-sec="620.5.2"><span class="code">620.5.2</span><span>Dashboards 與 gadgets</span></a>
+<a class="it" href="620.5.3.html" data-sec="620.5.3"><span class="code">620.5.3</span><span>Agile reports</span></a>
+</details>
+<div class="sep"></div><div class="toc-h">本頁目錄</div><div class="toc" id="toc">
+<a href="#tldr">3 分鐘速覽</a>
+<a href="#chain">選了 Automatic 之後，Jira 怎麼決定</a>
+<a href="#where">三種手段的邊界</a>
+<a href="#traps">考題愛用的錯誤說法</a>
+<a href="#wrap">一分鐘腦內整理</a>
+<a href="#practice">做題</a>
 </div>
-<div class="callout exam"><div class="t">考題最愛的那一句</div>多個 component 且 lead 不同時，Jira <strong>依 component 名稱的字母順序</strong>（不是 lead 名字、不是加入順序）取第一個 component 的 lead。</div>
-</section>
-
-<!-- ============ 互動實驗 ============ -->
-<section id="lab">
-<div class="section-label">互動</div>
-<h2>自己排一次：誰會被指派</h2>
-<p>四個 component 各有不同的 default assignee 設定。勾選 issue 掛哪些 component、調整 project default 與權限，右側即時算出結果與理由。</p>
-<div id="s235-lab" class="card">
-  <div class="grid-2" style="grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start">
-    <div>
-      <div class="kicker" style="margin-bottom:.4rem">Issue 掛的 components（可複選）</div>
-      <div class="chips" style="gap:.5rem;margin-bottom:.9rem">
-        <label class="check"><input type="checkbox" name="s235-comp" value="Alpha">Alpha　<span class="kicker">lead 小傑 · default＝Component lead</span></label>
-        <label class="check"><input type="checkbox" name="s235-comp" value="Backend" checked>Backend　<span class="kicker">lead 阿宏 · default＝Component lead</span></label>
-        <label class="check"><input type="checkbox" name="s235-comp" value="Docs">Docs　<span class="kicker">default＝Unassigned</span></label>
-        <label class="check"><input type="checkbox" name="s235-comp" value="Zeta">Zeta　<span class="kicker">default＝Project default</span></label>
-      </div>
-      <div class="kicker" style="margin-bottom:.4rem">Project 的 Default assignee（Project settings → Details）</div>
-      <div class="seg" id="s235-pd" style="margin-bottom:.9rem"><button data-v="lead" class="on">Project lead 小美</button><button data-v="none">Unassigned</button></div>
-      <div class="kicker" style="margin-bottom:.4rem">權限與手動指派</div>
-      <div class="chips">
-        <label class="check"><input type="checkbox" id="s235-jie-ok" checked>小傑有 Assignable User</label>
-        <label class="check"><input type="checkbox" id="s235-manual">建立時手動選 Kevin</label>
-      </div>
-    </div>
-    <div class="union" style="grid-template-columns:1fr">
-      <div class="panel result"><div class="h">Assignee 結果</div>
-        <div id="s235-who" style="font-size:1.3rem;font-weight:800;letter-spacing:-.01em"></div>
-        <ol id="s235-why" style="margin:.5rem 0 0;font-size:.88rem;color:var(--ink-2)"></ol>
-      </div>
-    </div>
-  </div>
-</div>
-<p class="kicker" style="margin-top:.6rem">試試：同時勾 Alpha 與 Backend → 字母序 Alpha 先，小傑被指派；再取消「小傑有 Assignable User」→ 跳到 Backend 的阿宏。只勾 Zeta → 回到 project default。</p>
-</section>
-
-<!-- ============ 三個設定位置 ============ -->
-<section id="settings">
-<div class="section-label">設定位置</div>
-<h2>三個地方、三種能力邊界</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:18%">手段</th><th style="width:26%">在哪設、誰能設</th><th>能設成誰</th><th>適合</th></tr>
-<tr><td><strong>Project default assignee</strong></td><td>Project settings → Details；project admin</td><td><strong>只有兩種</strong>：Unassigned 或 Project lead（官方原句：「the default assignee can only be either Unassigned, or the Space owner」，2026-09-08）。要指派別人得先換 project lead／owner</td><td>Open project 讓全站丟需求，由 lead 先收單分派</td></tr>
-<tr><td><strong>Component default assignee</strong></td><td>Project settings → Components；project admin（<strong>只有 CMP 有 components</strong>）</td><td>Component lead／Project lead／Unassigned／Project default 四選一。<strong>Component 的設定會覆蓋 project default</strong></td><td>依模組、團隊分工，各自的負責人自動接手</td></tr>
-<tr><td><strong>Automation「Assign issue」</strong></td><td>Project settings → Automation；project admin（project rule）</td><td>指定人、Unassigned、群組中的人（平衡工作量／隨機／輪流）、觸發者、欄位或 smart value 指定的人、相關 issue 的 assignee、on-call…</td><td>輪流、平衡負載、依欄位值分流、跨 project 複製 assignee</td></tr>
-</table></div>
-<div class="callout warn"><div class="t">兩個常被忽略的前提</div>
-<ul style="margin:0">
-<li><strong>被指派者要有 Assignable User 權限</strong>（CMP permission scheme）。Component lead 沒有 → Jira 跳過他，往優先序的下一個候選人（KB 原句：「Although Jupiter is a Component Lead, she doesn't have the Assignable user permission in the project. Thus, Jira can't assign the new issue with the Zeta component to Jupiter.」，2026-09-08 查核）。<span class="kicker">若所有候選人都不合格會落到 project default 或 Unassigned；混合多種 default 類型的極端情境官方未逐一列出，實機驗證。</span></li>
-<li>Default assignee 想設 <strong>Unassigned</strong>，⚙ → System → General configuration 的「Allow unassigned issues」必須是 ON；關著的話 Details 頁根本不給選。</li>
-</ul></div>
-
-<h3>Component 的四個 default assignee 選項</h3>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:24%">選項</th><th>意思</th><th style="width:22%">多 component 時的優先序</th></tr>
-<tr><td>Component lead</td><td>指派給這個 component 的 Lead 欄位所填的人；官方建議優先使用這一種，人員異動時只要改 component 的 lead 即可</td><td class="c"><strong>1（最高）</strong></td></tr>
-<tr><td>Project lead</td><td>指派給整個 project 的 lead（現行 UI 稱 Space owner），不管這個 component 自己的 lead 是誰</td><td class="c">2</td></tr>
-<tr><td>Unassigned</td><td>刻意不指派任何人；前提是站台的「Allow unassigned issues」開關是開著的，否則這個選項不會出現</td><td class="c">3</td></tr>
-<tr><td>Project default</td><td>不自己決定，退回去採用 project 的 Default assignee 設定；在多 component 比較時它的優先序最低</td><td class="c">4（最低）</td></tr>
-</table></div>
-<p class="kicker" style="margin-top:.5rem">同一優先序有多個 component → 依 component <strong>名稱</strong>字母序取第一個。現行 UI 把 Project lead 標示為「Space owner」、Project default 標示為「Space default」。</p>
-</section>
-
-<!-- ============ Automation ============ -->
-<section id="automation">
-<div class="section-label">用 Automation 取代</div>
-<h2>Components 做不到的，交給「Assign issue」action</h2>
-<p>Component 只能指到「一個固定的人」；一旦需求是輪流、平衡負載、依欄位值分流，就要用 automation。官方列出的指派方式：</p>
-<div class="grid-2">
-<div class="card"><div class="eyebrow">從一組人裡挑</div>
-<ul style="margin-top:.5rem;font-size:.92rem"><li><strong>Balanced workload</strong>：在指定的 JQL 範圍內比較每個人目前手上的 issue 數量，指給最少的那一位，讓負載趨於平均</li><li><strong>Random</strong>：從名單中隨機挑一位，不考慮工作量或順序</li><li><strong>Round robin</strong>：照名單順序輪流指派，每個人接到的張數大致相同</li><li>可排除特定人、限定群組</li></ul></div>
-<div class="card"><div class="eyebrow">從 issue 本身推導</div>
-<ul style="margin-top:.5rem;font-size:.92rem"><li><strong>Copy from field</strong>：例如指給 Reporter、前一任 assignee、某個 user picker 欄位的人</li><li><strong>Smart value</strong>：例如留言者 <code>{{comment.author}}</code></li><li><strong>Related issue</strong>：複製 parent／linked issue 的 assignee</li><li><strong>Automatic</strong>：走上面那條 component／project default 決策鏈</li><li>Event triggerer、指定人、Unassigned、user group、團隊中的特定 role、on-call responder（多個輪值時隨機）</li></ul></div>
-</div>
-<div class="callout exam" style="margin-top:1rem"><div class="t">考題型態</div>「支援團隊三人輪流接單」→ Automation：Issue created → Assign issue → Round robin。「Bug 要自動給開單者的主管」→ 不是 component，用 automation 的 smart value／欄位複製。「前端 issue 自動給前端負責人」→ component default assignee＝Component lead，最省事。</div>
-<p class="kicker">Automation 規則本身的觸發、條件、actor 權限，在 620.4 詳講；這裡只要記得它是第三種指派手段，且 <strong>actor 也要有 Assign Issues 權限</strong>，被指派者也要 Assignable User。</p>
-<div class="callout warn"><div class="t">兩個「Automatic」不是同一件事</div>Automation 的 <em>Assign work item</em> action 文件把 <strong>Automatic</strong> 描述為「指派給 project 的 default assignee」；而建立畫面 Assignee 欄的 <strong>Automatic</strong> 走的是上面那條完整的 component → project default 決策鏈。比較兩種入口時要看實際 action 設定與 audit log，<strong>考題沒說有 automation 時，不要自行假設存在改寫規則</strong>。<span class="kicker">來源：<a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/">Jira automation actions</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/who-does-the-automatic-assignee-option-assign-an-issue-to/">Automatic assignee</a>（2026-09-08 核對）</span></div>
-<div class="callout"><div class="t">「建好時是 Amy，幾秒後變 Ben」怎麼查</div>先看 issue 的 <strong>History</strong>（誰改的、什麼時間），再查同一時段的 <strong>automation audit log</strong>。建立當下是 Amy → component 決策鏈本身正確；之後變 Ben 是另一個事件（automation 或 workflow post function）。<strong>不要靠改 component 名稱去修正 automation 造成的結果。</strong></div>
-</section>
-
-<!-- ============ 排查 ============ -->
-<section id="troubleshoot">
-<div class="section-label">排查</div>
-<h2>「明明設了自動指派，為什麼沒指到？」</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:36%">症狀</th><th>依序檢查</th></tr>
-<tr><td>選了 Automatic，結果是 Unassigned</td><td>① issue 有沒有掛 component ② component 的 default 是不是 Unassigned ③ 沒 component 時 project default 是否為 Unassigned ④ 候選人有沒有 Assignable User</td></tr>
-<tr><td>指到「另一個」component 的 lead</td><td>多 component：先看 default assignee 類型優先序，再看 <strong>名稱字母序</strong>（Alpha 排在 Backend 前）</td></tr>
-<tr><td>Component lead 明明是他，卻指給 project lead</td><td>該 lead 沒有 Assignable User 權限，Jira 跳到下一層（Project lead）</td></tr>
-<tr><td>Details 頁 Default assignee 選不到 Unassigned</td><td>⚙ General configuration 的 Allow unassigned issues 是 OFF</td></tr>
-<tr><td>想設某位 PM 當 default，選單裡沒有</td><td>Project default 只能 Unassigned／Project lead；先把 PM 設成 project lead，或改用 automation</td></tr>
-<tr><td>TMP 找不到 Components</td><td>TMP 沒有 components；用 automation 或改建 CMP</td></tr>
-<tr><td>不確定是「一開始就指錯」還是「後來被改掉」</td><td>先開 issue <strong>History</strong> 看建立當下的 assignee 與後續每次變更的人與時間；再比對同時段 automation audit log。分清「初始指派」與「後續覆寫」再往下查</td></tr>
-<tr><td>Component 的 default 指不到有效的人</td><td>記錄實際 fallback／錯誤結果，<strong>不要假設所有失效情境都有同一種 fallback</strong>；把設定、版本與 History 一起留存（實機驗證）</td></tr>
-<tr><td>Automation 規則有跑但沒指派</td><td>Audit log 看 actor 是否有 Assign Issues、目標是否有 Assignable User；Balanced workload 的 JQL 範圍是否為空</td></tr>
-</table></div>
-</section>
-
-<!-- ============ Quiz ============ -->
-<section id="quiz">
-<div class="section-label">情境練習</div>
-<h2>先自己判斷，再點開解答</h2>
-<div class="quiz">
-<details class="q"><summary>Issue 掛了 Backend（lead 阿宏，default＝Component lead）與 Alpha（lead 小傑，default＝Component lead），建立時選 Automatic。誰被指派？</summary><div class="a"><div class="tag">解答</div>是<strong>小傑</strong>。判斷分兩步：第一步比較兩個 component 的 <strong>default assignee 類型優先序</strong>——兩者都設成 Component lead，屬於同一級，分不出高下；第二步才依 <strong>component 名稱的字母序</strong>取第一個，<code>Alpha</code> 排在 <code>Backend</code> 之前，所以由 Alpha 的 lead 小傑接手。特別注意比的是 <strong>component 的名稱</strong>，不是 lead 的姓名，也不是誰先被建立或先被掛上去。</div></details>
-<details class="q"><summary>承上，小傑沒有 Assignable User 權限。誰被指派？</summary><div class="a"><div class="tag">解答</div>改成<strong>阿宏</strong>。因為自動指派有一個必要條件：<strong>被指派的人必須具備 Assignable User 權限</strong>。小傑雖然在字母序上勝出，但他不是合格的候選人，Jira 會<strong>跳過他、往決策鏈的下一個候選人找</strong>，於是輪到 Backend 的 lead 阿宏。官方 KB 有一句對應的原文（Jupiter 雖然是 Component Lead，但沒有 Assignable user 權限，所以 Jira 無法把 issue 指派給她）。如果所有候選人都不合格，最後會落到 project default 或 Unassigned。</div></details>
-<details class="q"><summary>Issue 只掛 Zeta（default＝Project default），project 的 Default assignee 是 Project lead 小美。結果？</summary><div class="a"><div class="tag">解答</div>是<strong>小美</strong>。因為 Zeta 這個 component 的 default assignee 設定是「<strong>Project default</strong>」，意思就是「我不做決定，退回去用 project 的設定」；而 project 的 Default assignee 是 Project lead，也就是小美。這個選項存在的意義是讓某些 component 明確表態「照 project 的規矩來」，跟「沒有設定」在多 component 比較時的優先序不同——Project default 的優先序是最低的第 4 級。</div></details>
-<details class="q"><summary>PM 想把 project 的 Default assignee 設成 QA 小傑，但小傑不是 project lead。怎麼辦？</summary><div class="a"><div class="tag">解答</div>因為 <strong>Project default assignee 的下拉永遠只有兩個選項</strong>：Unassigned 或 Project lead（官方原句寫的是 Unassigned 或 Space owner），它不是一個可以自由挑人的 user picker。所以有兩條路：<strong>把小傑改設成 project lead</strong>（副作用是他會連帶接收 project lead 的通知與某些權限），或是<strong>改用 automation</strong>——建一條 Issue created → Assign issue → 指定小傑的規則，彈性高得多，也不用動 project 的組織設定。</div></details>
-<details class="q"><summary>三位客服要輪流接單，該用哪個手段？</summary><div class="a"><div class="tag">解答</div>要用 <strong>automation</strong>：建一條 <code>Issue created</code> 觸發、動作是 <code>Assign issue</code> 並選 <strong>Round robin</strong>（依序輪流）的規則，把三位客服放進名單即可。如果希望依照每個人手上的工作量分派而不是硬性輪流，改選 <strong>Balanced workload</strong>。這題的關鍵是認清能力邊界：<strong>component 的 default assignee 只能指向「一個固定的人」</strong>，做不出輪流、隨機或負載平衡，那是 automation 的守備範圍。</div></details>
-<details class="q"><summary>Component default 設成 Unassigned，卻存不了或選不到。原因？</summary><div class="a"><div class="tag">解答</div>因為站台層級的開關 <strong>Allow unassigned issues 被關閉了</strong>（⚙ → System → General configuration）。這個開關關著的時候，整個站台不允許存在沒有 assignee 的 issue，所以任何地方的 Unassigned 選項都會消失或存不起來——不只 component，project 的 Details 頁也一樣。要開啟只能請 <strong>Jira admin</strong> 處理，這是全域設定，改了會影響所有 project。</div></details>
-<details class="q"><summary>Issue 掛了 Docs（default＝Unassigned）與 Zeta（default＝Project default），project default 是 Project lead。結果？</summary><div class="a"><div class="tag">解答</div>結果是 <strong>Unassigned</strong>。這題考的是四級優先序：<strong>Component lead（1）＞ Project lead（2）＞ Unassigned（3）＞ Project default（4）</strong>。Docs 的設定是 Unassigned（第 3 級），Zeta 是 Project default（第 4 級），Docs 的優先序比較高就直接勝出，<strong>根本輪不到比字母序</strong>（字母序只在同一級時才用得上，而且 Docs 的字母序本來也在 Zeta 之前）。很多人會直覺認為「有人可指派總比不指派好」，但 Jira 的規則是照這張表走，不看結果好不好。</div></details>
-<details class="q"><summary>TMP 團隊想「前端 issue 自動給前端負責人」，Components 頁找不到。</summary><div class="a"><div class="tag">解答</div>因為 <strong>TMP 根本沒有 components 這個功能</strong>，找不到是正常的。替代做法是用 <strong>automation</strong>：例如 <code>Issue created</code> 觸發，加一個條件判斷某個欄位或 label 是不是「前端」，成立就執行 <code>Assign issue</code> 指定前端負責人。如果這類依模組自動分派的需求很多、又希望有內建的 lead 與報表支援，那更根本的建議是<strong>改用 company-managed project</strong>。</div></details>
-<details class="q"><summary>某條 automation 的 Assign work item action 選了「Automatic」，團隊以為它會走 component 決策鏈，結果全部指到 project lead。為什麼？</summary><div class="a"><div class="tag">解答</div>因為<strong>這是兩個同名但不同行為的「Automatic」</strong>。automation 的 <em>Assign work item</em> action 裡的 Automatic，官方文件描述的是「指派給 <strong>project 的 default assignee</strong>」；而建立畫面上 Assignee 欄位的 Automatic，走的才是完整的 <strong>component → project default 決策鏈</strong>。團隊誤以為兩者相同，結果 automation 直接跳過 component 這一層，全部落到 project lead 身上。要按 component 分流，正確做法是在規則裡加條件判斷 component，再用「指定人」或「從欄位複製」來指派。</div></details>
-<details class="q"><summary>Issue 建立時 assignee 是 Amy，幾秒後變成 Ben。第一步該查哪裡？</summary><div class="a"><div class="tag">解答</div>第一步一定是開這張 issue 的 <strong>History</strong>，看清楚「誰在什麼時間把 assignee 改掉了」。這一步的價值在於<strong>分辨是「一開始就指錯」還是「後來被改掉」</strong>——建立當下是 Amy，代表 component 的決策鏈本身完全正確，幾秒後變 Ben 是<strong>另一個獨立事件</strong>造成的，通常是 automation 規則或 workflow 的 post function。第二步再去比對同時段的 <strong>automation audit log</strong> 找出是哪一條規則。切記<strong>不要用改 component 名稱字母序的方式去「修正」這種問題</strong>——病因不在那裡，改了只會讓設定變得難以理解。</div></details>
-<details class="q"><summary>手動在建立畫面選了 Kevin，issue 同時掛了 Backend（lead 阿宏）。誰被指派？</summary><div class="a"><div class="tag">解答</div>是 <strong>Kevin</strong>。整條 component → project default 的決策鏈，<strong>只有在 Assignee 欄位維持 Automatic 時才會啟動</strong>；一旦有人手動指定了對象，就是直接照他選的走，自動規則完全不介入。這也提醒排查時要先確認一件事：使用者抱怨「自動指派沒生效」時，先去看那張 issue 建立當下 Assignee 欄位到底是不是 Automatic，很多時候只是有人順手選了人。</div></details>
-</div>
-</section>
-
-<!-- ============ Traps ============ -->
-<section id="traps">
-<div class="section-label">常見陷阱</div>
-<h2>考題喜歡設的誤解</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:44%">誤解</th><th>事實</th></tr>
-<tr><td>「多個 component 時取『先加的』或『lead 名字字母序』」</td><td>都不是。比的是 <strong>component 的名稱</strong>字母序，而且要先比 default assignee 的類型優先序（Component lead ＞ Project lead ＞ Unassigned ＞ Project default），同一級才輪到字母序</td></tr>
-<tr><td>「Project default 可以設任何人」</td><td>不行。它的下拉永遠只有兩個選項：Unassigned 或 Project lead（owner）；想指派其他人，得先換 project lead 或改用 automation</td></tr>
-<tr><td>「Component lead 一定會被指派」</td><td>不一定。被指派者必須具備 <strong>Assignable User</strong> 權限，沒有的話 Jira 會跳過他，往決策鏈的下一個候選人找</td></tr>
-<tr><td>「Project default 比 component 優先」</td><td>剛好相反。<strong>component 的 default assignee 會覆蓋 project 的設定</strong>；只有在 issue 沒掛任何 component、或 component 明確選了「Project default」時，才會退回 project 的設定</td></tr>
-<tr><td>「TMP 也能用 components 自動指派」</td><td>不行，TMP 完全沒有 components 這個功能；要在 TMP 做依模組自動指派，只能靠 automation</td></tr>
-<tr><td>「輪流指派可以用 component 做」</td><td>不行。component 的 default assignee 只能指向一個固定的人，輪流與負載平衡要用 automation 的 <strong>Round robin</strong> 或 <strong>Balanced workload</strong></td></tr>
-</table></div>
-</section>
-
-<!-- ============ Lab ============ -->
-<section id="practice">
-<div class="section-label">實作（30 分鐘）</div>
-<h2>在試用站台上驗證決策鏈</h2>
-<ol>
-<li>CMP 建三個 component：Alpha（lead＝B，default＝Component lead）、Backend（lead＝A，default＝Component lead）、Zeta（default＝Project default）。</li>
-<li>建 issue 同時掛 Alpha＋Backend，Assignee 選 Automatic → 觀察是 B。</li>
-<li>把 B 從 Assignable User 的 role 拿掉，再建一張同樣的 issue → 觀察變 A。</li>
-<li>只掛 Zeta → 觀察是 project lead；把 Details 的 Default assignee 改 Unassigned 再試（若選不到，去 General configuration 開 Allow unassigned issues）。</li>
-<li>建一條 project rule：Issue created → Assign issue → Round robin（三個帳號），建三張 issue 看輪流。</li>
-<li><strong>區分「名稱字母序」與「建立順序／ID」</strong>：先建 <code>Zebra</code> 再建 <code>Alpha</code>（讓建立先後與字母序相反），兩者都設 Component lead 並指向不同的合格帳號。建 issue 選 Automatic，記錄兩個 component 的名稱、ID、default 類型與當下 assignee；再把兩個 component 的名稱互換重測一次。<span class="kicker">官方 KB 支持「名稱字母序」；若有教材寫「最小 component ID」，用這個實驗判定，不要直接背。</span></li>
-<li>每次結果都記錄「是初始指派還是後續覆寫」：對照 issue History 與 automation audit log 的時間戳。完成後還原設定並移除測試資料。</li>
-</ol>
-<div class="callout"><div class="t">來源（實際精讀）</div>
-<ul style="margin:0;font-size:.88rem">
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/who-does-the-automatic-assignee-option-assign-an-issue-to/">Who does the Automatic assignee option assign a work item to?</a></li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/organize-work-with-components/">Organize work with components</a>（hub）→ 子頁 <a href="https://support.atlassian.com/jira-software-cloud/docs/configure-jira-components/">Configure Jira components</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/group-and-track-work-with-components/">Group and track work with components</a></li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/">Edit a space's details</a>（Default assignee 只能 Unassigned／owner）</li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/">Jira automation actions</a>（Assign work item）</li>
-<li>KB：<a href="https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/">Manage components default assignee</a>（優先序、字母序、Assignable User）</li>
-<li class="kicker">文件差異：<em>Configure Jira components</em> 用「不同預設負責人取 component 字母序最前」概括；Cloud 指派 KB 才明列四級優先序。混合 default 類型時以 KB 為準，並在站台實測（2026-09-08 核對）。</li>
-</ul></div>
-</section>
-
-<section id="qbank">
-<div class="section-label">模擬題</div>
-<h2>本節 10 題，附逐選項解析與來源</h2>
-<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
-<div class="qbank" data-section="620.3.5"></div>
-</section>
-
-<div class="footer-nav"><a href="620.3.4.html">← 620.3.4 分類方法</a><a href="620.3.6.html">下一節：620.3.6 Issue field layout →</a></div>
+</nav>
+<div id="scrim" class="scrim" aria-hidden="true"></div>
+<div class="main">
+<header class="bar"><button id="menu" class="ibtn menu" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="nav"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="ttl"><a href="index.html">首頁</a> / 620.3 管理 project / <b>620.3.5</b></div><button id="theme" class="ibtn" type="button" aria-label="切換淺色或深色"></button></header>
+<main id="main" class="content">
+<header class="hero"><div class="eyebrow">620.3.5・Managing projects 25%</div><h1>自動指派</h1><p class="lead">Components、project default 與 automation 三種手段，以及多個 component 時誰被指派。</p><div class=meta><span class="chip rose">你錯過：多 component 優先序</span><span class="chip brand">考試佔 25%</span></div><details class="obj"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg><span>官方考綱原文（這一節會考的範圍）</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li>Understand how components, project default and automation rules can be used to auto-assign issues<span>用 components、project default、automation 自動指派</span></li><li>Understand auto-assignment behavior when there are multiple components<span>多個 component 時的指派行為</span></li></ul></details><details class="obj toc-m"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>本頁內容</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li><a href="#tldr">3 分鐘速覽</a></li><li><a href="#chain">選了 Automatic 之後，Jira 怎麼決定</a></li><li><a href="#where">三種手段的邊界</a></li><li><a href="#traps">考題愛用的錯誤說法</a></li><li><a href="#wrap">一分鐘腦內整理</a></li><li><a href="#practice">做題</a></li></ul></details></header><section class="sec" id="tldr"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>3 分鐘速覽</div><h2>自動指派的三種手段</h2><ol class="tldr"><li><b>Project default assignee 只有兩種</b><span>Unassigned 或 Project lead；要指定別人得先換 project lead，或用 automation。</span></li><li><b>Component default assignee 四種</b><span>Component lead、Project lead、Unassigned、Project default；覆蓋 project default。</span></li><li><b><mark class="mk">多個 component 時</mark><span class="tag-mine">你常錯</span></b><span>先比 default assignee 的類型：Component lead ＞ Project lead ＞ Unassigned ＞ Project default；同級再依 component 名稱字母序。</span></li><li><b>被指派者要有 Assignable User</b><span>沒有就跳過，往下一個候選。</span></li><li><b>輪流、平均、依欄位分流 → Automation</b><span>Assign issue action：round robin、balanced workload、random、copy from field。</span></li><li><b>想選 Unassigned 選不到</b><span>全站 Allow unassigned issues 是關的。</span></li></ol></section><section class="sec" id="chain"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="8" height="5" rx="1.5"/><rect x="12" y="16" width="8" height="5" rx="1.5"/><path d="M8 8v5h8v3"/></svg>決策鏈</div><h2>選了 Automatic 之後，Jira 怎麼決定</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 380 306" role="img" aria-label="自動指派決策鏈"><rect x="20" y="14" width="230" height="50" rx="10" class="bx"/><text x="135.0" y="36" text-anchor="middle" class="t">有掛 component，而且 component</text><text x="135.0" y="51" text-anchor="middle" class="t">有設 default assignee？</text><line x1="250" y1="39" x2="266.0" y2="39.0" class="ln green"/><polygon points="272,39 264.0,34.5 264.0,43.5" class="ah"/><text x="261" y="32" text-anchor="middle" class="s">是</text><rect x="274" y="19" width="86" height="40" rx="8" class="bx brand"/><text x="317" y="36" text-anchor="middle" class="b" style="font-size:12px">用 component</text><text x="317" y="50" text-anchor="middle" class="b" style="font-size:12px">的設定</text><line x1="135.0" y1="66" x2="135.0" y2="82.0" class="ln"/><polygon points="135.0,88 139.5,80.0 130.5,80.0" class="ah"/><text x="143.0" y="81" text-anchor="start" class="s">否</text><rect x="20" y="90" width="230" height="50" rx="10" class="bx"/><text x="135.0" y="119" text-anchor="middle" class="t">有多個 component？</text><line x1="250" y1="115" x2="266.0" y2="115.0" class="ln green"/><polygon points="272,115 264.0,110.5 264.0,119.5" class="ah"/><text x="261" y="108" text-anchor="middle" class="s">是</text><rect x="274" y="95" width="86" height="40" rx="8" class="bx amber"/><text x="317" y="112" text-anchor="middle" class="b" style="font-size:12px">類型優先</text><text x="317" y="126" text-anchor="middle" class="b" style="font-size:12px">再字母序</text><line x1="135.0" y1="142" x2="135.0" y2="158.0" class="ln"/><polygon points="135.0,164 139.5,156.0 130.5,156.0" class="ah"/><text x="143.0" y="157" text-anchor="start" class="s">否</text><rect x="20" y="166" width="230" height="50" rx="10" class="bx"/><text x="135.0" y="195" text-anchor="middle" class="t">候選人有 Assignable User？</text><line x1="250" y1="191" x2="266.0" y2="191.0" class="ln green"/><polygon points="272,191 264.0,186.5 264.0,195.5" class="ah"/><text x="261" y="184" text-anchor="middle" class="s">是</text><rect x="274" y="171" width="86" height="40" rx="8" class="bx green"/><text x="317" y="195" text-anchor="middle" class="b" style="font-size:12px">指派他</text><line x1="135.0" y1="218" x2="135.0" y2="234.0" class="ln"/><polygon points="135.0,240 139.5,232.0 130.5,232.0" class="ah"/><text x="143.0" y="233" text-anchor="start" class="s">否</text><rect x="20" y="242" width="340" height="44" rx="10" class="bx rose"/><text x="190.0" y="269" text-anchor="middle" class="b">否則跳到下一個候選 → 最後回到 project default</text></svg></div></figure><table class="tbl"><thead><tr><th class="">issue 掛的 components</th><th class="">結果</th></tr></thead><tbody><tr class=""><td class="" data-l="issue 掛的 components">Alpha（Component lead 小傑）＋ Backend（Component lead 阿宏）</td><td class="" data-l="結果">同級 → 字母序 <b>Alpha</b> 先 → 小傑</td></tr><tr class=""><td class="" data-l="issue 掛的 components">Docs（Unassigned）＋ Zeta（Project default）</td><td class="" data-l="結果">Unassigned 優先於 Project default → 未指派</td></tr><tr class=""><td class="" data-l="issue 掛的 components">Alpha，但小傑沒有 Assignable User</td><td class="" data-l="結果">跳過 → 下一個候選</td></tr></tbody></table><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">Issue 掛了 Beta（Project lead）與 Alpha（Project default），誰先？</span><span class="rv">看答案</span></summary><div class="aa">Beta。先比類型：Project lead 高於 Project default，不管字母序。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li><mark class="mk">類型優先：Component lead＞Project lead＞Unassigned＞Project default。</mark><span class="tag-mine">你常錯</span></li><li><mark class="mk">同級看 component 名稱字母序。</mark><span class="tag-mine">你常錯</span></li><li>要有 Assignable User。</li></ul></aside></section><section class="sec" id="where"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>設定位置</div><h2>三種手段的邊界</h2><table class="tbl"><thead><tr><th class="">手段</th><th class="">在哪、誰設</th><th class="">能設成誰</th></tr></thead><tbody><tr class=""><td class="" data-l="手段">Project default</td><td class="" data-l="在哪、誰設">Project settings → Details；project admin</td><td class="" data-l="能設成誰">Unassigned 或 Project lead</td></tr><tr class=""><td class="" data-l="手段">Component default</td><td class="" data-l="在哪、誰設">Project settings → Components；project admin</td><td class="" data-l="能設成誰">四選一</td></tr><tr class=""><td class="" data-l="手段">Automation：Assign issue</td><td class="" data-l="在哪、誰設">Project settings → Automation</td><td class="" data-l="能設成誰">指定人、round robin、balanced、random、欄位、觸發者…</td></tr></tbody></table><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">支援團隊三人要輪流接單，用什麼？</span><span class="rv">看答案</span></summary><div class="aa">Automation：Issue created → Assign issue → <b>Round robin</b>。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>輪流／平衡 → automation。</li><li>Project default 只能 Unassigned 或 lead。</li></ul></aside></section><section class="sec" id="traps"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg>易錯觀念</div><h2>考題愛用的錯誤說法</h2><div class="traps"><div class="trap mine"><div class="w">多個 component 時依 lead 名字排序。</div><div class="r"><mark class="mk">先比 default assignee 類型，同級再比 component 名稱字母序。</mark></div><div class="why"></div><div class="meta"><span class="chip rose">你練習時錯過</span><a href="https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap"><div class="w">Project default assignee 可以設任何人。</div><div class="r">只能 Unassigned 或 Project lead。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap"><div class="w">Component lead 沒有 Assignable User 也會被指派。</div><div class="r">會被跳過。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/" target="_blank" rel="noopener">官方來源</a></div></div></div></section><section class="sec" id="wrap"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M10 11L6.5 7.3M14 11l3.5-3.7M10 13l-3.5 3.7M14 13l3.5 3.7"/></svg>一分鐘腦內整理</div><h2>讀完了？用這張收攏整節</h2><div class="mnemo"><div><b>類型先、字母後</b><span>Component lead＞Project lead＞Unassigned＞Project default。</span></div><div><b>要被指派先要 Assignable</b><span>沒有就跳過。</span></div></div><div class="wu"><div class="wu-it"><a href="#chain" class="wu-h">選了 Automatic 之後，Jira 怎麼決定</a><ul><li><mark class="mk">類型優先：Component lead＞Project lead＞Unassigned＞Project default。</mark><span class="tag-mine">你常錯</span></li><li><mark class="mk">同級看 component 名稱字母序。</mark><span class="tag-mine">你常錯</span></li><li>要有 Assignable User。</li></ul></div><div class="wu-it"><a href="#where" class="wu-h">三種手段的邊界</a><ul><li>輪流／平衡 → automation。</li><li>Project default 只能 Unassigned 或 lead。</li></ul></div></div></section><section class="sec" id="practice"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg>本節練習</div><h2>做題</h2><div class="qz" data-sec="620.3.5"><p class="muted">題目載入中…</p></div></section><div class="srcs"><b>官方來源（本節依據）</b><ul><li><a href="https://support.atlassian.com/jira/kb/manage-components-default-assignee-jira-software/" target="_blank" rel="noopener">Manage components default assignee（KB）</a></li><li><a href="https://support.atlassian.com/jira-software-cloud/docs/edit-a-projects-details/" target="_blank" rel="noopener">Edit a project&#x27;s details</a></li></ul></div><div class="readmark" data-readmark="620.3.5"><span class="msg"></span><button type="button" class="btn sm">標記本節已讀</button></div><nav class="pager" aria-label="上一節與下一節"><a href="620.3.4.html"><small>上一節</small><span>620.3.4 Components、labels、fields</span></a><a class="next" href="620.3.6.html"><small>下一節</small><span>620.3.6 Issue layout</span></a></nav>
+<p class="foot">本教材為原創整理，非 Atlassian 官方出版品；題目皆為原創，不含第三方題庫題幹。考試沿用 project／issue 等舊用語，現行 Jira Cloud 已改為 space／work item。</p>
 </main>
 </div>
-<script src="assets/spring.js"></script>
-<script src="assets/app.js"></script>
-<script src="assets/questions.js"></script>
-<script src="assets/exam.js"></script>
-<script>
-/* 620.3.5 自動指派實驗（id 前綴 s235-） */
-(function(){
-  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-  const lab=$('#s235-lab'); if(!lab) return;
-  const COMP={
-    Alpha:{type:'lead',lead:'小傑'},
-    Backend:{type:'lead',lead:'阿宏'},
-    Docs:{type:'unassigned'},
-    Zeta:{type:'projectdefault'}
-  };
-  const RANK={lead:1,projectlead:2,unassigned:3,projectdefault:4};
-  const pdBtns=$$('#s235-pd button');
-  function render(){
-    const chosen=$$('input[name=s235-comp]',lab).filter(c=>c.checked).map(c=>c.value).sort();
-    const pd=pdBtns.find(b=>b.classList.contains('on')).dataset.v;
-    const jieOk=$('#s235-jie-ok').checked, manual=$('#s235-manual').checked;
-    const why=[]; let who='';
-    $$('label.check',lab).forEach(l=>{const i=l.querySelector('input'); l.classList.toggle('on',i.checked);});
-    if(manual){ who='Kevin'; why.push('建立時手動選了 Kevin → 手動永遠優先，不看任何 default。'); }
-    else {
-      const withDefault=chosen.filter(n=>COMP[n].type!=='projectdefault');
-      if(!withDefault.length){
-        who = pd==='lead' ? '小美（Project lead）' : 'Unassigned';
-        why.push(chosen.length? `掛的 component（${chosen.join('、')}）default 都是 Project default → 退回 project 設定。` : '沒有掛 component → 用 project 的 Default assignee。');
-        why.push(`Project default 目前是「${pd==='lead'?'Project lead 小美':'Unassigned'}」。`);
-      } else {
-        const ordered=[...withDefault].sort((a,b)=>RANK[COMP[a].type]-RANK[COMP[b].type]||a.localeCompare(b));
-        why.push(`候選 component 依「類型優先序 → 名稱字母序」排列：${ordered.join(' → ')}。`);
-        let done=false;
-        for(const n of ordered){
-          const c=COMP[n];
-          if(c.type==='lead'){
-            if(c.lead==='小傑' && !jieOk){ why.push(`${n} 的 lead 小傑沒有 Assignable User → 跳過。`); continue; }
-            who=`${c.lead}（${n} 的 component lead）`; why.push(`${n} 的 default＝Component lead → 指派給 ${c.lead}。`); done=true; break;
-          }
-          if(c.type==='unassigned'){ who='Unassigned'; why.push(`${n} 的 default＝Unassigned → 不指派（優先序高於 Project default）。`); done=true; break; }
-        }
-        if(!done){ who = pd==='lead' ? '小美（Project lead）' : 'Unassigned'; why.push('所有候選人都被跳過 → 退回 project 的 Default assignee。'); }
-      }
-    }
-    const whoEl=$('#s235-who'); whoEl.textContent=who; if(window.springPop) window.springPop(whoEl);
-    $('#s235-why').innerHTML=why.map(w=>`<li>${w}</li>`).join('');
-  }
-  $$('input',lab).forEach(i=>i.addEventListener('change',render));
-  pdBtns.forEach(b=>b.addEventListener('click',()=>{pdBtns.forEach(x=>x.classList.remove('on'));b.classList.add('on');render();}));
-  render();
-})();
-</script>
+</div>
+<script src="assets/site.js?v=1790343883" defer></script><script src="assets/qbank.js?v=1790343883" defer></script><script src="assets/quiz.js?v=1790343883" defer></script>
 </body>
 </html>

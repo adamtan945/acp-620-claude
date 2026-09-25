@@ -2,352 +2,81 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>620.3.6 設定 issue field layout｜ACP-620 教材</title>
-<link rel="stylesheet" href="assets/style.css">
-<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>620.3.6 Issue layout｜ACP-620 教材</title>
+<meta name="description" content="ACP-620 620.3.6：Issue layout">
+<meta name="theme-color" content="#3452c8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233452c8'/%3E%3Ctext x='16' y='21' font-family='Arial' font-size='12' font-weight='700' text-anchor='middle' fill='white'%3E620%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css?v=1790343883">
+<script>try{var t=localStorage.getItem("acp620.theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body>
-<div class="shell">
-<aside class="sidebar">
-  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
-  <!--NAV-->
-  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
-  <nav>
-    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
-    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
-    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
-    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
-  <nav>
-    <a href="620.2.1.html">620.2.1 選 board 類型</a>
-    <a href="620.2.2.html">620.2.2 跨 project board</a>
-    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
-    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
-    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
-    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
-    <a href="620.2.7.html">620.2.7 Board 排查</a>
-  </nav></details>
-  <details class="navgrp" open><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
-  <nav>
-    <a href="620.3.1.html">620.3.1 專案權限</a>
-    <a href="620.3.2.html">620.3.2 Project roles</a>
-    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
-    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
-    <a href="620.3.5.html">620.3.5 自動指派</a>
-    <a href="620.3.6.html">620.3.6 Issue layout</a>
-    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
-  <nav>
-    <a href="620.4.1.html">620.4.1 自動化手段</a>
-    <a href="620.4.2.html">620.4.2 Automation rule</a>
-    <a href="620.4.3.html">620.4.3 排查 automation</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
-  <nav>
-    <a href="620.5.1.html">620.5.1 JQL</a>
-    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
-    <a href="620.5.3.html">620.5.3 Agile reports</a>
-  </nav></details>
-  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a><a href="traps.html">⚠️ 易錯觀念</a><a href="clarify.html">💡 觀念釐清</a><a href="guide.html">📌 重點整理</a><a href="topics.html">📋 官方考綱</a></nav>
-  <!--/NAV-->
-  <div class="group">本頁目錄</div>
-  <!--TOC-->
-  <nav>
-    <a href="#goal">這一節考什麼</a>
-    <a href="#model">Layout 的四個區域</a>
-    <a href="#who">誰能改什麼</a>
-    <a href="#perm">欄位 vs 權限</a>
-    <a href="#lab">互動：看得到 ≠ 改得了</a>
-    <a href="#quiz">情境練習</a>
-    <a href="#traps">常見陷阱</a>
-    <a href="#practice">實作</a>
-    <a href="#qbank">模擬題</a>
-  </nav>
-</aside>
-
-<main>
-<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.3 Managing Projects（25%）/ 620.3.6</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
-<div class="eyebrow">620.3.6 · Configure issue field layout</div>
-<h1>設定 issue field layout：欄位放哪、誰能改、改了不等於能編輯</h1>
-<p class="lead">Issue layout 是 project admin 少數能直接動手的 CMP 設定，但有兩個前提常被忽略：<strong>哪些欄位「可用」由 Jira admin 的 screen 決定</strong>，以及<strong>欄位出現在畫面上不代表使用者有權限改它</strong>。這一節把區域、權責、權限三件事拆開講。</p>
-<div class="term">術語：考試用 project／issue／screen；現行產品為 space／work item／screen。本教材沿用考試用語。</div>
-
-<section id="goal">
-<div class="section-label">這一節考什麼</div>
-<h2>兩條 bullet，翻成考題語言</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
-<tr><td>Understand configuration options for the issue view</td><td>「description fields 與 context fields 差在哪？」「Hide when empty 分隔線的效果？」「project admin 想加一個新欄位，為什麼加不了？」「layout 能不能複製到別的 project？」</td></tr>
-<tr><td>Understand the relationship between fields and project permissions</td><td>「使用者看得到 Assignee 欄位卻改不了，缺什麼權限？」「Due date 改不了是 layout 問題還是權限問題？」</td></tr>
-</table></div>
-</section>
-
-<!-- ============ 四個區域 ============ -->
-<section id="model">
-<div class="section-label">核心模型</div>
-<h2>Layout 的四個區域</h2>
-<p>打開任一 issue → 右上 ••• → <strong>Configure</strong>（或 Project settings → Issues → Layout）。畫面分成三個可見區域加一個「不顯示」區域，欄位在四者之間拖曳。</p>
-<div class="figure">
-<svg class="dia" viewBox="0 0 900 380" role="img" aria-label="Issue layout 的區域：Description fields、Context fields（Details／Hide when empty／More fields）、Hidden fields">
-  <defs><marker id="s236-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- 左：Description fields x=40 y=40 w=400 h=260 -->
-  <rect x="40" y="40" width="400" height="260" rx="12" class="box brand"/>
-  <text x="240" y="68" text-anchor="middle" class="lbl b">Description fields</text>
-  <text x="240" y="88" text-anchor="middle" class="s">左側（單欄時在上）· 最先被看到 · 放最重要的 rich text</text>
-  <rect x="60" y="104" width="360" height="40" rx="8" class="chipbox"/><text x="240" y="129" text-anchor="middle" class="lbl">Description</text>
-  <rect x="60" y="154" width="360" height="40" rx="8" class="chipbox"/><text x="240" y="179" text-anchor="middle" class="lbl">Environment</text>
-  <rect x="60" y="204" width="360" height="40" rx="8" class="chipbox"/><text x="240" y="229" text-anchor="middle" class="lbl">自訂 Paragraph 欄位</text>
-  <text x="240" y="276" text-anchor="middle" class="s">有 field tabs 時，tabs 也顯示在這裡（tab 只有 Jira admin 能建）</text>
-  <!-- 右：Context fields x=480 y=40 w=380 h=260 -->
-  <rect x="480" y="40" width="380" height="260" rx="12" class="box teal"/>
-  <text x="670" y="68" text-anchor="middle" class="lbl b">Context fields</text>
-  <text x="670" y="88" text-anchor="middle" class="s">右側 · 分類、篩選、報表用的短欄位</text>
-  <rect x="500" y="100" width="340" height="26" rx="6" class="chipbox"/><text x="670" y="118" text-anchor="middle" class="s">Pinned fields（使用者自己釘，個人設定）</text>
-  <text x="500" y="146" class="tag">Details（永遠顯示）</text>
-  <rect x="500" y="152" width="165" height="26" rx="6" class="chipbox"/><text x="582" y="170" text-anchor="middle" class="lbl">Assignee</text>
-  <rect x="675" y="152" width="165" height="26" rx="6" class="chipbox"/><text x="757" y="170" text-anchor="middle" class="lbl">Reporter</text>
-  <rect x="500" y="184" width="165" height="26" rx="6" class="chipbox"/><text x="582" y="202" text-anchor="middle" class="lbl">Priority</text>
-  <rect x="675" y="184" width="165" height="26" rx="6" class="chipbox"/><text x="757" y="202" text-anchor="middle" class="lbl">Labels</text>
-  <line x1="500" y1="224" x2="840" y2="224" class="ln" stroke-dasharray="6 5"/>
-  <text x="670" y="219" text-anchor="middle" class="tag accent">── Hide when empty 分隔線 ──</text>
-  <text x="500" y="246" class="tag">More fields（有值才顯示）</text>
-  <rect x="500" y="252" width="165" height="26" rx="6" class="chipbox"/><text x="582" y="270" text-anchor="middle" class="lbl">Due date</text>
-  <rect x="675" y="252" width="165" height="26" rx="6" class="chipbox"/><text x="757" y="270" text-anchor="middle" class="lbl">Fix versions</text>
-  <!-- 下：Hidden fields x=40 y=320 w=820 h=44 -->
-  <rect x="40" y="320" width="820" height="44" rx="10" class="box rose"/>
-  <text x="450" y="347" text-anchor="middle" class="lbl b">Hidden fields：拖到這裡＝不顯示在 issue 上（欄位仍在 screen 上、資料仍在）</text>
-</svg>
-<div class="cap">圖 1　拖曳規則：Description ↔ Context 可互拖；分隔線以下的欄位空值時收進「Show more fields」，一有值就自動跳到 Details。</div>
+<a class="skip" href="#main">跳到主要內容</a>
+<div id="readbar" class="readbar" aria-hidden="true"></div>
+<div class="app">
+<nav id="nav" class="nav" aria-label="教材導覽">
+<a class="brand" href="index.html"><span class="logo">620</span><span><b>ACP-620</b><small>Managing Jira Projects for Cloud</small></span></a>
+<div class="count" id="nav-count">距離考試</div>
+<a class="it" href="index.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v8.5a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19.5z"/></svg><span>首頁・我的讀書計畫</span></a>
+<a class="it" href="exam.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg><span>模擬考與題庫</span></a>
+<a class="it" href="atlas.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg><span>報表與 gadget 圖鑑</span></a>
+<a class="it" href="traps.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg><span>易錯觀念</span></a>
+<a class="it" href="clarify.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>觀念釐清</span></a>
+<a class="it" href="guide.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>重點整理</span></a>
+<a class="it" href="topics.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a1.5 1.5 0 0 0-1.5 1.5v15A1.5 1.5 0 0 0 7 21h10a1.5 1.5 0 0 0 1.5-1.5V7.5z"/><path d="M14 3v4.5h4.5M9 12h6M9 16h6"/></svg><span>官方考綱</span></a>
+<div class="sep"></div>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.1 專案建立</span><span class="pct">13%</span></summary>
+<a class="it" href="620.1.1.html" data-sec="620.1.1"><span class="code">620.1.1</span><span>選擇實作方式</span></a>
+<a class="it" href="620.1.2.html" data-sec="620.1.2"><span class="code">620.1.2</span><span>建立與設定 TMP</span></a>
+<a class="it" href="620.1.3.html" data-sec="620.1.3"><span class="code">620.1.3</span><span>Issue type 設計</span></a>
+<a class="it" href="620.1.4.html" data-sec="620.1.4"><span class="code">620.1.4</span><span>專案設定與 trash</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.2 Board 設定</span><span class="pct">29%</span></summary>
+<a class="it" href="620.2.1.html" data-sec="620.2.1"><span class="code">620.2.1</span><span>選 board 類型</span></a>
+<a class="it" href="620.2.2.html" data-sec="620.2.2"><span class="code">620.2.2</span><span>跨 project board</span></a>
+<a class="it" href="620.2.3.html" data-sec="620.2.3"><span class="code">620.2.3</span><span>Columns 與 status</span></a>
+<a class="it" href="620.2.4.html" data-sec="620.2.4"><span class="code">620.2.4</span><span>Filter、sub-filter、quick filter</span></a>
+<a class="it" href="620.2.5.html" data-sec="620.2.5"><span class="code">620.2.5</span><span>Estimation 與 time tracking</span></a>
+<a class="it" href="620.2.6.html" data-sec="620.2.6"><span class="code">620.2.6</span><span>Swimlanes、卡片、工作日</span></a>
+<a class="it" href="620.2.7.html" data-sec="620.2.7"><span class="code">620.2.7</span><span>Board 排查</span></a>
+</details>
+<details class="grp" open><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.3 管理 project</span><span class="pct">25%</span></summary>
+<a class="it" href="620.3.1.html" data-sec="620.3.1"><span class="code">620.3.1</span><span>專案權限</span></a>
+<a class="it" href="620.3.2.html" data-sec="620.3.2"><span class="code">620.3.2</span><span>Project roles</span></a>
+<a class="it" href="620.3.3.html" data-sec="620.3.3"><span class="code">620.3.3</span><span>Versions 與 timeline</span></a>
+<a class="it" href="620.3.4.html" data-sec="620.3.4"><span class="code">620.3.4</span><span>Components、labels、fields</span></a>
+<a class="it" href="620.3.5.html" data-sec="620.3.5"><span class="code">620.3.5</span><span>自動指派</span></a>
+<a class="it" href="620.3.6.html" data-sec="620.3.6"><span class="code">620.3.6</span><span>Issue layout</span></a>
+<a class="it" href="620.3.7.html" data-sec="620.3.7"><span class="code">620.3.7</span><span>讓 issue 更豐富</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.4 自動化</span><span class="pct">14%</span></summary>
+<a class="it" href="620.4.1.html" data-sec="620.4.1"><span class="code">620.4.1</span><span>自動化手段</span></a>
+<a class="it" href="620.4.2.html" data-sec="620.4.2"><span class="code">620.4.2</span><span>Automation rule</span></a>
+<a class="it" href="620.4.3.html" data-sec="620.4.3"><span class="code">620.4.3</span><span>排查 automation</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.5 報表</span><span class="pct">19%</span></summary>
+<a class="it" href="620.5.1.html" data-sec="620.5.1"><span class="code">620.5.1</span><span>JQL</span></a>
+<a class="it" href="620.5.2.html" data-sec="620.5.2"><span class="code">620.5.2</span><span>Dashboards 與 gadgets</span></a>
+<a class="it" href="620.5.3.html" data-sec="620.5.3"><span class="code">620.5.3</span><span>Agile reports</span></a>
+</details>
+<div class="sep"></div><div class="toc-h">本頁目錄</div><div class="toc" id="toc">
+<a href="#tldr">3 分鐘速覽</a>
+<a href="#layout">Issue layout</a>
+<a href="#perm">看得到卻改不了</a>
+<a href="#traps">考題愛用的錯誤說法</a>
+<a href="#wrap">一分鐘腦內整理</a>
+<a href="#practice">做題</a>
 </div>
-
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:22%">區域</th><th>放什麼</th><th style="width:34%">行為</th></tr>
-<tr><td>Description fields</td><td>多行 rich text：Description、Environment、自訂 Paragraph</td><td>版面上最顯眼的一區，可以放文字、程式碼區塊、圖片與表格，適合需要大量說明的內容</td></tr>
-<tr><td>Context fields · Details</td><td>Assignee、Reporter、Priority、Labels、自訂 select／user picker</td><td>永遠顯示在右側，就算沒有填值也會佔位；適合每張 issue 都該看到的關鍵欄位</td></tr>
-<tr><td>Context fields · More fields</td><td>偶爾才填的欄位</td><td>沒有值時收在「Show x more fields」的摺疊區裡，<strong>一旦填了值就自動升到 Details</strong> 顯示，兼顧清爽與不漏資訊</td></tr>
-<tr><td>Pinned fields</td><td>使用者自己釘的 context 欄位</td><td>這是<strong>每位使用者自己的偏好設定</strong>，不屬於 project 的 layout，你釘的欄位別人看不到</td></tr>
-<tr><td>Hidden fields</td><td>不想在這個 project 顯示的欄位</td><td>在這個 project 的 issue 畫面上不顯示，但<strong>欄位仍在 screen 上、既有資料完整保留</strong>，JQL 與報表照樣讀得到</td></tr>
-</table></div>
-</section>
-
-<!-- ============ 誰能改什麼 ============ -->
-<section id="who">
-<div class="section-label">權責</div>
-<h2>誰能改什麼：project admin 排位置，Jira admin 決定有哪些欄位</h2>
-<div class="figure">
-<svg class="dia" viewBox="0 0 900 230" role="img" aria-label="Jira admin 的 screen 決定可用欄位；project admin 在 layout 裡排位置">
-  <defs><marker id="s236-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- A x=40 y=60 w=250 h=110；B x=340 y=60 w=220 h=110；C x=610 y=60 w=250 h=110 -->
-  <rect x="40" y="60" width="250" height="110" rx="12" class="box brand"/>
-  <text x="165" y="88" text-anchor="middle" class="lbl b">Jira admin</text>
-  <text x="165" y="110" text-anchor="middle" class="lbl">Screen ＋ screen scheme</text>
-  <text x="165" y="130" text-anchor="middle" class="s">決定「哪些欄位可用」</text>
-  <text x="165" y="150" text-anchor="middle" class="s">建新欄位、建 field tabs</text>
-  <path d="M290,115 H340" class="ln" marker-end="url(#s236-arr2)"/>
-  <rect x="340" y="60" width="220" height="110" rx="12" class="box"/>
-  <text x="450" y="88" text-anchor="middle" class="lbl b">可用欄位清單</text>
-  <text x="450" y="110" text-anchor="middle" class="s">Description、Assignee、</text>
-  <text x="450" y="128" text-anchor="middle" class="s">Due date、自訂欄位…</text>
-  <text x="450" y="150" text-anchor="middle" class="s">（screen 上有的才會出現）</text>
-  <path d="M560,115 H610" class="ln" marker-end="url(#s236-arr2)"/>
-  <rect x="610" y="60" width="250" height="110" rx="12" class="box teal"/>
-  <text x="735" y="88" text-anchor="middle" class="lbl b">Project admin</text>
-  <text x="735" y="110" text-anchor="middle" class="lbl">Issue layout</text>
-  <text x="735" y="130" text-anchor="middle" class="s">排位置、藏欄位、設分隔線</text>
-  <text x="735" y="150" text-anchor="middle" class="s">前提：screen 沒被其他 project 共用</text>
-  <text x="450" y="206" text-anchor="middle" class="s">Layout 是 per-project 設定，不能共用；但可以「複製」到使用相同 screen 的其他 project。</text>
-</svg>
-<div class="cap">圖 2　「加不了欄位」的答案幾乎都在左邊：要 Jira admin 把欄位放上 screen（或建新欄位），project admin 才排得到。</div>
-</div>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:36%">動作</th><th style="width:20%" class="c">Project admin</th><th style="width:20%" class="c">Jira admin</th><th>備註</th></tr>
-<tr><td>拖曳欄位到 Description／Context／Hidden、移動分隔線</td><td class="c yes">✓</td><td class="c yes">✓</td><td>需要 Administer Projects；且 screen 未被其他 project 共用</td></tr>
-<tr><td>把既有欄位加進 layout（欄位已在 screen 上）</td><td class="c yes">✓</td><td class="c yes">✓</td><td>從「Edit fields」找 screen 上但尚未顯示的欄位</td></tr>
-<tr><td>建立新的自訂欄位、把欄位加到 screen</td><td class="c no">—</td><td class="c yes">✓</td><td>「Create fields」入口最終仍走全域 screen 設定</td></tr>
-<tr><td>建立／編輯 field tabs</td><td class="c no">—</td><td class="c yes">✓</td><td>tabs 顯示在 Description 區；<strong>project admin 也不能在 tab 內重排欄位</strong>（官方明列）</td></tr>
-<tr><td>複製 layout 到其他 project</td><td class="c yes">✓</td><td class="c yes">✓</td><td>只能複製到使用<strong>相同 screen</strong> 的 project</td></tr>
-<tr><td>被授予 <strong>Manage work item layouts</strong> 細分權限的人</td><td class="c yes">✓</td><td class="c yes">✓</td><td>只能<strong>使用既有欄位</strong>排版，且受「screen 未被其他 project 共用」等限制；<strong>不等於全站 custom field 管理權</strong></td></tr>
-<tr><td>釘選欄位（Pinned fields）</td><td colspan="2" class="c">任何使用者</td><td>個人設定，不影響他人</td></tr>
-</table></div>
-<div class="callout warn"><div class="t">改 Task 卻連 Sub-task 一起變</div>如果 Task 與 Sub-task <strong>共用同一個 View screen</strong>，layout 設定可能以同一組 issue types 一起生效。改之前先看清楚正在調整的是<strong>哪個 screen、涵蓋哪些 types</strong>；改完用另一個共用同 screen 的 type 開一張 issue 驗證。</div>
-<div class="callout warn"><div class="t">Screen 共用時 project admin 改不了</div>如果這個 project 的 screen 也被別的 project 使用，layout 設定會鎖住（避免一個 project 改動影響另一個）。解法：請 Jira admin 複製一份 screen／screen scheme 給這個 project 專用。</div>
-<h3>TMP 對照</h3>
-<p>TMP 的欄位長在 project 裡：Project settings → Issue types → 選 type → 直接拖曳欄位、建新欄位，<strong>不需要 Jira admin</strong>，也沒有全站共用的 screen／screen scheme 物件（考試作答用這版）。考題問「哪種 project 的 admin 能自己新增欄位」→ TMP。</p>
-<div class="callout"><div class="t">TMP：必填、預設內容、排序是三件不同的事</div>
-<ul style="margin:.3rem 0 0">
-<li><strong>Required</strong>：在 Project settings → Issue types（或 Work types）為該類型的欄位勾選；Summary 本來就必填。</li>
-<li><strong>預設內容／預設值</strong>：建立時帶入的起始資料（例如 Bug 的「重現步驟」範本、Story point estimate 的 Default number），<strong>使用者仍可改</strong>，不是強制保留。</li>
-<li><strong>排序</strong>：只是呈現位置，<strong>調整順序不會讓任何欄位變成必填</strong>。</li>
-</ul>
-<span class="kicker">系統欄位「不能改名稱」不代表「不能設 default value」；官方也未逐一承諾每個預設欄位都提供相同控制，實際選項以站台為準。來源：<a href="https://support.atlassian.com/jira-software-cloud/docs/customize-an-issues-fields-in-team-managed-projects/">Customize work item fields in team-managed spaces</a>（2026-09-08 核對）</span></div>
-<div class="callout warn"><div class="t">現行差異（2026-09-08 查核）</div>官方「Map a screen to a workflow transition」現已列出 TMP 入口：Project settings → Work types → Edit workflow → 選 transition → Rules → Add → <strong>Request input → Show a screen</strong>，可在轉換時要求填欄位。所以「TMP 完全沒有 screen」已不準確：TMP 沒有 screen scheme，但 transition 可掛輸入畫面。實際選項以站台為準（實機驗證）。</div>
-</section>
-
-<!-- ============ 欄位 vs 權限 ============ -->
-<section id="perm">
-<div class="section-label">欄位 vs 權限</div>
-<h2>看得到 ≠ 改得了</h2>
-<p>Layout 決定欄位<strong>顯不顯示</strong>；permission scheme 決定使用者<strong>能不能改</strong>。三個欄位有專屬權限，Edit Issues 管不到它們：</p>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:24%">欄位</th><th style="width:30%">需要的權限</th><th>沒權限時的表現</th></tr>
-<tr><td>Assignee</td><td><strong>Assign Issues</strong></td><td>欄位看得到但點不動，呈現唯讀狀態；連把 issue 轉給別人也做不到</td></tr>
-<tr><td>Reporter</td><td><strong>Modify Reporter</strong></td><td>欄位照常顯示，但呈現唯讀狀態，改不了開單人</td></tr>
-<tr><td>Due date（以及 board／backlog 的 rank）</td><td><strong>Schedule Issues</strong></td><td>Due date 改不動，而且在 board 與 backlog 上拖曳卡片時會彈回原位</td></tr>
-<tr><td>其他一般欄位（Summary、Description、Priority、Labels、自訂欄位…）</td><td>Edit Issues</td><td>整張 issue 的一般欄位都變成唯讀，只能看不能改</td></tr>
-<tr><td>Time tracking（Original estimate、Log work）</td><td>Work On Issues（＋ Edit Issues 改估算）</td><td>issue 上不會出現 Log work 的選項，記不了工時</td></tr>
-<tr><td>Security Level</td><td>Set Issue Security</td><td>Security Level 不會出現在可編輯的欄位清單裡，沒辦法調整這張 issue 的可見範圍</td></tr>
-</table></div>
-<div class="callout exam"><div class="t">考題長相</div>「使用者回報 Due date 欄位是灰的改不了，但 Description 可以改」→ 不是 layout，是缺 <strong>Schedule Issues</strong>。「Assignee 欄位整個不見」→ 才是 layout（被拖到 Hidden）或 screen 上沒有。</div>
-</section>
-
-<!-- ============ 互動 ============ -->
-<section id="lab">
-<div class="section-label">互動</div>
-<h2>切換 role，看同一個 layout 哪些欄位變唯讀</h2>
-<p>同一張 issue、同一份 layout，只改使用者的權限。欄位顯示與否由 layout 決定，能不能編輯由權限決定。</p>
-<div id="s236-lab" class="card">
-  <div class="toolbar" style="margin-top:0">
-    <span style="font-weight:700;font-size:.88rem;width:7rem">使用者權限</span>
-    <div class="seg" id="s236-role">
-      <button data-r="viewer">只有 Browse</button>
-      <button data-r="editor" class="on">Edit Issues</button>
-      <button data-r="full">Edit ＋ Assign ＋ Schedule ＋ Modify Reporter</button>
-    </div>
-  </div>
-  <div class="toolbar" style="margin-top:.2rem">
-    <span style="font-weight:700;font-size:.88rem;width:7rem">Layout</span>
-    <label class="check"><input type="checkbox" id="s236-hide-due">把 Due date 拖到 Hidden</label>
-    <label class="check"><input type="checkbox" id="s236-empty" checked>Fix versions 空值（在分隔線下）</label>
-  </div>
-  <div class="grid-2" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);margin-top:.6rem">
-    <div class="issue"><div class="key">MOB-77 · Story</div><div class="sum">結帳頁改版</div>
-      <div class="kicker" style="margin-bottom:.3rem">Description fields</div>
-      <div class="chips" id="s236-desc"></div>
-    </div>
-    <div class="issue">
-      <div class="kicker" style="margin-bottom:.3rem">Context fields · Details</div>
-      <div class="chips" id="s236-ctx"></div>
-      <div class="kicker" style="margin:.6rem 0 .3rem">More fields</div>
-      <div class="chips" id="s236-more"></div>
-      <p id="s236-msg" class="kicker" style="margin:.6rem 0 0"></p>
-    </div>
-  </div>
-  <p class="kicker" style="margin:.6rem 0 0">圖例：<span class="chip on">可編輯</span> <span class="chip off">顯示但唯讀</span>；被藏起來的欄位不會出現。</p>
-</div>
-</section>
-
-<!-- ============ Quiz ============ -->
-<section id="quiz">
-<div class="section-label">情境練習</div>
-<h2>先自己判斷，再點開解答</h2>
-<div class="quiz">
-<details class="q"><summary>TMP 的 admin 想讓 Bug 的「重現步驟」一定要填，於是把它拖到最上面。使用者仍可以留空送出。為什麼？</summary><div class="a"><div class="tag">解答</div>因為<strong>排序只是決定欄位顯示的位置，跟必不必填毫無關係</strong>。TMP 底下有三件常被混為一談的事要分清楚：<strong>Required</strong>（在 Project settings → Issue types 為該欄位勾選，沒填就送不出去）、<strong>預設內容／預設值</strong>（建立 issue 時自動帶入的起始資料，例如「重現步驟」的範本，但<strong>使用者仍然可以整段刪掉</strong>）、<strong>排序</strong>（純粹是呈現位置）。這位 admin 真正要做的是勾 <strong>Required</strong>；如果他要的是給同事一個填寫範本，那該設的是預設內容——但那擋不住有人清空它。</div></details>
-<details class="q"><summary>Project admin 改了 Task 的 layout，結果 Sub-task 的畫面也跟著變。哪裡出問題？</summary><div class="a"><div class="tag">解答</div><strong>沒有出問題，這是預期行為。</strong>issue layout 是掛在 <strong>screen</strong> 上的，不是掛在 issue type 上；當 Task 與 Sub-task 共用同一個 View screen 時，改動當然會同時反映在兩者身上。所以動手之前要先弄清楚<strong>你正在調整的是哪一個 screen、它涵蓋了哪些 issue type</strong>。如果確實需要兩者分開，得請 Jira admin 複製一份 screen 與 screen scheme，讓其中一種 issue type 專用。改完之後，養成用另一個共用同 screen 的 type 開一張 issue 驗證的習慣。</div></details>
-<details class="q"><summary>Project admin 想在 issue 上加一個新的「Customer」下拉欄位，Configure 畫面找不到。原因？</summary><div class="a"><div class="tag">解答</div>因為<strong>這個欄位還不存在，或是存在但沒有被加進這個 project 所使用的 screen</strong>。這裡有一條界線要記牢：<strong>layout 只能替「已經在 screen 上的欄位」安排位置，不能無中生有</strong>。建立 custom field、把欄位加進 screen，兩件事都是站台層級的動作，屬於 Jira admin。所以 project admin 的正確動作是開單請 Jira admin 建立欄位並加到對應的 screen，之後才輪到自己在 Configure 畫面決定它放哪一區。</div></details>
-<details class="q"><summary>Project admin 打開 Configure，所有欄位都拖不動。最可能原因？</summary><div class="a"><div class="tag">解答</div>最可能是<strong>這個 project 使用的 screen 同時也被別的 project 使用</strong>。Jira 為了避免一個 project 的調整波及其他 project，會在這種情況下把 layout 鎖住，project admin 拖不動任何東西。解法是請 Jira admin <strong>複製一份 screen 與 screen scheme 給這個 project 專用</strong>，脫離共用之後就解鎖了。這個模式在 CMP 反覆出現——<strong>只要物件是共用的，權限就會被拉高到 Jira admin</strong>，workflow、field configuration 也都是同樣的邏輯。</div></details>
-<details class="q"><summary>Fix versions 放在分隔線下方，某張 issue 卻顯示在 Details。為什麼？</summary><div class="a"><div class="tag">解答</div>因為分隔線的意思是「<strong>空值時才隱藏</strong>」（Hide when empty），不是「永遠不顯示」。放在分隔線下方的欄位，<strong>沒有值時會被收進「Show x more fields」裡</strong>，一旦被填了值就會<strong>自動升到 Details 區顯示出來</strong>。這個設計相當貼心——不常用的欄位平常不佔版面，真的有資料時又不會被埋起來。所以看到「同一份 layout 底下不同 issue 的欄位排列不太一樣」，通常就是這個機制在運作，不是設定錯亂。</div></details>
-<details class="q"><summary>使用者能改 Summary、Description，但 Assignee 灰掉。缺什麼？</summary><div class="a"><div class="tag">解答</div>缺的是 <strong>Assign Issues</strong> 權限。Jira 把三個欄位從 Edit Issues 裡獨立出來，各自需要專屬權限：<strong>Assignee 要 Assign Issues、Reporter 要 Modify Reporter、Due date（連同 board 的拖曳排序）要 Schedule Issues</strong>。所以「其他欄位都能改、就這幾個灰掉」是很典型的症狀。要特別區分兩種狀況：<strong>欄位灰掉（顯示但不能編輯）＝權限問題；欄位整個不見＝layout 或 screen 問題</strong>，兩者要找的人不一樣。</div></details>
-<details class="q"><summary>使用者說「Due date 欄位完全不見了」，另一位說「看得到但改不了」。分別是什麼問題？</summary><div class="a"><div class="tag">解答</div>這兩個是完全不同層次的問題，也是本節最核心的辨別題。<strong>「欄位完全不見」是顯示層的問題</strong>——可能是 project admin 把它拖到了 Hidden 區，也可能是這個欄位根本不在該 issue type 的 screen 上（後者要找 Jira admin）。<strong>「看得到但改不了」則是權限問題</strong>——Due date 需要 <strong>Schedule Issues</strong>，而不是 Edit Issues。記住這條判斷法則：<strong>Layout 決定「顯不顯示」，permission scheme 決定「能不能改」</strong>，先看症狀屬於哪一邊，再決定去改設定還是去要權限。</div></details>
-<details class="q"><summary>兩個 project 用同一份 screen，PM 想讓 B project 的 layout 跟 A 一樣。最快做法？</summary><div class="a"><div class="tag">解答</div>在 A 的 layout 設定頁使用<strong>「Copy to other projects」（複製到其他 project）</strong>功能，直接把整份排版套過去，不必手動重排一次。這個功能有一個硬性前提：<strong>只能複製到使用相同 screen 的 project</strong>——這也正是題目特別交代「兩個 project 用同一份 screen」的原因。如果兩邊 screen 不同，這個選項就用不了，只能請 Jira admin 先調整 screen 設定。</div></details>
-<details class="q"><summary>PM 想讓自己的 issue 畫面把「Sprint」放最上面，但不想影響同事。</summary><div class="a"><div class="tag">解答</div>用 <strong>Pinned fields（釘選欄位）</strong>。它是<strong>每個使用者自己的偏好設定</strong>，把 Sprint 釘在最上面只會影響 PM 自己的畫面，同事完全不受影響，而且任何使用者都能用，不需要任何管理權限。相對地，<strong>layout 是整個 project 共用的設定</strong>，改了所有人都會看到。這題想建立的判斷是：<strong>個人偏好用 pinned，團隊共識才動 layout</strong>。</div></details>
-<details class="q"><summary>把「Story points」拖到 Hidden 後，JQL 還搜得到嗎？舊資料還在嗎？</summary><div class="a"><div class="tag">解答</div><strong>兩個都還在。</strong>把欄位拖到 Hidden 只影響<strong>這個 project 的 issue 詳細畫面要不要顯示它</strong>，欄位本身仍然掛在 screen 上，既有的資料一筆都不會消失，<strong>JQL 照樣搜尋得到、報表照樣算得到</strong>。這一點與 field configuration 的 hidden 效果不同（後者會讓 JQL 認為欄位不存在，還記得 620.2.4 那個 Kanban board 上 Task 全部消失的陷阱嗎），兩者不要混淆。</div></details>
-<details class="q"><summary>TMP 的 project admin 想新增欄位，需要找 Jira admin 嗎？</summary><div class="a"><div class="tag">解答</div><strong>不需要。</strong>這正是 TMP 與 CMP 最大的差異之一：TMP 的欄位是長在 project 裡的，project admin 到 <strong>Project settings → Issue types</strong> 選一個 type，就能直接建立新欄位、拖曳排序、設定必填，全程不必找 Jira admin。代價是這些欄位<strong>只存在於這個 project</strong>，別的 project 用不到，也沒有 screen 與 screen scheme 這種可共用的物件。（補充一個現行變化：TMP 的 transition 可以用 Request input 規則掛一個輸入畫面，但那是流程控制，不是欄位管理，兩者別混為一談。）</div></details>
-</div>
-</section>
-
-<!-- ============ Traps ============ -->
-<section id="traps">
-<div class="section-label">常見陷阱</div>
-<h2>考題喜歡設的誤解</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:44%">誤解</th><th>事實</th></tr>
-<tr><td>「Project admin 可以在 layout 建新欄位」</td><td>不能。layout 只能替 <strong>screen 上已經有的欄位</strong>安排位置；建立 custom field、把欄位加進 screen 都是 Jira admin 的權責（TMP 則沒有這個限制）</td></tr>
-<tr><td>「Layout 可以跨 project 共用」</td><td>不行。layout 是各 project 各自的設定；唯一的捷徑是「Copy to other projects」，而且<strong>只能複製到使用相同 screen 的 project</strong></td></tr>
-<tr><td>「Hidden 會刪掉欄位資料」</td><td>不會。Hidden 只是讓欄位不顯示在這個 project 的 issue 畫面上，欄位仍在 screen、資料完整保留，JQL 與報表照樣讀得到</td></tr>
-<tr><td>「Edit Issues 就能改所有欄位」</td><td>不能。<strong>Assignee 要 Assign Issues、Reporter 要 Modify Reporter、Due date 與拖曳排序要 Schedule Issues</strong>，這三個欄位被獨立出來，Edit Issues 管不到</td></tr>
-<tr><td>「Pinned fields 是 layout 的一部分」</td><td>不是。Pinned fields 是<strong>每個使用者自己的偏好</strong>，任何人都能設，只影響自己的畫面，跟 project 的 layout 是兩回事</td></tr>
-<tr><td>「TMP 把欄位往上排就會變成必填」</td><td>不會。Required（必填）、預設內容（帶入的起始值，可被改掉）、排序（呈現位置）是三件互相獨立的事；<strong>只有勾 Required 才會強制填寫</strong></td></tr>
-<tr><td>「有 Manage work item layouts 就能建欄位」</td><td>不能。這個細分權限只讓人<strong>排列既有欄位</strong>，一樣受「screen 未被其他 project 共用」的限制，<strong>不等於取得全站的 custom field 管理權</strong></td></tr>
-<tr><td>「改 Task 的 layout 不會影響 Sub-task」</td><td>不一定。layout 是掛在 screen 上的，兩個 issue type <strong>共用同一個 View screen</strong> 時，改動會一起生效；要分開得請 Jira admin 給專用 screen</td></tr>
-<tr><td>「分隔線下方的欄位永遠不顯示」</td><td>不是。分隔線的意思是「空值時隱藏」，欄位一旦被填了值就會<strong>自動升到 Details 區</strong>顯示出來</td></tr>
-</table></div>
-</section>
-
-<!-- ============ Lab ============ -->
-<section id="practice">
-<div class="section-label">實作（20 分鐘）</div>
-<h2>把 layout 與權限拆開看</h2>
-<ol>
-<li>CMP 任一 issue → ••• → Configure：把 Due date 拖到分隔線下、Labels 拖到 Hidden，存檔後開 issue 看差異；填一個 Due date 觀察它跳到 Details。</li>
-<li>用第二個帳號（只有 Browse＋Edit Issues 的 role）開同一張 issue：Assignee、Reporter 顯示但唯讀；再給它 Assign Issues，重新整理。</li>
-<li>把 project 的 screen scheme 指給另一個 project 共用，回到 Configure 觀察被鎖住的提示；改回專用後再試。</li>
-<li>在 layout 頁用「Copy to other projects」複製到相同 screen 的 project。</li>
-<li>對照 TMP：Project settings → Issue types → Story，直接建一個新欄位並拖曳；再對同一欄位勾一次 <strong>Required</strong>、設一次<strong>預設內容</strong>、換一次<strong>排序</strong>，各建一張 issue 觀察三者互不影響。</li>
-<li>找兩個共用同一 View screen 的 issue type（例如 Task 與 Sub-task），改其中一個的 layout 後開另一個驗證是否一起變動。</li>
-</ol>
-<div class="callout"><div class="t">來源（實際精讀）</div>
-<ul style="margin:0;font-size:.88rem">
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/">Configure field layout in the work item view</a></li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/update-an-issues-details/">Update a work item's details</a></li>
-<li>權限對照：<a href="https://support.atlassian.com/jira-cloud-administration/docs/work-item-permissions/">Work item permissions in a space</a>（620.3.1 已精讀）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/customize-an-issues-fields-in-team-managed-projects/">Customize work item fields in team-managed spaces</a>（TMP 的 Required／預設內容／排序）</li>
-<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/">Space access and configuration permissions</a>（Manage work item layouts 細分權限）</li>
-</ul></div>
-</section>
-
-<section id="qbank">
-<div class="section-label">模擬題</div>
-<h2>本節 10 題，附逐選項解析與來源</h2>
-<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
-<div class="qbank" data-section="620.3.6"></div>
-</section>
-
-<div class="footer-nav"><a href="620.3.5.html">← 620.3.5 自動指派</a><a href="620.3.7.html">下一節：620.3.7 讓 issue 更豐富 →</a></div>
+</nav>
+<div id="scrim" class="scrim" aria-hidden="true"></div>
+<div class="main">
+<header class="bar"><button id="menu" class="ibtn menu" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="nav"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="ttl"><a href="index.html">首頁</a> / 620.3 管理 project / <b>620.3.6</b></div><button id="theme" class="ibtn" type="button" aria-label="切換淺色或深色"></button></header>
+<main id="main" class="content">
+<header class="hero"><div class="eyebrow">620.3.6・Managing projects 25%</div><h1>Issue layout</h1><p class="lead">Layout 決定欄位顯示在哪；權限決定能不能改。欄位不見與欄位改不了是兩件事。</p><div class=meta><span class="chip brand">考試佔 25%</span></div><details class="obj"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg><span>官方考綱原文（這一節會考的範圍）</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li>Understand configuration options for the issue view<span>issue view 的設定選項</span></li><li>Understand the relationship between fields and project permissions<span>欄位與權限的關係</span></li></ul></details><details class="obj toc-m"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>本頁內容</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li><a href="#tldr">3 分鐘速覽</a></li><li><a href="#layout">Issue layout</a></li><li><a href="#perm">看得到卻改不了</a></li><li><a href="#traps">考題愛用的錯誤說法</a></li><li><a href="#wrap">一分鐘腦內整理</a></li><li><a href="#practice">做題</a></li></ul></details></header><section class="sec" id="tldr"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>3 分鐘速覽</div><h2>Layout 管「顯示在哪」，權限管「改不改得了」</h2><ol class="tldr"><li><b>Layout 三個區</b><span>Description fields、Context fields（Details 與分隔線下的 More fields）、Hidden。</span></li><li><b>Project admin 排位置，Jira admin 決定有哪些欄位</b><span>新欄位要 Jira admin 建並放上 screen；screen 被共用時 project admin 改不了 layout。</span></li><li><b>看得到 ≠ 改得了</b><span>Assignee 要 Assign Issues、Reporter 要 Modify Reporter、Due date 要 Schedule Issues。</span></li><li><b>TMP 的 admin 可以自己加欄位</b><span>考試版：TMP 沒有 screen scheme；現行 transition 可用 Request input 顯示畫面。</span></li></ol></section><section class="sec" id="layout"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>設定畫面</div><h2>Issue layout</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 380 381" role="img" aria-label="Issue layout"><rect x="0.5" y="0.5" width="379" height="380" rx="10" class="bx"/><rect x="0" y="0" width="380" height="34" rx="0" class="sf-bg"/><rect x="0" y="34" width="106" height="347" rx="0" class="sf-bg"/><line x1="106" y1="34" x2="106" y2="381" class="gl"/><circle cx="14" cy="17" r="4.5" class="fl-rose"/><circle cx="28" cy="17" r="4.5" class="fl-amber"/><circle cx="42" cy="17" r="4.5" class="fl-green"/><text x="60" y="22" text-anchor="start" class="s">Project settings</text><text x="118" y="62" text-anchor="start" class="h">Issue layout</text><text x="118" y="89" text-anchor="start" class="t" style="font-size:12px">Description fields</text><line x1="118" y1="119" x2="368" y2="119" class="gl"/><text x="118" y="111" text-anchor="start" class="t">Description</text><text x="368" y="111" text-anchor="end" class="s">多行文字</text><line x1="118" y1="145" x2="368" y2="145" class="gl"/><text x="118" y="137" text-anchor="start" class="t">Environment</text><text x="368" y="137" text-anchor="end" class="s"></text><text x="118" y="166" text-anchor="start" class="t" style="font-size:12px">Context fields · Details</text><line x1="118" y1="196" x2="368" y2="196" class="gl"/><text x="118" y="188" text-anchor="start" class="t">Assignee</text><text x="368" y="188" text-anchor="end" class="s">永遠顯示</text><line x1="118" y1="222" x2="368" y2="222" class="gl"/><text x="118" y="214" text-anchor="start" class="t">Priority</text><text x="368" y="214" text-anchor="end" class="s"></text><line x1="118" y1="248" x2="368" y2="248" class="gl"/><text x="118" y="240" text-anchor="start" class="t">Labels</text><text x="368" y="240" text-anchor="end" class="s"></text><text x="118" y="269" text-anchor="start" class="s tf-amber" style="font-weight:700">── Hide when empty ── 分隔線以下空值會收</text><text x="118" y="285" text-anchor="start" class="s tf-amber" style="font-weight:700">起</text><text x="118" y="309" text-anchor="start" class="t" style="font-size:12px">Hidden fields</text><line x1="118" y1="339" x2="368" y2="339" class="gl"/><text x="118" y="331" text-anchor="start" class="t">Due date</text><text x="368" y="331" text-anchor="end" class="s">不顯示，但資料還在</text><text x="118" y="349" text-anchor="start" class="s tf-violet" style="font-weight:700">↑ 被 Hidden 的欄位 JQL、報表照樣讀得到</text><text x="14" y="54" text-anchor="start" class="t" style="font-size:12px">Details</text><text x="14" y="80" text-anchor="start" class="t" style="font-size:12px">People</text><text x="14" y="106" text-anchor="start" class="t" style="font-size:12px">Permissions</text><text x="14" y="132" text-anchor="start" class="t" style="font-size:12px">Versions</text><text x="14" y="158" text-anchor="start" class="t" style="font-size:12px">Components</text><rect x="6" y="169" width="94" height="22" rx="6" class="sf-brand"/><text x="14" y="184" text-anchor="start" class="b" style="font-size:12px">Issue layout</text><text x="14" y="210" text-anchor="start" class="t" style="font-size:12px">Automation</text></svg></div><figcaption>Project settings → Issue layout（或 issue 的 ••• → Configure）。</figcaption></figure><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">Project admin 想加一個新欄位到 layout，但清單裡沒有，為什麼？</span><span class="rv">看答案</span></summary><div class="aa">欄位不在 screen 上（或還沒建）。要 Jira admin 建欄位並放上 screen。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>Layout 只排既有欄位；新欄位找 Jira admin。</li><li>Screen 共用時 project admin 改不了 layout。</li></ul></aside></section><section class="sec" id="perm"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg>欄位與權限</div><h2>看得到卻改不了</h2><table class="tbl"><thead><tr><th class="">欄位</th><th class="">需要的權限</th></tr></thead><tbody><tr class=""><td class="" data-l="欄位">Assignee</td><td class="" data-l="需要的權限">Assign Issues</td></tr><tr class=""><td class="" data-l="欄位">Reporter</td><td class="" data-l="需要的權限">Modify Reporter</td></tr><tr class=""><td class="" data-l="欄位">Due date（以及 rank）</td><td class="" data-l="需要的權限">Schedule Issues</td></tr><tr class=""><td class="" data-l="欄位">一般欄位</td><td class="" data-l="需要的權限">Edit Issues</td></tr><tr class=""><td class="" data-l="欄位">Log work</td><td class="" data-l="需要的權限">Work On Issues</td></tr><tr class=""><td class="" data-l="欄位">Security level</td><td class="" data-l="需要的權限">Set Issue Security</td></tr></tbody></table><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">Due date 欄位是灰的改不了，但 Description 可以改，缺什麼？</span><span class="rv">看答案</span></summary><div class="aa"><b>Schedule Issues</b>。不是 layout 問題。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>欄位不見＝layout／screen；欄位灰色＝權限。</li></ul></aside></section><section class="sec" id="traps"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg>易錯觀念</div><h2>考題愛用的錯誤說法</h2><div class="traps"><div class="trap"><div class="w">Project admin 可以在 layout 建新的 custom field。</div><div class="r">要 Jira admin 建並放上 screen。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap"><div class="w">Hidden 的欄位資料會被刪除。</div><div class="r">只是不顯示，資料與 JQL 都還在。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap mine"><div class="w">TMP 可以替 workflow transition 加 screen。</div><div class="r"><mark class="mk">考試版：TMP 沒有 transition screen（現行可用 Request input）。</mark></div><div class="why"></div><div class="meta"><span class="chip rose">你練習時錯過</span><a href="https://support.atlassian.com/jira-cloud-administration/docs/map-a-screen-to-a-workflow-transition/" target="_blank" rel="noopener">官方來源</a></div></div></div></section><section class="sec" id="wrap"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M10 11L6.5 7.3M14 11l3.5-3.7M10 13l-3.5 3.7M14 13l3.5 3.7"/></svg>一分鐘腦內整理</div><h2>讀完了？用這張收攏整節</h2><div class="mnemo"><div><b>不見看 layout、灰色看權限</b><span>Assign、Modify Reporter、Schedule。</span></div></div><div class="wu"><div class="wu-it"><a href="#layout" class="wu-h">Issue layout</a><ul><li>Layout 只排既有欄位；新欄位找 Jira admin。</li><li>Screen 共用時 project admin 改不了 layout。</li></ul></div><div class="wu-it"><a href="#perm" class="wu-h">看得到卻改不了</a><ul><li>欄位不見＝layout／screen；欄位灰色＝權限。</li></ul></div></div></section><section class="sec" id="practice"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg>本節練習</div><h2>做題</h2><div class="qz" data-sec="620.3.6"><p class="muted">題目載入中…</p></div></section><div class="srcs"><b>官方來源（本節依據）</b><ul><li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-field-layout-in-the-issue-view/" target="_blank" rel="noopener">Configure field layout in the issue view</a></li><li><a href="https://support.atlassian.com/jira-cloud-administration/docs/map-a-screen-to-a-workflow-transition/" target="_blank" rel="noopener">Map a screen to a workflow transition</a></li></ul></div><div class="readmark" data-readmark="620.3.6"><span class="msg"></span><button type="button" class="btn sm">標記本節已讀</button></div><nav class="pager" aria-label="上一節與下一節"><a href="620.3.5.html"><small>上一節</small><span>620.3.5 自動指派</span></a><a class="next" href="620.3.7.html"><small>下一節</small><span>620.3.7 讓 issue 更豐富</span></a></nav>
+<p class="foot">本教材為原創整理，非 Atlassian 官方出版品；題目皆為原創，不含第三方題庫題幹。考試沿用 project／issue 等舊用語，現行 Jira Cloud 已改為 space／work item。</p>
 </main>
 </div>
-<script src="assets/spring.js"></script>
-<script src="assets/app.js"></script>
-<script src="assets/questions.js"></script>
-<script src="assets/exam.js"></script>
-<script>
-/* 620.3.6 layout × 權限實驗（id 前綴 s236-） */
-(function(){
-  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-  const lab=$('#s236-lab'); if(!lab) return;
-  const FIELDS={
-    desc:[{n:'Description',need:'edit'},{n:'Environment',need:'edit'}],
-    ctx:[{n:'Assignee',need:'assign'},{n:'Reporter',need:'reporter'},{n:'Priority',need:'edit'},{n:'Labels',need:'edit'},{n:'Due date',need:'schedule',hideable:true}],
-    more:[{n:'Fix versions',need:'edit',emptyable:true}]
-  };
-  const ROLE={viewer:new Set(),editor:new Set(['edit']),full:new Set(['edit','assign','reporter','schedule'])};
-  const btns=$$('#s236-role button');
-  let prev=new Set();
-  function chip(f,can){ return `<span class="chip ${can?'on':'off'}" data-f="${f.n}">${f.n}</span>`; }
-  function render(){
-    const r=btns.find(b=>b.classList.contains('on')).dataset.r, can=ROLE[r];
-    const hideDue=$('#s236-hide-due').checked, empty=$('#s236-empty').checked;
-    $$('label.check',lab).forEach(l=>{const i=l.querySelector('input'); l.classList.toggle('on',i.checked);});
-    $('#s236-desc').innerHTML=FIELDS.desc.map(f=>chip(f,can.has(f.need))).join('');
-    let ctx=FIELDS.ctx.filter(f=>!(f.hideable&&hideDue));
-    let more=FIELDS.more.slice();
-    if(!empty){ ctx=ctx.concat(more); more=[]; }
-    $('#s236-ctx').innerHTML=ctx.map(f=>chip(f,can.has(f.need))).join('');
-    $('#s236-more').innerHTML=more.length?more.map(f=>chip(f,can.has(f.need))).join(''):'<span class="kicker">（沒有空值欄位收在這裡）</span>';
-    const now=new Set($$('.chip.on',lab).map(c=>c.dataset.f));
-    $$('.chip.on',lab).forEach(c=>{ if(!prev.has(c.dataset.f)&&window.springPop) window.springPop(c); });
-    prev=now;
-    const ro=$$('.chip.off',lab).map(c=>c.dataset.f);
-    $('#s236-msg').textContent = r==='viewer' ? '只有 Browse：整張 issue 唯讀——這是權限，不是 layout。'
-      : r==='editor' ? `Edit Issues 改得了一般欄位，但 ${ro.join('、')||'—'} 唯讀：各自需要 Assign Issues／Modify Reporter／Schedule Issues。`
-      : '四個權限都有：畫面上看得到的欄位都能改。' + (hideDue?' Due date 被 layout 藏起來，權限再多也看不到。':'');
-  }
-  btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');render();}));
-  $$('input',lab).forEach(i=>i.addEventListener('change',render));
-  render();
-})();
-</script>
+</div>
+<script src="assets/site.js?v=1790343883" defer></script><script src="assets/qbank.js?v=1790343883" defer></script><script src="assets/quiz.js?v=1790343883" defer></script>
 </body>
 </html>
