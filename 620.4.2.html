@@ -2,411 +2,83 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>620.4.2 依需求建立 automation rule｜ACP-620 教材</title>
-<link rel="stylesheet" href="assets/style.css">
-<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>620.4.2 Automation rule 的組成｜ACP-620 教材</title>
+<meta name="description" content="ACP-620 620.4.2：Automation rule 的組成">
+<meta name="theme-color" content="#3452c8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233452c8'/%3E%3Ctext x='16' y='21' font-family='Arial' font-size='12' font-weight='700' text-anchor='middle' fill='white'%3E620%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css?v=1790344153">
+<script>try{var t=localStorage.getItem("acp620.theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body>
-<div class="shell">
-<aside class="sidebar">
-  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
-  <!--NAV-->
-  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
-  <nav>
-    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
-    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
-    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
-    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
-  <nav>
-    <a href="620.2.1.html">620.2.1 選 board 類型</a>
-    <a href="620.2.2.html">620.2.2 跨 project board</a>
-    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
-    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
-    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
-    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
-    <a href="620.2.7.html">620.2.7 Board 排查</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
-  <nav>
-    <a href="620.3.1.html">620.3.1 專案權限</a>
-    <a href="620.3.2.html">620.3.2 Project roles</a>
-    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
-    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
-    <a href="620.3.5.html">620.3.5 自動指派</a>
-    <a href="620.3.6.html">620.3.6 Issue layout</a>
-    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
-  </nav></details>
-  <details class="navgrp" open><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
-  <nav>
-    <a href="620.4.1.html">620.4.1 自動化手段</a>
-    <a href="620.4.2.html">620.4.2 Automation rule</a>
-    <a href="620.4.3.html">620.4.3 排查 automation</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
-  <nav>
-    <a href="620.5.1.html">620.5.1 JQL</a>
-    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
-    <a href="620.5.3.html">620.5.3 Agile reports</a>
-  </nav></details>
-  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a><a href="traps.html">⚠️ 易錯觀念</a><a href="clarify.html">💡 觀念釐清</a><a href="guide.html">📌 重點整理</a><a href="topics.html">📋 官方考綱</a></nav>
-  <!--/NAV-->
-  <div class="group">本頁目錄</div>
-  <!--TOC-->
-  <nav>
-    <a href="#goal">這一節考什麼</a>
-    <a href="#anatomy">Rule 解剖</a>
-    <a href="#builder">組一條 rule</a>
-    <a href="#details">Rule details</a>
-    <a href="#triggers">Triggers</a>
-    <a href="#conditions">Conditions</a>
-    <a href="#actions">Actions</a>
-    <a href="#branch">Branches</a>
-    <a href="#smart">Smart values</a>
-    <a href="#quiz">情境練習</a>
-    <a href="#traps">常見陷阱</a>
-    <a href="#lab">實作</a>
-    <a href="#qbank">模擬題</a>
-  </nav>
-</aside>
-
-<main>
-<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.4 Automation（14%）/ 620.4.2</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
-<div class="eyebrow">620.4.2 · Create an automation rule based on business requirements</div>
-<h1>依需求建立 automation rule：<br>trigger、condition、action、branch 與 smart values</h1>
-<p class="lead">考題給一段業務需求，要你選出正確的 trigger、對的 condition、對的 action，以及該不該用 branch。這一節把 rule 拆成可以「組裝」的零件，並讓你自己組一條看結果。</p>
-<div class="term">術語：考試用 rule／issue；現行文件稱 flow／work item，介面上「Automation Studio」也在改版中。本教材沿用考試用語。</div>
-
-<section id="goal">
-<div class="section-label">這一節考什麼</div>
-<h2>三條 bullet，翻成考題語言</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
-<tr><td>Understand the functionality of each part of an automation rule</td><td>「要在 X 時做 Y」→ 選哪個 trigger？中間要不要 condition？用哪個 action？rule details 裡的 scope、actor、owner 各管什麼</td></tr>
-<tr><td>Understand how branches in automation rules can be used to update related issues</td><td>「parent 完成時把所有 sub-task 也關掉」→ branch for sub-tasks；branch 裡的 <code>{{issue}}</code> 指誰；分支平行執行的後果</td></tr>
-<tr><td>Understand smart values</td><td><code>{{issue.summary}}</code>、<code>{{now.plusDays(5)}}</code>、<code>{{triggerIssue}}</code> vs <code>{{issue}}</code>、list 的 <code>{{#…}}</code>、預設值 <code>|</code></td></tr>
-</table></div>
-<div class="callout warn" id="weak-spots"><div class="t">練習題常錯的觀念</div>這一節在練習測驗中錯誤率偏高，先確認下面幾個觀念分得清楚，再往下讀：<a class="chip" href="clarify.html#automation">什麼時候用 automation</a> <a class="chip" href="clarify.html#automation">scope 與限制</a> </div>
-</section>
-
-<!-- ============ Anatomy ============ -->
-<section id="anatomy">
-<div class="section-label">核心模型</div>
-<h2>一條 rule 的解剖圖</h2>
-<div class="figure">
-<svg class="dia" viewBox="0 0 960 330" role="img" aria-label="automation rule 的組成：rule details、trigger、condition、action、branch">
-  <defs><marker id="s242-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- Rule details 橫條 x=60 w=840 y=20 h=54；主鏈 y=120 h=70：Trigger x=60、Condition x=340、Action x=620，各 w=220；分支列 y=240：Branch x=60、Action x=340 -->
-  <rect x="60" y="20" width="840" height="54" rx="10" class="box brand"/>
-  <text x="80" y="42" class="lbl b">Rule details</text>
-  <text x="80" y="62" class="s">Name · Scope（單一／多個／類型／全部）· Actor（以誰的身分執行）· Owner（收錯誤通知）· Allow rule trigger · Notify on error</text>
-
-  <rect x="60" y="120" width="220" height="70" rx="10" class="box teal"/>
-  <text x="170" y="146" text-anchor="middle" class="lbl b">Trigger（必要，1 個）</text><text x="170" y="168" text-anchor="middle" class="s">什麼事件讓 rule 開始跑</text>
-  <path d="M280,155 H340" class="ln" marker-end="url(#s242-arr)"/>
-  <rect x="340" y="120" width="220" height="70" rx="10" class="box q"/>
-  <text x="450" y="146" text-anchor="middle" class="lbl b">Condition（可選，可多個）</text><text x="450" y="168" text-anchor="middle" class="s">不符就停，不算失敗</text>
-  <path d="M560,155 H620" class="ln" marker-end="url(#s242-arr)"/>
-  <rect x="620" y="120" width="220" height="70" rx="10" class="box green"/>
-  <text x="730" y="146" text-anchor="middle" class="lbl b">Action（必要，≥1 個）</text><text x="730" y="168" text-anchor="middle" class="s">對觸發的 issue 做事</text>
-
-  <!-- 從 Action 底部往下、左轉、進 Branch 頂部 -->
-  <path d="M730,190 V215 H170 V240" class="ln" marker-end="url(#s242-arr)"/>
-  <rect x="60" y="240" width="220" height="70" rx="10" class="box violet"/>
-  <text x="170" y="266" text-anchor="middle" class="lbl b">Branch（可選）</text><text x="170" y="288" text-anchor="middle" class="s">對相關 issue 各跑一次</text>
-  <path d="M280,275 H340" class="ln" marker-end="url(#s242-arr)"/>
-  <rect x="340" y="240" width="220" height="70" rx="10" class="box green"/>
-  <text x="450" y="266" text-anchor="middle" class="lbl b">Branch 內的 action</text><text x="450" y="288" text-anchor="middle" class="s">這裡的 {{issue}} ＝ 該相關 issue</text>
-  <text x="620" y="266" class="s">分支之間平行執行、順序不保證；</text>
-  <text x="620" y="284" class="s">要回到觸發的那張，用 {{triggerIssue}}</text>
-  <text x="620" y="302" class="s">If／else block 可在 condition 之後分流</text>
-</svg>
-<div class="cap">圖 1　Trigger 只能一個；condition 不符是「No actions performed」而不是錯誤；branch 讓同一組 action 對每個相關 issue 各跑一次。</div>
+<a class="skip" href="#main">跳到主要內容</a>
+<div id="readbar" class="readbar" aria-hidden="true"></div>
+<div class="app">
+<nav id="nav" class="nav" aria-label="教材導覽">
+<a class="brand" href="index.html"><span class="logo">620</span><span><b>ACP-620</b><small>Managing Jira Projects for Cloud</small></span></a>
+<div class="count" id="nav-count">距離考試</div>
+<a class="it" href="index.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v8.5a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19.5z"/></svg><span>首頁・我的讀書計畫</span></a>
+<a class="it" href="exam.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg><span>模擬考與題庫</span></a>
+<a class="it" href="atlas.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg><span>報表與 gadget 圖鑑</span></a>
+<a class="it" href="traps.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg><span>易錯觀念</span></a>
+<a class="it" href="clarify.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>觀念釐清</span></a>
+<a class="it" href="guide.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>重點整理</span></a>
+<a class="it" href="topics.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a1.5 1.5 0 0 0-1.5 1.5v15A1.5 1.5 0 0 0 7 21h10a1.5 1.5 0 0 0 1.5-1.5V7.5z"/><path d="M14 3v4.5h4.5M9 12h6M9 16h6"/></svg><span>官方考綱</span></a>
+<div class="sep"></div>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.1 專案建立</span><span class="pct">13%</span></summary>
+<a class="it" href="620.1.1.html" data-sec="620.1.1"><span class="code">620.1.1</span><span>選擇實作方式</span></a>
+<a class="it" href="620.1.2.html" data-sec="620.1.2"><span class="code">620.1.2</span><span>建立與設定 TMP</span></a>
+<a class="it" href="620.1.3.html" data-sec="620.1.3"><span class="code">620.1.3</span><span>Issue type 設計</span></a>
+<a class="it" href="620.1.4.html" data-sec="620.1.4"><span class="code">620.1.4</span><span>專案設定與 trash</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.2 Board 設定</span><span class="pct">29%</span></summary>
+<a class="it" href="620.2.1.html" data-sec="620.2.1"><span class="code">620.2.1</span><span>選 board 類型</span></a>
+<a class="it" href="620.2.2.html" data-sec="620.2.2"><span class="code">620.2.2</span><span>跨 project board</span></a>
+<a class="it" href="620.2.3.html" data-sec="620.2.3"><span class="code">620.2.3</span><span>Columns 與 status</span></a>
+<a class="it" href="620.2.4.html" data-sec="620.2.4"><span class="code">620.2.4</span><span>Filter、sub-filter、quick filter</span></a>
+<a class="it" href="620.2.5.html" data-sec="620.2.5"><span class="code">620.2.5</span><span>Estimation 與 time tracking</span></a>
+<a class="it" href="620.2.6.html" data-sec="620.2.6"><span class="code">620.2.6</span><span>Swimlanes、卡片、工作日</span></a>
+<a class="it" href="620.2.7.html" data-sec="620.2.7"><span class="code">620.2.7</span><span>Board 排查</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.3 管理 project</span><span class="pct">25%</span></summary>
+<a class="it" href="620.3.1.html" data-sec="620.3.1"><span class="code">620.3.1</span><span>專案權限</span></a>
+<a class="it" href="620.3.2.html" data-sec="620.3.2"><span class="code">620.3.2</span><span>Project roles</span></a>
+<a class="it" href="620.3.3.html" data-sec="620.3.3"><span class="code">620.3.3</span><span>Versions 與 timeline</span></a>
+<a class="it" href="620.3.4.html" data-sec="620.3.4"><span class="code">620.3.4</span><span>Components、labels、fields</span></a>
+<a class="it" href="620.3.5.html" data-sec="620.3.5"><span class="code">620.3.5</span><span>自動指派</span></a>
+<a class="it" href="620.3.6.html" data-sec="620.3.6"><span class="code">620.3.6</span><span>Issue layout</span></a>
+<a class="it" href="620.3.7.html" data-sec="620.3.7"><span class="code">620.3.7</span><span>讓 issue 更豐富</span></a>
+</details>
+<details class="grp" open><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.4 自動化</span><span class="pct">14%</span></summary>
+<a class="it" href="620.4.1.html" data-sec="620.4.1"><span class="code">620.4.1</span><span>自動化手段</span></a>
+<a class="it" href="620.4.2.html" data-sec="620.4.2"><span class="code">620.4.2</span><span>Automation rule</span></a>
+<a class="it" href="620.4.3.html" data-sec="620.4.3"><span class="code">620.4.3</span><span>排查 automation</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.5 報表</span><span class="pct">19%</span></summary>
+<a class="it" href="620.5.1.html" data-sec="620.5.1"><span class="code">620.5.1</span><span>JQL</span></a>
+<a class="it" href="620.5.2.html" data-sec="620.5.2"><span class="code">620.5.2</span><span>Dashboards 與 gadgets</span></a>
+<a class="it" href="620.5.3.html" data-sec="620.5.3"><span class="code">620.5.3</span><span>Agile reports</span></a>
+</details>
+<div class="sep"></div><div class="toc-h">本頁目錄</div><div class="toc" id="toc">
+<a href="#tldr">3 分鐘速覽</a>
+<a href="#anatomy">一條 rule 的組成</a>
+<a href="#details">Scope、actor、owner</a>
+<a href="#parts">Trigger、condition、action 常考的</a>
+<a href="#smart">雙大括號裡的動態值</a>
+<a href="#traps">考題愛用的錯誤說法</a>
+<a href="#wrap">一分鐘腦內整理</a>
+<a href="#practice">做題</a>
 </div>
-</section>
-
-<!-- ============ Builder ============ -->
-<section id="builder">
-<div class="section-label">互動</div>
-<h2>組一條 rule：選 trigger、condition、action，看它會做什麼</h2>
-<div id="s242-builder" class="card">
-  <div class="toolbar" style="margin-top:0"><span style="font-weight:700;font-size:.88rem;width:6.5rem">Trigger</span>
-    <div class="seg" id="s242-t"><button data-v="created" class="on">Issue created</button><button data-v="transitioned">Issue transitioned</button><button data-v="field">Field value changed</button><button data-v="scheduled">Scheduled</button><button data-v="manual">Manual</button></div></div>
-  <div class="toolbar" style="margin-top:.25rem"><span style="font-weight:700;font-size:.88rem;width:6.5rem">Condition</span>
-    <div class="seg" id="s242-c"><button data-v="none" class="on">（無）</button><button data-v="fields">Issue fields</button><button data-v="jql">JQL</button><button data-v="user">User</button><button data-v="related">Related issues</button></div></div>
-  <div class="toolbar" style="margin-top:.25rem"><span style="font-weight:700;font-size:.88rem;width:6.5rem">Action</span>
-    <div class="seg" id="s242-a"><button data-v="edit" class="on">Edit issue</button><button data-v="assign">Assign</button><button data-v="transition">Transition</button><button data-v="comment">Comment</button><button data-v="subtask">Create sub-tasks</button><button data-v="email">Send email</button></div></div>
-  <div class="toolbar" style="margin-top:.25rem"><span style="font-weight:700;font-size:.88rem;width:6.5rem">Branch</span>
-    <label class="check"><input type="checkbox" id="s242-b">對所有 sub-task 各跑一次</label></div>
-  <div class="grid-2" style="margin-top:.9rem;align-items:stretch">
-    <div class="union" style="grid-template-columns:1fr;gap:0"><div class="panel result"><div class="h">這條 rule 會…</div><div id="s242-sentence" style="font-size:1rem;line-height:1.5"></div></div></div>
-    <div class="union" style="grid-template-columns:1fr;gap:0"><div class="panel"><div class="h">Smart value 範例與注意</div><div id="s242-note" style="font-size:.9rem;line-height:1.5"></div></div></div>
-  </div>
-</div>
-</section>
-
-<!-- ============ Rule details ============ -->
-<section id="details">
-<div class="section-label">Rule details</div>
-<h2>五個設定，各管一件事</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:22%">設定</th><th>意思</th><th style="width:34%">考點</th></tr>
-<tr><td><strong>Scope</strong></td><td>rule 在哪些 project 生效，共四種：<strong>Single project</strong>（一個）、<strong>Multiple projects</strong>（自選幾個）、<strong>Project type</strong>（某一類型的全部 project，例如所有 software 或所有 service project）、<strong>Global</strong>（站台上所有 project）。現行官方文件另外多了 <strong>Single team／Multi-team</strong>（以 team 為範圍），不在考試版本裡；<strong>issue type 不是 scope</strong>，要限定 issue type 請在規則裡加 condition（官方頁：<a href="https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/">What are flow details and settings?</a>，現行用語是 Single space／Multi-space／Space type／Global）</td><td>Project admin 只能建<strong>單一 project</strong>；其他三種都要 <strong>Administer Jira</strong>，在 ⚙ → System → Global automation。官方建議範圍越小越好：比較省執行額度，出錯也好查</td></tr>
-<tr><td><strong>Actor</strong></td><td>rule 執行時「以誰的身分」動作；預設是系統使用者 <strong>Automation for Jira</strong></td><td>Actor 要有 project 權限（透過 <code>atlassian-addons-project-access</code> role）。Project admin 只能把 actor 設成自己或 Automation for Jira；Jira admin 可設任何人。歷史紀錄顯示的是 actor</td></tr>
-<tr><td><strong>Owner</strong></td><td>建立 rule 的人；rule 出錯時<strong>收 email</strong></td><td>Owner ≠ actor；owner 可批次轉移，actor 只能逐條改</td></tr>
-<tr><td><strong>Allow rule trigger</strong></td><td>是否允許「別的 rule 造成的變更」觸發這條 rule</td><td>預設關。Rule A 改欄位 → Rule B 應該接著跑卻沒跑，第一個查這裡；開了要小心迴圈（10 次會被標 LOOP）</td></tr>
-<tr><td><strong>Notify on error</strong></td><td>錯誤通知頻率</td><td>寄給 owner</td></tr>
-</table></div>
-<div class="callout"><div class="t">誰能建 rule（官方 Permissions required）</div>CMP：Administer Projects ＋ Browse Projects；TMP：Administrator role；Global／multi-project：Administer Jira。Jira admin 可在 Global configuration 關閉「Allow project administrators to manage project rules」。</div>
-</section>
-
-<!-- ============ Triggers ============ -->
-<section id="triggers">
-<div class="section-label">零件 1</div>
-<h2>Triggers：常考的十幾個</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:26%">Trigger</th><th>什麼時候跑</th><th style="width:34%">陷阱</th></tr>
-<tr><td>Issue created</td><td>建立時</td><td>要注意 <strong>CSV 匯入建立的 issue 不會觸發</strong>這個 trigger，大量匯入資料時別指望自動化會跟著跑</td></tr>
-<tr><td>Issue transitioned</td><td>從 A 狀態到 B 狀態（可只指定 To 或 From）</td><td>凡是「狀態改變時要做什麼」都用這個，不要用 Issue updated；可以只指定 To（轉到某狀態）、只指定 From，或兩者都指定</td></tr>
-<tr><td>Issue updated</td><td>欄位被改</td><td class="no"><strong>不含</strong> Link、Assign、Log work 造成的更新——這三個有各自的 trigger</td></tr>
-<tr><td>Field value changed</td><td>指定欄位改變（可限 added／deleted、可 regex）</td><td>比 Issue updated 精準，也省執行次數</td></tr>
-<tr><td>Issue commented</td><td>新留言</td><td><strong>編輯既有留言不會觸發</strong>，只有新增留言才算；設定裡可以區分一般留言與 transition 時附帶的留言</td></tr>
-<tr><td>Issue assigned／linked／moved／deleted</td><td>各自事件</td><td>—</td></tr>
-<tr><td><strong>Scheduled</strong></td><td>固定間隔或 cron；可附 JQL，對每個結果跑</td><td>兩個重點：<strong>連續失敗 10 次會被自動停用</strong>（所以要留意 owner 收到的錯誤信）；附帶的 JQL 是<strong>以 actor 的權限</strong>執行，actor 看不到的 issue 就不會被處理</td></tr>
-<tr><td><strong>Manual trigger</strong></td><td>使用者在 issue 上按</td><td>可以限制哪些 group 或 role 才看得到這個按鈕，也可以要求使用者按下時先填入資料；<strong>拿來測試 smart value 最方便</strong>，搭配 Log action 就能安全地印出任何值</td></tr>
-<tr><td>Sprint／Version 事件</td><td>sprint started／completed、version released…</td><td>—</td></tr>
-<tr><td>DevOps 事件</td><td>branch created、PR merged、build failed、deployment successful…</td><td>需連接 Bitbucket／GitHub 等</td></tr>
-<tr><td>Incoming webhook</td><td>外部系統 POST 到專屬 URL</td><td>用 secret 驗證；可帶 issue key 或 JSON</td></tr>
-</table></div>
-</section>
-
-<!-- ============ Conditions ============ -->
-<section id="conditions">
-<div class="section-label">零件 2</div>
-<h2>Conditions：不符就靜靜停下</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:26%">Condition</th><th>用途</th><th style="width:34%">備註</th></tr>
-<tr><td><strong>Issue fields condition</strong></td><td>比較某欄位（= / ≠ / 含 / 空…）</td><td>官方建議<strong>優先用它</strong>，不用寫 smart value</td></tr>
-<tr><td>JQL condition</td><td>issue 是否符合一段 JQL</td><td>以 actor 權限執行，看不到的 issue 就不符</td></tr>
-<tr><td>User condition</td><td>某人（initiator／assignee…）是否是某人或在某 group／role</td><td>可 AND／OR 多條</td></tr>
-<tr><td>Related issues condition</td><td>parent／sub-task／linked／epic 是否存在或符合 JQL</td><td>不需要進 branch 就能檢查相關 issue</td></tr>
-<tr><td>Advanced compare（smart values）</td><td>兩個 smart value 比較，支援 regex</td><td>最彈性也最容易寫錯</td></tr>
-<tr><td><strong>If／else block</strong></td><td>依條件分流到不同 action</td><td>最多兩層巢狀</td></tr>
-</table></div>
-<div class="callout exam"><div class="t">考點</div>Condition 不符的執行在 audit log 是 <strong>No actions performed</strong>，不是 failure。題目說「rule 沒錯誤但沒動作」→ 先看 condition。</div>
-</section>
-
-<!-- ============ Actions ============ -->
-<section id="actions">
-<div class="section-label">零件 3</div>
-<h2>Actions：常考的與它們的細節</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:26%">Action</th><th>細節</th></tr>
-<tr><td><strong>Edit issue</strong></td><td>預設是<strong>整組取代</strong>多選欄位；Labels 要用「Add／remove values」才會保留既有；要保留其他多選欄位的值用「Copy from issue」＋新值；進階可用 JSON</td></tr>
-<tr><td><strong>Assign issue</strong></td><td>指定人、<strong>Balanced workload</strong>（給最少未完成 issue 的人）、<strong>Round robin</strong>、Random、或 smart value（例如 <code>{{issue.reporter}}</code>）</td></tr>
-<tr><td><strong>Transition issue</strong></td><td>要選目標狀態；transition 有必填欄位或 validator 時要一併填，否則失敗</td></tr>
-<tr><td>Create issue／Create sub-tasks／Clone</td><td>新建的 issue 之後要用 <code>{{createdIssue}}</code>（最近一個）或 branch「All created issues」才能繼續操作</td></tr>
-<tr><td>Comment on issue</td><td>可用 smart value；可限制可見 role／group</td></tr>
-<tr><td><strong>Re-fetch issue data</strong></td><td><strong>更新 smart value 讀到的欄位值</strong>。官方原文：預設 <code>{{issue}}</code> 在整條 rule 執行期間<strong>不會更新</strong>，一直是觸發當下的快照。Edit 之後還要讀新值，就在那一步之前插入這個 action</td></tr>
-<tr><td>Send email／Slack／Teams</td><td>收件人可用 smart value；Free 方案每 24 小時 100 封 email</td></tr>
-<tr><td><strong>Lookup issues</strong></td><td>跑 JQL 把結果放進 <code>{{lookupIssues}}</code>，<strong>最多 100 個</strong></td></tr>
-<tr><td>Create variable</td><td>定義自己的 smart value，後面的 action 重用</td></tr>
-<tr><td><strong>Log action</strong></td><td>把文字寫進 audit log，除錯 smart value 用</td></tr>
-<tr><td>Send web request</td><td>呼叫外部 API；回應可用 <code>{{webResponse}}</code></td></tr>
-<tr><td>Link issues／Manage watchers／Delete issue</td><td>—</td></tr>
-</table></div>
-<div class="callout warn"><div class="t">Clone issue 不是「完整複製」</div>
-官方 <em>Clone work item</em> 原文：會複製「所有可能的欄位資料」，<strong>附件要另外在欄位清單選 Attachment 並指定來源 issue</strong> 才會一起複製；新 issue 的 <strong>status 回到目的 workflow 的第一步</strong>、<strong>Resolution 被清空</strong>；<strong>不是 true clone、不會自動連結回原 issue</strong>，也<strong>不複製 issue links 與 comments</strong>。要留關聯就自己加 Link action；要對新卡留言要切到 created issues branch。
-<div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/">Jira automation actions</a>（2026-09-08 查核）</div></div>
-</section>
-
-<!-- ============ Branches ============ -->
-<section id="branch">
-<div class="section-label">零件 4</div>
-<h2>Branches：讓 action 對相關 issue 各跑一次</h2>
-<div class="figure">
-<svg class="dia" viewBox="0 0 900 300" role="img" aria-label="branch 對每個 sub-task 各跑一次">
-  <defs><marker id="s242-arr3" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- 觸發 issue x=40 y=110 w=220 h=80；branch 匯流 x=360；三個 sub-task x=560 w=300 h=50，y=30/125/220 -->
-  <rect x="40" y="110" width="220" height="80" rx="10" class="box teal"/>
-  <text x="150" y="138" text-anchor="middle" class="lbl b">觸發的 Story</text><text x="150" y="158" text-anchor="middle" class="s">Issue transitioned → Done</text><text x="150" y="176" text-anchor="middle" class="s">{{triggerIssue}}</text>
-  <path d="M260,150 H360" class="ln"/>
-  <path d="M360,55 V245" class="ln"/>
-  <path d="M360,55 H560" class="ln" marker-end="url(#s242-arr3)"/>
-  <path d="M360,150 H560" class="ln" marker-end="url(#s242-arr3)"/>
-  <path d="M360,245 H560" class="ln" marker-end="url(#s242-arr3)"/>
-  <text x="410" y="40" class="s">Branch: for sub-tasks</text>
-  <rect x="560" y="30" width="300" height="50" rx="10" class="box green"/><text x="710" y="50" text-anchor="middle" class="lbl b">Sub-task A → Transition to Done</text><text x="710" y="68" text-anchor="middle" class="s">{{issue}} ＝ A</text>
-  <rect x="560" y="125" width="300" height="50" rx="10" class="box green"/><text x="710" y="145" text-anchor="middle" class="lbl b">Sub-task B → Transition to Done</text><text x="710" y="163" text-anchor="middle" class="s">{{issue}} ＝ B</text>
-  <rect x="560" y="220" width="300" height="50" rx="10" class="box green"/><text x="710" y="240" text-anchor="middle" class="lbl b">Sub-task C → Transition to Done</text><text x="710" y="258" text-anchor="middle" class="s">{{issue}} ＝ C</text>
-  <text x="450" y="290" text-anchor="middle" class="s">三條分支平行執行、順序不保證；分支跑完主線才繼續</text>
-</svg>
-<div class="cap">圖 2　Branch 裡的 <code>{{issue}}</code> 是「這一輪的相關 issue」；要引用觸發的 Story 用 <code>{{triggerIssue}}</code>。</div>
-</div>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:30%">Branch 類型</th><th>對誰跑</th></tr>
-<tr><td>Sub-tasks／Parent／Epic（parent）／Stories（children）</td><td>對 issue 階層上的相關項目逐一執行，例如把 action 套用到每一個 sub-task，或往上套用到 parent</td></tr>
-<tr><td>Linked issues</td><td>對所有被連結的 issue 逐一執行，可以指定只處理某一種 link type（例如只處理 blocks）</td></tr>
-<tr><td>JQL</td><td>對符合一段 JQL 的 issue 逐一執行；要注意 JQL 是以 <strong>actor 的權限</strong>執行的，而且單次執行處理的相關 issue 有數量上限</td></tr>
-<tr><td>Current issue</td><td>對觸發的 issue 自己再開一個分支區塊，通常用來把一連串步驟分段整理，或做 if／else 以外的流程切分</td></tr>
-<tr><td><strong>Most recently created issue／All created issues</strong></td><td>Create／Clone 之後才有；不進 branch，後面的 action 仍作用在<strong>觸發 issue</strong> 上</td></tr>
-<tr><td>Advanced（smart value）</td><td>對任何一個 list 型別的 smart value 逐項執行，例如把每一則留言（<code>{{triggerIssue.comments}}</code>）或 webhook 傳進來的 JSON 陣列各處理一次</td></tr>
-<tr><td>Branch at the same time</td><td>Premium／Enterprise：多段互不相依的步驟同時跑</td></tr>
-</table></div>
-<div class="callout warn"><div class="t">兩個常考行為</div>① 分支<strong>平行</strong>、順序不保證，分支 A 改的值不要指望分支 B 讀得到。② 每次執行最多處理 <strong>5,000</strong> 個相關 issue；Lookup issues 只取前 100。</div>
-</section>
-
-<!-- ============ Smart values ============ -->
-<section id="smart">
-<div class="section-label">零件 5</div>
-<h2>Smart values：雙大括號裡的動態值</h2>
-<div class="grid-2" style="grid-template-columns:1fr">
-<div class="card"><div class="eyebrow">語法</div>
-<ul style="margin-top:.5rem;font-size:.92rem">
-<li>點記法：<code>{{issue.assignee.displayName}}</code>；多字屬性用 camelCase（<code>issueType</code>、<code>fixVersions</code>）</li>
-<li>函數有括號：<code>{{now.plusDays(5)}}</code>、<code>{{issue.summary.toLowerCase()}}</code>；可串接</li>
-<li>List 逐項：<code>{{#issue.comments}}{{author.displayName}}{{/}}</code></li>
-<li>數學：<code>{{#=}}{{issue.Story Points}} * 2{{/}}</code></li>
-<li>預設值：<code>{{issue.assignee.displayName|"未指派"}}</code></li>
-<li>List 工具：<code>.first</code>、<code>.last</code>、<code>.size</code>、<code>.join(", ")</code></li>
-</ul></div>
-<div class="card"><div class="eyebrow">最常考的幾個</div>
-<div class="tbl-wrap"><table class="tbl" style="font-size:.85rem">
-<tr><th>值</th><th>意思</th></tr>
-<tr><td><code>{{issue}}</code></td><td>目前這一輪的 issue（在 branch 裡＝相關 issue）</td></tr>
-<tr><td><code>{{triggerIssue}}</code></td><td>觸發 rule 的那張，任何地方都指它</td></tr>
-<tr><td><code>{{createdIssue}}</code>／<code>{{createdIssues}}</code></td><td>本次 rule 最近建立的一張／全部</td></tr>
-<tr><td><code>{{lookupIssues}}</code></td><td>Lookup issues 的結果（≤100）</td></tr>
-<tr><td><code>{{initiator}}</code></td><td>做出觸發動作的人</td></tr>
-<tr><td><code>{{now}}</code></td><td>現在；<code>.plusDays()</code>、<code>.format("yyyy-MM-dd")</code></td></tr>
-<tr><td><code>{{issue.parent}}</code>／<code>{{issue.subtasks}}</code>／<code>{{issue.epic}}</code></td><td>階層</td></tr>
-<tr><td><code>{{fieldChange.fromString}}</code>／<code>{{fieldChange.toString}}</code></td><td>Field value changed 的前後值</td></tr>
-</table></div></div>
-</div>
-<div class="callout"><div class="t">怎麼找某欄位的 smart value、怎麼測</div>官方做法：用 <strong>Manual trigger</strong> ＋ <strong>Log action</strong>，在 log 裡寫 <code>{{issue.某欄位}}</code>，手動觸發後到 audit log 看值；或把值包在 <code>{{#debug}}…{{/}}</code> 裡不用另加步驟。</div>
-<div class="callout exam"><div class="t">Smart value 與 JQL 是兩種語法，別混用</div>
-Smart value 用 <strong>dot notation 包在雙大括號</strong>裡（<code>{{object.property.subProperty}}</code>，多字屬性用 camelCase），函式一律帶括號（<code>{{now.plusDays(5)}}</code>、<code>{{issue.summary.toLowerCase()}}</code>）。JQL 是查詢語言，寫在 Scheduled trigger、JQL condition、Lookup issues 裡，用的是 <code>project = FOOD AND status = Done</code> 這種欄位運算子語法。
-<strong>Scheduled trigger 的查詢要寫 <code>project = FOOD</code>，不是 <code>{{project}}</code>；JQL 的 <code>now()</code> 也不是 smart value 的 <code>{{now}}</code>。</strong>自訂欄位在不同站台的 ID 不同，不要把別的站台的 <code>customfield_10001</code> 直接照抄。
-<div class="kicker" style="margin-top:.4rem">來源：<a href="https://support.atlassian.com/cloud-automation/docs/what-are-smart-values/">What are smart values?</a>（2026-09-08 查核）</div></div>
-</section>
-
-<!-- ============ Quiz ============ -->
-<section id="quiz">
-<div class="section-label">情境練習</div>
-<h2>先自己判斷，再點開解答</h2>
-<div class="quiz">
-<details class="q"><summary>Story 轉到 Done 時，它底下所有 sub-task 也要自動 Done。</summary><div class="a"><div class="tag">解答</div>組法是：<strong>Trigger</strong> 選 <code>Issue transitioned</code>（To 設成 Done）→ <strong>Branch</strong> 選 for sub-tasks → <strong>Action</strong> 用 <code>Transition issue</code> 轉到 Done。關鍵在<strong>為什麼需要 branch</strong>：action 預設只作用在觸發的那一張 issue 上，要對「一群相關的 issue」各做一次，就必須先開一個分支把範圍切換過去。這題不需要 condition；但如果只想在 Story 這個 type 上生效、Task 不要，就在 branch 之前加一個 <code>Issue fields condition</code> 判斷 issue type。</div></details>
-<details class="q"><summary>承上，PM 希望在 Story 上留言「已自動關閉 N 個 sub-task」。留言該放哪、N 怎麼寫？</summary><div class="a"><div class="tag">解答</div>留言的 action 必須放在 <strong>branch 外面</strong>——放在裡面的話，分支會對每一個 sub-task 各跑一次，結果是留了 N 則重複的留言，而且留在 sub-task 上而不是 Story 上。數量用 <code>{{triggerIssue.subtasks.size}}</code>。這裡也順便釐清一個高頻考點：<strong>在 branch 裡面，<code>{{issue}}</code> 指的是「這一輪的 sub-task」；在 branch 外面，<code>{{issue}}</code> 才等於觸發的那張 Story</strong>。想在任何位置都穩定指向觸發的 issue，就用 <code>{{triggerIssue}}</code>，它不受分支影響。</div></details>
-<details class="q"><summary>需求：新 Bug 建立時，若 priority 是 Highest 就指派給值班工程師並通知 Slack。</summary><div class="a"><div class="tag">解答</div>組法是：<strong>Trigger</strong> 用 <code>Issue created</code> → <strong>Condition</strong> 用 <code>Issue fields condition</code> 檢查 Issue type = Bug 且 Priority = Highest（也可以拆成兩個 condition 串著，效果相同，rule 裡的多個 condition 之間是 AND）→ <strong>Action</strong> 先 <code>Assign issue</code> 指派給值班工程師，再 <code>Send Slack message</code>。官方特別建議<strong>優先使用 Issue fields condition 而不是自己寫 smart value 比較</strong>，因為它不用處理格式與空值，出錯機率低得多。</div></details>
-<details class="q"><summary>想在 issue 加 label「reviewed」，但既有的其他 label 都被清掉了。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Edit issue 對多選欄位的預設行為是「整組取代」</strong>，你填進去的值會覆蓋掉原本的整個清單，不是附加上去。要保留既有的 label，必須在該欄位的 ••• 選單改用 <strong>Add／remove values</strong> 模式，明確告訴 Jira「我只是要新增這一個」。這個陷阱在 Labels、Components、Fix versions 這些多選欄位上都會出現，是實務上最容易造成資料損失的自動化錯誤之一——而且 issue 歷史雖然留有紀錄，但要一張張還原非常痛苦。</div></details>
-<details class="q"><summary>Rule 用 Create issue 建了一張新 issue，接著的 Comment action 卻留在原本的 issue 上。</summary><div class="a"><div class="tag">解答</div>因為<strong>建立新 issue 並不會把 rule 的「當前對象」切換過去</strong>，後面的 action 預設仍然作用在觸發的那張 issue 上。要對新建的 issue 動作有兩種寫法：一是加一個 branch 選 <strong>Most recently created issue</strong>（或 All created issues，如果建了好幾張），把範圍切換過去；二是不開分支，直接在 action 的欄位裡用 smart value <code>{{createdIssue}}</code> 指名它。這個「範圍不會自動跟著移動」的觀念，跟前面 branch 的道理是同一個。</div></details>
-<details class="q"><summary>每天早上 8 點，把逾期且未指派的 issue 全部加 label「overdue」。</summary><div class="a"><div class="tag">解答</div>用 <strong>Scheduled trigger</strong>：設定 cron 每天 08:00 執行，附上 JQL <code>duedate &lt; now() AND assignee is EMPTY AND resolution is EMPTY</code>，並且<strong>勾選「對每個結果執行」</strong>（不勾的話 rule 只會跑一次，而不是對每張 issue 各跑一次，這是很常見的錯誤）。動作用 <code>Edit issue</code> 加 label，記得選 <strong>Add／remove values</strong> 模式以免洗掉既有 label。兩個要注意的地方：<strong>JQL 是以 actor 的權限執行的</strong>，actor 看不到的 issue 就不會被處理；另外 <strong>Scheduled rule 連續失敗 10 次會被自動停用</strong>。</div></details>
-<details class="q"><summary>想用 Issue updated 抓「assignee 改變」，卻從來沒觸發。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Issue updated 這個 trigger 並不涵蓋三種操作：Assign（指派）、Link（建立連結）與 Log work（記錄工時）</strong>——這三件事各自有專屬的 trigger。改用 <code>Issue assigned</code>，或是用更精準的 <code>Field value changed</code> 指定 Assignee 欄位。實務上也建議優先選 Field value changed 而不是 Issue updated：它只在你關心的欄位真的變動時才觸發，<strong>既精準又省執行次數</strong>（automation 的用量是有上限的）。</div></details>
-<details class="q"><summary>Rule A 改了 Priority，Rule B 的 trigger 是 Field value changed（Priority），但 B 沒跑。</summary><div class="a"><div class="tag">解答</div>因為 Rule B 的設定裡 <strong>Allow rule trigger 預設是關閉的</strong>——這個開關決定「別的 rule 造成的變更，能不能觸發我」。預設關閉是刻意的安全設計，避免規則之間意外連鎖。到 Rule B 的 rule details 把它打開就會生效。打開之後要小心兩件事：<strong>A 改 B、B 又改回 A 這種互相觸發會形成迴圈</strong>，Jira 偵測到連續 10 次就會把執行標記為 LOOP 並中止；另外每一次連鎖觸發都會消耗執行次數。「rule 明明沒錯卻沒跑」的排查，第一個就該看這個開關。</div></details>
-<details class="q"><summary>Project admin 想把 rule 的 actor 改成部門主管，讓歷史紀錄顯示主管做的。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>project admin 能選的 actor 只有兩個：<strong>自己</strong>，或是系統使用者 <strong>Automation for Jira</strong>；要把 actor 設成其他人，必須由 Jira admin 操作。這個限制是為了防止有人藉由 automation「冒用」他人身分做事。另外還有一個前提常被忽略：<strong>被設為 actor 的那個人必須真的具備該 project 的操作權限</strong>，否則 rule 執行時會因為權限不足而失敗。順帶區分一組容易混淆的概念：<strong>actor 是「以誰的身分執行」（會顯示在 issue 歷史紀錄上），owner 是「誰建立了這條 rule」（出錯時收信的人）</strong>，兩者可以是不同人。</div></details>
-<details class="q"><summary>Comment 裡想寫「由 {{initiator.displayName}} 於 {{now}} 觸發」，日期格式要 2026-09-08。</summary><div class="a"><div class="tag">解答</div>寫成 <code>{{now.format("yyyy-MM-dd")}}</code>——<code>{{now}}</code> 直接輸出會帶著時間與時區，用 <code>.format()</code> 才能指定格式。這裡也介紹官方推薦的除錯法：<strong>不確定某個 smart value 會輸出什麼時，先用 Manual trigger 加上 Log action 試</strong>，把要測的值寫進 log，在 issue 上手動觸發一次，再到 audit log 看實際輸出。這樣做完全不會動到任何資料，比直接寫進 Comment 或 Edit 安全得多。</div></details>
-<details class="q"><summary>Balanced workload 和 Round robin 差在哪？</summary><div class="a"><div class="tag">解答</div>差別在<strong>要不要看目前的工作量</strong>。<strong>Balanced workload</strong> 會比較候選名單中每個人手上<strong>未完成 issue 的數量</strong>，指派給最少的那一位，所以負擔會自然趨於平均；<strong>Round robin</strong> 則單純依名單順序輪流，不管對方手上已經積了多少工作。實務上的選擇：工作大小相近、希望絕對公平就用 Round robin；工作大小差異大、有人可能卡在大案子上，用 Balanced workload 比較合理。兩者都可以排除特定人或限定群組。</div></details>
-</div>
-</section>
-
-<!-- ============ Traps ============ -->
-<section id="traps">
-<div class="section-label">常見陷阱</div>
-<h2>考題喜歡設的誤解</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Condition 不符會顯示錯誤」</td><td>不會。condition 不符時，audit log 顯示的是 <strong>No actions performed</strong>（正常結束，只是沒事情可做），不是錯誤。所以看到「rule 有跑、沒報錯、也沒動作」，第一個要檢查的就是 condition</td></tr>
-<tr><td>「Branch 裡的 {{issue}} 是觸發的那張」</td><td>不是。在 branch 內部，<code>{{issue}}</code> 指的是<strong>這一輪正在處理的相關 issue</strong>；要穩定指向觸發 rule 的那一張，任何位置都用 <code>{{triggerIssue}}</code></td></tr>
-<tr><td>「分支會依序執行」</td><td>不會。分支是<strong>平行執行的，順序不保證</strong>；所以分支 A 寫進去的值，不要指望分支 B 讀得到</td></tr>
-<tr><td>「Create issue 之後的 action 會作用在新 issue」</td><td>不會。建立新 issue 不會切換 rule 的作用對象，後續 action 仍然作用在觸發的 issue 上；要對新的那張動作，得用 branch「Most recently created issue」或 smart value <code>{{createdIssue}}</code></td></tr>
-<tr><td>「Edit issue 加 label 會保留舊的」</td><td>不會。Edit issue 對多選欄位<strong>預設是整組取代</strong>，會洗掉既有的值；要附加請改用該欄位的 <strong>Add／remove values</strong> 模式</td></tr>
-<tr><td>「Issue updated 什麼改變都抓」</td><td>不會。Issue updated <strong>不包含</strong>指派（Assign）、建立連結（Link）與記錄工時（Log work）這三種變更，它們各自有專屬的 trigger</td></tr>
-<tr><td>「一條 rule 可以有多個 trigger」</td><td>不行。一條 rule 只能有一個 trigger；需要涵蓋多種事件時，改用 <strong>Multiple issue events</strong> 這個 trigger 一次勾選多個事件</td></tr>
-</table></div>
-</section>
-
-<!-- ============ Lab ============ -->
-<section id="lab">
-<div class="section-label">實作（40 分鐘）</div>
-<h2>三條 rule 把零件都摸過</h2>
-<ol>
-<li><strong>Rule 1</strong>：Issue created → Issue fields condition（type = Bug）→ Assign（Balanced workload，候選 2 人）→ Comment「{{initiator.displayName}} 建立，指派給 {{issue.assignee.displayName}}」。建三張 Bug 看分配。</li>
-<li><strong>Rule 2</strong>：Issue transitioned（To Done）→ Branch for sub-tasks → Transition to Done；branch 外再 Comment「已關閉 {{triggerIssue.subtasks.size}} 個 sub-task」。看 audit log 的分支紀錄。</li>
-<li><strong>Rule 3</strong>：Manual trigger → Log action 寫 <code>{{issue.key}} / {{issue.fixVersions.name}} / {{now.plusDays(5).format("yyyy-MM-dd")}}</code>，在 issue 上手動觸發，到 audit log 讀值。</li>
-<li>把 Rule 1 的 actor 改成自己，重跑，看 issue 歷史紀錄的作者變化。</li>
-<li>在 Rule 2 的 Edit issue 試 Labels「整組取代」vs「Add／remove values」的差別。</li>
-<li><strong>四個反例（來自另一套教材的 lab，逐一製造一種差異）</strong>：<br>
-（a）<em>錯誤欄位路徑</em>：Log 印 <code>{{issue.notARealField}}</code> 再改 <code>{{issue.key}}</code> → 前者空值，證明 smart value 可單獨測；<br>
-（b）<em>快照未更新</em>：Log Priority → Edit Priority → Log Priority → 讀到舊值；中間插入 <strong>Re-fetch issue data</strong> 再 Log → 讀到新值；<br>
-（c）<em>上下文</em>：在 parent 的 Sub-tasks branch 內同時印 <code>{{issue.key}}</code> 與 <code>{{triggerIssue.key}}</code> → 前者每圈不同、後者固定；<br>
-（d）<em>重跑安全</em>：同一條加標籤 rule 手動跑兩次 → 標籤集合一致；但若含 Comment，會留兩則，需要自己設重複判斷。</li>
-<li>記錄表：rule 名稱與版本、Actor、觸發 issue key、預期、audit log ID、實際結果、issue History。<strong>一次只改一個設定</strong>再重測，最後把 demo rule 關掉。</li>
-</ol>
-<div class="callout"><div class="t">來源（本節精讀）</div>
-<ul style="margin:0;font-size:.88rem">
-<li><a href="https://www.atlassian.com/software/jira/guides/expand-jira/automation">Jira automation guide</a></li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/create-and-edit-jira-automation-rules/">Create and edit Jira automation rules</a></li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/edit-issue-fields-with-jira-automation/">Edit issues with Jira automation</a></li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-branches/">Jira automation branches</a></li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/">Jira automation triggers</a></li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-conditions/">Jira automation conditions</a></li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/">Jira automation actions</a></li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/smart-values-in-jira-automation/">Smart values in Jira automation</a>（hub）→ <a href="https://support.atlassian.com/cloud-automation/docs/what-are-smart-values/">What are smart values?</a>、<a href="https://support.atlassian.com/cloud-automation/docs/jira-smart-values-issues/">Smart values – issues</a>、<a href="https://support.atlassian.com/cloud-automation/docs/pass-data-between-actions-in-a-flow/">Pass data between actions</a></li>
-<li><a href="https://support.atlassian.com/cloud-automation/docs/what-is-a-rule-actor/">What is a flow actor?</a>、<a href="https://support.atlassian.com/cloud-automation/docs/run-jira-rules-as-another-user/">Run Jira flows as another user</a>、<a href="https://support.atlassian.com/cloud-automation/docs/permissions-required-for-jira-cloud-automation-rules/">Permissions required</a>（補充）</li>
-</ul></div>
-</section>
-
-<section id="qbank">
-<div class="section-label">模擬題</div>
-<h2>本節 14 題，附逐選項解析與來源</h2>
-<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
-<div class="qbank" data-section="620.4.2"></div>
-</section>
-
-<div class="footer-nav"><a href="620.4.1.html">← 620.4.1 自動化手段</a><a href="620.4.3.html">下一節：620.4.3 排查 automation →</a></div>
+</nav>
+<div id="scrim" class="scrim" aria-hidden="true"></div>
+<div class="main">
+<header class="bar"><button id="menu" class="ibtn menu" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="nav"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="ttl"><a href="index.html">首頁</a> / 620.4 Automation / <b>620.4.2</b></div><button id="theme" class="ibtn" type="button" aria-label="切換淺色或深色"></button></header>
+<main id="main" class="content">
+<header class="hero"><div class="eyebrow">620.4.2・Automation 14%</div><h1>Automation rule 的組成</h1><p class="lead">Trigger、condition、action、branch，加上 rule details（scope、actor、owner）與 smart values。</p><div class=meta><span class="chip rose">你問過：scope 有幾種</span><span class="chip brand">考試佔 14%</span></div><details class="obj"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg><span>官方考綱原文（這一節會考的範圍）</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li>Understand the functionality of each part of an automation rule<span>rule 每個部分的功能</span></li><li>Understand how branches in automation rules can be used to update related issues<span>用 branch 更新相關 issue</span></li><li>Understand smart values<span>smart values</span></li></ul></details><details class="obj toc-m"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>本頁內容</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li><a href="#tldr">3 分鐘速覽</a></li><li><a href="#anatomy">一條 rule 的組成</a></li><li><a href="#details">Scope、actor、owner</a></li><li><a href="#parts">Trigger、condition、action 常考的</a></li><li><a href="#smart">雙大括號裡的動態值</a></li><li><a href="#traps">考題愛用的錯誤說法</a></li><li><a href="#wrap">一分鐘腦內整理</a></li><li><a href="#practice">做題</a></li></ul></details></header><section class="sec" id="tldr"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>3 分鐘速覽</div><h2>Rule＝trigger → condition → action（＋branch）</h2><ol class="tldr"><li><b>Trigger 只能一個</b><span>Issue created、transitioned、field value changed、scheduled、manual…</span></li><li><b>Condition 不符＝No actions performed</b><span>不是錯誤。</span></li><li><b>Branch 對相關 issue 各跑一次</b><span>Branch 裡的 {{issue}} 是相關 issue；觸發的那張用 {{triggerIssue}}。</span></li><li><b><mark class="mk">Scope 只有四種</mark><span class="tag-mine">你常錯</span></b><span>Single project、Multiple projects、Project type、Global。Issue type 不是 scope（要用 condition）。</span></li><li><b>Actor 決定權限</b><span>預設 Automation for Jira；project admin 只能設成自己或 Automation for Jira。</span></li><li><b>{{issue}} 是觸發當下的快照</b><span>Edit 之後要讀新值，先 Re-fetch issue data。</span></li></ol></section><section class="sec" id="anatomy"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="8" height="5" rx="1.5"/><rect x="12" y="16" width="8" height="5" rx="1.5"/><path d="M8 8v5h8v3"/></svg>核心模型</div><h2>一條 rule 的組成</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 360 278" role="img" aria-label="automation rule 的組成"><rect x="20" y="10" width="320" height="48" rx="10" class="bx violet"/><text x="36" y="31" text-anchor="start" class="b">Trigger</text><text x="36" y="49" text-anchor="start" class="s">只能一個：何時開始</text><line x1="180" y1="60" x2="180.0" y2="72.0" class="ln"/><polygon points="180,78 184.5,70.0 175.5,70.0" class="ah"/><rect x="20" y="80" width="320" height="48" rx="10" class="bx amber"/><text x="36" y="101" text-anchor="start" class="b">Condition</text><text x="36" y="119" text-anchor="start" class="s">不符就停（No actions performed）</text><line x1="180" y1="130" x2="180.0" y2="142.0" class="ln"/><polygon points="180,148 184.5,140.0 175.5,140.0" class="ah"/><rect x="20" y="150" width="320" height="48" rx="10" class="bx brand"/><text x="36" y="171" text-anchor="start" class="b">Action</text><text x="36" y="189" text-anchor="start" class="s">要做什麼：編輯、指派、轉狀態…</text><line x1="180" y1="200" x2="180.0" y2="212.0" class="ln"/><polygon points="180,218 184.5,210.0 175.5,210.0" class="ah"/><rect x="20" y="220" width="320" height="48" rx="10" class="bx teal"/><text x="36" y="241" text-anchor="start" class="b">Branch</text><text x="36" y="259" text-anchor="start" class="s">對相關 issue 各跑一次</text></svg></div><figcaption>Trigger 只能一個；condition 不符就安靜停下。</figcaption></figure><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">Rule 沒有錯誤，但什麼事都沒做，audit log 會顯示什麼？</span><span class="rv">看答案</span></summary><div class="aa"><b>No actions performed</b>：condition 不符。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>Trigger 一個；condition 不符不算錯。</li></ul></aside></section><section class="sec" id="details"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Rule details</div><h2>Scope、actor、owner</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 380 413" role="img" aria-label="Rule details"><rect x="0.5" y="0.5" width="379" height="412" rx="10" class="bx"/><rect x="0" y="0" width="380" height="34" rx="0" class="sf-bg"/><rect x="0" y="34" width="106" height="379" rx="0" class="sf-bg"/><line x1="106" y1="34" x2="106" y2="413" class="gl"/><circle cx="14" cy="17" r="4.5" class="fl-rose"/><circle cx="28" cy="17" r="4.5" class="fl-amber"/><circle cx="42" cy="17" r="4.5" class="fl-green"/><text x="60" y="22" text-anchor="start" class="s">Automation</text><text x="118" y="62" text-anchor="start" class="h">Rule details</text><text x="118" y="89" text-anchor="start" class="b" style="font-size:12px">Scope</text><rect x="118" y="95" width="250" height="28" rx="6" class="bx brand"/><text x="128" y="113" text-anchor="start" class="t">Multiple projects</text><path d="M350,106 l5,5 l5,-5" class="ln ink" style="stroke-width:1.6"/><text x="118" y="133" text-anchor="start" class="s tf-violet" style="font-weight:700">↑ Single project／Multiple projects／Pr</text><text x="118" y="149" text-anchor="start" class="s tf-violet" style="font-weight:700">oject type／Global</text><text x="118" y="180" text-anchor="start" class="b" style="font-size:12px">Actor</text><rect x="118" y="186" width="250" height="28" rx="6" class="bx brand"/><text x="128" y="204" text-anchor="start" class="t">Automation for Jira</text><path d="M350,197 l5,5 l5,-5" class="ln ink" style="stroke-width:1.6"/><text x="118" y="224" text-anchor="start" class="s tf-violet" style="font-weight:700">↑ 以誰的身分執行；要有 project 權限</text><text x="118" y="255" text-anchor="start" class="t" style="font-size:12px">Owner</text><rect x="118" y="261" width="250" height="28" rx="6" class="bx"/><text x="128" y="279" text-anchor="start" class="t">Adam（收錯誤通知）</text><text x="118" y="310" text-anchor="start" class="t" style="font-size:12px">Allow rule trigger</text><rect x="118" y="316" width="34" height="18" rx="9" class="fl-gray"/><circle cx="127" cy="325" r="6.5" class="sf-surface"/><text x="160" y="329" text-anchor="start" class="t">其他 rule 的變更可以觸發這條</text><text x="118" y="357" text-anchor="start" class="t" style="font-size:12px">Notify on error</text><rect x="118" y="363" width="250" height="28" rx="6" class="bx"/><text x="128" y="381" text-anchor="start" class="t">Once per day</text><path d="M350,374 l5,5 l5,-5" class="ln ink" style="stroke-width:1.6"/><rect x="6" y="39" width="94" height="22" rx="6" class="sf-brand"/><text x="14" y="54" text-anchor="start" class="b" style="font-size:12px">Rules</text><text x="14" y="80" text-anchor="start" class="t" style="font-size:12px">Audit log</text><text x="14" y="106" text-anchor="start" class="t" style="font-size:12px">Usage</text></svg></div><figcaption>Project settings → Automation → rule → Rule details。</figcaption></figure><table class="tbl"><thead><tr><th class="">Scope</th><th class="">範圍</th><th class="">誰能建</th></tr></thead><tbody><tr class=""><td class="" data-l="Scope">Single project</td><td class="" data-l="範圍">一個 project</td><td class="" data-l="誰能建">Project admin</td></tr><tr class=""><td class="" data-l="Scope">Multiple projects</td><td class="" data-l="範圍">自選幾個</td><td class="" data-l="誰能建">Jira admin</td></tr><tr class=""><td class="" data-l="Scope">Project type</td><td class="" data-l="範圍">某類型的全部 project</td><td class="" data-l="誰能建">Jira admin</td></tr><tr class=""><td class="" data-l="Scope">Global</td><td class="" data-l="範圍">全部 project</td><td class="" data-l="誰能建">Jira admin</td></tr></tbody></table><div class="call weak"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><div><div class="t">你練習時錯過</div><p>Automation 的 scope 只有 <mark class="mk">Single project、Multiple projects、Project type、Global</mark>（現行文件另有 team 相關 scope，不在考試範圍）。「Multiple issue types」不是 scope，要用 condition 限定。</p></div></div><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">想讓 rule 只對 Bug 生效，要設在 scope 嗎？</span><span class="rv">看答案</span></summary><div class="aa">不是。Issue type 不是 scope，用 condition（Issue fields condition：Issue type = Bug）。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li><mark class="mk">Scope 四種；issue type 用 condition。</mark><span class="tag-mine">你常錯</span></li><li>Actor 執行、owner 收錯誤信。</li><li>Multi／type／global 要 Jira admin。</li></ul></aside></section><section class="sec" id="parts"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg>零件</div><h2>Trigger、condition、action 常考的</h2><table class="tbl"><thead><tr><th class="">類型</th><th class="">常考</th></tr></thead><tbody><tr class=""><td class="" data-l="類型">Trigger</td><td class="" data-l="常考">Issue transitioned（狀態改變都用它）、Field value changed（比 Issue updated 精準）、Scheduled（附 JQL、連續失敗 10 次自動停用）、Manual</td></tr><tr class=""><td class="" data-l="類型">Condition</td><td class="" data-l="常考">Issue fields、JQL（以 actor 權限執行）、User、Related issues、If／else</td></tr><tr class=""><td class="" data-l="類型">Action</td><td class="" data-l="常考">Edit、Assign（round robin、balanced workload）、Transition、Create sub-tasks、Comment、Send email、Lookup issues（最多 100）、Re-fetch issue data、Log action</td></tr><tr class=""><td class="" data-l="類型">Branch</td><td class="" data-l="常考">Sub-tasks、Parent、Linked issues、JQL；分支平行、順序不保證</td></tr></tbody></table><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>狀態改變用 Issue transitioned。</li><li>Branch 平行執行。</li></ul></aside></section><section class="sec" id="smart"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a2 2 0 1 1 4 0V5h4v4h1.5a2 2 0 1 1 0 4H18v6H6v-4h1.5a2 2 0 1 0 0-4H6V5h4z"/></svg>Smart values</div><h2>雙大括號裡的動態值</h2><table class="tbl"><thead><tr><th class="">值</th><th class="">意思</th></tr></thead><tbody><tr class=""><td class="" data-l="值">{{issue}}</td><td class="" data-l="意思">目前這一輪的 issue（branch 裡是相關 issue）</td></tr><tr class=""><td class="" data-l="值">{{triggerIssue}}</td><td class="" data-l="意思">觸發 rule 的那張</td></tr><tr class=""><td class="" data-l="值">{{createdIssue}}</td><td class="" data-l="意思">這次 rule 最近建立的一張</td></tr><tr class=""><td class="" data-l="值">{{now.plusDays(5)}}</td><td class="" data-l="意思">五天後</td></tr><tr class=""><td class="" data-l="值">{{issue.assignee.displayName|"未指派"}}</td><td class="" data-l="意思">有預設值</td></tr><tr class=""><td class="" data-l="值">{{#issue.comments}}…{{/}}</td><td class="" data-l="意思">逐項處理 list</td></tr></tbody></table><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">在 sub-task 的 branch 裡要引用觸發的 story，用哪個？</span><span class="rv">看答案</span></summary><div class="aa"><b>{{triggerIssue}}</b>。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>{{issue}} vs {{triggerIssue}}。</li><li>改完要讀新值 → Re-fetch issue data。</li></ul></aside></section><section class="sec" id="traps"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg>易錯觀念</div><h2>考題愛用的錯誤說法</h2><div class="traps"><div class="trap mine"><div class="w">Multiple issue types 是一種 automation scope。</div><div class="r"><mark class="mk">Scope 只有 Single、Multiple projects、Project type、Global。</mark></div><div class="why"></div><div class="meta"><span class="chip rose">你練習時錯過</span><a href="https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap"><div class="w">Condition 不符會記成 failure。</div><div class="r">記成 No actions performed。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/cloud-automation/docs/what-is-the-automation-audit-log/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap"><div class="w">Project admin 可以把 actor 設成任何人。</div><div class="r">只能自己或 Automation for Jira。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/" target="_blank" rel="noopener">官方來源</a></div></div></div></section><section class="sec" id="wrap"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M10 11L6.5 7.3M14 11l3.5-3.7M10 13l-3.5 3.7M14 13l3.5 3.7"/></svg>一分鐘腦內整理</div><h2>讀完了？用這張收攏整節</h2><div class="mnemo"><div><b>觸、條、動、分</b><span>Trigger、condition、action、branch。</span></div><div><b>Scope 四種</b><span>單一、多個、類型、全域。</span></div></div><div class="wu"><div class="wu-it"><a href="#anatomy" class="wu-h">一條 rule 的組成</a><ul><li>Trigger 一個；condition 不符不算錯。</li></ul></div><div class="wu-it"><a href="#details" class="wu-h">Scope、actor、owner</a><ul><li><mark class="mk">Scope 四種；issue type 用 condition。</mark><span class="tag-mine">你常錯</span></li><li>Actor 執行、owner 收錯誤信。</li><li>Multi／type／global 要 Jira admin。</li></ul></div><div class="wu-it"><a href="#parts" class="wu-h">Trigger、condition、action 常考的</a><ul><li>狀態改變用 Issue transitioned。</li><li>Branch 平行執行。</li></ul></div><div class="wu-it"><a href="#smart" class="wu-h">雙大括號裡的動態值</a><ul><li>{{issue}} vs {{triggerIssue}}。</li><li>改完要讀新值 → Re-fetch issue data。</li></ul></div></div></section><section class="sec" id="practice"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg>本節練習</div><h2>做題</h2><div class="qz" data-sec="620.4.2"><p class="muted">題目載入中…</p></div></section><div class="srcs"><b>官方來源（本節依據）</b><ul><li><a href="https://support.atlassian.com/cloud-automation/docs/what-are-rule-details-in-atlassian-automation/" target="_blank" rel="noopener">Rule details</a></li><li><a href="https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/" target="_blank" rel="noopener">Jira automation actions</a></li><li><a href="https://support.atlassian.com/cloud-automation/docs/what-are-smart-values/" target="_blank" rel="noopener">Smart values</a></li></ul></div><div class="readmark" data-readmark="620.4.2"><span class="msg"></span><button type="button" class="btn sm">標記本節已讀</button></div><nav class="pager" aria-label="上一節與下一節"><a href="620.4.1.html"><small>上一節</small><span>620.4.1 自動化手段</span></a><a class="next" href="620.4.3.html"><small>下一節</small><span>620.4.3 排查 automation</span></a></nav>
+<p class="foot">本教材為原創整理，非 Atlassian 官方出版品；題目皆為原創，不含第三方題庫題幹。考試沿用 project／issue 等舊用語，現行 Jira Cloud 已改為 space／work item。</p>
 </main>
 </div>
-<script src="assets/spring.js"></script>
-<script src="assets/app.js"></script>
-<script src="assets/questions.js"></script>
-<script src="assets/exam.js"></script>
-<script>
-/* 620.4.2 rule builder（id 前綴 s242-） */
-(function(){
-  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-  const box=$('#s242-builder'); if(!box) return;
-  const T={created:{t:'一張 issue 被建立時',sv:'{{issue.key}}、{{initiator.displayName}}；CSV import 不會觸發'},
-    transitioned:{t:'issue 轉到指定狀態時',sv:'{{issue.status.name}}；要抓狀態變化別用 Issue updated'},
-    field:{t:'指定欄位的值改變時',sv:'{{fieldChange.fromString}} → {{fieldChange.toString}}'},
-    scheduled:{t:'到了排程時間，對 JQL 找到的每張 issue',sv:'JQL 以 actor 權限執行；連續失敗 10 次自動停用'},
-    manual:{t:'使用者在 issue 上手動按下時',sv:'可限制誰看得到按鈕；最適合搭配 Log action 測 smart value'}};
-  const C={none:{t:'',n:''},fields:{t:'，且指定欄位符合條件',n:'Issue fields condition 不用寫 smart value，官方建議優先用'},
-    jql:{t:'，且 issue 符合 JQL',n:'JQL condition 以 actor 權限執行；actor 看不到就不符'},
-    user:{t:'，且做出動作的人屬於指定 group／role',n:'User condition 可 AND／OR 多條'},
-    related:{t:'，且相關 issue（parent／sub-task／linked）符合條件',n:'Related issues condition 不必進 branch 就能檢查相關 issue'}};
-  const A={edit:{t:'編輯欄位',n:'多選欄位預設整組取代；Labels 用 Add／remove values 才保留既有'},
-    assign:{t:'指派 issue',n:'可用 Balanced workload（未完成最少）、Round robin、或 {{issue.reporter}}'},
-    transition:{t:'轉換狀態',n:'目標 transition 有必填欄位或 validator 要一併滿足，否則失敗'},
-    comment:{t:'留言',n:'{{initiator.displayName}} 於 {{now.format("yyyy-MM-dd")}}；可限制可見 role'},
-    subtask:{t:'建立 sub-task',n:'之後要對新 issue 動作得用 {{createdIssue}} 或 branch「All created issues」'},
-    email:{t:'寄 email',n:'Free 方案每 24 小時 100 封；收件人可用 smart value'}};
-  const tb=$$('#s242-t button'), cb=$$('#s242-c button'), ab=$$('#s242-a button'), br=$('#s242-b');
-  function render(){
-    const t=tb.find(b=>b.classList.contains('on')).dataset.v, c=cb.find(b=>b.classList.contains('on')).dataset.v, a=ab.find(b=>b.classList.contains('on')).dataset.v;
-    const scope=br.checked?'對它的每一個 sub-task 各':'對這張 issue ';
-    $('#s242-sentence').innerHTML=`<strong>${T[t].t}</strong>${C[c].t}，${scope}<strong>${A[a].t}</strong>${br.checked?'（分支平行執行，順序不保證）':''}。`;
-    let n=`<div><strong>Trigger：</strong>${T[t].sv}</div>`;
-    if(c!=='none') n+=`<div style="margin-top:.35rem"><strong>Condition：</strong>${C[c].n}；不符時 audit log 顯示 No actions performed</div>`;
-    n+=`<div style="margin-top:.35rem"><strong>Action：</strong>${A[a].n}</div>`;
-    if(br.checked) n+=`<div style="margin-top:.35rem"><strong>Branch：</strong>裡面的 {{issue}} 是該 sub-task；要引用觸發的那張用 {{triggerIssue}}</div>`;
-    $('#s242-note').innerHTML=n; br.closest('label').classList.toggle('on',br.checked);
-    if(window.springPop) window.springPop($('#s242-sentence'));
-  }
-  [[tb,'#s242-t'],[cb,'#s242-c'],[ab,'#s242-a']].forEach(([bs])=>bs.forEach(b=>b.addEventListener('click',()=>{bs.forEach(x=>x.classList.remove('on'));b.classList.add('on');render();})));
-  br.addEventListener('change',render); render();
-})();
-</script>
+</div>
+<script src="assets/site.js?v=1790344153" defer></script><script src="assets/qbank.js?v=1790344153" defer></script><script src="assets/quiz.js?v=1790344153" defer></script>
 </body>
 </html>
