@@ -2,351 +2,83 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>620.2.2 跨團隊、跨 project 的 board｜ACP-620 教材</title>
-<link rel="stylesheet" href="assets/style.css">
-<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="description" content="ACP-620 620.2.2：跨團隊、跨 project 的 board">
+<meta name="theme-color" content="#3452c8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233452c8'/%3E%3Ctext x='16' y='21' font-family='Arial' font-size='12' font-weight='700' text-anchor='middle' fill='white'%3E620%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css?v=1790343483">
+<script>try{var t=localStorage.getItem("acp620.theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body>
-<div class="shell">
-<aside class="sidebar">
-  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
-  <!--NAV-->
-  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
-  <nav>
-    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
-    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
-    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
-    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
-  </nav></details>
-  <details class="navgrp" open><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
-  <nav>
-    <a href="620.2.1.html">620.2.1 選 board 類型</a>
-    <a href="620.2.2.html">620.2.2 跨 project board</a>
-    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
-    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
-    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
-    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
-    <a href="620.2.7.html">620.2.7 Board 排查</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
-  <nav>
-    <a href="620.3.1.html">620.3.1 專案權限</a>
-    <a href="620.3.2.html">620.3.2 Project roles</a>
-    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
-    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
-    <a href="620.3.5.html">620.3.5 自動指派</a>
-    <a href="620.3.6.html">620.3.6 Issue layout</a>
-    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
-  <nav>
-    <a href="620.4.1.html">620.4.1 自動化手段</a>
-    <a href="620.4.2.html">620.4.2 Automation rule</a>
-    <a href="620.4.3.html">620.4.3 排查 automation</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
-  <nav>
-    <a href="620.5.1.html">620.5.1 JQL</a>
-    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
-    <a href="620.5.3.html">620.5.3 Agile reports</a>
-  </nav></details>
-  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a><a href="traps.html">⚠️ 易錯觀念</a><a href="clarify.html">💡 觀念釐清</a><a href="guide.html">📌 重點整理</a><a href="topics.html">📋 官方考綱</a></nav>
-  <!--/NAV-->
-  <div class="group">本頁目錄</div>
-  <!--TOC-->
-  <nav>
-    <a href="#goal">這一節考什麼</a>
-    <a href="#model">核心：board 跟著 filter 走</a>
-    <a href="#create">怎麼建跨 project board</a>
-    <a href="#visibility">誰看得到（互動）</a>
-    <a href="#location">Board location</a>
-    <a href="#copy">Copy board</a>
-    <a href="#implications">跨 project 的代價</a>
-    <a href="#quiz">情境練習</a>
-    <a href="#traps">常見陷阱</a>
-    <a href="#lab">實作</a>
-    <a href="#qbank">模擬題</a>
-  </nav>
-</aside>
-
-<main>
-<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.2 Board Configuration（29%）/ 620.2.2</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
-<div class="eyebrow">620.2.2 · Configure boards across multiple teams and projects</div>
-<h1>跨團隊、跨 project 的 board</h1>
-<p class="lead">一個 board 可以顯示好幾個 project 的 issue，也可以一個 project 有好幾個 board。做得到的原因只有一個：<strong>board 的內容由 saved filter 決定，不是由 project 決定</strong>。看懂這件事，「誰看得到」「掛在哪裡」「改了 filter 會怎樣」全部推得出來。</p>
-<div class="term">術語：考試用 project／issue；現行產品為 space／work item。本教材沿用考試用語。</div>
-
-<section id="goal">
-<div class="section-label">這一節考什麼</div>
-<h2>三條 bullet，翻成考題語言</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
-<tr><td>Know how to create cross-project boards</td><td>「要一個 board 同時看 A、B 兩個 project，怎麼建？」「TMP 想要第二個 board？」</td></tr>
-<tr><td>Understand the implications of cross-project boards</td><td>「同事看得到 project 卻看不到 board，為什麼？」「兩個 project 的 workflow 不同，columns 怎麼辦？」「sprint 會跨 project 嗎？」</td></tr>
-<tr><td>Understand which board configurations support cross-project boards</td><td>「哪些設定是 board 層、哪些是 project 層？」「swimlane by project 在哪？」</td></tr>
-</table></div>
-<div class="callout warn" id="weak-spots"><div class="t">練習題常錯的觀念</div>這一節在練習測驗中錯誤率偏高，先確認下面幾個觀念分得清楚，再往下讀：<a class="chip" href="clarify.html#board">跨 project board</a> <a class="chip" href="clarify.html#board">誰能管 board</a> </div>
-</section>
-
-<!-- ============ Model ============ -->
-<section id="model">
-<div class="section-label">核心模型</div>
-<h2>Board 跟著 filter 走，不跟著 project 走</h2>
-<div class="figure">
-<svg class="dia" viewBox="0 0 900 300" role="img" aria-label="兩個 project 的 issue 經由一份 saved filter 匯入同一個 board">
-  <defs><marker id="s222-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- 座標：Project A (40,40,200,70)；Project B (40,190,200,70)；匯流 x=300 y=150；Filter (340,115,220,70)；Board (640,115,220,70) -->
-  <rect x="40" y="40" width="200" height="70" rx="10" class="box teal"/>
-  <text x="140" y="68" text-anchor="middle" class="lbl b">Project A</text><text x="140" y="90" text-anchor="middle" class="s">需要 Browse Projects 權限</text>
-  <rect x="40" y="190" width="200" height="70" rx="10" class="box teal"/>
-  <text x="140" y="218" text-anchor="middle" class="lbl b">Project B</text><text x="140" y="240" text-anchor="middle" class="s">需要 Browse Projects 權限</text>
-  <path d="M240,75 H300 V150" class="ln"/>
-  <path d="M240,225 H300 V150" class="ln"/>
-  <path d="M300,150 H340" class="ln" marker-end="url(#s222-arr)"/>
-  <rect x="340" y="115" width="220" height="70" rx="10" class="box brand"/>
-  <text x="450" y="143" text-anchor="middle" class="lbl b">Saved filter</text><text x="450" y="165" text-anchor="middle" class="s">project in (A, B) ORDER BY Rank</text>
-  <path d="M560,150 H640" class="ln" marker-end="url(#s222-arr)"/>
-  <rect x="640" y="115" width="220" height="70" rx="10" class="box violet"/>
-  <text x="750" y="143" text-anchor="middle" class="lbl b">Board</text><text x="750" y="165" text-anchor="middle" class="s">看得到 filter 的人才看得到 board</text>
-  <text x="450" y="285" text-anchor="middle" class="s">Filter 的分享設定決定「誰看得到 board」；各 project 的 Browse Projects 決定「看得到哪些卡片」</text>
-</svg>
-<div class="cap">圖 1　兩道門：filter 分享（進得了 board）＋ project 權限（看得到哪些卡）。</div>
+<a class="skip" href="#main">跳到主要內容</a>
+<div id="readbar" class="readbar" aria-hidden="true"></div>
+<div class="app">
+<nav id="nav" class="nav" aria-label="教材導覽">
+<a class="brand" href="index.html"><span class="logo">620</span><span><b>ACP-620</b><small>Managing Jira Projects for Cloud</small></span></a>
+<div class="count" id="nav-count">距離考試</div>
+<a class="it" href="index.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v8.5a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19.5z"/></svg><span>首頁・我的讀書計畫</span></a>
+<a class="it" href="exam.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg><span>模擬考與題庫</span></a>
+<a class="it" href="atlas.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg><span>報表與 gadget 圖鑑</span></a>
+<a class="it" href="traps.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg><span>易錯觀念</span></a>
+<a class="it" href="clarify.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>觀念釐清</span></a>
+<a class="it" href="guide.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>重點整理</span></a>
+<a class="it" href="topics.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a1.5 1.5 0 0 0-1.5 1.5v15A1.5 1.5 0 0 0 7 21h10a1.5 1.5 0 0 0 1.5-1.5V7.5z"/><path d="M14 3v4.5h4.5M9 12h6M9 16h6"/></svg><span>官方考綱</span></a>
+<div class="sep"></div>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.1 專案建立</span><span class="pct">13%</span></summary>
+<a class="it" href="620.1.1.html" data-sec="620.1.1"><span class="code">620.1.1</span><span>選擇實作方式</span></a>
+<a class="it" href="620.1.2.html" data-sec="620.1.2"><span class="code">620.1.2</span><span>建立與設定 TMP</span></a>
+<a class="it" href="620.1.3.html" data-sec="620.1.3"><span class="code">620.1.3</span><span>Issue type 設計</span></a>
+<a class="it" href="620.1.4.html" data-sec="620.1.4"><span class="code">620.1.4</span><span>專案設定與 trash</span></a>
+</details>
+<details class="grp" open><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.2 Board 設定</span><span class="pct">29%</span></summary>
+<a class="it" href="620.2.1.html" data-sec="620.2.1"><span class="code">620.2.1</span><span>選 board 類型</span></a>
+<a class="it" href="620.2.2.html" data-sec="620.2.2"><span class="code">620.2.2</span><span>跨 project board</span></a>
+<a class="it" href="620.2.3.html" data-sec="620.2.3"><span class="code">620.2.3</span><span>Columns 與 status</span></a>
+<a class="it" href="620.2.4.html" data-sec="620.2.4"><span class="code">620.2.4</span><span>Filter、sub-filter、quick filter</span></a>
+<a class="it" href="620.2.5.html" data-sec="620.2.5"><span class="code">620.2.5</span><span>Estimation 與 time tracking</span></a>
+<a class="it" href="620.2.6.html" data-sec="620.2.6"><span class="code">620.2.6</span><span>Swimlanes、卡片、工作日</span></a>
+<a class="it" href="620.2.7.html" data-sec="620.2.7"><span class="code">620.2.7</span><span>Board 排查</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.3 管理 project</span><span class="pct">25%</span></summary>
+<a class="it" href="620.3.1.html" data-sec="620.3.1"><span class="code">620.3.1</span><span>專案權限</span></a>
+<a class="it" href="620.3.2.html" data-sec="620.3.2"><span class="code">620.3.2</span><span>Project roles</span></a>
+<a class="it" href="620.3.3.html" data-sec="620.3.3"><span class="code">620.3.3</span><span>Versions 與 timeline</span></a>
+<a class="it" href="620.3.4.html" data-sec="620.3.4"><span class="code">620.3.4</span><span>Components、labels、fields</span></a>
+<a class="it" href="620.3.5.html" data-sec="620.3.5"><span class="code">620.3.5</span><span>自動指派</span></a>
+<a class="it" href="620.3.6.html" data-sec="620.3.6"><span class="code">620.3.6</span><span>Issue layout</span></a>
+<a class="it" href="620.3.7.html" data-sec="620.3.7"><span class="code">620.3.7</span><span>讓 issue 更豐富</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.4 自動化</span><span class="pct">14%</span></summary>
+<a class="it" href="620.4.1.html" data-sec="620.4.1"><span class="code">620.4.1</span><span>自動化手段</span></a>
+<a class="it" href="620.4.2.html" data-sec="620.4.2"><span class="code">620.4.2</span><span>Automation rule</span></a>
+<a class="it" href="620.4.3.html" data-sec="620.4.3"><span class="code">620.4.3</span><span>排查 automation</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.5 報表</span><span class="pct">19%</span></summary>
+<a class="it" href="620.5.1.html" data-sec="620.5.1"><span class="code">620.5.1</span><span>JQL</span></a>
+<a class="it" href="620.5.2.html" data-sec="620.5.2"><span class="code">620.5.2</span><span>Dashboards 與 gadgets</span></a>
+<a class="it" href="620.5.3.html" data-sec="620.5.3"><span class="code">620.5.3</span><span>Agile reports</span></a>
+</details>
+<div class="sep"></div><div class="toc-h">本頁目錄</div><div class="toc" id="toc">
+<a href="#tldr">3 分鐘速覽</a>
+<a href="#model">兩道門：filter 與 Browse Projects</a>
+<a href="#copy">複製 board：副本沿用同一份 filter</a>
+<a href="#location">掛在 project 或個人 profile</a>
+<a href="#cross">哪些設定會打架</a>
+<a href="#traps">考題愛用的錯誤說法</a>
+<a href="#wrap">一分鐘腦內整理</a>
+<a href="#practice">做題</a>
 </div>
-<div class="callout"><div class="t">從模型推出的三條規則</div>
-<ul style="margin:0">
-<li>想讓一個 board 看到多個 project，前提是先有一份 JQL 涵蓋這些 project 的 <strong>saved filter</strong>；沒有 filter 就沒有跨 project 的 board。</li>
-<li>Board 對<strong>所有能存取該 filter 的人</strong>可見（官方原句：This new board will be available to all users who have access to your chosen filter）。</li>
-<li>一旦改動 filter 的 JQL，<strong>所有使用這份 filter 的 board 會同時改變</strong>，因為 board 本身並不保存「自己的 issue 清單」，它每次都是即時去問 filter 要資料。</li>
-</ul></div>
-</section>
-
-<!-- ============ Create ============ -->
-<section id="create">
-<div class="section-label">怎麼建</div>
-<h2>兩條路，都需要 Browse Projects</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:24%">方式</th><th>步驟</th><th style="width:30%">適用</th></tr>
-<tr><td>多選既有 project</td><td>搜尋列 <code>/</code> → Go to all: Boards → Create board → Scrum／Kanban → 選<strong>一或多個</strong>既有 project → 照提示完成。Jira 自動產生 filter <code>project in (…) ORDER BY Rank ASC</code></td><td>CMP；你對每個 project 都有 Browse Projects</td></tr>
-<tr><td>既有 saved filter</td><td>Create board → Scrum／Kanban → <strong>Board from an existing Saved Filter</strong> → 命名、選 filter → Create board。或 project 側欄 hover + → 選類型 → Advanced → 選 filter</td><td>任何 JQL 條件（跨 project、只看某 component、某 label…）；<strong>TMP 要第二個 board 的唯一方法</strong>；別人分享給你的 filter 也可用</td></tr>
-</table></div>
-<div class="callout exam"><div class="t">考題長相</div>「Project 沒出現在建 board 的下拉清單」→ 你沒有它的 Browse Projects，或它是 TMP → 改用 saved filter。「一個 board 看三個團隊的 bug」→ filter <code>project in (A,B,C) AND issuetype = Bug ORDER BY Rank</code> 再建 board。</div>
-</section>
-
-<!-- ============ Visibility lab ============ -->
-<section id="visibility">
-<div class="section-label">互動</div>
-<h2>誰看得到這個 board、看得到哪些卡片</h2>
-<p>設定 filter 的分享方式與使用者對兩個 project 的權限，看結果怎麼變。</p>
-<div id="s222-vis" class="card">
-  <div class="toolbar" style="margin-top:0">
-    <span style="font-weight:700;font-size:.88rem;width:9rem">Filter 分享給</span>
-    <div class="seg" id="s222-share">
-      <button data-v="private">只有我（Private）</button>
-      <button data-v="projA">Project A 的成員</button>
-      <button data-v="group" class="on">group：dev-team</button>
-      <button data-v="public">任何登入者</button>
-    </div>
-  </div>
-  <div class="toolbar" style="margin-top:.25rem">
-    <span style="font-weight:700;font-size:.88rem;width:9rem">同事阿強</span>
-    <label class="check on"><input type="checkbox" id="s222-inGroup" checked>在 dev-team 群組</label>
-    <label class="check on"><input type="checkbox" id="s222-browseA" checked>Project A 的 Browse Projects</label>
-    <label class="check"><input type="checkbox" id="s222-browseB">Project B 的 Browse Projects</label>
-  </div>
-  <div class="grid-2" style="margin-top:.75rem">
-    <div class="issue"><div class="key">第一道門</div><div class="sum">阿強看得到這個 board 嗎？</div><span id="s222-door1" class="st">…</span><p id="s222-door1-why" class="kicker" style="margin:.5rem 0 0"></p></div>
-    <div class="issue"><div class="key">第二道門</div><div class="sum">Board 上他看得到哪些卡片？</div><div id="s222-cards" class="chips"></div><p id="s222-door2-why" class="kicker" style="margin:.5rem 0 0"></p></div>
-  </div>
-</div>
-<div class="callout warn" style="margin-top:1rem"><div class="t">最常見的求助</div>最常聽到的求助是「他明明有 Project A 的權限，為什麼看不到我的 board？」——問題出在<strong>第一道門</strong>：底層的 saved filter 沒有分享給他。要記得這是兩道獨立的門，filter 決定「看不看得到這個 board」，各 project 的 Browse Projects 才決定「board 上看得到哪些卡片」。分享 filter 的路徑是 Filters → 該 filter → Edit → Viewers，這件事不需要 Jira admin，但操作的人要有 <strong>Share dashboards and filters</strong> 這個全域權限。</div>
-</section>
-
-<!-- ============ Location ============ -->
-<section id="location">
-<div class="section-label">Board location</div>
-<h2>Board 掛在 project 或個人 profile，可隨時搬</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:24%">項目</th><th>內容</th></tr>
-<tr><td>兩種位置</td><td>某個 <strong>project</strong>（在該 project 側欄顯示）或<strong>你的 profile</strong>（個人 board）。建 board 時就會問</td></tr>
-<tr><td>怎麼改</td><td>Board ••• → Board settings → General → <strong>Location</strong> 欄位 → 輸入 project 名稱或你的名字 → 立即生效</td></tr>
-<tr><td>位置失效時</td><td>掛在<strong>停用的 project 或被停用／刪除的 user</strong> 上，board 會找不到；<strong>project admin 或 board admin</strong> 要重新指定 location 才能再存取</td></tr>
-<tr><td>Location 影響什麼</td><td>只影響兩件事：這個 board 會出現在哪裡（哪個 project 的側欄，或誰的個人 profile），以及哪個 project 的 admin 有權管理它。它<strong>完全不影響 board 上顯示哪些 issue</strong>——那是 filter 決定的</td></tr>
-<tr><td>找 board</td><td><code>/</code> 快速搜尋（最近的 board 先出現）；加星後在 For you 依 starred 排序；project 側欄的 board 清單</td></tr>
-</table></div>
-</section>
-
-<!-- ============ Copy board ============ -->
-<section id="copy">
-<div class="section-label">Copy board</div>
-<h2>複製 board：副本沿用<strong>同一份</strong> filter</h2>
-<p>路徑：<code>/</code> 快速搜尋 → <strong>Go to all: Boards</strong> → 找到來源 board → 右側 <strong>More actions ••• → Copy</strong>。</p>
-<div class="figure">
-<svg class="dia" viewBox="0 0 900 300" role="img" aria-label="複製 board 後，新舊兩個 board 指向同一份 saved filter；複製者成為新 board 的 administrator">
-  <defs><marker id="s222-arrc" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- 座標：原 board (60,60,220,90)；副本 (620,60,220,90)；filter (340,200,220,70)；內容 60–840 中心 450 -->
-  <rect x="60" y="60" width="220" height="90" rx="12" class="box brand"/>
-  <text x="170" y="92" text-anchor="middle" class="lbl b">原 board</text>
-  <text x="170" y="114" text-anchor="middle" class="s">columns、swimlanes</text>
-  <text x="170" y="134" text-anchor="middle" class="s">quick filters 等設定</text>
-
-  <path d="M280,105 H620" class="ln" marker-end="url(#s222-arrc)"/>
-  <text x="450" y="95" text-anchor="middle" class="tag accent">More actions → Copy</text>
-
-  <rect x="620" y="60" width="220" height="90" rx="12" class="box green"/>
-  <text x="730" y="92" text-anchor="middle" class="lbl b">副本 board</text>
-  <text x="730" y="114" text-anchor="middle" class="s">複製者成為</text>
-  <text x="730" y="134" text-anchor="middle" class="s">administrator</text>
-
-  <path d="M170,150 V180 H450" class="ln"/>
-  <path d="M730,150 V180 H450" class="ln"/>
-  <path d="M450,180 V200" class="ln" marker-end="url(#s222-arrc)"/>
-
-  <rect x="340" y="200" width="220" height="70" rx="12" class="box teal"/>
-  <text x="450" y="228" text-anchor="middle" class="lbl b">同一份 saved filter</text>
-  <text x="450" y="252" text-anchor="middle" class="s">改查詢會同時影響兩個 board</text>
-</svg>
-<div class="cap">圖 3　Copy board 複製的是<strong>視圖設定</strong>，不是 filter。要讓副本有獨立資料範圍，得另存新 filter 再指定給它。</div>
-</div>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:26%">項目</th><th>官方明說的</th><th>官方<strong>沒有</strong>說的</th></tr>
-<tr><td>資料範圍</td><td><em>your new board will be based on the same work item filter as the original board</em>——副本用同一份 filter</td><td>官方沒有提到任何「自動複製出一份新 filter」的行為，所以不能假設副本會有自己獨立的 filter</td></tr>
-<tr><td>管理權</td><td><em>you'll be the administrator of your new board</em>——執行複製的人是副本的 administrator</td><td><strong>沒有列出完整 Administrators 名單</strong>：不能推論「只有複製者」，也不能斷言「原管理員全部保留」</td></tr>
-<tr><td>Filter 編輯權</td><td><em>you may not be able to edit the filter if it wasn't created by you</em>——filter 不是你建的就可能改不動</td><td>官方沒有說複製 board 會連帶把 filter 的編輯權給你；board 的管理權與 filter 的編輯權是兩回事</td></tr>
-</table></div>
-<div class="callout warn"><div class="t">複製後的檢查清單</div>比對三件事：① 新舊 board 的 <strong>Saved Filter 是否同一個</strong>；② <strong>誰能編輯該 filter</strong>；③ Board settings → <strong>Administrators</strong> 的使用者與群組（複製前後各看一次）。沿用同一 filter 表示日後改查詢會同時波及兩個 board——<strong>Copy board 不等於 Copy filter</strong>。</div>
-<div class="callout exam"><div class="t">考題長相</div>「複製 board 後想讓副本只看 API 的工作」→ 另存新 filter 再指定給副本，不能直接改共用 filter（會動到原 board）。選項若寫「複製一定會產生新 filter」或「複製一律需要 Create Shared Objects 權限」，都超出官方原文。</div>
-</section>
-
-<!-- ============ Implications ============ -->
-<section id="implications">
-<div class="section-label">跨 project 的代價</div>
-<h2>哪些設定支援跨 project、哪些會打架</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:22%">Board 設定</th><th style="width:14%" class="c">跨 project</th><th>要注意的事</th></tr>
-<tr><td>Filter</td><td class="c yes">✓</td><td>用 <code>project in (…)</code> 把多個 project 一次撈進來。JQL 結尾<strong>一定要加 <code>ORDER BY Rank</code></strong>，否則 board 上的卡片拖不動，因為 Jira 是靠 Rank 這個欄位記住手動排序的</td></tr>
-<tr><td>Columns ↔ statuses</td><td class="c yes">✓</td><td>Unmapped statuses 面板會列出<strong>所有</strong> project 的 workflow status；兩邊 workflow 不同時，要把每個 project 的「完成」status 都對到最右欄，否則那個 project 的 issue 永遠算未完成</td></tr>
-<tr><td>Swimlanes</td><td class="c yes">✓</td><td>Swimlanes 的分組方式裡有一個 <strong>Projects</strong> 選項，就是專為跨 project board 設計的，可以讓每個 project 各佔一條泳道；想要更彈性的分組也可以改用 Queries 自己寫 JQL</td></tr>
-<tr><td>Quick filters</td><td class="c yes">✓</td><td>常見做法是替每個來源 project 各建一個 quick filter（例如 <code>project = A</code>），讓成員一鍵就能把畫面收斂到自己團隊的工作</td></tr>
-<tr><td>Sprints（Scrum）</td><td class="c yes">✓ 但有代價</td><td>Sprint 會<strong>跨 project</strong>；官方（Manage Sprints 權限說明）：sprint 含多個 board／project 的工作時，要更新 sprint 需要<strong>所有</strong>相關 project 的 Manage Sprints 權限；同一張 issue 只能在一個 active sprint。<br><strong>權限名稱核對</strong>：官方 CMP 權限清單只有 <strong>Manage sprints</strong>（涵蓋建立、開始、完成、調整）；本次查閱<strong>未找到名為 <code>Create and Reorder Sprints</code> 的獨立權限</strong>，別把操作描述當成權限名</td></tr>
-<tr><td>Versions／Releases</td><td class="c no">✗</td><td>Version 屬於各自的 project：不能把 A 的 issue 指到 B 的版本；<strong>兩個 project 各有一個「秋季版」也是兩個不同的 version</strong>，要協調發版就各自管理</td></tr>
-<tr><td>Rank（重排）</td><td class="c yes">✓</td><td>官方：只有在 ranking 已啟用、且你對該 issue 具備 <strong>Schedule work item 與 Edit work item</strong> 兩個權限時才能排序。看得到 board、甚至是 board admin，<strong>都不等於</strong>能重排所有來源 project 的工作</td></tr>
-<tr><td>Estimation</td><td class="c yes">✓</td><td>估算方式是<strong>整個 board 一種</strong>，不能一個 project 用 story points、另一個用小時。所以跨 project board 上的兩個團隊必須先講好同一套估點尺度，否則加總出來的 velocity 沒有任何意義</td></tr>
-<tr><td>Kanban sub-filter／Release</td><td class="c yes">✓</td><td>Release 動到的是 project 層的 version，而 version 不能跨 project 共用；所以在跨 project board 上清 Done，得由各個 project 各自發佈自己的版本</td></tr>
-<tr><td>Card colors／layout、working days、detail view</td><td class="c yes">✓</td><td>這幾項都是純粹的 board 層設定，跟 issue 屬於哪個 project 無關，跨 project 使用不會有任何問題</td></tr>
-<tr><td>Simplified workflow</td><td class="c no">✗</td><td>官方條件：board 的 filter 只含<strong>一個</strong> project、該 project <strong>所有 issue type 共用同一個 workflow</strong>、workflow 只用 Atlassian 內建的 post function／validator／condition、每個 status 至少一條出去的 transition；跨 project board 不能在 board 上加 status</td></tr>
-<tr><td>Board admin</td><td class="c yes">✓</td><td>Board settings 的 Administrators；project admin 只對 board <strong>location</strong> 所在的 project 有管理權，對另一個 project 的 admin 而言這個 board 不是他管的</td></tr>
-</table></div>
-<div class="callout exam"><div class="t">考題長相</div>「跨 project board 完成 sprint 時，B project 的 Cancelled issue 被帶到下一個 sprint」→ B 的 Cancelled 沒對到最右欄。「PM 只有 A 的 Manage Sprints，開始 sprint 失敗」→ 跨 project sprint 要兩邊都有。「想在跨 project board 直接加 status」→ simplified workflow 只支援單 project。</div>
-</section>
-
-<!-- ============ Quiz ============ -->
-<section id="quiz">
-<div class="section-label">情境練習</div>
-<h2>先自己判斷，再點開解答</h2>
-<div class="quiz">
-<details class="q"><summary>三個開發團隊各有 project，主管想在一個 board 看全部的 Bug。</summary><div class="a"><div class="tag">解答</div>先建一份 saved filter：<code>project in (A,B,C) AND issuetype = Bug ORDER BY Rank ASC</code>（結尾的 ORDER BY Rank 不能省，否則卡片拖不動），再用 <strong>Board from an existing Saved Filter</strong> 建一個 Kanban board。最後別忘了<strong>把 filter 分享給主管與團隊</strong>——board 的可見性是跟著 filter 走的，沒分享出去，別人連 board 都打不開。</div></details>
-<details class="q"><summary>同事對 A、B 兩個 project 都有 Browse，但打開你給的 board 連結是空白或無權限。</summary><div class="a"><div class="tag">解答</div>因為<strong>底層的 saved filter 沒有分享給他</strong>。這是「第一道門」——能不能打開這個 board，取決於他有沒有存取該 filter 的權限，跟他對 project 有什麼權限無關。解法是到 Filters 找到那份 filter，編輯它的分享對象（Viewers）把他加進去；執行這個動作的人需要 <strong>Share dashboards and filters</strong> 全域權限，但不需要是 Jira admin。</div></details>
-<details class="q"><summary>Filter 分享給整個公司，但同事在 board 上只看得到 A 的卡片。</summary><div class="a"><div class="tag">解答</div>因為他<strong>沒有 B project 的 Browse Projects 權限</strong>。這題考的是兩道門的分工：filter 分享只打開<strong>第一道門</strong>（能不能看到這個 board），至於 board 上哪些卡片顯示得出來，是由他對<strong>每一個來源 project</strong> 各自的權限決定的。所以會出現「board 打得開、卡片只有一半」這種看似奇怪、其實完全合理的現象。</div></details>
-<details class="q"><summary>TMP 團隊想要第二個 board 專看 component = API 的 issue。</summary><div class="a"><div class="tag">解答</div>這題有兩個關卡。第一，<strong>TMP 根本沒有 component 這個功能</strong>，所以 <code>component = API</code> 這個條件寫不出來，要先改用 label 或自訂欄位來標記這批 issue。第二，<strong>TMP 不能直接在 project 裡再加一個 board</strong>，唯一的路是把條件存成 saved filter，再用「Board from an existing Saved Filter」建出第二個 board。</div></details>
-<details class="q"><summary>跨 project Scrum board，PM 按 Start sprint 被拒。</summary><div class="a"><div class="tag">解答</div>因為這個 sprint 裡含有<strong>多個 project 的 issue</strong>，而官方規定：要更新一個橫跨多個 board／project 的 sprint，操作者必須對<strong>所有</strong>相關 project 都具備 <strong>Manage Sprints</strong> 權限，缺一個就會被擋。解法是請 Jira admin 在缺的那個 project 的 permission scheme 裡，把 Manage Sprints 補給 PM 所屬的 role。</div></details>
-<details class="q"><summary>跨 project board 上，B project 的 issue 進了 Cancelled 卻一直算未完成。</summary><div class="a"><div class="tag">解答</div>因為 <strong>B project 的 Cancelled 這個 status 沒有被對應到 board 的最右欄</strong>（也可能根本躺在 Unmapped statuses 面板裡）。board 判定「完成」的依據是 issue 落在最右邊那一欄，而不是 status 的名字看起來像不像結束。跨 project board 特別容易踩到這個坑，因為兩個 project 的 workflow 往往不同。到 Board settings → Columns，把 B 的 Cancelled 拖進 Done 欄就解決了。</div></details>
-<details class="q"><summary>Board 掛在已離職同事的 profile 上，現在沒人打得開。</summary><div class="a"><div class="tag">解答</div>這是 <strong>location 失效</strong>：board 掛在一個已被停用或刪除的使用者 profile 上，等於它的家沒了，一般人再也找不到入口。解法是由 <strong>project admin 或 board admin</strong> 到 Board settings → General → Location，把位置改成某個現存的 project（或自己的 profile），board 就會重新出現在該 project 的側欄。同樣的狀況也會發生在 board 掛在已停用的 project 上。</div></details>
-<details class="q"><summary>想在跨 project 的 board 上直接按 + 加一個 column 兼 status。</summary><div class="a"><div class="tag">解答</div><strong>做不到。</strong>board 上那個「按 + 直接新增 column 並同時建立 status」的便利功能叫 <strong>simplified workflow</strong>，它有嚴格的啟用條件，其中一條就是 <strong>board 的 filter 只能包含一個 project</strong>。跨 project board 不符合條件，所以沒有這個按鈕。正確做法是請 Jira admin 到<strong>每一個</strong>來源 project 的 workflow 各自加上這個 status，再回到 Board settings → Columns 把它們對應到同一欄。</div></details>
-<details class="q"><summary>A project 的 admin 想改一個 location 在 B project 的跨 project board 的 columns。</summary><div class="a"><div class="tag">解答</div><strong>改不了。</strong>能管一個 board 的只有兩種人：該 board <strong>location 所在 project</strong> 的 project admin，以及被列在 Board settings → Administrators 裡的 board admin。這位 A 的 admin 兩者都不是——他對 A 的管理權不會延伸到掛在 B 底下的 board。解法有兩個：請 B 的 project admin 幫忙改，或是請對方把他加進這個 board 的 administrators 名單。</div></details>
-<details class="q"><summary>改了共用 filter 的 JQL，另一個團隊的 board 突然少了一半卡片。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常且必然</strong>的結果，不是 bug。board 並不保存自己的 issue 清單，它每次都是去問 filter；同一份 filter 同時餵養好幾個 board 時，改動 JQL 就會一次影響全部。想讓兩個團隊互不干擾，做法是<strong>各自存一份 filter</strong>（用 Save as 複製一份再修改），再把新的 filter 指給自己的 board。</div></details>
-<details class="q"><summary>複製了一個 board 給新團隊，改了副本的 filter 查詢後，原團隊說他們的 board 也變了。</summary><div class="a"><div class="tag">解答</div>因為 <strong>Copy board 並不會複製 filter</strong>——官方原文寫得很清楚，副本是<strong>基於同一份 work item filter</strong> 建立的。所以你改的其實是兩個 board 共用的那份查詢，原團隊當然跟著遭殃。正確順序是：先把 filter 用 <strong>Save as</strong> 另存成一份新的，再到副本的 Board settings 把它指過去，兩個 board 才算真正脫鉤。記住這句話：<strong>Copy board ≠ Copy filter</strong>。</div></details>
-<details class="q"><summary>題目選項寫「複製 board 後，原 board 的所有管理員都會保留在副本」。</summary><div class="a"><div class="tag">解答</div>這個敘述<strong>超出了官方講過的範圍</strong>。官方只寫了一句「執行複製的人會成為新 board 的 administrator」，並<strong>沒有</strong>交代原本那份管理員名單會不會一起帶過去。所以「只有複製者」和「原管理員全部保留」兩種說法都不能當成定論——這是教材刻意保留的證據界線。實務上要確認，唯一可靠的方法是複製前後各看一次 Board settings → Administrators 做比對。</div></details>
-<details class="q"><summary>成員在跨 project board 的 backlog 拖不動 API 團隊的卡片，但看得到、也是 board admin。</summary><div class="a"><div class="tag">解答</div>因為<strong>拖曳排序（rank）需要對那張 issue 本身具備權限</strong>，官方列的條件是：ranking 功能已啟用，而且操作者同時擁有該 issue 的 <strong>Schedule work item</strong> 與 <strong>Edit work item</strong> 兩個權限。這位成員缺的是 API team 那個 project 的 issue 權限。要特別注意：<strong>board admin 管的是 board 的設定，不會給你任何來源 project 的 issue 權限</strong>，兩者是不同層級的東西。</div></details>
-</div>
-</section>
-
-<!-- ============ Traps ============ -->
-<section id="traps">
-<div class="section-label">常見陷阱</div>
-<h2>考題喜歡設的誤解</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「Board 分享 = 分享 board 連結」</td><td>把 board 的網址貼給別人沒有用。真正要分享的是<strong>底層那份 saved filter</strong>，對方拿到 filter 的存取權，才打得開這個 board</td></tr>
-<tr><td>「Filter 分享了，大家就看得到所有卡片」</td><td>不會。filter 只打開第一道門，每張卡片還要看他對<strong>該 issue 所屬 project</strong> 有沒有 Browse Projects 權限，所以常出現「board 開得起來、卡片只看得到一半」</td></tr>
-<tr><td>「Board location 決定 board 內容」</td><td>不。location 只決定 board 放在哪裡找得到、哪個 project 的 admin 能管它；board 上顯示什麼，完全由 filter 決定</td></tr>
-<tr><td>「Sprint 是 project 的東西」</td><td>sprint 其實屬於 board，因此可以橫跨多個 project；代價是要更新這種 sprint 時，必須對每一個相關 project 都有 Manage Sprints 權限</td></tr>
-<tr><td>「跨 project board 也能用 simplified workflow」</td><td>不行。simplified workflow 的啟用條件之一就是 board 的 filter 只包含一個 project，跨 project board 不符合，所以沒有在 board 上直接加 status 的功能</td></tr>
-<tr><td>「TMP 可以在 project 裡再加 board」</td><td>不行。一個 TMP 只有一個內建 board，想要第二個只能先存一份 saved filter，再用它建立</td></tr>
-<tr><td>「Copy board 會複製出一份新 filter」</td><td>不會。副本沿用的是<strong>同一份</strong> filter，改了副本的查詢等於改了原 board；想要獨立範圍，得自己 Save as 另存一份新 filter 再指給副本</td></tr>
-<tr><td>「權限清單裡有 Create and Reorder Sprints」</td><td>官方清單是 <strong>Manage sprints</strong>；查閱未見該獨立權限名稱</td></tr>
-<tr><td>「兩個 project 的同名版本是同一個 version」</td><td>不是。version 是屬於各自 project 的物件，兩個 project 各有一個「秋季版」也是兩個毫不相干的 version，發版要各自管理</td></tr>
-</table></div>
-</section>
-
-<!-- ============ Lab ============ -->
-<section id="lab">
-<div class="section-label">實作（30 分鐘）</div>
-<h2>用兩個 project 做一次</h2>
-<ol>
-<li>建 filter <code>project in (LAB, OPS) ORDER BY Rank ASC</code>，先<strong>不分享</strong>；用它建 Scrum board。</li>
-<li>用第二個帳號（有 LAB 的 Browse、沒有 OPS 的）開 board 連結 → 無權限；分享 filter 給他 → 看得到 board 但只有 LAB 的卡片；給他 OPS 的 Browse → 兩邊都看得到。</li>
-<li>Board settings → Columns：把 OPS 的 Done 從 unmapped 拖到最右欄；建 sprint 把兩個 project 的 issue 都拉進去，Complete sprint 觀察。</li>
-<li>Swimlanes 改成 Projects；建兩個 quick filter <code>project = LAB</code>、<code>project = OPS</code>。</li>
-<li>Board settings → General → Location 改到你的 profile 再改回 project，觀察側欄變化。</li>
-<li>把 filter 改成 <code>project = LAB</code>，回 board 看 OPS 的卡片消失，體會「board 跟著 filter 走」。</li>
-<li><strong>Copy board</strong>：<code>/</code> → Go to all: Boards → 對這個 board 用 ••• → Copy。比對三件事：新舊 board 的 Saved Filter 是否同一個、Board settings → Administrators 的名單、你能否編輯該 filter。接著改副本的 filter 查詢，回原 board 確認<strong>兩邊同時改變</strong>；再 Save as 一份新 filter 指給副本，確認兩者脫鉤。</li>
-</ol>
-<div class="callout"><div class="t">來源（本節實際精讀）</div>
-<ul style="margin:0;font-size:.88rem">
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-board/">Create a scrum board based on spaces</a>（官方考綱連結）→ 同組 <a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/">Create a board based on filters</a>、<a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-kanban-board-based-on-projects/">Create a Kanban board based on spaces</a></li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/change-the-location-of-a-board/">Change the location of a board</a>（官方考綱連結）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-columns/">Configure columns</a>（Before you begin：board 管理權限；Map statuses）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/use-the-simplified-workflow/">Use the simplified workflow</a>（可切換的四個條件）</li>
-<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/space-access-and-configuration-permissions/">Space access and configuration permissions</a>（Manage Sprints：多 board sprint 需所有相關 project 的權限）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/copy-an-existing-board/">Copy an existing board</a>（副本沿用同一 filter、複製者成為 administrator、filter 編輯權；2026-09-08 核對）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/rank-an-issue/">Rank a work item</a>（需 ranking 已啟用，且具 Schedule work item 與 Edit work item 權限）</li>
-</ul></div>
-</section>
-
-<section id="qbank">
-<div class="section-label">模擬題</div>
-<h2>本節 12 題，附逐選項解析與來源</h2>
-<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
-<div class="qbank" data-section="620.2.2"></div>
-</section>
-
-<div class="footer-nav"><a href="620.2.1.html">← 620.2.1 選擇 board 類型</a><a href="620.2.3.html">下一節：620.2.3 Columns 對應 workflow →</a></div>
+</nav>
+<div id="scrim" class="scrim" aria-hidden="true"></div>
+<div class="main">
+<header class="bar"><button id="menu" class="ibtn menu" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="nav"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="ttl"><a href="index.html">首頁</a> / 620.2 Board / <b>620.2.2</b></div><button id="theme" class="ibtn" type="button" aria-label="切換淺色或深色"></button></header>
+<main id="main" class="content">
+<header class="hero"><div class="eyebrow">620.2.2・Board configuration 29%</div><h1>跨團隊、跨 project 的 board</h1><p class="lead">一個 board 可以看多個 project，一個 project 也能有多個 board，因為 board 的內容由 saved filter 決定。</p><div class=meta><span class="chip rose">你問過：Copy board</span><span class="chip brand">考試佔 29%</span></div><details class="obj"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg><span>官方考綱原文（這一節會考的範圍）</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li>Know how to create cross-project boards<span>建立跨 project board</span></li><li>Understand the implications of cross-project boards<span>跨 project board 的影響</span></li><li>Understand which board configurations support cross-project boards<span>哪些 board 設定支援跨 project</span></li></ul></details><details class="obj toc-m"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>本頁內容</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li><a href="#tldr">3 分鐘速覽</a></li><li><a href="#model">兩道門：filter 與 Browse Projects</a></li><li><a href="#copy">複製 board：副本沿用同一份 filter</a></li><li><a href="#location">掛在 project 或個人 profile</a></li><li><a href="#cross">哪些設定會打架</a></li><li><a href="#traps">考題愛用的錯誤說法</a></li><li><a href="#wrap">一分鐘腦內整理</a></li><li><a href="#practice">做題</a></li></ul></details></header><section class="sec" id="tldr"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>3 分鐘速覽</div><h2>Board 跟著 filter 走，不跟著 project 走</h2><ol class="tldr"><li><b>跨 project board＝一份跨 project 的 saved filter</b><span>project in (A, B, C) ORDER BY Rank ASC，再用它建 board。</span></li><li><b>誰看得到 board＝誰看得到 filter</b><span>board 沒有自己的分享設定；卡片再依各自的 Browse Projects 顯示。</span></li><li><b><mark class="mk">Copy board 沿用同一份 filter</mark><span class="tag-mine">你常錯</span></b><span>改副本的 filter 查詢，原 board 也會變；要脫鉤就 Save as 另存新 filter。</span></li><li><b>Location 只決定 board 掛在哪</b><span>哪個 project 的側欄、哪個 project admin 能管；不影響顯示哪些 issue。</span></li><li><b>跨 project 會打架的</b><span>Version 不能跨 project；sprint 跨 project 要每個 project 的 Manage Sprints；估算方式整個 board 一種。</span></li><li><b>Simplified workflow 只給單一 project board</b><span>跨 project board 不能在 board 上直接加 status。</span></li></ol></section><section class="sec" id="model"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg>核心模型</div><h2>兩道門：filter 與 Browse Projects</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 380 216" role="img" aria-label="兩道門"><rect x="20" y="14" width="340" height="44" rx="10" class="bx brand"/><text x="190.0" y="41" text-anchor="middle" class="b">第一道門：saved filter 有分享給你？</text><line x1="190.0" y1="60" x2="190.0" y2="78.0" class="ln"/><polygon points="190.0,84 194.5,76.0 185.5,76.0" class="ah"/><text x="200.0" y="76" text-anchor="start" class="s">有才看得到 board</text><rect x="20" y="86" width="340" height="44" rx="10" class="bx teal"/><text x="190.0" y="113" text-anchor="middle" class="b">第二道門：你對卡片所屬 project 有 Browse Projects？</text><line x1="190.0" y1="132" x2="190.0" y2="150.0" class="ln"/><polygon points="190.0,156 194.5,148.0 185.5,148.0" class="ah"/><text x="200.0" y="148" text-anchor="start" class="s">有才看得到那張卡</text><rect x="20" y="158" width="340" height="44" rx="10" class="bx green"/><text x="190.0" y="185" text-anchor="middle" class="b">結果：board 上顯示你兩道門都過的卡</text></svg></div><figcaption>「他有 project 權限卻看不到我的 board」→ 第一道門：filter 沒分享。</figcaption></figure><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">同事有 Project A 的權限，卻打不開你的跨 project board，最可能原因？</span><span class="rv">看答案</span></summary><div class="aa">board 用的 <b>saved filter 沒分享給他</b>。</div></details><details class="ak"><summary><span class="n">Q2</span><span class="qq">同事看得到 board，但少了 Project B 的卡，原因？</span><span class="rv">看答案</span></summary><div class="aa">他沒有 <b>Project B 的 Browse Projects</b>。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>看得到 board＝filter 有分享。</li><li>看得到卡片＝有該 project 的 Browse Projects。</li></ul></aside></section><section class="sec" id="copy"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a2 2 0 1 1 4 0V5h4v4h1.5a2 2 0 1 1 0 4H18v6H6v-4h1.5a2 2 0 1 0 0-4H6V5h4z"/></svg>Copy board</div><h2>複製 board：副本沿用同一份 filter</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 360 162" role="img" aria-label="Copy board：兩個 board 共用一份 filter"><rect x="10" y="10" width="150" height="46" rx="10" class="bx brand"/><text x="85" y="30" text-anchor="middle" class="b">原 board</text><text x="85" y="46" text-anchor="middle" class="s">columns、swimlanes…</text><rect x="200" y="10" width="150" height="46" rx="10" class="bx teal"/><text x="275" y="30" text-anchor="middle" class="b">副本 board</text><text x="275" y="46" text-anchor="middle" class="s">複製的人是 admin</text><line x1="85" y1="58" x2="154.9" y2="100.9" class="ln"/><polygon points="160,104 155.5,96.0 150.8,103.7" class="ah"/><line x1="275" y1="58" x2="205.1" y2="100.9" class="ln"/><polygon points="200,104 209.2,103.7 204.5,96.0" class="ah"/><rect x="110" y="106" width="140" height="46" rx="10" class="bx amber"/><text x="180" y="126" text-anchor="middle" class="b">同一份 saved filter</text><text x="180" y="142" text-anchor="middle" class="s">改它＝兩個 board 都變</text></svg></div><figcaption>官方：“your new board will be based on the same work item filter as the original board”。</figcaption></figure><table class="tbl"><thead><tr><th class="">項目</th><th class="">官方明說的</th></tr></thead><tbody><tr class=""><td class="" data-l="項目">資料範圍</td><td class="" data-l="官方明說的">副本用<b>同一份 filter</b>，不會自動產生新 filter</td></tr><tr class=""><td class="" data-l="項目">管理權</td><td class="" data-l="官方明說的">執行複製的人是副本的 administrator</td></tr><tr class=""><td class="" data-l="項目">Filter 編輯權</td><td class="" data-l="官方明說的">filter 不是你建的，可能改不動</td></tr></tbody></table><div class="call weak"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><div><div class="t">你問過的</div><p>只缺 global permission「Create shared objects」（Share dashboards and filters），還能複製嗎？<mark class="mk">依官方原文推論：可以</mark>。副本沿用已分享的同一份 filter，沒有新建或分享任何東西，所以團隊照樣看得到、能用。真正需要這個權限的是下一步：另存新 filter 並分享給團隊。（官方未明寫權限前提，待實測）</p></div></div><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">複製了 board，改副本的 filter 後原團隊說他們的 board 也變了，為什麼？</span><span class="rv">看答案</span></summary><div class="aa">兩個 board 共用同一份 filter。要脫鉤：先 Save as 另存新 filter，再到副本的 Board settings 指過去。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li><mark class="mk">Copy board ≠ Copy filter。</mark><span class="tag-mine">你常錯</span></li><li>要獨立範圍：Save as 新 filter 再指定給副本。</li></ul></aside></section><section class="sec" id="location"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Board location</div><h2>掛在 project 或個人 profile</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 380 327" role="img" aria-label="General"><rect x="0.5" y="0.5" width="379" height="326" rx="10" class="bx"/><rect x="0" y="0" width="380" height="34" rx="0" class="sf-bg"/><rect x="0" y="34" width="106" height="293" rx="0" class="sf-bg"/><line x1="106" y1="34" x2="106" y2="327" class="gl"/><circle cx="14" cy="17" r="4.5" class="fl-rose"/><circle cx="28" cy="17" r="4.5" class="fl-amber"/><circle cx="42" cy="17" r="4.5" class="fl-green"/><text x="60" y="22" text-anchor="start" class="s">Board settings</text><text x="118" y="62" text-anchor="start" class="h">General</text><text x="118" y="89" text-anchor="start" class="t" style="font-size:12px">Board name</text><rect x="118" y="95" width="250" height="28" rx="6" class="bx"/><text x="128" y="113" text-anchor="start" class="t">Mobile + Web board</text><text x="118" y="144" text-anchor="start" class="b" style="font-size:12px">Location</text><rect x="118" y="150" width="250" height="28" rx="6" class="bx brand"/><text x="128" y="168" text-anchor="start" class="t">MOB (project)</text><path d="M350,161 l5,5 l5,-5" class="ln ink" style="stroke-width:1.6"/><text x="118" y="188" text-anchor="start" class="s tf-violet" style="font-weight:700">↑ 只決定掛在哪、誰能管；不影響顯示哪些 iss</text><text x="118" y="204" text-anchor="start" class="s tf-violet" style="font-weight:700">ue</text><text x="118" y="235" text-anchor="start" class="b" style="font-size:12px">Saved filter</text><rect x="118" y="241" width="250" height="44" rx="6" class="bx brand"/><text x="126" y="259" text-anchor="start" class="t mono" style="font-size:11px">project in (MOB, WEB)</text><text x="126" y="275" text-anchor="start" class="t mono" style="font-size:11px">ORDER BY Rank ASC</text><text x="118" y="295" text-anchor="start" class="s tf-violet" style="font-weight:700">↑ 決定 board 顯示什麼</text><rect x="6" y="39" width="94" height="22" rx="6" class="sf-brand"/><text x="14" y="54" text-anchor="start" class="b" style="font-size:12px">General</text><text x="14" y="80" text-anchor="start" class="t" style="font-size:12px">Columns</text><text x="14" y="106" text-anchor="start" class="t" style="font-size:12px">Swimlanes</text><text x="14" y="132" text-anchor="start" class="t" style="font-size:12px">Quick filters</text><text x="14" y="158" text-anchor="start" class="t" style="font-size:12px">Card colors</text><text x="14" y="184" text-anchor="start" class="t" style="font-size:12px">Card layout</text><text x="14" y="210" text-anchor="start" class="t" style="font-size:12px">Estimation</text><text x="14" y="236" text-anchor="start" class="t" style="font-size:12px">Working days</text><text x="14" y="262" text-anchor="start" class="t" style="font-size:12px">Issue detail</text></svg></div><figcaption>Board settings → General。</figcaption></figure><ul class=""><li>Location 掛在已停用的 project 或已刪除的使用者 → board 找不到，要重新指定。</li><li>Project admin 只能管 location 在自己 project 的 board。</li></ul><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>Location＝放哪、誰管；filter＝顯示什麼。</li></ul></aside></section><section class="sec" id="cross"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg>跨 project 的代價</div><h2>哪些設定會打架</h2><table class="tbl"><thead><tr><th class="">設定</th><th class="c">跨 project</th><th class="">要注意</th></tr></thead><tbody><tr class=""><td class="" data-l="設定">Filter</td><td class="c" data-l="跨 project"><span class="y" aria-label="是">✓</span></td><td class="" data-l="要注意">JQL 結尾要 ORDER BY Rank，否則拖不動</td></tr><tr class=""><td class="" data-l="設定">Columns</td><td class="c" data-l="跨 project"><span class="y" aria-label="是">✓</span></td><td class="" data-l="要注意">每個 project 的「完成」status 都要對到最右欄</td></tr><tr class=""><td class="" data-l="設定">Swimlanes</td><td class="c" data-l="跨 project"><span class="y" aria-label="是">✓</span></td><td class="" data-l="要注意">有「Projects」選項，一個 project 一條</td></tr><tr class=""><td class="" data-l="設定">Sprints</td><td class="c" data-l="跨 project"><span class="p" aria-label="部分">◐</span> 有代價</td><td class="" data-l="要注意">改 sprint 需要<b>每個</b>相關 project 的 Manage Sprints</td></tr><tr class=""><td class="" data-l="設定">Versions</td><td class="c" data-l="跨 project"><span class="n" aria-label="否">✗</span></td><td class="" data-l="要注意">version 屬於各自 project，不能共用</td></tr><tr class=""><td class="" data-l="設定">Estimation</td><td class="c" data-l="跨 project"><span class="p" aria-label="部分">◐</span> 一種</td><td class="" data-l="要注意">整個 board 一種估算方式，兩團隊尺度要一致</td></tr><tr class=""><td class="" data-l="設定">Simplified workflow</td><td class="c" data-l="跨 project"><span class="n" aria-label="否">✗</span></td><td class="" data-l="要注意">只支援單一 project 的 board</td></tr><tr class=""><td class="" data-l="設定">排序（Rank）</td><td class="c" data-l="跨 project"><span class="y" aria-label="是">✓</span></td><td class="" data-l="要注意">要對該 issue 有 Schedule Issues＋Edit Issues</td></tr></tbody></table><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">PM 只有 Project A 的 Manage Sprints，想開始一個含 A、B 兩個 project issue 的 sprint，會怎樣？</span><span class="rv">看答案</span></summary><div class="aa">失敗。跨 project sprint 需要<b>每個</b>相關 project 的 Manage Sprints。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>Version 不能跨 project。</li><li>跨 project sprint：每個 project 都要 Manage Sprints。</li><li>Simplified workflow 只支援單一 project board。</li></ul></aside></section><section class="sec" id="traps"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg>易錯觀念</div><h2>考題愛用的錯誤說法</h2><div class="traps"><div class="trap"><div class="w">Board 屬於某個 project，內容由 project 決定。</div><div class="r">Board 內容由 saved filter 決定；location 只決定掛在哪。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira-software-cloud/docs/change-the-location-of-a-board/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap mine"><div class="w">Copy board 會產生一份新的 filter。</div><div class="r"><mark class="mk">副本沿用同一份 filter。</mark></div><div class="why"></div><div class="meta"><span class="chip rose">你練習時錯過</span><a href="https://support.atlassian.com/jira-software-cloud/docs/copy-an-existing-board/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap mine"><div class="w">複製 board 一定需要 Create shared objects。</div><div class="r"><mark class="mk">官方沒列此前提；副本沿用已分享的 filter，沒有新分享任何東西。</mark></div><div class="why">（推論，待實測）</div><div class="meta"><span class="chip rose">你練習時錯過</span><a href="https://support.atlassian.com/jira-software-cloud/docs/copy-an-existing-board/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap"><div class="w">兩個 project 的同名版本是同一個 version。</div><div class="r">Version 屬於各自 project，是兩個不同物件。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira-cloud-administration/docs/manage-versions/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap"><div class="w">跨 project board 也能在 board 上直接加 status。</div><div class="r">Simplified workflow 只支援單一 project 的 board。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-columns/" target="_blank" rel="noopener">官方來源</a></div></div></div></section><section class="sec" id="wrap"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M10 11L6.5 7.3M14 11l3.5-3.7M10 13l-3.5 3.7M14 13l3.5 3.7"/></svg>一分鐘腦內整理</div><h2>讀完了？用這張收攏整節</h2><div class="mnemo"><div><b>Board 看 filter，不看 project</b><span>filter 決定內容；location 只決定放哪。</span></div><div><b>Copy board 不 copy filter</b><span>要脫鉤就 Save as。</span></div><div><b>兩道門</b><span>filter 分享＋Browse Projects。</span></div></div><div class="wu"><div class="wu-it"><a href="#model" class="wu-h">兩道門：filter 與 Browse Projects</a><ul><li>看得到 board＝filter 有分享。</li><li>看得到卡片＝有該 project 的 Browse Projects。</li></ul></div><div class="wu-it"><a href="#copy" class="wu-h">複製 board：副本沿用同一份 filter</a><ul><li><mark class="mk">Copy board ≠ Copy filter。</mark><span class="tag-mine">你常錯</span></li><li>要獨立範圍：Save as 新 filter 再指定給副本。</li></ul></div><div class="wu-it"><a href="#location" class="wu-h">掛在 project 或個人 profile</a><ul><li>Location＝放哪、誰管；filter＝顯示什麼。</li></ul></div><div class="wu-it"><a href="#cross" class="wu-h">哪些設定會打架</a><ul><li>Version 不能跨 project。</li><li>跨 project sprint：每個 project 都要 Manage Sprints。</li><li>Simplified workflow 只支援單一 project board。</li></ul></div></div></section><section class="sec" id="practice"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg>本節練習</div><h2>做題</h2><div class="qz" data-sec="620.2.2"><p class="muted">題目載入中…</p></div></section><div class="srcs"><b>官方來源（本節依據）</b><ul><li><a href="https://support.atlassian.com/jira-software-cloud/docs/create-a-board-based-on-filters/" target="_blank" rel="noopener">Create a board based on filters</a></li><li><a href="https://support.atlassian.com/jira-software-cloud/docs/copy-an-existing-board/" target="_blank" rel="noopener">Copy an existing board</a></li><li><a href="https://support.atlassian.com/jira-software-cloud/docs/change-the-location-of-a-board/" target="_blank" rel="noopener">Change the location of a board</a></li><li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-columns/" target="_blank" rel="noopener">Configure columns</a></li></ul></div><div class="readmark" data-readmark="620.2.2"><span class="msg"></span><button type="button" class="btn sm">標記本節已讀</button></div><nav class="pager" aria-label="上一節與下一節"><a href="620.2.1.html"><small>上一節</small><span>620.2.1 選 board 類型</span></a><a class="next" href="620.2.3.html"><small>下一節</small><span>620.2.3 Columns 與 status</span></a></nav>
+<p class="foot">本教材為原創整理，非 Atlassian 官方出版品；題目皆為原創，不含第三方題庫題幹。考試沿用 project／issue 等舊用語，現行 Jira Cloud 已改為 space／work item。</p>
 </main>
 </div>
-<script src="assets/spring.js"></script>
-<script src="assets/app.js"></script>
-<script src="assets/questions.js"></script>
-<script src="assets/exam.js"></script>
-<script>
-/* 620.2.2 可見性計算器（id 前綴 s222-） */
-(function () {
-  const $ = (s) => document.querySelector(s);
-  const pop = (el) => { if (window.springPop && !matchMedia('(prefers-reduced-motion: reduce)').matches) window.springPop(el); };
-  const shareBtns = Array.from(document.querySelectorAll('#s222-share button'));
-  const inGroup = $('#s222-inGroup'), bA = $('#s222-browseA'), bB = $('#s222-browseB');
-  const d1 = $('#s222-door1'), w1 = $('#s222-door1-why'), cards = $('#s222-cards'), w2 = $('#s222-door2-why');
-  function render() {
-    const share = shareBtns.find((b) => b.classList.contains('on')).dataset.v;
-    [inGroup, bA, bB].forEach((c) => c.closest('label').classList.toggle('on', c.checked));
-    let ok = false, why = '';
-    if (share === 'private') { ok = false; why = 'Filter 只有建立者看得到，board 對其他人一律不可見。'; }
-    else if (share === 'projA') { ok = bA.checked; why = ok ? 'Filter 分享給 Project A 的成員，阿強有 A 的 Browse，所以進得了 board。' : 'Filter 分享給 Project A 的成員，但阿強沒有 A 的 Browse，進不了。'; }
-    else if (share === 'group') { ok = inGroup.checked; why = ok ? 'Filter 分享給 dev-team，阿強在群組裡。' : 'Filter 分享給 dev-team，阿強不在群組裡 → 看不到 board，即使他有 project 權限。'; }
-    else { ok = true; why = 'Filter 分享給任何登入者，第一道門打開。'; }
-    const was = d1.textContent;
-    d1.textContent = ok ? '看得到 board' : '看不到 board（無權限／空白）';
-    d1.className = 'st ' + (ok ? 'done' : ''); if (was !== d1.textContent) pop(d1);
-    w1.textContent = why;
-    if (!ok) { cards.innerHTML = '<span class="chip off">—</span>'; w2.textContent = '進不了 board，第二道門用不到。'; return; }
-    cards.innerHTML = `<span class="chip ${bA.checked ? 'on' : 'off'}">Project A 的卡片</span> <span class="chip ${bB.checked ? 'on' : 'off'}">Project B 的卡片</span>`;
-    Array.from(cards.children).forEach((c) => { if (c.classList.contains('on')) pop(c); });
-    w2.textContent = bA.checked && bB.checked ? '兩個 project 都有 Browse Projects，全部卡片都看得到。' : bA.checked || bB.checked ? '只看得到有 Browse Projects 的那個 project 的卡片；另一個 project 的卡片對他不存在。' : '兩個都沒有 Browse → board 是空的。';
-  }
-  shareBtns.forEach((b) => b.addEventListener('click', () => { shareBtns.forEach((x) => x.classList.remove('on')); b.classList.add('on'); render(); }));
-  [inGroup, bA, bB].forEach((c) => c.addEventListener('change', render));
-  render();
-})();
-</script>
+</div>
+<script src="assets/site.js?v=1790343483" defer></script><script src="assets/qbank.js?v=1790343483" defer></script><script src="assets/quiz.js?v=1790343483" defer></script>
 </body>
 </html>

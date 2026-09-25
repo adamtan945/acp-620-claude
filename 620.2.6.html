@@ -2,370 +2,84 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>620.2.6 Swimlanes、card colors、card layout、working days、issue detail view｜ACP-620 教材</title>
-<link rel="stylesheet" href="assets/style.css">
-<script>try{var t=localStorage.getItem("acp620-theme");var m=location.search.match(/theme=(dark|light)/);if(m)t=m[1];if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
-<style>
-.s226-lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:1.1rem;align-items:start}
-@media (max-width:760px){.s226-lab{grid-template-columns:1fr}}
-.s226-q{display:flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:.6rem;padding:.45rem .6rem;background:var(--card);margin-bottom:.45rem;font-size:.85rem}
-.s226-q .n{font-weight:800;color:var(--brand);width:1.2rem}
-.s226-q code{flex:1}
-.s226-q .btns{display:flex;gap:.25rem}
-.s226-q .btn.sm{height:1.7rem;padding:0 .5rem;font-size:.75rem}
-.s226-q .btn:disabled{background:transparent;border-color:var(--line);color:var(--line-2);opacity:.6}
-.s226-q.fixed{border-style:dashed;color:var(--ink-3)}
-.s226-lane{border:1px solid var(--line);border-radius:.7rem;margin-bottom:.55rem;background:var(--bg-2)}
-.s226-lane .lh{font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--ink-2);padding:.4rem .7rem;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
-.s226-lane .lh .c{color:var(--ink-3);font-weight:500}
-.s226-lane .body{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem .7rem;min-height:2.6rem}
-.s226-c{border:1px solid var(--line);border-left-width:4px;border-radius:.45rem;padding:.3rem .55rem;background:var(--card);font-size:.76rem;line-height:1.3;transform-origin:center}
-.s226-c .k{font-family:var(--mono);font-size:.68rem;color:var(--ink-3)}
-.s226-dots{display:inline-flex;gap:3px;vertical-align:middle;margin-left:.3rem}
-.s226-dots i{width:7px;height:7px;border-radius:50%;background:var(--ink-3);display:inline-block}
-.s226-dots i.y{background:var(--amber)} .s226-dots i.r{background:var(--rose)}
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>620.2.6 Swimlanes、卡片、工作日｜ACP-620 教材</title>
+<meta name="description" content="ACP-620 620.2.6：Swimlanes、卡片、工作日">
+<meta name="theme-color" content="#3452c8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233452c8'/%3E%3Ctext x='16' y='21' font-family='Arial' font-size='12' font-weight='700' text-anchor='middle' fill='white'%3E620%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css?v=1790343483">
+<script>try{var t=localStorage.getItem("acp620.theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body>
-<div class="shell">
-<aside class="sidebar">
-  <a class="brand" href="index.html">ACP-620<small>Managing Jira Projects for Cloud</small></a>
-  <!--NAV-->
-  <details class="navgrp"><summary><span>620.1 Project Creation</span><span class="pct">13%</span></summary>
-  <nav>
-    <a href="620.1.1.html">620.1.1 選擇實作方式</a>
-    <a href="620.1.2.html">620.1.2 建立與設定 TMP</a>
-    <a href="620.1.3.html">620.1.3 Issue type 設計</a>
-    <a href="620.1.4.html">620.1.4 專案設定與 trash</a>
-  </nav></details>
-  <details class="navgrp" open><summary><span>620.2 Board Configuration</span><span class="pct">29%</span></summary>
-  <nav>
-    <a href="620.2.1.html">620.2.1 選 board 類型</a>
-    <a href="620.2.2.html">620.2.2 跨 project board</a>
-    <a href="620.2.3.html">620.2.3 Columns 與 status</a>
-    <a href="620.2.4.html">620.2.4 Filter／sub-filter／quick filter</a>
-    <a href="620.2.5.html">620.2.5 Estimation 與 time tracking</a>
-    <a href="620.2.6.html">620.2.6 Swimlanes、卡片、工作日</a>
-    <a href="620.2.7.html">620.2.7 Board 排查</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.3 Managing Projects</span><span class="pct">25%</span></summary>
-  <nav>
-    <a href="620.3.1.html">620.3.1 專案權限</a>
-    <a href="620.3.2.html">620.3.2 Project roles</a>
-    <a href="620.3.3.html">620.3.3 Versions 與 roadmap</a>
-    <a href="620.3.4.html">620.3.4 Components／labels／fields</a>
-    <a href="620.3.5.html">620.3.5 自動指派</a>
-    <a href="620.3.6.html">620.3.6 Issue layout</a>
-    <a href="620.3.7.html">620.3.7 讓 issue 更豐富</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.4 Automation</span><span class="pct">14%</span></summary>
-  <nav>
-    <a href="620.4.1.html">620.4.1 自動化手段</a>
-    <a href="620.4.2.html">620.4.2 Automation rule</a>
-    <a href="620.4.3.html">620.4.3 排查 automation</a>
-  </nav></details>
-  <details class="navgrp"><summary><span>620.5 Reporting</span><span class="pct">19%</span></summary>
-  <nav>
-    <a href="620.5.1.html">620.5.1 JQL</a>
-    <a href="620.5.2.html">620.5.2 Dashboards 與 gadgets</a>
-    <a href="620.5.3.html">620.5.3 Agile reports</a>
-  </nav></details>
-  <nav style="margin-top:.6rem"><a href="exam.html">📝 模擬考與題庫</a><a href="traps.html">⚠️ 易錯觀念</a><a href="clarify.html">💡 觀念釐清</a><a href="guide.html">📌 重點整理</a><a href="topics.html">📋 官方考綱</a></nav>
-  <!--/NAV-->
-  <div class="group">本頁目錄</div>
-  <!--TOC-->
-  <nav>
-    <a href="#goal">這一節考什麼</a>
-    <a href="#map">五個設定在哪裡</a>
-    <a href="#swim">Swimlanes（互動）</a>
-    <a href="#colors">Card colors</a>
-    <a href="#layout">Card layout 與 days in column</a>
-    <a href="#workdays">Working days 與報表</a>
-    <a href="#detail">Issue detail view</a>
-    <a href="#quiz">情境練習</a>
-    <a href="#traps">常見陷阱</a>
-    <a href="#lab">實作</a>
-    <a href="#qbank">模擬題</a>
-  </nav>
-</aside>
-
-<main>
-<div class="topbar"><div class="crumb"><a href="index.html">首頁</a> / 620.2 Board Configuration（29%）/ 620.2.6</div><button id="theme-btn" class="theme-btn" type="button" aria-label="切換淺色／深色">☀︎ 淺色</button></div>
-<div class="eyebrow">620.2.6 · Configure board swimlanes, card colors, card layout, working days, and issue detail view</div>
-<h1>Swimlanes、card colors、card layout、working days、issue detail view</h1>
-<p class="lead">這五個設定都不改變「哪些 issue 在 board 上」（那是 620.2.4 的事），它們改變的是<strong>怎麼分組、怎麼上色、卡片顯示什麼、報表怎麼算天數、點開卡片看到什麼</strong>。考題喜歡問每個設定的<strong>使用情境</strong>與<strong>規則細節</strong>（第一個符合的 query、最多三個欄位、哪些報表吃 working days）。</p>
-<div class="term">術語：考試用 project／issue；現行產品為 space／work item。本教材沿用考試用語。</div>
-
-<section id="goal">
-<div class="section-label">這一節考什麼</div>
-<h2>三條 bullet，翻成考題語言</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:44%">官方 bullet</th><th>考題會怎麼問</th></tr>
-<tr><td>Know how to apply each board configuration — card colors, card layout, working days, and issue detail view</td><td>各在 Board settings 的哪一頁、選項有哪些、誰能改</td></tr>
-<tr><td>Understand the use cases for each board configuration item</td><td>「想一眼看出誰的工作」→ swimlane by assignee 或 card color by assignee？「想在卡片上看 due date」→ card layout。要分得清「分組」「上色」「顯示欄位」三種手段</td></tr>
-<tr><td>Understand the relationship between working days settings and board reports</td><td>哪些報表會跳過週末與假日（burndown、sprint／epic／version report、control chart、兩個 gadget）；哪些不會（CFD）</td></tr>
-</table></div>
-<div class="callout warn" id="weak-spots"><div class="t">練習題常錯的觀念</div>這一節在練習測驗中錯誤率偏高，先確認下面幾個觀念分得清楚，再往下讀：<a class="chip" href="clarify.html#board">Swimlane 與 card color 的選項</a> </div>
-</section>
-
-<!-- ============ Map ============ -->
-<section id="map">
-<div class="section-label">全景</div>
-<h2>五個設定在 Board settings 的位置與分工</h2>
-<div class="figure">
-<svg class="dia" viewBox="0 0 900 300" role="img" aria-label="Board settings 五個設定的分工">
-  <defs><marker id="s226-arr" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- 頂框 x=300 w=300 y=20 h=54；五個子框 w=160 h=88 y=150，x=40/205/370/535/700（間距 5）；bus y=115 從 120 到 780 -->
-  <rect x="300" y="20" width="300" height="54" rx="10" class="box brand"/>
-  <text x="450" y="43" text-anchor="middle" class="lbl b">••• → Configure board（Board settings）</text>
-  <text x="450" y="62" text-anchor="middle" class="s">board admin 或 project admin</text>
-  <path d="M450,74 V115" class="ln"/>
-  <path d="M120,115 H780" class="ln"/>
-  <path d="M120,115 V150" class="ln" marker-end="url(#s226-arr)"/><path d="M285,115 V150" class="ln" marker-end="url(#s226-arr)"/><path d="M450,115 V150" class="ln" marker-end="url(#s226-arr)"/><path d="M615,115 V150" class="ln" marker-end="url(#s226-arr)"/><path d="M780,115 V150" class="ln" marker-end="url(#s226-arr)"/>
-  <rect x="40" y="150" width="160" height="88" rx="10" class="box teal"/>
-  <text x="120" y="176" text-anchor="middle" class="lbl b">Swimlanes</text><text x="120" y="196" text-anchor="middle" class="s">橫向分組</text><text x="120" y="214" text-anchor="middle" class="s">Layout → Swimlanes</text>
-  <rect x="205" y="150" width="160" height="88" rx="10" class="box amber"/>
-  <text x="285" y="176" text-anchor="middle" class="lbl b">Card colors</text><text x="285" y="196" text-anchor="middle" class="s">卡片左緣上色</text><text x="285" y="214" text-anchor="middle" class="s">Layout → Card colors</text>
-  <rect x="370" y="150" width="160" height="88" rx="10" class="box violet"/>
-  <text x="450" y="176" text-anchor="middle" class="lbl b">Card layout</text><text x="450" y="196" text-anchor="middle" class="s">卡片多顯示 ≤3 個欄位</text><text x="450" y="214" text-anchor="middle" class="s">Layout → Card layout</text>
-  <rect x="535" y="150" width="160" height="88" rx="10" class="box green"/>
-  <text x="615" y="176" text-anchor="middle" class="lbl b">Working days</text><text x="615" y="196" text-anchor="middle" class="s">報表跳過非工作日</text><text x="615" y="214" text-anchor="middle" class="s">Working days</text>
-  <rect x="700" y="150" width="160" height="88" rx="10" class="box rose"/>
-  <text x="780" y="176" text-anchor="middle" class="lbl b">Issue detail view</text><text x="780" y="196" text-anchor="middle" class="s">點卡片看到哪些欄位</text><text x="780" y="214" text-anchor="middle" class="s">Issue detail view</text>
-  <text x="450" y="275" text-anchor="middle" class="s">前四個只影響 board 與報表的呈現；都不改變 board filter 決定的 issue 集合</text>
-</svg>
-<div class="cap">圖 1　同一個需求常有三種手段：分組（swimlane）、上色（card color）、顯示欄位（card layout）。考題會給情境要你選最合適的一種。</div>
+<a class="skip" href="#main">跳到主要內容</a>
+<div id="readbar" class="readbar" aria-hidden="true"></div>
+<div class="app">
+<nav id="nav" class="nav" aria-label="教材導覽">
+<a class="brand" href="index.html"><span class="logo">620</span><span><b>ACP-620</b><small>Managing Jira Projects for Cloud</small></span></a>
+<div class="count" id="nav-count">距離考試</div>
+<a class="it" href="index.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v8.5a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19.5z"/></svg><span>首頁・我的讀書計畫</span></a>
+<a class="it" href="exam.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg><span>模擬考與題庫</span></a>
+<a class="it" href="atlas.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg><span>報表與 gadget 圖鑑</span></a>
+<a class="it" href="traps.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg><span>易錯觀念</span></a>
+<a class="it" href="clarify.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>觀念釐清</span></a>
+<a class="it" href="guide.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>重點整理</span></a>
+<a class="it" href="topics.html"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a1.5 1.5 0 0 0-1.5 1.5v15A1.5 1.5 0 0 0 7 21h10a1.5 1.5 0 0 0 1.5-1.5V7.5z"/><path d="M14 3v4.5h4.5M9 12h6M9 16h6"/></svg><span>官方考綱</span></a>
+<div class="sep"></div>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.1 專案建立</span><span class="pct">13%</span></summary>
+<a class="it" href="620.1.1.html" data-sec="620.1.1"><span class="code">620.1.1</span><span>選擇實作方式</span></a>
+<a class="it" href="620.1.2.html" data-sec="620.1.2"><span class="code">620.1.2</span><span>建立與設定 TMP</span></a>
+<a class="it" href="620.1.3.html" data-sec="620.1.3"><span class="code">620.1.3</span><span>Issue type 設計</span></a>
+<a class="it" href="620.1.4.html" data-sec="620.1.4"><span class="code">620.1.4</span><span>專案設定與 trash</span></a>
+</details>
+<details class="grp" open><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.2 Board 設定</span><span class="pct">29%</span></summary>
+<a class="it" href="620.2.1.html" data-sec="620.2.1"><span class="code">620.2.1</span><span>選 board 類型</span></a>
+<a class="it" href="620.2.2.html" data-sec="620.2.2"><span class="code">620.2.2</span><span>跨 project board</span></a>
+<a class="it" href="620.2.3.html" data-sec="620.2.3"><span class="code">620.2.3</span><span>Columns 與 status</span></a>
+<a class="it" href="620.2.4.html" data-sec="620.2.4"><span class="code">620.2.4</span><span>Filter、sub-filter、quick filter</span></a>
+<a class="it" href="620.2.5.html" data-sec="620.2.5"><span class="code">620.2.5</span><span>Estimation 與 time tracking</span></a>
+<a class="it" href="620.2.6.html" data-sec="620.2.6"><span class="code">620.2.6</span><span>Swimlanes、卡片、工作日</span></a>
+<a class="it" href="620.2.7.html" data-sec="620.2.7"><span class="code">620.2.7</span><span>Board 排查</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.3 管理 project</span><span class="pct">25%</span></summary>
+<a class="it" href="620.3.1.html" data-sec="620.3.1"><span class="code">620.3.1</span><span>專案權限</span></a>
+<a class="it" href="620.3.2.html" data-sec="620.3.2"><span class="code">620.3.2</span><span>Project roles</span></a>
+<a class="it" href="620.3.3.html" data-sec="620.3.3"><span class="code">620.3.3</span><span>Versions 與 timeline</span></a>
+<a class="it" href="620.3.4.html" data-sec="620.3.4"><span class="code">620.3.4</span><span>Components、labels、fields</span></a>
+<a class="it" href="620.3.5.html" data-sec="620.3.5"><span class="code">620.3.5</span><span>自動指派</span></a>
+<a class="it" href="620.3.6.html" data-sec="620.3.6"><span class="code">620.3.6</span><span>Issue layout</span></a>
+<a class="it" href="620.3.7.html" data-sec="620.3.7"><span class="code">620.3.7</span><span>讓 issue 更豐富</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.4 自動化</span><span class="pct">14%</span></summary>
+<a class="it" href="620.4.1.html" data-sec="620.4.1"><span class="code">620.4.1</span><span>自動化手段</span></a>
+<a class="it" href="620.4.2.html" data-sec="620.4.2"><span class="code">620.4.2</span><span>Automation rule</span></a>
+<a class="it" href="620.4.3.html" data-sec="620.4.3"><span class="code">620.4.3</span><span>排查 automation</span></a>
+</details>
+<details class="grp"><summary><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>620.5 報表</span><span class="pct">19%</span></summary>
+<a class="it" href="620.5.1.html" data-sec="620.5.1"><span class="code">620.5.1</span><span>JQL</span></a>
+<a class="it" href="620.5.2.html" data-sec="620.5.2"><span class="code">620.5.2</span><span>Dashboards 與 gadgets</span></a>
+<a class="it" href="620.5.3.html" data-sec="620.5.3"><span class="code">620.5.3</span><span>Agile reports</span></a>
+</details>
+<div class="sep"></div><div class="toc-h">本頁目錄</div><div class="toc" id="toc">
+<a href="#tldr">3 分鐘速覽</a>
+<a href="#choose">同一個需求有三種手段</a>
+<a href="#swim">Queries 模式：第一個符合的 lane 贏</a>
+<a href="#colors">上色與卡片欄位</a>
+<a href="#wd">改了 working days，哪些報表跟著變</a>
+<a href="#detail">點開卡片右側看到什麼</a>
+<a href="#traps">考題愛用的錯誤說法</a>
+<a href="#wrap">一分鐘腦內整理</a>
+<a href="#practice">做題</a>
 </div>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:32%">需求</th><th>最合適</th><th>為什麼不是其他</th></tr>
-<tr><td>一眼看出每個人手上有幾張</td><td><strong>Swimlanes by Assignees</strong></td><td>card color by assignee 也做得到，但人一多顏色就難以分辨；分成泳道可以直接數每一列有幾張，一眼看出誰負擔過重</td></tr>
-<tr><td>把 Blocker 拉到最上面優先處理</td><td><strong>Swimlanes by Queries</strong>（預設 Expedite）</td><td>上色只改變卡片的外觀，<strong>不會改變它在 board 上的位置</strong>；要讓工作浮到最上面必須用分組（swimlane）</td></tr>
-<tr><td>Bug 一律紅色、其餘不變</td><td><strong>Card colors by Issue type</strong>（或 Queries）</td><td>用 swimlane 會多出一整條橫列，改變了版面結構；這個需求只是想標示出來，用上色就夠了</td></tr>
-<tr><td>卡片直接顯示 due date 與 story points</td><td><strong>Card layout</strong></td><td>swimlane 與 card color 都只能分組或上色，<strong>沒辦法把欄位的值顯示在卡片上</strong>；要顯示數值只有 card layout 做得到</td></tr>
-<tr><td>Sub-task 跟著 parent 排</td><td><strong>Swimlanes by Stories</strong></td><td>—</td></tr>
-<tr><td>跨 project board 想分 project 看</td><td><strong>Swimlanes by Projects</strong></td><td>—</td></tr>
-</table></div>
-</section>
-
-<!-- ============ Swimlanes ============ -->
-<section id="swim">
-<div class="section-label">Swimlanes</div>
-<h2>Queries 模式：由上到下、第一個符合的 lane 贏</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:20%">Base swimlanes on</th><th>行為</th></tr>
-<tr><td><strong>Queries</strong></td><td>每條 lane 一段 JQL；issue 進<strong>由上而下第一條符合</strong>的 lane；都不符合進 <strong>Everything Else</strong>（刪不掉、永遠在最下）。預設有一條 Expedite：<code>priority = Blocker</code>。lane 內的 <code>ORDER BY</code> 被忽略，一律照 rank</td></tr>
-<tr><td>Stories</td><td>每個 parent 一條 lane，其 sub-task 在底下；<strong>沒有 sub-task 的 issue</strong> 集中在所有 lane 下方</td></tr>
-<tr><td>Assignees</td><td>每一位被指派工作的人各佔一條 lane；未指派的 issue 會集中在 Unassigned 這條，可以選擇把它放在最上或最下</td></tr>
-<tr><td>Epics</td><td>依 parent epic 分；沒 epic 的在下方；<strong>epic 不在 board filter 內時它的 lane 不會出現</strong>（KB 常見問題）</td></tr>
-<tr><td>Projects</td><td>專為跨 project board 設計，每個來源 project 各佔一條 lane</td></tr>
-<tr><td>No swimlanes</td><td>完全取消橫向分組，卡片回到單純的 column 排列</td></tr>
-</table></div>
-<p style="margin-top:.75rem">自己試：三條 query 用 ▲▼ 換順序，看同一張 issue 跑到哪條 lane。</p>
-<div id="s226-lab" class="card">
-  <div class="s226-lab">
-    <div>
-      <div class="kicker" style="margin-bottom:.4rem">Queries（由上到下）</div>
-      <div id="s226-qs"></div>
-      <div class="s226-q fixed"><span class="n">∞</span><code>Everything Else</code><span class="kicker">刪不掉</span></div>
-      <p id="s226-msg" class="kicker" style="margin:.6rem 0 0"></p>
-    </div>
-    <div id="s226-lanes"></div>
-  </div>
-</div>
-<div class="callout exam" style="margin-top:14px"><div class="t">考題長相</div>「一張 Blocker 等級的 Bug，Expedite lane 和 Bugs lane 都符合，它會在哪？」→ 排在上面的那條。「怎麼讓它進 Bugs lane？」→ 把 Bugs 拖到 Expedite 上面，或把 Expedite 的 JQL 改成排除 Bug。</div>
-</section>
-
-<!-- ============ Card colors ============ -->
-<section id="colors">
-<div class="section-label">Card colors</div>
-<h2>四種上色依據，Queries 一樣是「第一個符合」</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:22%">Colors based on</th><th>規則</th></tr>
-<tr><td>Issue types</td><td>每一種 issue type 各給一個顏色，預設是 Bug 紅、Task 藍等等，顏色可以自己調</td></tr>
-<tr><td>Priorities</td><td>用全站 priority 設定的顏色（Jira admin 在 ⚙ → Issues → Priorities 定義）</td></tr>
-<tr><td>Assignees</td><td>Jira 會自動替每一位被指派工作的人分配一個顏色，人數一多就容易分不清誰是誰</td></tr>
-<tr><td><strong>Queries</strong></td><td>每條 JQL 一色；<strong>依第一個符合的 query 上色</strong>；都不符合＝<strong>灰色</strong>。官方例：<code>due <= "24h"</code>、<code>reporter = "Jane"</code>、<code>duedate > endOfMonth()</code></td></tr>
-<tr><td>None</td><td>不上色</td></tr>
-</table></div>
-<div class="callout"><div class="t">和 swimlane 的差別</div>兩者都可用 JQL、都是「第一個符合」，但 swimlane 改變<strong>位置</strong>（分組），card color 只改<strong>外觀</strong>（左緣色條）。一張 board 可以同時用：swimlane by Assignee ＋ card color by Issue type。</div>
-<div class="callout exam"><div class="t">沒有「依 Status 上色」的選單，就不能依狀態上色嗎？</div>
-可以——用 <strong>Queries</strong> 寫 <code>status = "In Review"</code> 就好。直接提供的依據只有 issue type、priority、assignee、Queries 四種；<strong>「某欄位沒有專屬選單」不等於「做不到」</strong>，只要 JQL 表達得出來就行。同理，saved filter 不是第五種依據，但可以在 Queries 裡用 <code>filter = 12345</code> 引用你有權存取的篩選器。</div>
-</section>
-
-<!-- ============ Card layout ============ -->
-<section id="layout">
-<div class="section-label">Card layout</div>
-<h2>最多再加三個欄位，backlog 與 board 可以不同</h2>
-<div class="grid-2">
-<div class="card"><div class="eyebrow">Card layout</div>
-<ul style="font-size:.9rem;margin-top:.5rem"><li>Board settings → Layout → <strong>Card layout</strong></li><li>每張卡片<strong>最多再加 3 個欄位</strong>（Summary、key、type、priority、assignee 頭像本來就有）</li><li>Scrum board 可分別設定 <strong>Backlog</strong> 與 <strong>Active sprints</strong> 的欄位；Kanban 只有一組</li><li>常見：Story points、Due date、Fix versions、Labels</li></ul></div>
-<div class="card"><div class="eyebrow" style="color:var(--amber)">Days in column</div>
-<ul style="font-size:.9rem;margin-top:.5rem"><li>同頁的開關，卡片右下顯示小圓點表示「在這一欄待了幾天」</li><li>官方例：1 天 <span class="s226-dots"><i></i></span> 一個灰點；5 天 <span class="s226-dots"><i></i><i></i><i></i><i class="r"></i></span> 三灰一紅；<strong>20 天以上四個紅點</strong> <span class="s226-dots"><i class="r"></i><i class="r"></i><i class="r"></i><i class="r"></i></span></li><li>預設：<strong>Kanban 開、Scrum 關</strong></li><li>issue 搬回原欄會<strong>累計</strong>之前待過的天數</li></ul></div>
-</div>
-<p class="kicker" style="margin-top:.75rem">另有 <strong>card covers</strong>（卡片封面圖：顏色、漸層、Unsplash、附件）：在卡片 ••• → Select cover 設定；View settings → Card cover 可整張 board 關掉。它不在 Board settings 裡，屬於檢視偏好。</p>
-<div class="callout warn"><div class="t">TMP 不是「完全不能調卡片」——但要分清楚是哪一種調</div>
-官方 <a href="https://support.atlassian.com/jira-software-cloud/docs/customize-your-view-of-the-board-and-backlog/">Customize your view of the board and backlog</a>：<em>「Unless otherwise noted, view settings in software spaces are the same for both company-managed and team-managed spaces」</em>，而且 <em>「View settings are applied per user」</em>。TMP 在 board 可切換 Work type、key、Epic、Linked work items、Priority、Assignee、Card cover，以及 <strong>Due date、Labels（team-managed 專屬）</strong>；backlog 可切換 Work type、key、Version、Epic、Status、Priority、Assignee、Due date。
-<div style="margin-top:.4rem">但同一頁把 <strong>Card layout（company-managed spaces）</strong> 標成 CMP 專屬。所以：<strong>顯示／隱藏「既有的」欄位＝兩種 project 都行、每人各自設定；「再加三個自選欄位」＝只有 CMP、board 共用設定。</strong>看題目問的是哪一種。</div></div>
-</section>
-
-<!-- ============ Working days ============ -->
-<section id="workdays">
-<div class="section-label">Working days</div>
-<h2>哪些報表會跳過週末與假日</h2>
-<div class="figure">
-<svg class="dia" viewBox="0 0 900 250" role="img" aria-label="working days 影響哪些報表">
-  <defs><marker id="s226-arr2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" class="arrhead"/></marker></defs>
-  <!-- 左框 x=40 w=260 y=70 h=110；右上框（受影響）x=520 w=340 y=20 h=120；右下框（不受影響）x=520 w=340 y=165 h=60；匯合線 x=420 -->
-  <rect x="40" y="70" width="260" height="110" rx="12" class="box green"/>
-  <text x="170" y="98" text-anchor="middle" class="lbl b">Working days</text>
-  <text x="170" y="120" text-anchor="middle" class="s">Region ＋ Timezone</text>
-  <text x="170" y="140" text-anchor="middle" class="s">Standard working days（每週哪幾天）</text>
-  <text x="170" y="160" text-anchor="middle" class="s">Non-working days（假日、單日）</text>
-  <path d="M300,125 H420 V80 H520" class="ln" marker-end="url(#s226-arr2)"/>
-  <path d="M420,125 V195 H520" class="ln" marker-end="url(#s226-arr2)"/>
-  <rect x="520" y="20" width="340" height="120" rx="12" class="box brand"/>
-  <text x="690" y="46" text-anchor="middle" class="lbl b">會跳過非工作日</text>
-  <text x="690" y="70" text-anchor="middle" class="lbl">Burndown chart、Sprint report</text>
-  <text x="690" y="92" text-anchor="middle" class="lbl">Epic report、Version report、Control chart</text>
-  <text x="690" y="116" text-anchor="middle" class="lbl">Sprint Health gadget、Burndown gadget</text>
-  <rect x="520" y="165" width="340" height="60" rx="12" class="box rose"/>
-  <text x="690" y="190" text-anchor="middle" class="lbl b">不受影響（照日曆日）</text>
-  <text x="690" y="212" text-anchor="middle" class="s">Cumulative flow diagram、Velocity、Burnup 等</text>
-</svg>
-<div class="cap">圖 2　官方列出的受影響清單就是右上框那七項；不在清單裡的報表用日曆日。</div>
-</div>
-<ul>
-<li>路徑：••• → Configure board → <strong>Working days</strong>；board admin 或 project admin。</li>
-<li>設定是<strong>每張 board 各自的</strong>，不是全站；跨時區團隊要各自設。</li>
-<li>Burndown 的 guideline 會在非工作日「走平」，所以週末沒進度不會被畫成落後。</li>
-<li>時區設錯會讓 sprint 起訖日看起來差一天，是「guideline 怪怪的」的常見原因（見 620.2.5）。</li>
-</ul>
-</section>
-
-<!-- ============ Detail view ============ -->
-<section id="detail">
-<div class="section-label">Issue detail view</div>
-<h2>點開卡片右側面板看到什麼</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:30%">類別</th><th>欄位</th></tr>
-<tr><td>永遠顯示、不可移除</td><td>Summary、Description</td></tr>
-<tr><td>永遠顯示、可調</td><td>Status、Priority、Reporter、Assignee、Date created、Date updated、Comments、Attachments</td></tr>
-<tr><td>條件顯示</td><td>Estimate（依 board estimation 設定）、Component（project 有 components 才可編）、Labels、Affected versions、Fix versions、Parent、Issue links（有連結才顯示）、Subtasks</td></tr>
-</table></div>
-<div class="callout warn"><div class="t">現行文件的變化</div>考綱的「Issue detail view」原本是 Board settings 的一個分頁；<strong>現行官方頁面把設定路徑指到 Project settings → Screens →（該 issue type 的 scheme）→ View issue screen</strong>（需要 Administer Projects），並說明欄位要先在 issue type 的 screen 上且未被 field configuration 隱藏。考試若問「board 設定裡的 issue detail view 由誰管」，答 board admin／project admin 即可；實務上現在是改 screen。</div>
-<div class="callout"><div class="t">需求配對：別讓一條 JQL 承擔所有介面設定</div>
-「想在卡片上看到到期日」→ <strong>Card layout</strong>；「想一眼分辨緊急工作」→ <strong>Card colors（Queries）</strong>或 <strong>Queries swimlane</strong>；「報表不要把假日算成落後」→ <strong>Working days</strong>；「開會時只看某一組工作」→ <strong>quick filter</strong>（620.2.4）。四個需求四個設定，考題常把它們混在同一個選項裡。</div>
-</section>
-
-<!-- ============ Quiz ============ -->
-<section id="quiz">
-<div class="section-label">情境練習</div>
-<h2>先自己判斷，再點開解答</h2>
-<div class="quiz">
-<details class="q"><summary>Scrum master 想讓 Blocker 永遠在 board 最上面，其他不變。</summary><div class="a"><div class="tag">解答</div>用 <strong>Swimlanes by Queries</strong>，而且直接沿用內建的那條 <strong>Expedite</strong>（它的 JQL 就是 <code>priority = Blocker</code>），把它留在清單最上面即可。其他不符合的 issue 會自動落進 <strong>Everything Else</strong> 這條 lane，畫面上其餘部分完全不變。這題也順便釐清一個常見誤解：<strong>swimlane 只做分組，不會過濾掉任何 issue</strong>，所以不用擔心其他工作會消失。</div></details>
-<details class="q"><summary>Query swimlane 有「Bugs」（type = Bug）在第一條、「Expedite」在第二條，一張 Blocker 的 Bug 會在哪？</summary><div class="a"><div class="tag">解答</div>會出現在 <strong>Bugs</strong> 這條 lane。規則是<strong>由上而下比對，第一個符合的 query 就贏</strong>，比中之後就不再往下看了。這張 issue 同時符合 Bugs（type = Bug）與 Expedite（priority = Blocker），但因為 Bugs 排在第一條，它就被歸到那裡。想讓它進 Expedite，只要把 Expedite 拖到 Bugs 上面，或是把 Bugs 的 JQL 改成 <code>type = Bug AND priority != Blocker</code> 排除掉。</div></details>
-<details class="q"><summary>Swimlane query 裡寫了 <code>ORDER BY duedate</code>，lane 內卻沒照 due date 排。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常行為</strong>：swimlane 的 JQL 只被拿來判斷「這張 issue 屬不屬於這條 lane」，其中的 <code>ORDER BY</code> 會被<strong>直接忽略</strong>；lane 內部的排序一律照 board 的 rank。想改變順序，只能在 board 上手動拖曳（會改變 rank），或是回頭改 board filter 的 ORDER BY——但那會影響整張 board。</div></details>
-<details class="q"><summary>Card colors by Queries 設了兩條，一張 issue 兩條都符合，會是什麼顏色？都不符合呢？</summary><div class="a"><div class="tag">解答</div>套用<strong>第一條符合的 query 的顏色</strong>——跟 swimlane 一樣是由上而下比對，比中就停。如果一張 issue <strong>兩條都不符合</strong>，它會顯示成<strong>灰色</strong>（也就是沒有指定顏色的預設值）。所以設計 card color 規則時，順序很重要：把最需要被一眼看到的條件（例如快到期）排在最上面。</div></details>
-<details class="q"><summary>PM 想在卡片上看到 Story points、Due date、Fix version、Labels 四個欄位。</summary><div class="a"><div class="tag">解答</div>辦不到四個——<strong>card layout 最多只能額外加 3 個欄位</strong>（Summary、issue key、type、priority、assignee 頭像是本來就有的，不佔額度）。所以必須取捨，例如放 Story points、Due date、Labels，把 Fix version 留給 backlog 檢視。這裡有個實用技巧：<strong>Scrum board 可以替 Backlog 與 Active sprints 各設一組不同的欄位</strong>，規劃時看估點、執行時看到期日，等於變相多了幾個位置。Kanban board 就只有一組。</div></details>
-<details class="q"><summary>團隊週末不上班，burndown 每到週一都顯示「落後」。</summary><div class="a"><div class="tag">解答</div>因為這張 board 的 <strong>Working days 還沒有把週六、週日排除</strong>。burndown 的 guideline 預設是每天都該有進度，週末當然被畫成落後。到 ••• → Configure board → <strong>Working days</strong> 把週六日取消勾選（順便把國定假日加進 non-working days），guideline 就會在這些日子<strong>走平</strong>，週一的曲線也就回到正常位置。要留意這是<strong>每張 board 各自的設定</strong>，不是全站設定。</div></details>
-<details class="q"><summary>設了 working days 之後，Cumulative flow diagram 還是算週末。</summary><div class="a"><div class="tag">解答</div>這是<strong>正常的</strong>，因為 <strong>CFD（Cumulative flow diagram）不在受 working days 影響的報表清單裡</strong>。官方列出會跳過非工作日的是：burndown chart、sprint report、epic report、version report、control chart，以及 Sprint Health 與 Burndown 這兩個 gadget。CFD 呈現的是各狀態隨時間的堆疊面積，它按照<strong>日曆日</strong>連續畫，所以週末那兩天會是平的一段——那是真實情況，不是設定沒生效。</div></details>
-<details class="q"><summary>兩個時區的團隊共用一張 board，sprint 起訖看起來差一天。</summary><div class="a"><div class="tag">解答</div>因為 <strong>working days 裡的時區設定是「每張 board 一組」</strong>，一張 board 只能有一個時區，兩地的人看到的起訖自然會差一天。務實的解法有兩個：<strong>各自建一張 board</strong>（用同一份 filter 即可，兩張 board 各設自己的時區），或是<strong>全隊統一採用一個時區</strong>並事先講清楚，讓大家知道「開始日以總部時間為準」。這個設定錯誤也是「burndown 的 guideline 看起來怪怪的」最常見的原因之一。</div></details>
-<details class="q"><summary>卡片右下出現四個紅點是什麼意思？</summary><div class="a"><div class="tag">解答</div>那是 <strong>Days in column</strong> 的指示器，代表這張 issue 已經在同一欄卡了<strong>20 天以上</strong>（四個點且全紅是最高級距）。點的顏色與數量會隨停留時間增加，用意是讓長期卡住的工作自己浮出來。有一個容易忽略的細節：<strong>如果 issue 被搬走又搬回同一欄，天數是累計的</strong>，不會重新從零開始算。這個開關預設 <strong>Kanban 是開的、Scrum 是關的</strong>。</div></details>
-<details class="q"><summary>Swimlanes by Epics 時，某個 epic 的 child 都在 board 上但 lane 沒出現。</summary><div class="a"><div class="tag">解答</div>因為 <strong>epic 本身沒有落在 board filter 的範圍內</strong>——最典型的情況是這個 epic 屬於另一個 project（CMP 的 epic 可以收別的 project 的 issue 當 child）。swimlane by Epics 是拿 epic 當 lane 的標題，epic 進不了 board 的母體，lane 自然畫不出來，它的 child 就散落在下方那一區。解法是把 epic 所在的 project 也加進 board filter，或者乾脆改用別的 swimlane 依據。</div></details>
-</div>
-</section>
-
-<!-- ============ Traps ============ -->
-<section id="traps">
-<div class="section-label">常見陷阱</div>
-<h2>考題喜歡設的誤解</h2>
-<div class="tbl-wrap"><table class="tbl">
-<tr><th style="width:42%">誤解</th><th>事實</th></tr>
-<tr><td>「swimlane 會過濾 issue」</td><td>不會。swimlane 只是把卡片<strong>橫向分組</strong>，一張都不會被濾掉；不符合任何 query 的 issue 會被收進最下面的 Everything Else</td></tr>
-<tr><td>「Everything Else 可以刪」</td><td>刪不掉。Everything Else 是系統保留的 lane，永遠固定在最下面，用來收所有不符合任何 query 的 issue</td></tr>
-<tr><td>「card layout 想加幾個欄位都行」</td><td>最多只能額外加 <strong>3 個</strong>欄位；Scrum board 可以替 Backlog 與 Active sprints 各設一組，等於變相多幾個位置</td></tr>
-<tr><td>「working days 是全站設定」</td><td>不是。working days 是<strong>每一張 board 各自的設定</strong>，包含時區在內；跨時區的團隊常因此看到 sprint 起訖差一天</td></tr>
-<tr><td>「working days 影響所有報表」</td><td>不是全部。會跳過非工作日的是 burndown、sprint／epic／version report、control chart 與兩個 gadget；<strong>CFD 與 velocity 仍照日曆日計算</strong></td></tr>
-<tr><td>「card color 的 query 都符合會混色」</td><td>不會混色。跟 swimlane 一樣由上而下比對，套用<strong>第一個符合</strong>的 query 顏色；全部都不符合則顯示灰色</td></tr>
-<tr><td>「card cover 在 Board settings 裡」</td><td>不在。card cover 是在卡片自己的 ••• → Select cover 設定，整張 board 的開關則在 View settings，屬於檢視偏好而非 board 設定</td></tr>
-</table></div>
-</section>
-
-<!-- ============ Lab ============ -->
-<section id="lab">
-<div class="section-label">實作（30 分鐘）</div>
-<h2>五個設定各動一次</h2>
-<ol>
-<li>Swimlanes → Queries：加一條「Bugs」<code>type = Bug</code> 放在 Expedite 上面，建一張 Blocker 的 Bug，看它進 Bugs；把 Bugs 拖到下面，看它跳到 Expedite。</li>
-<li>Card colors → Queries：第一條 <code>due <= "24h"</code> 紅、第二條 <code>type = Bug</code> 橙；建一張明天到期的 Bug，確認是紅。</li>
-<li>Card layout：加 Story points、Due date、Labels；試加第四個看被擋。Scrum 的 backlog 與 active sprint 各設不同欄位。</li>
-<li>Working days：拿掉週六日、加一個假日；看 burndown guideline 走平；打開 CFD 確認不受影響。</li>
-<li>Days in column：把一張 issue 留在 In Progress，隔天看灰點；用 Move 搬到別欄再搬回，觀察累計。</li>
-<li><strong>空泳道的判讀</strong>：把 Bugs 泳道的條件改成一個目前沒有工作符合的值（例如 <code>labels = nonexistent</code>），確認畫面沒有那條橫列。<strong>看不到泳道不代表設定被刪掉</strong>——回 Board settings 確認規則還在，再把條件改回來。Epic 泳道另外要查 parent 有沒有落在 board filter 範圍內。</li>
-<li>全部還原：swimlanes、card colors、card layout、working days 都設回原值，並移除測試用的 label 與假日。</li>
-</ol>
-<div class="callout"><div class="t">來源（實際精讀）</div>
-<ul style="margin:0;font-size:.88rem">
-<li><a href="https://support.atlassian.com/jira-cloud-administration/docs/configure-boards/">Configure boards</a>（考綱連結；hub）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-a-company-managed-board/">Configure a company-managed board</a>（考綱連結；設定分頁與 board admin）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/">Configure swimlanes</a>（考綱連結）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/customize-cards/">Customize cards</a>（考綱連結；card colors、card layout、days in column、covers）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-the-issue-detail-view/">Configure the work item details</a>（考綱連結）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/">Configure working days</a>（考綱連結）</li>
-<li><a href="https://support.atlassian.com/jira-software-cloud/docs/customize-your-view-of-the-board-and-backlog/">Customize your view of the board and backlog</a>（TMP／CMP 的 View settings、per user、Card layout 為 CMP 專屬）</li>
-<li><a href="https://support.atlassian.com/jira/kb/jira-software-data-center-kanban-board-does-not-show-all-issues/">KB: Kanban board does not show all issues</a>（epic swimlane 隱藏的情況）</li>
-</ul></div>
-</section>
-
-<section id="qbank">
-<div class="section-label">模擬題</div>
-<h2>本節 12 題，附逐選項解析與來源</h2>
-<p class="kicker">四選一，作答後立即顯示解析；答題紀錄存在瀏覽器。想計時完整模擬 63 題，到 <a href="exam.html">模擬考</a>。</p>
-<div class="qbank" data-section="620.2.6"></div>
-</section>
-
-<div class="footer-nav"><a href="620.2.5.html">← 620.2.5 Estimation</a><a href="620.2.7.html">下一節：620.2.7 Troubleshooting →</a></div>
+</nav>
+<div id="scrim" class="scrim" aria-hidden="true"></div>
+<div class="main">
+<header class="bar"><button id="menu" class="ibtn menu" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="nav"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="ttl"><a href="index.html">首頁</a> / 620.2 Board / <b>620.2.6</b></div><button id="theme" class="ibtn" type="button" aria-label="切換淺色或深色"></button></header>
+<main id="main" class="content">
+<header class="hero"><div class="eyebrow">620.2.6・Board configuration 29%</div><h1>Swimlanes、卡片、工作日</h1><p class="lead">同一個需求常有三種手段：分組（swimlane）、上色（card color）、顯示欄位（card layout）。Working days 決定哪些報表跳過假日。</p><div class=meta><span class="chip rose">你問過：working days</span><span class="chip brand">考試佔 29%</span></div><details class="obj"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg><span>官方考綱原文（這一節會考的範圍）</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li>Know how to apply each board configuration - card colors, card layout, working days, and issue detail view<span>套用 card colors、card layout、working days、issue detail view</span></li><li>Understand the use cases for each board configuration item<span>每個設定的使用情境</span></li><li>Understand the relationship between working days settings and board reports<span>working days 與報表的關係</span></li></ul></details><details class="obj toc-m"><summary><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg><span>本頁內容</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></summary><ul><li><a href="#tldr">3 分鐘速覽</a></li><li><a href="#choose">同一個需求有三種手段</a></li><li><a href="#swim">Queries 模式：第一個符合的 lane 贏</a></li><li><a href="#colors">上色與卡片欄位</a></li><li><a href="#wd">改了 working days，哪些報表跟著變</a></li><li><a href="#detail">點開卡片右側看到什麼</a></li><li><a href="#traps">考題愛用的錯誤說法</a></li><li><a href="#wrap">一分鐘腦內整理</a></li><li><a href="#practice">做題</a></li></ul></details></header><section class="sec" id="tldr"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>3 分鐘速覽</div><h2>分組、上色、顯示欄位、工作日</h2><ol class="tldr"><li><b>Swimlane＝分組（改位置）</b><span>Queries、Stories、Assignees、Epics、Projects、No swimlanes；Queries 是由上而下第一個符合的贏。</span></li><li><b>Card color＝上色（不改位置）</b><span>Issue types、Priorities、Assignees、Queries、None；沒有「依 status」選項，但可用 Queries 寫。</span></li><li><b>Card layout＝在卡片上多顯示最多 3 個欄位</b><span>Scrum 可分別設 backlog 與 active sprint。</span></li><li><b>Working days 每個 board 各自設定</b><span>Board admin 或 location 所在 project 的 admin；可設每週工作日、非工作日、時區。</span></li><li><b><mark class="mk">吃 working days：5 張報表＋2 個 gadget</mark><span class="tag-mine">你常錯</span></b><span>Burndown、Sprint、Epic、Version report、Control chart；Sprint Health、Burndown gadget。</span></li></ol></section><section class="sec" id="choose"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="8" height="5" rx="1.5"/><rect x="12" y="16" width="8" height="5" rx="1.5"/><path d="M8 8v5h8v3"/></svg>需求配對</div><h2>同一個需求有三種手段</h2><div class="router"><div class="rt-it brand"><div class="rq">一眼看出每個人手上有幾張</div><div class="ra"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Swimlanes by Assignees</span></div></div><div class="rt-it brand"><div class="rq">把 Blocker 拉到最上面</div><div class="ra"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Swimlanes by Queries（Expedite）</span></div></div><div class="rt-it rose"><div class="rq">Bug 一律紅色</div><div class="ra"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Card colors by Issue types</span></div></div><div class="rt-it teal"><div class="rq">卡片上直接看 due date、story points</div><div class="ra"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Card layout</span></div></div><div class="rt-it brand"><div class="rq">Sub-task 跟著 parent 排</div><div class="ra"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Swimlanes by Stories</span></div></div><div class="rt-it brand"><div class="rq">跨 project board 分 project 看</div><div class="ra"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Swimlanes by Projects</span></div></div><div class="rt-it violet"><div class="rq">報表不要把假日算成落後</div><div class="ra"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Working days</span></div></div><div class="rt-it gray"><div class="rq">開會時只看某一組工作</div><div class="ra"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Quick filter（620.2.4）</span></div></div></div><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">主管想「一眼看出每個人負擔多少」，swimlane 還是 card color？</span><span class="rv">看答案</span></summary><div class="aa">Swimlanes by <b>Assignees</b>：分組後可以直接數每一列。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>Swimlane 改位置、card color 只改外觀、card layout 顯示欄位。</li></ul></aside></section><section class="sec" id="swim"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5"/></svg>Swimlanes</div><h2>Queries 模式：第一個符合的 lane 贏</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 380 364" role="img" aria-label="Swimlanes"><rect x="0.5" y="0.5" width="379" height="363" rx="10" class="bx"/><rect x="0" y="0" width="380" height="34" rx="0" class="sf-bg"/><rect x="0" y="34" width="106" height="330" rx="0" class="sf-bg"/><line x1="106" y1="34" x2="106" y2="364" class="gl"/><circle cx="14" cy="17" r="4.5" class="fl-rose"/><circle cx="28" cy="17" r="4.5" class="fl-amber"/><circle cx="42" cy="17" r="4.5" class="fl-green"/><text x="60" y="22" text-anchor="start" class="s">Board settings</text><text x="118" y="62" text-anchor="start" class="h">Swimlanes</text><text x="118" y="89" text-anchor="start" class="b" style="font-size:12px">Base swimlanes on</text><circle cx="125" cy="102" r="7" class="bx"/><circle cx="125" cy="102" r="3.5" class="fl-brand"/><text x="140" y="106" text-anchor="start" class="b">Queries</text><circle cx="125" cy="123" r="7" class="bx"/><text x="140" y="127" text-anchor="start" class="t">Stories</text><circle cx="125" cy="144" r="7" class="bx"/><text x="140" y="148" text-anchor="start" class="t">Assignees</text><circle cx="125" cy="165" r="7" class="bx"/><text x="140" y="169" text-anchor="start" class="t">Epics</text><circle cx="125" cy="186" r="7" class="bx"/><text x="140" y="190" text-anchor="start" class="t">Projects</text><circle cx="125" cy="207" r="7" class="bx"/><text x="140" y="211" text-anchor="start" class="t">No swimlanes</text><text x="118" y="240" text-anchor="start" class="t" style="font-size:12px">Queries（由上到下）</text><line x1="118" y1="270" x2="368" y2="270" class="gl"/><text x="118" y="262" text-anchor="start" class="t">Expedite</text><text x="368" y="262" text-anchor="end" class="s">priority = Blocker</text><line x1="118" y1="296" x2="368" y2="296" class="gl"/><text x="118" y="288" text-anchor="start" class="t">Bugs</text><text x="368" y="288" text-anchor="end" class="s">type = Bug</text><line x1="118" y1="322" x2="368" y2="322" class="gl"/><text x="118" y="314" text-anchor="start" class="t">Everything Else</text><text x="368" y="314" text-anchor="end" class="s">刪不掉、永遠在最下</text><text x="118" y="332" text-anchor="start" class="s tf-violet" style="font-weight:700">↑ issue 進入第一個符合的 lane</text><text x="14" y="54" text-anchor="start" class="t" style="font-size:12px">General</text><text x="14" y="80" text-anchor="start" class="t" style="font-size:12px">Columns</text><rect x="6" y="91" width="94" height="22" rx="6" class="sf-brand"/><text x="14" y="106" text-anchor="start" class="b" style="font-size:12px">Swimlanes</text><text x="14" y="132" text-anchor="start" class="t" style="font-size:12px">Quick filters</text><text x="14" y="158" text-anchor="start" class="t" style="font-size:12px">Card colors</text><text x="14" y="184" text-anchor="start" class="t" style="font-size:12px">Card layout</text><text x="14" y="210" text-anchor="start" class="t" style="font-size:12px">Estimation</text><text x="14" y="236" text-anchor="start" class="t" style="font-size:12px">Working days</text><text x="14" y="262" text-anchor="start" class="t" style="font-size:12px">Issue detail</text></svg></div><figcaption>Board settings → Swimlanes。</figcaption></figure><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">一張 Blocker 等級的 Bug，Expedite 和 Bugs 兩條 lane 都符合，它會在哪？</span><span class="rv">看答案</span></summary><div class="aa">排在<b>上面</b>那條（Expedite）。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>Queries：由上而下第一個符合；Everything Else 刪不掉。</li><li>Projects 選項給跨 project board。</li></ul></aside></section><section class="sec" id="colors"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Card colors 與 layout</div><h2>上色與卡片欄位</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 380 333" role="img" aria-label="Card colors"><rect x="0.5" y="0.5" width="379" height="332" rx="10" class="bx"/><rect x="0" y="0" width="380" height="34" rx="0" class="sf-bg"/><rect x="0" y="34" width="106" height="299" rx="0" class="sf-bg"/><line x1="106" y1="34" x2="106" y2="333" class="gl"/><circle cx="14" cy="17" r="4.5" class="fl-rose"/><circle cx="28" cy="17" r="4.5" class="fl-amber"/><circle cx="42" cy="17" r="4.5" class="fl-green"/><text x="60" y="22" text-anchor="start" class="s">Board settings</text><text x="118" y="62" text-anchor="start" class="h">Card colors</text><text x="118" y="89" text-anchor="start" class="b" style="font-size:12px">Colors based on</text><circle cx="125" cy="102" r="7" class="bx"/><text x="140" y="106" text-anchor="start" class="t">Issue types</text><circle cx="125" cy="123" r="7" class="bx"/><text x="140" y="127" text-anchor="start" class="t">Priorities</text><circle cx="125" cy="144" r="7" class="bx"/><text x="140" y="148" text-anchor="start" class="t">Assignees</text><circle cx="125" cy="165" r="7" class="bx"/><circle cx="125" cy="165" r="3.5" class="fl-brand"/><text x="140" y="169" text-anchor="start" class="b">Queries</text><circle cx="125" cy="186" r="7" class="bx"/><text x="140" y="190" text-anchor="start" class="t">None</text><text x="118" y="208" text-anchor="start" class="s tf-violet" style="font-weight:700">↑ 沒有 Status 選項，但可用 Queries 寫 sta</text><text x="118" y="224" text-anchor="start" class="s tf-violet" style="font-weight:700">tus = ...</text><text x="118" y="255" text-anchor="start" class="t" style="font-size:12px">Queries</text><line x1="118" y1="285" x2="368" y2="285" class="gl"/><text x="118" y="277" text-anchor="start" class="t">紅</text><text x="368" y="277" text-anchor="end" class="s">status = &quot;In Review&quot;</text><line x1="118" y1="311" x2="368" y2="311" class="gl"/><text x="118" y="303" text-anchor="start" class="t">橘</text><text x="368" y="303" text-anchor="end" class="s">duedate &lt; now()</text><text x="14" y="54" text-anchor="start" class="t" style="font-size:12px">General</text><text x="14" y="80" text-anchor="start" class="t" style="font-size:12px">Columns</text><text x="14" y="106" text-anchor="start" class="t" style="font-size:12px">Swimlanes</text><text x="14" y="132" text-anchor="start" class="t" style="font-size:12px">Quick filters</text><rect x="6" y="143" width="94" height="22" rx="6" class="sf-brand"/><text x="14" y="158" text-anchor="start" class="b" style="font-size:12px">Card colors</text><text x="14" y="184" text-anchor="start" class="t" style="font-size:12px">Card layout</text><text x="14" y="210" text-anchor="start" class="t" style="font-size:12px">Estimation</text><text x="14" y="236" text-anchor="start" class="t" style="font-size:12px">Working days</text><text x="14" y="262" text-anchor="start" class="t" style="font-size:12px">Issue detail</text></svg></div><figcaption>Card colors：左緣色條。</figcaption></figure><ul class=""><li>Card layout：每張卡最多再加 <b>3 個欄位</b>；Scrum 的 backlog 與 active sprint 可分開設。</li><li>Days in column：卡片上的小點表示在這欄待了幾天。</li><li>TMP：只能在 View settings 顯示／隱藏既有欄位（每人各自），不能自選加欄位。</li></ul><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>Card color 五種依據；status 用 Queries。</li><li>Card layout 最多加 3 個欄位（CMP）。</li></ul></aside></section><section class="sec" id="wd"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Working days</div><h2>改了 working days，哪些報表跟著變</h2><figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 380 330" role="img" aria-label="Working days"><rect x="0.5" y="0.5" width="379" height="329" rx="10" class="bx"/><rect x="0" y="0" width="380" height="34" rx="0" class="sf-bg"/><rect x="0" y="34" width="106" height="296" rx="0" class="sf-bg"/><line x1="106" y1="34" x2="106" y2="330" class="gl"/><circle cx="14" cy="17" r="4.5" class="fl-rose"/><circle cx="28" cy="17" r="4.5" class="fl-amber"/><circle cx="42" cy="17" r="4.5" class="fl-green"/><text x="60" y="22" text-anchor="start" class="s">Board settings</text><text x="118" y="62" text-anchor="start" class="h">Working days</text><text x="118" y="89" text-anchor="start" class="b" style="font-size:12px">Time zone</text><rect x="118" y="95" width="250" height="28" rx="6" class="bx brand"/><text x="128" y="113" text-anchor="start" class="t">Asia/Taipei</text><path d="M350,106 l5,5 l5,-5" class="ln ink" style="stroke-width:1.6"/><text x="118" y="144" text-anchor="start" class="b" style="font-size:12px">Standard working days</text><rect x="118" y="150" width="14" height="14" rx="3" class="fl-brand"/><path d="M121,157 l3,3 l5,-6" class="ln" style="stroke:var(--on-color);stroke-width:2"/><text x="140" y="161" text-anchor="start" class="b">Mon–Fri</text><rect x="118" y="171" width="14" height="14" rx="3" class="bx"/><text x="140" y="182" text-anchor="start" class="t">Saturday</text><rect x="118" y="192" width="14" height="14" rx="3" class="bx"/><text x="140" y="203" text-anchor="start" class="t">Sunday</text><text x="118" y="232" text-anchor="start" class="t" style="font-size:12px">Non-working days</text><line x1="118" y1="262" x2="368" y2="262" class="gl"/><text x="118" y="254" text-anchor="start" class="t">2026-10-10</text><text x="368" y="254" text-anchor="end" class="s">國慶日</text><line x1="118" y1="288" x2="368" y2="288" class="gl"/><text x="118" y="280" text-anchor="start" class="t">2026-10-26</text><text x="368" y="280" text-anchor="end" class="s">補假</text><text x="118" y="298" text-anchor="start" class="s tf-violet" style="font-weight:700">↑ 國定假日、單次休假</text><text x="14" y="54" text-anchor="start" class="t" style="font-size:12px">General</text><text x="14" y="80" text-anchor="start" class="t" style="font-size:12px">Columns</text><text x="14" y="106" text-anchor="start" class="t" style="font-size:12px">Swimlanes</text><text x="14" y="132" text-anchor="start" class="t" style="font-size:12px">Quick filters</text><text x="14" y="158" text-anchor="start" class="t" style="font-size:12px">Card colors</text><text x="14" y="184" text-anchor="start" class="t" style="font-size:12px">Card layout</text><text x="14" y="210" text-anchor="start" class="t" style="font-size:12px">Estimation</text><rect x="6" y="221" width="94" height="22" rx="6" class="sf-brand"/><text x="14" y="236" text-anchor="start" class="b" style="font-size:12px">Working days</text><text x="14" y="262" text-anchor="start" class="t" style="font-size:12px">Issue detail</text></svg></div><figcaption>每個 board 各自設定；board admin 或 location 所在 project 的 admin。</figcaption></figure><table class="tbl"><thead><tr><th class="">受影響（官方清單）</th><th class="">類型</th></tr></thead><tbody><tr class=""><td class="" data-l="受影響（官方清單）">Burndown Chart</td><td class="" data-l="類型">報表</td></tr><tr class=""><td class="" data-l="受影響（官方清單）">Sprint Report</td><td class="" data-l="類型">報表</td></tr><tr class=""><td class="" data-l="受影響（官方清單）">Epic Report</td><td class="" data-l="類型">報表</td></tr><tr class=""><td class="" data-l="受影響（官方清單）">Version Report</td><td class="" data-l="類型">報表</td></tr><tr class=""><td class="" data-l="受影響（官方清單）">Control Chart</td><td class="" data-l="類型">報表</td></tr><tr class=""><td class="" data-l="受影響（官方清單）">Sprint Health gadget</td><td class="" data-l="類型">gadget</td></tr><tr class=""><td class="" data-l="受影響（官方清單）">Burndown gadget</td><td class="" data-l="類型">gadget</td></tr></tbody></table><div class="call weak"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><div><div class="t">你問過的</div><p>Burndown <mark class="mk">報表</mark>和 Burndown <mark class="mk">gadget</mark> 兩個都吃。不吃的：<mark class="mk">Burnup、Velocity、CFD、Epic burndown、Release burndown</mark>、所有 issue analysis 報表。</p></div></div><div class="ask"><div class="ah"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>自我檢查：先在心裡回答，再點開對答案</span></div><details class="ak"><summary><span class="n">Q1</span><span class="qq">改了 working days，Release burndown 會跟著變嗎？</span><span class="rv">看答案</span></summary><div class="aa">不會。它不在官方清單裡（名字像但不在）。</div></details><details class="ak"><summary><span class="n">Q2</span><span class="qq">誰能改 working days？</span><span class="rv">看答案</span></summary><div class="aa">Board admin，或 board 所在 project 的 admin。</div></details></div><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li><mark class="mk">5 報表：Burndown、Sprint、Epic、Version、Control。</mark><span class="tag-mine">你常錯</span></li><li><mark class="mk">2 gadget：Sprint Health、Burndown。</mark><span class="tag-mine">你常錯</span></li><li>每個 board 各自設定。</li></ul></aside></section><section class="sec" id="detail"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Issue detail view</div><h2>點開卡片右側看到什麼</h2><ul class=""><li>Summary、Description 一定顯示。</li><li>考綱的 Issue detail view 原本是 Board settings 的一頁；現行文件改由 Project settings → Screens 的 View issue screen 控制。</li><li>考試問「誰管」→ board admin／project admin。</li></ul><aside class="recap" aria-label="本段必考"><div class="rh"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><span>本段必考</span></div><ul><li>現行：由 View issue screen 控制。</li></ul></aside></section><section class="sec" id="traps"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.5"/></svg>易錯觀念</div><h2>考題愛用的錯誤說法</h2><div class="traps"><div class="trap"><div class="w">Card color 可以改變卡片的位置。</div><div class="r">只改外觀；要改位置用 swimlane。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira-software-cloud/docs/customize-cards/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap"><div class="w">不能依 status 上色。</div><div class="r">用 Queries 寫 status = ...。</div><div class="why"></div><div class="meta"><a href="https://support.atlassian.com/jira-software-cloud/docs/customize-cards/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap mine"><div class="w">Working days 是全站設定。</div><div class="r"><mark class="mk">每個 board 各自設定。</mark></div><div class="why"></div><div class="meta"><span class="chip rose">你練習時錯過</span><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/" target="_blank" rel="noopener">官方來源</a></div></div><div class="trap mine"><div class="w">Burnup、Release burndown 也吃 working days。</div><div class="r"><mark class="mk">官方清單只有 5 張報表＋2 個 gadget。</mark></div><div class="why"></div><div class="meta"><span class="chip rose">你練習時錯過</span><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/" target="_blank" rel="noopener">官方來源</a></div></div></div></section><section class="sec" id="wrap"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M10 11L6.5 7.3M14 11l3.5-3.7M10 13l-3.5 3.7M14 13l3.5 3.7"/></svg>一分鐘腦內整理</div><h2>讀完了？用這張收攏整節</h2><div class="mnemo"><div><b>分組、上色、顯示</b><span>Swimlane、card color、card layout。</span></div><div><b>工作日：燒 Sprint Epic 版控＋健康燒</b><span>5 報表＋Sprint Health、Burndown gadget。</span></div></div><div class="wu"><div class="wu-it"><a href="#choose" class="wu-h">同一個需求有三種手段</a><ul><li>Swimlane 改位置、card color 只改外觀、card layout 顯示欄位。</li></ul></div><div class="wu-it"><a href="#swim" class="wu-h">Queries 模式：第一個符合的 lane 贏</a><ul><li>Queries：由上而下第一個符合；Everything Else 刪不掉。</li><li>Projects 選項給跨 project board。</li></ul></div><div class="wu-it"><a href="#colors" class="wu-h">上色與卡片欄位</a><ul><li>Card color 五種依據；status 用 Queries。</li><li>Card layout 最多加 3 個欄位（CMP）。</li></ul></div><div class="wu-it"><a href="#wd" class="wu-h">改了 working days，哪些報表跟著變</a><ul><li><mark class="mk">5 報表：Burndown、Sprint、Epic、Version、Control。</mark><span class="tag-mine">你常錯</span></li><li><mark class="mk">2 gadget：Sprint Health、Burndown。</mark><span class="tag-mine">你常錯</span></li><li>每個 board 各自設定。</li></ul></div><div class="wu-it"><a href="#detail" class="wu-h">點開卡片右側看到什麼</a><ul><li>現行：由 View issue screen 控制。</li></ul></div></div></section><section class="sec" id="practice"><div class="lbl"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M8 5.5H6.5A1.5 1.5 0 0 0 5 7v12.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5H16"/><path d="M8.5 13l2.2 2.2L15.5 10.5"/></svg>本節練習</div><h2>做題</h2><div class="qz" data-sec="620.2.6"><p class="muted">題目載入中…</p></div></section><div class="srcs"><b>官方來源（本節依據）</b><ul><li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-swimlanes/" target="_blank" rel="noopener">Configure swimlanes</a></li><li><a href="https://support.atlassian.com/jira-software-cloud/docs/customize-cards/" target="_blank" rel="noopener">Configure card colors</a></li><li><a href="https://support.atlassian.com/jira-software-cloud/docs/customize-cards/" target="_blank" rel="noopener">Configure card layout</a></li><li><a href="https://support.atlassian.com/jira-software-cloud/docs/configure-working-days/" target="_blank" rel="noopener">Configure working days</a></li></ul></div><div class="readmark" data-readmark="620.2.6"><span class="msg"></span><button type="button" class="btn sm">標記本節已讀</button></div><nav class="pager" aria-label="上一節與下一節"><a href="620.2.5.html"><small>上一節</small><span>620.2.5 Estimation 與 time tracking</span></a><a class="next" href="620.2.7.html"><small>下一節</small><span>620.2.7 Board 排查</span></a></nav>
+<p class="foot">本教材為原創整理，非 Atlassian 官方出版品；題目皆為原創，不含第三方題庫題幹。考試沿用 project／issue 等舊用語，現行 Jira Cloud 已改為 space／work item。</p>
 </main>
 </div>
-<script src="assets/spring.js"></script>
-<script src="assets/app.js"></script>
-<script src="assets/questions.js"></script>
-<script src="assets/exam.js"></script>
-<script>
-(function(){
-  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let queries=[
-    {name:'Expedite',jql:'priority = Blocker',test:c=>c.blocker,color:'var(--rose)'},
-    {name:'Bugs',jql:'type = Bug',test:c=>c.bug,color:'var(--amber)'},
-    {name:'Mine',jql:'assignee = currentUser()',test:c=>c.mine,color:'var(--brand)'}
-  ];
-  const cards=[
-    {k:'MOB-201',t:'登入閃退',blocker:true,bug:true,mine:false},
-    {k:'MOB-202',t:'付款失敗',blocker:true,bug:true,mine:true},
-    {k:'MOB-203',t:'字型跑版',blocker:false,bug:true,mine:true},
-    {k:'MOB-204',t:'深色模式',blocker:false,bug:false,mine:true},
-    {k:'MOB-205',t:'首頁改版',blocker:false,bug:false,mine:false},
-    {k:'MOB-206',t:'DB 鎖死',blocker:true,bug:false,mine:false}
-  ];
-  const qbox=$('#s226-qs'), lanes=$('#s226-lanes');
-  let prevLane={};
-  function render(){
-    qbox.innerHTML=queries.map((q,i)=>`<div class="s226-q"><span class="n">${i+1}</span><code>${q.jql}</code><span class="kicker">${q.name}</span><span class="btns"><button class="btn ghost sm" data-i="${i}" data-d="-1" ${i===0?'disabled':''}>▲</button><button class="btn ghost sm" data-i="${i}" data-d="1" ${i===queries.length-1?'disabled':''}>▼</button></span></div>`).join('');
-    const groups=queries.map(q=>({q,items:[]})); const rest=[];
-    cards.forEach(c=>{const g=groups.find(g=>g.q.test(c)); (g?g.items:rest).push(c);});
-    const laneHtml=(name,items,color)=>`<div class="s226-lane"><div class="lh"><span>${name}</span><span class="c">${items.length} 張</span></div><div class="body">${items.map(c=>`<div class="s226-c" data-k="${c.k}" style="border-left-color:${color}"><div class="k">${c.k}</div>${c.t}</div>`).join('')||'<span class="kicker">（空）</span>'}</div></div>`;
-    lanes.innerHTML=groups.map(g=>laneHtml(g.q.name,g.items,g.q.color)).join('')+laneHtml('Everything Else',rest,'var(--line-2)');
-    const now={}; groups.forEach(g=>g.items.forEach(c=>now[c.k]=g.q.name)); rest.forEach(c=>now[c.k]='Everything Else');
-    $$('.s226-c',lanes).forEach(el=>{ if(prevLane[el.dataset.k]&&prevLane[el.dataset.k]!==now[el.dataset.k]&&window.springPop&&!reduced()) window.springPop(el); });
-    const moved=Object.keys(now).filter(k=>prevLane[k]&&prevLane[k]!==now[k]);
-    $('#s226-msg').textContent = moved.length? `換順序後 ${moved.join('、')} 換了 lane：同一張 issue 符合多條 query 時，由上到下第一條贏。` : '一張 issue 只會出現在一條 lane；都不符合的進 Everything Else。';
-    prevLane=now;
-    $$('button[data-i]',qbox).forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.i,d=+b.dataset.d; const t=queries[i]; queries[i]=queries[i+d]; queries[i+d]=t; render();}));
-  }
-  render();
-})();
-</script>
+</div>
+<script src="assets/site.js?v=1790343483" defer></script><script src="assets/qbank.js?v=1790343483" defer></script><script src="assets/quiz.js?v=1790343483" defer></script>
 </body>
 </html>
