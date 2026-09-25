@@ -538,3 +538,4 @@ mark.mk{color:inherit;background:rgba(255,229,0,.62);box-shadow:0 0 6px 3px rgba
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) mark.mk{background:rgba(255,214,10,.3);box-shadow:0 0 7px 3px rgba(255,214,10,.22);color:#fff6c2}}
 :root[data-theme="dark"] mark.mk{background:rgba(255,214,10,.3);box-shadow:0 0 7px 3px rgba(255,214,10,.22);color:#fff6c2}
 .tag-mine{display:inline-flex;align-items:center;font-size:.72rem;font-weight:800;color:var(--rose);background:var(--rose-soft);border-radius:999px;padding:.05rem .5rem;margin-left:.35rem;vertical-align:middle;white-space:nowrap}
+body.ex-run .hero{display:none}body.ex-run #exam-app{margin-top:0!important}

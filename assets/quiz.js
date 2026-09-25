@@ -253,7 +253,7 @@
     save(d); run();
   }
   function practice(ids, title) {
-    clearInterval(timer);
+    clearInterval(timer); document.body.classList.add('ex-run');
     app.innerHTML = `<div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(title)}</h2><button type="button" class="btn ghost sm back">回模擬考首頁</button></div><div class="sessbox"></div>`;
     $('.back', app).addEventListener('click', home);
     session($('.sessbox', app), ids, { onExit: home });
@@ -262,7 +262,7 @@
 
   /* ---------- 首頁 ---------- */
   function home() {
-    clearInterval(timer);
+    clearInterval(timer); document.body.classList.remove('ex-run');
     const d = D();
     if (d.cur && !d.cur.t1) return run();
     const ids = Q.map((q) => q.id);
@@ -338,7 +338,7 @@
 
   /* ---------- 考試進行中 ---------- */
   function run() {
-    clearInterval(timer);
+    clearInterval(timer); document.body.classList.add('ex-run'); scrollTo({ top: 0 });
     const d = D(); const c = d.cur; if (!c) return home();
     const total = c.ids.length;
     app.innerHTML = `<div class="ex-bar"><span class="time" id="ex-time">--:--:--</span><div class="prog" aria-hidden="true"><i id="ex-prog"></i></div><span class="small" id="ex-done"></span><button type="button" class="btn ghost sm" id="ex-pal" aria-expanded="false">題號</button><button type="button" class="btn sm" id="ex-sub">交卷</button></div>
@@ -400,7 +400,7 @@
 
   /* ---------- 檢討 ---------- */
   function review(id, fresh) {
-    clearInterval(timer);
+    clearInterval(timer); document.body.classList.remove('ex-run');
     const d = D(); const ex = d.exams.find((e) => e.id === id); if (!ex) return home();
     const qs = ex.ids.map((k) => BY.get(k)).filter(Boolean);
     const okOf = (q) => !!ex.ans[q.id] && grade(q, ex.ans[q.id]);

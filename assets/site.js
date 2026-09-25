@@ -47,7 +47,19 @@
   if (menu) menu.addEventListener('click', () => setNav(!body.classList.contains('nav-open')));
   if (scrim) scrim.addEventListener('click', () => setNav(false));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && body.classList.contains('nav-open')) setNav(false); });
-  if (nav) nav.addEventListener('click', (e) => { if (e.target.closest('a') && innerWidth < 1100) setNav(false); });
+  // 抽屜開著時 body 鎖住捲動；點本頁錨點要先關抽屜、下一幀再捲過去，否則頁面不會移動
+  if (nav) nav.addEventListener('click', (e) => {
+    const a = e.target.closest('a'); if (!a || innerWidth >= 1100) return;
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      setNav(false);
+      const el = document.getElementById(href.slice(1));
+      setTimeout(() => { history.replaceState(null, '', href); if (el) el.scrollIntoView({ block: 'start' }); }, 30);
+    } else setNav(false);
+  });
+  // 手機版頁首的「本頁內容」：點錨點後收起
+  $$('.toc-m a').forEach((a) => a.addEventListener('click', () => { const d = a.closest('details'); if (d) d.open = false; }));
 
   /* ---------- 側欄：目前頁、已讀點 ---------- */
   const here = (location.pathname.split('/').pop() || 'index.html');
@@ -120,6 +132,7 @@
         const okText = !text || it.textContent.toLowerCase().includes(text);
         it.hidden = !(okTags && okText); if (!it.hidden) n++;
       });
+      $$('[data-group]').forEach((g) => { g.hidden = !$$(wrap.dataset.filter, g).some((it) => !it.hidden); });
       if (count) count.textContent = `顯示 ${n}／${items.length}`;
     };
     groups.forEach((g) => $$('button', g).forEach((b) => b.addEventListener('click', () => { $$('button', g).forEach((x) => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true'); apply(); })));
