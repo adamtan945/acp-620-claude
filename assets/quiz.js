@@ -1,6 +1,6 @@
 /* ACP-620 題庫引擎 v2
  * 題目：window.ACP_Q = [{id, sec, dom, type:'single'|'multi', n, stem, zh, zo[], fig, opts[], ans:'AC', why{A..}, note, src[], lvl, lang}]
- * zh／zo＝英文題的題幹與選項中文翻譯，由題目上的「中文」按鈕切換（偏好記在 acp620.zh，全頁同步）
+ * zh／zo＝題幹與選項的中文翻譯（全部題目都是英文＋中文雙語）；ex＝1 是考試風格題，由題目上的「中文」按鈕切換（偏好記在 acp620.zh，全頁同步）
  * 紀錄：localStorage 'acp620.v2' → att{qid:[[t,pick,ok,mode]]}、flag{qid:t}、exams[]、cur（進行中的考試）
  * 每一次作答都保留；錯題＝最近一次答錯；「不懂」是全域標記。 */
 (function () {
@@ -172,16 +172,16 @@
   $$('.qz[data-sec]').forEach((box) => {
     const sec = box.dataset.sec;
     // 新題（英文、多選、圖例）排前面，舊題在後
-    const all = Q.filter((q) => q.sec === sec).sort((a, b) => (a.lang === 'en' ? 0 : 1) - (b.lang === 'en' ? 0 : 1));
+    const all = Q.filter((q) => q.sec === sec).sort((a, b) => (a.ex ? 0 : 1) - (b.ex ? 0 : 1));
     box.innerHTML = '';
     const ctl = document.createElement('div');
     const area = document.createElement('div');
     box.append(ctl, area);
-    const FILTERS = [['all', '全部'], ['en', '英文考題'], ['new', '沒做過'], ['wrong', '最近答錯'], ['flag', '不懂'], ['multi', '多選'], ['fig', '圖例']];
+    const FILTERS = [['all', '全部'], ['en', '考試風格題'], ['new', '沒做過'], ['wrong', '最近答錯'], ['flag', '不懂'], ['multi', '多選'], ['fig', '圖例']];
     let f = 'all';
     const pickIds = () => {
       const d = D();
-      return all.filter((q) => f === 'all' || (f === 'en' && q.lang === 'en') || (f === 'new' && !d.att[q.id]) || (f === 'wrong' && last(d, q.id) && !last(d, q.id)[2]) || (f === 'flag' && d.flag[q.id]) || (f === 'multi' && q.type === 'multi') || (f === 'fig' && q.fig)).map((q) => q.id);
+      return all.filter((q) => f === 'all' || (f === 'en' && q.ex) || (f === 'new' && !d.att[q.id]) || (f === 'wrong' && last(d, q.id) && !last(d, q.id)[2]) || (f === 'flag' && d.flag[q.id]) || (f === 'multi' && q.type === 'multi') || (f === 'fig' && q.fig)).map((q) => q.id);
     };
     const paint = () => {
       const d = D();
@@ -246,7 +246,7 @@
 
   function pickExam(n, src) {
     const out = [];
-    const base = src === 'all' ? Q : Q.filter((q) => q.lang === 'en');
+    const base = src === 'all' ? Q : Q.filter((q) => q.ex);
     const doms = Object.keys(WEIGHT);
     const target = doms.map((d) => [d, Math.round(n * WEIGHT[d] / 100)]);
     target[1][1] += n - target.reduce((a, [, k]) => a + k, 0);
@@ -309,7 +309,7 @@
         <div class="stat"><div class="v">${best ? best + '%' : '—'}</div><div class="l">全真模擬最佳</div></div>
       </div>
       <section class="sec" style="margin-top:1.5rem"><h2>選一種練法</h2>
-        <div class="row" style="margin:0 0 .9rem;gap:.5rem"><label class="small muted" for="ex-src">模擬考與小考的題目來源</label><select id="ex-src" class="search" style="max-width:24rem"><option value="en">英文考試風格題（${Q.filter((q) => q.lang === 'en').length} 題，跟正式考試一樣）</option><option value="all">全部題目（含中文舊題，共 ${Q.length} 題）</option></select></div>
+        <div class="row" style="margin:0 0 .9rem;gap:.5rem"><label class="small muted" for="ex-src">模擬考與小考的題目來源</label><select id="ex-src" class="search" style="max-width:24rem"><option value="en">考試風格題（${Q.filter((q) => q.ex).length} 題，情境題、約四成多選）</option><option value="all">全部題目（含基礎觀念題，共 ${Q.length} 題）</option></select></div>
         <div class="grid">
           <div class="card"><h3>全真模擬考</h3><p class="small muted">依比重抽 ${EXAM_N} 題、約四成多選，計時 ${EXAM_MIN} 分鐘。交卷才看答案，跟正式考試一樣。</p><button type="button" class="btn" data-go="full">開始（${EXAM_N} 題）</button></div>
           <div class="card"><h3>20 題小考</h3><p class="small muted">30 分鐘，一樣交卷才批改。適合零碎時間測一下。</p><button type="button" class="btn ghost" data-go="quick">開始小考</button></div>
@@ -317,7 +317,7 @@
           <div class="card"><h3>不懂的題</h3><p class="small muted">你按過星號「不懂」的題。搞懂了再按一次取消。</p><button type="button" class="btn ghost" data-go="flag" ${flags.length ? '' : 'disabled'}>練 ${flags.length} 題</button></div>
           <div class="card"><h3>還沒做過的題</h3><p class="small muted">隨機抽 20 題你從沒碰過的題目，作答後馬上看解析。</p><button type="button" class="btn ghost" data-go="new" ${fresh.length ? '' : 'disabled'}>抽 ${Math.min(20, fresh.length)} 題</button></div>
           <div class="card"><h3>自選範圍</h3><label class="small muted" for="pick-sec">章節</label><select id="pick-sec" class="search" style="margin:.3rem 0 .5rem"><option value="*">全部章節</option>${Object.keys(DN).map((k) => `<option value="d${k}">${k} ${DN[k]}（整個 domain）</option>`).join('')}${secOpts}</select>
-            <label class="small muted" for="pick-type">題型</label><select id="pick-type" class="search" style="margin:.3rem 0 .6rem"><option value="*">全部題型</option><option value="en">只要英文考試風格題</option><option value="multi">只要多選</option><option value="fig">只要圖例題</option></select><button type="button" class="btn ghost" data-go="custom">開始練習</button></div>
+            <label class="small muted" for="pick-type">題型</label><select id="pick-type" class="search" style="margin:.3rem 0 .6rem"><option value="*">全部題型</option><option value="en">只要考試風格題</option><option value="multi">只要多選</option><option value="fig">只要圖例題</option></select><button type="button" class="btn ghost" data-go="custom">開始練習</button></div>
         </div></section>
       <section class="sec"><h2>各 domain 掌握度</h2><div class="meter">${domRows}</div></section>
       <section class="sec"><h2>歷次模擬考</h2>${spark}${hist}</section>
@@ -330,7 +330,7 @@
       if (g === 'flag') return practice(flags, '不懂的題');
       if (g === 'new') return practice(shuffle(fresh).slice(0, 20), '還沒做過的題');
       const s = $('#pick-sec').value, t = $('#pick-type').value;
-      const ids2 = Q.filter((q) => (s === '*' || (s[0] === 'd' ? q.dom === s.slice(1) : q.sec === s)) && (t === '*' || (t === 'en' ? q.lang === 'en' : t === 'multi' ? q.type === 'multi' : !!q.fig))).map((q) => q.id);
+      const ids2 = Q.filter((q) => (s === '*' || (s[0] === 'd' ? q.dom === s.slice(1) : q.sec === s)) && (t === '*' || (t === 'en' ? !!q.ex : t === 'multi' ? q.type === 'multi' : !!q.fig))).map((q) => q.id);
       practice(shuffle(ids2), '自選範圍練習');
     }));
     $$('.rv', app).forEach((b) => b.addEventListener('click', () => review(b.dataset.id)));
