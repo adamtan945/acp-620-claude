@@ -366,6 +366,10 @@ h4{font-size:1rem;margin:1.2rem 0 .4rem;font-weight:700}
 .q-top .sp{flex:1}
 .q-stem{font-weight:600;line-height:1.65;font-size:1.02rem;white-space:pre-line}
 .q-stem .zh{display:block;font-weight:400;color:var(--ink-3);font-size:.9rem;margin-top:.35rem}
+.q-opt .zo{display:block;font-weight:400;color:var(--ink-3);font-size:.88rem;line-height:1.5;margin-top:.2rem}
+.q-stem .zh[hidden],.q-opt .zo[hidden]{display:none}
+.flag.zhb[aria-pressed="true"]{background:var(--brand-soft,var(--surface));border-color:var(--brand);color:var(--brand)}
+.flag.zhb[aria-pressed="true"] svg{fill:none}
 .q-pick{display:inline-flex;align-items:center;gap:.35rem;margin-top:.55rem;font-size:.84rem;font-weight:700;color:var(--violet);background:var(--violet-soft);padding:.15rem .6rem;border-radius:999px}
 .q-fig{margin:.8rem 0;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-m);padding:.6rem}
 .q-fig svg{display:block;width:100%;height:auto;max-width:34rem;margin:0 auto}
