@@ -177,11 +177,11 @@
     const ctl = document.createElement('div');
     const area = document.createElement('div');
     box.append(ctl, area);
-    const FILTERS = [['all', '全部'], ['en', '考試風格題'], ['new', '沒做過'], ['wrong', '最近答錯'], ['flag', '不懂'], ['multi', '多選'], ['fig', '圖例']];
+    const FILTERS = [['all', '全部'], ['en', '考試風格題'], ['new', '沒做過'], ['wrong', '最近答錯'], ['flag', '不懂'], ['multi', '多選'], ['fig', '圖例']].concat(all.some((q) => q.rt) ? [['rt', '錯題重測']] : []);
     let f = 'all';
     const pickIds = () => {
       const d = D();
-      return all.filter((q) => f === 'all' || (f === 'en' && q.ex) || (f === 'new' && !d.att[q.id]) || (f === 'wrong' && last(d, q.id) && !last(d, q.id)[2]) || (f === 'flag' && d.flag[q.id]) || (f === 'multi' && q.type === 'multi') || (f === 'fig' && q.fig)).map((q) => q.id);
+      return all.filter((q) => f === 'all' || (f === 'en' && q.ex) || (f === 'new' && !d.att[q.id]) || (f === 'wrong' && last(d, q.id) && !last(d, q.id)[2]) || (f === 'flag' && d.flag[q.id]) || (f === 'multi' && q.type === 'multi') || (f === 'fig' && q.fig) || (f === 'rt' && q.rt)).map((q) => q.id);
     };
     const paint = () => {
       const d = D();
@@ -299,6 +299,7 @@
       return `<figure class="fig narrow"><div class="frame"><svg class="dia" viewBox="0 0 ${W} ${H}" role="img" aria-label="模擬考分數走勢"><line x1="20" x2="${W - 20}" y1="${ys(60)}" y2="${ys(60)}" class="ln d rose"/><text x="${W - 20}" y="${ys(60) - 4}" text-anchor="end" class="s tf-rose">及格線 60%</text><polyline points="${pts}" class="ln brand w3"/>${trend.map((e, k) => `<circle cx="${xs(k)}" cy="${ys(pct(e.score, e.total))}" r="4" class="fl-brand"/>`).join('')}</svg></div><figcaption>最近 ${trend.length} 次模擬考的正確率</figcaption></figure>`;
     })() : '';
     const hist = exams.length ? `<table class="tbl"><thead><tr><th>時間</th><th>類型</th><th class="c">分數</th><th class="c">結果</th><th></th></tr></thead><tbody>${exams.map((e) => `<tr><td data-l="時間">${fmtT(e.t1)}</td><td data-l="類型">${e.mode === 'quick' ? '20 題小考' : e.legacy ? '舊版模擬考' : '全真模擬'}</td><td class="c" data-l="分數">${e.score}／${e.total}（${pct(e.score, e.total)}%）</td><td class="c" data-l="結果">${pct(e.score, e.total) >= 60 ? '<span class="ok">及格</span>' : '<span class="bad">未及格</span>'}</td><td data-l="檢討">${e.legacy ? '<span class="muted small">無逐題資料</span>' : `<button type="button" class="btn ghost sm rv" data-id="${e.id}">檢討</button>`}</td></tr>`).join('')}</tbody></table>` : '<p class="muted">還沒有模擬考紀錄。</p>';
+    const rtAll = Q.filter((q) => q.rt);
     const secOpts = Array.from(new Set(Q.map((q) => q.sec))).sort().map((s) => `<option value="${s}">${s}（${Q.filter((q) => q.sec === s).length} 題）</option>`).join('');
     app.innerHTML = `
       <div class="stats">
@@ -311,6 +312,7 @@
       <section class="sec" style="margin-top:1.5rem"><h2>選一種練法</h2>
         <div class="row" style="margin:0 0 .9rem;gap:.5rem"><label class="small muted" for="ex-src">模擬考與小考的題目來源</label><select id="ex-src" class="search" style="max-width:24rem"><option value="en">考試風格題（${Q.filter((q) => q.ex).length} 題，情境題、約四成多選）</option><option value="all">全部題目（含基礎觀念題，共 ${Q.length} 題）</option></select></div>
         <div class="grid">
+          ${rtAll.length ? `<div class="card" style="grid-column:1/-1;border:2px solid var(--rose)"><h3>考前錯題重測（${rtAll.length} 題）</h3><p class="small muted">V12.35 練習測驗整理出來的題目，全部改寫成原創題，觀念一樣、情境和選項順序不同。有「中文」按鈕、作答後馬上看解析。</p><div class="row" style="gap:.5rem;flex-wrap:wrap"><button type="button" class="btn" data-go="rt">全部 ${rtAll.length} 題</button><button type="button" class="btn ghost" data-go="rt1">真正答錯的 ${rtAll.filter((q) => q.rt === 1).length} 題</button><button type="button" class="btn ghost" data-go="rt2">題庫答案有誤的 ${rtAll.filter((q) => q.rt === 2).length} 題</button><button type="button" class="btn ghost" data-go="rt3">9/27 問過的 ${rtAll.filter((q) => q.rt === 3).length} 題</button></div></div>` : ''}
           <div class="card"><h3>全真模擬考</h3><p class="small muted">依比重抽 ${EXAM_N} 題、約四成多選，計時 ${EXAM_MIN} 分鐘。交卷才看答案，跟正式考試一樣。</p><button type="button" class="btn" data-go="full">開始（${EXAM_N} 題）</button></div>
           <div class="card"><h3>20 題小考</h3><p class="small muted">30 分鐘，一樣交卷才批改。適合零碎時間測一下。</p><button type="button" class="btn ghost" data-go="quick">開始小考</button></div>
           <div class="card"><h3>錯題重練</h3><p class="small muted">所有「最近一次答錯」的題。答對後就會從清單消失。</p><button type="button" class="btn ghost" data-go="wrong" ${wrong.length ? '' : 'disabled'}>重練 ${wrong.length} 題</button></div>
@@ -326,6 +328,8 @@
     $$('[data-go]', app).forEach((b) => b.addEventListener('click', () => {
       const g = b.dataset.go;
       if (g === 'full' || g === 'quick') return startExam(g);
+      if (g === 'rt') return practice(shuffle(rtAll.map((q) => q.id)), '考前錯題重測');
+      if (/^rt\d$/.test(g)) { const k = +g[2]; return practice(shuffle(rtAll.filter((q) => q.rt === k).map((q) => q.id)), ['', '真正答錯的題', '題庫答案有誤的題', '9/27 問過的觀念'][k]); }
       if (g === 'wrong') return practice(shuffle(wrong), '錯題重練');
       if (g === 'flag') return practice(flags, '不懂的題');
       if (g === 'new') return practice(shuffle(fresh).slice(0, 20), '還沒做過的題');
