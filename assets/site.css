@@ -545,3 +545,46 @@ mark.mk{color:inherit;background:rgba(255,229,0,.62);box-shadow:0 0 6px 3px rgba
 :root[data-theme="dark"] mark.mk{background:rgba(255,214,10,.3);box-shadow:0 0 7px 3px rgba(255,214,10,.22);color:#fff6c2}
 .tag-mine{display:inline-flex;align-items:center;font-size:.72rem;font-weight:800;color:var(--rose);background:var(--rose-soft);border-radius:999px;padding:.05rem .5rem;margin-left:.35rem;vertical-align:middle;white-space:nowrap}
 body.ex-run .hero{display:none}body.ex-run #exam-app{margin-top:0!important}
+
+/* ---------- 動手做 Lab ---------- */
+.lab-meta{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:.2rem 0 .6rem;font-size:.86rem;color:var(--ink-2)}
+.lab-meta span{display:inline-flex;align-items:center;gap:.35rem}
+.lab-meta svg{width:1rem;height:1rem;color:var(--teal)}
+.lab-box{margin:.6rem 0 1rem;padding:.8rem 1rem;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line)}
+.lab-prog{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--ink-3);margin-bottom:.5rem}
+.lab-prog .bar{flex:1;height:6px;border-radius:3px;background:var(--gray-soft);overflow:hidden}
+.lab-prog .bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .3s var(--ease)}
+.lab-steps{list-style:none;padding:0;margin:0;counter-reset:ls}
+.lab-steps>li{counter-increment:ls;padding:.55rem 0;border-top:1px solid var(--line)}
+.lab-steps>li:first-child{border-top:0}
+.lab-steps label{display:flex;gap:.6rem;align-items:flex-start;cursor:pointer}
+.lab-steps input{flex:0 0 auto;width:1.1rem;height:1.1rem;margin:.2rem 0 0;accent-color:var(--teal)}
+.lab-steps .la::before{content:counter(ls) ". ";font-weight:800;color:var(--teal)}
+.lab-steps li.done .la{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--line-2)}
+.lab-steps .le{display:flex;gap:.4rem;margin:.35rem 0 0 1.7rem;padding:.45rem .6rem;border-radius:var(--r-s);background:var(--teal-soft);font-size:.88rem;color:var(--ink-2)}
+.lab-steps .le svg{flex:0 0 auto;width:1rem;height:1rem;margin-top:.15rem;color:var(--teal)}
+.lab-steps code,.lab-steps .path{word-break:break-word}
+/* ---------- 段落資料來源 ---------- */
+.sl{margin:1rem 0 0;border-top:1px dashed var(--line-2);padding-top:.5rem;font-size:.86rem}
+.sl summary{display:flex;align-items:center;gap:.4rem;cursor:pointer;list-style:none;color:var(--ink-3);flex-wrap:wrap}
+.sl summary::-webkit-details-marker{display:none}
+.sl summary svg{width:1rem;height:1rem;color:var(--brand)}
+.sl summary span{font-weight:700;color:var(--brand-2)}
+.sl summary small{color:var(--ink-4)}
+.sl[open] summary small{display:none}
+.sl ul{list-style:none;padding:0;margin:.5rem 0 0}
+.sl li{padding:.45rem .7rem;margin:.35rem 0;border-radius:var(--r-s);background:var(--surface-2);border:1px solid var(--line)}
+.sl li a{font-weight:600;word-break:break-word}
+.sl q{display:block;margin-top:.25rem;color:var(--ink-2);font-style:italic;quotes:"“" "”"}
+.sl li.nosrc{background:var(--amber-soft);border-color:transparent}
+.sl li.nosrc b{display:flex;align-items:center;gap:.35rem;color:var(--amber)}
+.sl li.nosrc b svg{width:1rem;height:1rem;flex:0 0 auto}
+.sl li.nosrc span{display:block;margin-top:.2rem;color:var(--ink-2)}
+/* 長網址、路徑不撐破版面 */
+.ak summary .qq,.lab-steps .la,.lab-steps .le span,.sl q{min-width:0;overflow-wrap:anywhere}
+/* 雲端同步（導覽列） */
+.sync{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .5rem;margin:.2rem .9rem .6rem;padding:.5rem .7rem;border-radius:var(--r-s);background:var(--surface-2);border:1px solid var(--line);font-size:.8rem;color:var(--ink-2)}
+.sync small{color:var(--ink-3);overflow-wrap:anywhere}
+.sync small.err{color:var(--rose);flex-basis:100%}
+.sync .btn.sm{padding:.2rem .6rem;min-height:1.8rem;font-size:.78rem}
+.seg button small{opacity:.7;margin-left:.15rem;font-weight:600}

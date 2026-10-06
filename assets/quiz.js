@@ -1,7 +1,7 @@
-/* ACP-620 題庫引擎 v2
+/* ACP 題庫引擎
  * 題目：window.ACP_Q = [{id, sec, dom, type:'single'|'multi', n, stem, zh, zo[], fig, opts[], ans:'AC', why{A..}, note, src[], lvl, lang}]
- * zh／zo＝題幹與選項的中文翻譯（全部題目都是英文＋中文雙語）；ex＝1 是考試風格題，由題目上的「中文」按鈕切換（偏好記在 acp620.zh，全頁同步）
- * 紀錄：localStorage 'acp620.v2' → att{qid:[[t,pick,ok,mode]]}、flag{qid:t}、exams[]、cur（進行中的考試）
+ * zh／zo＝題幹與選項的中文翻譯（全部題目都是英文＋中文雙語）；ex＝1 是考試風格題，由題目上的「中文」按鈕切換（偏好記在 acpXXX.zh，全頁同步）
+ * 紀錄：localStorage CFG.key → att{qid:[[t,pick,ok,mode]]}、flag{qid:t}、exams[]、cur（進行中的考試）
  * 每一次作答都保留；錯題＝最近一次答錯；「不懂」是全域標記。 */
 (function () {
   'use strict';
@@ -9,11 +9,12 @@
   const BY = new Map(Q.map((q) => [q.id, q]));
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-  const KEY = 'acp620.v2';
+  const CFG = window.ACP_CFG || {};
+  const KEY = CFG.key;
   const L = 'ABCDEFGH';
-  const WEIGHT = { '620.1': 13, '620.2': 29, '620.3': 25, '620.4': 14, '620.5': 19 };
-  const DN = { '620.1': 'Project Creation', '620.2': 'Board Configuration', '620.3': 'Managing Projects', '620.4': 'Automation', '620.5': 'Reporting' };
-  const EXAM_N = 63, EXAM_MIN = 180, PASS = 38 / 63;
+  const WEIGHT = CFG.weight;
+  const DN = CFG.dn;
+  const EXAM_N = CFG.n, EXAM_MIN = CFG.min, PASS = CFG.pass_n / CFG.n;
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const shuffle = (a) => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
   const pct = (a, b) => (b ? Math.round((a / b) * 100) : 0);
@@ -26,9 +27,9 @@
   (function migrate() {
     const d = D(); if (d.mig) return;
     try {
-      const old = JSON.parse(localStorage.getItem('acp620-practice') || '{}');
+      const old = JSON.parse(localStorage.getItem(CFG.legacy_p || (KEY + '-legacy-p')) || '{}');
       Object.entries(old).forEach(([id, ok]) => { if (BY.has(id) && !d.att[id]) d.att[id] = [[0, '', !!ok, 'p']]; });
-      const hist = JSON.parse(localStorage.getItem('acp620-exam-history') || '[]');
+      const hist = JSON.parse(localStorage.getItem(CFG.legacy_e || (KEY + '-legacy-e')) || '[]');
       hist.forEach((h) => d.exams.push({ id: 'old' + h.at, legacy: 1, mode: 'full', dom: h.domain, t0: h.at, t1: h.at, score: h.right, total: h.total }));
     } catch (e) {}
     d.mig = 1; save(d);
@@ -37,7 +38,7 @@
   const last = (d, id) => { const a = d.att[id]; return a && a.length ? a[a.length - 1] : null; };
   const isFlag = (id) => !!D().flag[id];
   function toggleFlag(id) { const d = D(); if (d.flag[id]) delete d.flag[id]; else d.flag[id] = Date.now(); save(d); return !!d.flag[id]; }
-  const ZK = 'acp620.zh';
+  const ZK = CFG.zh;
   const zhOn = () => { try { return localStorage.getItem(ZK) === '1'; } catch (e) { return false; } };
   const hasZh = (q) => q.lang === 'en' && !!(q.zh || (q.zo && q.zo.length));
   function setZh(on) {
@@ -93,6 +94,7 @@
         const ok = grade(q, pick);
         foot += pick || mode !== 'r' ? `<div class="q-verdict ${ok ? 'ok' : 'no'}">${ok ? IC.ok + '答對' : IC.no + (pick ? '答錯' : '未作答') + '，正解是 ' + q.ans.split('').join('、')}</div>` : `<div class="q-verdict no">${IC.no}未作答，正解是 ${q.ans.split('').join('、')}</div>`;
         if (q.note) foot += `<div class="q-note">${q.note}</div>`;
+        if (q.inf) foot += `<div class="q-note warn"><b>推論：</b>官方文件未明載，答案依現有說明推論；不會出現在全真模擬考。</div>`;
         if (q.src && q.src.length) foot += `<div class="q-src">官方來源：${q.src.map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(support\.|www\.)?atlassian\.com\//, '').replace(/\/$/, ''))}</a>`).join('、')}</div>`;
       }
       if (hist.length) foot += `<div class="q-hist" title="最近的作答紀錄">作答紀錄 ${hist.map((h) => `<i class="${h[2] ? 'o' : 'x'}" title="${h[0] ? fmtT(h[0]) : '舊版紀錄'}：${h[2] ? '對' : '錯'}${h[1] ? '（選 ' + h[1] + '）' : ''}"></i>`).join('')}<span>共 ${(d.att[q.id] || []).length} 次・答對 ${(d.att[q.id] || []).filter((h) => h[2]).length} 次</span></div>`;
@@ -177,35 +179,41 @@
     const ctl = document.createElement('div');
     const area = document.createElement('div');
     box.append(ctl, area);
-    const FILTERS = [['all', '全部'], ['en', '考試風格題'], ['new', '沒做過'], ['wrong', '最近答錯'], ['flag', '不懂'], ['multi', '多選'], ['fig', '圖例']].concat(all.some((q) => q.rt) ? [['rt', '錯題重測']] : []);
+    const FILTERS = [['all', '全部'], ['en', '考試風格題'], ['new', '沒做過'], ['wrong', '最近答錯'], ['flag', '不懂'], ['multi', '多選'], ['fig', '圖例']].filter((f) => f[0] !== 'multi' || all.some((q) => q.type === 'multi')).concat(all.some((q) => q.rt) ? [['rt', '錯題重測']] : []);
     let f = 'all';
     const pickIds = () => {
       const d = D();
       return all.filter((q) => f === 'all' || (f === 'en' && q.ex) || (f === 'new' && !d.att[q.id]) || (f === 'wrong' && last(d, q.id) && !last(d, q.id)[2]) || (f === 'flag' && d.flag[q.id]) || (f === 'multi' && q.type === 'multi') || (f === 'fig' && q.fig) || (f === 'rt' && q.rt)).map((q) => q.id);
     };
+    const countOf = (v) => { const keep = f; f = v; const n = pickIds().length; f = keep; return n; };
+    let running = false;
     const paint = () => {
       const d = D();
       const done = all.filter((q) => d.att[q.id]).length;
+      const wrongN = all.filter((q) => last(d, q.id) && !last(d, q.id)[2]).length;
       const okN = all.filter((q) => last(d, q.id) && last(d, q.id)[2]).length;
       const fl = all.filter((q) => d.flag[q.id]).length;
       const multi = all.filter((q) => q.type === 'multi').length;
       ctl.innerHTML = `<div class="stats">
-          <div class="stat"><div class="v">${all.length}<small> 題</small></div><div class="l">本節題數（多選 ${multi}）</div></div>
+          <div class="stat"><div class="v">${all.length}<small> 題</small></div><div class="l">本節題數${multi ? `（多選 ${multi}）` : ''}</div></div>
           <div class="stat"><div class="v">${done}<small>／${all.length}</small></div><div class="l">做過的題</div></div>
           <div class="stat"><div class="v">${pct(okN, done)}<small>%</small></div><div class="l">最近一次的正確率</div></div>
+          <div class="stat"><div class="v bad">${wrongN}</div><div class="l">最近答錯</div></div>
           <div class="stat"><div class="v">${fl}</div><div class="l">標記「不懂」</div></div></div>
-        <div class="row"><div class="seg" role="group" aria-label="篩選題目">${FILTERS.map(([v, t]) => `<button type="button" data-v="${v}" aria-pressed="${v === f}">${t}</button>`).join('')}</div></div>
-        <div class="row" style="margin-top:.7rem"><button type="button" class="btn go">開始練習（${pickIds().length} 題）</button></div>`;
+        ${running ? '<p class="small muted" style="margin:.2rem 0 .6rem">練習中：上面的數字會隨作答即時更新。</p>' : `<div class="row"><div class="seg" role="group" aria-label="篩選題目">${FILTERS.map(([v, t]) => `<button type="button" data-v="${v}" aria-pressed="${v === f}">${t} <small>${countOf(v)}</small></button>`).join('')}</div></div>
+        <div class="row" style="margin-top:.7rem"><button type="button" class="btn go">開始練習（${pickIds().length} 題）</button></div>`}`;
+      if (running) return;
       $$('.seg button', ctl).forEach((b) => b.addEventListener('click', () => { f = b.dataset.v; paint(); }));
-      $('.go', ctl).addEventListener('click', () => { ctl.hidden = true; session(area, pickIds(), { onExit: () => { area.innerHTML = ''; ctl.hidden = false; paint(); box.scrollIntoView({ block: 'start', behavior: 'smooth' }); } }); });
+      $('.go', ctl).addEventListener('click', () => { running = true; paint(); session(area, pickIds(), { onExit: () => { area.innerHTML = ''; running = false; paint(); box.scrollIntoView({ block: 'start', behavior: 'smooth' }); } }); });
     };
     if (!all.length) { box.innerHTML = '<p class="muted">本節題目整理中。</p>'; return; }
     paint();
+    window.addEventListener('acp:data', paint);
   });
 
   /* ================= 首頁儀表板 ================= */
   const dash = $('#dash');
-  if (dash) {
+  const paintDash = () => {
     const d = D();
     const ids = Q.map((q) => q.id);
     const done = ids.filter((id) => d.att[id]);
@@ -214,19 +222,31 @@
     const read = Object.keys(d.read || {}).length;
     const ex = d.exams.filter((e) => e.t1 && e.mode === 'full');
     dash.innerHTML = `
-      <div class="stat"><div class="v">${read}<small>／24</small></div><div class="l">讀完的小節</div></div>
+      <div class="stat"><div class="v">${read}<small>／${CFG.secs}</small></div><div class="l">讀完的小節</div></div>
       <div class="stat"><div class="v">${done.length}<small>／${ids.length}</small></div><div class="l">做過的題</div></div>
       <div class="stat"><div class="v">${done.length ? pct(ok, done.length) + '<small>%</small>' : '—'}</div><div class="l">最近一次正確率</div></div>
       <div class="stat"><div class="v bad">${wrong}</div><div class="l">目前答錯的題</div></div>
       <div class="stat"><div class="v warn">${Object.keys(d.flag).length}</div><div class="l">標記「不懂」</div></div>
       <div class="stat"><div class="v">${ex.length ? pct(ex[ex.length - 1].score, ex[ex.length - 1].total) + '<small>%</small>' : '—'}</div><div class="l">最近一次全真模擬</div></div>`;
+  };
+  if (dash) {
+    paintDash(); window.addEventListener('acp:data', paintDash);
+    const d = D();
     const big = $('#big-count');
-    const examAt = new Date('2026-09-28T10:00:00+08:00').getTime();
     const paintCount = () => {
-      const left = examAt - Date.now();
-      if (left <= 0) { big.innerHTML = '<b>考試進行中或已結束</b><span class="muted">祝你順利通過！</span>'; return; }
-      const dd = Math.floor(left / 864e5), hh = Math.floor(left % 864e5 / 36e5), mm = Math.floor(left % 36e5 / 6e4);
-      big.innerHTML = `<span class="muted">距離考試還有</span><b>${dd}</b><span>天</span><b>${hh}</b><span>小時</span><b>${mm}</b><span>分</span>`;
+      const at = D().examAt;
+      if (!at) {
+        big.innerHTML = '<span class="muted">還沒設定考試日</span><input type="datetime-local" id="exam-at" aria-label="考試日期與時間" style="font:inherit;padding:.35rem .5rem;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)"><button type="button" class="btn sm" id="exam-at-set">開始倒數</button>';
+        $('#exam-at-set').onclick = () => { const v = $('#exam-at').value; if (!v) return; const d2 = D(); d2.examAt = new Date(v).getTime(); save(d2); paintCount(); };
+        return;
+      }
+      const left = at - Date.now();
+      if (left <= 0) { big.innerHTML = '<b>考試進行中或已結束</b><span class="muted">祝你順利通過！</span><button type="button" class="btn sm ghost" id="exam-at-reset">重設考試日</button>'; }
+      else {
+        const dd = Math.floor(left / 864e5), hh = Math.floor(left % 864e5 / 36e5), mm = Math.floor(left % 36e5 / 6e4);
+        big.innerHTML = `<span class="muted">距離考試還有</span><b>${dd}</b><span>天</span><b>${hh}</b><span>小時</span><b>${mm}</b><span>分</span><button type="button" class="btn sm ghost" id="exam-at-reset">重設</button>`;
+      }
+      $('#exam-at-reset').onclick = () => { const d2 = D(); delete d2.examAt; save(d2); paintCount(); };
     };
     if (big) { paintCount(); setInterval(paintCount, 30000); }
     const today = new Date(Date.now() + 8 * 36e5).toISOString().slice(0, 10);
@@ -242,11 +262,13 @@
   /* ================= 模擬考頁 ================= */
   const app = $('#exam-app');
   if (!app) return;
-  let timer = 0;
+  let timer = 0, view = '';
+  window.addEventListener('acp:data', () => { if (view === 'home') home(); });
 
   function pickExam(n, src) {
     const out = [];
-    const base = src === 'all' ? Q : Q.filter((q) => q.ex);
+    // 推論題（inf）不進正式計分的模擬考
+    const base = (src === 'all' ? Q : Q.filter((q) => q.ex)).filter((q) => !q.inf);
     const doms = Object.keys(WEIGHT);
     const target = doms.map((d) => [d, Math.round(n * WEIGHT[d] / 100)]);
     target[1][1] += n - target.reduce((a, [, k]) => a + k, 0);
@@ -268,6 +290,7 @@
     save(d); run();
   }
   function practice(ids, title) {
+    view = 'practice';
     clearInterval(timer); document.body.classList.add('ex-run');
     app.innerHTML = `<div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(title)}</h2><button type="button" class="btn ghost sm back">回模擬考首頁</button></div><div class="sessbox"></div>`;
     $('.back', app).addEventListener('click', home);
@@ -277,6 +300,7 @@
 
   /* ---------- 首頁 ---------- */
   function home() {
+    view = 'home';
     clearInterval(timer); document.body.classList.remove('ex-run');
     const d = D();
     if (d.cur && !d.cur.t1) return run();
@@ -310,16 +334,16 @@
         <div class="stat"><div class="v">${best ? best + '%' : '—'}</div><div class="l">全真模擬最佳</div></div>
       </div>
       <section class="sec" style="margin-top:1.5rem"><h2>選一種練法</h2>
-        <div class="row" style="margin:0 0 .9rem;gap:.5rem"><label class="small muted" for="ex-src">模擬考與小考的題目來源</label><select id="ex-src" class="search" style="max-width:24rem"><option value="en">考試風格題（${Q.filter((q) => q.ex).length} 題，情境題、約四成多選）</option><option value="all">全部題目（含基礎觀念題，共 ${Q.length} 題）</option></select></div>
+        <div class="row" style="margin:0 0 .9rem;gap:.5rem"><label class="small muted" for="ex-src">模擬考與小考的題目來源</label><select id="ex-src" class="search" style="max-width:24rem"><option value="en">考試風格題（${Q.filter((q) => q.ex).length} 題，英文情境題＋中文翻譯）</option><option value="all">全部題目（含基礎觀念題，共 ${Q.length} 題）</option></select></div>
         <div class="grid">
           ${rtAll.length ? `<div class="card" style="grid-column:1/-1;border:2px solid var(--rose)"><h3>考前錯題重測（${rtAll.length} 題）</h3><p class="small muted">V12.35 練習測驗整理出來的題目，全部改寫成原創題，觀念一樣、情境和選項順序不同。有「中文」按鈕、作答後馬上看解析。</p><div class="row" style="gap:.5rem;flex-wrap:wrap"><button type="button" class="btn" data-go="rt">全部 ${rtAll.length} 題</button><button type="button" class="btn ghost" data-go="rt1">真正答錯的 ${rtAll.filter((q) => q.rt === 1).length} 題</button><button type="button" class="btn ghost" data-go="rt2">題庫答案有誤的 ${rtAll.filter((q) => q.rt === 2).length} 題</button><button type="button" class="btn ghost" data-go="rt3">9/27 問過的 ${rtAll.filter((q) => q.rt === 3).length} 題</button></div></div>` : ''}
-          <div class="card"><h3>全真模擬考</h3><p class="small muted">依比重抽 ${EXAM_N} 題、約四成多選，計時 ${EXAM_MIN} 分鐘。交卷才看答案，跟正式考試一樣。</p><button type="button" class="btn" data-go="full">開始（${EXAM_N} 題）</button></div>
+          <div class="card"><h3>全真模擬考</h3><p class="small muted">依考綱比重抽 ${EXAM_N} 題，計時 ${EXAM_MIN} 分鐘。交卷才看答案，跟正式考試一樣。</p><button type="button" class="btn" data-go="full">開始（${EXAM_N} 題）</button></div>
           <div class="card"><h3>20 題小考</h3><p class="small muted">30 分鐘，一樣交卷才批改。適合零碎時間測一下。</p><button type="button" class="btn ghost" data-go="quick">開始小考</button></div>
           <div class="card"><h3>錯題重練</h3><p class="small muted">所有「最近一次答錯」的題。答對後就會從清單消失。</p><button type="button" class="btn ghost" data-go="wrong" ${wrong.length ? '' : 'disabled'}>重練 ${wrong.length} 題</button></div>
           <div class="card"><h3>不懂的題</h3><p class="small muted">你按過星號「不懂」的題。搞懂了再按一次取消。</p><button type="button" class="btn ghost" data-go="flag" ${flags.length ? '' : 'disabled'}>練 ${flags.length} 題</button></div>
           <div class="card"><h3>還沒做過的題</h3><p class="small muted">隨機抽 20 題你從沒碰過的題目，作答後馬上看解析。</p><button type="button" class="btn ghost" data-go="new" ${fresh.length ? '' : 'disabled'}>抽 ${Math.min(20, fresh.length)} 題</button></div>
           <div class="card"><h3>自選範圍</h3><label class="small muted" for="pick-sec">章節</label><select id="pick-sec" class="search" style="margin:.3rem 0 .5rem"><option value="*">全部章節</option>${Object.keys(DN).map((k) => `<option value="d${k}">${k} ${DN[k]}（整個 domain）</option>`).join('')}${secOpts}</select>
-            <label class="small muted" for="pick-type">題型</label><select id="pick-type" class="search" style="margin:.3rem 0 .6rem"><option value="*">全部題型</option><option value="en">只要考試風格題</option><option value="multi">只要多選</option><option value="fig">只要圖例題</option></select><button type="button" class="btn ghost" data-go="custom">開始練習</button></div>
+            <label class="small muted" for="pick-type">題型</label><select id="pick-type" class="search" style="margin:.3rem 0 .6rem"><option value="*">全部題型</option><option value="en">只要考試風格題</option>${Q.some((q) => q.type === 'multi') ? '<option value="multi">只要多選</option>' : ''}<option value="fig">只要圖例題</option></select><button type="button" class="btn ghost" data-go="custom">開始練習</button></div>
         </div></section>
       <section class="sec"><h2>各 domain 掌握度</h2><div class="meter">${domRows}</div></section>
       <section class="sec"><h2>歷次模擬考</h2>${spark}${hist}</section>
@@ -340,7 +364,7 @@
     $$('.rv', app).forEach((b) => b.addEventListener('click', () => review(b.dataset.id)));
     $('#exp').addEventListener('click', () => {
       const blob = new Blob([JSON.stringify(load(), null, 1)], { type: 'application/json' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `acp620-紀錄-${new Date().toISOString().slice(0, 10)}.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `acp${CFG.code}-紀錄-${new Date().toISOString().slice(0, 10)}.json`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     });
     $('#imp').addEventListener('change', (e) => {
       const f = e.target.files[0]; if (!f) return;
@@ -358,6 +382,7 @@
 
   /* ---------- 考試進行中 ---------- */
   function run() {
+    view = 'run';
     clearInterval(timer); document.body.classList.add('ex-run'); scrollTo({ top: 0 });
     const d = D(); const c = d.cur; if (!c) return home();
     const total = c.ids.length;
@@ -409,6 +434,7 @@
     go(c.i || 0);
   }
   function finish(auto) {
+    view = 'finish';
     clearInterval(timer); document.onkeydown = null;
     const d = D(); const c = d.cur; if (!c) return home();
     let score = 0; const now = Date.now();
@@ -420,6 +446,7 @@
 
   /* ---------- 檢討 ---------- */
   function review(id, fresh) {
+    view = 'review';
     clearInterval(timer); document.body.classList.remove('ex-run');
     const d = D(); const ex = d.exams.find((e) => e.id === id); if (!ex) return home();
     const qs = ex.ids.map((k) => BY.get(k)).filter(Boolean);
@@ -431,7 +458,7 @@
     app.innerHTML = `<div class="card">
         <div class="eyebrow">${ex.mode === 'quick' ? '20 題小考' : '全真模擬考'}・${fmtT(ex.t1)}${ex.auto ? '・時間到自動交卷' : ''}</div>
         <div class="row" style="align-items:baseline;margin:.4rem 0"><span style="font-size:2.6rem;font-weight:800;letter-spacing:-.02em;color:${pass ? 'var(--green)' : 'var(--rose)'}">${ex.score}／${ex.total}</span><span class="chip ${pass ? 'green' : 'rose'}">${p}%・${pass ? '達及格線' : '未達及格線'}</span></div>
-        <p class="small muted">正式考試 63 題答對 38 題及格（約 60%）。多選題要全部選對才算分。用時 ${Math.round((ex.t1 - ex.t0) / 60000)} 分鐘。</p>
+        <p class="small muted">正式考試 ${EXAM_N} 題答對 ${CFG.pass_n} 題及格（約 ${Math.round(PASS * 100)}%）。${Q.some((q) => q.type === 'multi') ? '多選題要全部選對才算分。' : ''}用時 ${Math.round((ex.t1 - ex.t0) / 60000)} 分鐘。</p>
         <div class="meter">${byDom}</div>
         ${weakSecs.length ? `<div class="call weak"><div><div class="t">這次最弱的小節</div>${weakSecs.map(([s, [o, t]]) => `<a class="chip rose" href="${s}.html">${s}　${o}／${t}</a>`).join(' ')}<p class="small" style="margin:.4rem 0 0">點進去讀「3 分鐘速覽」和「易錯觀念」，再回來做錯題重練。</p></div></div>` : ''}
         <div class="row"><button type="button" class="btn" id="rv-redo" ${qs.some((q) => !okOf(q)) ? '' : 'disabled'}>錯的題立刻重練</button><button type="button" class="btn ghost" id="rv-home">回模擬考首頁</button></div></div>

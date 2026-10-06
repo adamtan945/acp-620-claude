@@ -1,9 +1,9 @@
-/* ACP-620 教材 v2：導覽抽屜、主題、目錄、閱讀進度、已讀標記、圖鑑篩選 */
+/* ACP 教材：導覽抽屜、主題、目錄、閱讀進度、已讀標記、圖鑑篩選 */
 (function () {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-  const KEY = 'acp620.v2';
+  const CFG = window.ACP_CFG || {}; const KEY = CFG.key || 'acp.v2';
   const db = {
     load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } },
     save(d) { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {} }
@@ -28,7 +28,7 @@
     themeBtn.addEventListener('click', () => {
       const next = curTheme() === 'dark' ? 'light' : 'dark';
       root.dataset.theme = next;
-      try { localStorage.setItem('acp620.theme', next); } catch (e) {}
+      try { localStorage.setItem(CFG.theme || 'acp.theme', next); } catch (e) {}
       paintTheme();
     });
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paintTheme);
@@ -73,12 +73,7 @@
   // 倒數（側欄）
   const cd = $('#nav-count');
   if (cd) {
-    const exam = new Date('2026-09-28T10:00:00+08:00').getTime();
-    const left = exam - Date.now();
-    if (left > 0) {
-      const d = Math.floor(left / 864e5), h = Math.floor(left % 864e5 / 36e5);
-      cd.innerHTML = `距離考試 <b>${d}</b> 天 <b>${h}</b> 小時`;
-    } else cd.textContent = '考試日已到，祝順利！';
+    cd.innerHTML = `ACP-${CFG.code}・<b>${CFG.n}</b> 題・${CFG.min} 分・答對 <b>${CFG.pass_n}</b> 題及格`;
   }
 
   /* ---------- 本頁目錄：scrollspy ---------- */
@@ -113,6 +108,25 @@
       msg.textContent = t ? `已於 ${new Date(t).toLocaleString('zh-TW', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })} 標記已讀。記得做完本節練習題。` : '讀完這一節後按一下，首頁的進度會更新。';
     };
     btn.addEventListener('click', () => { const d = db.load(); d.read = d.read || {}; if (d.read[sec]) delete d.read[sec]; else d.read[sec] = Date.now(); db.save(d); paint(); });
+    paint();
+  });
+
+  /* ---------- 動手做 Lab：步驟打勾 ---------- */
+  $$('[data-lab]').forEach((box) => {
+    const sec = box.dataset.lab, ins = $$('input[type=checkbox]', box);
+    const bar = $('.lab-prog i', box), txt = $('.lab-prog .txt', box);
+    const paint = () => {
+      const n = ins.filter((i) => i.checked).length;
+      ins.forEach((i) => i.closest('li').classList.toggle('done', i.checked));
+      bar.style.width = (n / ins.length) * 100 + '%';
+      txt.textContent = n === ins.length ? `全部完成（${n}/${ins.length}）` : `已完成 ${n}/${ins.length} 步`;
+    };
+    const d0 = db.load(); const got = (d0.lab && d0.lab[sec]) || [];
+    ins.forEach((i) => { i.checked = got.includes(+i.dataset.k); i.addEventListener('change', () => {
+      const d = db.load(); d.lab = d.lab || {};
+      d.lab[sec] = ins.filter((x) => x.checked).map((x) => +x.dataset.k);
+      if (!d.lab[sec].length) delete d.lab[sec];
+      db.save(d); paint(); }); });
     paint();
   });
 
